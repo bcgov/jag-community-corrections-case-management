@@ -1,0 +1,48 @@
+{
+	"_id": "6255c0f798cba2e335d49c53",
+	"type": "resource",
+	"tags": [],
+	"owner": "62547a5f09bf856b17e1d1bb",
+	"components": [
+		{
+			"label": "Name",
+			"placeholder": "John Doe",
+			"tableView": true,
+			"key": "name",
+			"type": "textfield",
+			"input": true
+		},
+		{
+			"type": "button",
+			"label": "Submit",
+			"key": "submit",
+			"disableOnInvalid": true,
+			"input": true,
+			"tableView": false
+		}
+	],
+	"revisions": "",
+	"_vid": 0,
+	"title": "CRNA_CMP_FORM",
+	"display": "form",
+	"access": [
+		{
+			"roles": [
+				"62548beb5d934b7f601d98d4",
+				"62548beb5d934bce631d98d9",
+				"62548beb5d934b12381d98de"
+			],
+			"type": "read_all"
+		}
+	],
+	"submissionAccess": [],
+	"controller": "",
+	"properties": {},
+	"settings": {},
+	"name": "crnaCmpForm",
+	"path": "crnacmpform",
+	"project": "62548beb5d934b26fb1d98cd",
+	"created": "2022-04-12T18:12:07.784Z",
+	"modified": "2022-04-12T18:12:07.793Z",
+	"machineName": "hcydsplculhonzk:crnaCmpForm"
+}
