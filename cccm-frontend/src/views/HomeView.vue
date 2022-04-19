@@ -1,9 +1,15 @@
-<script setup lang="ts">
-import TheWelcome from '@/components/TheWelcome.vue'
-</script>
-
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="about">
+      <p>Welcome to BC Corrections homepage</p>
+    </div>
 </template>
+
+<style>
+@media screen and (min-width: 768px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>

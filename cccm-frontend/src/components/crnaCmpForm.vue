@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="container">
     <Form src="https://hcydsplculhonzk.form.io/demoform1" />
   </div>
 </template>

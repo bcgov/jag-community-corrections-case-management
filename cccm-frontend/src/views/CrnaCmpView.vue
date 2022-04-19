@@ -3,7 +3,17 @@
 </script>
 
 <template>
-  <main>
+  <div class="about">
     <CrnaCmpForm />
-  </main>
+  </div>
 </template>
+
+<style>
+@media screen and (min-width: 768px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
