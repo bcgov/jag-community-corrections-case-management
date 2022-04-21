@@ -30,7 +30,7 @@ jobs:
       
       - name: Docker Tag Version
         run: |            
-          docker build vue-project/
+          docker-compose build
           
       - name: Docker Tag Version
         run: |  

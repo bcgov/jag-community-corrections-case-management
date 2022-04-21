@@ -1,0 +1,18 @@
+# Work In Progress
+version: "3.3"
+
+services:
+  #quarkas:
+  #  build:
+  #    context: code-with-quarkus/src/main/docker
+  #    dockerfile: Dockerfile.jvm
+  #  ports:
+  #    - 8000:8000
+  vue-project:
+    container_name: cccm-web
+    build:
+      context: vue-project
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
