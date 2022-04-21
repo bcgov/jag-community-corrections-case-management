@@ -10,6 +10,7 @@ services:
   #    - 8000:8000
   vue-project:
     container_name: cccm-web
+    image: cccm-web
     build:
       context: vue-project
       dockerfile: Dockerfile
