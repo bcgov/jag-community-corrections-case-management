@@ -5,7 +5,7 @@ WORKDIR /app/cccm
 
 COPY package*.json ./
 RUN yarn install
-COPY ../ .
+COPY . ./
 RUN yarn build
 
 EXPOSE 8080
