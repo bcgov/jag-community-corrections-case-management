@@ -2,12 +2,14 @@
 version: "3.3"
 
 services:
-  #quarkas:
-  #  build:
-  #    context: code-with-quarkus/src/main/docker
-  #    dockerfile: Dockerfile.jvm
-  #  ports:
-  #    - 8000:8000
+  quarkas:
+    container_name: cccm-api
+    image: cccm-api
+    build:
+      context: .
+      dockerfile: code-with-quarkus/src/main/docker/Dockerfile.native
+    ports:
+      - 8000:8000
   vue-project:
     container_name: cccm-web
     image: cccm-web
