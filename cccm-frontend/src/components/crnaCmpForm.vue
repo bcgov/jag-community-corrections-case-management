@@ -1,12 +1,13 @@
 <template>
     <div class="container">
-        <Form :src="formUrl"/>
+        <Form :src="formJSON"/>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import sampleFormData from './sample.json';
 
 @Component({
     components: {
@@ -14,6 +15,7 @@ import { Form } from 'vue-formio';
     },
     data: () => {
         return {
+            formJSON: sampleFormData,
             formUrl: "https://hcydsplculhonzk.form.io/demoform1",
         };
     },
