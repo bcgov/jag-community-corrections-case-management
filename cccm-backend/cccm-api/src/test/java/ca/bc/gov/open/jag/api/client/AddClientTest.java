@@ -10,14 +10,14 @@ import static io.restassured.RestAssured.given;
 public class AddClientTest {
 
     @Test
-    @DisplayName("204: client added")
+    @DisplayName("200: client added")
     public void testClientsAddEndpoint() {
         given()
                 .when().header("Content-Type", "application/json")
                 .body("{}")
                 .post("/clients")
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
 }

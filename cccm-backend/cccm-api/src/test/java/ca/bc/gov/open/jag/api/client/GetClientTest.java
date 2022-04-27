@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @QuarkusTest
 public class GetClientTest {
@@ -21,7 +22,13 @@ public class GetClientTest {
 
         ClientDetails result = sut.getClient(BigDecimal.ONE);
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(BigDecimal.ONE, result.getClientId());
+        Assertions.assertEquals("John", result.getFirstName());
+        Assertions.assertEquals("Smith", result.getLastName());
+        Assertions.assertEquals("M", result.getGender());
+        Assertions.assertEquals("Vancouver, BC", result.getLocation());
+        Assertions.assertEquals(LocalDate.of(1982, 3, 4), result.getBirthDate());
+        Assertions.assertEquals(LocalDate.of(2021, 10, 2), result.getFinalOrderExpiryDate());
 
     }
 

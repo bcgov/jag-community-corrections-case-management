@@ -257,6 +257,9 @@ components:
           type: string
         gender:
           type: string
+        birthDate:
+          format: date
+          type: string
         finalOrderExpiryDate:
           format: date
           type: string

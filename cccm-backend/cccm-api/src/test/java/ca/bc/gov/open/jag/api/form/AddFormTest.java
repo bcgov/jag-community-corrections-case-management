@@ -17,7 +17,7 @@ public class AddFormTest {
                 .body("{}")
                 .post("/forms")
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
 }
