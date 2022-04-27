@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @QuarkusTest
 public class GetFormTest {
+
+    private static final LocalDate TEST_DATE = LocalDate.of(2021, 12, 14);
 
     @Inject
     FormsApiServiceImpl sut;
@@ -21,7 +24,12 @@ public class GetFormTest {
 
         FormDetails result = sut.getForm(BigDecimal.ONE);
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
+        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
+        Assertions.assertEquals("Doe, Jane", result.getCreatedBy());
+        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
+        Assertions.assertEquals("Initial Assessment", result.getFormType());
+        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
 
     }
 

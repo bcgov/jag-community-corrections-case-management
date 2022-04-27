@@ -20,7 +20,7 @@ public class GetFormTypesTest {
 
         FormTypeList result = sut.getFormTypes();
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(2, result.getItems().size());
 
     }
 
