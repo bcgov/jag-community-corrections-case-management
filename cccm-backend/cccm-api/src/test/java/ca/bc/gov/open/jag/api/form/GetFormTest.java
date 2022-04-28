@@ -30,6 +30,12 @@ public class GetFormTest {
         Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
         Assertions.assertEquals("Initial Assessment", result.getFormType());
         Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
+        Assertions.assertEquals(2, result.getFormQuestions().size());
+        Assertions.assertEquals(BigDecimal.ONE, result.getFormQuestions().get(0).getQuestionId());
+        Assertions.assertEquals("Test Question 1", result.getFormQuestions().get(0).getQuestionText());
+        Assertions.assertEquals(BigDecimal.TEN, result.getFormQuestions().get(1).getQuestionId());
+        Assertions.assertEquals("Test Question 2", result.getFormQuestions().get(1).getQuestionText());
+
 
     }
 
