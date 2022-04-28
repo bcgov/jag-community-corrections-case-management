@@ -4,14 +4,14 @@ info:
   title: Community Corrections Case Management API
   version: 0.0.1
 servers:
-- url: http://localhost:8080
+  - url: http://localhost:8080
 tags:
-- description: Endpoints for client data
-  name: clients
-- description: Endpoints for form data
-  name: forms
-- description: Endpoints for code tables data
-  name: lookups
+  - description: Endpoints for client data
+    name: clients
+  - description: Endpoints for form data
+    name: forms
+  - description: Endpoints for code tables data
+    name: lookups
 paths:
   /clients:
     get:
@@ -25,10 +25,10 @@ paths:
           description: get all clients
       summary: get all clients
       tags:
-      - clients
+        - clients
       x-accepts: application/json
       x-tags:
-      - tag: clients
+        - tag: clients
     post:
       operationId: Add Client
       requestBody:
@@ -45,11 +45,11 @@ paths:
           description: Client was added
       summary: Add
       tags:
-      - clients
+        - clients
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
-      - tag: clients
+        - tag: clients
     put:
       operationId: Update Client
       requestBody:
@@ -66,41 +66,41 @@ paths:
           description: Contact was updated
       summary: Update
       tags:
-      - clients
+        - clients
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
-      - tag: clients
+        - tag: clients
   /clients/{clientId}:
     delete:
       operationId: DeleteClient
       parameters:
-      - explode: false
-        in: path
-        name: clientId
-        required: true
-        schema:
-          type: number
-        style: simple
+        - explode: false
+          in: path
+          name: clientId
+          required: true
+          schema:
+            type: number
+          style: simple
       responses:
         "200":
           description: client was deleted
       summary: delete client by id
       tags:
-      - clients
+        - clients
       x-accepts: application/json
       x-tags:
-      - tag: clients
+        - tag: clients
     get:
       operationId: GetClient
       parameters:
-      - explode: false
-        in: path
-        name: clientId
-        required: true
-        schema:
-          type: number
-        style: simple
+        - explode: false
+          in: path
+          name: clientId
+          required: true
+          schema:
+            type: number
+          style: simple
       responses:
         "200":
           content:
@@ -112,10 +112,10 @@ paths:
           description: client not found
       summary: get a client by id
       tags:
-      - clients
+        - clients
       x-accepts: application/json
       x-tags:
-      - tag: clients
+        - tag: clients
   /forms:
     get:
       operationId: GetForms
@@ -128,10 +128,10 @@ paths:
           description: get all forms
       summary: get all forms
       tags:
-      - forms
+        - forms
       x-accepts: application/json
       x-tags:
-      - tag: forms
+        - tag: forms
     post:
       operationId: Add Form
       requestBody:
@@ -148,11 +148,11 @@ paths:
           description: Form was added
       summary: Add
       tags:
-      - forms
+        - forms
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
-      - tag: forms
+        - tag: forms
     put:
       operationId: Update Form
       requestBody:
@@ -169,41 +169,41 @@ paths:
           description: Form was updated
       summary: Update
       tags:
-      - forms
+        - forms
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
-      - tag: forms
+        - tag: forms
   /forms/{formId}:
     delete:
       operationId: DeleteForm
       parameters:
-      - explode: false
-        in: path
-        name: formId
-        required: true
-        schema:
-          type: number
-        style: simple
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
       responses:
         "200":
           description: form was deleted
       summary: delete form by id
       tags:
-      - forms
+        - forms
       x-accepts: application/json
       x-tags:
-      - tag: forms
+        - tag: forms
     get:
       operationId: GetForm
       parameters:
-      - explode: false
-        in: path
-        name: formId
-        required: true
-        schema:
-          type: number
-        style: simple
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
       responses:
         "200":
           content:
@@ -215,10 +215,10 @@ paths:
           description: form not found
       summary: get a form by id
       tags:
-      - forms
+        - forms
       x-accepts: application/json
       x-tags:
-      - tag: forms
+        - tag: forms
   /formtypes:
     get:
       operationId: GetFormTypes
@@ -231,10 +231,10 @@ paths:
           description: get all Form Types
       summary: get all form types
       tags:
-      - lookups
+        - lookups
       x-accepts: application/json
       x-tags:
-      - tag: lookups
+        - tag: lookups
 components:
   schemas:
     ClientDetails:
@@ -267,18 +267,18 @@ components:
     ClientList:
       example:
         items:
-        - firstName: firstName
-          lastName: lastName
-          clientId: 0.8008281904610115
-          gender: gender
-          finalOrderExpiryDate: 2000-01-23
-          location: location
-        - firstName: firstName
-          lastName: lastName
-          clientId: 0.8008281904610115
-          gender: gender
-          finalOrderExpiryDate: 2000-01-23
-          location: location
+          - firstName: firstName
+            lastName: lastName
+            clientId: 0.8008281904610115
+            gender: gender
+            finalOrderExpiryDate: 2000-01-23
+            location: location
+          - firstName: firstName
+            lastName: lastName
+            clientId: 0.8008281904610115
+            gender: gender
+            finalOrderExpiryDate: 2000-01-23
+            location: location
       properties:
         items:
           description: ClientsDetails
@@ -311,22 +311,32 @@ components:
           type: string
         formType:
           type: string
+        formQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormQuestions'
       type: object
+    FormQuestions:
+      properties:
+        questionId:
+          type: number
+        questionText:
+          type: string
     FormList:
       example:
         items:
-        - formId: 0.8008281904610115
-          updateDate: 2000-01-23
-          formType: formType
-          createdDate: 2000-01-23
-          createdBy: createdBy
-          completedDate: 2000-01-23
-        - formId: 0.8008281904610115
-          updateDate: 2000-01-23
-          formType: formType
-          createdDate: 2000-01-23
-          createdBy: createdBy
-          completedDate: 2000-01-23
+          - formId: 0.8008281904610115
+            updateDate: 2000-01-23
+            formType: formType
+            createdDate: 2000-01-23
+            createdBy: createdBy
+            completedDate: 2000-01-23
+          - formId: 0.8008281904610115
+            updateDate: 2000-01-23
+            formType: formType
+            createdDate: 2000-01-23
+            createdBy: createdBy
+            completedDate: 2000-01-23
       properties:
         items:
           description: FormDetails
@@ -351,12 +361,12 @@ components:
     FormTypeList:
       example:
         items:
-        - typeCd: typeCd
-          typeId: 0.8008281904610115
-          typeDescription: typeDescription
-        - typeCd: typeCd
-          typeId: 0.8008281904610115
-          typeDescription: typeDescription
+          - typeCd: typeCd
+            typeId: 0.8008281904610115
+            typeDescription: typeDescription
+          - typeCd: typeCd
+            typeId: 0.8008281904610115
+            typeDescription: typeDescription
       properties:
         items:
           description: FormType
