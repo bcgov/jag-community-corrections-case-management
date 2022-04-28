@@ -20,7 +20,7 @@ public class GetClientsTest {
 
         ClientList result = sut.getClients();
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(1, result.getItems().size());
 
     }
 

@@ -7,9 +7,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @QuarkusTest
 public class UpdateFormTest {
+
+    private static final String TEST_VALUE = "TEST";
+    private static final LocalDate TEST_DATE = LocalDate.of(2022, 3, 4);
 
     @Inject
     FormsApiServiceImpl sut;
@@ -18,10 +23,27 @@ public class UpdateFormTest {
     @DisplayName("200: should be updated")
     public void testUpdateFormEndpoint() {
 
-        FormDetails result = sut.updateForm(new FormDetails());
+        FormDetails result = sut.updateForm(createTestForm());
 
-        Assertions.assertNull(result);
+        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
+        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
+        Assertions.assertEquals(TEST_VALUE, result.getCreatedBy());
+        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
+        Assertions.assertEquals(TEST_VALUE, result.getFormType());
+        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
 
     }
 
+    private FormDetails createTestForm() {
+        FormDetails formDetails = new FormDetails();
+
+        formDetails.setCompletedDate(TEST_DATE);
+        formDetails.setCreatedBy(TEST_VALUE);
+        formDetails.setCreatedDate(TEST_DATE);
+        formDetails.setFormId(BigDecimal.ONE);
+        formDetails.setFormType(TEST_VALUE);
+        formDetails.setUpdateDate(TEST_DATE);
+
+        return formDetails;
+    }
 }
