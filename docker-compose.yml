@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  cccm-api:
+    container_name: cccm-api
+    image: cccm-api
+    build:
+      context: .
+      dockerfile: cccm-backend/cccm-api/src/main/docker/Dockerfile.native
+    ports:
+      - 8000:8000
+  cccm-web:
+    container_name: cccm-web
+    image: cccm-web
+    build:
+      context: cccm-frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
