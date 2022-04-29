@@ -1,20 +1,30 @@
 version: "3.3"
 
 services:
-  cccm-api:
+
+  backend:
     container_name: cccm-api
     image: cccm-api
     build:
-      context: .
-      dockerfile: cccm-backend/cccm-api/src/main/docker/Dockerfile.native
+      context: ./cccm-backend
+      args:
+        - SERVICE_NAME=cccm-api
+        - SKIP_TESTS=true
     ports:
-      - 8000:8000
-  cccm-web:
+      - "8080:8080"
+    networks:
+      - cccm
+
+  frontend:
     container_name: cccm-web
     image: cccm-web
     build:
-      context: cccm-frontend
-      dockerfile: Dockerfile
-    restart: always
+      context: ./cccm-frontend
     ports:
-      - "8080:8080"
+      - "3000:3000"
+    networks:
+      - cccm
+  
+networks:
+  cccm:
+    driver: bridge
