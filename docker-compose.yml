@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+  backend:
+    build:
+      context: ./cccm-backend
+      args:
+        - SERVICE_NAME=cccm-api
+        - SKIP_TESTS=true
+    ports:
+      - "8080:8080"
