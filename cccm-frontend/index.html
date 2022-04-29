@@ -10,77 +10,63 @@
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
     <link rel='stylesheet' href='https://cdn.form.io/formiojs/formio.full.min.css'>
     <script src='https://cdn.form.io/formiojs/formio.full.min.js'></script>
-    <link rel="stylesheet" href="/src/assets/style_header.css">
-    <link rel="stylesheet" href="/src/assets/style_footer.css">
+    <link rel="stylesheet" href="/src/assets/css/style_header.css">
+    <link rel="stylesheet" href="/src/assets/css/style_footer.css">
+    <link rel="stylesheet" href="/src/assets/css/layout.css">
+		<link rel="stylesheet" href="/src/assets/css/styles.css">
     <title>CCCM Frontend</title>
   </head>
   <body>
-    <header>
-      <div class="banner">
-        <a href="https://gov.bc.ca">
-          <img src="/src/assets/images/logo-banner.svg" alt="Go to the Government of British Columbia website" height="50px"/>
-        </a>
-        <h1>BC Corrections</h1>
+    <section class="layout">
+      <!--Header section-->
+      <div class="header">
+        <img src="/src/assets/images/header-img.jpg" />
       </div>
-      <div class="other">
-        <a class="nav-btn">
-          <i class="fas fa-bars" id="menu"></i>
-        </a>
+      <!--
+      <div class="header">
+        <header>
+          <div class="banner">
+            <a href="https://gov.bc.ca">
+              <img src="/src/assets/images/logo-banner.svg" alt="Go to the Government of British Columbia website" height="50px"/>
+            </a>
+            <h4>BC Corrections</h4>
+          </div>
+          <div class="other">
+            <a class="nav-btn">
+              <i class="fas fa-bars" id="menu"></i>
+            </a>
+          </div>
+        </header>
+        <nav class="navigation-main" id="navbar">
+          <div class="container">
+            <ul>
+              <li><a href="/" class="active">Dashboard</a></li>
+              <li><a href="/crnacmp">CRNA-CMP</a></li>
+            </ul>
+          </div>
+        </nav>
       </div>
-    </header>
-    <nav class="navigation-main" id="navbar">
-      <div class="container">
-        <ul>
-          <li><a href="/" class="active">Dashboard</a></li>
-          <li><a href="/crnacmp">CRNA-CMP</a></li>
-        </ul>
-      </div>
-    </nav>
-    <script>
-      // This is a sample implementation and may vary depending on the front end framework/techstack being used.
-      function setupSampleMenuControl() {
-        const useCapture = false;
-        const show = elem => elem.style.display = 'block';
-        const hide = elem => elem.style.display = 'none';
-        const toggle = (elem) => {
-          if (window.getComputedStyle(elem).display === 'block') {
-            hide(elem);
-            return;
-          }
-          show(elem);
-        };
-        // Listen for click events
-        const menuButton = document.getElementById('menu');
-        menuButton.addEventListener('click', (event) => {
-          // Filter events
-          if (event.target.id !== 'menu') return;
-          // Prevent default link behavior
-          event.preventDefault();
-          // Check for a valid target
-          const nav = document.getElementById('navbar')
-          if (!nav) return;
-          // Toggle
-          toggle(nav);
-        }, useCapture);
-      }
-      setupSampleMenuControl();
-    </script>
+      -->
+      <!--Body section-->
+      <div id="app"></div>
+    
+      <script type="module" src="/src/main.ts"></script>
 
-    <div id="app"></div>
-
-    <script type="module" src="/src/main.ts"></script>
-
-    <footer class="footer">
-      <div class="container">
-      <ul>
-        <li><a href=".">Home</a></li>
-        <li><a href=".">Disclaimer</a></li>
-        <li><a href=".">Privacy</a></li>
-        <li><a href=".">Accessibility</a></li>
-        <li><a href=".">Copyright</a></li>
-        <li><a href=".">Contact Us</a></li>
-      </ul>
+      <!--Footer section-->
+      <div class="footer">
+        <footer class="footer">
+          <div class="container">
+            <ul>
+              <li><a href=".">Home</a></li>
+              <li><a href=".">Disclaimer</a></li>
+              <li><a href=".">Privacy</a></li>
+              <li><a href=".">Accessibility</a></li>
+              <li><a href=".">Copyright</a></li>
+              <li><a href=".">Contact Us</a></li>
+            </ul>
+          </div>
+        </footer>
       </div>
-    </footer>
+    </section>
   </body>
 </html>
