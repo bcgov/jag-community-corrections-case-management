@@ -1,164 +1,99 @@
 {
-	"type": "form",
-	"components": [
-    {
-      "type": "textfield",
-      "key": "firstName",
-      "label": "First Name",
-      "placeholder": "Enter your first name.",
-      "input": true,
-      "validate": {
-        "required": true
+  "display": "form",
+  "settings": {
+      "pdf": {
+          "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+          "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
       }
-    },
-    {
-      "type": "textfield",
-      "key": "lastName",
-      "label": "Last Name",
-      "placeholder": "Enter your last name",
-      "input": true,
-      "validate": {
-        "required": true
-      }
-    },
-    {
-      "type": "email",
-      "key": "email",
-      "label": "Email",
-      "placeholder": "Enter your email",
-      "input": true,
-      "validateOn": "blur"
-    },
-    {
-      "type": "phoneNumber",
-      "key": "phoneNumber",
-      "label": "Phone",
-      "input": true,
-      "allowMultipleMasks": true,
-      "inputMasks": [
-        {
-          "label": "US",
-          "mask": "(999) 999-9999"
-        },
-        {
-          "label": "BY",
-          "mask": "+999 (99) 999-99-99"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "key": "select",
-      "label": "Favorite Color",
-      "placeholder": "Select your favorite color",
-      "template": "{{ item.label }}",
-      "multiple": true,
-      "dataSrc": "values",
-      "input": true,
-      "valueProperty": "",
-      "defaultValue": "",
-      "filter": "",
-      "refreshOn": "",
-      "data": {
-        "custom": "",
-        "resource": "",
-        "url": "",
-        "json": "",
-        "values": [
+  },
+  "components": [
+      {
+          "title": "Client Details",
+          "collapsible": false,
+          "key": "clientDetails",
+          "type": "panel",
+          "label": "Panel",
+          "input": false,
+          "tableView": false,
+          "components": [
+            {
+              "label": "HTML",
+              "tag": "div",
+              "attrs": [
+                  {
+                      "attr": "",
+                      "value": ""
+                  }
+              ],
+              "content": "<ul>\r\n  <li>Name: Smith, John</li>\r\n  <li>CS#: 123145</li>\r\n  <li>Gender: M</li>\r\n <li>Date of Birth: 1982-03-04</li>\r\n <li>Location: Vancouver, BC</li>\r\n <li>Final Order Exp. Date: 2021-10-02</li>\r\n</ul>",
+              "refreshOnChange": false,
+              "key": "html",
+              "type": "htmlelement",
+              "input": false,
+              "tableView": false
+            }
+          ]
+      },
+      {
+        "title": "Legend",
+        "collapsible": false,
+        "key": "legend",
+        "type": "panel",
+        "label": "Panel",
+        "input": false,
+        "tableView": false,
+        "components": [
           {
-            "label": "Red",
-            "value": "red"
-          },
-          {
-            "label": "Blue",
-            "value": "blue"
-          },
-          {
-            "label": "Green",
-            "value": "green"
-          },
-          {
-            "label": "Yellow",
-            "value": "yellow"
-          },
-          {
-            "label": "Purple",
-            "value": "purple"
-          },
-          {
-            "label": "Orange",
-            "value": "orange"
-          },
-          {
-            "label": "Black",
-            "value": "black"
+            "label": "HTML",
+            "tag": "div",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<ol type=\"A\">\r\n  <li>Factor seen as an asset</li>\r\n  <li>No immediate need for improvement</li>\r\n  <li>Some need for improvement</li>\r\n <li>Considerable need for improvement</li>\r\n </ol>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
           }
         ]
-      }
     },
     {
-      "type": "address",
-      "key": "address",
-      "label": "Address",
-      "placeholder": "Enter your address",
-      "input": true,
-      "map": {
-          "region": "",
-          "key": ""
-      }
-    },
-    {
-      "type": "datetime", 
-      "key": "dueDate", 
-      "label": "Due Date", 
-      "placeholder": "Enter Due Date",
-      "datepickerMode": "day",
-      "enableDate": true,
-      "enableTime": true,
-      "format": "yyyy-MM-dd hh:mm a", 
-      "input": true, 
-      "tooltip": "Enter date the item is due", 
-      "description": "Enter Due Date",
-      "validate": {
-        "required": true
-      }
-    },
-    {
-      "type": "day",
-      "key": "birthdate",
-      "label": "Birthdate",
-      "input": true,
-      "dayFirst": false,
-      "fields": {
-        "year": {
-          "required": false,
-          "placeholder": "",
-          "type": "text"
+      "title": "Sources Contacted",
+      "collapsible": false,
+      "key": "sourcesContacted",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "HTML",
+          "attrs": [
+              {
+                  "attr": "",
+                  "value": ""
+              }
+          ],
+          "content": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
+          "refreshOnChange": false,
+          "key": "html1",
+          "type": "htmlelement",
+          "input": false,
+          "tableView": false
         },
-        "month": {
-          "required": false,
-          "placeholder": "",
-          "type": "select"
-        },
-        "day": {
-          "required": false,
-          "placeholder": "",
-          "type": "text"
+        {
+            "type": "button",
+            "label": "Add Source",
+            "key": "submit",
+            "disableOnInvalid": true,
+            "input": true,
+            "tableView": false
         }
-      }
-    },
-    {
-      "type": "button",
-      "action": "submit",
-      "label": "Submit",
-      "theme": "primary"
-    },
-    {
-      "type": "button",
-      "action": "reset",
-      "label": "Reset Form",
-      "theme": "success"
-    }
+      ]
+  }
   ]
-	
 }
