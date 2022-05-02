@@ -3,13 +3,16 @@ package ca.bc.gov.open.jag.api.form;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormQuestions;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @ApplicationScoped
 public class FormsApiServiceImpl implements FormsApi {
@@ -64,7 +67,30 @@ public class FormsApiServiceImpl implements FormsApi {
         formDetails.setFormType("Initial Assessment");
         formDetails.setUpdateDate(LocalDate.of(2021, 12, 14));
 
+        List<FormQuestions> formQuestionsList = new ArrayList<>();
+
+        formQuestionsList.add(createFormQuestion(BigDecimal.ONE, "Test Question 1"));
+        formQuestionsList.add(createFormQuestion(BigDecimal.TEN, "Test Question 2"));
+
+        formDetails.setFormQuestions(formQuestionsList);
+
         return formDetails;
+    }
+
+    /**
+     * This is for mocking data until we get the database
+     * @param id identifier
+     * @param text question text
+     * @return populated question
+     */
+    private FormQuestions createFormQuestion(BigDecimal id, String text) {
+
+        FormQuestions formQuestion = new FormQuestions();
+        formQuestion.setQuestionId(id);
+        formQuestion.setQuestionText(text);
+
+        return formQuestion;
+
     }
 
 }
