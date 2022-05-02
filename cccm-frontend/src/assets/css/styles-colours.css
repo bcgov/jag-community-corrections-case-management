@@ -1,0 +1,32 @@
+body {
+
+}
+.header { 
+	background-color: red;
+	height:75px;
+}
+.main { 
+	/* little formatting should be needed here */
+	background-color: black;
+}
+.footer { 
+	background-color: cyan;
+	height:40px;
+}
+
+div.menu-Sticky {
+	background-color: yellow;
+	Padding:30px;
+	height:150px;
+	
+}
+div.R-Sticky {
+
+}
+.L {
+	background-color: green; 
+}
+.R {
+	background-color: magenta;
+
+}

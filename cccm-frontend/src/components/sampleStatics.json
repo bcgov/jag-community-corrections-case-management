@@ -1,0 +1,99 @@
+{
+  "display": "form",
+  "settings": {
+      "pdf": {
+          "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+          "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+      }
+  },
+  "components": [
+      {
+          "title": "Client Details",
+          "collapsible": false,
+          "key": "clientDetails",
+          "type": "panel",
+          "label": "Panel",
+          "input": false,
+          "tableView": false,
+          "components": [
+            {
+              "label": "HTML",
+              "tag": "div",
+              "attrs": [
+                  {
+                      "attr": "",
+                      "value": ""
+                  }
+              ],
+              "content": "<ul>\r\n  <li>Name: Smith, John</li>\r\n  <li>CS#: 123145</li>\r\n  <li>Gender: M</li>\r\n <li>Date of Birth: 1982-03-04</li>\r\n <li>Location: Vancouver, BC</li>\r\n <li>Final Order Exp. Date: 2021-10-02</li>\r\n</ul>",
+              "refreshOnChange": false,
+              "key": "html",
+              "type": "htmlelement",
+              "input": false,
+              "tableView": false
+            }
+          ]
+      },
+      {
+        "title": "Legend",
+        "collapsible": false,
+        "key": "legend",
+        "type": "panel",
+        "label": "Panel",
+        "input": false,
+        "tableView": false,
+        "components": [
+          {
+            "label": "HTML",
+            "tag": "div",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<ol type=\"A\">\r\n  <li>Factor seen as an asset</li>\r\n  <li>No immediate need for improvement</li>\r\n  <li>Some need for improvement</li>\r\n <li>Considerable need for improvement</li>\r\n </ol>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+          }
+        ]
+    },
+    {
+      "title": "Sources Contacted",
+      "collapsible": false,
+      "key": "sourcesContacted",
+      "type": "panel",
+      "label": "Panel",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+          "label": "HTML",
+          "attrs": [
+              {
+                  "attr": "",
+                  "value": ""
+              }
+          ],
+          "content": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
+          "refreshOnChange": false,
+          "key": "html1",
+          "type": "htmlelement",
+          "input": false,
+          "tableView": false
+        },
+        {
+            "type": "button",
+            "label": "Add Source",
+            "key": "submit",
+            "disableOnInvalid": true,
+            "input": true,
+            "tableView": false
+        }
+      ]
+  }
+  ]
+}

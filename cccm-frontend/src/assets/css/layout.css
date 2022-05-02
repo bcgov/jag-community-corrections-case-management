@@ -1,0 +1,76 @@
+body {
+	margin:auto;
+	padding:0px;
+}
+.layout {
+	width: 100%;
+	display: grid;
+	grid:
+		"header" auto
+		"main" 1fr
+		"footer" auto
+		/ auto;
+	gap: 0 8px;
+}
+.header { 
+	grid-area: header; 
+	position: sticky;
+}
+.main { 
+	grid-area: main; 
+}
+.footer { 
+	grid-area: footer; 
+}
+.wrap {
+    	position: relative;
+}
+@media only screen and (max-width: 500px){
+    .L {
+        width: auto;
+        float: none;
+    }
+    
+    .R {
+        float: none;
+        width: auto;
+        position: static;
+    }
+}
+.wrap:before,
+.wrap:after {
+	content: " "; /* 1 */
+	display: table; /* 2 */
+}
+div.menu-Sticky {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+div.R-Sticky {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+}
+* {
+	box-sizing: border-box;
+}
+.column {
+	float: left;
+}
+.L {
+	width: calc(100% - 500px);
+}
+.R {
+	float:right;
+	width: 500px;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;  
+}
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
