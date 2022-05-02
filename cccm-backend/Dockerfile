@@ -22,7 +22,10 @@ FROM openjdk:11-jdk-slim
 # ARG MVN_PROFILES
 ARG SERVICE_NAME
 
-COPY --from=build ./${SERVICE_NAME}/target/${SERVICE_NAME}-*.jar /app/service.jar
+COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/service.jar
+COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
+COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
 
-CMD ["java", "-jar", "/app/service.jar"]
+CMD ["java", "-jar", "/deployments/service.jar"]
 #############################################################################################
