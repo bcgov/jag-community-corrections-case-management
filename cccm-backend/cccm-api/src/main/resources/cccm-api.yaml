@@ -12,6 +12,8 @@ tags:
     name: forms
   - description: Endpoints for code tables data
     name: lookups
+  - description: Endpoints for side card data
+    name: sidecards
 paths:
   /clients:
     get:
@@ -29,68 +31,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: clients
-    post:
-      operationId: Add Client
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientDetails'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientDetails'
-          description: Client was added
-      summary: Add
-      tags:
-        - clients
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: clients
-    put:
-      operationId: Update Client
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientDetails'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientDetails'
-          description: Contact was updated
-      summary: Update
-      tags:
-        - clients
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: clients
   /clients/{clientId}:
-    delete:
-      operationId: DeleteClient
-      parameters:
-        - explode: false
-          in: path
-          name: clientId
-          required: true
-          schema:
-            type: number
-          style: simple
-      responses:
-        "200":
-          description: client was deleted
-      summary: delete client by id
-      tags:
-        - clients
-      x-accepts: application/json
-      x-tags:
-        - tag: clients
     get:
       operationId: GetClient
       parameters:
@@ -235,6 +176,22 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
+  /sideCards:
+    get:
+      operationId: GetSideCards
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SideCards'
+          description: get all side cards
+      summary: get all side cards
+      tags:
+        - sidecards
+      x-accepts: application/json
+      x-tags:
+        - tag: sidecards
 components:
   schemas:
     ClientDetails:
@@ -298,6 +255,8 @@ components:
       properties:
         formId:
           type: number
+        formClientId:
+          type: number
         createdBy:
           type: string
         createdDate:
@@ -320,6 +279,10 @@ components:
       properties:
         questionId:
           type: number
+        questionAnswerClientId:
+          type: number
+        questionAnswer:
+          type: string
         label:
           type: string
         optionsLabelPosition:
@@ -402,3 +365,54 @@ components:
             $ref: '#/components/schemas/FormType'
           type: array
       type: object
+    SideCards:
+      type: object
+      properties:
+        display:
+          type: string
+        components:
+          type: array
+          items:
+            $ref: "#/components/schemas/Component"
+    Component:
+      type: object
+      properties:
+        key:
+          type: string
+        title:
+          type: string
+        collapsible:
+          type: boolean
+        label:
+          type: string
+        inline:
+          type: boolean
+        tableView:
+          type: boolean
+        content:
+          type: string
+        input:
+          type: boolean
+        type:
+          type: string
+        tag:
+          type: string
+        refreshOnChange:
+          type: boolean
+        disableOnInvalid:
+          type: boolean
+        components:
+          type: array
+          items:
+            $ref: "#/components/schemas/Component"
+        attrs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attr'
+    Attr:
+      type: object
+      properties:
+        attr:
+          type: string
+        value:
+          type: string

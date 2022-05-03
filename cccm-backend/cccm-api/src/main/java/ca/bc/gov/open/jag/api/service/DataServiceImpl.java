@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -31,6 +32,24 @@ public class DataServiceImpl implements DataService {
 
         }
 
+    }
+
+    @Override
+    public SideCards getSideCardsById(BigDecimal id) {
+
+        logger.log(Level.INFO, "Fetching side card");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        try {
+
+            return objectMapper.readValue(Paths.get("sampleSideCard.json").toFile(), SideCards.class);
+
+        } catch (Exception ex) {
+
+            return null;
+
+        }
     }
 
 }
