@@ -1,0 +1,70 @@
+{
+    "formId": 1,
+    "createdBy": "Doe, Jane",
+    "createdDate": "2021-12-14",
+    "updateDate": "2021-12-14",
+    "completedDate": "2021-12-14",
+    "formType": "Initial Assessment",
+    "formQuestions": [
+        {
+            "questionId": 1,
+            "label": "Test Question 1",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "autoExpand": null,
+            "input": true,
+            "values": [
+                {
+                    "label": "Test Label 1",
+                    "value": "testLabel1",
+                    "shortcut": "A"
+                },
+                {
+                    "label": "Test Label 2",
+                    "value": "testLabel2",
+                    "shortcut": "B"
+                },
+                {
+                    "label": "Test Label 3",
+                    "value": "testLabel3",
+                    "shortcut": "C"
+                },
+                {
+                    "label": "Test Label 4",
+                    "value": "testLabel4",
+                    "shortcut": "D"
+                }
+            ],
+            "key": "radio1",
+            "type": "radio",
+            "defaultValue": "testLabel1"
+        },
+        {
+            "questionId": 2,
+            "label": "Test Question 2",
+            "optionsLabelPosition": null,
+            "inline": null,
+            "tableView": true,
+            "autoExpand": false,
+            "input": true,
+            "values": [],
+            "key": "comments",
+            "type": "textarea",
+            "defaultValue": null
+        },
+        {
+            "questionId": 3,
+            "label": "Test Question 3",
+            "optionsLabelPosition": null,
+            "inline": null,
+            "tableView": false,
+            "autoExpand": null,
+            "input": true,
+            "values": [],
+            "key": "intervention",
+            "type": "checkbox",
+            "defaultValue": "false"
+        }
+    ]
+}
