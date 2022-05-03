@@ -320,7 +320,35 @@ components:
       properties:
         questionId:
           type: number
-        questionText:
+        label:
+          type: string
+        optionsLabelPosition:
+          type: string
+        inline:
+          type: boolean
+        tableView:
+          type: boolean
+        autoExpand:
+          type: boolean
+        input:
+          type: boolean
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuestionBody"
+        key:
+          type: string
+        type:
+          type: string
+        defaultValue:
+          type: string
+    QuestionBody:
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        shortcut:
           type: string
     FormList:
       example:
