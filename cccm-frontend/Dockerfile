@@ -19,6 +19,7 @@ COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
+RUN chmod g+rwx /usr/share/nginx
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stahg 1
