@@ -23,8 +23,6 @@ public class DataServiceImpl implements DataService {
         objectMapper.findAndRegisterModules();
         try {
 
-            logger.log(Level.INFO, Paths.get("sample_data.json").toAbsolutePath().toString());
-
             return objectMapper.readValue(Paths.get("sample_data.json").toFile(), FormDetails.class);
 
         } catch (Exception ex) {
