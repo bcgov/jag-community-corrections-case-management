@@ -87,7 +87,7 @@ public class FormsApiServiceImpl implements FormsApi {
 
         FormQuestions formQuestion = new FormQuestions();
         formQuestion.setQuestionId(id);
-        formQuestion.setQuestionText(text);
+        formQuestion.setLabel(text);
 
         return formQuestion;
 
