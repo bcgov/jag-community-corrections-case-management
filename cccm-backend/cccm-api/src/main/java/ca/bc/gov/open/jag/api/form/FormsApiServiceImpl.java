@@ -70,9 +70,9 @@ public class FormsApiServiceImpl implements FormsApi {
 
         List<FormQuestions> formQuestionsList = new ArrayList<>();
 
-        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(1), "Test Question 1", "radio", "radio1", true));
-        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(2), "Test Question 2", "textarea", "comments", false));
-        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(2), "Test Question 3", "checkbox", "intervention", false));
+        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(1), "Test Question 1", "radio", "radio1", "right",false, false, true, "testLabel1", null,true));
+        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(2), "Test Question 2", "textarea", "comments", null, null,true, true, null, false, false));
+        formQuestionsList.add(createFormQuestion(BigDecimal.valueOf(3), "Test Question 3", "checkbox", "intervention", null, null,false, true, "false", null, false));
 
         formDetails.setFormQuestions(formQuestionsList);
 
@@ -85,7 +85,9 @@ public class FormsApiServiceImpl implements FormsApi {
      * @param text question text
      * @return populated question
      */
-    private FormQuestions createFormQuestion(BigDecimal id, String text, String type, String key, Boolean questions) {
+    private FormQuestions createFormQuestion(BigDecimal id, String text, String type, String key,
+                                             String position, Boolean inline, Boolean tableView,
+                                             Boolean input, String defaultValue, Boolean autoExpand, Boolean questions) {
 
         FormQuestions formQuestion = new FormQuestions();
         formQuestion.setQuestionId(id);
@@ -93,8 +95,13 @@ public class FormsApiServiceImpl implements FormsApi {
         formQuestion.setType(type);
         formQuestion.setKey(key);
         formQuestion.setInput(true);
+        formQuestion.setOptionsLabelPosition(position);
+        formQuestion.setInline(inline);
+        formQuestion.setTableView(tableView);
+        formQuestion.setInput(input);
+        formQuestion.setDefaultValue(defaultValue);
 
-        if (questions) {
+        if (Boolean.TRUE.equals(questions)) {
 
             List<QuestionBody> questionBodyList = new ArrayList<>();
             questionBodyList.add(createBody("Test Label 1", "testLabel1", "A"));
