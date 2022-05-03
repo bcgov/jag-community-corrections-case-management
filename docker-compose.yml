@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+
+  backend:
+    container_name: cccm-api
+    image: cccm-api
+    build:
+      context: ./cccm-backend
+      args:
+        - SERVICE_NAME=cccm-api
+        - SKIP_TESTS=true
+    ports:
+      - "8080:8080"
+    networks:
+      - cccm
+
+  frontend:
+    container_name: cccm-web
+    image: cccm-web
+    build:
+      context: ./cccm-frontend
+    ports:
+      - "8000:8000"
+    networks:
+      - cccm
+  
+networks:
+  cccm:
+    driver: bridge

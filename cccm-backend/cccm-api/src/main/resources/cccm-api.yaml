@@ -1,0 +1,418 @@
+openapi: 3.0.0
+info:
+  description: CCCM API
+  title: Community Corrections Case Management API
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+tags:
+  - description: Endpoints for client data
+    name: clients
+  - description: Endpoints for form data
+    name: forms
+  - description: Endpoints for code tables data
+    name: lookups
+  - description: Endpoints for side card data
+    name: sidecards
+paths:
+  /clients:
+    get:
+      operationId: GetClients
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientList'
+          description: get all clients
+      summary: get all clients
+      tags:
+        - clients
+      x-accepts: application/json
+      x-tags:
+        - tag: clients
+  /clients/{clientId}:
+    get:
+      operationId: GetClient
+      parameters:
+        - explode: false
+          in: path
+          name: clientId
+          required: true
+          schema:
+            type: number
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientDetails'
+          description: client found
+        "404":
+          description: client not found
+      summary: get a client by id
+      tags:
+        - clients
+      x-accepts: application/json
+      x-tags:
+        - tag: clients
+  /forms:
+    get:
+      operationId: GetForms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormList'
+          description: get all forms
+      summary: get all forms
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+    post:
+      operationId: Add Form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormDetails'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormDetails'
+          description: Form was added
+      summary: Add
+      tags:
+        - forms
+      x-contentType: application/json
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+    put:
+      operationId: Update Form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormDetails'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormDetails'
+          description: Form was updated
+      summary: Update
+      tags:
+        - forms
+      x-contentType: application/json
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+  /forms/{formId}:
+    delete:
+      operationId: DeleteForm
+      parameters:
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
+      responses:
+        "200":
+          description: form was deleted
+      summary: delete form by id
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+    get:
+      operationId: GetForm
+      parameters:
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormDetails'
+          description: form found
+        "404":
+          description: form not found
+      summary: get a form by id
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+  /formtypes:
+    get:
+      operationId: GetFormTypes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormTypeList'
+          description: get all Form Types
+      summary: get all form types
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
+  /sideCards:
+    get:
+      operationId: GetSideCards
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SideCards'
+          description: get all side cards
+      summary: get all side cards
+      tags:
+        - sidecards
+      x-accepts: application/json
+      x-tags:
+        - tag: sidecards
+components:
+  schemas:
+    ClientDetails:
+      description: Client
+      example:
+        firstName: firstName
+        lastName: lastName
+        clientId: 0.8008281904610115
+        gender: gender
+        finalOrderExpiryDate: 2000-01-23
+        location: location
+      properties:
+        clientId:
+          type: number
+        firstName:
+          type: string
+        lastName:
+          type: string
+        location:
+          type: string
+        gender:
+          type: string
+        birthDate:
+          format: date
+          type: string
+        finalOrderExpiryDate:
+          format: date
+          type: string
+      type: object
+    ClientList:
+      example:
+        items:
+          - firstName: firstName
+            lastName: lastName
+            clientId: 0.8008281904610115
+            gender: gender
+            finalOrderExpiryDate: 2000-01-23
+            location: location
+          - firstName: firstName
+            lastName: lastName
+            clientId: 0.8008281904610115
+            gender: gender
+            finalOrderExpiryDate: 2000-01-23
+            location: location
+      properties:
+        items:
+          description: ClientsDetails
+          items:
+            $ref: '#/components/schemas/ClientDetails'
+          type: array
+      type: object
+    FormDetails:
+      description: Client
+      example:
+        formId: 0.8008281904610115
+        updateDate: 2000-01-23
+        formType: formType
+        createdDate: 2000-01-23
+        createdBy: createdBy
+        completedDate: 2000-01-23
+      properties:
+        formId:
+          type: number
+        formClientId:
+          type: number
+        createdBy:
+          type: string
+        createdDate:
+          format: date
+          type: string
+        updateDate:
+          format: date
+          type: string
+        completedDate:
+          format: date
+          type: string
+        formType:
+          type: string
+        formQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormQuestions'
+      type: object
+    FormQuestions:
+      properties:
+        questionId:
+          type: number
+        questionAnswerClientId:
+          type: number
+        questionAnswer:
+          type: string
+        label:
+          type: string
+        optionsLabelPosition:
+          type: string
+        inline:
+          type: boolean
+        tableView:
+          type: boolean
+        autoExpand:
+          type: boolean
+        input:
+          type: boolean
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuestionBody"
+        key:
+          type: string
+        type:
+          type: string
+        defaultValue:
+          type: string
+    QuestionBody:
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+        shortcut:
+          type: string
+    FormList:
+      example:
+        items:
+          - formId: 0.8008281904610115
+            updateDate: 2000-01-23
+            formType: formType
+            createdDate: 2000-01-23
+            createdBy: createdBy
+            completedDate: 2000-01-23
+          - formId: 0.8008281904610115
+            updateDate: 2000-01-23
+            formType: formType
+            createdDate: 2000-01-23
+            createdBy: createdBy
+            completedDate: 2000-01-23
+      properties:
+        items:
+          description: FormDetails
+          items:
+            $ref: '#/components/schemas/FormDetails'
+          type: array
+      type: object
+    FormType:
+      description: Client
+      example:
+        typeCd: typeCd
+        typeId: 0.8008281904610115
+        typeDescription: typeDescription
+      properties:
+        typeId:
+          type: number
+        typeCd:
+          type: string
+        typeDescription:
+          type: string
+      type: object
+    FormTypeList:
+      example:
+        items:
+          - typeCd: typeCd
+            typeId: 0.8008281904610115
+            typeDescription: typeDescription
+          - typeCd: typeCd
+            typeId: 0.8008281904610115
+            typeDescription: typeDescription
+      properties:
+        items:
+          description: FormType
+          items:
+            $ref: '#/components/schemas/FormType'
+          type: array
+      type: object
+    SideCards:
+      type: object
+      properties:
+        display:
+          type: string
+        components:
+          type: array
+          items:
+            $ref: "#/components/schemas/Component"
+    Component:
+      type: object
+      properties:
+        key:
+          type: string
+        title:
+          type: string
+        collapsible:
+          type: boolean
+        label:
+          type: string
+        inline:
+          type: boolean
+        tableView:
+          type: boolean
+        content:
+          type: string
+        input:
+          type: boolean
+        type:
+          type: string
+        tag:
+          type: string
+        refreshOnChange:
+          type: boolean
+        disableOnInvalid:
+          type: boolean
+        components:
+          type: array
+          items:
+            $ref: "#/components/schemas/Component"
+        attrs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attr'
+    Attr:
+      type: object
+      properties:
+        attr:
+          type: string
+        value:
+          type: string
