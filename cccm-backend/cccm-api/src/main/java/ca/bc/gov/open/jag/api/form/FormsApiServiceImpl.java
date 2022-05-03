@@ -100,6 +100,7 @@ public class FormsApiServiceImpl implements FormsApi {
         formQuestion.setTableView(tableView);
         formQuestion.setInput(input);
         formQuestion.setDefaultValue(defaultValue);
+        formQuestion.setAutoExpand(autoExpand);
 
         if (Boolean.TRUE.equals(questions)) {
 
