@@ -21,7 +21,7 @@ services:
     build:
       context: ./cccm-frontend
     ports:
-      - "3000:80"
+      - "8000:8000"
     networks:
       - cccm
   

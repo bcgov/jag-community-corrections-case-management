@@ -25,6 +25,6 @@ RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 # Copy from the stahg 1
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 8080
+EXPOSE 8000
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
