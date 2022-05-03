@@ -5,9 +5,12 @@
           <div class="column L">
             <div class="menu-Sticky">
               <CrnaCmpFormInfo :formJSON="formInfo"/>
-              <CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>
-              <CrnaCmpFormDataEntry :formJSON="getDataEntryFormData" ></CrnaCmpFormDataEntry>
+              <div>
+                <img src="/src/assets/images/cccm-navigation.jpg" />
+              </div>
+              <!--<CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>-->
             </div>
+            <CrnaCmpFormDataEntry :formJSON="getDataEntryFormData" ></CrnaCmpFormDataEntry>            
           </div>
           <div class="column R">
             <div class="R-Sticky">
@@ -23,11 +26,11 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import CrnaCmpFormDataEntry from "@/components/crnaCmpFormDataEntry.vue";
-import CrnaCmpFormInfo from "@/components/crnaCmpFormInfo.vue";
-import CrnaCmpFormNavigation from "@/components/crnaCmpFormNavigation.vue";
-import CrnaCmpFormStaticContent from "@/components/crnaCmpFormStaticContent.vue";
-import CrnaCmpFormBtnGroup from "@/components/crnaCmpFormBtnGroup.vue";
+import CrnaCmpFormDataEntry from "@/components/crna-cmp/crnaCmpFormDataEntry.vue";
+import CrnaCmpFormInfo from "@/components/crna-cmp/crnaCmpFormInfo.vue";
+import CrnaCmpFormNavigation from "@/components/crna-cmp/crnaCmpFormNavigation.vue";
+import CrnaCmpFormStaticContent from "@/components/crna-cmp/crnaCmpFormStaticContent.vue";
+import CrnaCmpFormBtnGroup from "@/components/crna-cmp/crnaCmpFormBtnGroup.vue";
 import axios from 'axios';
 import sampleFormDataEntry from './sampleDataEntry.json';
 import sampleFormStatics from './sampleStatics.json';
@@ -56,7 +59,7 @@ export default {
         formBtnGroup: sampleFormBtnGroup,
         crna_cmp_form_dataEntry_endpoint: "https://hcydsplculhonzk.form.io/demoform1",
         crna_cmp_form_statics_endpoint: "https://hcydsplculhonzk.form.io/demoform",
-        crna_cmp_form_navigation_endpoint: "https://hcydsplculhonzk.form.io/demoform1",
+        crna_cmp_form_navigation_endpoint: "https://udhkdmwfegsesuy.form.io/mi",
         periodic_check_milliseconds: 5000,
     }
   },
