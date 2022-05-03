@@ -1,22 +1,30 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build
 
-# install simple http server for serving static content
-RUN npm install -g http-server
-
-# make the 'app' folder the current working directory
 WORKDIR /app
 
-# copy both 'package.json' and 'package-lock.json' (if available)
+# Copy the package.json and install dependencies
 COPY package*.json ./
-
-# install project dependencies
 RUN npm install
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
+# Copy rest of the files
 COPY . .
 
-# build app for production with minification
+# Build the project
 RUN npm run build
 
-EXPOSE 3000
-CMD [ "http-server", "dist" ]
+
+FROM nginx:alpine as run
+
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+RUN chmod g+rwx /usr/share/nginx
+RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
+
+# Copy from the stahg 1
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 8000
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
