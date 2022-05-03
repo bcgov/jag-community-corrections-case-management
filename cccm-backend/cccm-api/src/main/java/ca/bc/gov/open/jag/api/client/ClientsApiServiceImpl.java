@@ -17,20 +17,6 @@ public class ClientsApiServiceImpl implements ClientsApi {
 
     @Override
     @Transactional
-    public ClientDetails addClient(@Valid ClientDetails clientDetails) {
-        //Success
-        return clientDetails;
-
-    }
-
-    @Override
-    @Transactional
-    public void deleteClient(BigDecimal clientId) {
-        //TODO implement when ready
-    }
-
-    @Override
-    @Transactional
     public ClientDetails getClient(BigDecimal clientId) {
 
         return createMockClient();
@@ -46,12 +32,6 @@ public class ClientsApiServiceImpl implements ClientsApi {
         clientList.setItems(Collections.singletonList(createMockClient()));
 
         return clientList;
-    }
-
-    @Override
-    @Transactional
-    public ClientDetails updateClient(@Valid ClientDetails clientDetails) {
-        return clientDetails;
     }
 
     /**
