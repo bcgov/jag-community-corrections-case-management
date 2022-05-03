@@ -66,6 +66,7 @@
 			"components": [
 				{
 					"label": "HTML",
+					"tag": "div",
 					"attrs": [
 						{
 							"attr": "",
