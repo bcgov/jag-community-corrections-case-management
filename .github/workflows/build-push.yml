@@ -2,7 +2,7 @@ name: Build & Push Image
 
 on:
   push:
-    branches: [CBCCCM-91]
+    branches: [main]
   workflow_dispatch:
 jobs:
   build:
