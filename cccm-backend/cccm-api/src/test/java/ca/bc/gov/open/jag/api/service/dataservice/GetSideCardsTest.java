@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service.dataservice;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.DataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import io.quarkus.test.junit.QuarkusTest;
@@ -18,7 +19,7 @@ public class GetSideCardsTest {
 
     @Test
     @DisplayName("Success: should return side card data")
-    public void getDataTest() {
+    public void getDataTest() throws CCCMException {
         //Currently this test is a bit redundant 
         SideCards result = sut.getSideCardsById(BigDecimal.ONE);
 

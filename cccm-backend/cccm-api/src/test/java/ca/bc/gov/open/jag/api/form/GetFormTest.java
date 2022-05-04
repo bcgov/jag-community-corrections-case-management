@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,7 @@ public class GetFormTest {
 
     @Test
     @DisplayName("200: should return form")
-    public void testGetClientEndpoint() {
+    public void testGetClientEndpoint() throws CCCMException {
 
         FormDetails result = sut.getForm(BigDecimal.ONE);
 

@@ -6,7 +6,6 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientList;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.sidecard;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +18,7 @@ public class GetSideCardsTest {
 
     @Test
     @DisplayName("200: should return side card")
-    public void getSideCardSuccess() {
+    public void getSideCardSuccess() throws CCCMException {
 
         SideCards result =  sut.getSideCards();
 
