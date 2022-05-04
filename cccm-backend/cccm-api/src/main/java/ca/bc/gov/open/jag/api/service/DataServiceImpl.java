@@ -19,7 +19,7 @@ public class DataServiceImpl implements DataService {
 
     private final ObjectMapper objectMapper;
 
-    DataServiceImpl(ObjectMapper objectMapper) {
+    public DataServiceImpl(ObjectMapper objectMapper) {
         objectMapper.findAndRegisterModules();
         this.objectMapper = objectMapper;
     }
@@ -28,7 +28,7 @@ public class DataServiceImpl implements DataService {
     public FormDetails getFormById(BigDecimal id) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching form details");
-        logger.log(Level.INFO, id.toEngineeringString());
+
         //This is only for testing. Will
         if (id.equals(BigDecimal.valueOf(999))) {
 

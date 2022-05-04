@@ -82,6 +82,12 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jdk8</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
+      <version>1.10.5.Final</version>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
   <build>
