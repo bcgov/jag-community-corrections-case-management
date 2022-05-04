@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.sidecard;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.DataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.SideCardsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;

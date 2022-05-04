@@ -1,5 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,39 +17,48 @@ public class DataServiceImpl implements DataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(DataService.class));
 
+    private final ObjectMapper objectMapper;
+
+    DataServiceImpl(ObjectMapper objectMapper) {
+        objectMapper.findAndRegisterModules();
+        this.objectMapper = objectMapper;
+    }
+
     @Override
-    public FormDetails getFormById(BigDecimal id) {
+    public FormDetails getFormById(BigDecimal id) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching form details");
+        logger.log(Level.INFO, id.toEngineeringString());
+        //This is only for testing. Will
+        if (id.equals(BigDecimal.valueOf(999))) {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
+            throw new CCCMException("Form not found", CCCMErrorCode.RECORDNOTFOUND);
+        }
+
         try {
 
             return objectMapper.readValue(Paths.get("sample_data.json").toFile(), FormDetails.class);
 
         } catch (Exception ex) {
 
-             return null;
+             throw new CCCMException("Error loading json data", CCCMErrorCode.DATALOADERROR);
 
         }
 
     }
 
     @Override
-    public SideCards getSideCardsById(BigDecimal id) {
+    public SideCards getSideCardsById(BigDecimal id) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching side card");
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.findAndRegisterModules();
         try {
 
             return objectMapper.readValue(Paths.get("sampleSideCard.json").toFile(), SideCards.class);
 
         } catch (Exception ex) {
 
-            return null;
+            throw new CCCMException("Error loading json data", CCCMErrorCode.DATALOADERROR);
 
         }
     }

@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service.dataservice;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.DataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import io.quarkus.test.junit.QuarkusTest;
@@ -21,7 +22,7 @@ public class GetFormByIdTest {
 
     @Test
     @DisplayName("Success: should return form data")
-    public void getDataTest() {
+    public void getDataTest() throws CCCMException {
 
         FormDetails result = sut.getFormById(BigDecimal.ONE);
 

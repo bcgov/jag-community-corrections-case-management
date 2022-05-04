@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.DataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
@@ -33,7 +34,9 @@ public class FormsApiServiceImpl implements FormsApi {
     @Override
     @Transactional
     public FormDetails getForm(BigDecimal formId) {
-        return dataService.getFormById(BigDecimal.ONE);
+
+        return dataService.getFormById(formId);
+
     }
 
     @Override
