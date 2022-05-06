@@ -10,13 +10,18 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ClientsApiServiceImpl implements ClientsApi {
 
+    private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiServiceImpl.class));
+
     @Override
     @Transactional
     public ClientDetails getClient(BigDecimal clientId) {
+
+        logger.info("Get client request received");
 
         return createMockClient();
 
@@ -25,6 +30,8 @@ public class ClientsApiServiceImpl implements ClientsApi {
     @Override
     @Transactional
     public ClientList getClients() {
+
+        logger.info("Get clients request received");
 
         //Mock
         ClientList clientList = new ClientList();
