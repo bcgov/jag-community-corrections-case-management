@@ -1,20 +1,24 @@
 package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.FormtypesApi;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormType;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class FormTypesApiServiceImpl implements FormtypesApi {
 
+    private static final Logger logger = Logger.getLogger(String.valueOf(FormTypesApiServiceImpl.class));
+
     @Override
     @Transactional
     public FormTypeList getFormTypes() {
+
+        logger.info("Get form types request received");
 
         FormTypeList formTypeList = new FormTypeList();
 
@@ -22,6 +26,7 @@ public class FormTypesApiServiceImpl implements FormtypesApi {
         formTypeList.getItems().add(createFormType(BigDecimal.TEN, "AA", "Another Assessment"));
 
         return formTypeList;
+
     }
 
     /**
