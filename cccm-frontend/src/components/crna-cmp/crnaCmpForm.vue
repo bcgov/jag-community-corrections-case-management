@@ -4,13 +4,13 @@
         <div class="row">
           <div class="column L">
             <div class="menu-Sticky">
-              <CrnaCmpFormInfo :formJSON="formInfo"/>
+             <CrnaCmpFormInfo :formJSON="formInfo"/>
               <div>
-                <img src="/src/assets/images/cccm-navigation.jpg" />
+                <img src="/src/assets/images/cccm-navigation.jpg" width=100% />
               </div>
               <!--<CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>-->
             </div>
-            <CrnaCmpFormDataEntry :formJSON="getDataEntryFormData" ></CrnaCmpFormDataEntry>            
+            <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" ></CrnaCmpFormDataEntry>            
           </div>
           <div class="column R">
             <div class="R-Sticky">
@@ -57,24 +57,28 @@ export default {
         formJSONNavigation: sampleFormNavigation,
         formInfo: sampleFormInfo,
         formBtnGroup: sampleFormBtnGroup,
-        crna_cmp_form_dataEntry_endpoint: "https://hcydsplculhonzk.form.io/demoform1",
-        crna_cmp_form_statics_endpoint: "https://hcydsplculhonzk.form.io/demoform",
+        crna_cmp_form_dataEntry_endpoint: "http://localhost:8080/forms/1",
+        crna_cmp_form_statics_endpoint: "http://localhost:8080/sideCards",
         crna_cmp_form_navigation_endpoint: "https://udhkdmwfegsesuy.form.io/mi",
         periodic_check_milliseconds: 5000,
     }
   },
   mounted(){
     //this.getFormDataEntryContent()
-    //this.getFormStaticsContent()
+    this.getFormStaticsContent()
     //this.getFormNavigationContent()
   },
   methods: {
     getFormDataEntryContent() {
       axios.get(this.getServiceEndpoint_DataEntry)
       .then( response => {
-        this.formJSONDataEntry = response.data;
-        console.log("formJSONDataEntry content: ");
-        console.log(this.formJSONDataEntry)
+        // parse formJSONDataEntry to build dataEntry section
+        //this.formJSONDataEntry
+
+        // parse formJSONDataEntry to build formInfo setion
+        //this.formInfo
+        console.log("/forms/ returns: ");
+        console.log(response.data)
       }).catch(
           error => (console.log(error))
       )
@@ -104,11 +108,6 @@ export default {
     },
   },
   computed: {
-    getDataEntryFormData() {
-        console.log("getDataEntryFormData: ");
-        console.log(this.formJSONDataEntry);
-        return this.formJSONDataEntry;
-    },
     getServiceEndpoint_DataEntry() {
       return this.crna_cmp_form_dataEntry_endpoint;
     },

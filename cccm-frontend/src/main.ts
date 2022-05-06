@@ -8,6 +8,22 @@ Vue.use(VueCompositionAPI)
 
 const app = createApp({
   router,
+  data() {
+    return {
+      locationVal: ""
+    }
+  },
+  created () {
+    this.getLocation();
+    // dynamically render the location info once page is rendered
+    let varLocation = document.getElementById('id_location');
+    varLocation.textContent = "BC Corrections " + this.locationVal;
+  },
+  methods: {
+    getLocation() {
+      this.locationVal = "Victoria Probation Office";
+    }
+  },
   render: () => h(App)
 })
 
