@@ -57,14 +57,10 @@ export default {
     return {
         formDetails: {},
         formJSONDataEntry: sampleFormDataEntry,
-        formJSONSideCards: sampleFormSideCards,
+        formJSONSideCards: {},
         formJSONNavigation: sampleFormNavigation,
         formInfo: sampleFormInfo,
-        formBtnGroup: sampleFormBtnGroup,
-        crna_cmp_form_dataEntry_endpoint: "http://localhost:8080/forms/1",
-        crna_cmp_form_statics_endpoint: "http://localhost:8080/sideCards",
-        crna_cmp_form_navigation_endpoint: "https://udhkdmwfegsesuy.form.io/mi",
-        periodic_check_milliseconds: 5000,
+        formBtnGroup: sampleFormBtnGroup
     }
   },
   mounted(){
@@ -93,7 +89,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        this.formJSONSideCards = response.data;
+        this.formJSONSideCards = response;
         console.log("formJSONSideCards content: ");
         console.log(this.formJSONSideCards)
       }
