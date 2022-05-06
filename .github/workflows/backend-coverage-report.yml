@@ -1,4 +1,4 @@
-name: Generate/Upload Spring Boot Coverage Report To Code Climate 
+name: Generate/Upload Quarkus Coverage Report To Code Climate 
 
 on:
   push:
@@ -48,7 +48,7 @@ jobs:
           echo "GIT_COMMIT_SHA=$GITHUB_SHA" >> $GITHUB_ENV
         if: github.event_name == 'push'
 
-      # Trimming the ref to main in order to publish correct report (paambaati)
+      # Trimming the ref to main in order to publish correct report
       - name: Set ref/head/main to main
         run: |
           echo "GIT_BRANCH=main" >> $GITHUB_ENV
