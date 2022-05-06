@@ -27,11 +27,11 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import {getFormDetails, getSideCardsDetails, getNavigationDetails} from "@/components/form.api.ts";
-import CrnaCmpFormDataEntry from "@/components/crna-cmp/crnaCmpFormDataEntry.vue";
-import CrnaCmpFormInfo from "@/components/crna-cmp/crnaCmpFormInfo.vue";
-import CrnaCmpFormNavigation from "@/components/crna-cmp/crnaCmpFormNavigation.vue";
-import CrnaCmpFormStaticContent from "@/components/crna-cmp/crnaCmpFormStaticContent.vue";
-import CrnaCmpFormBtnGroup from "@/components/crna-cmp/crnaCmpFormBtnGroup.vue";
+import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
+import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
+import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
+import CrnaCmpFormStaticContent from "@/components/crna-cmp/formSections/crnaCmpFormStaticContent.vue";
+import CrnaCmpFormBtnGroup from "@/components/crna-cmp/formSections/crnaCmpFormBtnGroup.vue";
 import sampleFormDataEntry from './sampleDataEntry.json';
 import sampleFormSideCards from './sampleStatics.json';
 import sampleFormNavigation from './sampleNavigation.json';
