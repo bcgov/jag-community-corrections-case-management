@@ -32,11 +32,12 @@ import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
 import CrnaCmpFormStaticContent from "@/components/crna-cmp/formSections/crnaCmpFormStaticContent.vue";
 import CrnaCmpFormBtnGroup from "@/components/crna-cmp/formSections/crnaCmpFormBtnGroup.vue";
-import sampleFormDataEntry from './sampleDataEntry.json';
-import sampleFormSideCards from './sampleStatics.json';
-import sampleFormNavigation from './sampleNavigation.json';
-import sampleFormInfo from './sampleFormInfo.json';
-import sampleFormBtnGroup from './sampleBtnGroup.json';
+
+import sampleFormDataEntry from './sampleData/sampleDataEntry.json';
+import sampleFormSideCards from './sampleData/sampleStatics.json';
+import sampleFormNavigation from './sampleData/sampleNavigation.json';
+import sampleFormInfo from './sampleData/sampleFormInfo.json';
+import sampleFormBtnGroup from './sampleData/sampleBtnGroup.json';
 
 export default {
   name: 'crnaForm',

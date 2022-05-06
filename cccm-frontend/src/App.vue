@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted () {
-    this.getLocation();
+    //this.getLocation();
   },
   methods: {
     async getLocation() {
