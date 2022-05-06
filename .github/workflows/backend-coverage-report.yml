@@ -2,9 +2,11 @@ name: Generate/Upload Spring Boot Coverage Report To Code Climate
 
 on:
   push:
-    branches: [CBCCCM-145]
-  #pull_request:
-  #  branches: [main]
+    branches: [main]
+  pull_request:
+    types: [opened, reopened]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   quarkus:
