@@ -73,7 +73,7 @@ jobs:
       # Formatting the coverage reports generated (dynamically)
       - name: Format coverage reports
         run: |
-          JACOCO_SOURCE_PATH=src/main/java ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco --output coverage/cccm-codeclimate.json;
+          JACOCO_SOURCE_PATH=cccm-backend/cccm-api/src/main/java ./cc-test-reporter format-coverage target/site/jacoco/jacoco.xml --input-type jacoco --output coverage/cccm-codeclimate.json;
                
       # Count of all total coverage files available
       - name: Debug Count files present
