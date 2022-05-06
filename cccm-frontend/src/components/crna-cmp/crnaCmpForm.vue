@@ -15,7 +15,7 @@
           <div class="column R">
             <div class="R-Sticky">
               <CrnaCmpFormBtnGroup :formJSON="formBtnGroup" />
-              <CrnaCmpFormStaticContent :formJSON="formJSONStatics"/>
+              <CrnaCmpFormStaticContent :formJSON="formJSONSideCards"/>
             </div>
           </div>
         </div>
@@ -26,14 +26,14 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+import {getFormDetails, getSideCardsDetails, getNavigationDetails} from "@/components/form.api.ts";
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormInfo from "@/components/crna-cmp/crnaCmpFormInfo.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/crnaCmpFormNavigation.vue";
 import CrnaCmpFormStaticContent from "@/components/crna-cmp/crnaCmpFormStaticContent.vue";
 import CrnaCmpFormBtnGroup from "@/components/crna-cmp/crnaCmpFormBtnGroup.vue";
-import axios from 'axios';
 import sampleFormDataEntry from './sampleDataEntry.json';
-import sampleFormStatics from './sampleStatics.json';
+import sampleFormSideCards from './sampleStatics.json';
 import sampleFormNavigation from './sampleNavigation.json';
 import sampleFormInfo from './sampleFormInfo.json';
 import sampleFormBtnGroup from './sampleBtnGroup.json';
@@ -41,7 +41,10 @@ import sampleFormBtnGroup from './sampleBtnGroup.json';
 export default {
   name: 'crnaForm',
   props: {
-    
+    formId: {
+      type: Number,
+      requred: false
+    }
   },
   components: {
     CrnaCmpFormDataEntry,
@@ -52,8 +55,9 @@ export default {
   },
   data() {
     return {
+        formDetails: {},
         formJSONDataEntry: sampleFormDataEntry,
-        formJSONStatics: sampleFormStatics,
+        formJSONSideCards: sampleFormSideCards,
         formJSONNavigation: sampleFormNavigation,
         formInfo: sampleFormInfo,
         formBtnGroup: sampleFormBtnGroup,
@@ -64,59 +68,46 @@ export default {
     }
   },
   mounted(){
-    //this.getFormDataEntryContent()
-    this.getFormStaticsContent()
+    //this.buildFormInfoNDataEntry()
+    this.getFormSideCards()
     //this.getFormNavigationContent()
   },
   methods: {
-    getFormDataEntryContent() {
-      axios.get(this.getServiceEndpoint_DataEntry)
-      .then( response => {
+    async buildFormInfoNDataEntry() {
+      const [error, response] = await getFormDetails(this.formId);
+      if (error) {
+        console.error(error);
+      } else {
+        this.formDetails = response.data;
         // parse formJSONDataEntry to build dataEntry section
         //this.formJSONDataEntry
 
         // parse formJSONDataEntry to build formInfo setion
         //this.formInfo
         console.log("/forms/ returns: ");
-        console.log(response.data)
-      }).catch(
-          error => (console.log(error))
-      )
-      
+        console.log(this.formDetails)
+      }
     },
-    getFormStaticsContent() {
-      axios.get(this.crna_cmp_form_statics_endpoint)
-      .then( response => {
-        this.formJSONStatics = response.data;
-        console.log("formJSONStatics content: ");
-        console.log(this.formJSONStatics)
-      }).catch(
-          error => (console.log(error))
-      )
-      return null
+    async getFormSideCards() {
+      const [error, response] = await getSideCardsDetails();
+      if (error) {
+        console.error(error);
+      } else {
+        this.formJSONSideCards = response.data;
+        console.log("formJSONSideCards content: ");
+        console.log(this.formJSONSideCards)
+      }
     },
-    getFormNavigationContent() {
-      axios.get(this.crna_cmp_form_navigation_endpoint)
-      .then( response => {
+    async getFormNavigationContent() {
+      const [error, response] = await getNavigationDetails();
+      if (error) {
+        console.error(error);
+      } else {
         this.formJSONNavigation = response.data;
         console.log("formJSONNavigation content: ");
         console.log(this.formJSONNavigation)
-      }).catch(
-          error => (console.log(error))
-      )
-      return null
+      }
     },
-  },
-  computed: {
-    getServiceEndpoint_DataEntry() {
-      return this.crna_cmp_form_dataEntry_endpoint;
-    },
-    getServiceEndpoint_Statics() {
-      return this.crna_cmp_form_statics_endpoint;
-    },
-    getServiceEndpoint_Navigation() {
-      return this.crna_cmp_form_navigation_endpoint;
-    }
   }  
 }
 </script>
