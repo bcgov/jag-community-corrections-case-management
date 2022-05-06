@@ -67,7 +67,7 @@ jobs:
      
       # Run Maven Verify to generate all jacoco reports
       - name: Build with Maven
-        run: mvn -B verify
+        run: mvn -B verify -P all -f cccm-backend/pom.xml
 
       # Formatting the coverage reports generated (dynamically)
       - name: Format coverage reports
