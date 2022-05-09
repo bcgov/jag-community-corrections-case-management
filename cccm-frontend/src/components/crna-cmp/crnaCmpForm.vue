@@ -4,13 +4,13 @@
         <div class="row">
           <div class="column L">
             <div class="menu-Sticky">
-             <CrnaCmpFormInfo :formJSON="formInfo"/>
-              <div>
+             <!-- <CrnaCmpFormInfo :formJSON="formInfo"/> -->
+              <!-- <div>
                 <img src="/src/assets/images/cccm-navigation.jpg" width=100% />
-              </div>
-              <!--<CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>-->
+              </div> -->
+              <CrnaCmpFormNavigation :navHeaders="formJSONNavigation"/>
             </div>
-            <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" ></CrnaCmpFormDataEntry>            
+            <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" :navHeaders="formJSONDataEntry"></CrnaCmpFormDataEntry>            
           </div>
           <div class="column R">
             <div class="R-Sticky">
@@ -57,9 +57,27 @@ export default {
   data() {
     return {
         formDetails: {},
-        formJSONDataEntry: sampleFormDataEntry,
+        formJSONDataEntry: [
+                                {   
+                                    "parent": "Needs Assessment",
+                                    "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
+                                },
+                                {
+                                    "parent": "Criminal History Risk Assessment",
+                                    "children": ["1", "2", "3", "4", "5"]
+                                }
+                            ],
         formJSONSideCards: {},
-        formJSONNavigation: sampleFormNavigation,
+        formJSONNavigation: [
+                                {   
+                                    "parent": "Needs Assessment",
+                                    "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
+                                },
+                                {
+                                    "parent": "Criminal History Risk Assessment",
+                                    "children": ["1", "2", "3", "4", "5"]
+                                }
+                            ],
         formInfo: sampleFormInfo,
         formBtnGroup: sampleFormBtnGroup
     }
