@@ -11,9 +11,12 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class FormsApiServiceImpl implements FormsApi {
+
+    private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiServiceImpl.class));
 
     @Inject
     DataService dataService;
@@ -21,24 +24,37 @@ public class FormsApiServiceImpl implements FormsApi {
     @Override
     @Transactional
     public FormDetails addForm(@Valid FormDetails formDetails) {
+
+        logger.warning("Form add not implemented");
+
         return formDetails;
+
     }
 
     @Override
     @Transactional
     public void deleteForm(BigDecimal formId) {
+
+        logger.warning("Form delete not implemented");
+
         //TODO implement when ready
     }
 
     @Override
     @Transactional
     public FormDetails getForm(BigDecimal formId) {
-        return dataService.getFormById(BigDecimal.ONE);
+
+        logger.info("Get form request received");
+
+        return dataService.getFormById(formId);
+
     }
 
     @Override
     @Transactional
     public FormList getForms() {
+
+        logger.info("Get forms request received");
 
         FormList formList = new FormList();
 
@@ -51,7 +67,11 @@ public class FormsApiServiceImpl implements FormsApi {
     @Override
     @Transactional
     public FormDetails updateForm(@Valid FormDetails formDetails) {
+
+        logger.warning("Form update not implemented");
+
         return formDetails;
+
     }
 
 }
