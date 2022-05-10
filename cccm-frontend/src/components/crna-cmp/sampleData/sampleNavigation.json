@@ -1,62 +1,14 @@
-[
-    {   
-        "parent": "Needs Assessment",
-        "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
-    },
-    {
-        "parent": "Criminal History Risk Assessment",
-        "children": ["1", "2", "3", "4", "5"]
-    }
-]
-
-// <div id="app">
-//   <table class="table table-responsive" >
-//     <tbody v-for="item in items">
-//       <tr >
-//         <td>
-//           <input v-model="item.parent" type="text" />
-//         </td>
-//       </tr>
-//       <tr>
-//         <td class="table-success" v-for="(col, idx) in item.children">            <input v-model="item.children[idx]" type="text" />
-//         </td>
-//       </tr>
-     
-//     </tbody>
-//   </table>
-  
-//   {{items}}
-// </div>
-// <table class="table table-responsive" >
-//     <tbody v-for="(row, idx1) in items">
-//       <tr >
-//         <td :colspan = "items[idx1][1].length">
-//           <input v-model="items[idx1][0]" type="text" />
-          
-//         </td>
-        
-//       </tr>
-//       <tr>
-//         <td class="table-success" v-for="(col, idx2) in items[idx1][1]">            <input v-model="items[idx1][1][idx2]" type="text" />
-//         </td>
-//       </tr>
-//       </tr>
-//     </tbody>
-//   </table>
-// [
-//     ["Needs Assessment",["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]],
-//     ["Criminal History Risk Assessment", ["1", "2", "3", "4", "5"]]
-    
-// ]
-
-// [
-//     ["Needs Assessment", "Family Relations"],
-//     ["Needs Assessment","Living Arrangements"],
-//     ["Needs Assessment","Companions/Significant Others"],
-//     ["Needs Assessment","Academic/Vocational Skills"],
-//     ["Needs Assessment","Employment Pattern Factors"],
-//     ["Needs Assessment","Financial Management"],
-//     ["Needs Assessment", "Behavioural/Emotional Stability Factors"],
-//     ["Needs Assessment", "Substance Misuse"],
-//     ["Needs Assessment", "Attitude"]
-// ]
+{
+    "parents": ["Needs Assessment", "Criminal History Risk Assessment"],
+    "parentchild": 
+    [
+        {   
+            "parent": "Needs Assessment",
+            "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
+        },
+        {
+            "parent": "Criminal History Risk Assessment",
+            "children": ["1", "2", "3", "4", "5"]
+        }
+    ]
+}

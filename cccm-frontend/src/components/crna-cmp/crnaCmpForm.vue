@@ -57,27 +57,9 @@ export default {
   data() {
     return {
         formDetails: {},
-        formJSONDataEntry: [
-                                {   
-                                    "parent": "Needs Assessment",
-                                    "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
-                                },
-                                {
-                                    "parent": "Criminal History Risk Assessment",
-                                    "children": ["1", "2", "3", "4", "5"]
-                                }
-                            ],
+        formJSONDataEntry: sampleFormNavigation,
         formJSONSideCards: {},
-        formJSONNavigation: [
-                                {   
-                                    "parent": "Needs Assessment",
-                                    "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
-                                },
-                                {
-                                    "parent": "Criminal History Risk Assessment",
-                                    "children": ["1", "2", "3", "4", "5"]
-                                }
-                            ],
+        formJSONNavigation: sampleFormNavigation,
         formInfo: sampleFormInfo,
         formBtnGroup: sampleFormBtnGroup
     }
