@@ -1,16 +1,20 @@
 <template>
     <div class="main">
       <div class="wrap">
-        <div class="row">
+        <div class="mainRow">
           <div class="column L">
             <div class="menu-Sticky">
-             <!-- <CrnaCmpFormInfo :formJSON="formInfo"/> -->
-              <!-- <div>
-                <img src="/src/assets/images/cccm-navigation.jpg" width=100% />
-              </div> -->
-              <CrnaCmpFormNavigation :navHeaders="formJSONNavigation"/>
+              <div class="menuR1">
+                <CrnaCmpFormInfo :formJSON="formInfo"/>
+              </div>
+            
+              <div class="menuR2">
+                <CrnaCmpFormNavigation :navHeaders="formJSONNavigation"/>
+              </div>
             </div>
-            <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" :navHeaders="formJSONDataEntry"></CrnaCmpFormDataEntry>            
+            <div class="mainContent">
+              <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" :navHeaders="formJSONDataEntry"></CrnaCmpFormDataEntry>            
+            </div>
           </div>
           <div class="column R">
             <div class="R-Sticky">
