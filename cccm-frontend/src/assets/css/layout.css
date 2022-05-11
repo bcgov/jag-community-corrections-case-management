@@ -14,6 +14,7 @@ body {
 }
 .header { 
 	grid-area: header; 
+	height: 100px;
 	position: sticky;
 }
 .main { 
@@ -23,8 +24,27 @@ body {
 	grid-area: footer; 
 }
 .wrap {
-    	position: relative;
+    position: relative;
 }
+
+div > a {
+	display: block;
+	color: #2c3e50;
+	text-decoration: none;
+	border-left: 1px solid #ccc;
+	padding-left: 2em;
+}
+a.active {
+	font-weight: bold;
+	border-color: black;
+}
+.hide {
+	display: none;
+}
+.show {
+	display: block;
+}
+  
 @media only screen and (max-width: 500px){
     .L {
         width: auto;
@@ -59,11 +79,11 @@ div.R-Sticky {
 	float: left;
 }
 .L {
-	width: calc(100% - 500px);
+	width: calc(100% - 350px);
 }
 .R {
 	float:right;
-	width: 500px;
+	width: 350px;
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;  

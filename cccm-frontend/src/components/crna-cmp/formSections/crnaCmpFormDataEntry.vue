@@ -1,7 +1,9 @@
 <template>
     <!-- <formio :form= formJSON /> -->
     <div style="width: 100%; padding-left: 2em">
-      <div v-for="(header, indexp) in navHeaders.parentchild" :key="indexp">
+      <div v-for="(header, indexp) in navHeaders.parentchild" 
+          :key="indexp"
+          :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
         <div v-for="(header, indexc) in navHeaders.parentchild[indexp].children" :key="indexc">
           <h2 :id="`${indexp}${indexc}`">{{ navHeaders.parentchild[indexp].children[indexc] }}</h2>
           <p>
@@ -14,14 +16,39 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator';
+import { ref, reactive } from '@vue/composition-api';
 import { Form } from 'vue-formio';
 
 export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
     //formJSON: {},
-    navHeaders: []
+    navHeaders: [],
+    // currentSectionChild: '0',
+    //currentSectionParent: '0'
   },
+  data() {
+    return {
+      //currentSectionChild : '',
+      currentSectionParent : '',
+      //indexZero: '0'
+    }
+  },
+  // mounted() {
+  //   const observer = new IntersectionObserver((entries) => {
+  //     entries.forEach((entry) => {
+  //       if (entry.intersectionRatio > 0 ) {
+  //         console.log("currentSectionChild: ");
+  //         console.log(entry.target.getAttribute('id'));
+  //         this.currentSectionChild = entry.target.getAttribute('id');
+  //         this.currentSectionParent = entry.target.getAttribute('id').substr(0,1);
+  //         }
+  //       })
+  //     })
+  //     document.querySelectorAll('div').forEach((section) => {
+  //     observer.observe(section)
+  //   })
+  // },
   components: {
     formio : Form
   }

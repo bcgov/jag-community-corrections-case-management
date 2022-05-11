@@ -1,20 +1,24 @@
 <template>
     <!-- <Form :form="formJSON"/> -->
-    <main style="width: 100%; padding-left: 2em; padding-top: 5em">
+    <main style="width: 100%; padding-left: 2em;">
       <table >
         <tbody>
           <tr >
             <td>
               <a v-for="(header, index) in navHeaders.parents" 
                 :key="header" 
-                :href="`#${index}`"
-                :class="{active: index == currentSectionParent}">
+                :href="`#${index}${indexZero}`"
+                :class="{active: index == currentSectionParent}"
+                @click="setCurrentSectionParentChild"
+                ref="parentAnchor">
                 {{ header }}
               </a>
             </td>
           </tr>
-          <tr v-for="(header, indexp) in navHeaders.parentchild" :key="indexp">
-            <td class="table-success"> 
+          <tr v-for="(header, indexp) in navHeaders.parentchild" 
+              :key="indexp" 
+              :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
+            <td> 
               {{ currentSectionParent }} {{ currentSectionChild }}
               <a v-for="(headerc, indexc) in navHeaders.parentchild[indexp].children" 
                 :key="headerc" 
@@ -34,7 +38,6 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
-//import onMounted from 'vue';
 
 export default {
   name: 'CrnaCmpFormNavigation',
@@ -43,8 +46,9 @@ export default {
   },
   data() {
     return {
-      currentSectionChild : '',
-      currentSectionParent : '',
+      currentSectionChild : '0',
+      currentSectionParent : '0',
+      indexZero: '0'
     }
   },
   mounted() {
@@ -54,7 +58,7 @@ export default {
           console.log("currentSectionChild: ");
           console.log(entry.target.getAttribute('id'));
           this.currentSectionChild = entry.target.getAttribute('id');
-          this.currentSectionParent = entry.target.getAttribute('id').substr(0,1);
+          this.currentSectionParent = entry.target.getAttribute('id').substr(0, 1);
           }
         })
       })
@@ -62,20 +66,15 @@ export default {
       observer.observe(section)
     })
   },
-
+  methods: {
+    setCurrentSectionParentChild() {
+      //let hashVal = this.$refs.parentAnchor.a.hash;
+      //this.currentSectionParent = hashVal.substr(0, 1);
+      this.currentSectionParent = '1';
+      this.currentSectionChild = '0';
+      //console.log("currentSectionParent set to: ");
+      //console.log(this.currentSectionParent);
+    }
+  }
 }
 </script>
-
-<style>
-div > a {
-  display: block;
-  color: #2c3e50;
-  text-decoration: none;
-  border-left: 1px solid #ccc;
-  padding-left: 2em;
-}
-a.active {
-  font-weight: bold;
-  border-color: black;
-}
-</style>
