@@ -16,6 +16,7 @@ body {
 	grid-area: header; 
 	height: 100px;
 	position: sticky;
+	height:110px;
 }
 .main { 
 	grid-area: main; 
@@ -66,11 +67,24 @@ div.menu-Sticky {
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
+	z-index:10;
+}
+.menuR1 {
+
+}
+.menuR2 {
+	position:relative;
+	top:-17px;
 }
 div.R-Sticky {
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
+	padding-bottom:20px;
+}
+.mainContent {
+	position:relative;
+	z-index:9;
 }
 * {
 	box-sizing: border-box;
@@ -83,13 +97,14 @@ div.R-Sticky {
 }
 .R {
 	float:right;
-	width: 350px;
+	width: 475px;
+	margin-right:10px;
 	position: -webkit-sticky;
 	position: sticky;
-	top: 0;  
+	top: 0;
 }
 /* Clear floats after the columns */
-.row:after {
+.mainRow:after {
 	content: "";
 	display: table;
 	clear: both;
