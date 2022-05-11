@@ -1,12 +1,18 @@
 <template>
     <div class="main">
       <div class="wrap">
-        <div class="row">
+        <div class="mainRow">
           <div class="column L">
             <div class="menu-Sticky">
-              <CrnaCmpFormInfo :formJSON="formInfo"/>
-              <CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>
-              <CrnaCmpFormDataEntry :formJSON="getDataEntryFormData" ></CrnaCmpFormDataEntry>
+              <div class="menuR1">
+              	<CrnaCmpFormInfo :formJSON="formInfo"/>
+              </div>
+              <div class="menuR2">
+              	<CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>
+              </div>
+            </div>
+            <div class="mainContent">
+            	<CrnaCmpFormDataEntry :formJSON="getDataEntryFormData" ></CrnaCmpFormDataEntry>
             </div>
           </div>
           <div class="column R">

@@ -3,25 +3,35 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap-reboot.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdn.form.io/formiojs/formio.full.min.css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <script src='https://cdn.form.io/formiojs/formio.full.min.js'></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!--
+    	Saved a local copy to ensure formatting persistance and the ability to edit
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap-reboot.min.css">
+    -->
+    <link rel="stylesheet" href="/src/assets/css/bootstrap.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <!--
+    	Not sure why this one is used.  Seems like same items defined in the bootstrap.css
+    	<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
+    -->
+    <link rel='stylesheet' href='/src/assets/css/formio-full.css'>
     <link rel="stylesheet" href="/src/assets/css/style_header.css">
     <link rel="stylesheet" href="/src/assets/css/style_footer.css">
     <link rel="stylesheet" href="/src/assets/css/layout.css">
-		<link rel="stylesheet" href="/src/assets/css/styles.css">
+	<link rel="stylesheet" href="/src/assets/css/styles.css">
     <title>CCCM Frontend</title>
   </head>
   <body>
     <section class="layout">
       <!--Header section-->
       <div class="header">
-        <img src="/src/assets/images/header-img.jpg" />
-      </div>
+		<a href="#"><img src="/src/assets/images/gov_bc_logo.svg" width="150px" border="0" /></a>
+		<span class="headerText textShadow">BC Corrections - Victoria Probation Office</span>
+		<span class="headerNav textShadow"><a href="#" class="headerA">Dashboard</a> | <a href="#" class="headerA">CRNA/CMP Form</a></span>
+	  </div>
       <!--
       <div class="header">
         <header>
@@ -49,21 +59,14 @@
       -->
       <!--Body section-->
       <div id="app"></div>
-    
+
       <script type="module" src="/src/main.ts"></script>
 
       <!--Footer section-->
       <div class="footer">
         <footer class="footer">
           <div class="container">
-            <ul>
-              <li><a href=".">Home</a></li>
-              <li><a href=".">Disclaimer</a></li>
-              <li><a href=".">Privacy</a></li>
-              <li><a href=".">Accessibility</a></li>
-              <li><a href=".">Copyright</a></li>
-              <li><a href=".">Contact Us</a></li>
-            </ul>
+&nbsp;
           </div>
         </footer>
       </div>
