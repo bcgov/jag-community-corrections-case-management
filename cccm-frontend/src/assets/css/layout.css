@@ -27,24 +27,6 @@ body {
     position: relative;
 }
 
-div > a {
-	display: block;
-	color: #2c3e50;
-	text-decoration: none;
-	border-left: 1px solid #ccc;
-	padding-left: 2em;
-}
-a.active {
-	font-weight: bold;
-	border-color: black;
-}
-.hide {
-	display: none;
-}
-.show {
-	display: block;
-}
-  
 @media only screen and (max-width: 500px){
     .L {
         width: auto;

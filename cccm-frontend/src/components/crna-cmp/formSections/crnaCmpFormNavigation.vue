@@ -78,3 +78,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+div > a {
+	display: block;
+	color: #2c3e50;
+	text-decoration: none;
+	border-left: 1px solid #ccc;
+	padding-left: 0em;
+}
+a.active {
+	font-weight: bold;
+	border-color: black;
+}
+.hide {
+	display: none;
+}
+.show {
+	display: block;
+}
+</style>
