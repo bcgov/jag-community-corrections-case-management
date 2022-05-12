@@ -56,13 +56,14 @@ export default {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0 ) {
           let tmpID = entry.target.getAttribute('id');
-          console.log("currentSectionChild: ");
-          console.log(tmpID);
-
           if (tmpID) {
-            this.currentSectionChild = tmpID;
+            this.currentSectionChild = tmpID.substr(1, 1);
             this.currentSectionParent = tmpID.substr(0, 1);
           }
+          console.log("currentSectionChild: ");
+          console.log(this.currentSectionChild);
+          console.log("currentSectionParent: ");
+          console.log(this.currentSectionParent);
         }
       })
     });
@@ -75,9 +76,11 @@ export default {
       //let hashVal = this.$refs.parentAnchor.a.hash;
       //this.currentSectionParent = hashVal.substr(0, 1);
       this.currentSectionParent = '1';
-      this.currentSectionChild = '10';
-      //console.log("currentSectionParent set to: ");
-      //console.log(this.currentSectionParent);
+      this.currentSectionChild = '0';
+      console.log("currentSectionParent set to: ");
+      console.log(this.currentSectionParent);
+      console.log("currentSectionChild set to: ");
+      console.log(this.currentSectionChild);
     }
   }
 }

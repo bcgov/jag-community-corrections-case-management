@@ -1,6 +1,6 @@
 <template>
     <!-- <formio :form= formJSON /> -->
-    <div style="width: 100%; ">
+    <div>
       <div v-for="(header, indexp) in navHeaders.parentchild" 
           :key="indexp"
           :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
