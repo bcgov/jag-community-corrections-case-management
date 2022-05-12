@@ -1,0 +1,93 @@
+#This workflow requires an input and based on that input pulls the appropriate image and tags it with the next environments name
+#This workflow will also likely change as we get more of our environment set up
+
+name: Promote an image to test or prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+        - test
+        - prod
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Testing
+    if: ${{ github.event.inputs.environment == 'test' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cluster Login
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            'version'
+
+      - name: Login to Openshift Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+
+      - name: Pull Dev Image 
+        run: |  
+          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev    
+          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
+
+      - name: Docker Tag Version Test
+        run: |  
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+          
+      - name: Docker Push Version Test
+        run: |  
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test    
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+
+  run-prod:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+    if: ${{ github.event.inputs.environment == 'prod' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cluster Login
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            'version'
+
+      - name: Login to Openshift Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+
+      - name: Pull Test Image
+        run: |  
+          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test    
+          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+      
+      - name: Docker Tag Version Prod
+        run: |  
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
+          
+      - name: Docker Push Version Prod
+        run: |  
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod    
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
+
+      
