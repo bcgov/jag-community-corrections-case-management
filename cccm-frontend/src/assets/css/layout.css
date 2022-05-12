@@ -14,7 +14,6 @@ body {
 }
 .header { 
 	grid-area: header; 
-	height: 100px;
 	position: sticky;
 	height:110px;
 }
@@ -93,7 +92,7 @@ div.R-Sticky {
 	float: left;
 }
 .L {
-	width: calc(100% - 350px);
+	width: calc(100% - 500px);
 }
 .R {
 	float:right;
