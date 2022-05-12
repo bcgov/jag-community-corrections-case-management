@@ -1,14 +1,365 @@
 {
-    "parents": ["Needs Assessment", "Criminal History Risk Assessment"],
-    "parentchild": 
-    [
-        {   
-            "parent": "Needs Assessment",
-            "children": ["Family Relations", "Living Arrangements", "Companions/Significant Others", "Academic/Vocational Skills", "Employment Pattern Factors", "Financial Management", "Behavioural/Emotional Stability Factors", "Substance Misuse", "Attitude"]
+    "data": [
+        {
+            "section": "Needs Assessment",
+            "subsections": [
+                {
+                    "questionLabel": "Family Relationships",
+                    "values": [
+                        {
+                            "label": "Pattern of stable and supportive relationships",
+                            "value": "patternOfStableAndSupportiveRelationships",
+                            "shortcut": "P"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "noCurrentDifficulties",
+                            "shortcut": "N"
+                        },
+                        {
+                            "label": "Occasional Instability in relationships",
+                            "value": "occasionalInstabilityInRelationships",
+                            "shortcut": "O"
+                        },
+                        {
+                            "label": "Very unstable pattern of relationships",
+                            "value": "veryUnstablePatternOfRelationships",
+                            "shortcut": "V"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "Living Arrangements",
+                    "values": [
+                        {
+                            "label": "Pattern of satisfactory living arrangements",
+                            "value": "p",
+                            "shortcut": "P"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "n",
+                            "shortcut": "N"
+                        },
+                        {
+                            "label": "Occasional changes in residence or temporaily situated",
+                            "value": "o",
+                            "shortcut": "O"
+                        },
+                        {
+                            "label": "Frequent changes in residence and no permanant address",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                },
+                {
+                    "questionLabel": "Companions/Significant Others",
+                    "values": [
+                        {
+                            "label": "Pattern of non-criminal and/or positive associations",
+                            "value": "p",
+                            "shortcut": "P"
+                        },
+                        {
+                            "label": "Mostly non-criminal and/or positive associations",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "Some criminal and/or negative associations",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Mostly criminal and/or negative associations",
+                            "value": "m",
+                            "shortcut": "m"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "Academic/Vocational Skills",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Level of skills causing minor interference",
+                            "value": "lm",
+                            "shortcut": "lm"
+                        },
+                        {
+                            "label": "Level of skills causing serious interference",
+                            "value": "ls",
+                            "shortcut": "ls"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                },
+                {
+                    "questionLabel": "Employment Pattern Factors",
+                    "values": [
+                        {
+                            "label": "Stable pattern of employment",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Employment situation causing minor adjustment problems",
+                            "value": "emn",
+                            "shortcut": "emn"
+                        },
+                        {
+                            "label": "Employment situation causing major adjustment problems",
+                            "value": "emj",
+                            "shortcut": "emj"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "Financial Management",
+                    "values": [
+                        {
+                            "label": "Pattern of effective management",
+                            "value": "p",
+                            "shortcut": "p"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Situational or minor adjustment problems",
+                            "value": "sm",
+                            "shortcut": "sm"
+                        },
+                        {
+                            "label": "Severe difficulties",
+                            "value": "sd",
+                            "shortcut": "sd"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                },
+                {   
+                    "questionLabel": "Behavioural/Emotional Stability Factors",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current difficulties",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Behavioural/emotional problems that indicate some need for assistance",
+                            "value": "b",
+                            "shortcut": "b"
+                        },
+                        {
+                            "label": "Severe behavioural/emotional problems that indicate significant need for assistance",
+                            "value": "s",
+                            "shortcut": "s"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                },
+                {
+                    "questionLabel": "Substance Misuse",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current usage or difficulties",
+                            "value": "ncud",
+                            "shortcut": "ncud"
+                        },
+                        {
+                            "label": "Some usage causing minor adjustment problems",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "Attitude",
+                    "values": [
+                        {
+                            "label": "Actively involved and responding consistently well to assistance",
+                            "value": "a",
+                            "shortcut": "a"
+                        },
+                        {
+                            "label": "Motivated to change, receptive to assistance",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "Recognizes problem areas but no receptive to assistance",
+                            "value": "r",
+                            "shortcut": "r"
+                        },
+                        {
+                            "label": "Unable to recognize problem areas and not receptive to assistance",
+                            "value": "u",
+                            "shortcut": "u"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                }
+            ] 
         },
         {
-            "parent": "Criminal History Risk Assessment",
-            "children": ["1", "2", "3", "4", "5"]
+            "section": "Criminal History Risk Assessment",
+            "subsections": [
+                {
+                    "questionLabel": "1",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current usage or difficulties",
+                            "value": "ncud",
+                            "shortcut": "ncud"
+                        },
+                        {
+                            "label": "Some usage causing minor adjustment problems",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "2",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current usage or difficulties",
+                            "value": "ncud",
+                            "shortcut": "ncud"
+                        },
+                        {
+                            "label": "Some usage causing minor adjustment problems",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                },
+                {
+                    "questionLabel": "3",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current usage or difficulties",
+                            "value": "ncud",
+                            "shortcut": "ncud"
+                        },
+                        {
+                            "label": "Some usage causing minor adjustment problems",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"  
+                },
+                {   
+                    "questionLabel": "4",
+                    "values": [
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "No current usage or difficulties",
+                            "value": "ncud",
+                            "shortcut": "ncud"
+                        },
+                        {
+                            "label": "Some usage causing minor adjustment problems",
+                            "value": "s",
+                            "shortcut": "s"
+                        },
+                        {
+                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
+                            "value": "f",
+                            "shortcut": "f"
+                        }
+                    ],
+                    "comments": "",
+                    "interventionNeeded": "false"
+                }
+            ]
         }
     ]
 }

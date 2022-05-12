@@ -1,0 +1,63 @@
+{
+    "type": "form",
+    "components": [
+      {
+        "label": "formDataEntry",
+        "key": "formDataEntry",
+        "type": "well",
+        "input": false,
+        "tableView": false,
+        "components": [
+          {
+            "label": "Family Relationships",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Pattern of stable and supportive relationships",
+                    "value": "patternOfStableAndSupportiveRelationships",
+                    "shortcut": "P"
+                },
+                {
+                    "label": "No current difficulties",
+                    "value": "noCurrentDifficulties",
+                    "shortcut": "N"
+                },
+                {
+                    "label": "Occasional Instability in relationships",
+                    "value": "occasionalInstabilityInRelationships",
+                    "shortcut": "O"
+                },
+                {
+                    "label": "Very unstable pattern of relationships",
+                    "value": "veryUnstablePatternOfRelationships",
+                    "shortcut": "V"
+                }
+            ],
+            "key": "radio1",
+            "type": "radio",
+            "input": true,
+            "defaultValue": "patternOfStableAndSupportiveRelationships"
+          },
+          {
+              "label": "Comments",
+              "autoExpand": false,
+              "tableView": true,
+              "key": "comments",
+              "type": "textarea",
+              "input": true
+          },
+          {
+              "label": "Intervention needed",
+              "tableView": false,
+              "key": "interventionNeeded",
+              "type": "checkbox",
+              "input": true,
+              "defaultValue": false
+          }
+        ]
+    
+    }
+    ]
+}

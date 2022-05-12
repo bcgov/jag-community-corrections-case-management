@@ -1,37 +1,32 @@
 <template>
-    <!-- <Form :form="formJSON"/> -->
-    
-      <table >
-        <tbody>
-          <tr >
-            <td>
-              <a v-for="(header, index) in navHeaders.parents" 
-                :key="header" 
-                :href="`#${index}${indexZero}`"
-                :class="{active: index == currentSectionParent}"
-                @click="setCurrentSectionParentChild"
-                ref="parentAnchor">
-                {{ header }}
-              </a>
-            </td>
-          </tr>
-          <tr v-for="(header, indexp) in navHeaders.parentchild" 
-              :key="indexp" 
-              :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
-            <td> 
-              {{ currentSectionParent }} {{ currentSectionChild }}
-              <a v-for="(headerc, indexc) in navHeaders.parentchild[indexp].children" 
-                :key="headerc" 
-                :href="`#${indexp}${indexc}`"
-                :class="{active: indexc == currentSectionChild}">
-
-                {{ headerc }}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    
+    <table >
+      <tbody>
+        <tr >
+          <td>
+            <a v-for="(header, index) in navHeaders.data" 
+              :key="header.section" 
+              :href="`#${index}${indexZero}`"
+              :class="{active: index == currentSectionParent}"
+              @click="setCurrentSectionParentChild"
+              ref="parentAnchor">
+              {{ header.section }}
+            </a>
+          </td>
+        </tr>
+        <tr v-for="(header, indexp) in navHeaders.data" :key="indexp"
+            :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
+          <td> 
+            {{ currentSectionParent }} {{ currentSectionChild }}
+            <a v-for="(headerc, indexc) in header.subsections" 
+              :key="headerc.questionLabel" 
+              :href="`#${indexp}${indexc}`"
+              :class="{active: indexc == currentSectionChild}">
+              {{ headerc.questionLabel }}
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </template>
 
 <script>
@@ -42,7 +37,7 @@ import { ref, reactive } from '@vue/composition-api';
 export default {
   name: 'CrnaCmpFormNavigation',
   props: {
-    navHeaders: []
+    navHeaders: {}
   },
   data() {
     return {
@@ -60,14 +55,14 @@ export default {
             this.currentSectionChild = tmpID.substr(1, 1);
             this.currentSectionParent = tmpID.substr(0, 1);
           }
-          console.log("currentSectionChild: ");
-          console.log(this.currentSectionChild);
-          console.log("currentSectionParent: ");
-          console.log(this.currentSectionParent);
+          // console.log("currentSectionChild: ");
+          // console.log(this.currentSectionChild);
+          // console.log("currentSectionParent: ");
+          // console.log(this.currentSectionParent);
         }
       })
     });
-    document.querySelectorAll('h2').forEach((section) => {
+    document.querySelectorAll('div.formio_anchor_class').forEach((section) => {
       observer.observe(section)
     })
   },
@@ -77,10 +72,10 @@ export default {
       //this.currentSectionParent = hashVal.substr(0, 1);
       this.currentSectionParent = '1';
       this.currentSectionChild = '0';
-      console.log("currentSectionParent set to: ");
-      console.log(this.currentSectionParent);
-      console.log("currentSectionChild set to: ");
-      console.log(this.currentSectionChild);
+      // console.log("currentSectionParent set to: ");
+      // console.log(this.currentSectionParent);
+      // console.log("currentSectionChild set to: ");
+      // console.log(this.currentSectionChild);
     }
   }
 }

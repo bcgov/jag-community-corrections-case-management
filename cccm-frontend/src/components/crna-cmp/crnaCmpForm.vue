@@ -7,13 +7,12 @@
               <div class="menuR1">
                 <CrnaCmpFormInfo :formJSON="formInfo"/>
               </div>
-            
               <div class="menuR2">
                 <CrnaCmpFormNavigation :navHeaders="formJSONNavigation"/>
               </div>
             </div>
             <div class="mainContent">
-              <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" :navHeaders="formJSONDataEntry"></CrnaCmpFormDataEntry>            
+              <CrnaCmpFormDataEntry :navHeaders="formJSONDataEntry"></CrnaCmpFormDataEntry>            
             </div>
           </div>
           <div class="column R">
