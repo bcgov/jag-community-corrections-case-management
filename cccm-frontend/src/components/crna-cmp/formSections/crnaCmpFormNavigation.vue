@@ -1,6 +1,6 @@
 <template>
     <!-- <Form :form="formJSON"/> -->
-    <main style="width: 100%; padding-left: 2em;">
+    
       <table >
         <tbody>
           <tr >
@@ -31,7 +31,7 @@
           </tr>
         </tbody>
       </table>
-    </main>
+    
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
   },
   data() {
     return {
-      currentSectionChild : '0',
+      currentSectionChild : '00',
       currentSectionParent : '0',
       indexZero: '0'
     }
@@ -55,14 +55,18 @@ export default {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0 ) {
+          let tmpID = entry.target.getAttribute('id');
           console.log("currentSectionChild: ");
-          console.log(entry.target.getAttribute('id'));
-          this.currentSectionChild = entry.target.getAttribute('id');
-          this.currentSectionParent = entry.target.getAttribute('id').substr(0, 1);
+          console.log(tmpID);
+
+          if (tmpID) {
+            this.currentSectionChild = tmpID;
+            this.currentSectionParent = tmpID.substr(0, 1);
           }
-        })
+        }
       })
-      document.querySelectorAll('h2').forEach((section) => {
+    });
+    document.querySelectorAll('h2').forEach((section) => {
       observer.observe(section)
     })
   },
@@ -71,7 +75,7 @@ export default {
       //let hashVal = this.$refs.parentAnchor.a.hash;
       //this.currentSectionParent = hashVal.substr(0, 1);
       this.currentSectionParent = '1';
-      this.currentSectionChild = '0';
+      this.currentSectionChild = '10';
       //console.log("currentSectionParent set to: ");
       //console.log(this.currentSectionParent);
     }

@@ -1,6 +1,6 @@
 <template>
     <!-- <formio :form= formJSON /> -->
-    <div style="width: 100%; padding-left: 2em">
+    <div style="width: 100%; ">
       <div v-for="(header, indexp) in navHeaders.parentchild" 
           :key="indexp"
           :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
@@ -54,10 +54,3 @@ export default {
   }
 }
 </script>
-
-<style>
-table {
-  width: 100%;
-  padding-left: 200px;
-}
-</style>
