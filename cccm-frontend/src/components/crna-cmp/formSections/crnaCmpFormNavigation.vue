@@ -46,33 +46,47 @@ export default {
   },
   data() {
     return {
+      observer : null,
       currentSectionChild : '00',
       currentSectionParent : '0',
-      indexZero: '0'
+      indexZero: '0',
     }
   },
   mounted() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.intersectionRatio > 0 ) {
-          let tmpID = entry.target.getAttribute('id');
-          if (tmpID) {
-            this.currentSectionChild = tmpID.substr(1, 1);
-            this.currentSectionParent = tmpID.substr(0, 1);
+    setTimeout(() => {
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          //console.log("Intersection ratio: ", entry.intersectionRatio);
+          if (entry &&
+              entry.isIntersecting &&
+              entry.intersectionRatio > 0) {
+            let tmpID = entry.target.getAttribute('id');
+            //console.log("subsectionID: ", tmpID);
+            if (tmpID) {
+              this.currentSectionChild = tmpID.substr(1, 1);
+              this.currentSectionParent = tmpID.substr(0, 1);
+            }
           }
-        }
-      })
-    });
-    document.querySelectorAll('div.formio_anchor_class').forEach((section) => {
-      observer.observe(section)
-    })
+        })
+      }
+      );
+      document.querySelectorAll('div.formio_anchor_class').forEach((section) => {
+        this.observer.observe(section);
+      });
+    }, 1000);
+  },
+  destroyed(){
+    console.log("Destroyed, disconnect observer");
+    this.observer.disconnect();
   },
   methods: {
-    setCurrentSectionParentChild() {
-      //let hashVal = this.$refs.parentAnchor.a.hash;
-      //this.currentSectionParent = hashVal.substr(0, 1);
-      this.currentSectionParent = '1';
-      this.currentSectionChild = '0';
+    // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
+    setCurrentSectionParentChild(e) {
+      if (e.target && e.target.hash) {
+        this.currentSectionParent = e.target.hash.substr(1, 1);
+        this.currentSectionChild = '0';
+      }
+      console.log(`parent: ${this.currentSectionParent}; child: ${this.currentSectionChild}`);
     }
   }
 }

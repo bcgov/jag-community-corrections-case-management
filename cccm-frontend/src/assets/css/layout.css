@@ -66,6 +66,8 @@ div.R-Sticky {
 .mainContent {
 	position:relative;
 	z-index:9;
+	overflow-y: auto;
+	height: 350px;
 }
 * {
 	box-sizing: border-box;

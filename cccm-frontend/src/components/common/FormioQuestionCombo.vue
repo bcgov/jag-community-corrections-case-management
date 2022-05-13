@@ -35,12 +35,12 @@ export default {
 
       //Find index of radio component.    
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
-      console.log("Radio component index: ", objIndex);
+      //console.log("Radio component index: ", objIndex);
 
       tmpJSON.components[0].components[objIndex].label = this.questionDataModel.questionLabel;
       tmpJSON.components[0].components[objIndex].values = this.questionDataModel.values;
 
-      console.log("FormInfoDataEntry: ", tmpJSON);
+      //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
     }
   },

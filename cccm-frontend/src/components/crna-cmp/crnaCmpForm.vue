@@ -91,8 +91,8 @@ export default {
         console.error(error);
       } else {
         this.formJSONSideCards = response;
-        console.log("formJSONSideCards content: ");
-        console.log(this.formJSONSideCards)
+        //console.log("formJSONSideCards content: ");
+        //console.log(this.formJSONSideCards)
       }
     },
   }  
