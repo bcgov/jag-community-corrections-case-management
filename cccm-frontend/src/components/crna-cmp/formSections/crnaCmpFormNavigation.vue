@@ -55,10 +55,6 @@ export default {
             this.currentSectionChild = tmpID.substr(1, 1);
             this.currentSectionParent = tmpID.substr(0, 1);
           }
-          // console.log("currentSectionChild: ");
-          // console.log(this.currentSectionChild);
-          // console.log("currentSectionParent: ");
-          // console.log(this.currentSectionParent);
         }
       })
     });
@@ -72,10 +68,6 @@ export default {
       //this.currentSectionParent = hashVal.substr(0, 1);
       this.currentSectionParent = '1';
       this.currentSectionChild = '0';
-      // console.log("currentSectionParent set to: ");
-      // console.log(this.currentSectionParent);
-      // console.log("currentSectionChild set to: ");
-      // console.log(this.currentSectionChild);
     }
   }
 }
