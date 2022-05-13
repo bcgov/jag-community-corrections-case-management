@@ -5,7 +5,7 @@
           :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <CrnaCmpFormQuestionCombo :questionDataModel="headerc" />
+            <FormioQuestionCombo :questionDataModel="headerc" />
           </div>
         </div>
       </div>
@@ -15,7 +15,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
-import CrnaCmpFormQuestionCombo from "@/components/crna-cmp/formSections/crnaCmpFormQuestionCombo.vue";
+import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 
 
 export default {
@@ -29,7 +29,7 @@ export default {
     }
   },
   components: {
-    CrnaCmpFormQuestionCombo,
+    FormioQuestionCombo,
   }
 }
 </script>

@@ -5,10 +5,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import sampleQuestionComboTemplate from '../sampleData/sampleQuestionComboTemplate.json';
+import sampleQuestionComboTemplate from '@/components/crna-cmp/sampleData/sampleQuestionComboTemplate.json';
 
 export default {
-  name: 'CrnaCmpFormQuestionCombo',
+  name: 'FormioQuestionCombo',
   props: {
     questionDataModel: {}
   },
