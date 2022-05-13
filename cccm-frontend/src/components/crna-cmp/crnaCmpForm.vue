@@ -5,14 +5,14 @@
           <div class="column L">
             <div class="menu-Sticky">
               <div class="menuR1">
-                <CrnaCmpFormInfo :formJSON="formInfo"/>
+                <FormioFormInfo :dataModel="formJSONFormData"/>
               </div>
               <div class="menuR2">
-                <CrnaCmpFormNavigation :navHeaders="formJSONFormData"/>
+                <CrnaCmpFormNavigation :navigationData="formJSONFormData"/>
               </div>
             </div>
             <div class="mainContent">
-              <CrnaCmpFormDataEntry :navHeaders="formJSONFormData"></CrnaCmpFormDataEntry>            
+              <CrnaCmpFormDataEntry :formData="formJSONFormData"></CrnaCmpFormDataEntry>            
             </div>
           </div>
           <div class="column R">
@@ -31,14 +31,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import {getFormDetails, getSideCardsDetails, getNavigationDetails} from "@/components/form.api.ts";
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
-import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
 import CrnaCmpFormStaticContent from "@/components/crna-cmp/formSections/crnaCmpFormStaticContent.vue";
 import CrnaCmpFormBtnGroup from "@/components/crna-cmp/formSections/crnaCmpFormBtnGroup.vue";
+import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 
 import sampleFormSideCards from './sampleData/sampleStatics.json';
 import sampleFormData from './sampleData/sampleFormData.json';
-import sampleFormInfo from './sampleData/sampleFormInfo.json';
 import sampleFormBtnGroup from './sampleData/sampleBtnGroup.json';
 
 export default {
@@ -53,15 +52,14 @@ export default {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
     CrnaCmpFormStaticContent,
-    CrnaCmpFormInfo,
-    CrnaCmpFormBtnGroup
+    CrnaCmpFormBtnGroup,
+    FormioFormInfo
   },
   data() {
     return {
         formDetails: {},
         formJSONFormData: sampleFormData,
         formJSONSideCards: {},
-        formInfo: sampleFormInfo,
         formBtnGroup: sampleFormBtnGroup
     }
   },
@@ -76,11 +74,7 @@ export default {
         console.error(error);
       } else {
         this.formDetails = response.data;
-        // parse formJSONFormData to build dataEntry section
-        //this.formJSONFormData
-
-        // parse formJSONFormData to build formInfo setion
-        //this.formInfo
+        
         console.log("/forms/ returns: ");
         console.log(this.formDetails)
       }

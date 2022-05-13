@@ -1,11 +1,11 @@
 <template>
     <div>
-      <div v-for="(header, indexp) in navHeaders.data" 
+      <div v-for="(header, indexp) in formData.data" 
           :key="indexp"
           :class="[currentSectionParent == indexp ? 'show' : 'hide', '']">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <FormioQuestionCombo :questionDataModel="headerc" />
+            <FormioQuestionCombo :dataModel="headerc" />
           </div>
         </div>
       </div>
@@ -21,7 +21,7 @@ import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
-    navHeaders: {},
+    formData: {},
   },
   data() {
     return {

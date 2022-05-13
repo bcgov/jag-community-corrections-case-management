@@ -10,7 +10,7 @@ import sampleQuestionComboTemplate from '@/components/crna-cmp/sampleData/sample
 export default {
   name: 'FormioQuestionCombo',
   props: {
-    questionDataModel: {}
+    dataModel: {}
   },
   data() {
     return {
@@ -37,8 +37,8 @@ export default {
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
       //console.log("Radio component index: ", objIndex);
 
-      tmpJSON.components[0].components[objIndex].label = this.questionDataModel.questionLabel;
-      tmpJSON.components[0].components[objIndex].values = this.questionDataModel.values;
+      tmpJSON.components[0].components[objIndex].label = this.dataModel.questionLabel;
+      tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;

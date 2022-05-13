@@ -1,4 +1,20 @@
 {
+    "formTitle": "Community Risk Needs Assessment Form (CRNA-CMP)",
+    "createdDate": "2021-03-12",
+    "updatedDate": "2021-05-12",
+    "createdBy": "John, Smith",
+    "completedDate": "2021-07-12",
+    "crnacmp_types": {
+        "type": "select",
+        "data": {
+            "values": [
+                {
+                    "label": "Initial Assessment",
+                    "value": "initialAssessment"
+                }
+            ]
+        }
+    },
     "data": [
         {
             "section": "Needs Assessment",
