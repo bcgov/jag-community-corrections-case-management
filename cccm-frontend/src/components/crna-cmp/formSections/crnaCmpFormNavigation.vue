@@ -1,36 +1,41 @@
 <template>
-    <table >
-      <tbody>
-        <tr >
-          <td>
+  <div class="divTable">
+		<div class="divTableBody">
+			<div class="divTableRow">
+				<div class="divTableCell">
+            <!-- Need to get two css classes for the a href.  1 for selected, the other for not selected. -->
+					<span class="navHeaderA navHeaderA-L1">
             <a v-for="(header, index) in navHeaders.data" 
               :key="header.section" 
               :href="`#${index}${indexZero}`"
-              :class="{active: index == currentSectionParent}"
+              :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L2']"
               @click="setCurrentSectionParentChild"
               ref="parentAnchor">
               {{ header.section }}
             </a>
-          </td>
-        </tr>
-        <tr v-for="(header, indexp) in navHeaders.data" :key="indexp"
-            :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
-          <td> 
+          </span>
+        </div>
+      </div>
+      <div class="divTableRow">
+        <div v-for="(header, indexp) in navHeaders.data" :key="indexp"
+            :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
+           
             <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
-            <a v-for="(headerc, indexc) in header.subsections" 
-              :key="headerc.questionLabel" 
-              :href="`#${indexp}${indexc}`"
-              :class="{active: indexc == currentSectionChild}">
-              {{ headerc.questionLabel }}
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <span class="navHeaderA navHeaderA-L1">
+              <a v-for="(headerc, indexc) in header.subsections" 
+                :key="headerc.questionLabel" 
+                :href="`#${indexp}${indexc}`"
+                :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']">
+                {{ headerc.questionLabel }}
+              </a>
+            </span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
 
@@ -90,5 +95,37 @@ a.active {
 }
 .show {
 	display: block;
+}
+.divTable {
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+.navHeaderA {
+
 }
 </style>

@@ -2,7 +2,7 @@
     <div>
       <div v-for="(header, indexp) in navHeaders.data" 
           :key="indexp"
-          :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
+          :class="[currentSectionParent == indexp ? 'show' : 'hide', '']">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
             <FormioQuestionCombo :questionDataModel="headerc" />
