@@ -51,11 +51,14 @@ div.menu-Sticky {
 	z-index:10;
 }
 .menuR1 {
+	padding: 0px 15px;
 
 }
 .menuR2 {
 	position:relative;
-	top:-17px;
+	top:0px;
+	padding: 0px 15px;
+	
 }
 div.R-Sticky {
 	position: -webkit-sticky;
