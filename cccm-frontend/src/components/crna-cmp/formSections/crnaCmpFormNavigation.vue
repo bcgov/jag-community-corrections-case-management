@@ -1,36 +1,40 @@
 <template>
     <!-- <Form :form="formJSON"/> -->
     
-      <table >
-        <tbody>
-          <tr >
-            <td>
-              <a v-for="(header, index) in navHeaders.parents" 
-                :key="header" 
-                :href="`#${index}${indexZero}`"
-                :class="{active: index == currentSectionParent}"
-                @click="setCurrentSectionParentChild"
-                ref="parentAnchor">
-                {{ header }}
-              </a>
-            </td>
-          </tr>
-          <tr v-for="(header, indexp) in navHeaders.parentchild" 
-              :key="indexp" 
-              :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
-            <td> 
-              {{ currentSectionParent }} {{ currentSectionChild }}
-              <a v-for="(headerc, indexc) in navHeaders.parentchild[indexp].children" 
-                :key="headerc" 
-                :href="`#${indexp}${indexc}`"
-                :class="{active: indexc == currentSectionChild}">
+	<div class="divTable">
+		<div class="divTableBody">
+			<div class="divTableRow">
+				<div class="divTableCell">
+					<!-- Need to get two css classes for the a href.  1 for selected, the other for not selected. -->
+					<span class="navHeaderA"><a v-for="(header, index) in navHeaders.parents" 
+					:key="header" 
+					:href="`#${index}${indexZero}`"
+					:class="{active: index == currentSectionParent}"
+					@click="setCurrentSectionParentChild"
+					ref="parentAnchor">
+					{{ header }}
+					</a></span>
+            			</div>
+          		</div>
+          	
+          		<div class="divTableRow">
+          			<div v-for="(header, indexp) in navHeaders.parentchild" 
+              			:key="indexp" 
+              			:class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
 
-                {{ headerc }}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+			      {{ currentSectionParent }} {{ currentSectionChild }}
+				      <!-- Same as above - Need to get two (different) css classes for the a href.  1 for selected, the other for not selected. -->
+				      <span class="navHeaderA"><a v-for="(headerc, indexc) in navHeaders.parentchild[indexp].children" 
+					:key="headerc" 
+					:href="`#${indexp}${indexc}`"
+					:class="{active: indexc == currentSectionChild}">
+
+					{{ headerc }}
+				      </a></span>
+            			</div>
+          		</div>
+          	</div>
+	</div>
     
 </template>
 
@@ -100,5 +104,37 @@ a.active {
 }
 .show {
 	display: block;
+}
+.divTable {
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+.navHeaderA {
+
 }
 </style>

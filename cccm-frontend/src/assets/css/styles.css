@@ -1,11 +1,13 @@
 body {
 	background-color: #F9FAFB;
 }
+
 .header { 
 	background-image: url("header-bg.jpg");
 	background-repeat: repeat-x; 	
 	padding:6px 20px 0px 20px;
 }
+
 .headerText {
 	font-weight: 500;
 	color: #fff;
@@ -13,7 +15,6 @@ body {
 	left: 40px;
 	top:10px;
 	font-size: 1.7rem;
-
 }
 
 .headerNav {
@@ -41,11 +42,13 @@ a.headerA:hover {
 	-webkit-text-shadow: 1px 1px 0 rgba(0, 0, 0, 1) ; 
 	-moz-text-shadow: 1px 1px 0 rgba(0, 0, 0, 1) ; 
 }
+
 .clearBoth { clear:both; }
 
 .main { 
 	/* little formatting should be needed here */
 }
+
 .footer { 
 	background-image: url("footer-bg.jpg");
 	background-repeat: repeat-x; 	
@@ -53,18 +56,21 @@ a.headerA:hover {
 }
 
 div.menu-Sticky {
-	
-	
+	background-color: #F9FAFB;	
 }
+
 .menuR1 {
 
 }
+
 .menuR2 {
 
 }
+
 div.R-Sticky {
 
 }
+
 .L {
 	padding:0;
 }
@@ -77,3 +83,4 @@ div.R-Sticky {
 	padding: 0px 0px 0px 20px;
 	line-height: 1;
 } */
+
