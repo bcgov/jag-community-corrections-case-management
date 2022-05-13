@@ -5,7 +5,7 @@
           :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <CrnaCmpFormQuestionCombo :questionDataModel="navHeaders" />
+            <CrnaCmpFormQuestionCombo :questionDataModel="headerc" />
           </div>
         </div>
       </div>

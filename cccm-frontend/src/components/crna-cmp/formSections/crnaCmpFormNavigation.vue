@@ -16,7 +16,7 @@
         <tr v-for="(header, indexp) in navHeaders.data" :key="indexp"
             :class="[currentSectionParent == indexp ? 'show' : 'hide', 'table-success']">
           <td> 
-            {{ currentSectionParent }} {{ currentSectionChild }}
+            <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
             <a v-for="(headerc, indexc) in header.subsections" 
               :key="headerc.questionLabel" 
               :href="`#${indexp}${indexc}`"
