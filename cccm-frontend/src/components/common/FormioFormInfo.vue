@@ -27,29 +27,24 @@ export default {
   methods: {
     buildFormInfoDataEntry() {
       // make a deep copy of the template
-      let tmpJSON = JSON.parse(JSON.stringify(this.formInfoTemplate));
+      let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
 
-      // set the label and key for the top component
-      tmpJSON.components.label="tmpDataEntry";
-      tmpJSON.components.key="tmpDataEntry";
+      tmpJSONStr = tmpJSONStr.replace('${formTitle}', this.dataModel.formTitle);
 
-      //Find index of form title component.    
-      let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'htmlelement'));
+      //build first row content
+      let firstRow = "<div><Strong>Created Date: </Strong>2021-03-12</div><div><Strong>Created By: </Strong>Doe, Jane</div>";
+      tmpJSONStr = tmpJSONStr.replace('${firstRow}', firstRow);
       
-      // set form title
-      tmpJSON.components[0].components[objIndex].content = this.dataModel.formTitle;
-      
-      //Find index of first row component.    
-      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'columns'));
-      
-      // set 1st row
-      tmpJSON.components[0].components[objIndex].columns[0].components[0].columns[0].components[0].content = "<div><Strong>Created Date: </Strong>2021-03-12</div>\r\n\r\n<div><Strong>Created By: </Strong>Doe, Jane</div>";
-      tmpJSON.components[0].components[objIndex].columns[0].components[0].columns[1].components[0].content = "<div><Strong>Updated Date: </Strong>2021-04-13</div>\r\n\r\n<div><Strong>Completed Date: </Strong>2021-07-13</div>";
+      //build second row content
+      let secondRow = "<div><Strong>Updated Date: </Strong>2021-04-13</div><div><Strong>Completed Date: </Strong>2021-07-13</div>";
+      tmpJSONStr = tmpJSONStr.replace('${secondRow}', secondRow);
+      //console.log(tmpJSONStr);
 
-      // set 2nd row
+      // build type ddl
+      let tmpJSON = JSON.parse(tmpJSONStr);
+      let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'columns'));
       tmpJSON.components[0].components[objIndex].columns[1].components[0].data = this.dataModel.crnacmp_types.data;
-      
-      console.log("FormInfoDataEntry: ", tmpJSON);
+     
       this.formJSON = tmpJSON;
     }
   },
