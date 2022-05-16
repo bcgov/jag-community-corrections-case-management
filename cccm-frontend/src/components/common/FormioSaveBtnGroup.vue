@@ -5,10 +5,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import formBtnGroup from '@/components/common/templateDraftBtnGroup.json';
+import formBtnGroup from '@/components/common/templateSaveBtnGroup.json';
 
 export default {
-  name: 'CrnaCmpFormDraftBtnGroup',
+  name: 'CrnaCmpFormSaveBtnGroup',
   data() {
     return {
       btnGroup : formBtnGroup,

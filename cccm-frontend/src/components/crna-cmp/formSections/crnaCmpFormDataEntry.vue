@@ -8,6 +8,7 @@
             <FormioQuestionCombo :dataModel="headerc" />
           </div>
         </div>
+        <CrnaCmpFormSaveBtnGroup />
       </div>
     </div>
 </template>
@@ -16,6 +17,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
+import CrnaCmpFormSaveBtnGroup from "@/components/common/FormioDraftBtnGroup.vue";
 
 
 export default {
@@ -30,6 +32,7 @@ export default {
   },
   components: {
     FormioQuestionCombo,
+    CrnaCmpFormSaveBtnGroup
   }
 }
 </script>
