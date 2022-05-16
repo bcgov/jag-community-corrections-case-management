@@ -43,7 +43,7 @@
                                                     "value": ""
                                                 }
                                             ],
-                                            "content": "${firstRow}",
+                                            "content": "<div><Strong>Created Date: </Strong>${createdDate}</div><div><Strong>Created By: </Strong>${createdBy}</div>",
                                             "refreshOnChange": false,
                                             "key": "html1",
                                             "type": "htmlelement",
@@ -69,7 +69,7 @@
                                                     "value": ""
                                                 }
                                             ],
-                                            "content": "${secondRow}",
+                                            "content": "<div><Strong>Updated Date: </Strong>${updatedDate}</div><div><Strong>Completed Date: </Strong>${completedDate}</div>",
                                             "refreshOnChange": false,
                                             "key": "html1",
                                             "type": "htmlelement",

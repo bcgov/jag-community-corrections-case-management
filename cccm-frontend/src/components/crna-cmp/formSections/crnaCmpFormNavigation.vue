@@ -4,7 +4,7 @@
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
 	  <span>
-            <a v-for="(header, index) in navigationData.data" 
+            <a v-for="(header, index) in dataModel.data" 
               :key="header.section" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="divTableRowL2 divTableRowNav">
-        <div v-for="(header, indexp) in navigationData.data" :key="indexp"
+        <div v-for="(header, indexp) in dataModel.data" :key="indexp"
             :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
            
             <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
@@ -41,7 +41,7 @@ import { ref, reactive } from '@vue/composition-api';
 export default {
   name: 'CrnaCmpFormNavigation',
   props: {
-    navigationData: {}
+    dataModel: {}
   },
   data() {
     return {

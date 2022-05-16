@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import sampleQuestionComboTemplate from '@/components/crna-cmp/sampleData/sampleQuestionComboTemplate.json';
+import templateQuestionCombo from '@/components/common/templateQuestionCombo.json';
 
 export default {
   name: 'FormioQuestionCombo',
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      questionComboTemplate : sampleQuestionComboTemplate,
+      questionComboTemplate : templateQuestionCombo,
       formJSON : {},
     }
   },

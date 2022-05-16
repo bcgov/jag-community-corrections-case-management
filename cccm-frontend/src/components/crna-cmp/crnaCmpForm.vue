@@ -8,17 +8,17 @@
                 <FormioFormInfo :dataModel="formJSONFormData"/>
               </div>
               <div class="menuR2">
-                <CrnaCmpFormNavigation :navigationData="formJSONFormData"/>
+                <CrnaCmpFormNavigation :dataModel="formJSONFormData"/>
               </div>
             </div>
             <div class="mainContent">
-              <CrnaCmpFormDataEntry :formData="formJSONFormData"></CrnaCmpFormDataEntry>            
+              <CrnaCmpFormDataEntry :dataModel="formJSONFormData"></CrnaCmpFormDataEntry>            
             </div>
           </div>
           <div class="column R">
             <div class="R-Sticky">
-              <CrnaCmpFormBtnGroup :formJSON="formBtnGroup" />
-              <CrnaCmpFormStaticContent :formJSON="formJSONSideCards"/>
+              <CrnaCmpFormBtnGroup />
+              <CrnaCmpFormSideCards :dataModel="formJSONFormData"/>
             </div>
           </div>
         </div>
@@ -29,16 +29,14 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import {getFormDetails, getSideCardsDetails, getNavigationDetails} from "@/components/form.api.ts";
+import {getFormDetails, getNavigationDetails} from "@/components/form.api.ts";
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
-import CrnaCmpFormStaticContent from "@/components/crna-cmp/formSections/crnaCmpFormStaticContent.vue";
-import CrnaCmpFormBtnGroup from "@/components/crna-cmp/formSections/crnaCmpFormBtnGroup.vue";
+import CrnaCmpFormSideCards from "@/components/crna-cmp/formSections/crnaCmpFormSideCards.vue";
+import CrnaCmpFormBtnGroup from "@/components/common/FormioDraftBtnGroup.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 
-import sampleFormSideCards from './sampleData/sampleStatics.json';
 import sampleFormData from './sampleData/sampleFormData.json';
-import sampleFormBtnGroup from './sampleData/sampleBtnGroup.json';
 
 export default {
   name: 'crnaForm',
@@ -51,21 +49,18 @@ export default {
   components: {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
-    CrnaCmpFormStaticContent,
+    CrnaCmpFormSideCards,
     CrnaCmpFormBtnGroup,
     FormioFormInfo
   },
   data() {
     return {
         formDetails: {},
-        formJSONFormData: sampleFormData,
-        formJSONSideCards: {},
-        formBtnGroup: sampleFormBtnGroup
+        formJSONFormData: sampleFormData
     }
   },
   mounted(){
     //this.getFormData()
-    this.getFormSideCards()
   },
   methods: {
     async getFormData() {
@@ -77,16 +72,6 @@ export default {
         
         console.log("/forms/ returns: ");
         console.log(this.formDetails)
-      }
-    },
-    async getFormSideCards() {
-      const [error, response] = await getSideCardsDetails();
-      if (error) {
-        console.error(error);
-      } else {
-        this.formJSONSideCards = response;
-        //console.log("formJSONSideCards content: ");
-        //console.log(this.formJSONSideCards)
       }
     },
   }  

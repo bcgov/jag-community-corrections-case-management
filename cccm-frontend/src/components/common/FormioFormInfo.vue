@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import sampleFormInfoTemplate from '@/components/crna-cmp/sampleData/sampleFormInfoTemplate.json';
+import templateFormInfo from '@/components/common/templateFormInfo.json';
 
 export default {
   name: 'FormioFormInfo',
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      formInfoTemplate : sampleFormInfoTemplate,
+      formInfoTemplate : templateFormInfo,
       formJSON : {},
     }
   },
@@ -32,14 +32,13 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${formTitle}', this.dataModel.formTitle);
 
       //build first row content
-      let firstRow = "<div><Strong>Created Date: </Strong>2021-03-12</div><div><Strong>Created By: </Strong>Doe, Jane</div>";
-      tmpJSONStr = tmpJSONStr.replace('${firstRow}', firstRow);
+      tmpJSONStr = tmpJSONStr.replace('${createdDate}', this.dataModel.createdDate);
+      tmpJSONStr = tmpJSONStr.replace('${createdBy}', this.dataModel.createdBy);
       
       //build second row content
-      let secondRow = "<div><Strong>Updated Date: </Strong>2021-04-13</div><div><Strong>Completed Date: </Strong>2021-07-13</div>";
-      tmpJSONStr = tmpJSONStr.replace('${secondRow}', secondRow);
-      //console.log(tmpJSONStr);
-
+      tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate);
+      tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate);
+      
       // build type ddl
       let tmpJSON = JSON.parse(tmpJSONStr);
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'columns'));
