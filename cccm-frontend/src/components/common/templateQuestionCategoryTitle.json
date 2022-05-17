@@ -1,0 +1,45 @@
+{
+  "display": "form",
+  "components": [
+    {
+      "label": "form_info",
+      "key": "formInfo",
+      "type": "well",
+      "input": false,
+      "tableView": false,
+      "components": [
+        {
+            "label": "HTML",
+            "tag": "h2",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "${sectionTitle}",
+            "refreshOnChange": false,
+            "key": "${sectionKey}",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+          },
+          {
+              "label": "HTML",
+              "attrs": [
+                  {
+                      "attr": "",
+                      "value": ""
+                  }
+              ],
+              "content": "${sectonSubTitle}",
+              "refreshOnChange": false,
+              "key": "${subSectionKey}",
+              "type": "htmlelement",
+              "input": false,
+              "tableView": false
+          }
+        ]
+    }
+  ]
+}

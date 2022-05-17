@@ -3,7 +3,7 @@
     <div class="divTableBody">
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
-	  <span>
+	        <span>
             <a v-for="(header, index) in dataModel.data" 
               :key="header.section" 
               :href="`#${index}${indexZero}`"
@@ -20,7 +20,7 @@
             :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
            
             <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
-            <span>
+            <span v-if="header.subNavOnOff == 'on'">
               <a v-for="(headerc, indexc) in header.subsections" 
                 :key="headerc.questionLabel" 
                 :href="`#${indexp}${indexc}`"
@@ -62,8 +62,8 @@ export default {
             let tmpID = entry.target.getAttribute('id');
             //console.log("subsectionID: ", tmpID);
             if (tmpID) {
-              this.currentSectionChild = tmpID.substr(1, 1);
               this.currentSectionParent = tmpID.substr(0, 1);
+              this.currentSectionChild = tmpID.substr(1);
             }
           }
         })
@@ -82,10 +82,13 @@ export default {
     // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
-        this.currentSectionParent = e.target.hash.substr(1, 1);
+        this.currentSectionParent = e.target.hash.substr(1, 1); // a sample of hash value: #00
         this.currentSectionChild = '0';
+        // console.log("hash: ", e.target.hash);
+        // console.log("this.currentSectionParent: ", this.currentSectionParent);
+        // console.log("this.currentSectionChild: ", this.currentSectionChild);
+        //await this.$nextTick();
       }
-      console.log(`parent: ${this.currentSectionParent}; child: ${this.currentSectionChild}`);
     }
   }
 }

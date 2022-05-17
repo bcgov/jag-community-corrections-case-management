@@ -42,11 +42,19 @@
     "data": [
         {
             "section": "Needs Assessment",
+            "subNavOnOff": "on",
             "subsections": [
+                {
+                    "type": "sectionTitle",
+                    "sectionKey": "section_na",
+                    "subSectionKey": "subsection_na",
+                    "sectionTitle": "Needs Assessment",
+                    "sectionSubTitle": "Dynamic Factors"
+                },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Family Relationships",
-                    "key": "radio_fr",
+                    "key": "templateForm_fr",
                     "defaultValue": "N",
                     "values": [
                         {
@@ -83,7 +91,7 @@
                 { 
                     "type": "questionCombo",  
                     "questionLabel": "Living Arrangements",
-                    "key": "radio_la",
+                    "key": "templateForm_la",
                     "defaultValue": "P",
                     "values": [
                         {
@@ -120,7 +128,7 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Companions/Significant Others",
-                    "key": "radio_cso",
+                    "key": "templateForm_cso",
                     "defaultValue": "m",
                     "values": [
                         {
@@ -157,7 +165,7 @@
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Academic/Vocational Skills",
-                    "key": "radio_avs",
+                    "key": "templateForm_avs",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -194,7 +202,7 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Employment Pattern Factors",
-                    "key": "radio_epf",
+                    "key": "templateForm_epf",
                     "defaultValue": "s",
                     "values": [
                         {
@@ -231,7 +239,7 @@
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Financial Management",
-                    "key": "radio_fm",
+                    "key": "templateForm_fm",
                     "defaultValue": "n",
                     "values": [
                         {
@@ -268,7 +276,7 @@
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Behavioural/Emotional Stability Factors",
-                    "key": "radio_besf",
+                    "key": "templateForm_besf",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -305,7 +313,7 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Substance Misuse",
-                    "key": "radio_sm",
+                    "key": "templateForm_sm",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -342,7 +350,7 @@
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Attitude",
-                    "key": "radio_a",
+                    "key": "templateForm_a",
                     "defaultValue": "a",
                     "values": [
                         {
@@ -409,80 +417,20 @@
         },
         {
             "section": "Criminal History Risk Assessment",
+            "subNavOnOff": "on",
             "subsections": [
                 {
-                    "type": "questionCombo",
-                    "questionLabel": "1",
-                    "values": [
-                        {
-                            "label": "Not Applicable",
-                            "value": "na",
-                            "shortcut": "na"
-                        },
-                        {
-                            "label": "No current usage or difficulties",
-                            "value": "ncud",
-                            "shortcut": "ncud"
-                        },
-                        {
-                            "label": "Some usage causing minor adjustment problems",
-                            "value": "s",
-                            "shortcut": "s"
-                        },
-                        {
-                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
-                            "value": "f",
-                            "shortcut": "f"
-                        }
-                    ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "comments_1"
-                    },
-                    "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_1", 
-                        "defaultValue": false
-                    }  
-                },
-                {   
-                    "type": "questionCombo",
-                    "questionLabel": "2",
-                    "values": [
-                        {
-                            "label": "Not Applicable",
-                            "value": "na",
-                            "shortcut": "na"
-                        },
-                        {
-                            "label": "No current usage or difficulties",
-                            "value": "ncud",
-                            "shortcut": "ncud"
-                        },
-                        {
-                            "label": "Some usage causing minor adjustment problems",
-                            "value": "s",
-                            "shortcut": "s"
-                        },
-                        {
-                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
-                            "value": "f",
-                            "shortcut": "f"
-                        }
-                    ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "comments_2"
-                    },
-                    "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_2", 
-                        "defaultValue": false
-                    }
+                    "type": "sectionTitle",
+                    "sectionKey": "section_chra",
+                    "subSectionKey": "subsection_chra",
+                    "sectionTitle": "Criminal History Risk Assessment",
+                    "sectionSubTitle": "Static Factors"
                 },
                 {
-                    "type": "questionCombo",
-                    "questionLabel": "3",
+                    "type": "radioTextarea",
+                    "questionLabel": "Number of Current Convictions/Peace Bonds Factor",
+                    "key": "radioTextarea_nocc",
+                    "defaultValue": "1",
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -490,65 +438,341 @@
                             "shortcut": "na"
                         },
                         {
-                            "label": "No current usage or difficulties",
-                            "value": "ncud",
-                            "shortcut": "ncud"
+                            "label": "1",
+                            "value": "1",
+                            "shortcut": "1"
                         },
                         {
-                            "label": "Some usage causing minor adjustment problems",
-                            "value": "s",
-                            "shortcut": "s"
+                            "label": "2",
+                            "value": "2",
+                            "shortcut": "2"
                         },
                         {
-                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
-                            "value": "f",
-                            "shortcut": "f"
+                            "label": "3 or more",
+                            "value": "3",
+                            "shortcut": "3"
                         }
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_3"
-                    },
-                    "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_3", 
-                        "defaultValue": false
+                        "key": "comments_nocc"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Number of Prior Court Dispositions Factor",
+                    "key": "radioTextarea_nopcdf",
+                    "defaultValue": "na",
+                    "values": [
+                        {
+                            "label": "None",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "1",
+                            "value": "1",
+                            "shortcut": "1"
+                        },
+                        {
+                            "label": "2",
+                            "value": "2",
+                            "shortcut": "2"
+                        },
+                        {
+                            "label": "3 or more",
+                            "value": "3",
+                            "shortcut": "3"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_nopcdf"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Age at First Arrest/Conviction Factor",
+                    "key": "radioTextarea_afacf",
+                    "defaultValue": "1",
+                    "values": [
+                        {
+                            "label": "25+",
+                            "value": "1",
+                            "shortcut": "1"
+                        },
+                        {
+                            "label": "18 to 24",
+                            "value": "2",
+                            "shortcut": "2"
+                        },
+                        {
+                            "label": "14 to 17",
+                            "value": "3",
+                            "shortcut": "3"
+                        },
+                        {
+                            "label": "13 and under",
+                            "value": "4",
+                            "shortcut": "4"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_afacf"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Escape History Factor",
+                    "key": "radioTextarea_ehf",
+                    "defaultValue": "n",
+                    "values": [
+                        {
+                            "label": "No",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "Not Applicable",
+                            "value": "na1",
+                            "shortcut": "na1"
+                        },
+                        {
+                            "label": "Yes",
+                            "value": "y",
+                            "shortcut": "y"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_ehf"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Weapons Use/Threat Factor",
+                    "key": "radioTextarea_wutf",
+                    "defaultValue": "n",
+                    "values": [
+                        {
+                            "label": "No",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Not Applicable",
+                            "value": "na",
+                            "shortcut": "na"
+                        },
+                        {
+                            "label": "Not Applicable",
+                            "value": "na1",
+                            "shortcut": "na1"
+                        },
+                        {
+                            "label": "Yes",
+                            "value": "y",
+                            "shortcut": "y"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_wutf"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Frequency of Violence Factor",
+                    "key": "radioTextarea_fovf",
+                    "defaultValue": "n",
+                    "values": [
+                        {
+                            "label": "None",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_fovf"
+                    }  
+                },
+                {
+                    "type": "radioTextarea",
+                    "questionLabel": "Severity of Violence Factor",
+                    "key": "radioTextarea_svf",
+                    "defaultValue": "n",
+                    "values": [
+                        {
+                            "label": "None",
+                            "value": "n",
+                            "shortcut": "n"
+                        },
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ],
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_svf"
                     }  
                 },
                 {   
-                    "type": "questionCombo",
-                    "questionLabel": "4",
+                    "type": "radio",
+                    "questionLabel": "Overall Risk Rating",
+                    "key": "radio_orr",
+                    "defaultValue": "l",
                     "values": [
                         {
-                            "label": "Not Applicable",
-                            "value": "na",
-                            "shortcut": "na"
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
                         },
                         {
-                            "label": "No current usage or difficulties",
-                            "value": "ncud",
-                            "shortcut": "ncud"
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
                         },
                         {
-                            "label": "Some usage causing minor adjustment problems",
-                            "value": "s",
-                            "shortcut": "s"
-                        },
-                        {
-                            "label": "Frequent or uncontrolled usage causing serious adjustment problems",
-                            "value": "f",
-                            "shortcut": "f"
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
                         }
-                    ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "comments_4"
-                    },
-                    "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_4", 
-                        "defaultValue": false
-                    }
+                    ]
+                }
+            ]
+        },
+        {
+            "section": "Supervision Rating",
+            "subNavOnOff": "off",
+            "subsections": [
+                {
+                    "type": "sectionTitle",
+                    "sectionKey": "section_chra",
+                    "subSectionKey": "subsection_chra",
+                    "sectionTitle": "Supervision Rating",
+                    "sectionSubTitle": "Dynamic Factors"
+                },
+                {   
+                    "type": "radio",
+                    "questionLabel": "Overall Needs Rating",
+                    "key": "radio_onr",
+                    "defaultValue": "l",
+                    "values": [
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ]
+                },
+                {   
+                    "type": "radio",
+                    "questionLabel": "Overall Risk Rating",
+                    "key": "radio_orr",
+                    "defaultValue": "l",
+                    "values": [
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ]
+                },
+                {   
+                    "type": "radio",
+                    "questionLabel": "Overall Supervision Rating",
+                    "key": "radio_osr",
+                    "defaultValue": "l",
+                    "values": [
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ]
+                },
+                {
+                    "type": "labelTextarea",
+                    "label": "Supervision Rating Comments",
+                    "label_textarea": "Please add any additional comments if necessary",
+                    "key": "comments_src"
+                }
+            ]
+        },
+        {
+            "section": "Summary",
+            "subNavOnOff": "off",
+            "subsections": [
+                {
+                    "type": "sectionTitle",
+                    "sectionKey": "section_na",
+                    "subSectionKey": "subsection_na",
+                    "sectionTitle": "Summary",
+                    "sectionSubTitle": ""
                 }
             ]
         }

@@ -10,7 +10,7 @@
             "components": [
                 {
                     "label": "HTML",
-                    "tag": "h4",
+                    "tag": "h6",
                     "attrs": [
                         {
                             "attr": "",
