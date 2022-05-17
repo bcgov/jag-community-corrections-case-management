@@ -8,7 +8,7 @@ import { Form } from 'vue-formio';
 import formBtnGroup from '@/components/common/templateDraftBtnGroup.json';
 
 export default {
-  name: 'CrnaCmpFormDraftBtnGroup',
+  name: 'FormioSaveDraftBtnGroup',
   data() {
     return {
       btnGroup : formBtnGroup,

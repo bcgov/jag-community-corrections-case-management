@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <CrnaCmpFormSaveBtnGroup />
+      <FormioSaveBtnGroup />
     </div>
 </template>
 
@@ -23,7 +23,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
-import CrnaCmpFormSaveBtnGroup from "@/components/common/FormioDraftBtnGroup.vue";
+import FormioSaveBtnGroup from "@/components/common/FormioSaveBtnGroup.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
 
@@ -41,7 +41,7 @@ export default {
     FormioQuestionCombo,
     FormioLabelTextarea,
     FormioRadio,
-    CrnaCmpFormSaveBtnGroup
+    FormioSaveBtnGroup,
   }
 }
 </script>
