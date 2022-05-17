@@ -37,11 +37,8 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
       
-      //console.log("Radio component index: ", objIndex);
-
       tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
 
-      console.log("FormInfoDataEntry: ", JSON.stringify(tmpJSON));
       this.formJSON = tmpJSON;
     }
   }
