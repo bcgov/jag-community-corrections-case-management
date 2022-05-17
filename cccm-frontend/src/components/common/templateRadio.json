@@ -1,0 +1,41 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "radiowell",
+            "key": "radiowell",
+            "type": "well",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "${label}",
+                    "optionsLabelPosition": "right",
+                    "inline": false,
+                    "tableView": false,
+                    "values": [
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ],
+                    "key": "${key}",
+                    "type": "radio",
+                    "input": true,
+                    "defaultValue": "${defaultValue}"
+                }
+            ]
+        }
+    ]
+}

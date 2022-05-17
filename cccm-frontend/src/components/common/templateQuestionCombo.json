@@ -9,7 +9,7 @@
         "tableView": false,
         "components": [
           {
-            "label": "Family Relationships",
+            "label": "${questionLabel}",
             "optionsLabelPosition": "right",
             "inline": false,
             "tableView": false,
@@ -35,29 +35,29 @@
                     "shortcut": "V"
                 }
             ],
-            "key": "radio1",
+            "key": "${key}",
             "type": "radio",
             "input": true,
-            "defaultValue": "patternOfStableAndSupportiveRelationships"
+            "defaultValue": "${defaultValue}"
           },
           {
               "label": "Comments",
               "autoExpand": false,
               "tableView": true,
-              "key": "comments",
+              "key": "${key}",
               "type": "textarea",
               "input": true
           },
           {
               "label": "Intervention needed",
               "tableView": false,
-              "key": "interventionNeeded",
+              "key": "${key}",
               "type": "checkbox",
               "input": true,
-              "defaultValue": false
+              "defaultValue": "${defaultValue}"
           }
         ]
     
-    }
+      }
     ]
 }

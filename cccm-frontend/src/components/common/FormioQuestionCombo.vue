@@ -27,18 +27,30 @@ export default {
   methods: {
     buildFormInfoDataEntry() {
       // make a deep copy of the template
-      let tmpJSON = JSON.parse(JSON.stringify(this.questionComboTemplate));
-
+      let tmpJSONStr = JSON.stringify(this.questionComboTemplate);
+      
       // set the label and key for the top component
-      tmpJSON.components.label="tmpDataEntry";
-      tmpJSON.components.key="tmpDataEntry";
+      tmpJSONStr = tmpJSONStr.replace('${questionLabel}', this.dataModel.questionLabel);
+      tmpJSONStr = tmpJSONStr.replace('${radiodefaultValue}', this.dataModel.radiodefaultValue);
+      tmpJSONStr = tmpJSONStr.replace('${radiokey}', this.dataModel.radiokey);
 
-      //Find index of radio component.    
+      //Set the radio component. 
+      let tmpJSON = JSON.parse(tmpJSONStr);   
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
-      //console.log("Radio component index: ", objIndex);
-
+      
       tmpJSON.components[0].components[objIndex].label = this.dataModel.questionLabel;
       tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
+      tmpJSON.components[0].components[objIndex].key = this.dataModel.key;
+      tmpJSON.components[0].components[objIndex].defaultValue = this.dataModel.defaultValue;
+
+      // Set comments component
+      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'textarea'));
+      tmpJSON.components[0].components[objIndex].key = this.dataModel.comments.key;
+      
+      // Set intervention needed component
+      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'checkbox'));
+      tmpJSON.components[0].components[objIndex].key = this.dataModel.interventionNeeded.key;
+      tmpJSON.components[0].components[objIndex].defaultValue = this.dataModel.interventionNeeded.defaultValue;
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;

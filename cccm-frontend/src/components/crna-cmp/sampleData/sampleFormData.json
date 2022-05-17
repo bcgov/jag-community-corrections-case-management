@@ -46,48 +46,59 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Family Relationships",
+                    "key": "radio_fr",
+                    "defaultValue": "N",
                     "values": [
                         {
                             "label": "Pattern of stable and supportive relationships",
-                            "value": "patternOfStableAndSupportiveRelationships",
+                            "value": "P",
                             "shortcut": "P"
                         },
                         {
                             "label": "No current difficulties",
-                            "value": "noCurrentDifficulties",
+                            "value": "N",
                             "shortcut": "N"
                         },
                         {
                             "label": "Occasional Instability in relationships",
-                            "value": "occasionalInstabilityInRelationships",
+                            "value": "O",
                             "shortcut": "O"
                         },
                         {
                             "label": "Very unstable pattern of relationships",
-                            "value": "veryUnstablePatternOfRelationships",
+                            "value": "V",
                             "shortcut": "V"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_at"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_at", 
+                        "defaultValue": false
+                    }
                 },
                 { 
                     "type": "questionCombo",  
                     "questionLabel": "Living Arrangements",
+                    "key": "radio_la",
+                    "defaultValue": "P",
                     "values": [
                         {
                             "label": "Pattern of satisfactory living arrangements",
-                            "value": "p",
+                            "value": "P",
                             "shortcut": "P"
                         },
                         {
                             "label": "No current difficulties",
-                            "value": "n",
+                            "value": "N",
                             "shortcut": "N"
                         },
                         {
                             "label": "Occasional changes in residence or temporaily situated",
-                            "value": "o",
+                            "value": "O",
                             "shortcut": "O"
                         },
                         {
@@ -96,12 +107,21 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_la"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_la", 
+                        "defaultValue": false
+                    }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Companions/Significant Others",
+                    "key": "radio_cso",
+                    "defaultValue": "m",
                     "values": [
                         {
                             "label": "Pattern of non-criminal and/or positive associations",
@@ -124,12 +144,21 @@
                             "shortcut": "m"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_co"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_co", 
+                        "defaultValue": false
+                    }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Academic/Vocational Skills",
+                    "key": "radio_avs",
+                    "defaultValue": "na",
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -152,12 +181,21 @@
                             "shortcut": "ls"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_avs"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_avs", 
+                        "defaultValue": false
+                    }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Employment Pattern Factors",
+                    "key": "radio_epf",
+                    "defaultValue": "s",
                     "values": [
                         {
                             "label": "Stable pattern of employment",
@@ -180,17 +218,26 @@
                             "shortcut": "emj"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_epf"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_epf", 
+                        "defaultValue": false
+                    }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Financial Management",
+                    "key": "radio_fm",
+                    "defaultValue": "n",
                     "values": [
                         {
                             "label": "Pattern of effective management",
-                            "value": "p",
-                            "shortcut": "p"
+                            "value": "P",
+                            "shortcut": "P"
                         },
                         {
                             "label": "No current difficulties",
@@ -208,12 +255,21 @@
                             "shortcut": "sd"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_fm"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_fm", 
+                        "defaultValue": false
+                    }
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Behavioural/Emotional Stability Factors",
+                    "key": "radio_besf",
+                    "defaultValue": "na",
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -236,12 +292,21 @@
                             "shortcut": "s"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_be"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_be", 
+                        "defaultValue": false
+                    }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Substance Misuse",
+                    "key": "radio_sm",
+                    "defaultValue": "na",
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -264,12 +329,21 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_sm"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_sm", 
+                        "defaultValue": false
+                    }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Attitude",
+                    "key": "radio_a",
+                    "defaultValue": "a",
                     "values": [
                         {
                             "label": "Actively involved and responding consistently well to assistance",
@@ -292,8 +366,44 @@
                             "shortcut": "u"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_a"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_a", 
+                        "defaultValue": false
+                    }
+                },
+                {   
+                    "type": "radio",
+                    "questionLabel": "Overall Needs Rating",
+                    "key": "radio_onr",
+                    "defaultValue": "l",
+                    "values": [
+                        {
+                            "label": "Low",
+                            "value": "l",
+                            "shortcut": "l"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "m",
+                            "shortcut": "m"
+                        },
+                        {
+                            "label": "High",
+                            "value": "h",
+                            "shortcut": "h"
+                        }
+                    ]
+                },
+                {
+                    "type": "labelTextarea",
+                    "label": "Additional Comments",
+                    "label_textarea": "Please add any additional comments if necessary",
+                    "key": "comments_ac"
                 }
             ] 
         },
@@ -325,8 +435,15 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_1"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_1", 
+                        "defaultValue": false
+                    }  
                 },
                 {   
                     "type": "questionCombo",
@@ -353,8 +470,15 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_2"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_2", 
+                        "defaultValue": false
+                    }
                 },
                 {
                     "type": "questionCombo",
@@ -381,8 +505,15 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"  
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_3"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_3", 
+                        "defaultValue": false
+                    }  
                 },
                 {   
                     "type": "questionCombo",
@@ -409,8 +540,15 @@
                             "shortcut": "f"
                         }
                     ],
-                    "comments": "",
-                    "interventionNeeded": "false"
+                    "comments": {
+                        "type": "textarea",
+                        "key": "comments_4"
+                    },
+                    "interventionNeeded": {
+                        "type": "checkbox",
+                        "key": "interventionNeeded_4", 
+                        "defaultValue": false
+                    }
                 }
             ]
         }

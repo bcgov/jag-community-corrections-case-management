@@ -30,6 +30,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import {getFormDetails} from "@/components/form.api.ts";
+
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
 import CrnaCmpFormSideCards from "@/components/crna-cmp/formSections/crnaCmpFormSideCards.vue";
