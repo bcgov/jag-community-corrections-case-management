@@ -16,29 +16,65 @@
             ]
         }
     },
-    "clientDetails": {
-        "type": "htmlelement",
-        "firstName": "John",
-        "lastName": "Smith",
-        "csNumber": "12345",
-        "gender": "M",
-        "dob": "1982-03-02",
-        "location": "Vancouver, BC",
-        "finalOrderExpDate": "2021-02-03"
-    },
-    "legend": {
-        "type": "htmlelement",
-        "data": [
-            "Factor seen as an asset",
-            "No immediate need for improvement",
-            "Some need for improvement",
-            "Considerable need for improvement"
-        ]
-    },
-    "sourceContacted": {
-        "type": "htmlelement",
-        "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
-    },
+    "rightPanel": [
+        {
+            "type": "panel",
+            "contentType": "ul",
+            "panelTitle": "Client Details",
+            "panelKey": "key_clientDetails",
+            "contentKey": "key_clientDetails_content",
+            "data": [
+                "Name: Smith, John",
+                "CS#: 12345",
+                "Gender: M",
+                "Date of Birth: 1982-03-02",
+                "Location: Vancouver, BC",
+                "Final Order Exp. Date: 2021-02-03"
+            ],
+            "firstName": "John",
+            "lastName": "Smith",
+            "csNumber": "12345",
+            "gender": "M",
+            "dob": "1982-03-02",
+            "location": "Vancouver, BC",
+            "finalOrderExpDate": "2021-02-03"
+        },
+        {
+            "type": "panel",
+            "contentType": "ol_typea",
+            "panelTitle": "Legend",
+            "panelKey": "key_legend",
+            "contentKey": "key_legend_content",
+            "data": [
+                "Factor seen as an asset",
+                "No immediate need for improvement",
+                "Some need for improvement",
+                "Considerable need for improvement"
+            ]
+        },
+        {
+            "type": "panel",
+            "contentType": "table",
+            "panelTitle": "Supervision Level Matrix",
+            "panelKey": "key_supervisionLevelMatrix",
+            "contentKey": "key_supervisionLevelMatrix_content",
+            "data": [
+                ["Rist/Needs", "Low Needs", "Medium Needs", "High Needs"],
+                ["Low Risk", "Low", "Low", "Medium"],
+                ["Medium Risk", "Low", "Medium", "High"],
+                ["High Risk", "Medium", "High", "High"]
+            ]
+        }
+        ,
+        {
+            "type": "panel",
+            "contentType": "text",
+            "panelTitle": "Source Contacted",
+            "panelKey": "key_sourceContacted",
+            "contentKey": "key_sourceContacted_content",
+            "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
+        }
+    ],
     "data": [
         {
             "section": "Needs Assessment",
