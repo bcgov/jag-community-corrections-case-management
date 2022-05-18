@@ -84,6 +84,17 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
       tmpJSON.components[0].components[0].content = content;
 
+      // build button
+      if (this.dataModel.button != null){
+        let btnComponent = JSON.parse("{}");
+        btnComponent.type = "button";
+        btnComponent.action = this.dataModel.button.action;
+        btnComponent.key = this.dataModel.button.key;
+        btnComponent.label = this.dataModel.button.label;
+        btnComponent.theme = this.dataModel.button.theme;
+        tmpJSON.components[0].components[1] = btnComponent;
+      }
+      
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
     }

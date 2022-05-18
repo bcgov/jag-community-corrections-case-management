@@ -71,18 +71,13 @@
             "panelTitle": "Source Contacted",
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
-            "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
-        },
-        {
-            "type": "button",
-            "button": [
-                {
-                    "action": "submit",
-                    "key": "btn_add_source",
-                    "label": "Add Source",
-                    "theme": "primary"
-                }
-            ]
+            "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
+            "button": {
+                "action": "submit",
+                "key": "btn_add_source",
+                "label": "Add Source",
+                "theme": "primary"
+            }
         }
     ],
     "saveBtnGroup": {
@@ -126,6 +121,7 @@
     "data": [
         {
             "section": "Needs Assessment",
+            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_sourceContacted"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -501,6 +497,7 @@
         },
         {
             "section": "Criminal History Risk Assessment",
+            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_sourceContacted"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -761,6 +758,7 @@
         },
         {
             "section": "Supervision Rating",
+            "sideCardPanelList": ["key_clientDetails", "key_supervisionLevelMatrix", "key_sourceContacted"],
             "subNavOnOff": "off",
             "subsections": [
                 {
@@ -849,6 +847,7 @@
         },
         {
             "section": "Summary",
+            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_supervisionLevelMatrix", "key_sourceContacted"],
             "subNavOnOff": "off",
             "subsections": [
                 {
