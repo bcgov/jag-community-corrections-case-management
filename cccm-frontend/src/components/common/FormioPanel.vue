@@ -61,12 +61,20 @@ export default {
       }
 
       // table
+      let th = true;
       if (this.dataModel.contentType == 'table') {
         content = "<table>";
         for (const rowArray of this.dataModel.data){
           content += "<tr>";
           for (const col of rowArray){
-            content += "<th>" + col + "</th>";
+            if (th) {
+              content += "<th>" + col + "</th>";
+            } else {
+              content += "<td>" + col + "</td>";
+            }
+          }
+          if (th) {
+            th = false;
           }
           content += "</tr>";
         }
