@@ -64,6 +64,9 @@ export default {
             if (tmpID) {
               this.currentSectionParent = tmpID.substr(0, 1);
               this.currentSectionChild = tmpID.substr(1);
+
+              // dynamically render panels in sideCards
+              this.showHideSideCardPanels();
             }
           }
         })
@@ -84,10 +87,35 @@ export default {
       if (e.target && e.target.hash) {
         this.currentSectionParent = e.target.hash.substr(1, 1); // a sample of hash value: #00
         this.currentSectionChild = '0';
-        // console.log("hash: ", e.target.hash);
-        // console.log("this.currentSectionParent: ", this.currentSectionParent);
-        // console.log("this.currentSectionChild: ", this.currentSectionChild);
-        //await this.$nextTick();
+
+        // dynamically render panels in sideCards
+        this.showHideSideCardPanels();
+      }
+    },
+    showHideSideCardPanels() {
+      // show all panels
+      if (this.dataModel.rightPanel != null) {
+        for (let i = 0; i < this.dataModel.rightPanel.length; i++) {
+          //console.log(this.dataModel.rightPanel[i].panelKey);
+          let className = '[class*="' + this.dataModel.rightPanel[i].panelKey + '"]';
+          let thePanel = document.querySelector(className);
+          if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
+            thePanel.parentNode.parentNode.setAttribute('style', 'display:block');
+          }
+        }
+      }
+      
+      // hide the panel
+      let sideCardsPanelHiddenList = this.dataModel.data[this.currentSectionParent].sideCardPanelHiddenList;
+      if (sideCardsPanelHiddenList != null) {
+        for (let i = 0; i < sideCardsPanelHiddenList.length; i++) {
+          //console.log('formio-component-' + sideCardsPanelHiddenList[i]);
+          let className = '[class*="' + sideCardsPanelHiddenList[i] + '"]';
+          let thePanel = document.querySelector(className);
+          if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
+            thePanel.parentNode.parentNode.setAttribute('style', 'display:none');
+          }
+        }
       }
     }
   }

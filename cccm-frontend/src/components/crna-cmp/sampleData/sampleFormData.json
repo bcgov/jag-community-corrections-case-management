@@ -121,7 +121,7 @@
     "data": [
         {
             "section": "Needs Assessment",
-            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_sourceContacted"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -497,7 +497,7 @@
         },
         {
             "section": "Criminal History Risk Assessment",
-            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_sourceContacted"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -758,7 +758,7 @@
         },
         {
             "section": "Supervision Rating",
-            "sideCardPanelList": ["key_clientDetails", "key_supervisionLevelMatrix", "key_sourceContacted"],
+            "sideCardPanelHiddenList": ["key_legend"],
             "subNavOnOff": "off",
             "subsections": [
                 {
@@ -847,7 +847,7 @@
         },
         {
             "section": "Summary",
-            "sideCardPanelList": ["key_clientDetails", "key_legend", "key_supervisionLevelMatrix", "key_sourceContacted"],
+            "sideCardPanelHiddenList": [],
             "subNavOnOff": "off",
             "subsections": [
                 {
