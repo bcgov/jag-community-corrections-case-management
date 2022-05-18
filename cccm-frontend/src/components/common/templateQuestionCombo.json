@@ -42,7 +42,10 @@
           },
           {
               "label": "Comments",
-              "autoExpand": false,
+              "placeholder": "Please enter here",
+              "description": "",
+              "tooltip": "",
+              "autoExpand": true,
               "tableView": true,
               "key": "${key}",
               "type": "textarea",

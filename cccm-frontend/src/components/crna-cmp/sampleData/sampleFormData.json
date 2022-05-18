@@ -64,8 +64,7 @@
                 ["Medium Risk", "Low", "Medium", "High"],
                 ["High Risk", "Medium", "High", "High"]
             ]
-        }
-        ,
+        },
         {
             "type": "panel",
             "contentType": "text",
@@ -73,8 +72,57 @@
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
             "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
+        },
+        {
+            "type": "button",
+            "button": [
+                {
+                    "action": "submit",
+                    "key": "btn_add_source",
+                    "label": "Add Source",
+                    "theme": "primary"
+                }
+            ]
         }
     ],
+    "saveBtnGroup": {
+        "type": "button",
+        "button": [
+            {
+                "type": "button",
+                "key": "btn_submit",
+                "action": "submit",
+                "label": "Save and Continue",
+                "theme": "primary"
+            },
+            {
+                "type": "button",
+                "key": "btn_cancel",
+                "action": "reset",
+                "label": "Cancel Form",
+                "theme": "danger"
+            }
+        ]
+    },
+    "saveDraftBtnGroup": {
+        "type": "button",
+        "button": [
+            {
+                "type": "button",
+                "action": "submit",
+                "label": "Save as Draft",
+                "key": "submit_draft",
+                "theme": "primary"
+            },
+            {
+                "type": "button",
+                "label": "Print Form",
+                "key": "submit_print",
+                "action": "submit",
+                "theme": "primary"
+            }
+        ]
+    },
     "data": [
         {
             "section": "Needs Assessment",

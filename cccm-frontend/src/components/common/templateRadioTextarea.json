@@ -37,6 +37,9 @@
                 },
                 {
                     "label": "Comments",
+                    "placeholder": "Please enter here ",
+                    "description": "",
+                    "tooltip": "",
                     "autoExpand": false,
                     "tableView": true,
                     "key": "${label_key}",

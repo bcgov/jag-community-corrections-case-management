@@ -14,19 +14,19 @@
           </div>
         </div>
       </div>
-      <FormioSaveBtnGroup />
+      <FormioButton v-if="dataModel.saveBtnGroup != null" :dataModel="dataModel.saveBtnGroup" />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
-import FormioSaveBtnGroup from "@/components/common/FormioSaveBtnGroup.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
 import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCategoryTitle.vue";
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
+import FormioButton from "@/components/common/FormioButton.vue";
 
 export default {
   name: 'CrnaCmpFormDataEntry',
@@ -42,9 +42,9 @@ export default {
     FormioQuestionCombo,
     FormioLabelTextarea,
     FormioRadio,
-    FormioSaveBtnGroup,
     FormioQuestionCetegoryTitle,
     FormioRadioTextarea,
+    FormioButton,
   }
 }
 </script>

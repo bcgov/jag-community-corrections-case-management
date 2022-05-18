@@ -25,12 +25,15 @@
                     "tableView": false
                 },
                 {
-                  "label": "${label_textarea}",
-                  "autoExpand": false,
-                  "tableView": true,
-                  "key": "${key}",
-                  "type": "textarea",
-                  "input": true
+                    "label": "${label_textarea}",
+                    "placeholder": "Please enter here",
+                    "description": "",
+                    "tooltip": "",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "key": "${key}",
+                    "type": "textarea",
+                    "input": true
               }
             ]
         }
