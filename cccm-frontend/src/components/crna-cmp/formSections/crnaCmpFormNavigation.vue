@@ -60,13 +60,15 @@ export default {
               entry.isIntersecting &&
               entry.intersectionRatio > 0) {
             let tmpID = entry.target.getAttribute('id');
-            //console.log("subsectionID: ", tmpID);
             if (tmpID) {
               this.currentSectionParent = tmpID.substr(0, 1);
               this.currentSectionChild = tmpID.substr(1);
 
-              // dynamically render panels in sideCards
+              // show/hide sideCards panels
               this.showHideSideCardPanels();
+
+              // show/hide questions
+              this.showHideQuestions();
             }
           }
         })
@@ -88,8 +90,11 @@ export default {
         this.currentSectionParent = e.target.hash.substr(1, 1); // a sample of hash value: #00
         this.currentSectionChild = '0';
 
-        // dynamically render panels in sideCards
+        // show/hide sideCards panels
         this.showHideSideCardPanels();
+
+        // show/hide questions
+        this.showHideQuestions();
       }
     },
     showHideSideCardPanels() {
@@ -102,6 +107,7 @@ export default {
           if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
             thePanel.parentNode.parentNode.setAttribute('style', 'display:block');
           }
+
         }
       }
       
@@ -117,7 +123,24 @@ export default {
           }
         }
       }
+    },
+    showHideQuestions() {
+      // show questions
+      if (this.dataModel.data != null) {
+        for (let i = 0; i < this.dataModel.data.length; i++) {
+          let thePanel = document.getElementById(i);
+          if (thePanel != null) {
+            //console.log(this.currentSectionParent, i);
+            if (this.currentSectionParent == i) {
+              thePanel.setAttribute('style', 'display:block');
+            } else {
+              thePanel.setAttribute('style', 'display:none');
+            }
+          } 
+        }
+      }
     }
+
   }
 }
 </script>

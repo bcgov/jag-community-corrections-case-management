@@ -1,10 +1,9 @@
 <template>
     <div>
       <div v-for="(header, indexp) in dataModel.data" 
-          :key="indexp"
-          :class="[currentSectionParent == indexp ? 'show' : 'hide', '']">
+          :id="`${indexp}`"
+          :key="indexp">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
-          <!-- <div :id="[indexc == 0 ? `${indexp}${indexc+1}` : indexc == 1 ? '' : `${indexp}${indexc}`]" class="formio_anchor_class"> -->
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
             <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :dataModel="headerc" />
             <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :dataModel="headerc" />
@@ -32,11 +31,6 @@ export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
     dataModel: {},
-  },
-  data() {
-    return {
-      currentSectionParent : '',
-    }
   },
   components: {
     FormioQuestionCombo,
