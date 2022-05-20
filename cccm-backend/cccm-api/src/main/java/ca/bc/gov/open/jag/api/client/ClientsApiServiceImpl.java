@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientList;
+import io.quarkus.security.Authenticated;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.logging.Logger;
 
 @ApplicationScoped
+@Authenticated
 public class ClientsApiServiceImpl implements ClientsApi {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiServiceImpl.class));
