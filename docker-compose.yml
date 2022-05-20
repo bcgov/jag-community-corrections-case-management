@@ -1,7 +1,9 @@
 version: "3.3"
 
 services:
-
+  ##############################################################################################
+  ####                                        CCCM API                                       ###
+  ##############################################################################################
   backend:
     container_name: cccm-api
     image: cccm-api
@@ -14,7 +16,9 @@ services:
       - "8080:8080"
     networks:
       - cccm
-
+  ##############################################################################################
+  ####                                     CCCM FRONTEND                                     ###
+  ##############################################################################################
   frontend:
     container_name: cccm-web
     image: cccm-web
@@ -22,6 +26,32 @@ services:
       context: ./cccm-frontend
     ports:
       - "8000:8000"
+    networks:
+      - cccm
+      
+  ##############################################################################################
+  ####                                        KEYCLOAK                                       ###
+  ##############################################################################################
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.3
+    environment:
+      DB_VENDOR: H2
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+      KEYCLOAK_FRONTEND_URL: http://localhost:8081/auth
+    volumes:
+      - ./infrastructure/keycloak/realm-export.json:/tmp/realm-export.json
+    ports:
+      - "8081:8080"
+    networks:
+      - cccm
+
+  ##############################################################################################
+  ####                                        KEYCLOAK Config                                ###
+  ##############################################################################################
+  keycloak-config:
+    command: sh -c "dockerize -wait http://keycloak:8080 -timeout 300s /tmp/createuser.sh"
     networks:
       - cccm
   

@@ -3,8 +3,8 @@ package ca.bc.gov.open.jag.api.client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientList;
-import io.quarkus.security.Authenticated;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
@@ -14,13 +14,13 @@ import java.util.Collections;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-@Authenticated
 public class ClientsApiServiceImpl implements ClientsApi {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiServiceImpl.class));
 
     @Override
     @Transactional
+    @RolesAllowed("cccm-admin")
     public ClientDetails getClient(BigDecimal clientId) {
 
         logger.info("Get client request received");
@@ -31,6 +31,7 @@ public class ClientsApiServiceImpl implements ClientsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("cccm-user")
     public ClientList getClients() {
 
         logger.info("Get clients request received");
