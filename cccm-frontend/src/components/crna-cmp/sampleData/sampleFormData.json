@@ -7,6 +7,7 @@
     "createdBy": "John, Smith",
     "completedDate": "2021-07-12",
     "formStatus": "incomplete",
+    "loggedInLocation": "Victoria Probation Office",
     "crnacmp_types": {
         "type": "select",
         "data": {
