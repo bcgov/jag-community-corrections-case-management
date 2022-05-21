@@ -15,7 +15,8 @@ RUN npm run build
 
 FROM nginx:alpine as run
 
-COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
@@ -24,6 +25,8 @@ RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stahg 1
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 8000
 
