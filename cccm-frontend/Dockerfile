@@ -24,7 +24,7 @@ RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stahg 1
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
 # COPY nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 8000
