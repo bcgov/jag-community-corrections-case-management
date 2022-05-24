@@ -14,7 +14,8 @@ import java.time.LocalDate;
 @QuarkusTest
 public class GetFormTest {
 
-    private static final LocalDate TEST_DATE = LocalDate.of(2021, 12, 14);
+    private static final LocalDate TEST_COMPLETED_DATE = LocalDate.of(2021, 07, 12);
+    private static final LocalDate TEST_CREATED_DATE = LocalDate.of(2021, 03, 12);
 
     @Inject
     FormsApiImpl sut;
@@ -25,12 +26,12 @@ public class GetFormTest {
 
         FormDetails result = sut.getForm(BigDecimal.ONE);
 
-        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
-        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
-        Assertions.assertEquals("Doe, Jane", result.getCreatedBy());
-        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
-        Assertions.assertEquals("Initial Assessment", result.getFormType());
-        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
+        Assertions.assertNull(result.getFormId());
+        Assertions.assertEquals(TEST_COMPLETED_DATE, result.getCompletedDate());
+        Assertions.assertEquals("John, Smith", result.getCreatedBy());
+        Assertions.assertEquals(TEST_CREATED_DATE, result.getCreatedDate());
+        Assertions.assertEquals("CRNA-CMP", result.getFormType());
+        Assertions.assertNull(result.getUpdateDate());
 
 
     }

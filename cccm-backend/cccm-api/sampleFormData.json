@@ -60,7 +60,7 @@
             "panelTitle": "Supervision Level Matrix",
             "panelKey": "key_supervisionLevelMatrix",
             "contentKey": "key_supervisionLevelMatrix_content",
-            "data": [
+            "dataMatrix": [
                 ["Rist/Needs", "Low Needs", "Medium Needs", "High Needs"],
                 ["Low Risk", "Low", "Low", "Medium"],
                 ["Medium Risk", "Low", "Medium", "High"],
@@ -73,7 +73,9 @@
             "panelTitle": "Source Contacted",
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
-            "data": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
+            "data": [
+				"CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
+			],
             "button": {
                 "action": "submit",
                 "key": "btn_add_source",
