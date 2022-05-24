@@ -4,13 +4,13 @@ WORKDIR /app
 
 # Copy the package.json and install dependencies
 COPY package*.json ./
-# RUN npm install
+RUN npm install
 
 # Copy rest of the files, including dist folder
 COPY . .
 
 # Build the project
-# RUN npm run build
+RUN npm run build
 
 FROM nginx:alpine as run
 
