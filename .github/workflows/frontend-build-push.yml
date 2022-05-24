@@ -2,7 +2,7 @@ name: Build & Push Frontend Image
 
 on:
   push:
-    branches: [main]
+    branches: [feature/cbcccm-112-navigation]
   workflow_dispatch:
 jobs:
   build:
