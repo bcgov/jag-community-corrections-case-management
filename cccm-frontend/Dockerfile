@@ -14,19 +14,13 @@ COPY . .
 
 FROM nginx:alpine as run
 
-# COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
-# COPY nginx/nginx.conf /etc/nginx/nginx.conf
-
 ## Remove default nginx index page
 RUN rm -rf /opt/app-root/src/*
-# RUN chmod g+rwx /usr/share/nginx
-# RUN chmod g+rwx /opt/app-root/src
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stahg 1
 COPY --from=build /app/dist /opt/app-root/src
 COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
-# COPY nginx/nginx.conf /etc/nginx/conf.d
 
 EXPOSE 8080
 
