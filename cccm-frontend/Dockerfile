@@ -22,6 +22,6 @@ RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 COPY --from=build /app/dist /opt/app-root/src
 COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8080
+EXPOSE 8000
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
