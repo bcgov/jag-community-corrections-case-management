@@ -20,7 +20,7 @@ FROM nginx:alpine as run
 ## Remove default nginx index page
 RUN rm -rf /opt/app-root/src/*
 # RUN chmod g+rwx /usr/share/nginx
-RUN chmod g+rwx /opt/app-root/src
+# RUN chmod g+rwx /opt/app-root/src
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stahg 1
