@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class FormTypesApiServiceImpl implements FormtypesApi {
+public class FormTypesApiImpl implements FormtypesApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(FormTypesApiServiceImpl.class));
+    private static final Logger logger = Logger.getLogger(String.valueOf(FormTypesApiImpl.class));
 
     @Override
     @Transactional

@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class GetClientsTest {
 
     @Inject
-    ClientsApiServiceImpl sut;
+    ClientsApiImpl sut;
 
     @Test
     @DisplayName("200: should return clients")

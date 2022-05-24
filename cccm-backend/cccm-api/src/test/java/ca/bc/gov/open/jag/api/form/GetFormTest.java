@@ -17,7 +17,7 @@ public class GetFormTest {
     private static final LocalDate TEST_DATE = LocalDate.of(2021, 12, 14);
 
     @Inject
-    FormsApiServiceImpl sut;
+    FormsApiImpl sut;
 
     @Test
     @DisplayName("200: should return form")

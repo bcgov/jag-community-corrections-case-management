@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class DeleteFormTest {
 
     @Inject
-    FormsApiServiceImpl sut;
+    FormsApiImpl sut;
 
     @Test
     @DisplayName("200: no error")

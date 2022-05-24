@@ -53,7 +53,7 @@ public class GetFormByIdTest {
 
     @Test
     @DisplayName("Not Found: should return not found exception")
-    public void getThrowNotFoundException() throws CCCMException, IOException {
+    public void getThrowNotFoundException() throws CCCMException {
 
         Assertions.assertThrows(CCCMException.class, () -> sut.getFormById(BigDecimal.valueOf(999)));
 
