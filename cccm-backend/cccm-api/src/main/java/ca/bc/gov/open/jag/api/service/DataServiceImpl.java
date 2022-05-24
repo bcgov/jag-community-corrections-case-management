@@ -37,7 +37,7 @@ public class DataServiceImpl implements DataService {
 
         try {
 
-            return objectMapper.readValue(Paths.get("sample_data.json").toFile(), FormDetails.class);
+            return objectMapper.readValue(Paths.get("sampleFormData.json").toFile(), FormDetails.class);
 
         } catch (Exception ex) {
 
