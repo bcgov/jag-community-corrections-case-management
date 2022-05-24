@@ -1,4 +1,4 @@
-name: Build & Push Image
+name: Build & Push Frontend Image
 
 on:
   push:
@@ -28,14 +28,12 @@ jobs:
       
       - name: Docker Tag Version
         run: |            
-          docker-compose build
+          docker-compose build frontend
           
       - name: Docker Tag Version
         run: |  
-          docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:latest
-          docker tag cccm-web ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:latest
+          docker tag cccm-web ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
           
       - name: Docker Push Version
         run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:latest    
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:latest
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
