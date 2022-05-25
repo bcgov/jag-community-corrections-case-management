@@ -29,19 +29,36 @@ export default {
     }
   },
   mounted () {
-    //this.getLocation();
+    this.getLocation();
   },
   methods: {
     async getLocation() {
       //this.locationVal = "Victoria Probation Office";
+
+      //Sample get /locations return:
+      // {
+      //   "items": [
+      //     {
+      //       "locationId": 1,
+      //       "locationCd": "victoria",
+      //       "locationDescription": "Victoria"
+      //     },
+      //     {
+      //       "locationId": 10,
+      //       "locationCd": "vancouver",
+      //       "locationDescription": "Vancouver"
+      //     }
+      //   ]
+      // }
       const [error, response] = await getLocationInfo();
       if (error) {
         console.error(error);
       } else {
-        //TODO: fetch location when it's suported in the datamodel
-        this.locationVal = response.formType;
-
-        console.info("Location fetched: " + this.locationVal);
+        if (response != null && response.items != null && response.items.length > 0) {
+            this.locationVal = response.items[0].locationDescription;
+        }
+        
+        //console.info("Location fetched: " + this.locationVal);
       }
     }
   } 
