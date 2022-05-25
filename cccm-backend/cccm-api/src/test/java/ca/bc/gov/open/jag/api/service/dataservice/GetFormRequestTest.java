@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.api.service.DataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 import static org.mockito.ArgumentMatchers.*;
 
 @QuarkusTest
-public class GetFormByIdTest {
+public class GetFormRequestTest {
 
     DataServiceImpl sut;
 
@@ -45,17 +46,25 @@ public class GetFormByIdTest {
 
         Mockito.when(objectMapperMock.readValue(any(File.class), eq(FormDetails.class))).thenReturn(form);
 
-        FormDetails result = sut.getFormById(BigDecimal.ONE);
+        FormDetails result = sut.getFormRequest(new FormRequest(BigDecimal.ONE, null));
 
         Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
 
     }
 
     @Test
-    @DisplayName("Not Found: should return not found exception")
+    @DisplayName("Not Found Id: should return not found exception")
     public void getThrowNotFoundException() throws CCCMException {
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getFormById(BigDecimal.valueOf(999)));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(BigDecimal.valueOf(999), null)));
+
+    }
+
+    @Test
+    @DisplayName("Not Found Type: should return not found exception")
+    public void getByTypeThrowNotFoundException() throws CCCMException {
+
+        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(null, "NOTFOUND")));
 
     }
 
@@ -65,7 +74,7 @@ public class GetFormByIdTest {
 
         Mockito.when(objectMapperMock.readValue(any(File.class), eq(FormDetails.class))).thenThrow(new IOException());
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getFormById(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(BigDecimal.ONE, null)));
 
     }
 

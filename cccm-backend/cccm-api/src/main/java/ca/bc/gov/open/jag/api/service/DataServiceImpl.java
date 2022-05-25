@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,13 +26,14 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public FormDetails getFormById(BigDecimal id) throws CCCMException {
+    public FormDetails getFormRequest(FormRequest formRequest) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching form details");
 
-        //This is only for testing. Will
-        if (id.equals(BigDecimal.valueOf(999))) {
-
+        //This is only for testing. Will be removed when connected to database.
+        if (formRequest.getFormId() != null && formRequest.getFormId().equals(BigDecimal.valueOf(999))) {
+            throw new CCCMException("Form not found", CCCMErrorCode.RECORDNOTFOUND);
+        } else if (formRequest.getFormType() != null && formRequest.getFormType().equals("NOTFOUND")) {
             throw new CCCMException("Form not found", CCCMErrorCode.RECORDNOTFOUND);
         }
 

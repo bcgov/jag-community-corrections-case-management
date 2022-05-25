@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.api.service.DataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
@@ -41,12 +42,20 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
-    @Transactional
-    public FormDetails getForm(BigDecimal formId) {
+    public FormDetails getFormById(BigDecimal formId) {
 
-        logger.info("Get form request received");
+        logger.info("Get form id request received");
 
-        return dataService.getFormById(formId);
+        return dataService.getFormRequest(new FormRequest(formId, null));
+
+    }
+
+    @Override
+    public FormDetails getFormByType(String formType) {
+
+        logger.info("Get form type request received");
+
+        return dataService.getFormRequest(new FormRequest(null, formType));
 
     }
 
@@ -58,7 +67,7 @@ public class FormsApiImpl implements FormsApi {
 
         FormList formList = new FormList();
 
-        formList.setItems(Collections.singletonList(dataService.getFormById(BigDecimal.ONE)));
+        formList.setItems(Collections.singletonList(dataService.getFormRequest(new FormRequest(BigDecimal.ONE, null))));
 
         return formList;
 

@@ -25,7 +25,7 @@
             "panelTitle": "Client Details",
             "panelKey": "key_clientDetails",
             "contentKey": "key_clientDetails_content",
-            "data": [
+            "dataArray": [
                 "Name: Smith, John",
                 "CS#: 12345",
                 "Gender: M",
@@ -47,7 +47,7 @@
             "panelTitle": "Legend",
             "panelKey": "key_legend",
             "contentKey": "key_legend_content",
-            "data": [
+            "dataArray": [
                 "Factor seen as an asset",
                 "No immediate need for improvement",
                 "Some need for improvement",
@@ -73,9 +73,7 @@
             "panelTitle": "Source Contacted",
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
-            "data": [
-				"CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
-			],
+            "dataString": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
             "button": {
                 "action": "submit",
                 "key": "btn_add_source",

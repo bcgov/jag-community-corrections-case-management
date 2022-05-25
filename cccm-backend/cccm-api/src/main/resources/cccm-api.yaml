@@ -136,7 +136,7 @@ paths:
       x-tags:
         - tag: forms
     get:
-      operationId: GetForm
+      operationId: GetFormById
       parameters:
         - explode: false
           in: path
@@ -155,6 +155,32 @@ paths:
         "404":
           description: form not found
       summary: get a form by id
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+  /forms/{formType}:
+    get:
+      operationId: GetFormByType
+      parameters:
+        - explode: false
+          in: path
+          name: formType
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormDetails'
+          description: form found
+        "404":
+          description: form not found
+      summary: get a form by type
       tags:
         - forms
       x-accepts: application/json
@@ -192,22 +218,6 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
-  /sideCards:
-    get:
-      operationId: GetSideCards
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SideCards'
-          description: get all side cards
-      summary: get all side cards
-      tags:
-        - sidecards
-      x-accepts: application/json
-      x-tags:
-        - tag: sidecards
 components:
   schemas:
     ClientDetails:
@@ -334,10 +344,18 @@ components:
           type: string
         contentKey:
           type: string
-        data:
+        dataArray:
           type: array
           items:
             type: string
+        dataMatrix:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        dataString:
+          type: string
         firstName:
           type: string
         lastName:
