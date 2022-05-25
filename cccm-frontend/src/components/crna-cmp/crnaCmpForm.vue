@@ -72,8 +72,7 @@ export default {
       } else {
         this.formDetails = response.data;
         
-        //console.log("/forms/ returns: ");
-        //console.log(this.formDetails)
+        console.log("/forms/ returns: ", this.formDetails);
       }
     },
   }  

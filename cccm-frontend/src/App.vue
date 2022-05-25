@@ -58,7 +58,7 @@ export default {
             this.locationVal = response.items[0].locationDescription;
         }
         
-        //console.info("Location fetched: " + this.locationVal);
+        console.info("Location fetched: ", response.items);
       }
     }
   } 
