@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Copy rest of the files, including dist folder
+# Copy rest of the files
 COPY . .
 
 # Build the project
@@ -18,7 +18,7 @@ FROM nginx:alpine as run
 RUN rm -rf /opt/app-root/src/*
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
-# Copy from the stahg 1
+# Copy from the stage 1 build result
 COPY --from=build /app/dist /opt/app-root/src
 COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
 
