@@ -1,26 +1,9 @@
 <template>
+  <!--Header section-->
   <div class="header">
-        <header>
-          <div class="banner">
-            <a display:block href="https://gov.bc.ca">
-              <img src="/src/assets/images/logo-banner.svg" alt="Go to the Government of British Columbia website" height="50px"/>
-            </a>
-            <div id="id_location">BC Corrections {{ locationInfo }}</div>
-          </div>
-          <div class="other">
-            <a class="nav-btn">
-              <i class="fas fa-bars" id="menu"></i>
-            </a>
-          </div>
-        </header>
-        <nav class="navigation-main" id="navbar">
-          <div class="container">
-            <ul>
-              <li><a href="/" class="active">Dashboard</a></li>
-              <li><a href="/crnacmp">CRNA-CMP</a></li>
-            </ul>
-          </div>
-        </nav>
+    <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="150px" border="0" /></a>
+    <span class="headerText textShadow">BC Corrections - {{ locationInfo }}</span>
+    <span class="headerNav textShadow"><a href="/" class="headerA">Dashboard</a> | <a href="/crnacmp" class="headerA">CRNA/CMP Form</a></span>
   </div>
 </template>
 

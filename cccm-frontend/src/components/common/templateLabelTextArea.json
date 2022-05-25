@@ -1,0 +1,41 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "additionalComments",
+            "key": "additionalComments",
+            "type": "well",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "HTML",
+                    "tag": "h6",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "${label}",
+                    "refreshOnChange": false,
+                    "key": "html",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "${label_textarea}",
+                    "placeholder": "Please enter here",
+                    "description": "",
+                    "tooltip": "",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "key": "${key}",
+                    "type": "textarea",
+                    "input": true
+              }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+  "display": "form",
+  "components": [
+    {
+        "title": "${panelTitle}",
+        "collapsible": false,
+        "key": "${panelKey}",
+        "type": "panel",
+        "label": "Panel",
+        "input": false,
+        "tableView": false,
+        "components": [
+          {
+            "label": "HTML",
+            "tag": "div",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "${content}",
+            "refreshOnChange": false,
+            "key": "${contentKey}",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+          }
+        ]
+      }   
+  ]
+}

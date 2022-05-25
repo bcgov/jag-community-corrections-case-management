@@ -15,6 +15,7 @@ body {
 .header { 
 	grid-area: header; 
 	position: sticky;
+	height:110px;
 }
 .main { 
 	grid-area: main; 
@@ -23,8 +24,9 @@ body {
 	grid-area: footer; 
 }
 .wrap {
-    	position: relative;
+    position: relative;
 }
+
 @media only screen and (max-width: 500px){
     .L {
         width: auto;
@@ -46,11 +48,29 @@ div.menu-Sticky {
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
+	z-index:10;
+}
+.menuR1 {
+	padding: 0px 15px;
+
+}
+.menuR2 {
+	position:relative;
+	top:0px;
+	padding: 0px 15px;
+	
 }
 div.R-Sticky {
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
+	padding-bottom:20px;
+}
+.mainContent {
+	position:relative;
+	z-index:9;
+	overflow-y: auto;
+	height: 350px;
 }
 * {
 	box-sizing: border-box;
@@ -63,13 +83,14 @@ div.R-Sticky {
 }
 .R {
 	float:right;
-	width: 500px;
+	width: 475px;
+	margin-right:10px;
 	position: -webkit-sticky;
 	position: sticky;
-	top: 0;  
+	top: 0;
 }
 /* Clear floats after the columns */
-.row:after {
+.mainRow:after {
 	content: "";
 	display: table;
 	clear: both;

@@ -8,7 +8,7 @@
           <li><a href=".">Privacy</a></li>
           <li><a href=".">Accessibility</a></li>
           <li><a href=".">Copyright</a></li>
-          <li><a href="#" target="_blank">S2 (build 1)</a></li>
+          <li><a href="#" target="_blank">S4 (build 1)</a></li>
           <li><a href=".">Contact Us</a></li>
         </ul>
       </div>

@@ -1,21 +1,24 @@
 <template>
     <div class="main">
       <div class="wrap">
-        <div class="row">
+        <div class="mainRow">
           <div class="column L">
             <div class="menu-Sticky">
-             <CrnaCmpFormInfo :formJSON="formInfo"/>
-              <div>
-                <img src="/src/assets/images/cccm-navigation.jpg" width=100% />
+              <div class="menuR1">
+                <FormioFormInfo :dataModel="formJSONFormData"/>
               </div>
-              <!--<CrnaCmpFormNavigation :formJSON="formJSONNavigation"/>-->
+              <div class="menuR2">
+                <CrnaCmpFormNavigation :dataModel="formJSONFormData"/>
+              </div>
             </div>
-            <CrnaCmpFormDataEntry :formJSON="formJSONDataEntry" ></CrnaCmpFormDataEntry>            
+            <div class="mainContent">
+              <CrnaCmpFormDataEntry :dataModel="formJSONFormData"></CrnaCmpFormDataEntry>            
+            </div>
           </div>
           <div class="column R">
             <div class="R-Sticky">
-              <CrnaCmpFormBtnGroup :formJSON="formBtnGroup" />
-              <CrnaCmpFormStaticContent :formJSON="formJSONSideCards"/>
+              <FormioButton v-if="formJSONFormData.saveDraftBtnGroup != null" :dataModel="formJSONFormData.saveDraftBtnGroup" />
+              <CrnaCmpFormSideCards :dataModel="formJSONFormData"/>
             </div>
           </div>
         </div>
@@ -26,18 +29,15 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import {getFormDetails, getSideCardsDetails, getNavigationDetails} from "@/components/form.api.ts";
-import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
-import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
-import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
-import CrnaCmpFormStaticContent from "@/components/crna-cmp/formSections/crnaCmpFormStaticContent.vue";
-import CrnaCmpFormBtnGroup from "@/components/crna-cmp/formSections/crnaCmpFormBtnGroup.vue";
+import {getFormDetails} from "@/components/form.api.ts";
 
-import sampleFormDataEntry from './sampleData/sampleDataEntry.json';
-import sampleFormSideCards from './sampleData/sampleStatics.json';
-import sampleFormNavigation from './sampleData/sampleNavigation.json';
-import sampleFormInfo from './sampleData/sampleFormInfo.json';
-import sampleFormBtnGroup from './sampleData/sampleBtnGroup.json';
+import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
+import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
+import CrnaCmpFormSideCards from "@/components/crna-cmp/formSections/crnaCmpFormSideCards.vue";
+import FormioButton from "@/components/common/FormioButton.vue";
+import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
+
+import sampleFormData from './sampleData/sampleFormData.json';
 
 export default {
   name: 'crnaForm',
@@ -50,59 +50,29 @@ export default {
   components: {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
-    CrnaCmpFormStaticContent,
-    CrnaCmpFormInfo,
-    CrnaCmpFormBtnGroup
+    CrnaCmpFormSideCards,
+    FormioButton,
+    FormioFormInfo
   },
   data() {
     return {
         formDetails: {},
-        formJSONDataEntry: sampleFormDataEntry,
-        formJSONSideCards: {},
-        formJSONNavigation: sampleFormNavigation,
-        formInfo: sampleFormInfo,
-        formBtnGroup: sampleFormBtnGroup
+        formJSONFormData: sampleFormData
     }
   },
   mounted(){
-    //this.buildFormInfoNDataEntry()
-    this.getFormSideCards()
-    //this.getFormNavigationContent()
+    //this.getFormData()
   },
   methods: {
-    async buildFormInfoNDataEntry() {
+    async getFormData() {
       const [error, response] = await getFormDetails(this.formId);
       if (error) {
         console.error(error);
       } else {
         this.formDetails = response.data;
-        // parse formJSONDataEntry to build dataEntry section
-        //this.formJSONDataEntry
-
-        // parse formJSONDataEntry to build formInfo setion
-        //this.formInfo
+        
         console.log("/forms/ returns: ");
         console.log(this.formDetails)
-      }
-    },
-    async getFormSideCards() {
-      const [error, response] = await getSideCardsDetails();
-      if (error) {
-        console.error(error);
-      } else {
-        this.formJSONSideCards = response;
-        console.log("formJSONSideCards content: ");
-        console.log(this.formJSONSideCards)
-      }
-    },
-    async getFormNavigationContent() {
-      const [error, response] = await getNavigationDetails();
-      if (error) {
-        console.error(error);
-      } else {
-        this.formJSONNavigation = response.data;
-        console.log("formJSONNavigation content: ");
-        console.log(this.formJSONNavigation)
       }
     },
   }  

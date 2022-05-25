@@ -1,14 +1,54 @@
 body {
 	background-color: #F9FAFB;
 }
+
 .header { 
 	background-image: url("header-bg.jpg");
 	background-repeat: repeat-x; 	
-	height:80px;
+	padding:6px 20px 0px 20px;
 }
+
+.headerText {
+	font-weight: 500;
+	color: #fff;
+	position:relative;
+	left: 40px;
+	top:10px;
+	font-size: 1.7rem;
+}
+
+.headerNav {
+	font-weight: 400;
+	color: #fff;
+	position:absolute;
+	left: 20px;
+	top:78px;
+	font-size: 1rem;
+	letter-spacing: 0.08em;
+}
+
+a.headerA {
+	color: #fff;
+	text-decoration: none;
+	background-color: transparent;
+}
+
+a.headerA:hover {
+	text-decoration: underline;
+}
+
+.textShadow {
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, 1) ; 
+	-webkit-text-shadow: 1px 1px 0 rgba(0, 0, 0, 1) ; 
+	-moz-text-shadow: 1px 1px 0 rgba(0, 0, 0, 1) ; 
+}
+
+.clearBoth { clear:both; }
+
 .main { 
 	/* little formatting should be needed here */
 }
+
 .footer { 
 	background-image: url("footer-bg.jpg");
 	background-repeat: repeat-x; 	
@@ -16,15 +56,34 @@ body {
 }
 
 div.menu-Sticky {
-	
-	
+	background-color: #F9FAFB;	
 }
+
+.menuR1 {
+
+}
+
+.menuR2 {
+
+}
+
 div.R-Sticky {
 
 }
+
 .L {
 	padding:0;
 }
 .R {
 	padding:0;
 }
+
+.formio_anchor_class {
+	
+}
+/* li {
+	list-style: square outside url("ul.jpg");
+	padding: 0px 0px 0px 20px;
+	line-height: 1;
+} */
+
