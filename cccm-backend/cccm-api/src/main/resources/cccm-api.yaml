@@ -136,7 +136,7 @@ paths:
       x-tags:
         - tag: forms
     get:
-      operationId: GetForm
+      operationId: GetFormById
       parameters:
         - explode: false
           in: path
@@ -155,6 +155,32 @@ paths:
         "404":
           description: form not found
       summary: get a form by id
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+  /forms/{formType}:
+    get:
+      operationId: GetFormByType
+      parameters:
+        - explode: false
+          in: path
+          name: formType
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormDetails'
+          description: form found
+        "404":
+          description: form not found
+      summary: get a form by type
       tags:
         - forms
       x-accepts: application/json
@@ -192,22 +218,6 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
-  /sideCards:
-    get:
-      operationId: GetSideCards
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SideCards'
-          description: get all side cards
-      summary: get all side cards
-      tags:
-        - sidecards
-      x-accepts: application/json
-      x-tags:
-        - tag: sidecards
 components:
   schemas:
     ClientDetails:
@@ -261,13 +271,6 @@ components:
       type: object
     FormDetails:
       description: Client
-      example:
-        formId: 0.8008281904610115
-        updateDate: 2000-01-23
-        formType: formType
-        createdDate: 2000-01-23
-        createdBy: createdBy
-        completedDate: 2000-01-23
       properties:
         formId:
           type: number
@@ -286,40 +289,164 @@ components:
           type: string
         formType:
           type: string
-        formQuestions:
+        formTitle:
+          type: string
+        formStatus:
+          type: string
+        crnacmp_types:
+          allOf:
+            - $ref: '#/components/schemas/CRNAType'
+            - type: object
+        rightPanel:
           type: array
           items:
-            $ref: '#/components/schemas/FormQuestions'
+            $ref: '#/components/schemas/SideCard'
+        saveBtnGroup:
+          allOf:
+            - $ref: '#/components/schemas/ButtonGroup'
+            - type: object
+        saveDraftBtnGroup:
+          allOf:
+            - $ref: '#/components/schemas/ButtonGroup'
+            - type: object
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormSections'
       type: object
-    FormQuestions:
+    CRNAType:
+      type: object
       properties:
+        type:
+          type: string
+        data:
+          type: object
+          properties:
+            values:
+              type: array
+              items:
+                type: object
+                properties:
+                  value:
+                    type: string
+                  data:
+                    type: string
+    SideCard:
+      type: object
+      properties:
+        type:
+          type: string
+        contentType:
+          type: string
+        panelTitle:
+          type: string
+        panelKey:
+          type: string
+        contentKey:
+          type: string
+        dataArray:
+          type: array
+          items:
+            type: string
+        dataMatrix:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        dataString:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        csNumber:
+          type: string
+        gender:
+          type: string
+        dob:
+          type: string
+        location:
+          type: string
+        finalOrderExpDate:
+          type: string
+        button:
+          allOf:
+            - $ref: '#/components/schemas/Button'
+            - type: object
+    Button:
+      type: object
+      properties:
+        type:
+          type: string
+        action:
+          type: string
+        key:
+          type: string
+        label:
+          type: string
+        theme:
+          type: string
+    ButtonGroup:
+      type: object
+      properties:
+        type:
+          type: string
+        button:
+          type: array
+          items:
+            $ref: '#/components/schemas/Button'
+    FormSections:
+      type: object
+      properties:
+        section:
+          type: string
+        sideCardPanelHiddenList:
+          type: array
+          items:
+            type: string
+        subNavOnOff:
+          type: string
+        subsections:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormSubSections'
+    FormSubSections:
+      type: object
+      properties:
+        type:
+          type: string
+        sectionKey:
+          type: string
+        subSectionKey:
+          type: string
+        sectionTitle:
+          type: string
+        sectionSubTitle:
+          type: string
+        questionLabel:
+          type: string
+        label:
+          type: string
+        label_textarea:
+          type: string
+        key:
+          type: string
+        defaultValue:
+          type: string
+        values:
+          type: array
+          items:
+            $ref: "#/components/schemas/QuestionBody"
+        comments:
+          allOf:
+            - $ref: '#/components/schemas/CommentsArea'
+            - type: object
         questionId:
           type: number
         questionAnswerClientId:
           type: number
         questionAnswer:
-          type: string
-        label:
-          type: string
-        optionsLabelPosition:
-          type: string
-        inline:
-          type: boolean
-        tableView:
-          type: boolean
-        autoExpand:
-          type: boolean
-        input:
-          type: boolean
-        values:
-          type: array
-          items:
-            $ref: "#/components/schemas/QuestionBody"
-        key:
-          type: string
-        type:
-          type: string
-        defaultValue:
           type: string
     QuestionBody:
       properties:
@@ -328,6 +455,13 @@ components:
         value:
           type: string
         shortcut:
+          type: string
+    CommentsArea:
+      type: object
+      properties:
+        type:
+          type: string
+        key:
           type: string
     FormList:
       example:
