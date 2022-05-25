@@ -17,7 +17,7 @@ public class UpdateFormTest {
     private static final LocalDate TEST_DATE = LocalDate.of(2022, 3, 4);
 
     @Inject
-    FormsApiServiceImpl sut;
+    FormsApiImpl sut;
 
     @Test
     @DisplayName("200: should be updated")

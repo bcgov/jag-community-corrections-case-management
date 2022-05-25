@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class ClientsApiServiceImpl implements ClientsApi {
+public class ClientsApiImpl implements ClientsApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiServiceImpl.class));
+    private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiImpl.class));
 
     @Override
     @Transactional

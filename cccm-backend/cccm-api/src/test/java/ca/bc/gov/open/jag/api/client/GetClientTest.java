@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class GetClientTest {
 
     @Inject
-    ClientsApiServiceImpl sut;
+    ClientsApiImpl sut;
 
     @Test
     @DisplayName("200: should return client")

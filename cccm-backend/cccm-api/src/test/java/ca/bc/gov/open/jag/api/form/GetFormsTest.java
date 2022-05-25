@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public class GetFormsTest {
 
     @Inject
-    FormsApiServiceImpl sut;
+    FormsApiImpl sut;
 
     @Test
     @DisplayName("200: should return forms")

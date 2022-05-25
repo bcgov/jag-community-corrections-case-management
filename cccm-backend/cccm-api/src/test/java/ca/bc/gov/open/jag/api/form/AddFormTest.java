@@ -17,13 +17,13 @@ public class AddFormTest {
     private static final LocalDate TEST_DATE = LocalDate.of(2022, 3, 4);
 
     @Inject
-    FormsApiServiceImpl sut;
+    FormsApiImpl sut;
 
     @Test
     @DisplayName("204: form added")
     public void testClientsAddEndpoint() {
 
-        FormDetails result = sut.updateForm(createTestForm());
+        FormDetails result = sut.addForm(createTestForm());
 
         Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
         Assertions.assertEquals(TEST_DATE, result.getCompletedDate());

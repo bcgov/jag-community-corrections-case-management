@@ -176,6 +176,22 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
+  /locations:
+    get:
+      operationId: GetLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationList'
+          description: get all locations
+      summary: get all locations
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
   /sideCards:
     get:
       operationId: GetSideCards
@@ -336,7 +352,7 @@ components:
           type: array
       type: object
     FormType:
-      description: Client
+      description: Form Type
       example:
         typeCd: typeCd
         typeId: 0.8008281904610115
@@ -363,6 +379,36 @@ components:
           description: FormType
           items:
             $ref: '#/components/schemas/FormType'
+          type: array
+      type: object
+    Location:
+      description: Location
+      example:
+        locationCd: locationCd
+        locationId: 0.8008281904610115
+        locationDescription: locationDescription
+      properties:
+        locationId:
+          type: number
+        locationCd:
+          type: string
+        locationDescription:
+          type: string
+      type: object
+    LocationList:
+      example:
+        items:
+          - locationCd: locationCd
+            locationId: 0.8008281904610115
+            locationDescription: locationDescription
+          - locationCd: locationCd
+            locationId: 0.8008281904610115
+            locationeDescription: locationDescription
+      properties:
+        items:
+          description: Location
+          items:
+            $ref: '#/components/schemas/Location'
           type: array
       type: object
     SideCards:
