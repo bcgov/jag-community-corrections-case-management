@@ -8,6 +8,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.logging.Level;
@@ -39,10 +40,13 @@ public class DataServiceImpl implements DataService {
 
         try {
 
-            return objectMapper.readValue(Paths.get("sampleFormData.json").toFile(), FormDetails.class);
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            InputStream sampleDataResource = loader.getResourceAsStream("sampleFormData.json");
+
+            return objectMapper.readValue(sampleDataResource, FormDetails.class);
 
         } catch (Exception ex) {
-
+            logger.severe(ex.getMessage());
              throw new CCCMException("Error loading json data", CCCMErrorCode.DATALOADERROR);
 
         }

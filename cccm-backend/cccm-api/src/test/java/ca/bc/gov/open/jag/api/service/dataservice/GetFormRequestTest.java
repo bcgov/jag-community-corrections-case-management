@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -44,7 +45,7 @@ public class GetFormRequestTest {
         FormDetails form = new FormDetails();
         form.setFormId(BigDecimal.ONE);
 
-        Mockito.when(objectMapperMock.readValue(any(File.class), eq(FormDetails.class))).thenReturn(form);
+        Mockito.when(objectMapperMock.readValue(any(InputStream.class), eq(FormDetails.class))).thenReturn(form);
 
         FormDetails result = sut.getFormRequest(new FormRequest(BigDecimal.ONE, null));
 
@@ -72,7 +73,7 @@ public class GetFormRequestTest {
     @DisplayName("Exception: throw cccm exception")
     public void getDataTestException() throws CCCMException, IOException {
 
-        Mockito.when(objectMapperMock.readValue(any(File.class), eq(FormDetails.class))).thenThrow(new IOException());
+        Mockito.when(objectMapperMock.readValue(any(InputStream.class), eq(FormDetails.class))).thenThrow(new IOException());
 
         Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(BigDecimal.ONE, null)));
 
