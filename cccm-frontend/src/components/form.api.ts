@@ -1,13 +1,15 @@
 import axios from 'axios';
+//import { config } from 'process';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: config.VUE_APP_CCCM_API_ENDPOINT,
 });
 
 // function to fetch the location info
 export async function getLocationInfo() {
     try {
-        const { data } = await axiosClient.get('/forms/1');
+        console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
+        const { data } = await axiosClient.get('/locations');
         return [null, data];
     }catch (error) {
         return [error];

@@ -44,7 +44,8 @@ export default {
   props: {
     formId: {
       type: Number,
-      requred: false
+      requred: false,
+      default: 1
     }
   },
   components: {
@@ -61,7 +62,7 @@ export default {
     }
   },
   mounted(){
-    //this.getFormData()
+    this.getFormData()
   },
   methods: {
     async getFormData() {
@@ -71,8 +72,7 @@ export default {
       } else {
         this.formDetails = response.data;
         
-        console.log("/forms/ returns: ");
-        console.log(this.formDetails)
+        console.log("/forms/ returns: ", this.formDetails);
       }
     },
   }  
