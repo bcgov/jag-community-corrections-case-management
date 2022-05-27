@@ -4,7 +4,7 @@
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
 	        <span>
-            <a v-for="(header, index) in dataModel.data" 
+            <a v-for="(header, index) in dataModel.data"
               :key="header.section" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
@@ -41,7 +41,12 @@ import { ref, reactive } from '@vue/composition-api';
 export default {
   name: 'CrnaCmpFormNavigation',
   props: {
-    dataModel: {}
+    dataModel: {},
+    // param passed from parent to indicate move to the next parentNav
+    parentNavMoveToNext: {
+      type: Number,
+      default: 1,
+    }
   },
   data() {
     return {
@@ -49,6 +54,16 @@ export default {
       currentSectionChild : '00',
       currentSectionParent : '0',
       indexZero: '0',
+    }
+  },
+  watch: {
+    parentNavMoveToNext() {
+      let parentPosition = parseInt(this.currentSectionParent) + 1;
+      this.currentSectionParent = parentPosition.toString();
+      this.currentSectionChild = this.currentSectionParent + '0';
+
+      // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
+      this.$emit('parentNavClicked', this.currentSectionParent);
     }
   },
   mounted() {
@@ -90,6 +105,9 @@ export default {
         this.currentSectionParent = e.target.hash.substr(1, 1); // a sample of hash value: #00
         this.currentSectionChild = '0';
 
+        // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
+        this.$emit('parentNavClicked', this.currentSectionParent);
+                      
         // show/hide sideCards panels
         this.showHideSideCardPanels();
 

@@ -13,7 +13,6 @@
           </div>
         </div>
       </div>
-      <FormioButton v-if="dataModel.saveBtnGroup != null" :dataModel="dataModel.saveBtnGroup" />
     </div>
 </template>
 
@@ -39,6 +38,6 @@ export default {
     FormioQuestionCetegoryTitle,
     FormioRadioTextarea,
     FormioButton,
-  }
+  } 
 }
 </script>
