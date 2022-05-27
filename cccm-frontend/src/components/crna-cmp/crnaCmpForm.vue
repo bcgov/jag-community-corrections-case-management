@@ -18,7 +18,7 @@
           <div class="column R">
             <div class="R-Sticky">
               <FormioButton v-if="formJSONFormData.saveDraftBtnGroup != null" :dataModel="formJSONFormData.saveDraftBtnGroup" />
-              <CrnaCmpFormSideCards :dataModel="formJSONFormData"/>
+              <CrnaCmpFormRightPanel :dataModel="formJSONFormData"/>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@ import {getFormDetails} from "@/components/form.api.ts";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
-import CrnaCmpFormSideCards from "@/components/crna-cmp/formSections/crnaCmpFormSideCards.vue";
+import CrnaCmpFormRightPanel from "@/components/crna-cmp/formSections/crnaCmpFormRightPanel.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 
@@ -51,7 +51,7 @@ export default {
   components: {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
-    CrnaCmpFormSideCards,
+    CrnaCmpFormRightPanel,
     FormioButton,
     FormioFormInfo
   },
