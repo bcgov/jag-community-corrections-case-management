@@ -39,13 +39,26 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate);
       tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate);
       
-      // build type ddl
+      // build formStatus
+      tmpJSONStr = tmpJSONStr.replace('${formStatus}', this.dataModel.formStatus);
+
+      // build crnacmpType DDL
       let tmpJSON = JSON.parse(tmpJSONStr);
-      let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'columns'));
-      tmpJSON.components[0].components[objIndex].columns[1].components[0].data = this.dataModel.crnacmp_types.data;
+      //let objIndex = tmpJSON.components[0].components[1].findIndex((obj => obj.key == 'key_crnaCmpType'));
+      tmpJSON.components[0].components[1].columns[0].components[0].columns[2].components[0].data = this.dataModel.crnacmp_types.data;
      
       this.formJSON = tmpJSON;
     }
   },
 }
 </script>
+
+<style>
+.custom_wrap {
+  margin: 10px;
+  display: flex;
+  align-self: flex-end;
+  font-size: 25px;
+  display: block; 
+}
+</style>
