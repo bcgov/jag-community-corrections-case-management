@@ -51,19 +51,24 @@ export default {
   data() {
     return {
       observer : null,
-      currentSectionChild : '00',
+      currentSectionChild : '0',
       currentSectionParent : '0',
       indexZero: '0',
     }
   },
   watch: {
     parentNavMoveToNext() {
-      let parentPosition = parseInt(this.currentSectionParent) + 1;
-      this.currentSectionParent = parentPosition.toString();
-      this.currentSectionChild = this.currentSectionParent + '0';
+      let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
+      let childNavPos = '0';
+      this.showHideWrappter(parentNavPos, childNavPos);
 
-      // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
-      this.$emit('parentNavClicked', this.currentSectionParent);
+      // Move the position to the top by simulating an anchor click
+      let hrefVal = '#' + parentNavPos + childNavPos;
+      let selector = 'a[href="' + hrefVal + '"]'
+      let theAnchor = document.querySelector(selector);
+      if (theAnchor != null) {
+        theAnchor.click();
+      }
     }
   },
   mounted() {
@@ -80,7 +85,7 @@ export default {
               this.currentSectionChild = tmpID.substr(1);
 
               // show/hide sideCards panels
-              this.showHideSideCardPanels();
+              this.showHideRightsidePanels();
 
               // show/hide questions
               this.showHideQuestions();
@@ -102,20 +107,26 @@ export default {
     // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
-        this.currentSectionParent = e.target.hash.substr(1, 1); // a sample of hash value: #00
-        this.currentSectionChild = '0';
-
-        // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
-        this.$emit('parentNavClicked', this.currentSectionParent);
-                      
-        // show/hide sideCards panels
-        this.showHideSideCardPanels();
-
-        // show/hide questions
-        this.showHideQuestions();
+        // a sample of hash value: #00
+        this.showHideWrappter(e.target.hash.substr(1, 1), '0');
       }
     },
-    showHideSideCardPanels() {
+    showHideWrappter(posParentNav, posChildNav) {
+      this.currentSectionParent = posParentNav; 
+      this.currentSectionChild = posChildNav;
+
+      //console.log("Local click:", this.currentSectionParent, this.currentSectionChild);
+
+      // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
+      this.$emit('parentNavClicked', this.currentSectionParent);
+                    
+      // show/hide sideCards panels
+      this.showHideRightsidePanels();
+
+      // show/hide questions
+      this.showHideQuestions();
+    },
+    showHideRightsidePanels() {
       // show all panels
       if (this.dataModel.rightPanel != null) {
         for (let i = 0; i < this.dataModel.rightPanel.length; i++) {
