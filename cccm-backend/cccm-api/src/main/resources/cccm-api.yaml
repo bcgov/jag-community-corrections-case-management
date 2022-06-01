@@ -79,7 +79,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FormDetails'
+              type: string
       responses:
         "201":
           content:
@@ -329,7 +329,7 @@ components:
                 properties:
                   value:
                     type: string
-                  data:
+                  label:
                     type: string
     SideCard:
       type: object
@@ -442,6 +442,10 @@ components:
           allOf:
             - $ref: '#/components/schemas/CommentsArea'
             - type: object
+        interventionNeeded:
+          allOf:
+            - $ref: '#/components/schemas/InterventionArea'
+            - type: object
         questionId:
           type: number
         questionAnswerClientId:
@@ -463,6 +467,16 @@ components:
           type: string
         key:
           type: string
+
+    InterventionArea:
+      type: object
+      properties:
+        type:
+          type: string
+        key:
+          type: string
+        defaultValue:
+          type: boolean
     FormList:
       example:
         items:
