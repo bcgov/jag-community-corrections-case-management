@@ -82,44 +82,6 @@
             }
         }
     ],
-    "saveBtnGroup": {
-        "type": "button",
-        "button": [
-            {
-                "type": "button",
-                "key": "btn_submit",
-                "action": "submit",
-                "label": "Save and Continue",
-                "theme": "primary"
-            },
-            {
-                "type": "button",
-                "key": "btn_cancel",
-                "action": "reset",
-                "label": "Cancel Form",
-                "theme": "danger"
-            }
-        ]
-    },
-    "saveDraftBtnGroup": {
-        "type": "button",
-        "button": [
-            {
-                "type": "button",
-                "action": "submit",
-                "label": "Save as Draft",
-                "key": "submit_draft",
-                "theme": "primary"
-            },
-            {
-                "type": "button",
-                "label": "Print Form",
-                "key": "submit_print",
-                "action": "submit",
-                "theme": "primary"
-            }
-        ]
-    },
     "data": [
         {
             "section": "Needs Assessment",
