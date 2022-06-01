@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -27,7 +28,7 @@ public class FormsApiImpl implements FormsApi {
     public FormDetails addForm(@Valid FormDetails formDetails) {
 
         logger.warning("Form add not implemented");
-
+        logger.log(Level.INFO, "Record Added {}", formDetails);
         return formDetails;
 
     }
