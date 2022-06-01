@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import io.quarkus.test.junit.QuarkusTest;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,14 +24,9 @@ public class AddFormTest {
     @DisplayName("204: form added")
     public void testClientsAddEndpoint() {
 
-        FormDetails result = sut.addForm(createTestForm());
+        FormDetails result = sut.addForm("");
 
-        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
-        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
-        Assertions.assertEquals(TEST_VALUE, result.getCreatedBy());
-        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
-        Assertions.assertEquals(TEST_VALUE, result.getFormType());
-        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
+        Assertions.assertNull(result.getFormId());
 
     }
 

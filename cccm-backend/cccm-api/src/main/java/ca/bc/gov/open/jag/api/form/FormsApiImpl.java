@@ -25,11 +25,11 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    public FormDetails addForm(@Valid FormDetails formDetails) {
+    public FormDetails addForm(String formDetails) {
 
         logger.warning("Form add not implemented");
-        logger.log(Level.INFO, "Record Added {}", formDetails);
-        return formDetails;
+        logger.log(Level.INFO, formDetails);
+        return new FormDetails();
 
     }
 
