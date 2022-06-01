@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -24,11 +25,11 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    public FormDetails addForm(@Valid FormDetails formDetails) {
+    public FormDetails addForm(String formDetails) {
 
         logger.warning("Form add not implemented");
-
-        return formDetails;
+        logger.log(Level.INFO, formDetails);
+        return new FormDetails();
 
     }
 
