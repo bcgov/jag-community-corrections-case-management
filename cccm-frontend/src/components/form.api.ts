@@ -25,3 +25,14 @@ export async function getFormDetails(formId: number) {
         return [error];
     }
 }
+
+// function to save form data
+export async function saveFormData(formData: object) {
+    try{
+        console.log("SaveData payload", formData);
+        const { data } = await axiosClient.post('/forms', formData);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}

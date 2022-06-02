@@ -9,16 +9,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
 import FormioPanel from "@/components/common/FormioPanel.vue";
 
 export default {
-  name: 'CrnaCmpFormSideCards',
+  name: 'CrnaCmpFormRightPanel',
   props: {
     dataModel: {}
   },
   components: {
-    Form,
     FormioPanel,
   }
 }
