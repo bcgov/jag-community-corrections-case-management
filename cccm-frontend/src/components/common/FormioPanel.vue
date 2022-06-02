@@ -39,13 +39,13 @@ export default {
 
       // text
       if (this.dataModel.contentType == 'text') {
-        content = this.dataModel.data;
+        content = this.dataModel.dataString;
       }
 
       // unordered list
       if (this.dataModel.contentType == 'ul') {
         content = "<ul>";
-        for (const legendVal of this.dataModel.data){
+        for (const legendVal of this.dataModel.dataArray){
           content += "<li>" + legendVal + "</li>";
         }
         content += "</ul>";
@@ -54,7 +54,7 @@ export default {
       // ordered list (type A)
       if (this.dataModel.contentType == 'ol_typea') {
         content = "<ol type='A'>";
-        for (const legendVal of this.dataModel.data){
+        for (const legendVal of this.dataModel.dataArray){
           content += "<li>" + legendVal + "</li>";
         }
         content += "</ol>";
@@ -64,7 +64,7 @@ export default {
       let th = true;
       if (this.dataModel.contentType == 'table') {
         content = "<table>";
-        for (const rowArray of this.dataModel.data){
+        for (const rowArray of this.dataModel.dataMatrix){
           content += "<tr>";
           for (const col of rowArray){
             if (th) {

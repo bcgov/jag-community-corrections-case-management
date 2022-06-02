@@ -2,12 +2,11 @@
     <div class="main">
       <div class="wrap">
         <form id="formID" @submit.prevent="submit">
-          <input v-model="message" placeholder="edit me" />
           <div class="mainRow">
             <div class="column L">
               <div class="menu-Sticky">
                 <div class="menuR1">
-                  <FormioFormInfo :dataModel="formJSONFormData"/>
+                  <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData"/>
                 </div>
                 <div class="menuR2">
                   <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext"/>
@@ -58,7 +57,7 @@ import {getFormDetails, saveFormData} from "@/components/form.api.ts";
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
 import CrnaCmpFormRightPanel from "@/components/crna-cmp/formSections/crnaCmpFormRightPanel.vue";
-import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
+import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
 
 import sampleFormData from './sampleData/sampleFormData.json';
 
@@ -75,7 +74,7 @@ export default {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
     CrnaCmpFormRightPanel,
-    FormioFormInfo,
+    CrnaCmpFormInfo,
   },
   data() {
     return {
@@ -84,7 +83,7 @@ export default {
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
-      formJSONFormData: sampleFormData,
+      formJSONFormData: {},
     }
   },
   mounted(){
@@ -97,7 +96,6 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Formdata response:", response);
         this.formJSONFormData = response;
         this.totalNumParentNav = response.data.length;
         console.log("/forms/ returns: ", this.formJSONFormData);
@@ -117,7 +115,7 @@ export default {
         if (this.parentNavCurLocation < this.totalNumParentNav - 1) {
           // have to make sure the value is different to trigger the child logic
           this.parentNavMoveToNext++;
-      }
+        }
       }
       
       //Obtain the form payload
