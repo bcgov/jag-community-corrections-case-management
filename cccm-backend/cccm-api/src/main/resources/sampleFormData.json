@@ -158,11 +158,6 @@
                             "label": "Very unstable pattern of relationships",
                             "value": "V",
                             "shortcut": "V"
-                        },
-                        {
-                            "label": "Marshmallow",
-                            "value": "M",
-                            "shortcut": "M"
                         }
                     ],
                     "comments": {
