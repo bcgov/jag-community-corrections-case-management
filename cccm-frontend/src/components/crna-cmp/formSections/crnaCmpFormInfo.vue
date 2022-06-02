@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <div v-for="(header, indexp) in dataModelFormInfo.rightPanel" :key="indexp">
-      <FormioFormInfo v-if="indexp === 0" :dataModel="dataModelFormInfo"/>
-    </div>
-  </div>
+  <FormioFormInfo :dataModel="dataModelFormInfo" />
 </template>
 
 <script lang="ts">

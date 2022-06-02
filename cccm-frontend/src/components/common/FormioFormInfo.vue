@@ -44,8 +44,9 @@ export default {
 
       // build crnacmpType DDL
       let tmpJSON = JSON.parse(tmpJSONStr);
-      //let objIndex = tmpJSON.components[0].components[1].findIndex((obj => obj.key == 'key_crnaCmpType'));
-      tmpJSON.components[0].components[1].columns[0].components[0].columns[2].components[0].data = this.dataModel.crnacmp_types.data;
+      if (this.dataModel != null && this.dataModel.crnacmp_types != null) {
+        tmpJSON.components[0].components[1].columns[0].components[0].columns[2].components[0].data = this.dataModel.crnacmp_types.data;
+      }
      
       this.formJSON = tmpJSON;
     }
