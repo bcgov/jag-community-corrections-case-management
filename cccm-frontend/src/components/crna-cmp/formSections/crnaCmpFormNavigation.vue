@@ -100,8 +100,10 @@ export default {
     }, 1000);
   },
   destroyed(){
-    console.log("Destroyed, disconnect observer");
-    this.observer.disconnect();
+    if (this.observer != null) {
+      console.log("Destroyed, disconnect observer");
+      this.observer.disconnect();
+    }
   },
   methods: {
     // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
@@ -141,14 +143,16 @@ export default {
       }
       
       // hide the panel
-      let sideCardsPanelHiddenList = this.dataModel.data[this.currentSectionParent].sideCardPanelHiddenList;
-      if (sideCardsPanelHiddenList != null) {
-        for (let i = 0; i < sideCardsPanelHiddenList.length; i++) {
-          //console.log('formio-component-' + sideCardsPanelHiddenList[i]);
-          let className = '[class*="' + sideCardsPanelHiddenList[i] + '"]';
-          let thePanel = document.querySelector(className);
-          if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
-            thePanel.parentNode.parentNode.setAttribute('style', 'display:none');
+      if (this.dataModel.data != null && this.dataModel.data.length > 0) {
+        let sideCardsPanelHiddenList = this.dataModel.data[this.currentSectionParent].sideCardPanelHiddenList;
+        if (sideCardsPanelHiddenList != null) {
+          for (let i = 0; i < sideCardsPanelHiddenList.length; i++) {
+            //console.log('formio-component-' + sideCardsPanelHiddenList[i]);
+            let className = '[class*="' + sideCardsPanelHiddenList[i] + '"]';
+            let thePanel = document.querySelector(className);
+            if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
+              thePanel.parentNode.parentNode.setAttribute('style', 'display:none');
+            }
           }
         }
       }

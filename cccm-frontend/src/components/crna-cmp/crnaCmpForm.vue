@@ -6,14 +6,14 @@
             <div class="column L">
               <div class="menu-Sticky">
                 <div class="menuR1">
-                  <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData"/>
+                  <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey"/>
                 </div>
                 <div class="menuR2">
-                  <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext"/>
+                  <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
                 </div>
               </div>
               <div class="mainContent">
-                <CrnaCmpFormDataEntry :dataModel="formJSONFormData"></CrnaCmpFormDataEntry>   
+                <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey"></CrnaCmpFormDataEntry>   
                 <!--Save and continue button group-->
                 <div class="card card-body bg-light mb-3">
                   <div class="row formio-component formio-component-columns formio-component-btnGroup  formio-component-label-hidden">
@@ -40,7 +40,7 @@
                     </div>
                   </div>
                 </div>
-                <CrnaCmpFormRightPanel :dataModel="formJSONFormData"/>
+                <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
               </div>
             </div>
           </div>
@@ -84,6 +84,7 @@ export default {
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
       formJSONFormData: {},
+      componentKey: 0,
     }
   },
   mounted(){
@@ -91,7 +92,6 @@ export default {
   },
   methods: {
     async getFormData() {
-      console.log("Formdata before:", this.formJSONFormData);
       const [error, response] = await getFormDetails(this.formId);
       if (error) {
         console.error(error);
@@ -99,6 +99,7 @@ export default {
         this.formJSONFormData = response;
         this.totalNumParentNav = response.data.length;
         console.log("/forms/ returns: ", this.formJSONFormData);
+        this.componentKey += 1;
       }
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
