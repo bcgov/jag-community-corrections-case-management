@@ -158,6 +158,11 @@
                             "label": "Very unstable pattern of relationships",
                             "value": "V",
                             "shortcut": "V"
+                        },
+                        {
+                            "label": "Marshmallow",
+                            "value": "M",
+                            "shortcut": "M"
                         }
                     ],
                     "comments": {
@@ -166,12 +171,12 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_at", 
+                        "key": "interventionNeeded_at",
                         "defaultValue": false
                     }
                 },
-                { 
-                    "type": "questionCombo",  
+                {
+                    "type": "questionCombo",
                     "questionLabel": "Living Arrangements",
                     "key": "templateForm_la",
                     "defaultValue": "P",
@@ -203,7 +208,7 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_la", 
+                        "key": "interventionNeeded_la",
                         "defaultValue": false
                     }
                 },
@@ -240,11 +245,11 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_co", 
+                        "key": "interventionNeeded_co",
                         "defaultValue": false
-                    }  
+                    }
                 },
-                {   
+                {
                     "type": "questionCombo",
                     "questionLabel": "Academic/Vocational Skills",
                     "key": "templateForm_avs",
@@ -277,7 +282,7 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_avs", 
+                        "key": "interventionNeeded_avs",
                         "defaultValue": false
                     }
                 },
@@ -314,11 +319,11 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_epf", 
+                        "key": "interventionNeeded_epf",
                         "defaultValue": false
-                    }  
+                    }
                 },
-                {   
+                {
                     "type": "questionCombo",
                     "questionLabel": "Financial Management",
                     "key": "templateForm_fm",
@@ -351,11 +356,11 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_fm", 
+                        "key": "interventionNeeded_fm",
                         "defaultValue": false
                     }
                 },
-                {   
+                {
                     "type": "questionCombo",
                     "questionLabel": "Behavioural/Emotional Stability Factors",
                     "key": "templateForm_besf",
@@ -388,7 +393,7 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_be", 
+                        "key": "interventionNeeded_be",
                         "defaultValue": false
                     }
                 },
@@ -425,11 +430,11 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_sm", 
+                        "key": "interventionNeeded_sm",
                         "defaultValue": false
-                    }  
+                    }
                 },
-                {   
+                {
                     "type": "questionCombo",
                     "questionLabel": "Attitude",
                     "key": "templateForm_a",
@@ -462,11 +467,11 @@
                     },
                     "interventionNeeded": {
                         "type": "checkbox",
-                        "key": "interventionNeeded_a", 
+                        "key": "interventionNeeded_a",
                         "defaultValue": false
                     }
                 },
-                {   
+                {
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr",
@@ -495,7 +500,7 @@
                     "label_textarea": "Please add any additional comments if necessary",
                     "key": "comments_ac"
                 }
-            ] 
+            ]
         },
         {
             "section": "Criminal History Risk Assessment",
@@ -539,7 +544,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_nocc"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -571,7 +576,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_nopcdf"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -603,7 +608,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_afacf"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -635,7 +640,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_ehf"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -667,7 +672,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_wutf"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -699,7 +704,7 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_fovf"
-                    }  
+                    }
                 },
                 {
                     "type": "radioTextarea",
@@ -731,9 +736,9 @@
                     "comments": {
                         "type": "textarea",
                         "key": "comments_svf"
-                    }  
+                    }
                 },
-                {   
+                {
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr",
@@ -770,7 +775,7 @@
                     "sectionTitle": "Supervision Rating",
                     "sectionSubTitle": "Dynamic Factors"
                 },
-                {   
+                {
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr",
@@ -793,7 +798,7 @@
                         }
                     ]
                 },
-                {   
+                {
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr",
@@ -816,7 +821,7 @@
                         }
                     ]
                 },
-                {   
+                {
                     "type": "radio",
                     "questionLabel": "Overall Supervision Rating",
                     "key": "radio_osr",
