@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.FormtypesApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormType;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ public class FormTypesApiImpl implements FormtypesApi {
 
     @Override
     @Transactional
+    @RolesAllowed("data-view")
     public FormTypeList getFormTypes() {
 
         logger.info("Get form types request received");
