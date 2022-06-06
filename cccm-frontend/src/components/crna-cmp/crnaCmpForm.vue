@@ -83,12 +83,12 @@ export default {
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
-      formJSONFormData: {},
+      formJSONFormData: sampleFormData,
       componentKey: 0,
     }
   },
   mounted(){
-    this.getFormData()
+    //this.getFormData()
   },
   methods: {
     async getFormData() {
