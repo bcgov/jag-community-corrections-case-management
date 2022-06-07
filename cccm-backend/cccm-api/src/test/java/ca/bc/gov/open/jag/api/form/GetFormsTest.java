@@ -19,7 +19,7 @@ public class GetFormsTest {
     FormsApiImpl sut;
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "data-view")
+    @TestSecurity(user = "userOidc", roles = "form-view")
     @DisplayName("200: should return forms")
     public void testGetFormsEndpoint() throws CCCMException {
 

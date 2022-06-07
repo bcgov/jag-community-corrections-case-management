@@ -5,7 +5,6 @@ import ca.bc.gov.open.jag.api.service.DataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
-import io.quarkus.security.Authenticated;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,7 +46,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
-    @RolesAllowed("data-view")
+    @RolesAllowed("form-view")
     public FormDetails getFormById(BigDecimal formId) {
 
         logger.info("Get form id request received");
@@ -57,7 +56,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
-    @RolesAllowed("type-view")
+    @RolesAllowed("form-view")
     public FormDetails getFormByType(String formType) {
 
         logger.info("Get form type request received");
@@ -68,7 +67,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("data-view")
+    @RolesAllowed("form-view")
     public FormList getForms() {
 
         logger.info("Get forms request received");

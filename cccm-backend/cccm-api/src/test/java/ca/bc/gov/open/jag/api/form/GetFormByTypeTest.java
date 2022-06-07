@@ -25,7 +25,7 @@ public class GetFormByTypeTest {
     FormsApiImpl sut;
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "type-view")
+    @TestSecurity(user = "userOidc", roles = "form-view")
     @DisplayName("200: should return form")
     public void testGetFormEndpoint() throws CCCMException {
 
