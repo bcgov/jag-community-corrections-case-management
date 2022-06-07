@@ -128,7 +128,8 @@
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_at", 
-                        "defaultValue": false,
+                        "label": "Intervention needed",
+                        "defaultValue": true,
                         "key_itv_type": "key_itv_ddl_at",
                         "itv_type_data": {
                             "values": [
@@ -146,12 +147,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_at",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_at",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_at",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 { 
@@ -187,6 +190,7 @@
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_la", 
+                        "label": "Intervention needed",
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_la",
                         "itv_type_data": {
@@ -205,12 +209,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_la",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_la",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_la",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
@@ -246,6 +252,7 @@
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_co", 
+                        "label": "Intervention needed",
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_co",
                         "itv_type_data": {
@@ -264,12 +271,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_co",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_co",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_co",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
@@ -305,6 +314,7 @@
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_avs", 
+                        "label": "Intervention needed",
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_avs",
                         "itv_type_data": {
@@ -323,12 +333,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_avs",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_avs",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_avs",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
@@ -363,7 +375,8 @@
                         "key": "comments_epf"
                     },
                     "interventionNeeded": {
-                        "key_yn": "key_itv_epf", 
+                        "key_yn": "key_itv_epf",
+                        "label": "Intervention needed", 
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_epf",
                         "itv_type_data": {
@@ -382,12 +395,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_epf",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_epf",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_epf",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
@@ -422,7 +437,8 @@
                         "key": "comments_fm"
                     },
                     "interventionNeeded": {
-                        "key_yn": "key_itv_fm", 
+                        "key_yn": "key_itv_fm",
+                        "label": "Intervention needed", 
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_fm",
                         "itv_type_data": {
@@ -441,12 +457,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_fm",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_fm",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_fm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   
@@ -481,7 +499,8 @@
                         "key": "comments_be"
                     },
                     "interventionNeeded": {
-                        "key_yn": "key_itv_be", 
+                        "key_yn": "key_itv_be",
+                        "label": "Intervention needed", 
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_be",
                         "itv_type_data": {
@@ -500,12 +519,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_be",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_be",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_be",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
@@ -540,7 +561,8 @@
                         "key": "comments_sm"
                     },
                     "interventionNeeded": {
-                        "key_yn": "key_itv_sm", 
+                        "key_yn": "key_itv_sm",
+                        "label": "Intervention needed", 
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_sm",
                         "itv_type_data": {
@@ -559,12 +581,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_sm",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_sm",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_sm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
@@ -599,7 +623,8 @@
                         "key": "comments_a"
                     },
                     "interventionNeeded": {
-                        "key_yn": "key_itv_a", 
+                        "key_yn": "key_itv_a",
+                        "label": "Intervention needed", 
                         "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_a",
                         "itv_type_data": {
@@ -618,12 +643,14 @@
                         "value_itv_other": "",
                         "key_itv_description": "key_itv_tb_a",
                         "value_itv_description": "",
-                        "button": {
-                            "action": "submit",
-                            "key": "btn_add_itv_a",
-                            "label": "Add Intervention",
-                            "theme": "primary"
-                        }
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_a",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   

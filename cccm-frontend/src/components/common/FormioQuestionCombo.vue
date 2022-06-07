@@ -1,10 +1,14 @@
 <template>
-  <Form :form="formJSON"/>
+  <div>
+    <Form :form="formJSON"/>
+    <FormioIntervention :dataModel="dataModel.interventionNeeded"/>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import FormioIntervention from "@/components/common/FormioIntervention.vue";
 import templateQuestionCombo from '@/components/common/templateQuestionCombo.json';
 
 export default {
@@ -19,10 +23,14 @@ export default {
     }
   },
   components: {
-    Form
+    Form,
+    FormioIntervention,
   },
   mounted(){
-    this.buildFormInfoDataEntry()
+    this.buildFormInfoDataEntry();
+    setTimeout(() => {
+      this.showHideInterventionPanels();
+    }, 1000);
   },
   methods: {
     buildFormInfoDataEntry() {
@@ -34,18 +42,6 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${radiodefaultValue}', this.dataModel.radiodefaultValue);
       tmpJSONStr = tmpJSONStr.replace('${radiokey}', this.dataModel.radiokey);
 
-      // Set intervention needed component
-      tmpJSONStr = tmpJSONStr.replace('${key_itv_needed}', this.dataModel.interventionNeeded.key_yn);
-      tmpJSONStr = tmpJSONStr.replace('${defaultValue_ivNeeded}', this.dataModel.interventionNeeded.defaultValue);
-      tmpJSONStr = tmpJSONStr.replace('${key_itv_details}', "itv_" + this.dataModel.interventionNeeded.key_yn);
-      tmpJSONStr = tmpJSONStr.replace('${key_itv_type}', this.dataModel.interventionNeeded.key_itv_type);
-
-      tmpJSONStr = tmpJSONStr.replace('${key_itv_other}', this.dataModel.interventionNeeded.key_itv_other);
-      tmpJSONStr = tmpJSONStr.replace('${value_itv_other}', this.dataModel.interventionNeeded.value_itv_other);
-
-      tmpJSONStr = tmpJSONStr.replace('${key_itv_description}', this.dataModel.interventionNeeded.key_itv_description);
-      tmpJSONStr = tmpJSONStr.replace('${value_itv_description}', this.dataModel.interventionNeeded.value_itv_description);
-      
       //Set the radio component. 
       let tmpJSON = JSON.parse(tmpJSONStr);   
       let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
@@ -59,24 +55,40 @@ export default {
       objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'textarea'));
       tmpJSON.components[0].components[objIndex].key = this.dataModel.comments.key;
       
-      // Set intervention needed type DDL
-      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'well'));
-      tmpJSON.components[0].components[objIndex].components[0].columns[0].components[0].data.values = this.dataModel.interventionNeeded.itv_type_data.values;
-      
-      // build button
-      if (this.dataModel.interventionNeeded.button != null){
-        let btnComponent = JSON.parse("{}");
-        btnComponent.type = "button";
-        btnComponent.action = this.dataModel.interventionNeeded.button.action;
-        btnComponent.key = this.dataModel.interventionNeeded.button.key;
-        btnComponent.label = this.dataModel.interventionNeeded.button.label;
-        btnComponent.theme = this.dataModel.interventionNeeded.button.theme;
-        tmpJSON.components[0].components[objIndex].components[2] = btnComponent;
-      }
-
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
+    },
+    showHideInterventionPanels() {
+      // if the checkBox is check, show details
+      let checkBoxID = this.dataModel.interventionNeeded.key_yn;
+      let theCB = document.getElementById(checkBoxID);
+      if (theCB != null) {
+        let itvPanelID = "panel_" + this.dataModel.interventionNeeded.key_yn;
+        let itvPanel = document.getElementById(itvPanelID);
+        if (itvPanel != null) {
+          if (theCB.checked) {
+            itvPanel.setAttribute('style', 'display:block');
+          } else {
+            itvPanel.setAttribute('style', 'display:none');
+          }
+        }
+        
+      } else {
+        console.log("checkbox not found");
+      }
+
+      // Check the intevention type ddl:
+      // case 1: no value selected, diable description textarea
+      // case 2: value selected, enable descrition textarea
+      // case 2.1: value = other, show textinput
+      // case 2.2: otherwise, don't show
+      let itvTypeDDLName = "data[" + this.dataModel.interventionNeeded.key_itv_type + "]";
+      let itvTypeDDL = document.getElementsByName(itvTypeDDLName);
+      console.log("ddl: ", itvTypeDDL);
+      if (itvTypeDDL != null && itvTypeDDL[0] != null) {
+        itvTypeDDL.values
+      }
     }
-  },
+  }
 }
 </script>
