@@ -108,31 +108,6 @@
                             "tableView": true,
                             "placeholder": "Please select an intervention type",
                             "key": "${key_itv_description}",
-                            "logic": [
-                                {
-                                    "name": "diableLogic",
-                                    "trigger": {
-                                        "type": "simple",
-                                        "simple": {
-                                            "show": true,
-                                            "when": "${key_itvDataGrid}.${key_itv_type}",
-                                            "eq": ""
-                                        }
-                                     },
-                                    "actions": [
-                                        {
-                                            "name": "disableAction",
-                                            "type": "property",
-                                            "property": {
-                                                "label": "Hidden",
-                                                "value": "hidden",
-                                                "type": "boolean"
-                                            },
-                                            "state": "true"
-                                        }
-                                    ]
-                                }
-                            ],
                             "type": "textarea",
                             "input": true
                         }
