@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
+import io.quarkus.security.ForbiddenException;
+import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
 import org.junit.jupiter.api.Assertions;
@@ -26,5 +28,21 @@ public class GetFormTypesTest {
 
     }
 
+    @Test
+    @TestSecurity(user = "userOidc", roles = "someotherrole")
+    @DisplayName("403: throw unauthorized exception")
+    public void getFormTypesTestExceptionBadRole() {
+
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormTypes());
+
+    }
+
+    @Test
+    @DisplayName("401: throw unauthorized exception")
+    public void getFormTypesTestExceptionNoToken() {
+
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormTypes());
+
+    }
 
 }
