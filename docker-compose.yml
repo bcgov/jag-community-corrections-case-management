@@ -12,6 +12,10 @@ services:
         - SKIP_TESTS=true
     ports:
       - "8080:8080"
+    environment:
+      - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}  
+      - KEYCLOAK_CLIENT=${KEYCLOAK_CLIENT}
+      - KEYCLOAK_SECRET=${KEYCLOAK_SECRET}
     networks:
       - cccm
 
@@ -24,6 +28,7 @@ services:
       - "8000:8000"
     networks:
       - cccm
+
   
 networks:
   cccm:
