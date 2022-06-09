@@ -68,16 +68,18 @@
             ]
         },
         {
-            "type": "panel",
+            "type": "editPanel",
             "contentType": "text",
             "panelTitle": "Source Contacted",
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
             "dataString": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
             "button": {
-                "action": "submit",
-                "key": "btn_add_source",
+                "action": "event",
+                "event": "evt_changeButtonLabel",
+                "key": "add_source",
                 "label": "Add Source",
+                "toggledLabel": "Save",
                 "theme": "primary"
             }
         }
