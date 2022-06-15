@@ -144,7 +144,7 @@
                     "interventionNeeded": {
                         "key_yn": "key_itv_at", 
                         "label": "Intervention needed",
-                        "defaultValue": true,
+                        "defaultValue": false,
                         "key_itv_type": "key_itv_ddl_at",
                         "itv_type_data": {
                             "values": [

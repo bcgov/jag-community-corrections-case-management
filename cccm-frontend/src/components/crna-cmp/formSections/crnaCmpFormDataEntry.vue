@@ -76,42 +76,8 @@ export default {
       //       "key_checkbox": false,
       //       "questionLabel": "Family Relationships"
       //     }
-      if (dataType === 'questionCombo') {
-        if (dataValue != null) {
-          if (this.questionComboData.questionCombo == null) {
-            this.questionComboData.questionCombo = [];
-          } 
-          
-          let found = false;
-          for (let i = 0; i < this.questionComboData.questionCombo.length; i++) {
-            if (this.questionComboData.questionCombo[i].hidden_key === dataValue.hidden_key) {
-              found = true;
-              // if key_checkbox is checked, replace the existing value with the new one
-              if (dataValue.key_checkbox) {
-                this.questionComboData.questionCombo[i] = dataValue;
-              } else {
-                // remove the item from the array
-                this.questionComboData.questionCombo.splice(i, 1);
-                this.questionComboIndex--;
-              }
-              break;
-            }
-          }
-          if (!found && dataValue.key_checkbox) {
-            this.questionComboData.questionCombo[this.questionComboIndex++] = dataValue;
-          }
-        }
-        this.initData_intervention.data = this.questionComboData;
-        //console.log("initData_intervention: ", JSON.stringify(this.initData_intervention));
-        this.key_intervention++;
-      }
-    }
-  },
-  computed: {
-    getInitInterventionData() {
-      console.log("initData_intervention: ", JSON.stringify(this.initData_intervention));
-      return this.initData_intervention;
-    // {
+
+      // {
     //   "questionCombo": [
     //     {
     //       "radioButton": "P",
@@ -131,149 +97,126 @@ export default {
     //         }
     //       ],
     //       "questionLabel": "Family Relationships"
-    //     },
-    //     {
-    //       "radioButton": "P",
-    //       "hidden_key": "quetionCombo_la",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Living Arrangements"
-    //     },
-    //     {
-    //       "radioButton": "m",
-    //       "hidden_key": "quetionCombo_cso",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Companions/Significant Others"
-    //     },
-    //     {
-    //       "radioButton": "na",
-    //       "hidden_key": "quetionCombo_avs",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Academic/Vocational Skills"
-    //     },
-    //     {
-    //       "radioButton": "s",
-    //       "hidden_key": "quetionCombo_epf",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Employment Pattern Factors"
-    //     },
-    //     {
-    //       "radioButton": "n",
-    //       "hidden_key": "quetionCombo_fm",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Financial Management"
-    //     },
-    //     {
-    //       "radioButton": "na",
-    //       "hidden_key": "quetionCombo_besf",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Behavioural/Emotional Stability Factors"
-    //     },
-    //     {
-    //       "radioButton": "na",
-    //       "hidden_key": "quetionCombo_sm",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Substance Misuse"
-    //     },
-    //     {
-    //       "radioButton": "a",
-    //       "hidden_key": "quetionCombo_a",
-    //       "comments": "",
-    //       "key_checkbox": false,
-    //       "questionLabel": "Attitude"
     //     }
     //   ]
     // }
      
 
-      // return {
-      //   "data": {
-      //     "questionCombo": [
-      //       {
-      //         "radioButton": "P",
-      //         "hidden_key": "quetionCombo_fr",
-      //         "comments": "family relationship comments",
-      //         "key_checkbox": true,
-      //         "key_itvDataGrid": [
-      //           {
-      //             "key_itv_type": "type1",
-      //             "key_itv_other": "",
-      //             "key_itv_description": "type 1 desc"
-      //           },
-      //           {
-      //             "key_itv_type": "other",
-      //             "key_itv_description": "abc desc",
-      //             "key_itv_other": "abc"
-      //           }
-      //         ],
-      //         "questionLabel": "Family Relationships"
-      //       },
-      //       {
-      //         "radioButton": "P",
-      //         "hidden_key": "quetionCombo_la",
-      //         "comments": "La comments",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Living Arrangements"
-      //       },
-      //       {
-      //         "radioButton": "m",
-      //         "hidden_key": "quetionCombo_cso",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Companions/Significant Others"
-      //       },
-      //       {
-      //         "radioButton": "na",
-      //         "hidden_key": "quetionCombo_avs",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Academic/Vocational Skills"
-      //       },
-      //       {
-      //         "radioButton": "s",
-      //         "hidden_key": "quetionCombo_epf",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Employment Pattern Factors"
-      //       },
-      //       {
-      //         "radioButton": "n",
-      //         "hidden_key": "quetionCombo_fm",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Financial Management"
-      //       },
-      //       {
-      //         "radioButton": "na",
-      //         "hidden_key": "quetionCombo_besf",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Behavioural/Emotional Stability Factors"
-      //       },
-      //       {
-      //         "radioButton": "na",
-      //         "hidden_key": "quetionCombo_sm",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Substance Misuse"
-      //       },
-      //       {
-      //         "radioButton": "a",
-      //         "hidden_key": "quetionCombo_a",
-      //         "comments": "",
-      //         "key_checkbox": false,
-      //         "questionLabel": "Attitude"
-      //       }
-      //     ]
-      //   }
-      // };
+      // return 
+      //   {
+      //     "data": {
+      //       "questionCombo": [
+      //         {
+      //           "radioButton": "P",
+      //           "hidden_key": "quetionCombo_fr",
+      //           "comments": "",
+      //           "key_checkbox": true,
+      //           "key_itv_type": "type1",
+      //           "key_itv_other": "",
+      //           "key_itv_description": "type 1 desc",
+      //           "questionLabel": "Family Relationships",
+            //       "key_itvDataGrid": [
+            //         {
+            //           "key_itv_type": "type1",
+            //           "key_itv_other": "",
+            //           "key_itv_description": "type 1 desc"
+            //         },
+            //         {
+            //           "key_itv_type": "other",
+            //           "key_itv_description": "abc desc",
+            //           "key_itv_other": "abc"
+            //         }
+            //       ]
+      //         },
+      //         {
+      //           "radioButton": "P",
+      //           "hidden_key": "quetionCombo_fr",
+      //           "comments": "",
+      //           "key_checkbox": true,
+      //           "key_itv_type": "other",
+      //           "key_itv_description": "abc desc",
+      //           "key_itv_other": "abc",
+      //           "questionLabel": "Family Relationships",
+            //       "key_itvDataGrid": [
+            //         {
+            //           "key_itv_type": "type1",
+            //           "key_itv_other": "",
+            //           "key_itv_description": "type 1 desc"
+            //         },
+            //         {
+            //           "key_itv_type": "other",
+            //           "key_itv_description": "abc desc",
+            //           "key_itv_other": "abc"
+            //         }
+            //       ]
+      //         }
+      //       ]
+      //     }
+      //   };
+      if (dataType === 'questionCombo') {
+        if (dataValue != null) {
+          if (this.questionComboData.questionCombo == null) {
+            this.questionComboData.questionCombo = [];
+          } 
+          
+          let found = false;
+          for (let i = 0; i < this.questionComboData.questionCombo.length; i++) {
+            if (this.questionComboData.questionCombo[i].hidden_key === dataValue.hidden_key) {
+              found = true;
+              // if key_checkbox is checked, replace the existing value with the new one
+              if (dataValue.key_checkbox) {
+                this.questionComboData.questionCombo[i] = dataValue;
+              } else {
+                // if key_checkbox is unchecked, remove the item from the array
+                this.questionComboData.questionCombo.splice(i, 1);
+                this.questionComboIndex--;
+              }
+              break;
+            }
+          }
+          if (!found && dataValue.key_checkbox) {
+            this.questionComboData.questionCombo[this.questionComboIndex++] = dataValue;
+          }
+        }
+        //console.log("questionComboData: ", JSON.stringify(this.questionComboData));
+
+        // rebuild initData_intervention from questionComboData
+        this.initData_intervention = {"data": {}};
+        let index = 0;
+        if (   this.questionComboData != null 
+            && this.questionComboData.questionCombo != null 
+            && this.questionComboData.questionCombo.length > 0) {
+          for (let i = 0; i < this.questionComboData.questionCombo.length; i++) {
+            if (   this.questionComboData.questionCombo[i] != null 
+                && this.questionComboData.questionCombo[i].key_itvDataGrid != null 
+                && this.questionComboData.questionCombo[i].key_itvDataGrid.length > 0) {
+              for (let j = 0; j < this.questionComboData.questionCombo[i].key_itvDataGrid.length; j++) {
+                if (this.initData_intervention.data.questionCombo == null) {
+                  this.initData_intervention.data.questionCombo = [];
+                }
+                let questionComboItem = {};
+                //questionComboItem = this.questionComboData.questionCombo[i];
+                questionComboItem.radioButton = this.questionComboData.questionCombo[i].radioButton;
+                questionComboItem.hidden_key = this.questionComboData.questionCombo[i].hidden_key;
+                questionComboItem.comments = this.questionComboData.questionCombo[i].comments;
+                questionComboItem.key_checkbox = this.questionComboData.questionCombo[i].key_checkbox;
+                questionComboItem.questionLabel = this.questionComboData.questionCombo[i].questionLabel;
+                // if key_itv_type value is 'other', use the value of key_itv_other
+                questionComboItem.key_itv_type = this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_type;
+                if (this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_type === "other") {
+                  questionComboItem.key_itv_type = this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_other;
+                }
+                questionComboItem.key_itv_description = this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_description;
+                
+                this.initData_intervention.data.questionCombo[index++] = questionComboItem;
+              }
+            }
+          }
+        }
+        //console.log("initData_intervention: ", JSON.stringify(this.initData_intervention));
+        this.key_intervention++;
+      }
     }
-  } 
+  }
 }
 </script>
