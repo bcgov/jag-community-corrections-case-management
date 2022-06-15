@@ -82,12 +82,24 @@
                 "toggledLabel": "Save",
                 "theme": "primary"
             }
+        },
+        {
+            "type": "panel",
+            "contentType": "ul",
+            "panelTitle": "Quentions to Consider",
+            "panelKey": "key_quenstionsToConsider",
+            "contentKey": "key_quenstionsToConsider_content",
+            "dataArray": [
+                "What information would assist another Probation Officer in working with this client?",
+                "What will assist in engaging with this client",
+                "What will assist in engaging with this client"
+            ]
         }
     ],
     "data": [
         {
             "section": "Needs Assessment",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -101,7 +113,7 @@
                     "type": "questionCombo",
                     "questionLabel": "Family Relationships",
                     "key": "quetionCombo_fr",
-                    "defaultValue": "N",
+                    "defaultValue": "P",
                     "values": [
                         {
                             "label": "Pattern of stable and supportive relationships",
@@ -126,7 +138,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_at"
+                        "key": "comments_at",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_at", 
@@ -188,7 +201,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_la"
+                        "key": "comments_la",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_la", 
@@ -250,7 +264,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_co"
+                        "key": "comments_co",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_co", 
@@ -312,7 +327,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_avs"
+                        "key": "comments_avs",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_avs", 
@@ -374,7 +390,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_epf"
+                        "key": "comments_epf",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_epf",
@@ -436,7 +453,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_fm"
+                        "key": "comments_fm",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_fm",
@@ -498,7 +516,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_be"
+                        "key": "comments_be",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_be",
@@ -560,7 +579,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_sm"
+                        "key": "comments_sm",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_sm",
@@ -622,7 +642,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_a"
+                        "key": "comments_a",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
                         "key_yn": "key_itv_a",
@@ -688,7 +709,7 @@
         },
         {
             "section": "Criminal History Risk Assessment",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -727,7 +748,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_nocc"
+                        "key": "comments_nocc",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -759,7 +781,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_nopcdf"
+                        "key": "comments_nopcdf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -791,7 +814,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_afacf"
+                        "key": "comments_afacf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -823,7 +847,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_ehf"
+                        "key": "comments_ehf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -855,7 +880,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_wutf"
+                        "key": "comments_wutf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -887,7 +913,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_fovf"
+                        "key": "comments_fovf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -919,7 +946,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_svf"
+                        "key": "comments_svf",
+                        "defaultValue": ""
                     }  
                 },
                 {   
@@ -949,7 +977,7 @@
         },
         {
             "section": "Supervision Rating",
-            "sideCardPanelHiddenList": ["key_legend"],
+            "sideCardPanelHiddenList": ["key_legend", "key_quenstionsToConsider"],
             "subNavOnOff": "off",
             "subsections": [
                 {
@@ -1033,6 +1061,25 @@
                     "label": "Supervision Rating Comments",
                     "label_textarea": "Please add any additional comments if necessary",
                     "key": "comments_src"
+                }
+            ]
+        },
+        {
+            "section": "Case Plan",
+            "sideCardPanelHiddenList": ["key_legend"],
+            "subNavOnOff": "off",
+            "subsections": [
+                {
+                    "type": "sectionTitle",
+                    "sectionKey": "section_cp",
+                    "subSectionKey": "subsection_cp",
+                    "sectionTitle": "Case Plan",
+                    "sectionSubTitle": ""
+                },
+                {
+                    "type": "editGrid",
+                    "label": "Intervention Plan",
+                    "key": "editGrid_fr"
                 }
             ]
         },

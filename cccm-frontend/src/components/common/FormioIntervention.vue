@@ -1,11 +1,10 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form :form="formJSON" v-on:change="handleChangeEvent"/>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import FormioButton from "@/components/common/FormioButton.vue";
 import templateIntervention from '@/components/common/templateIntervention.json';
 
 export default {
@@ -21,7 +20,6 @@ export default {
   },
   components: {
     Form,
-    FormioButton,
   },
   mounted(){
     this.buildFormData();
@@ -54,13 +52,14 @@ export default {
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
-      
-    }
-  },
-  computed: {
-    getCheckBoxValue() {
-      return this.dataModel.defaultValue;
     },
+    handleChangeEvent(event) {
+      //if (event.changed && event.changed.component.key === 'customerNumber' && event.changed.value) {
+      if (event.changed) {
+        console.log("event: ", event);
+        console.log("data: ", JSON.stringify(event.data));
+      }
+    }
   }
 }
 </script>

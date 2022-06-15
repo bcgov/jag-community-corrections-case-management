@@ -5,11 +5,12 @@
           :key="indexp">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :dataModel="headerc" />
+            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" @dataOnChanged="handleDataOnChanged" :dataModel="headerc" :initData="initData"/>
             <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :dataModel="headerc" />
             <FormioRadio v-else-if="headerc.type === 'radio'" :dataModel="headerc" />
             <FormioQuestionCetegoryTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
+            <FormioEditDataGrid v-else-if="headerc.type === 'editGrid'" :dataTemplate="headerc" :key=key_intervention :dataModel="dataModel.data" :initData="initData_intervention"/>
           </div>
         </div>
       </div>
@@ -25,11 +26,13 @@ import FormioRadio from "@/components/common/FormioRadio.vue";
 import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCategoryTitle.vue";
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
+import FormioEditDataGrid from "@/components/common/FormioEditDataGrid.vue";
 
 export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
     dataModel: {},
+    initData: {}
   },
   components: {
     FormioQuestionCombo,
@@ -38,6 +41,239 @@ export default {
     FormioQuestionCetegoryTitle,
     FormioRadioTextarea,
     FormioButton,
+    FormioEditDataGrid,
+  },
+  data() {
+    return {
+      questionComboData: {},
+      questionComboIndex: 0,
+      key_intervention: 0,
+      initData_intervention: {"data": {}},
+    }
+  },
+  methods: {
+    handleDataOnChanged(dataValue, dataType) {
+      // Sample dataValue when checkbox is checked
+      //     {
+      //       "radioButton": "P",
+      //       "hidden_key": "quetionCombo_fr",
+      //       "comments": "",
+      //       "key_checkbox": true,
+      //       "questionLabel": "Family Relationships"
+      //       "key_itvDataGrid": [
+      //         {
+      //           "key_itv_type": "",
+      //           "key_itv_other": "",
+      //           "key_itv_description": ""
+      //         }
+      //       ]
+      //     }
+      // Sample dataValue when checkbox is unchecked
+      //     {
+      //       "radioButton": "P",
+      //       "hidden_key": "quetionCombo_fr",
+      //       "comments": "",
+      //       "key_checkbox": false,
+      //       "questionLabel": "Family Relationships"
+      //     }
+      if (dataType === 'questionCombo') {
+        if (dataValue != null) {
+          if (this.questionComboData.questionCombo == null) {
+            this.questionComboData.questionCombo = [];
+          } 
+          
+          let found = false;
+          for (let i = 0; i < this.questionComboData.questionCombo.length; i++) {
+            if (this.questionComboData.questionCombo[i].hidden_key === dataValue.hidden_key) {
+              found = true;
+              // if key_checkbox is checked, replace the existing value with the new one
+              if (dataValue.key_checkbox) {
+                this.questionComboData.questionCombo[i] = dataValue;
+              } else {
+                // remove the item from the array
+                this.questionComboData.questionCombo.splice(i, 1);
+                this.questionComboIndex--;
+              }
+              break;
+            }
+          }
+          if (!found && dataValue.key_checkbox) {
+            this.questionComboData.questionCombo[this.questionComboIndex++] = dataValue;
+          }
+        }
+        this.initData_intervention.data = this.questionComboData;
+        //console.log("initData_intervention: ", JSON.stringify(this.initData_intervention));
+        this.key_intervention++;
+      }
+    }
+  },
+  computed: {
+    getInitInterventionData() {
+      console.log("initData_intervention: ", JSON.stringify(this.initData_intervention));
+      return this.initData_intervention;
+    // {
+    //   "questionCombo": [
+    //     {
+    //       "radioButton": "P",
+    //       "hidden_key": "quetionCombo_fr",
+    //       "comments": "",
+    //       "key_checkbox": true,
+    //       "key_itvDataGrid": [
+    //         {
+    //           "key_itv_type": "type1",
+    //           "key_itv_other": "",
+    //           "key_itv_description": "type 1 desc"
+    //         },
+    //         {
+    //           "key_itv_type": "other",
+    //           "key_itv_description": "abc desc",
+    //           "key_itv_other": "abc"
+    //         }
+    //       ],
+    //       "questionLabel": "Family Relationships"
+    //     },
+    //     {
+    //       "radioButton": "P",
+    //       "hidden_key": "quetionCombo_la",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Living Arrangements"
+    //     },
+    //     {
+    //       "radioButton": "m",
+    //       "hidden_key": "quetionCombo_cso",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Companions/Significant Others"
+    //     },
+    //     {
+    //       "radioButton": "na",
+    //       "hidden_key": "quetionCombo_avs",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Academic/Vocational Skills"
+    //     },
+    //     {
+    //       "radioButton": "s",
+    //       "hidden_key": "quetionCombo_epf",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Employment Pattern Factors"
+    //     },
+    //     {
+    //       "radioButton": "n",
+    //       "hidden_key": "quetionCombo_fm",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Financial Management"
+    //     },
+    //     {
+    //       "radioButton": "na",
+    //       "hidden_key": "quetionCombo_besf",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Behavioural/Emotional Stability Factors"
+    //     },
+    //     {
+    //       "radioButton": "na",
+    //       "hidden_key": "quetionCombo_sm",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Substance Misuse"
+    //     },
+    //     {
+    //       "radioButton": "a",
+    //       "hidden_key": "quetionCombo_a",
+    //       "comments": "",
+    //       "key_checkbox": false,
+    //       "questionLabel": "Attitude"
+    //     }
+    //   ]
+    // }
+     
+
+      // return {
+      //   "data": {
+      //     "questionCombo": [
+      //       {
+      //         "radioButton": "P",
+      //         "hidden_key": "quetionCombo_fr",
+      //         "comments": "family relationship comments",
+      //         "key_checkbox": true,
+      //         "key_itvDataGrid": [
+      //           {
+      //             "key_itv_type": "type1",
+      //             "key_itv_other": "",
+      //             "key_itv_description": "type 1 desc"
+      //           },
+      //           {
+      //             "key_itv_type": "other",
+      //             "key_itv_description": "abc desc",
+      //             "key_itv_other": "abc"
+      //           }
+      //         ],
+      //         "questionLabel": "Family Relationships"
+      //       },
+      //       {
+      //         "radioButton": "P",
+      //         "hidden_key": "quetionCombo_la",
+      //         "comments": "La comments",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Living Arrangements"
+      //       },
+      //       {
+      //         "radioButton": "m",
+      //         "hidden_key": "quetionCombo_cso",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Companions/Significant Others"
+      //       },
+      //       {
+      //         "radioButton": "na",
+      //         "hidden_key": "quetionCombo_avs",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Academic/Vocational Skills"
+      //       },
+      //       {
+      //         "radioButton": "s",
+      //         "hidden_key": "quetionCombo_epf",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Employment Pattern Factors"
+      //       },
+      //       {
+      //         "radioButton": "n",
+      //         "hidden_key": "quetionCombo_fm",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Financial Management"
+      //       },
+      //       {
+      //         "radioButton": "na",
+      //         "hidden_key": "quetionCombo_besf",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Behavioural/Emotional Stability Factors"
+      //       },
+      //       {
+      //         "radioButton": "na",
+      //         "hidden_key": "quetionCombo_sm",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Substance Misuse"
+      //       },
+      //       {
+      //         "radioButton": "a",
+      //         "hidden_key": "quetionCombo_a",
+      //         "comments": "",
+      //         "key_checkbox": false,
+      //         "questionLabel": "Attitude"
+      //       }
+      //     ]
+      //   }
+      // };
+    }
   } 
 }
 </script>
