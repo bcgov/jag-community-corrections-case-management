@@ -5,10 +5,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import templateEditDataGrid from '@/components/common/templateEditDataGrid.json';
+import templateEditDataGrid from '@/components/common/templateEditDataGridIntervention.json';
 
 export default {
-  name: 'FormioPanel',
+  name: 'FormioEditDataGridIntervention',
   props: {
     dataModel: {},
     initData: {},

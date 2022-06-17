@@ -10,7 +10,7 @@
             <FormioRadio v-else-if="headerc.type === 'radio'" :dataModel="headerc" />
             <FormioQuestionCetegoryTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
-            <FormioEditDataGrid v-else-if="headerc.type === 'editGrid'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_intervention :dataModel="dataModel.data" :initData="initData_intervention"/>
+            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGrid'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_intervention :dataModel="dataModel.data" :initData="initData_intervention"/>
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@ import FormioRadio from "@/components/common/FormioRadio.vue";
 import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCategoryTitle.vue";
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
-import FormioEditDataGrid from "@/components/common/FormioEditDataGrid.vue";
+import FormioEditDataGridIntervention from "@/components/common/FormioEditDataGridIntervention.vue";
 
 export default {
   name: 'CrnaCmpFormDataEntry',
@@ -40,7 +40,7 @@ export default {
     FormioQuestionCetegoryTitle,
     FormioRadioTextarea,
     FormioButton,
-    FormioEditDataGrid,
+    FormioEditDataGridIntervention,
   },
   data() {
     return {
@@ -187,7 +187,7 @@ export default {
           }
         }
       }
-      // force FormioEditDataGrid component to reload
+      // force FormioEditDataGridIntervention component to reload
       this.key_intervention++;
     },
     getInitData() {
@@ -235,7 +235,7 @@ export default {
       }
       // force FormioQuestionCombo component to reload
       this.Key_questionCombo++;
-      // force FormioEditDataGrid component to reload
+      // force FormioEditDataGridIntervention component to reload
       this.key_intervention++;
     }
   }
