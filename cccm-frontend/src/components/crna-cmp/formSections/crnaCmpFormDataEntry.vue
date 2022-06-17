@@ -57,55 +57,56 @@ export default {
   },
   methods: {
     handleInterventionDataGridOnChanged(dataValue) {
-        // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
-        //Sample dataValue, should only contain 1 object
-        //  
-        //     {
-        //       "radioButton": "P",
-        //       "hidden_key": "quetionCombo_fr",
-        //       "comments": "",
-        //       "key_checkbox": true,
-        //       "questionLabel": "Family Relationships",
-        //       "key_itv_type": "type1",
-        //       "key_itv_description": "some comments for type 1",
-        //     }
-        
-        // Update the initData
-        this.initData_questionCombo[dataValue.hidden_key].data.comments = dataValue.comments;
-        for (let k = 0; k < this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid.length; k++) {
-          if (this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_type === dataValue.key_itv_type 
-           || this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_other === dataValue.key_itv_type) {
-            // replace the 'key_itv_description' value
-            this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_description = dataValue.key_itv_description;
-          }
+      // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
+      //Sample dataValue, should only contain 1 object
+      // {
+      //   "radioButton": "P",
+      //   "hidden_key": "quetionCombo_fr",
+      //   "comments": "",
+      //   "key_checkbox": true,
+      //   "questionLabel": "Family Relationships",
+      //   "key_itv_type": "type1",
+      //   "key_itv_description": "some comments for type 1",
+      // }
+      
+      // Update this.initData_questionCombo
+      this.initData_questionCombo[dataValue.hidden_key].data.comments = dataValue.comments;
+      for (let k = 0; k < this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid.length; k++) {
+        if (this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_type === dataValue.key_itv_type 
+          || this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_other === dataValue.key_itv_type) {
+          // replace the 'key_itv_description' value
+          this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_description = dataValue.key_itv_description;
         }
-        this.Key_questionCombo++;
+      }
+      // force FormioQuestionCombo component to reload
+      this.Key_questionCombo++;
     },
     handleQuestionComboDataOnChanged(dataValue) {
       // Sample dataValue when checkbox is checked
+      // {
+      //   "radioButton": "P",
+      //   "hidden_key": "quetionCombo_fr",
+      //   "comments": "",
+      //   "key_checkbox": true,
+      //   "questionLabel": "Family Relationships"
+      //   "key_itvDataGrid": [
       //     {
-      //       "radioButton": "P",
-      //       "hidden_key": "quetionCombo_fr",
-      //       "comments": "",
-      //       "key_checkbox": true,
-      //       "questionLabel": "Family Relationships"
-      //       "key_itvDataGrid": [
-      //         {
-      //           "key_itv_type": "",
-      //           "key_itv_other": "",
-      //           "key_itv_description": ""
-      //         }
-      //       ]
+      //       "key_itv_type": "",
+      //       "key_itv_other": "",
+      //       "key_itv_description": ""
       //     }
+      //   ]
+      // }
       // Sample dataValue when checkbox is unchecked
-      //     {
-      //       "radioButton": "P",
-      //       "hidden_key": "quetionCombo_fr",
-      //       "comments": "",
-      //       "key_checkbox": false,
-      //       "questionLabel": "Family Relationships"
-      //     }
+      // {
+      //   "radioButton": "P",
+      //   "hidden_key": "quetionCombo_fr",
+      //   "comments": "",
+      //   "key_checkbox": false,
+      //   "questionLabel": "Family Relationships"
+      // }
 
+      // Sample data for this.questionComboData
       // {
       //   "questionCombo": [
       //     {
@@ -192,46 +193,44 @@ export default {
     getInitData() {
       // get the initial array of questionComboData to pre-populate the question combo component
       if (   this.dataModel != null 
-          && this.dataModel.data != null 
-          && this.dataModel.data[0] != null 
-          && this.dataModel.data[0].subsections != null
-          ) {
-
-        this.initData_intervention = {"data": {}};
-        let index = 0;
-
-        for (let i = 0; i < this.dataModel.data[0].subsections.length; i++) {
-          if (this.dataModel.data[0].subsections[i].type === 'questionCombo') {
-            let tmp = this.dataModel.data[0].subsections[i].interventionNeeded.initData.data;
-            // add to this.initData_questionCombo
-            this.initData_questionCombo[this.dataModel.data[0].subsections[i].key]=this.dataModel.data[0].subsections[i].interventionNeeded.initData;
-          
-            // add to this.initData_intervention
-            if (   tmp != null 
-              && tmp.key_itvDataGrid != null 
-              && tmp.key_itvDataGrid.length > 0) {
-              for (let j = 0; j < tmp.key_itvDataGrid.length; j++) {
-                if (this.initData_intervention.data.questionCombo == null) {
-                  this.initData_intervention.data.questionCombo = [];
+          && this.dataModel.data != null) {
+        for (let g = 0; g < this.dataModel.data.length; g++) {
+          this.initData_intervention = {"data": {}};
+          let index = 0;
+          if (this.dataModel.data[g].subsections != null) {
+            for (let i = 0; i < this.dataModel.data[g].subsections.length; i++) {
+              if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
+                let tmp = this.dataModel.data[g].subsections[i].interventionNeeded.initData.data;
+                // add to this.initData_questionCombo
+                this.initData_questionCombo[this.dataModel.data[g].subsections[i].key]=this.dataModel.data[g].subsections[i].interventionNeeded.initData;
+              
+                // add to this.initData_intervention
+                if ( tmp != null 
+                  && tmp.key_itvDataGrid != null 
+                  && tmp.key_itvDataGrid.length > 0) {
+                  for (let j = 0; j < tmp.key_itvDataGrid.length; j++) {
+                    if (this.initData_intervention.data.questionCombo == null) {
+                      this.initData_intervention.data.questionCombo = [];
+                    }
+                    let questionComboItem = {};
+                    questionComboItem.radioButton = tmp.radioButton;
+                    questionComboItem.hidden_key = tmp.hidden_key;
+                    questionComboItem.comments = tmp.comments;
+                    questionComboItem.key_checkbox = tmp.key_checkbox;
+                    questionComboItem.questionLabel = tmp.questionLabel;
+                    // if key_itv_type value is 'other', use the value of key_itv_other
+                    questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_type;
+                    if (tmp.key_itvDataGrid[j].key_itv_type === "other") {
+                      questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_other;
+                    }
+                    questionComboItem.key_itv_description = tmp.key_itvDataGrid[j].key_itv_description;
+                    
+                    this.initData_intervention.data.questionCombo[index++] = questionComboItem;
+                  }
                 }
-                let questionComboItem = {};
-                questionComboItem.radioButton = tmp.radioButton;
-                questionComboItem.hidden_key = tmp.hidden_key;
-                questionComboItem.comments = tmp.comments;
-                questionComboItem.key_checkbox = tmp.key_checkbox;
-                questionComboItem.questionLabel = tmp.questionLabel;
-                // if key_itv_type value is 'other', use the value of key_itv_other
-                questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_type;
-                if (tmp.key_itvDataGrid[j].key_itv_type === "other") {
-                  questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_other;
-                }
-                questionComboItem.key_itv_description = tmp.key_itvDataGrid[j].key_itv_description;
-                
-                this.initData_intervention.data.questionCombo[index++] = questionComboItem;
-              }
+              } 
             }
-          
-          } 
+          }
         }
       }
       // force FormioQuestionCombo component to reload
