@@ -27,8 +27,7 @@ export default {
   },
   mounted(){
     this.buildFormInfoDataEntry();
-    // setTimeout(() => {
-    // }, 1000);
+    //console.log("initData: ", this.initData);
   },
   methods: {
     buildFormInfoDataEntry() {
@@ -70,9 +69,16 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleChangeEvent(event) {
-      // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
-      //if (event.changed && event.changed.component.key === 'customerNumber' && event.changed.value) {
-      this.$emit('dataOnChanged', event.data, 'questionCombo');
+      // emit an event, dataOnChanged, to the parent, so parent knows the changes
+      if (   event.changed 
+          && ( event.changed.component.key === 'comments'  
+            || event.changed.component.key === 'key_checkbox' 
+            || event.changed.component.key === 'key_itv_type'
+            || event.changed.component.key === 'key_itv_other'
+            || event.changed.component.key === 'key_itv_description')
+          ) {
+        this.$emit('dataOnChanged', event.data);
+      }
     }
   }
 }

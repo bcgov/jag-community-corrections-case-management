@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON" :submission="initData" />
+    <Form :form="formJSON" v-on:editGridSaveRow="handleEditGridSaveRowEvent" :submission="initData" />
 </template>
 
 <script lang="ts">
@@ -37,6 +37,10 @@ export default {
       
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
+    },
+    handleEditGridSaveRowEvent(event) {
+      console.log("event: ", event.row);
+      this.$emit('dataOnChanged', event.row);
     }
   }
 }

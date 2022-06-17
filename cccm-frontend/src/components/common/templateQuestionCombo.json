@@ -164,7 +164,7 @@
                                   "label": "Description",
                                   "autoExpand": false,
                                   "tableView": true,
-                                  "placeholder": "Please select an intervention type",
+                                  "placeholder": "Please enter here",
                                   "key": "key_itv_description",
                                   "type": "textarea",
                                   "input": true
