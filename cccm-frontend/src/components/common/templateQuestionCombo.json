@@ -50,17 +50,8 @@
               "key": "${key}",
               "type": "textarea",
               "input": true
-          },
-          {
-              "label": "Intervention needed",
-              "tableView": false,
-              "key": "${key}",
-              "type": "checkbox",
-              "input": true,
-              "defaultValue": "${defaultValue}"
           }
         ]
-    
       }
     ]
 }

@@ -98,7 +98,7 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Family Relationships",
-                    "key": "templateForm_fr",
+                    "key": "quetionCombo_fr",
                     "defaultValue": "N",
                     "values": [
                         {
@@ -127,15 +127,40 @@
                         "key": "comments_at"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_at", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_at", 
+                        "label": "Intervention needed",
+                        "defaultValue": true,
+                        "key_itv_type": "key_itv_ddl_at",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_at",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_at",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_at",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 { 
                     "type": "questionCombo",  
                     "questionLabel": "Living Arrangements",
-                    "key": "templateForm_la",
+                    "key": "quetionCombo_la",
                     "defaultValue": "P",
                     "values": [
                         {
@@ -164,15 +189,40 @@
                         "key": "comments_la"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_la", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_la", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_la",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_la",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_la",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_la",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Companions/Significant Others",
-                    "key": "templateForm_cso",
+                    "key": "quetionCombo_cso",
                     "defaultValue": "m",
                     "values": [
                         {
@@ -201,15 +251,40 @@
                         "key": "comments_co"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_co", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_co", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_co",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_co",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_co",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_co",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Academic/Vocational Skills",
-                    "key": "templateForm_avs",
+                    "key": "quetionCombo_avs",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -238,15 +313,40 @@
                         "key": "comments_avs"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_avs", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_avs", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_avs",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_avs",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_avs",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_avs",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Employment Pattern Factors",
-                    "key": "templateForm_epf",
+                    "key": "quetionCombo_epf",
                     "defaultValue": "s",
                     "values": [
                         {
@@ -275,15 +375,40 @@
                         "key": "comments_epf"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_epf", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_epf",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_epf",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_epf",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_epf",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_epf",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Financial Management",
-                    "key": "templateForm_fm",
+                    "key": "quetionCombo_fm",
                     "defaultValue": "n",
                     "values": [
                         {
@@ -312,15 +437,40 @@
                         "key": "comments_fm"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_fm", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_fm",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_fm",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_fm",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_fm",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_fm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Behavioural/Emotional Stability Factors",
-                    "key": "templateForm_besf",
+                    "key": "quetionCombo_besf",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -349,15 +499,40 @@
                         "key": "comments_be"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_be", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_be",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_be",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_be",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_be",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_be",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Substance Misuse",
-                    "key": "templateForm_sm",
+                    "key": "quetionCombo_sm",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -386,15 +561,40 @@
                         "key": "comments_sm"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_sm", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_sm",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_sm",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_sm",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_sm",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_sm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Attitude",
-                    "key": "templateForm_a",
+                    "key": "quetionCombo_a",
                     "defaultValue": "a",
                     "values": [
                         {
@@ -423,9 +623,34 @@
                         "key": "comments_a"
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_a", 
-                        "defaultValue": false
+                        "key_yn": "key_itv_a",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_a",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_a",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_a",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_a",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   

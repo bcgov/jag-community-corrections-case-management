@@ -1,10 +1,14 @@
 <template>
-  <Form :form="formJSON"/>
+  <div>
+    <Form :form="formJSON"/>
+    <FormioIntervention :dataModel="dataModel.interventionNeeded"/>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import FormioIntervention from "@/components/common/FormioIntervention.vue";
 import templateQuestionCombo from '@/components/common/templateQuestionCombo.json';
 
 export default {
@@ -19,10 +23,11 @@ export default {
     }
   },
   components: {
-    Form
+    Form,
+    FormioIntervention,
   },
   mounted(){
-    this.buildFormInfoDataEntry()
+    this.buildFormInfoDataEntry();
   },
   methods: {
     buildFormInfoDataEntry() {
@@ -47,14 +52,9 @@ export default {
       objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'textarea'));
       tmpJSON.components[0].components[objIndex].key = this.dataModel.comments.key;
       
-      // Set intervention needed component
-      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'checkbox'));
-      tmpJSON.components[0].components[objIndex].key = this.dataModel.interventionNeeded.key;
-      tmpJSON.components[0].components[objIndex].defaultValue = this.dataModel.interventionNeeded.defaultValue;
-
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
     }
-  },
+  }
 }
 </script>
