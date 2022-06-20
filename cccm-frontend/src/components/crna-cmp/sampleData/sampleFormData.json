@@ -68,24 +68,38 @@
             ]
         },
         {
-            "type": "panel",
+            "type": "editPanel",
             "contentType": "text",
             "panelTitle": "Source Contacted",
             "panelKey": "key_sourceContacted",
             "contentKey": "key_sourceContacted_content",
             "dataString": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records",
             "button": {
-                "action": "submit",
-                "key": "btn_add_source",
+                "action": "event",
+                "event": "evt_changeButtonLabel",
+                "key": "add_source",
                 "label": "Add Source",
+                "toggledLabel": "Save",
                 "theme": "primary"
             }
+        },
+        {
+            "type": "panel",
+            "contentType": "ul",
+            "panelTitle": "Quentions to Consider",
+            "panelKey": "key_quenstionsToConsider",
+            "contentKey": "key_quenstionsToConsider_content",
+            "dataArray": [
+                "What information would assist another Probation Officer in working with this client?",
+                "What will assist in engaging with this client",
+                "What will assist in engaging with this client"
+            ]
         }
     ],
     "data": [
         {
             "section": "Needs Assessment",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -98,8 +112,8 @@
                 {
                     "type": "questionCombo",
                     "questionLabel": "Family Relationships",
-                    "key": "templateForm_fr",
-                    "defaultValue": "N",
+                    "key": "quetionCombo_fr",
+                    "defaultValue": "P",
                     "values": [
                         {
                             "label": "Pattern of stable and supportive relationships",
@@ -124,18 +138,60 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_at"
+                        "key": "comments_at",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_at", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "P",
+                                "hidden_key": "quetionCombo_fr",
+                                "comments": "Comments for family relationships",
+                                "key_checkbox": true,
+                                "key_itvDataGrid": [
+                                    {
+                                        "key_itv_type": "type1",
+                                        "key_itv_other": "",
+                                        "key_itv_description": "some comments for type 1"
+                                    }
+                                ],
+                                "questionLabel": "Family Relationships"
+                            }
+                        },
+                        "key_yn": "key_itv_at", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_at",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_at",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_at",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_at",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 { 
                     "type": "questionCombo",  
                     "questionLabel": "Living Arrangements",
-                    "key": "templateForm_la",
+                    "key": "quetionCombo_la",
                     "defaultValue": "P",
                     "values": [
                         {
@@ -161,18 +217,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_la"
+                        "key": "comments_la",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_la", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "P",
+                                "hidden_key": "quetionCombo_la",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Living Arrangements"
+                            }
+                        },
+                        "key_yn": "key_itv_la", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_la",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_la",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_la",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_la",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Companions/Significant Others",
-                    "key": "templateForm_cso",
+                    "key": "quetionCombo_cso",
                     "defaultValue": "m",
                     "values": [
                         {
@@ -198,18 +289,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_co"
+                        "key": "comments_co",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_co", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "m",
+                                "hidden_key": "quetionCombo_cso",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Companions/Significant Others"
+                            }
+                        },
+                        "key_yn": "key_itv_co", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_co",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_co",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_co",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_co",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Academic/Vocational Skills",
-                    "key": "templateForm_avs",
+                    "key": "quetionCombo_avs",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -235,18 +361,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_avs"
+                        "key": "comments_avs",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_avs", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "na",
+                                "hidden_key": "quetionCombo_avs",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Academic/Vocational Skills"
+                            }
+                        },
+                        "key_yn": "key_itv_avs", 
+                        "label": "Intervention needed",
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_avs",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_avs",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_avs",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_avs",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Employment Pattern Factors",
-                    "key": "templateForm_epf",
+                    "key": "quetionCombo_epf",
                     "defaultValue": "s",
                     "values": [
                         {
@@ -272,18 +433,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_epf"
+                        "key": "comments_epf",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_epf", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "s",
+                                "hidden_key": "quetionCombo_epf",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Employment Pattern Factors"
+                            }
+                        },
+                        "key_yn": "key_itv_epf",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_epf",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_epf",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_epf",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_epf",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Financial Management",
-                    "key": "templateForm_fm",
+                    "key": "quetionCombo_fm",
                     "defaultValue": "n",
                     "values": [
                         {
@@ -309,18 +505,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_fm"
+                        "key": "comments_fm",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_fm", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "n",
+                                "hidden_key": "quetionCombo_fm",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Financial Management"
+                            }
+                        },
+                        "key_yn": "key_itv_fm",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_fm",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_fm",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_fm",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_fm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Behavioural/Emotional Stability Factors",
-                    "key": "templateForm_besf",
+                    "key": "quetionCombo_besf",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -346,18 +577,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_be"
+                        "key": "comments_be",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_be", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "na",
+                                "hidden_key": "quetionCombo_besf",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Behavioural/Emotional Stability Factors"
+                            }
+                        },
+                        "key_yn": "key_itv_be",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_be",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_be",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_be",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_be",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {
                     "type": "questionCombo",
                     "questionLabel": "Substance Misuse",
-                    "key": "templateForm_sm",
+                    "key": "quetionCombo_sm",
                     "defaultValue": "na",
                     "values": [
                         {
@@ -383,18 +649,53 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_sm"
+                        "key": "comments_sm",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_sm", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "na",
+                                "hidden_key": "quetionCombo_sm",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Substance Misuse"
+                            }
+                        },
+                        "key_yn": "key_itv_sm",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_sm",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_sm",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_sm",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_sm",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }  
                 },
                 {   
                     "type": "questionCombo",
                     "questionLabel": "Attitude",
-                    "key": "templateForm_a",
+                    "key": "quetionCombo_a",
                     "defaultValue": "a",
                     "values": [
                         {
@@ -420,12 +721,47 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_a"
+                        "key": "comments_a",
+                        "defaultValue": ""
                     },
                     "interventionNeeded": {
-                        "type": "checkbox",
-                        "key": "interventionNeeded_a", 
-                        "defaultValue": false
+                        "initData": {
+                            "data": {
+                                "radioButton": "a",
+                                "hidden_key": "quetionCombo_a",
+                                "comments": "",
+                                "key_checkbox": false,
+                                "questionLabel": "Attitude"
+                            }
+                        },
+                        "key_yn": "key_itv_a",
+                        "label": "Intervention needed", 
+                        "defaultValue": false,
+                        "key_itv_type": "key_itv_ddl_a",
+                        "itv_type_data": {
+                            "values": [
+                                {
+                                    "value": "type1",
+                                    "label": "Intervention type 1"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Other"
+                                }
+                            ]
+                        },
+                        "key_itv_other": "key_itv_ta_a",
+                        "value_itv_other": "",
+                        "key_itv_description": "key_itv_tb_a",
+                        "value_itv_description": "",
+                        "button": [
+                            {
+                                "action": "submit",
+                                "key": "btn_add_itv_a",
+                                "label": "Add Intervention",
+                                "theme": "primary"
+                            }
+                        ]
                     }
                 },
                 {   
@@ -461,7 +797,7 @@
         },
         {
             "section": "Criminal History Risk Assessment",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -500,7 +836,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_nocc"
+                        "key": "comments_nocc",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -532,7 +869,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_nopcdf"
+                        "key": "comments_nopcdf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -564,7 +902,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_afacf"
+                        "key": "comments_afacf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -596,7 +935,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_ehf"
+                        "key": "comments_ehf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -628,7 +968,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_wutf"
+                        "key": "comments_wutf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -660,7 +1001,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_fovf"
+                        "key": "comments_fovf",
+                        "defaultValue": ""
                     }  
                 },
                 {
@@ -692,7 +1034,8 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "comments_svf"
+                        "key": "comments_svf",
+                        "defaultValue": ""
                     }  
                 },
                 {   
@@ -722,7 +1065,7 @@
         },
         {
             "section": "Supervision Rating",
-            "sideCardPanelHiddenList": ["key_legend"],
+            "sideCardPanelHiddenList": ["key_legend", "key_quenstionsToConsider"],
             "subNavOnOff": "off",
             "subsections": [
                 {
@@ -806,6 +1149,25 @@
                     "label": "Supervision Rating Comments",
                     "label_textarea": "Please add any additional comments if necessary",
                     "key": "comments_src"
+                }
+            ]
+        },
+        {
+            "section": "Case Plan",
+            "sideCardPanelHiddenList": ["key_legend"],
+            "subNavOnOff": "off",
+            "subsections": [
+                {
+                    "type": "sectionTitle",
+                    "sectionKey": "section_cp",
+                    "subSectionKey": "subsection_cp",
+                    "sectionTitle": "Case Plan",
+                    "sectionSubTitle": ""
+                },
+                {
+                    "type": "editGrid",
+                    "label": "Intervention Plan",
+                    "key": "editGrid_fr"
                 }
             ]
         },

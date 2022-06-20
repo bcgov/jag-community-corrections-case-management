@@ -1,5 +1,7 @@
 <template>
-  <Form :form="formJSON"/>
+  <div>
+    <Form :form="formJSON" v-on:change="handleChangeEvent" :submission="initData"/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,19 +12,22 @@ import templateQuestionCombo from '@/components/common/templateQuestionCombo.jso
 export default {
   name: 'FormioQuestionCombo',
   props: {
-    dataModel: {}
+    dataModel: {},
+    initData: {},
   },
   data() {
     return {
       questionComboTemplate : templateQuestionCombo,
       formJSON : {},
+      userInput: {}
     }
   },
   components: {
-    Form
+    Form,
   },
   mounted(){
-    this.buildFormInfoDataEntry()
+    this.buildFormInfoDataEntry();
+    //console.log("initData: ", this.initData);
   },
   methods: {
     buildFormInfoDataEntry() {
@@ -30,31 +35,51 @@ export default {
       let tmpJSONStr = JSON.stringify(this.questionComboTemplate);
       
       // set the label and key for the top component
-      tmpJSONStr = tmpJSONStr.replace('${questionLabel}', this.dataModel.questionLabel);
-      tmpJSONStr = tmpJSONStr.replace('${radiodefaultValue}', this.dataModel.radiodefaultValue);
-      tmpJSONStr = tmpJSONStr.replace('${radiokey}', this.dataModel.radiokey);
+      tmpJSONStr = tmpJSONStr.replaceAll('${questionLabel}', this.dataModel.questionLabel);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_radioButton}', this.dataModel.defaultValue);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataModel.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataModel.comments.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_comments}', this.dataModel.comments.defaultValue);
 
-      //Set the radio component. 
-      let tmpJSON = JSON.parse(tmpJSONStr);   
-      let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
-      
-      tmpJSON.components[0].components[objIndex].label = this.dataModel.questionLabel;
-      tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
-      tmpJSON.components[0].components[objIndex].key = this.dataModel.key;
-      tmpJSON.components[0].components[objIndex].defaultValue = this.dataModel.defaultValue;
-
-      // Set comments component
-      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'textarea'));
-      tmpJSON.components[0].components[objIndex].key = this.dataModel.comments.key;
-      
       // Set intervention needed component
-      objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'checkbox'));
-      tmpJSON.components[0].components[objIndex].key = this.dataModel.interventionNeeded.key;
-      tmpJSON.components[0].components[objIndex].defaultValue = this.dataModel.interventionNeeded.defaultValue;
+      tmpJSONStr = tmpJSONStr.replaceAll('${label}', this.dataModel.interventionNeeded.label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_checkbox}', this.dataModel.interventionNeeded.key_yn);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_checkbox}', this.dataModel.interventionNeeded.defaultValue);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itvDataGrid}', "datagrid_" + this.dataModel.interventionNeeded.key_yn);
+
+      // Set intervention needed component
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_details}', this.dataModel.interventionNeeded.key_yn);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_type}', this.dataModel.interventionNeeded.key_itv_type);
+
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_other}', this.dataModel.interventionNeeded.key_itv_other);
+      tmpJSONStr = tmpJSONStr.replaceAll('${value_itv_other}', this.dataModel.interventionNeeded.value_itv_other);
+
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_description}', this.dataModel.interventionNeeded.key_itv_description);
+      tmpJSONStr = tmpJSONStr.replaceAll('${value_itv_description}', this.dataModel.interventionNeeded.value_itv_description);
+    
+      let tmpJSON = JSON.parse(tmpJSONStr);  
+
+      //Set the radio data. 
+      tmpJSON.components[0].components[0].values = this.dataModel.values;
+
+      // Set intervention needed type DDL
+      tmpJSON.components[0].components[4].components[0].components[0].columns[0].components[0].data.values = this.dataModel.interventionNeeded.itv_type_data.values;
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = tmpJSON;
+    },
+    handleChangeEvent(event) {
+      // emit an event, dataOnChanged, to the parent, so parent knows the changes
+      if (   event.changed 
+          && ( event.changed.component.key === 'comments'  
+            || event.changed.component.key === 'key_checkbox' 
+            || event.changed.component.key === 'key_itv_type'
+            || event.changed.component.key === 'key_itv_other'
+            || event.changed.component.key === 'key_itv_description')
+          ) {
+        this.$emit('dataOnChanged', event.data);
+      }
     }
-  },
+  }
 }
 </script>
