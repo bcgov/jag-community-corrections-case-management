@@ -88,7 +88,7 @@ export default {
     }
   },
   mounted(){
-    //this.getFormData()
+    this.getFormData()
   },
   methods: {
     async getFormData() {
@@ -96,9 +96,9 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        this.formJSONFormData = response;
-        this.totalNumParentNav = response.data.length;
-        console.log("/forms/ returns: ", this.formJSONFormData);
+        //this.formJSONFormData = response;
+        this.totalNumParentNav = this.formJSONFormData.data.length;
+        //console.log("totalNumParentNav: ", this.totalNumParentNav);
         this.componentKey += 1;
       }
     },
