@@ -1,7 +1,10 @@
 package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
+import io.quarkus.security.ForbiddenException;
+import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,7 @@ public class UpdateFormTest {
     FormsApiImpl sut;
 
     @Test
+    @TestSecurity(user = "userOidc", roles = "form-update")
     @DisplayName("200: should be updated")
     public void testUpdateFormEndpoint() {
 
@@ -31,6 +35,23 @@ public class UpdateFormTest {
         Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
         Assertions.assertEquals(TEST_VALUE, result.getFormType());
         Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
+
+    }
+
+    @Test
+    @TestSecurity(user = "userOidc", roles = "someotherrole")
+    @DisplayName("403: throw unauthorized exception")
+    public void updateTestExceptionBadRole() {
+
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateForm(null));
+
+    }
+
+    @Test
+    @DisplayName("401: throw unauthorized exception")
+    public void updateTestExceptionNoToken() {
+
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateForm(null));
 
     }
 

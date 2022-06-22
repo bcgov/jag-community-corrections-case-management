@@ -12,6 +12,16 @@
 				{
 					"name": "get all clients",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -62,6 +72,16 @@
 				{
 					"name": "get a client by id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -171,6 +191,16 @@
 						{
 							"name": "delete form by id",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "DELETE",
 								"header": [],
 								"url": {
@@ -232,6 +262,16 @@
 						{
 							"name": "get a form by id",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [
 									{
@@ -251,7 +291,7 @@
 									"variable": [
 										{
 											"key": "formId",
-											"value": "-95433144.8724623",
+											"value": "99",
 											"description": "(Required) "
 										}
 									]
@@ -335,6 +375,16 @@
 				{
 					"name": "get all forms",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -383,8 +433,18 @@
 					]
 				},
 				{
-					"name": "Add",
+					"name": "add",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -455,8 +515,18 @@
 					]
 				},
 				{
-					"name": "Update",
+					"name": "update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -525,33 +595,184 @@
 							"body": "{\n  \"formId\": 86525093.56393954,\n  \"formClientId\": -23778698.414594725,\n  \"createdBy\": \"ex se\",\n  \"createdDate\": \"1985-07-24\",\n  \"updateDate\": \"1966-09-10\",\n  \"completedDate\": \"1959-01-21\",\n  \"formType\": \"cillum\",\n  \"formQuestions\": [\n    {\n      \"questionId\": -34589629.26556928,\n      \"questionAnswerClientId\": 80951674.39452657,\n      \"questionAnswer\": \"voluptate dolore Excepteur est\",\n      \"label\": \"in\",\n      \"optionsLabelPosition\": \"eiusmod in Duis minim\",\n      \"inline\": true,\n      \"tableView\": false,\n      \"autoExpand\": true,\n      \"input\": false,\n      \"values\": [\n        {\n          \"label\": \"aliqua fugiat officia\",\n          \"value\": \"mollit anim in nisi\",\n          \"shortcut\": \"Lorem incididunt magna qui dolor\"\n        },\n        {\n          \"label\": \"officia do in\",\n          \"value\": \"commodo tempor ut dolore id\",\n          \"shortcut\": \"consequat ut amet cupidatat do\"\n        }\n      ],\n      \"key\": \"voluptate est ea\",\n      \"type\": \"Duis incididunt dolor\",\n      \"defaultValue\": \"in ullamco\"\n    },\n    {\n      \"questionId\": -55916601.87933427,\n      \"questionAnswerClientId\": 83291480.85817581,\n      \"questionAnswer\": \"fugiat qui m\",\n      \"label\": \"commodo nulla est aute\",\n      \"optionsLabelPosition\": \"exercitation laborum dolor reprehenderit sit\",\n      \"inline\": false,\n      \"tableView\": false,\n      \"autoExpand\": false,\n      \"input\": false,\n      \"values\": [\n        {\n          \"label\": \"aliqua dolore consequat\",\n          \"value\": \"consectetur labore sed voluptate\",\n          \"shortcut\": \"eu cillum cupidatat\"\n        },\n        {\n          \"label\": \"dolore nisi nulla cupidatat\",\n          \"value\": \"ea cillum eu\",\n          \"shortcut\": \"est labore voluptate\"\n        }\n      ],\n      \"key\": \"ipsum amet\",\n      \"type\": \"aliquip Ut in eiusmod dolor\",\n      \"defaultValue\": \"ut quis Lorem cupidatat nulla\"\n    }\n  ]\n}"
 						}
 					]
+				},
+				{
+					"name": "get forms by type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/forms/test",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"forms",
+								"test"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "get all form types",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{baseUrl}}/formtypes",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"formtypes"
-					]
-				}
-			},
-			"response": [
+			"name": "auth",
+			"item": [
 				{
-					"name": "get all Form Types",
-					"originalRequest": {
+					"name": "get api token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get jwt\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"jwt\", jsonData.access_token);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "default"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{clientSecret}}",
+									"type": "default"
+								},
+								{
+									"key": "client_id",
+									"value": "cccm-api-testing",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keyCloakUrl}}/protocol/openid-connect/token",
+							"host": [
+								"{{keyCloakUrl}}"
+							],
+							"path": [
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get configs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{keyCloakUrl}}/.well-known/openid-configuration",
+							"host": [
+								"{{keyCloakUrl}}"
+							],
+							"path": [
+								".well-known",
+								"openid-configuration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "default"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{userClientSecret}}",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "client_id",
+									"value": "cccm-user",
+									"type": "default"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "default"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keyCloakUrl}}/protocol/openid-connect/token",
+							"host": [
+								"{{keyCloakUrl}}"
+							],
+							"path": [
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "lookups",
+			"item": [
+				{
+					"name": "get all form types",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -564,69 +785,57 @@
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n  \"items\": [\n    {\n      \"typeCd\": \"typeCd\",\n      \"typeId\": 0.8008281904610115,\n      \"typeDescription\": \"typeDescription\"\n    },\n    {\n      \"typeCd\": \"typeCd\",\n      \"typeId\": 0.8008281904610115,\n      \"typeDescription\": \"typeDescription\"\n    }\n  ]\n}"
-				}
-			]
-		},
-		{
-			"name": "get all side cards",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{baseUrl}}/sideCards",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"sideCards"
-					]
-				}
-			},
-			"response": [
+					"response": []
+				},
 				{
-					"name": "get all side cards",
-					"originalRequest": {
+					"name": "get all locations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/sideCards",
+							"raw": "{{baseUrl}}/locations",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"sideCards"
+								"locations"
 							]
 						}
 					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n  \"display\": \"dolor\",\n  \"components\": [\n    {\n      \"key\": \"do pariatur cupidatat proident\",\n      \"title\": \"velit adipisicing labore nisi et\",\n      \"collapsible\": true,\n      \"label\": \"Excepteur occaecat est fugiat officia\",\n      \"inline\": false,\n      \"tableView\": true,\n      \"content\": \"quis qui consectetur\",\n      \"input\": true,\n      \"type\": \"labore proident esse qui non\",\n      \"tag\": \"reprehenderit minim\",\n      \"refreshOnChange\": false,\n      \"disableOnInvalid\": false,\n      \"components\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/Component detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/Component detected>\"\n        }\n      ],\n      \"attrs\": [\n        {\n          \"attr\": \"in minim\",\n          \"value\": \"aute Duis in cupidata\"\n        },\n        {\n          \"attr\": \"ex in\",\n          \"value\": \"laboris consequat non\"\n        }\n      ]\n    },\n    {\n      \"key\": \"eu magna sunt\",\n      \"title\": \"ea consequat sunt mollit\",\n      \"collapsible\": false,\n      \"label\": \"enim officia fugiat dolor ex\",\n      \"inline\": true,\n      \"tableView\": false,\n      \"content\": \"do ut Duis ipsum\",\n      \"input\": false,\n      \"type\": \"Duis\",\n      \"tag\": \"ut sint officia proident\",\n      \"refreshOnChange\": false,\n      \"disableOnInvalid\": false,\n      \"components\": [\n        {\n          \"value\": \"<Circular reference to #/components/schemas/Component detected>\"\n        },\n        {\n          \"value\": \"<Circular reference to #/components/schemas/Component detected>\"\n        }\n      ],\n      \"attrs\": [\n        {\n          \"attr\": \"reprehenderit in\",\n          \"value\": \"nulla consequat voluptate esse\"\n        },\n        {\n          \"attr\": \"esse dolore sunt\",\n          \"value\": \"quis\"\n        }\n      ]\n    }\n  ]\n}"
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "Health",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/q/health",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"q",
+						"health"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [

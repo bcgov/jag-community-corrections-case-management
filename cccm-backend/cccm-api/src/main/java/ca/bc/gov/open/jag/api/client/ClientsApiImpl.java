@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
@@ -19,6 +20,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("client-view")
     public ClientDetails getClient(BigDecimal clientId) {
 
         logger.info("Get client request received");
@@ -29,6 +31,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("client-view")
     public ClientList getClients() {
 
         logger.info("Get clients request received");

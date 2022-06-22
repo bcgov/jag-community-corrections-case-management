@@ -2,12 +2,16 @@ package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
+import io.quarkus.security.ForbiddenException;
+import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -21,6 +25,7 @@ public class GetFormByIdTest {
     FormsApiImpl sut;
 
     @Test
+    @TestSecurity(user = "userOidc", roles = "form-view")
     @DisplayName("200: should return form")
     public void testGetClientEndpoint() throws CCCMException {
 
@@ -33,6 +38,23 @@ public class GetFormByIdTest {
         Assertions.assertEquals("CRNA-CMP", result.getFormType());
         Assertions.assertNull(result.getUpdateDate());
 
+
+    }
+
+    @Test
+    @TestSecurity(user = "userOidc", roles = "someotherrole")
+    @DisplayName("403: throw unauthorized exception")
+    public void getByIdTestExceptionBadRole() {
+
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormById(BigDecimal.ONE));
+
+    }
+
+    @Test
+    @DisplayName("401: throw unauthorized exception")
+    public void getByIdTestExceptionNoToken() {
+
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormById(BigDecimal.ONE));
 
     }
 
