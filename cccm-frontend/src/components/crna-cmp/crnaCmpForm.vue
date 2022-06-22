@@ -141,6 +141,10 @@ export default {
 </script>
 
 <style>
+.sectionTitleClass {
+  font-size: 35px;
+}
+
 .subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;

@@ -105,6 +105,7 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
+                    "className_label": "sectionTitleClass",
                     "sectionKey": "section_na",
                     "subSectionKey": "subsection_na",
                     "sectionTitle": "Needs Assessment",
@@ -843,6 +844,7 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
+                    "className_label": "sectionTitleClass",
                     "sectionKey": "section_chra",
                     "subSectionKey": "subsection_chra",
                     "sectionTitle": "Criminal History Risk Assessment",
@@ -1121,6 +1123,7 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
+                    "className_label": "sectionTitleClass",
                     "sectionKey": "section_sr",
                     "subSectionKey": "subsection_chra",
                     "sectionTitle": "Supervision Rating",
@@ -1213,6 +1216,7 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
+                    "className_label": "sectionTitleClass",
                     "sectionKey": "section_cp",
                     "subSectionKey": "subsection_cp",
                     "sectionTitle": "Case Plan",
@@ -1300,8 +1304,9 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
-                    "sectionKey": "section_na",
-                    "subSectionKey": "subsection_na",
+                    "className_label": "sectionTitleClass",
+                    "sectionKey": "section_summary",
+                    "subSectionKey": "subsection_summary",
                     "sectionTitle": "Summary",
                     "sectionSubTitle": ""
                 },
@@ -1474,6 +1479,14 @@
                     "key_radioButton": "key_radioButton",
                     "editgriditems": [
                     ]
+                },
+                {
+                    "type": "sectionTitle",
+                    "className_label": "subSectionTitleClass",
+                    "sectionKey": "section_summary_cp",
+                    "subSectionKey": "subsection_summary_cp",
+                    "sectionTitle": "Case Plan",
+                    "sectionSubTitle": ""
                 },
                 {
                     "type": "editGridRadioText",

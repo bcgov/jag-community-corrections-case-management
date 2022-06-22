@@ -8,7 +8,7 @@
             <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key=Key_questionCombo @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
             <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :dataModel="headerc" />
             <FormioRadio v-else-if="headerc.type === 'radio'" :dataModel="headerc" />
-            <FormioQuestionCetegoryTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
+            <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_editgrid_intervention :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key=key_editgrid_radiotext :dataTemplate="headerc" :initData="initData_editgrid_radiotext"/>
@@ -32,7 +32,7 @@ import { ref, reactive } from '@vue/composition-api';
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
-import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCategoryTitle.vue";
+import FormioSectionTitle from "@/components/common/FormioSectionTitle.vue";
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
 import FormioEditDataGridIntervention from "@/components/common/FormioEditDataGridIntervention.vue";
@@ -49,7 +49,7 @@ export default {
     FormioQuestionCombo,
     FormioLabelTextarea,
     FormioRadio,
-    FormioQuestionCetegoryTitle,
+    FormioSectionTitle,
     FormioRadioTextarea,
     FormioButton,
     FormioEditDataGridIntervention,

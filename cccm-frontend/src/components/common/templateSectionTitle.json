@@ -10,6 +10,7 @@
       "components": [
         {
             "label": "HTML",
+            "className": "${className_label}",
             "tag": "h2",
             "attrs": [
                 {
