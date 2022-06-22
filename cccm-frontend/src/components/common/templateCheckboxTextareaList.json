@@ -63,7 +63,7 @@
                             "validate": {
                                 "maxLength": "${maxLength_textarea}"
                             },
-                            "key": "${key_textArea}",
+                            "key": "${key_textarea}",
                             "conditional": {
                                 "show": true,
                                 "when": "${key_checkbox}",

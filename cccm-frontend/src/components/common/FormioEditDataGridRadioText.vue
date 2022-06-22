@@ -25,7 +25,7 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
-    //console.log("initdata: ", this.initData);
+    console.log("initdata: ", this.initData);
   },
   methods: {
     buildFormioTemplate() {
@@ -45,7 +45,7 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      console.log("event: ", event.row);
+      console.log("event: ", event);
       //this.$emit('dataOnChanged', event.row);
     }
   }

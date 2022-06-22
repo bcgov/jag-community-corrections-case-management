@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData"/>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,8 @@ import templateCheckboxTextarea from '@/components/common/templateCheckboxTextar
 export default {
   name: 'FormioCheckboxTextareaList',
   props: {
-    dataModel: {}
+    dataModel: {},
+    initData: {}
   },
   data() {
     return {
@@ -47,12 +48,19 @@ export default {
         componentJSONStr = componentJSONStr.replaceAll('${tooltip_checkbox}', this.dataModel.checkboxTextareaItems[i].tooltip_checkbox);
         componentJSONStr = componentJSONStr.replaceAll('${key_checkbox}', this.dataModel.key_checkbox);
         componentJSONStr = componentJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
-        componentJSONStr = componentJSONStr.replaceAll('${key_textArea}', this.dataModel.key_textArea);
+        componentJSONStr = componentJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
 
         tmpJSON.components[0].components[i+2] = JSON.parse(componentJSONStr);
       }
       //console.log("formJSONStr: ", JSON.stringify(tmpJSON));
       this.formJSON = tmpJSON;
+    },
+    handleChangeEvent(event) {
+      //if (event.changed && event.changed.component.key === 'customerNumber' && event.changed.value) {
+      if (event.changed) {
+        //console.log("event: ", event);
+        //console.log("data: ", JSON.stringify(event.data));
+      }
     }
   }
 }

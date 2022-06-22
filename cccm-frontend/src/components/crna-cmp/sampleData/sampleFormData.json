@@ -1232,6 +1232,35 @@
                     "label_textarea": "Please specify in the field below",
                     "key_checkbox": "key_checkbox",
                     "key_textarea": "key_textarea",
+                    "initData": {
+                        "data": {
+                            "key_container_ic": {
+                                "key_checkbox": true,
+                                "key_textarea": "sample comments"
+                            },
+                            "key_container_mh": {
+                                "key_checkbox": false
+                            },
+                            "key_container_prsm": {
+                                "key_checkbox": false
+                            },
+                            "key_container_bc": {
+                                "key_checkbox": false
+                            },
+                            "key_container_tias": {
+                                "key_checkbox": false
+                            },
+                            "key_container_gbc": {
+                                "key_checkbox": false
+                            },
+                            "key_container_sbc": {
+                                "key_checkbox": false
+                            },
+                            "key_container_other": {
+                                "key_checkbox": false
+                            }
+                        }
+                    },
                     "checkboxTextareaItems": [
                         {
                             "label_checkbox": "Indigenous considerations",
