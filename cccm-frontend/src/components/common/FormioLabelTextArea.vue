@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form v-on:change="handleChangeEvent" :submission="initData" :form="formJSON"/>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,8 @@ import templateLabelTextArea from '@/components/common/templateLabelTextArea.jso
 export default {
   name: 'FormioLabelTextarea',
   props: {
-    dataModel: {}
+    dataModel: {},
+    initData: {}
   },
   data() {
     return {
@@ -29,6 +30,7 @@ export default {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateLabelTextArea);
 
+      tmpJSONStr = tmpJSONStr.replaceAll('${key}', this.dataModel.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${label}', this.dataModel.label);
       tmpJSONStr = tmpJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
@@ -37,6 +39,14 @@ export default {
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);
+    },
+    handleChangeEvent(event) {
+      // emit an event, dataOnChanged, to the parent, so parent knows the changes
+      if (event.changed && event.changed.component.key === this.dataModel.key_textarea) {
+        let key = event.changed.instance.parent.component.key;
+        console.log("event: ", key);
+        this.$emit('dataOnChanged', event.data, key);
+      }
     }
   }
 }

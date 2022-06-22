@@ -3,7 +3,7 @@
     "components": [
         {
             "label": "",
-            "key": "key_well",
+            "key": "${key}",
             "type": "well",
             "input": false,
             "tableView": false,
@@ -38,7 +38,7 @@
                     "key": "${key_textarea}",
                     "type": "textarea",
                     "input": true
-              }
+                }
             ]
         }
     ]

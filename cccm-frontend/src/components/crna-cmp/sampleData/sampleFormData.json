@@ -1306,13 +1306,17 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "initData": {
+                        "data": {
+                            "key_textarea": "Sample additional comments"
+                        }
+                    },
                     "key": "key_supervisionPlan",
                     "className_label": "subSectionTitleClass",
                     "maxLength_textarea": 250,
                     "label": "Supervision Plan",
                     "label_textarea": "Please input a Supervision Plan",
-                    "key_textarea": "key_textarea",
-                    "defaultValue": "Sample additional comments"
+                    "key_textarea": "key_textarea"
                 },
                 {
                     "type": "editGridIntervention",
@@ -1496,17 +1500,6 @@
                             "show_radioButtons": false,
                             "show_comments": true
                         }
-                    ]
-                },
-                {
-                    "type": "editGridRadioTextList",
-                    "className_label": "subSectionChildTitleClass",
-                    "ref_key_section": "key_section_needAssessment",
-                    "key": "key_editgrid_radiotext",
-                    "key_questionLabel": "key_questionLabel",
-                    "key_comments": "key_comments",
-                    "key_radioButton": "key_radioButton",
-                    "editgriditems": [
                     ]
                 },
                 {

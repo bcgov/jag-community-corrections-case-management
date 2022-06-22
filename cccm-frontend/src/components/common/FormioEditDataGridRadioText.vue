@@ -25,7 +25,6 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
-    console.log("initdata: ", this.initData);
   },
   methods: {
     buildFormioTemplate() {
