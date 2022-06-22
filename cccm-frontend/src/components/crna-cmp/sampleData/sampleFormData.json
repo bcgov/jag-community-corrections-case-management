@@ -827,12 +827,16 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "initData": {
+                        "data": {
+                            "key_textarea": "Sample additional comments for need assessments"
+                        }
+                    },
                     "key": "key_additionComments_na",
                     "maxLength_textarea": 250,
                     "label": "Additional Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key_textarea": "key_comments_na",
-                    "defaultValue": "Sample additional comments"
+                    "key_textarea": "key_textarea"
                 }
             ] 
         },
@@ -1106,12 +1110,16 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "initData": {
+                        "data": {
+                            "key_textarea": "Sample additional comments for chra"
+                        }
+                    },
                     "key": "key_additionalComments_chra",
                     "maxLength_textarea": 250,
                     "label": "Additional Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key_textarea": "key_comments_chra",
-                    "defaultValue": "Sample additional comments"
+                    "key_textarea": "key_textarea"
                 }
             ]
         },
@@ -1200,12 +1208,16 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "initData": {
+                        "data": {
+                            "key_textarea": "Sample supervision Rating Comments"
+                        }
+                    },
                     "key": "key_supervisionRC_sr",
                     "maxLength_textarea": 250,
                     "label": "Supervision Rating Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key_textarea": "key_comments_sr",
-                    "defaultValue": "Sample comments"
+                    "key_textarea": "key_textarea"
                 }
             ]
         },
@@ -1405,7 +1417,7 @@
                             "show_comments": false
                         },
                         {
-                            "ref_key_subsection": "key_comments_na", 
+                            "ref_key_subsection": "key_additionComments_na", 
                             "show_radioButtons": false,
                             "show_comments": true
                         }
@@ -1463,7 +1475,7 @@
                             "show_comments": false
                         },
                         {
-                            "ref_key_subsection": "key_comments_chra", 
+                            "ref_key_subsection": "key_additionalComments_chra", 
                             "show_radioButtons": false,
                             "show_comments": true
                         }
@@ -1496,7 +1508,7 @@
                             "show_comments": false
                         },
                         {
-                            "ref_key_subsection": "key_comments_sr", 
+                            "ref_key_subsection": "key_supervisionRC_sr", 
                             "show_radioButtons": false,
                             "show_comments": true
                         }

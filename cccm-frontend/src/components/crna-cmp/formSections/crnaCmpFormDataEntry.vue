@@ -84,9 +84,9 @@ export default {
     handleLabelTextareaDataOnChanged(dataValue, key) {
       //Sample dataValue:{"key_textarea": "add"}
       //Update key_editgrid_radiotext and key_editgrid_radiotextList
-      console.log("dataValue: ", dataValue);
-      console.log("key_editgrid_radiotext: ", this.key_editgrid_radiotext);
-      console.log("initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
+      //console.log("dataValue: ", dataValue);
+      //console.log("key_editgrid_radiotext: ", this.key_editgrid_radiotext);
+      //console.log("initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
 
       this.initData_editgrid_radiotext[key].data.key_editgrid_radiotext[0].key_textarea = dataValue.key_textarea;
       this.key_editgrid_radiotext[key]++;
