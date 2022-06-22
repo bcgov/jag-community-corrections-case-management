@@ -10,7 +10,9 @@
             <FormioRadio v-else-if="headerc.type === 'radio'" :dataModel="headerc" />
             <FormioQuestionCetegoryTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
-            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGrid'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_intervention :dataModel="dataModel.data" :initData="initData_intervention"/>
+            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_editgrid_intervention :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
+            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioTextList'" v-for="(headergc, indexgc) in headerc.editgriditems" :key=key_editgrid_radiotext[headergc.ref_key_subsection] :dataTemplate="headergc" :dataTemplateP="headerc" :editgridLabel="editgridLabel[headerc.ref_key_section]" :radioValue="radioValue[headergc.ref_key_subsection]" :initData="initData_editgrid_radiotext[headergc.ref_key_subsection]"/>
+            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :dataModel="headerc"/>
           </div>
         </div>
       </div>
@@ -27,6 +29,8 @@ import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCateg
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
 import FormioEditDataGridIntervention from "@/components/common/FormioEditDataGridIntervention.vue";
+import FormioEditDataGridRadioText from "@/components/common/FormioEditDataGridRadioText.vue";
+import FormioCheckboxTextareaList from "@/components/common/FormioCheckboxTextareaList.vue";
 
 export default {
   name: 'CrnaCmpFormDataEntry',
@@ -41,28 +45,40 @@ export default {
     FormioRadioTextarea,
     FormioButton,
     FormioEditDataGridIntervention,
+    FormioEditDataGridRadioText,
+    FormioCheckboxTextareaList
   },
   data() {
     return {
-      key_intervention: 0,
-      initData_intervention: {"data": {}},
+      key_editgrid_intervention: 0,
+      initData_editgrid_intervention: {"data": {}},
       Key_questionCombo: 0,
       initData_questionCombo: [],
       questionComboData: {},
       questionComboIndex: 0,
+      key_editgrid_radiotext: [],
+      initData_editgrid_radiotext: [],
+      radioValue: [],
+      editgridLabel: []
     }
   },
   mounted(){
     this.getInitData();
   },
   methods: {
+    handleRadioTextDataGridOnChanged(dataValue) {
+
+      // force FormioEditDataGridRadioText component to reload
+      this.key_editgrid_radiotext[dataValue.hidden_key]++;
+    },
     handleInterventionDataGridOnChanged(dataValue) {
+      console.log("dataValue: ", dataValue);
       // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
       //Sample dataValue, should only contain 1 object
       // {
-      //   "radioButton": "P",
+      //   "key_radioButton": "P",
       //   "hidden_key": "quetionCombo_fr",
-      //   "comments": "",
+      //   "key_comments": "",
       //   "key_checkbox": true,
       //   "questionLabel": "Family Relationships",
       //   "key_itv_type": "type1",
@@ -70,7 +86,7 @@ export default {
       // }
       
       // Update this.initData_questionCombo
-      this.initData_questionCombo[dataValue.hidden_key].data.comments = dataValue.comments;
+      this.initData_questionCombo[dataValue.hidden_key].data.key_comments = dataValue.key_comments;
       for (let k = 0; k < this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid.length; k++) {
         if (this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_type === dataValue.key_itv_type 
           || this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_other === dataValue.key_itv_type) {
@@ -84,9 +100,9 @@ export default {
     handleQuestionComboDataOnChanged(dataValue) {
       // Sample dataValue when checkbox is checked
       // {
-      //   "radioButton": "P",
+      //   "key_radioButton": "P",
       //   "hidden_key": "quetionCombo_fr",
-      //   "comments": "",
+      //   "key_comments": "",
       //   "key_checkbox": true,
       //   "questionLabel": "Family Relationships"
       //   "key_itvDataGrid": [
@@ -99,9 +115,9 @@ export default {
       // }
       // Sample dataValue when checkbox is unchecked
       // {
-      //   "radioButton": "P",
+      //   "key_radioButton": "P",
       //   "hidden_key": "quetionCombo_fr",
-      //   "comments": "",
+      //   "key_comments": "",
       //   "key_checkbox": false,
       //   "questionLabel": "Family Relationships"
       // }
@@ -110,9 +126,9 @@ export default {
       // {
       //   "questionCombo": [
       //     {
-      //       "radioButton": "P",
+      //       "key_radioButton": "P",
       //       "hidden_key": "quetionCombo_fr",
-      //       "comments": "",
+      //       "key_comments": "",
       //       "key_checkbox": true,
       //       "key_itvDataGrid": [
       //         {
@@ -155,8 +171,8 @@ export default {
         }
       }
 
-      // rebuild initData_intervention from questionComboData
-      this.initData_intervention = {"data": {}};
+      // rebuild initData_editgrid_intervention from questionComboData
+      this.initData_editgrid_intervention = {"data": {}};
       let index = 0;
       if (   this.questionComboData != null 
           && this.questionComboData.questionCombo != null 
@@ -166,15 +182,15 @@ export default {
               && this.questionComboData.questionCombo[i].key_itvDataGrid != null 
               && this.questionComboData.questionCombo[i].key_itvDataGrid.length > 0) {
             for (let j = 0; j < this.questionComboData.questionCombo[i].key_itvDataGrid.length; j++) {
-              if (this.initData_intervention.data.questionCombo == null) {
-                this.initData_intervention.data.questionCombo = [];
+              if (this.initData_editgrid_intervention.data.key_editgrid_intervention == null) {
+                this.initData_editgrid_intervention.data.key_editgrid_intervention = [];
               }
               let questionComboItem = {};
-              questionComboItem.radioButton = this.questionComboData.questionCombo[i].radioButton;
+              questionComboItem.key_radioButton = this.questionComboData.questionCombo[i].key_radioButton;
               questionComboItem.hidden_key = this.questionComboData.questionCombo[i].hidden_key;
-              questionComboItem.comments = this.questionComboData.questionCombo[i].comments;
+              questionComboItem.key_comments = this.questionComboData.questionCombo[i].key_comments;
               questionComboItem.key_checkbox = this.questionComboData.questionCombo[i].key_checkbox;
-              questionComboItem.questionLabel = this.questionComboData.questionCombo[i].questionLabel;
+              questionComboItem.key_questionLabel = this.questionComboData.questionCombo[i].key_questionLabel;
               // if key_itv_type value is 'other', use the value of key_itv_other
               questionComboItem.key_itv_type = this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_type;
               if (this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_type === "other") {
@@ -182,42 +198,66 @@ export default {
               }
               questionComboItem.key_itv_description = this.questionComboData.questionCombo[i].key_itvDataGrid[j].key_itv_description;
               
-              this.initData_intervention.data.questionCombo[index++] = questionComboItem;
+              this.initData_editgrid_intervention.data.key_editgrid_intervention[index++] = questionComboItem;
             }
           }
         }
       }
       // force FormioEditDataGridIntervention component to reload
-      this.key_intervention++;
+      this.key_editgrid_intervention++;
     },
     getInitData() {
-      // get the initial array of questionComboData to pre-populate the question combo component
+      // set this.initData_questionCombo for FormioQuestionCombo component
+      // set this.initData_editgrid_intervention for FormioEditDataGridIntervention component
+      // set this.initData_editgrid_radiotext for FormioEditDataGridRadioText component
       if (   this.dataModel != null 
           && this.dataModel.data != null) {
+        this.initData_editgrid_intervention = {"data": {}};
+        let index = 0;
+        let keyRatio = 10000;
         for (let g = 0; g < this.dataModel.data.length; g++) {
-          this.initData_intervention = {"data": {}};
-          let index = 0;
+          this.editgridLabel[this.dataModel.data[g].key_section] = this.dataModel.data[g].section;
           if (this.dataModel.data[g].subsections != null) {
             for (let i = 0; i < this.dataModel.data[g].subsections.length; i++) {
+              let theKey = this.dataModel.data[g].subsections[i].key;
+              // populate initData_questionCombo 
+              // populate initData_editgrid_intervention
               if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
-                let tmp = this.dataModel.data[g].subsections[i].interventionNeeded.initData.data;
-                // add to this.initData_questionCombo
-                this.initData_questionCombo[this.dataModel.data[g].subsections[i].key]=this.dataModel.data[g].subsections[i].interventionNeeded.initData;
-              
-                // add to this.initData_intervention
+                let tmp = this.dataModel.data[g].subsections[i].initData.data;
+                // add to this.initData_editgrid_radiotext
+                if (tmp != null) {
+                  //console.log("theKey: ", theKey);
+                  //console.log("initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
+                  if (this.initData_editgrid_radiotext[theKey] == null) {
+                    this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                  }
+                  // force FormioEditDataGridRadioText component to reload
+                  this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
+                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = tmp.key_comments;
+                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = tmp.key_radioButton;
+                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = tmp.hidden_key;
+                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = tmp.key_questionLabel;
+
+                  // add to this.initData_questionCombo
+                  this.initData_questionCombo[theKey]=this.dataModel.data[g].subsections[i].initData;
+
+                  this.radioValue[theKey]=this.dataModel.data[g].subsections[i].radioGroup.values;
+                }
+
+                // add to this.initData_editgrid_intervention
                 if ( tmp != null 
                   && tmp.key_itvDataGrid != null 
                   && tmp.key_itvDataGrid.length > 0) {
                   for (let j = 0; j < tmp.key_itvDataGrid.length; j++) {
-                    if (this.initData_intervention.data.questionCombo == null) {
-                      this.initData_intervention.data.questionCombo = [];
+                    if (this.initData_editgrid_intervention.data.key_editgrid_intervention == null) {
+                      this.initData_editgrid_intervention.data.key_editgrid_intervention = [];
                     }
                     let questionComboItem = {};
-                    questionComboItem.radioButton = tmp.radioButton;
+                    questionComboItem.key_radioButton = tmp.key_radioButton;
                     questionComboItem.hidden_key = tmp.hidden_key;
-                    questionComboItem.comments = tmp.comments;
+                    questionComboItem.key_comments = tmp.key_comments;
                     questionComboItem.key_checkbox = tmp.key_checkbox;
-                    questionComboItem.questionLabel = tmp.questionLabel;
+                    questionComboItem.key_questionLabel = tmp.key_questionLabel;
                     // if key_itv_type value is 'other', use the value of key_itv_other
                     questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_type;
                     if (tmp.key_itvDataGrid[j].key_itv_type === "other") {
@@ -225,18 +265,87 @@ export default {
                     }
                     questionComboItem.key_itv_description = tmp.key_itvDataGrid[j].key_itv_description;
                     
-                    this.initData_intervention.data.questionCombo[index++] = questionComboItem;
+                    this.initData_editgrid_intervention.data.key_editgrid_intervention[index++] = questionComboItem;
                   }
                 }
+              } 
+
+              // populate initData_editgrid_radiotext
+              if (this.dataModel.data[g].subsections[i].type === 'radio') {
+                let curComponent = this.dataModel.data[g].subsections[i];
+                if (this.initData_editgrid_radiotext[theKey] == null) {
+                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                }
+                // force FormioEditDataGridRadioText component to reload
+                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = "";
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
+
+                this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
+              }
+
+              // populate initData_editgrid_radiotext
+              if (this.dataModel.data[g].subsections[i].type === 'radioTextarea') {
+                let curComponent = this.dataModel.data[g].subsections[i];
+                if (this.initData_editgrid_radiotext[theKey] == null) {
+                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                }
+                // force FormioEditDataGridRadioText component to reload
+                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = curComponent.comments.defaultValue;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
+
+                this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
+              }
+
+              // populate initData_editgrid_radiotext
+              if (this.dataModel.data[g].subsections[i].type === 'radio') {
+
+              }
+
+              // populate initData_editgrid_radiotext
+              if (this.dataModel.data[g].subsections[i].type === 'labelTextarea') {
+                let curComponent = this.dataModel.data[g].subsections[i];
+                if (this.initData_editgrid_radiotext[theKey] == null) {
+                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                }
+                // force FormioEditDataGridRadioText component to reload
+                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = curComponent.defaultValue;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = "";
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.label;
               } 
             }
           }
         }
+        
       }
+
+      //console.log("this.key_editgrid_radiotext: ", this.key_editgrid_radiotext);
+      //console.log("this.initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
+      // this.initData_editgrid_radiotext = {
+      //   "data": {
+      //     "key_editgrid_radiotext": [
+      //       {
+      //         "hidden_key": "quetionCombo_fr",
+      //         "key_questionLabel": "Family Relationships",
+      //         "key_comments": "Difficult family relationships",
+      //         "key_radioButton": "P"
+      //       }
+      //     ]
+      //   }
+      // };
+
       // force FormioQuestionCombo component to reload
       this.Key_questionCombo++;
+
       // force FormioEditDataGridIntervention component to reload
-      this.key_intervention++;
+      this.key_editgrid_intervention++;
     }
   }
 }

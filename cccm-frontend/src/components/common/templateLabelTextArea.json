@@ -2,14 +2,15 @@
     "display": "form",
     "components": [
         {
-            "label": "additionalComments",
-            "key": "additionalComments",
+            "label": "",
+            "key": "key_well",
             "type": "well",
             "input": false,
             "tableView": false,
             "components": [
                 {
                     "label": "HTML",
+                    "className": "${className_label}",
                     "tag": "h6",
                     "attrs": [
                         {
@@ -29,6 +30,9 @@
                     "placeholder": "Please enter here",
                     "description": "",
                     "tooltip": "",
+                    "validate": {
+                        "maxLength": "${maxLength_textarea}"
+                    },
                     "autoExpand": false,
                     "tableView": true,
                     "key": "${key}",

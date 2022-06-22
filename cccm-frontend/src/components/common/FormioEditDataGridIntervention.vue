@@ -33,13 +33,18 @@ export default {
       let tmpJSONStr = JSON.stringify(this.templatePanel);
 
       // set panel details
+      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataTemplate.className_label);
       tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', this.dataTemplate.label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplate.key_questionLabel);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplate.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplate.key_comments);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_type}', this.dataTemplate.key_itv_type);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_description}', this.dataTemplate.key_itv_description);
       
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      console.log("event: ", event.row);
       this.$emit('dataOnChanged', event.row);
     }
   }

@@ -1,0 +1,80 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "",
+            "key": "key_well",
+            "type": "well",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "HTML",
+                    "className": "${className_label}",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "${content_title}",
+                    "refreshOnChange": false,
+                    "key": "key_title",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "${content_html}",
+                    "refreshOnChange": false,
+                    "key": "key_htmlContent",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "",
+                    "tableView": false,
+                    "key": "${key_container}",
+                    "type": "container",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "${label_checkbox}",
+                            "tooltip": "${tooltip_checkbox}",
+                            "tableView": false,
+                            "defaultValue": false,
+                            "key": "${key_checkbox}",
+                            "type": "checkbox",
+                            "input": true
+                        },
+                        {
+                            "label": "${label_textarea}",
+                            "autoExpand": false,
+                            "tableView": true,
+                            "inputFormat": "plain",
+                            "validate": {
+                                "maxLength": "${maxLength_textarea}"
+                            },
+                            "key": "${key_textArea}",
+                            "conditional": {
+                                "show": true,
+                                "when": "${key_checkbox}",
+                                "eq": "true"
+                            },
+                            "type": "textarea",
+                            "input": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

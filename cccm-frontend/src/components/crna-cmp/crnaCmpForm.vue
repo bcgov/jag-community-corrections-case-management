@@ -139,3 +139,19 @@ export default {
   }  
 }
 </script>
+
+<style>
+.subSectionTitleClass {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
+  text-decoration-color: rgb(255, 208, 0);
+}
+
+.subSectionChildTitleClass {
+  font-size: 15px;
+  font-weight: bold;
+  
+}
+</style>

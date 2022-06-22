@@ -29,8 +29,10 @@ export default {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateLabelTextArea);
 
-      tmpJSONStr = tmpJSONStr.replace('${label}', this.dataModel.label);
-      tmpJSONStr = tmpJSONStr.replace('${label_textarea}', this.dataModel.label_textarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label}', this.dataModel.label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${maxLength_textarea}', this.dataModel.maxLength_textarea);
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);
