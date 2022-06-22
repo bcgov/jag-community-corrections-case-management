@@ -1522,6 +1522,8 @@
                     "label": "Responsivity Factors",
                     "className_label": "subSectionChildTitleClass",
                     "ref_key_section": "key_responsivityFactors",
+                    "label_questionLabel": "Selected Factors",
+                    "label_textarea": "Comments",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
                     "key_comments": "key_comments"
@@ -1531,6 +1533,8 @@
                     "label": "Supervision Plan",
                     "className_label": "subSectionChildTitleClass",
                     "ref_key_section": "key_supervisionPlan",
+                    "label_questionLabel": "Question",
+                    "label_textarea": "Answer",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
                     "key_comments": "key_comments"

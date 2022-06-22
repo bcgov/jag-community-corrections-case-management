@@ -36,9 +36,11 @@ export default {
 
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataTemplate.className_label);
       tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', this.dataTemplate.label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label_questionLabel}', this.dataTemplate.label_questionLabel);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplate.key_questionLabel);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplate.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplate.key_comments);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label_textarea}', this.dataTemplate.label_textarea);
       
       let tmpJSON = JSON.parse(tmpJSONStr);
 

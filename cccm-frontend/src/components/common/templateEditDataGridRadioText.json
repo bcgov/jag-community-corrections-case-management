@@ -31,7 +31,7 @@
                 "components": [
                   {
                     "type": "textfield",
-                    "label": "Question",
+                    "label": "${label_questionLabel}",
                     "tableView": true,
                     "key": "${key_questionLabel}",
                     "input": true,
@@ -50,7 +50,7 @@
                 "components": [
                     {
                       "type": "textarea",
-                      "label": "Comments",
+                      "label": "${label_textarea}",
                       "tableView": true,
                       "key": "${key_comments}",
                       "input": true
