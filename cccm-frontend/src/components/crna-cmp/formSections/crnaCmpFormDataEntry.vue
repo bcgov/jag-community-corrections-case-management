@@ -12,7 +12,13 @@
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_editgrid_intervention :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key=key_editgrid_radiotext :dataTemplate="headerc" :initData="initData_editgrid_radiotext"/>
-            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" v-for="(headergc, indexgc) in headerc.editgriditems" :key=key_editgrid_radiotextList[headergc.ref_key_subsection] :dataTemplate="headergc" :dataTemplateP="headerc" :editgridLabel="editgridLabel[headerc.ref_key_section]" :radioValue="radioValue[headergc.ref_key_subsection]" :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
+            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
+                v-for="(headergc, indexgc) in headerc.editgriditems" 
+                :key=key_editgrid_radiotextList[headergc.ref_key_subsection] 
+                :dataTemplate="headergc" :dataTemplateP="headerc" 
+                :editgridLabel="editgridLabel[headerc.ref_key_section]" 
+                :radioValue="radioValue[headergc.ref_key_subsection]" 
+                :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
             <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :dataModel="headerc"/>
           </div>
         </div>

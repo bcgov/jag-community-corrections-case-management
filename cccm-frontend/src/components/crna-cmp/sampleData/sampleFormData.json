@@ -826,10 +826,11 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "key": "key_additionComments_na",
                     "maxLength_textarea": 250,
                     "label": "Additional Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key": "key_comments_na",
+                    "key_textarea": "key_comments_na",
                     "defaultValue": "Sample additional comments"
                 }
             ] 
@@ -1103,10 +1104,11 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "key": "key_additionalComments_chra",
                     "maxLength_textarea": 250,
                     "label": "Additional Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key": "key_comments_chra",
+                    "key_textarea": "key_comments_chra",
                     "defaultValue": "Sample additional comments"
                 }
             ]
@@ -1195,10 +1197,11 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "key": "key_supervisionRC_sr",
                     "maxLength_textarea": 250,
                     "label": "Supervision Rating Comments",
                     "label_textarea": "Please add any additional comments if necessary",
-                    "key": "key_comments_sr",
+                    "key_textarea": "key_comments_sr",
                     "defaultValue": "Sample comments"
                 }
             ]
@@ -1218,6 +1221,7 @@
                 {
                     "type": "checkboxTextareaList",
                     "className_label": "subSectionTitleClass",
+                    "key": "key_responsivityFactors",
                     "maxLength_textarea": 500,
                     "label_subSection": "Responsivity Factors",
                     "label_description": "<div>This section is intended to provide the case manager with space to identify circumstances and factors which could influence how supervision of the client is approached.</div> <br/><div>Please select which Specific Factors apply: </div>",
@@ -1269,11 +1273,12 @@
                 },
                 {
                     "type": "labelTextarea",
+                    "key": "key_supervisionPlan",
                     "className_label": "subSectionTitleClass",
                     "maxLength_textarea": 250,
                     "label": "Supervision Plan",
                     "label_textarea": "Please input a Supervision Plan",
-                    "key": "key_comments_sp",
+                    "key_textarea": "key_textarea",
                     "defaultValue": "Sample additional comments"
                 },
                 {
@@ -1474,7 +1479,16 @@
                     "type": "editGridRadioText",
                     "label": "Responsivity Factors",
                     "className_label": "subSectionChildTitleClass",
-                    "ref_key_section": "key_section_needAssessment",
+                    "ref_key_section": "key_responsivityFactors",
+                    "key": "key_editgrid_radiotext",
+                    "key_questionLabel": "key_questionLabel",
+                    "key_comments": "key_comments"
+                },
+                {
+                    "type": "editGridRadioText",
+                    "label": "Supervision Plan",
+                    "className_label": "subSectionChildTitleClass",
+                    "ref_key_section": "key_supervisionPlan",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
                     "key_comments": "key_comments"

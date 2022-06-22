@@ -31,6 +31,7 @@ export default {
 
       tmpJSONStr = tmpJSONStr.replaceAll('${label}', this.dataModel.label);
       tmpJSONStr = tmpJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
       tmpJSONStr = tmpJSONStr.replaceAll('${maxLength_textarea}', this.dataModel.maxLength_textarea);
 
