@@ -1471,6 +1471,15 @@
                     ]
                 },
                 {
+                    "type": "editGridRadioText",
+                    "label": "Responsivity Factors",
+                    "className_label": "subSectionChildTitleClass",
+                    "ref_key_section": "key_section_needAssessment",
+                    "key": "key_editgrid_radiotext",
+                    "key_questionLabel": "key_questionLabel",
+                    "key_comments": "key_comments"
+                },
+                {
                     "type": "editGridIntervention",
                     "className_label": "subSectionChildTitleClass",
                     "label": "Intervention Plan",

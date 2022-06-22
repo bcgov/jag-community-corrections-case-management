@@ -11,7 +11,8 @@
             <FormioQuestionCetegoryTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :dataModel="headerc"/>
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_editgrid_intervention :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
-            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioTextList'" v-for="(headergc, indexgc) in headerc.editgriditems" :key=key_editgrid_radiotext[headergc.ref_key_subsection] :dataTemplate="headergc" :dataTemplateP="headerc" :editgridLabel="editgridLabel[headerc.ref_key_section]" :radioValue="radioValue[headergc.ref_key_subsection]" :initData="initData_editgrid_radiotext[headergc.ref_key_subsection]"/>
+            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key=key_editgrid_radiotext :dataTemplate="headerc" :initData="initData_editgrid_radiotext"/>
+            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" v-for="(headergc, indexgc) in headerc.editgriditems" :key=key_editgrid_radiotextList[headergc.ref_key_subsection] :dataTemplate="headergc" :dataTemplateP="headerc" :editgridLabel="editgridLabel[headerc.ref_key_section]" :radioValue="radioValue[headergc.ref_key_subsection]" :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
             <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :dataModel="headerc"/>
           </div>
         </div>
@@ -29,8 +30,9 @@ import FormioQuestionCetegoryTitle from "@/components/common/FormioQuestionCateg
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
 import FormioButton from "@/components/common/FormioButton.vue";
 import FormioEditDataGridIntervention from "@/components/common/FormioEditDataGridIntervention.vue";
-import FormioEditDataGridRadioText from "@/components/common/FormioEditDataGridRadioText.vue";
+import FormioEditDataGridRadioTextList from "@/components/common/FormioEditDataGridRadioTextList.vue";
 import FormioCheckboxTextareaList from "@/components/common/FormioCheckboxTextareaList.vue";
+import FormioEditDataGridRadioText from "@/components/common/FormioEditDataGridRadioText.vue";
 
 export default {
   name: 'CrnaCmpFormDataEntry',
@@ -45,8 +47,9 @@ export default {
     FormioRadioTextarea,
     FormioButton,
     FormioEditDataGridIntervention,
+    FormioEditDataGridRadioTextList,
+    FormioCheckboxTextareaList,
     FormioEditDataGridRadioText,
-    FormioCheckboxTextareaList
   },
   data() {
     return {
@@ -56,8 +59,10 @@ export default {
       initData_questionCombo: [],
       questionComboData: {},
       questionComboIndex: 0,
-      key_editgrid_radiotext: [],
-      initData_editgrid_radiotext: [],
+      key_editgrid_radiotextList: [],
+      key_editgrid_radiotext: 0,
+      initData_editgrid_radiotextList: [],
+      initData_editgrid_radiotext: {"data": {}},
       radioValue: [],
       editgridLabel: []
     }
@@ -69,7 +74,7 @@ export default {
     handleRadioTextDataGridOnChanged(dataValue) {
 
       // force FormioEditDataGridRadioText component to reload
-      this.key_editgrid_radiotext[dataValue.hidden_key]++;
+      this.key_editgrid_radiotextList[dataValue.hidden_key]++;
     },
     handleInterventionDataGridOnChanged(dataValue) {
       console.log("dataValue: ", dataValue);
@@ -209,7 +214,7 @@ export default {
     getInitData() {
       // set this.initData_questionCombo for FormioQuestionCombo component
       // set this.initData_editgrid_intervention for FormioEditDataGridIntervention component
-      // set this.initData_editgrid_radiotext for FormioEditDataGridRadioText component
+      // set this.initData_editgrid_radiotextList for FormioEditDataGridRadioText component
       if (   this.dataModel != null 
           && this.dataModel.data != null) {
         this.initData_editgrid_intervention = {"data": {}};
@@ -224,19 +229,19 @@ export default {
               // populate initData_editgrid_intervention
               if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
                 let tmp = this.dataModel.data[g].subsections[i].initData.data;
-                // add to this.initData_editgrid_radiotext
+                // add to this.initData_editgrid_radiotextList
                 if (tmp != null) {
                   //console.log("theKey: ", theKey);
-                  //console.log("initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
-                  if (this.initData_editgrid_radiotext[theKey] == null) {
-                    this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                  //console.log("initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
+                  if (this.initData_editgrid_radiotextList[theKey] == null) {
+                    this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": {}}};
                   }
                   // force FormioEditDataGridRadioText component to reload
-                  this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
-                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = tmp.key_comments;
-                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = tmp.key_radioButton;
-                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = tmp.hidden_key;
-                  this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = tmp.key_questionLabel;
+                  this.key_editgrid_radiotextList[theKey] = (g + i) * keyRatio;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = tmp.key_comments;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_radioButton = tmp.key_radioButton;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.hidden_key = tmp.hidden_key;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_questionLabel = tmp.key_questionLabel;
 
                   // add to this.initData_questionCombo
                   this.initData_questionCombo[theKey]=this.dataModel.data[g].subsections[i].initData;
@@ -270,55 +275,55 @@ export default {
                 }
               } 
 
-              // populate initData_editgrid_radiotext
+              // populate initData_editgrid_radiotextList
               if (this.dataModel.data[g].subsections[i].type === 'radio') {
                 let curComponent = this.dataModel.data[g].subsections[i];
-                if (this.initData_editgrid_radiotext[theKey] == null) {
-                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                if (this.initData_editgrid_radiotextList[theKey] == null) {
+                  this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": {}}};
                 }
                 // force FormioEditDataGridRadioText component to reload
-                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = "";
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
+                this.key_editgrid_radiotextList[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = "";
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
 
                 this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
               }
 
-              // populate initData_editgrid_radiotext
+              // populate initData_editgrid_radiotextList
               if (this.dataModel.data[g].subsections[i].type === 'radioTextarea') {
                 let curComponent = this.dataModel.data[g].subsections[i];
-                if (this.initData_editgrid_radiotext[theKey] == null) {
-                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                if (this.initData_editgrid_radiotextList[theKey] == null) {
+                  this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": {}}};
                 }
                 // force FormioEditDataGridRadioText component to reload
-                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = curComponent.comments.defaultValue;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
+                this.key_editgrid_radiotextList[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = curComponent.comments.defaultValue;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_radioButton = curComponent.defaultValue;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.questionLabel;
 
                 this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
               }
 
-              // populate initData_editgrid_radiotext
+              // populate initData_editgrid_radiotextList
               if (this.dataModel.data[g].subsections[i].type === 'radio') {
 
               }
 
-              // populate initData_editgrid_radiotext
+              // populate initData_editgrid_radiotextList
               if (this.dataModel.data[g].subsections[i].type === 'labelTextarea') {
                 let curComponent = this.dataModel.data[g].subsections[i];
-                if (this.initData_editgrid_radiotext[theKey] == null) {
-                  this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": {}}};
+                if (this.initData_editgrid_radiotextList[theKey] == null) {
+                  this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": {}}};
                 }
                 // force FormioEditDataGridRadioText component to reload
-                this.key_editgrid_radiotext[theKey] = (g + i) * keyRatio;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_comments = curComponent.defaultValue;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_radioButton = "";
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
-                this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.label;
+                this.key_editgrid_radiotextList[theKey] = (g + i) * keyRatio;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = curComponent.defaultValue;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_radioButton = "";
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
+                this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.label;
               } 
             }
           }
@@ -326,9 +331,9 @@ export default {
         
       }
 
-      //console.log("this.key_editgrid_radiotext: ", this.key_editgrid_radiotext);
-      //console.log("this.initData_editgrid_radiotext: ", this.initData_editgrid_radiotext);
-      // this.initData_editgrid_radiotext = {
+      //console.log("this.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
+      //console.log("this.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
+      // this.initData_editgrid_radiotextList = {
       //   "data": {
       //     "key_editgrid_radiotext": [
       //       {

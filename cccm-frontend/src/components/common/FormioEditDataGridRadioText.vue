@@ -12,10 +12,7 @@ export default {
   props: {
     dataModel: {},
     initData: {},
-    dataTemplate: {},
-    dataTemplateP: {},
-    radioValue: {},
-    editgridLabel: ""
+    dataTemplate: {}
   },
   data() {
     return {
@@ -34,43 +31,17 @@ export default {
     buildFormioTemplate() {
       //console.log("initData: ", this.initData);
       //console.log("dataTemplate: ", this.dataTemplate);
-      //console.log("dataTemplateP: ", this.dataTemplateP);
-      // make a deep copy of the template
+       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
 
-      // set panel details
-      let label = this.editgridLabel;
-      if (this.dataTemplate.show_label === null || !this.dataTemplate.show_label) {
-        label = "";
-      } 
-      
-      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataTemplateP.className_label);
-      tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', label);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplateP.key_questionLabel);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplateP.key);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplateP.key_comments);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataTemplateP.key_radioButton);
+      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataTemplate.className_label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', this.dataTemplate.label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplate.key_questionLabel);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplate.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplate.key_comments);
       
       let tmpJSON = JSON.parse(tmpJSONStr);
 
-      if (this.dataTemplate.show_header === null || !this.dataTemplate.show_header) {
-        tmpJSON.components[1].templates.header = "<div />";
-      }
-      
-      if (this.dataTemplate.show_radioButtons) {
-        //Set the radio data. 
-        tmpJSON.components[1].components[0].columns[1].components[0].values = this.radioValue;
-      } else {
-        // remove the radio button component
-        tmpJSON.components[1].components[0].columns[1].components = [];
-      }
-
-      // remove the comment component
-      if (!this.dataTemplate.show_comments) {
-        tmpJSON.components[1].components[0].columns[2].components = [];
-      }      
-
-      
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
