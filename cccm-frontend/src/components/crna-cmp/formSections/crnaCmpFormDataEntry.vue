@@ -10,7 +10,7 @@
             <FormioRadio v-else-if="headerc.type === 'radio'" :key=key_radio[headerc.key] :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
             <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key=key_radiotextarea[headerc.key] :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
-            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :key=key_editgrid_intervention :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
+            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key=key_editgrid_intervention @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key=key_editgrid_radiotext[headerc.ref_key_section] :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
             <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
                 v-for="(headergc, indexgc) in headerc.editgriditems" 
@@ -243,8 +243,7 @@ export default {
       // set this.initData_labeltextarea for FormioLabelTextarea component
       if (   this.dataModel != null 
           && this.dataModel.data != null) {
-        this.initData_editgrid_intervention = {"data": {}};
-        let index = 0;
+
         let keyRatio = 10000;
         for (let g = 0; g < this.dataModel.data.length; g++) {
           this.editgridLabel[this.dataModel.data[g].key_section] = this.dataModel.data[g].section;
@@ -273,12 +272,18 @@ export default {
                   this.initData_questionCombo[theKey]=this.dataModel.data[g].subsections[i].initData;
 
                   this.radioValue[theKey]=this.dataModel.data[g].subsections[i].radioGroup.values;
+
+                  // force FormioQuestionCombo component to reload
+                  this.Key_questionCombo++;
                 }
 
                 // add to this.initData_editgrid_intervention
                 if ( tmp != null 
                   && tmp.key_itvDataGrid != null 
                   && tmp.key_itvDataGrid.length > 0) {
+                  let index = 0;
+                  this.initData_editgrid_intervention = {"data": {}};
+
                   for (let j = 0; j < tmp.key_itvDataGrid.length; j++) {
                     if (this.initData_editgrid_intervention.data.key_editgrid_intervention == null) {
                       this.initData_editgrid_intervention.data.key_editgrid_intervention = [];
@@ -297,6 +302,9 @@ export default {
                     questionComboItem.key_itv_description = tmp.key_itvDataGrid[j].key_itv_description;
                     
                     this.initData_editgrid_intervention.data.key_editgrid_intervention[index++] = questionComboItem;
+
+                    // force FormioEditDataGridIntervention component to reload
+                    this.key_editgrid_intervention++;
                   }
                 }
               } 
@@ -397,7 +405,6 @@ export default {
               // populate this.initData_labeltextarea
               if (this.dataModel.data[g].subsections[i].type === 'labelTextarea') {
                 let curComponent = this.dataModel.data[g].subsections[i];
-                
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   // populate this.initData_labeltextarea
                   if (this.initData_labeltextarea[theKey] == null) {
@@ -436,7 +443,7 @@ export default {
       }
 
       //console.log("this.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
-      console.log("this.initData_labeltextarea: ", this.initData_labeltextarea);
+      //console.log("this.initData_labeltextarea: ", this.initData_labeltextarea);
       // this.initData_editgrid_radiotextList = {
       //   "data": {
       //     "key_editgrid_radiotext": [
@@ -449,12 +456,6 @@ export default {
       //     ]
       //   }
       // };
-
-      // force FormioQuestionCombo component to reload
-      this.Key_questionCombo++;
-
-      // force FormioEditDataGridIntervention component to reload
-      this.key_editgrid_intervention++;
     }
   }
 }
