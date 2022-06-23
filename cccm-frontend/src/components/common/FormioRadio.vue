@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form v-on:change="handleChangeEvent" :submission="initData" :form="formJSON"/>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,8 @@ import formTemplate from '@/components/common/templateRadio.json';
 export default {
   name: 'FormioRadio',
   props: {
-    dataModel: {}
+    dataModel: {},
+    initData: {},
   },
   data() {
     return {
@@ -31,15 +32,19 @@ export default {
 
       tmpJSONStr = tmpJSONStr.replace('${label}', this.dataModel.questionLabel);
       tmpJSONStr = tmpJSONStr.replace('${key}', this.dataModel.key);
-      tmpJSONStr = tmpJSONStr.replace('${defaultValue}', this.dataModel.defaultValue);
-
+      tmpJSONStr = tmpJSONStr.replace('${key_radioButton}', this.dataModel.key_radioButton);
+      
       //Find index of radio component.    
       let tmpJSON = JSON.parse(tmpJSONStr);
-      let objIndex = tmpJSON.components[0].components.findIndex((obj => obj.type == 'radio'));
-      
-      tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
+      tmpJSON.components[0].components[0].values = this.dataModel.values;
 
       this.formJSON = tmpJSON;
+    },
+    handleChangeEvent(event) {
+      // emit an event, dataOnChanged, to the parent, so parent knows the changes
+      if (event.changed && event.changed.component.key === this.dataModel.key_radioButton) {
+        this.$emit('dataOnChanged', event.data);
+      }
     }
   }
 }

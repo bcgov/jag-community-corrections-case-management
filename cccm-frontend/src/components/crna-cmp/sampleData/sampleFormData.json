@@ -806,6 +806,12 @@
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr_na",
+                    "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "l"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Low",
@@ -1123,6 +1129,12 @@
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr",
+                    "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "l"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Low",
@@ -1174,6 +1186,12 @@
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr",
+                    "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "l"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Low",
@@ -1196,6 +1214,12 @@
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr_sr",
+                    "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "l"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Low",
@@ -1218,6 +1242,12 @@
                     "type": "radio",
                     "questionLabel": "Overall Supervision Rating",
                     "key": "radio_osr",
+                    "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "l"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Low",
