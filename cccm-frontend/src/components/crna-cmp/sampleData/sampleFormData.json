@@ -806,7 +806,6 @@
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr_na",
-                    "defaultValue": "l",
                     "values": [
                         {
                             "label": "Low",
@@ -858,7 +857,7 @@
                     "type": "radioTextarea",
                     "questionLabel": "Number of Current Convictions/Peace Bonds Factor",
                     "key": "radioTextarea_nocc",
-                    "defaultValue": "1",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -883,16 +882,15 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Number of Prior Court Dispositions Factor",
                     "key": "radioTextarea_nopcdf",
-                    "defaultValue": "na",
-                    "values": [
+                    "key_radioButton": "key_radioButton",
+                     "values": [
                         {
                             "label": "None",
                             "value": "na",
@@ -916,15 +914,14 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Age at First Arrest/Conviction Factor",
                     "key": "radioTextarea_afacf",
-                    "defaultValue": "1",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "25+",
@@ -949,15 +946,14 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Escape History Factor",
                     "key": "radioTextarea_ehf",
-                    "defaultValue": "n",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "No",
@@ -982,15 +978,14 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Weapons Use/Threat Factor",
                     "key": "radioTextarea_wutf",
-                    "defaultValue": "n",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "No",
@@ -1015,15 +1010,14 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Frequency of Violence Factor",
                     "key": "radioTextarea_fovf",
-                    "defaultValue": "n",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "None",
@@ -1048,15 +1042,14 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {
                     "type": "radioTextarea",
                     "questionLabel": "Severity of Violence Factor",
                     "key": "radioTextarea_svf",
-                    "defaultValue": "n",
+                    "key_radioButton": "key_radioButton",
                     "values": [
                         {
                             "label": "None",
@@ -1081,15 +1074,13 @@
                     ],
                     "comments": {
                         "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
+                        "key": "key_comments"
                     }  
                 },
                 {   
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr",
-                    "defaultValue": "l",
                     "values": [
                         {
                             "label": "Low",
@@ -1141,7 +1132,6 @@
                     "type": "radio",
                     "questionLabel": "Overall Needs Rating",
                     "key": "radio_onr",
-                    "defaultValue": "l",
                     "values": [
                         {
                             "label": "Low",
@@ -1164,7 +1154,6 @@
                     "type": "radio",
                     "questionLabel": "Overall Risk Rating",
                     "key": "radio_orr_sr",
-                    "defaultValue": "l",
                     "values": [
                         {
                             "label": "Low",
@@ -1187,7 +1176,6 @@
                     "type": "radio",
                     "questionLabel": "Overall Supervision Rating",
                     "key": "radio_osr",
-                    "defaultValue": "l",
                     "values": [
                         {
                             "label": "Low",
