@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form :form="formJSON" :submission="initData"/>
 </template>
 
 <script lang="ts">
@@ -10,7 +10,8 @@ import formTemplate from '@/components/common/templateRadioTextarea.json';
 export default {
   name: 'FormioRadioTextarea',
   props: {
-    dataModel: {}
+    dataModel: {},
+    initData: {},
   },
   data() {
     return {

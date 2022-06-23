@@ -858,6 +858,12 @@
                     "questionLabel": "Number of Current Convictions/Peace Bonds Factor",
                     "key": "radioTextarea_nocc",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "na",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "Not Applicable",
@@ -890,6 +896,12 @@
                     "questionLabel": "Number of Prior Court Dispositions Factor",
                     "key": "radioTextarea_nopcdf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "na",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                      "values": [
                         {
                             "label": "None",
@@ -922,6 +934,12 @@
                     "questionLabel": "Age at First Arrest/Conviction Factor",
                     "key": "radioTextarea_afacf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "1",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "25+",
@@ -954,6 +972,12 @@
                     "questionLabel": "Escape History Factor",
                     "key": "radioTextarea_ehf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "n",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "No",
@@ -986,6 +1010,12 @@
                     "questionLabel": "Weapons Use/Threat Factor",
                     "key": "radioTextarea_wutf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "n",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "No",
@@ -1018,6 +1048,12 @@
                     "questionLabel": "Frequency of Violence Factor",
                     "key": "radioTextarea_fovf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "n",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "None",
@@ -1050,6 +1086,12 @@
                     "questionLabel": "Severity of Violence Factor",
                     "key": "radioTextarea_svf",
                     "key_radioButton": "key_radioButton",
+                    "initData": {
+                        "data": {
+                            "key_radioButton": "n",
+                            "key_comments": "Sample comments"
+                        }
+                    },
                     "values": [
                         {
                             "label": "None",
