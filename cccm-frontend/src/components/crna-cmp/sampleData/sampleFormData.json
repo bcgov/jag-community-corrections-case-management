@@ -82,25 +82,13 @@
                 "toggledLabel": "Save",
                 "theme": "primary"
             }
-        },
-        {
-            "type": "panel",
-            "contentType": "ul",
-            "panelTitle": "Quentions to Consider",
-            "panelKey": "key_quenstionsToConsider",
-            "contentKey": "key_quenstionsToConsider_content",
-            "dataArray": [
-                "What information would assist another Probation Officer in working with this client?",
-                "What will assist in engaging with this client",
-                "What will assist in engaging with this client"
-            ]
         }
     ],
     "data": [
         {
             "section": "Needs Assessment",
             "key_section": "key_section_needAssessment",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -848,7 +836,7 @@
         {
             "section": "Criminal History Risk Assessment",
             "key_section": "key_section_chra",
-            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix", "key_quenstionsToConsider"],
+            "sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
             "subNavOnOff": "on",
             "subsections": [
                 {
@@ -1171,7 +1159,7 @@
         {
             "section": "Supervision Rating",
             "key_section": "key_section_sr",
-            "sideCardPanelHiddenList": ["key_legend", "key_quenstionsToConsider"],
+            "sideCardPanelHiddenList": ["key_legend"],
             "subNavOnOff": "off",
             "subsections": [
                 {
