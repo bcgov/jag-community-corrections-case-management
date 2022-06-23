@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.LocationsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Location;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationList;
 
+import javax.annotation.security.RolesAllowed;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ public class LocationsApiImpl implements LocationsApi {
     private static final Logger logger = Logger.getLogger(String.valueOf(LocationsApiImpl.class));
 
     @Override
+    @RolesAllowed("data-view")
     public LocationList getLocations() {
 
         logger.info("Get location request received");

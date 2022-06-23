@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-add")
     public FormDetails addForm(String formDetails) {
 
         logger.warning("Form add not implemented");
@@ -35,6 +37,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-delete")
     public void deleteForm(BigDecimal formId) {
 
         logger.warning("Form delete not implemented");
@@ -43,6 +46,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @RolesAllowed("form-view")
     public FormDetails getFormById(BigDecimal formId) {
 
         logger.info("Get form id request received");
@@ -52,6 +56,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @RolesAllowed("form-view")
     public FormDetails getFormByType(String formType) {
 
         logger.info("Get form type request received");
@@ -62,6 +67,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-view")
     public FormList getForms() {
 
         logger.info("Get forms request received");
@@ -76,6 +82,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-update")
     public FormDetails updateForm(@Valid FormDetails formDetails) {
 
         logger.warning("Form update not implemented");
