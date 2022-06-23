@@ -388,7 +388,7 @@ export default {
                   }
                   
                   this.key_editgrid_radiotextList[theKey] = (g + i) * keyRatio;
-                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = curComponent.defaultValue;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_comments = curComponent.initData.data.key_textarea;
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_radioButton = "";
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.hidden_key = curComponent.key;
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext.key_questionLabel = curComponent.label;
