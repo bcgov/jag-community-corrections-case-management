@@ -1377,6 +1377,16 @@
                     ]
                 },
                 {
+                    "type": "editGridIntervention",
+                    "label": "Intervention Plan",
+                    "className_label": "subSectionTitleClass",
+                    "key": "key_editgrid_intervention",
+                    "key_questionLabel": "key_questionLabel",
+                    "key_comments": "key_comments",
+                    "key_itv_type": "key_itv_type",
+                    "key_itv_description": "key_itv_description"
+                },
+                {
                     "type": "labelTextarea",
                     "initData": {
                         "data": {
@@ -1389,16 +1399,6 @@
                     "label": "Supervision Plan",
                     "label_textarea": "Please input a Supervision Plan",
                     "key_textarea": "key_textarea"
-                },
-                {
-                    "type": "editGridIntervention",
-                    "label": "Intervention Plan",
-                    "className_label": "subSectionTitleClass",
-                    "key": "key_editgrid_intervention",
-                    "key_questionLabel": "key_questionLabel",
-                    "key_comments": "key_comments",
-                    "key_itv_type": "key_itv_type",
-                    "key_itv_description": "key_itv_description"
                 }
             ]
         },
