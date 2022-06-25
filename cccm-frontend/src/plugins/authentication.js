@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Keycloak from 'keycloak-js'
 
 const options = {
-  url: 'https://keycloak-abb712-dev.apps.gold.devops.gov.bc.ca/',
-  realm: 'cccm',
-  clientId: 'cccm-frontend'
+  url: config.VUE_APP_KEYCLOAK_URL,
+  realm: config.VUE_APP_KEYCLOAK_REALM,
+  clientId: config.VUE_APP_KEYCLOAK_CLIENT_ID
 }
 
 const _keycloak = new Keycloak(options)

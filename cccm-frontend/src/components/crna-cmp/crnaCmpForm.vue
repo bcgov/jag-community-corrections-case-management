@@ -52,7 +52,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import {getFormDetails, saveFormData} from "@/components/form.api.ts";
+import {getFormDetails, saveFormData} from "@/components/form.api";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";

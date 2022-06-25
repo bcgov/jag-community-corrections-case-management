@@ -47,6 +47,7 @@ router.beforeEach((to, from, next) => {
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
     } else if (Vue.$keycloak.hasRealmRole('client-search')) {
       // The user was authenticated, and has the app role
+      //Refresh the access token and renew the session of the user.
       Vue.$keycloak.updateToken(70)
         .then(() => {
           next()
