@@ -14,28 +14,8 @@
                 "inline": false,
                 "tableView": false,
                 "values": [
-                    {
-                        "label": "Pattern of stable and supportive relationships",
-                        "value": "patternOfStableAndSupportiveRelationships",
-                        "shortcut": "P"
-                    },
-                    {
-                        "label": "No current difficulties",
-                        "value": "noCurrentDifficulties",
-                        "shortcut": "N"
-                    },
-                    {
-                        "label": "Occasional Instability in relationships",
-                        "value": "occasionalInstabilityInRelationships",
-                        "shortcut": "O"
-                    },
-                    {
-                        "label": "Very unstable pattern of relationships",
-                        "value": "veryUnstablePatternOfRelationships",
-                        "shortcut": "V"
-                    }
                 ],
-                "key": "radioButton",
+                "key": "${key_radioButton}",
                 "type": "radio",
                 "input": true,
                 "defaultValue": "${defaultValue_radioButton}"
@@ -46,7 +26,7 @@
                 "hidden": true,
                 "clearOnHide": false,
                 "key": "hidden_key",
-                "defaultValue": "${key_radioButton}",
+                "defaultValue": "${value_hiddenKey}",
                 "type": "textfield",
                 "input": true
               },
@@ -57,7 +37,7 @@
                   "tooltip": "",
                   "autoExpand": true,
                   "tableView": true,
-                  "key": "comments",
+                  "key": "${key_comments}",
                   "type": "textarea",
                   "input": true,
                   "defaultValue": "${defaultValue_comments}"
@@ -65,12 +45,14 @@
               {
                 "label": "${label}",
                 "tableView": false,
-                "key": "key_checkbox",
+                "key": "${key_checkbox}",
                 "type": "checkbox",
                 "input": true,
                 "defaultValue": "${defaultValue_checkbox}"
               },
               {
+                  "type": "datagrid",
+                  "key": "${key_itvDataGrid}",
                   "label": "",
                   "reorder": false,
                   "addAnotherPosition": "bottom",
@@ -80,18 +62,16 @@
                   "tableView": false,
                   "defaultValue": [
                       {
-                          "key_itv_type": "",
-                          "key_itv_other": "${value_itv_other}",
-                          "key_itv_description": ""
+                          "${key_itv_type}": "",
+                          "${key_itv_other}": "${value_itv_other}",
+                          "${key_itv_description}": ""
                       }
                   ],
-                  "key": "key_itvDataGrid",
                   "conditional": {
                       "show": true,
-                      "when": "key_checkbox",
+                      "when": "${key_checkbox}",
                       "eq": "true"
                   },
-                  "type": "datagrid",
                   "input": true,
                   "components": [
                       {
@@ -111,7 +91,7 @@
                                                   "label": "Select Intervention Type",
                                                   "widget": "choicesjs",
                                                   "tableView": true,
-                                                  "key": "key_itv_type",
+                                                  "key": "${key_itv_type}",
                                                   "type": "select",
                                                   "input": true,
                                                   "data": {
@@ -136,10 +116,10 @@
                                               {
                                                   "label": "Specify",
                                                   "tableView": true,
-                                                  "key": "key_itv_other",
+                                                  "key": "${key_itv_other}",
                                                   "conditional": {
                                                       "show": true,
-                                                      "when": "key_itv_type",
+                                                      "when": "${key_itv_type}",
                                                       "eq": "other"
                                                   },
                                                   "defaultValue": "${value_itv_other}",
@@ -165,7 +145,8 @@
                                   "autoExpand": false,
                                   "tableView": true,
                                   "placeholder": "Please enter here",
-                                  "key": "key_itv_description",
+                                  "key": "${key_itv_description}",
+                                  "defaultValue": "${value_itv_description}",
                                   "type": "textarea",
                                   "input": true
                               }

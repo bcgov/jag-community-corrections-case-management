@@ -12,15 +12,22 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import HeaderComponent from '@/components/Header.vue'
 import FooterComponent from '@/components/Footer.vue'
-import { getLocationInfo } from "@/components/form.api.ts";
+import { getLocationInfo } from "@/components/form.api";
+import updateToken from '@/middleware/update-token';
 
-export default {
+export default Vue.extend({
   name: 'app',
   components: {
     HeaderComponent,
     FooterComponent
+  },
+  watch: {
+    $route() {
+      updateToken();
+    },
   },
   data() {
     return {
@@ -62,5 +69,5 @@ export default {
       }
     }
   } 
-}
+});
 </script>

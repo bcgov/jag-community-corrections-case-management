@@ -8,8 +8,7 @@
               :key="header.section" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
-              @click="setCurrentSectionParentChild"
-              ref="parentAnchor">
+              @click="setCurrentSectionParentChild">
               {{ header.section }}
             </a>
           </span>

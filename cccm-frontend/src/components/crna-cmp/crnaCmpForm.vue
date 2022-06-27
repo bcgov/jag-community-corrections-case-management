@@ -52,7 +52,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import {getFormDetails, saveFormData} from "@/components/form.api.ts";
+import {getFormDetails, saveFormData} from "@/components/form.api";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
@@ -139,3 +139,23 @@ export default {
   }  
 }
 </script>
+
+<style>
+.sectionTitleClass {
+  font-size: 35px;
+}
+
+.subSectionTitleClass {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
+  text-decoration-color: rgb(255, 208, 0);
+}
+
+.subSectionChildTitleClass {
+  font-size: 15px;
+  font-weight: bold;
+  
+}
+</style>

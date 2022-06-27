@@ -3,13 +3,13 @@
     "components": [
         {
             "label": "radiowell",
-            "key": "radiowell",
+            "key": "${key}",
             "type": "well",
             "input": false,
             "tableView": false,
             "components": [
                 {
-                    "label": "${label}",
+                    "label": "${label_questionLabel}",
                     "optionsLabelPosition": "right",
                     "inline": false,
                     "tableView": false,
@@ -30,7 +30,7 @@
                             "shortcut": "h"
                         }
                     ],
-                    "key": "${key}",
+                    "key": "${key_radioButton}",
                     "type": "radio",
                     "input": true,
                     "defaultValue": "${defaultValue}"
@@ -42,7 +42,7 @@
                     "tooltip": "",
                     "autoExpand": false,
                     "tableView": true,
-                    "key": "${label_key}",
+                    "key": "${key_textarea}",
                     "type": "textarea",
                     "input": true
                 }
