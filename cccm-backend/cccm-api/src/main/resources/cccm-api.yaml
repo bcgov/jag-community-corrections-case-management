@@ -6,8 +6,6 @@ info:
 servers:
   - url: http://localhost:8080
 tags:
-  - description: Endpoints for client data
-    name: clients
   - description: Endpoints for form data
     name: forms
   - description: Endpoints for code tables data
@@ -15,48 +13,6 @@ tags:
   - description: Endpoints for side card data
     name: sidecards
 paths:
-  /clients:
-    get:
-      operationId: GetClients
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientList'
-          description: get all clients
-      summary: get all clients
-      tags:
-        - clients
-      x-accepts: application/json
-      x-tags:
-        - tag: clients
-  /clients/{clientId}:
-    get:
-      operationId: GetClient
-      parameters:
-        - explode: false
-          in: path
-          name: clientId
-          required: true
-          schema:
-            type: number
-          style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientDetails'
-          description: client found
-        "404":
-          description: client not found
-      summary: get a client by id
-      tags:
-        - clients
-      x-accepts: application/json
-      x-tags:
-        - tag: clients
   /forms:
     get:
       operationId: GetForms
@@ -220,55 +176,6 @@ paths:
         - tag: lookups
 components:
   schemas:
-    ClientDetails:
-      description: Client
-      example:
-        firstName: firstName
-        lastName: lastName
-        clientId: 0.8008281904610115
-        gender: gender
-        finalOrderExpiryDate: 2000-01-23
-        location: location
-      properties:
-        clientId:
-          type: number
-        firstName:
-          type: string
-        lastName:
-          type: string
-        location:
-          type: string
-        gender:
-          type: string
-        birthDate:
-          format: date
-          type: string
-        finalOrderExpiryDate:
-          format: date
-          type: string
-      type: object
-    ClientList:
-      example:
-        items:
-          - firstName: firstName
-            lastName: lastName
-            clientId: 0.8008281904610115
-            gender: gender
-            finalOrderExpiryDate: 2000-01-23
-            location: location
-          - firstName: firstName
-            lastName: lastName
-            clientId: 0.8008281904610115
-            gender: gender
-            finalOrderExpiryDate: 2000-01-23
-            location: location
-      properties:
-        items:
-          description: ClientsDetails
-          items:
-            $ref: '#/components/schemas/ClientDetails'
-          type: array
-      type: object
     FormDetails:
       description: Client
       properties:
