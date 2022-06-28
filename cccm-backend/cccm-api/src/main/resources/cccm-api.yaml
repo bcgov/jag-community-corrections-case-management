@@ -6,13 +6,62 @@ info:
 servers:
   - url: http://localhost:8080
 tags:
+  - description: Endpoints for client data
+    name: clients
   - description: Endpoints for form data
     name: forms
   - description: Endpoints for code tables data
     name: lookups
-  - description: Endpoints for side card data
-    name: sidecards
 paths:
+  /clients:
+    get:
+      operationId: SearchClients
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: soundex
+          schema:
+            type: boolean
+        - in: query
+          name: birthYear
+          schema:
+            type: integer
+        - in: query
+          name: age
+          schema:
+            type: integer
+        - in: query
+          name: address
+          schema:
+            type: string
+        - in: query
+          name: location
+          schema:
+            type: string
+        - in: query
+          name: gender
+          schema:
+            type: string
+        - in: query
+          name: clientId
+          schema:
+            type: number
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientList'
+          description: get all forms
+      summary: search for clients
+      tags:
+        - clients
+      x-accepts: application/json
+      x-tags:
+        - tag: clients
   /forms:
     get:
       operationId: GetForms
@@ -516,4 +565,34 @@ components:
         attr:
           type: string
         value:
+          type: string
+    ClientList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Client'
+    Client:
+      type: object
+      properties:
+        firstName:
+          type: string
+        LastName:
+          type: string
+        gender:
+          type: string
+        clientAge:
+          type: number
+        birthDate:
+          type: string
+        address:
+          type: array
+          items:
+            $ref: "#/components/schemas/Address"
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        postalCode:
           type: string
