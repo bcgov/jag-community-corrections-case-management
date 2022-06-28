@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.util.List;
 
-//@QuarkusTest
+@QuarkusTest
 public class GetClientsTest {
 
     @Inject
     ClientsApiImpl sut;
 
-    //@Test
+    @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
@@ -29,7 +29,7 @@ public class GetClientsTest {
 
     }
 
-    //@Test
+    @Test
     @TestSecurity(user = "userOidc", roles = "someotherrole")
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
@@ -38,7 +38,7 @@ public class GetClientsTest {
 
     }
 
-    //@Test
+    @Test
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
