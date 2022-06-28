@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON" :submission="initData"/>
+    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData"/>
 </template>
 
 <script lang="ts">
@@ -46,6 +46,15 @@ export default {
       tmpJSON.components[0].components[objIndex].values = this.dataModel.values;
 
       this.formJSON = tmpJSON;
+    },
+    handleChangeEvent(event) {
+      // emit an event, dataOnChanged, to the parent, so parent knows the changes
+      if ( event.changed && (
+           event.changed.component.key === this.dataModel.key_radioButton
+        || event.changed.component.key === this.dataModel.comments.key)
+        ) {
+        this.$emit('dataOnChanged', event.data);
+      }
     }
   }
 }

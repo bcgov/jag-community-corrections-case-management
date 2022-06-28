@@ -46,8 +46,8 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      console.log("event: ", event);
-      //this.$emit('dataOnChanged', event.row);
+      console.log("datagrid radio text event data: ", event.row);
+      this.$emit('dataOnChanged', event.row);
     }
   }
 }

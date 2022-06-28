@@ -43,9 +43,9 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_textarea) {
-        let key = event.changed.instance.parent.component.key;
-        console.log("event: ", key);
-        this.$emit('dataOnChanged', event.data, key);
+        //let key = event.changed.instance.parent.component.key;
+        //console.log("lable textarea event changed: ", event.data, this.dataModel.key);
+        this.$emit('dataOnChanged', event.data, this.dataModel.key);
       }
     }
   }
