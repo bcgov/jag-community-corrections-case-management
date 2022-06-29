@@ -43,6 +43,7 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_radioButton) {
+        //console.log("Radio changed: ", event);
         this.$emit('dataOnChanged', event.data, this.dataModel.key);
       }
     }
