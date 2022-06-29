@@ -273,7 +273,7 @@
                     "key": "quetionCombo_cso",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "m",
+                        "defaultValue": "p",
                         "values": [
                             {
                                 "label": "Pattern of non-criminal and/or positive associations",
@@ -282,8 +282,8 @@
                             },
                             {
                                 "label": "Mostly non-criminal and/or positive associations",
-                                "value": "m",
-                                "shortcut": "m"
+                                "value": "mp",
+                                "shortcut": "mp"
                             },
                             {
                                 "label": "Some criminal and/or negative associations",
@@ -292,8 +292,8 @@
                             },
                             {
                                 "label": "Mostly criminal and/or negative associations",
-                                "value": "m",
-                                "shortcut": "m"
+                                "value": "mn",
+                                "shortcut": "mn"
                             }
                         ]
                     },
