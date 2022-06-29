@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.api.client;
 
-import ca.bc.gov.open.jag.api.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,18 +23,19 @@ public class GetClientsTest {
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        List<Client> result = sut.clientSearch(null, null,null,null,null,null,null,null);
+        List<Client> result = sut.searchClients(null, null,null,null,null,null,null,null);
 
         Assertions.assertEquals(1, result.size());
 
     }
 
     @Test
+
     @TestSecurity(user = "userOidc", roles = "someotherrole")
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.clientSearch(null, null,null,null,null,null,null,null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
 
     }
 
@@ -42,7 +43,7 @@ public class GetClientsTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.clientSearch(null, null,null,null,null,null,null,null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
 
     }
 
