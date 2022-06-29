@@ -53,7 +53,8 @@ export default {
            event.changed.component.key === this.dataModel.key_radioButton
         || event.changed.component.key === this.dataModel.comments.key)
         ) {
-        this.$emit('dataOnChanged', event.data);
+        //console.log("Formio radioTextarea: ", event);
+        this.$emit('dataOnChanged', event.data, this.dataModel.key);
       }
     }
   }

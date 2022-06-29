@@ -162,17 +162,32 @@ export default {
         }
       }
     },
-    handleRadioTextareaDataOnChanged(dataValue) {
-      //console.log("RadioTextarea data on change: ", dataValue);
+    handleRadioTextareaDataOnChanged(dataValue, theKey) {
+      //console.log("RadioTextarea data on change: ", dataValue, theKey);
+      // {
+      //   "key_radioButton": "n",
+      //   "key_comments": "Sample comments"
+      // }
+      if (dataValue != null) {
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_comments = dataValue.key_comments;
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
+
+        // force FormioEditDataGridRadioTextList component refresh
+        this.key_editgrid_radiotextList[theKey]++;
+      }
+      //console.log("TTTTTTTTTTTTTTTTthis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
     },
     handleRadioDataOnChanged(dataValue, theKey) {
       //console.log("Radio data on change: ", dataValue, theKey);
-      this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_comments = dataValue.key_comments;
-      this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
-      this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
+      if (dataValue != null) {
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_comments = dataValue.key_comments;
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
+        this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
 
-      // force FormioEditDataGridRadioTextList component refresh
-      this.key_editgrid_radiotextList[theKey]++;
+        // force FormioEditDataGridRadioTextList component refresh
+        this.key_editgrid_radiotextList[theKey]++;
+      }
     },
     handleLabelTextareaDataOnChanged(dataValue, key) {
       //console.log("dataValue: ", dataValue, key);
@@ -339,7 +354,7 @@ export default {
       this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
       this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
 
-      console.log("TTTTTTTTTTTTinitData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList, this.initData_editgrid_radiotextList[theKey]);
+      //console.log("TTTTTTTTTTTTinitData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList, this.initData_editgrid_radiotextList[theKey]);
       // force FormioEditDataGridRadioTextList component refresh
       this.key_editgrid_radiotextList[theKey]++;
     },
