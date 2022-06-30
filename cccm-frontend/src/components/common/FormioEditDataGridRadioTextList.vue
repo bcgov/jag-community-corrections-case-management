@@ -28,7 +28,7 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
-    //console.log("initdata: ", this.initData);
+    console.log("EditDataGridRadioTextList Initdata: ", this.initData);
   },
   methods: {
     buildFormioTemplate() {

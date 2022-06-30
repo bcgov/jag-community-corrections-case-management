@@ -13,23 +13,7 @@
                     "optionsLabelPosition": "right",
                     "inline": false,
                     "tableView": false,
-                    "values": [
-                        {
-                            "label": "Low",
-                            "value": "l",
-                            "shortcut": "l"
-                        },
-                        {
-                            "label": "Medium",
-                            "value": "m",
-                            "shortcut": "m"
-                        },
-                        {
-                            "label": "High",
-                            "value": "h",
-                            "shortcut": "h"
-                        }
-                    ],
+                    "values": [],
                     "key": "${key_radioButton}",
                     "type": "radio",
                     "input": true,
@@ -46,6 +30,16 @@
                     "type": "textarea",
                     "input": true,
                     "defaultValue": "${defaultValue_textarea}"
+                },
+                {
+                  "label": "",
+                  "tableView": true,
+                  "hidden": true,
+                  "clearOnHide": false,
+                  "key": "hidden_key",
+                  "defaultValue": "${value_hiddenKey}",
+                  "type": "textfield",
+                  "input": true
                 }
             ]
         }

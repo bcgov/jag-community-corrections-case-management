@@ -13,8 +13,7 @@
                 "optionsLabelPosition": "right",
                 "inline": false,
                 "tableView": false,
-                "values": [
-                ],
+                "values": [],
                 "key": "${key_radioButton}",
                 "type": "radio",
                 "input": true,

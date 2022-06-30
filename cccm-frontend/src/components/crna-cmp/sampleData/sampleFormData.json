@@ -104,7 +104,6 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "P",
-                            "hidden_key": "quetionCombo_fr",
                             "key_comments": "Comments for family relationships",
                             "key_checkbox": true,
                             "key_itvDataGrid": [
@@ -113,8 +112,7 @@
                                     "key_itv_other": "",
                                     "key_itv_description": "some comments for type 1"
                                 }
-                            ],
-                            "key_questionLabel": "Family Relationships"
+                            ]
                         }
                     },
                     "questionLabel": "Family Relationships",
@@ -174,10 +172,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "P",
-                            "hidden_key": "quetionCombo_la",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Living Arrangements"
+                            "key_checkbox": false
                         }
                     }, 
                     "questionLabel": "Living Arrangements",
@@ -237,10 +233,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "p",
-                            "hidden_key": "quetionCombo_cso",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Companions/Significant Others"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Companions/Significant Others",
@@ -300,10 +294,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_avs",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Academic/Vocational Skills"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Academic/Vocational Skills",
@@ -363,10 +355,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "s",
-                            "hidden_key": "quetionCombo_epf",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Employment Pattern Factors"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Employment Pattern Factors",
@@ -426,10 +416,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "n",
-                            "hidden_key": "quetionCombo_fm",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Financial Management"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Financial Management",
@@ -489,10 +477,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_besf",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Behavioural/Emotional Stability Factors"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Behavioural/Emotional Stability Factors",
@@ -552,10 +538,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_sm",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Substance Misuse"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Substance Misuse",
@@ -615,10 +599,8 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "a",
-                            "hidden_key": "quetionCombo_a",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Attitude"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Attitude",
@@ -749,18 +731,18 @@
                         },
                         {
                             "label": "1",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "n1",
+                            "shortcut": "n1"
                         },
                         {
                             "label": "2",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "n2",
+                            "shortcut": "n2"
                         },
                         {
                             "label": "3 or more",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "n3",
+                            "shortcut": "n3"
                         }
                     ],
                     "comments": {
@@ -787,18 +769,18 @@
                         },
                         {
                             "label": "1",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "n1",
+                            "shortcut": "n1"
                         },
                         {
                             "label": "2",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "n2",
+                            "shortcut": "n2"
                         },
                         {
                             "label": "3 or more",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "n3",
+                            "shortcut": "n3"
                         }
                     ],
                     "comments": {
