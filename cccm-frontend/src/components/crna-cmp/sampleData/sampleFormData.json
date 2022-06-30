@@ -813,30 +813,30 @@
                     "key_radioButton": "key_radioButton",
                     "initData": {
                         "data": {
-                            "key_radioButton": "1",
+                            "key_radioButton": "a",
                             "key_comments": ""
                         }
                     },
                     "values": [
                         {
                             "label": "25+",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "a",
+                            "shortcut": "a"
                         },
                         {
                             "label": "18 to 24",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "b",
+                            "shortcut": "b"
                         },
                         {
                             "label": "14 to 17",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "c",
+                            "shortcut": "c"
                         },
                         {
                             "label": "13 and under",
-                            "value": "4",
-                            "shortcut": "4"
+                            "value": "d",
+                            "shortcut": "d"
                         }
                     ],
                     "comments": {

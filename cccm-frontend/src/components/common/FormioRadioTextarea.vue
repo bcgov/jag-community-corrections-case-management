@@ -31,14 +31,14 @@ export default {
       let tmpJSONStr = JSON.stringify(this.templateJSON);
 
       // set radio btn component 
-      tmpJSONStr = tmpJSONStr.replace('${label_questionLabel}', this.dataModel.questionLabel);
-      tmpJSONStr = tmpJSONStr.replace('${key}', this.dataModel.key);
-      tmpJSONStr = tmpJSONStr.replace('${key_radioButton}', this.dataModel.key_radioButton);
-      tmpJSONStr = tmpJSONStr.replace('${defaultValue}', this.dataModel.initData.data.key_radioButton);
+      tmpJSONStr = tmpJSONStr.replaceAll('${label_questionLabel}', this.dataModel.questionLabel);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key}', this.dataModel.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataModel.key_radioButton);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue}', this.dataModel.initData.data.key_radioButton);
       
       // set textarea component
-      tmpJSONStr = tmpJSONStr.replace('${key_textarea}', this.dataModel.comments.key);
-      tmpJSONStr = tmpJSONStr.replace('${defaultValue_textarea}', this.dataModel.initData.data.key_comments);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.comments.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_textarea}', this.dataModel.initData.data.key_comments);
 
       //Find index of radio component.    
       let tmpJSON = JSON.parse(tmpJSONStr);
