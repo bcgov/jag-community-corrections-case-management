@@ -33,6 +33,7 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${label}', this.dataModel.questionLabel);
       tmpJSONStr = tmpJSONStr.replace('${key}', this.dataModel.key);
       tmpJSONStr = tmpJSONStr.replace('${key_radioButton}', this.dataModel.key_radioButton);
+      tmpJSONStr = tmpJSONStr.replace('${defaultValue}', this.dataModel.initData.data.key_radioButton);
       
       //Find index of radio component.    
       let tmpJSON = JSON.parse(tmpJSONStr);
@@ -43,7 +44,7 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_radioButton) {
-        //console.log("Radio changed: ", event);
+        //console.log("Formio Radio changed: ", event);
         this.$emit('dataOnChanged', event.data, this.dataModel.key);
       }
     }

@@ -18,8 +18,7 @@ export default {
   data() {
     return {
       questionComboTemplate : templateQuestionCombo,
-      formJSON : {},
-      userInput: {}
+      formJSON : {}
     }
   },
   components: {
@@ -36,26 +35,22 @@ export default {
       
       // set the label and key for the top component
       tmpJSONStr = tmpJSONStr.replaceAll('${questionLabel}', this.dataModel.questionLabel);
-      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_radioButton}', this.dataModel.radioGroup.defaultValue);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_radioButton}', this.dataModel.initData.data.key_radioButton);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataModel.radioGroup.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${value_hiddenKey}', this.dataModel.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataModel.comments.key);
-      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_comments}', this.dataModel.comments.defaultValue);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_comments}', this.dataModel.initData.data.key_comments);
 
       // Set intervention needed component
       tmpJSONStr = tmpJSONStr.replaceAll('${label}', this.dataModel.interventionNeeded.label);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_checkbox}', this.dataModel.interventionNeeded.key_checkbox);
-      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_checkbox}', this.dataModel.interventionNeeded.defaultValue);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_checkbox}', this.dataModel.initData.data.key_checkbox);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_itvDataGrid}', this.dataModel.interventionNeeded.key_itvDataGrid);
 
       // Set intervention needed component
       tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_type}', this.dataModel.interventionNeeded.key_itv_type);
-
       tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_other}', this.dataModel.interventionNeeded.key_itv_other);
-      tmpJSONStr = tmpJSONStr.replaceAll('${value_itv_other}', this.dataModel.interventionNeeded.value_itv_other);
-
       tmpJSONStr = tmpJSONStr.replaceAll('${key_itv_description}', this.dataModel.interventionNeeded.key_itv_description);
-      tmpJSONStr = tmpJSONStr.replaceAll('${value_itv_description}', this.dataModel.interventionNeeded.value_itv_description);
     
       let tmpJSON = JSON.parse(tmpJSONStr);  
 
@@ -72,12 +67,14 @@ export default {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (   event.changed 
           && ( event.changed.component.key === this.dataModel.comments.key  
+            || event.changed.component.key === this.dataModel.radioGroup.key
             || event.changed.component.key === this.dataModel.interventionNeeded.key_checkbox 
             || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_type
             || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_other
             || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_description)
           ) {
-        this.$emit('dataOnChanged', event.data);
+            //console.log("Formio questioncombo: ", event);
+            this.$emit('dataOnChanged', event.data);
       }
     }
   }

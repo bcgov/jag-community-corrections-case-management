@@ -32,7 +32,8 @@
                     ],
                     "key": "${key_radioButton}",
                     "type": "radio",
-                    "input": true
+                    "input": true,
+                    "defaultValue": "${defaultValue}"
                 }
             ]
         }

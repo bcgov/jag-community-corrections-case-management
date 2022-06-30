@@ -60,13 +60,6 @@
                   "enableRowGroups": false,
                   "initEmpty": false,
                   "tableView": false,
-                  "defaultValue": [
-                      {
-                          "${key_itv_type}": "",
-                          "${key_itv_other}": "${value_itv_other}",
-                          "${key_itv_description}": ""
-                      }
-                  ],
                   "conditional": {
                       "show": true,
                       "when": "${key_checkbox}",
@@ -122,7 +115,6 @@
                                                       "when": "${key_itv_type}",
                                                       "eq": "other"
                                                   },
-                                                  "defaultValue": "${value_itv_other}",
                                                   "type": "textfield",
                                                   "input": true
                                               }
@@ -146,7 +138,6 @@
                                   "tableView": true,
                                   "placeholder": "Please enter here",
                                   "key": "${key_itv_description}",
-                                  "defaultValue": "${value_itv_description}",
                                   "type": "textarea",
                                   "input": true
                               }

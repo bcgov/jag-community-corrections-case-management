@@ -44,7 +44,8 @@
                     "tableView": true,
                     "key": "${key_textarea}",
                     "type": "textarea",
-                    "input": true
+                    "input": true,
+                    "defaultValue": "${defaultValue_textarea}"
                 }
             ]
         }

@@ -36,6 +36,7 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
       tmpJSONStr = tmpJSONStr.replaceAll('${maxLength_textarea}', this.dataModel.maxLength_textarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue}', this.dataModel.initData.data.key_textarea);
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);
