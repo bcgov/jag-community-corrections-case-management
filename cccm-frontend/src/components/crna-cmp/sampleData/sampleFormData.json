@@ -745,10 +745,7 @@
                             "shortcut": "n3"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -783,10 +780,7 @@
                             "shortcut": "n3"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -821,10 +815,7 @@
                             "shortcut": "d"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -859,10 +850,7 @@
                             "shortcut": "y"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -897,10 +885,7 @@
                             "shortcut": "y"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -935,10 +920,7 @@
                             "shortcut": "h"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -973,10 +955,7 @@
                             "shortcut": "h"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {   
                     "type": "radio",

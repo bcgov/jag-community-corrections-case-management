@@ -38,7 +38,7 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${value_hiddenKey}', this.dataModel.key);
       
       // set textarea component
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.comments.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.key_comments);
       tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_textarea}', this.dataModel.initData.data.key_comments);
 
       //Find index of radio component.    
@@ -51,7 +51,7 @@ export default {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if ( event.changed 
         && (  event.changed.component.key === this.dataModel.key_radioButton
-          ||  event.changed.component.key === this.dataModel.comments.key)
+          ||  event.changed.component.key === this.dataModel.key_comments)
         ) {
         console.log("Formio radioTextarea: ", event);
         this.$emit('dataOnChanged', event.data);
