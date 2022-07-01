@@ -116,7 +116,7 @@
                         }
                     },
                     "questionLabel": "Family Relationships",
-                    "key": "quetionCombo_fr",
+                    "key": "questionCombo_fr",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -177,7 +177,7 @@
                         }
                     }, 
                     "questionLabel": "Living Arrangements",
-                    "key": "quetionCombo_la",
+                    "key": "questionCombo_la",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -238,7 +238,7 @@
                         }
                     },
                     "questionLabel": "Companions/Significant Others",
-                    "key": "quetionCombo_cso",
+                    "key": "questionCombo_cso",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -299,7 +299,7 @@
                         }
                     },
                     "questionLabel": "Academic/Vocational Skills",
-                    "key": "quetionCombo_avs",
+                    "key": "questionCombo_avs",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -360,7 +360,7 @@
                         }
                     },
                     "questionLabel": "Employment Pattern Factors",
-                    "key": "quetionCombo_epf",
+                    "key": "questionCombo_epf",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -421,7 +421,7 @@
                         }
                     },
                     "questionLabel": "Financial Management",
-                    "key": "quetionCombo_fm",
+                    "key": "questionCombo_fm",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -482,7 +482,7 @@
                         }
                     },
                     "questionLabel": "Behavioural/Emotional Stability Factors",
-                    "key": "quetionCombo_besf",
+                    "key": "questionCombo_besf",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -543,7 +543,7 @@
                         }
                     },
                     "questionLabel": "Substance Misuse",
-                    "key": "quetionCombo_sm",
+                    "key": "questionCombo_sm",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -604,7 +604,7 @@
                         }
                     },
                     "questionLabel": "Attitude",
-                    "key": "quetionCombo_a",
+                    "key": "questionCombo_a",
                     "radioGroup": {
                         "key": "key_radioButton",
                         "values": [
@@ -1278,49 +1278,49 @@
                     "key_radioButton": "key_radioButton",
                     "editgriditems": [
                         {
-                            "ref_key_subsection": "quetionCombo_fr",
+                            "ref_key_subsection": "questionCombo_fr",
                             "show_header": true,
                             "show_label": true, 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_la", 
+                            "ref_key_subsection": "questionCombo_la", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_cso", 
+                            "ref_key_subsection": "questionCombo_cso", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_avs", 
+                            "ref_key_subsection": "questionCombo_avs", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_epf", 
+                            "ref_key_subsection": "questionCombo_epf", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_fm", 
+                            "ref_key_subsection": "questionCombo_fm", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_besf", 
+                            "ref_key_subsection": "questionCombo_besf", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_sm", 
+                            "ref_key_subsection": "questionCombo_sm", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_a", 
+                            "ref_key_subsection": "questionCombo_a", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },

@@ -163,7 +163,7 @@ export default {
       }
     },
     handleRadioTextareaDataOnChanged(dataValue) {
-      console.log("RadioTextarea data on change: ", dataValue);
+      //console.log("RadioTextarea data on change: ", dataValue);
       // {
       //   "key_radioButton": "n",
       //   "key_comments": "Sample comments"
@@ -177,10 +177,10 @@ export default {
           
           //console.log("TTTTTTTTTTTTTTTTBEFOREthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
           // force FormioEditDataGridRadioTextList component refresh
-          this.key_editgrid_radiotextList[theKey] = this.genRandomNumber();
+          this.key_editgrid_radiotextList[theKey]++;
           //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList[theKey]);
           //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
-          console.log("TTTTTTTTTTTTTTTTthis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
+          //console.log("TTTTTTTTTTTTTTTTthis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
         }
       } 
     },
@@ -224,7 +224,7 @@ export default {
       // Sample dataValue, should only contain 1 object
       // {
       //   "key_radioButton": "P",
-      //   "hidden_key": "quetionCombo_fr",
+      //   "hidden_key": "questionCombo_fr",
       //   "key_comments": "",
       //   "key_checkbox": true,
       //   "questionLabel": "Family Relationships",
@@ -245,11 +245,11 @@ export default {
       this.Key_questionCombo++;
     },
     handleQuestionComboDataOnChanged(dataValue) {
-      console.log("QuestionComboDataOnChanged: ", dataValue);
+      //console.log("QuestionComboDataOnChanged: ", dataValue);
       // Sample dataValue when checkbox is checked
       // {
       //   "key_radioButton": "P",
-      //   "hidden_key": "quetionCombo_fr",
+      //   "hidden_key": "questionCombo_fr",
       //   "key_comments": "",
       //   "key_checkbox": true,
       //   "questionLabel": "Family Relationships"
@@ -264,7 +264,7 @@ export default {
       // Sample dataValue when checkbox is unchecked
       // {
       //   "key_radioButton": "P",
-      //   "hidden_key": "quetionCombo_fr",
+      //   "hidden_key": "questionCombo_fr",
       //   "key_comments": "",
       //   "key_checkbox": false,
       //   "questionLabel": "Family Relationships"
@@ -272,7 +272,7 @@ export default {
       //console.log("TTTTTTTTTTTTTTTTTTT BEFOREhis.initData_editgrid_intervention: ", this.initData_editgrid_intervention);
       this.private_update_initData_editgrid_intervention(dataValue);
       this.private_update_initData_editgrid_radiotextList(dataValue);
-      console.log("TTTTTTTTTTTTTTTTTTT AFTERhis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
+      //console.log("TTTTTTTTTTTTTTTTTTT AFTERhis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
     },
     private_update_initData_editgrid_intervention(dataValue) {
       // Sample data for this.questionComboData
@@ -280,7 +280,7 @@ export default {
       //   "questionCombo": [
       //     {
       //       "key_radioButton": "P",
-      //       "hidden_key": "quetionCombo_fr",
+      //       "hidden_key": "questionCombo_fr",
       //       "key_comments": "",
       //       "key_checkbox": true,
       //       "key_itvDataGrid": [
@@ -606,13 +606,13 @@ export default {
         
       }
 
-      console.log("ssssssssssssthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
+      //console.log("ssssssssssssthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
       //console.log("ssssssssssssssssthis.initData_editgrid_intervention: ", this.initData_editgrid_intervention);
       // this.initData_editgrid_radiotextList = {
       //   "data": {
       //     "key_editgrid_radiotext": [
       //       {
-      //         "hidden_key": "quetionCombo_fr",
+      //         "hidden_key": "questionCombo_fr",
       //         "key_questionLabel": "Family Relationships",
       //         "key_comments": "Difficult family relationships",
       //         "key_radioButton": "P"
