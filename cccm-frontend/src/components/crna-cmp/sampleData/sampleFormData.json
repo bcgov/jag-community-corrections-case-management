@@ -142,10 +142,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
@@ -203,10 +200,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
@@ -264,10 +258,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
@@ -325,10 +316,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
@@ -386,10 +374,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
@@ -447,10 +432,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
@@ -508,10 +490,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
@@ -569,10 +548,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
@@ -630,10 +606,7 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",

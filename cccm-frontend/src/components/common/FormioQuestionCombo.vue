@@ -38,7 +38,7 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_radioButton}', this.dataModel.initData.data.key_radioButton);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataModel.radioGroup.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${value_hiddenKey}', this.dataModel.key);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataModel.comments.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataModel.key_comments);
       tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue_comments}', this.dataModel.initData.data.key_comments);
 
       // Set intervention needed component
@@ -66,7 +66,7 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (   event.changed 
-          && ( event.changed.component.key === this.dataModel.comments.key  
+          && ( event.changed.component.key === this.dataModel.key_comments  
             || event.changed.component.key === this.dataModel.radioGroup.key
             || event.changed.component.key === this.dataModel.interventionNeeded.key_checkbox 
             || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_type
