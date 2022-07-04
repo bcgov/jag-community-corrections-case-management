@@ -34,9 +34,6 @@ export default {
   },
   methods: {
     buildFormioTemplate() {
-      //console.log("initData: ", this.initData);
-      //console.log("dataTemplate: ", this.dataTemplate);
-      //console.log("dataTemplateP: ", this.dataTemplateP);
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
 
@@ -77,7 +74,7 @@ export default {
     },
     handleEditGridSaveRowEvent(event) {
       //console.log("datagrid radio text list event data: ", event.row);
-      //this.$emit('dataOnChanged', event.row);
+      this.$emit('dataOnChanged', event.row);
     }
   }
 }

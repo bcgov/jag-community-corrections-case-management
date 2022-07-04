@@ -7,9 +7,9 @@
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
             <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key="`${indexc}${Key_questionCombo}`" @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
             <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key="`${indexc}${key_labeltextarea}`" @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]"/>
-            <FormioRadio v-else-if="headerc.type === 'radio'" :key=key_radio[headerc.key] @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
+            <FormioRadio v-else-if="headerc.type === 'radio'" :key="`${indexc}${key_radio}`" @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
             <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
-            <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key=key_radiotextarea[headerc.key] @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
+            <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key="`${indexc}${key_radiotextarea}`" @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key="`${indexc}${key_editgrid_intervention}`" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key="`${indexc}${key_editgrid_radiotext}`" @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
             <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
@@ -70,7 +70,7 @@ export default {
       key_editgrid_radiotext: 0,
       initData_editgrid_radiotextList: [],
       initData_radiotextarea: [],
-      key_radiotextarea: [],
+      key_radiotextarea: 0,
       initData_editgrid_radiotext: [],
       radioValue: [],
       editgridLabel: [],
@@ -79,7 +79,7 @@ export default {
       initData_labeltextarea: [],
       key_labeltextarea: 0,
       initData_radio: [],
-      key_radio: [],
+      key_radio: 0,
     }
   },
   mounted(){
@@ -134,6 +134,44 @@ export default {
     },
     handleGridRadioTextListDataGridDataOnChanged(dataValue) {
       //console.log("RadioTextListDataGridData data on change: ", dataValue);
+      
+      if (dataValue != null) {
+        let theKey = dataValue.hidden_key;
+        // Update this.initData_questionCombo
+        if (this.initData_questionCombo[theKey] != null) {
+          this.initData_questionCombo[theKey].data.key_comments = dataValue.key_comments;
+          this.initData_questionCombo[theKey].data.key_radioButton = dataValue.key_radioButton;
+
+          // force FormioQuestionCombo component to refresh
+          this.Key_questionCombo++;
+        }
+
+        //Update this.initData_radio
+        if (this.initData_radio[theKey] != null) {
+          this.initData_radio[theKey].data.key_radioButton = dataValue.key_radioButton;
+          this.initData_radio[theKey].data.key_comments = dataValue.key_comments;
+
+          // force FormioRadio component to refresh
+          this.key_radio++;
+        }
+
+        // Update this.initData_radiotextarea 
+        if (this.initData_radiotextarea[theKey] != null) {
+          this.initData_radiotextarea[theKey].data.key_radioButton = dataValue.key_radioButton;
+          this.initData_radiotextarea[theKey].data.key_comments = dataValue.key_comments;
+
+          // force FormioRadioTextarea component to refresh
+          this.key_radiotextarea++;
+        }
+        
+        // Update this.initData_labeltextarea 
+        if (this.initData_labeltextarea[theKey] != null) {
+          this.initData_labeltextarea[theKey].data.key_textarea = dataValue.key_comments;
+
+          // force FormioLabelTextarea component to refresh
+          this.key_labeltextarea++;
+        }
+      }
     },
     handleRadioTextDataGridDataOnChanged(dataValue) {
       //console.log("RadioTextDataGridData data on change: ", dataValue);
@@ -501,9 +539,7 @@ export default {
                   item.key_radioButton = initData.key_radioButton;
                   item.key_comments = initData.key_comments;
                   this.initData_radio[theKey].data = item; 
-                  if (this.key_radio[theKey] == null) {
-                    this.key_radio[theKey] = this.genRandomNumber();
-                  }
+                  this.key_radio++;
                 }
               }
 
@@ -537,9 +573,7 @@ export default {
                   item.key_radioButton = initData.key_radioButton;
                   item.key_comments = initData.key_comments;
                   this.initData_radiotextarea[theKey].data = item; 
-                  if (this.key_radiotextarea[theKey] == null) {
-                    this.key_radiotextarea[theKey] = this.genRandomNumber();
-                  }
+                  this.key_radiotextarea++;
                 }
               }
 

@@ -74,7 +74,7 @@ export default {
             }
           }
         }
-        console.log("formio checkbox textarea list event change: ", containerKey, event);
+        //console.log("formio checkbox textarea list event change: ", containerKey, event);
         this.$emit('dataOnChanged', event.data, parentKey, containerKey, questionLabel);
       }
     }
