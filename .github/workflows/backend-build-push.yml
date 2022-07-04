@@ -2,7 +2,7 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [main]
+    branches: [vuln-testing]
   workflow_dispatch:
 jobs:
   build:
@@ -40,6 +40,6 @@ jobs:
         with:
           image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           
-      - name: Docker Push Version
-        run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      #- name: Docker Push Version
+      #  run: |  
+      #    docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
