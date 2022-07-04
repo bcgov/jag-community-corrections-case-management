@@ -3,6 +3,8 @@ name: Build & Push Frontend Image
 on:
   push:
     branches: [main]
+    paths:
+      - 'cccm-frontend/**'
   workflow_dispatch:
 jobs:
   build:
