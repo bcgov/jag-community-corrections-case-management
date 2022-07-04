@@ -384,15 +384,15 @@ export default {
               // populate initData_editgrid_intervention
               let curComponent = this.dataModel.data[g].subsections[i];
               if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
-                let tmp = curComponent.initData.data;
+                let initData = curComponent.initData.data;
                 // add to this.initData_editgrid_radiotextList
-                if (tmp != null) {
+                if (initData != null) {
                   if (this.initData_editgrid_radiotextList[theKey] == null) {
                     this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": []}};
                   }
                   let item = {};
-                  item.key_comments = tmp.key_comments;
-                  item.key_radioButton = tmp.key_radioButton;
+                  item.key_comments = initData.key_comments;
+                  item.key_radioButton = initData.key_radioButton;
                   item.hidden_key = theKey;
                   item.key_questionLabel = curComponent.questionLabel;
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = item;
@@ -409,28 +409,28 @@ export default {
                 }
 
                 // add to this.initData_editgrid_intervention
-                if ( tmp != null 
-                  && tmp.key_itvDataGrid != null 
-                  && tmp.key_itvDataGrid.length > 0) {
+                if ( initData != null 
+                  && initData.key_itvDataGrid != null 
+                  && initData.key_itvDataGrid.length > 0) {
                   let index = 0;
                   this.initData_editgrid_intervention = {"data": {}};
 
-                  for (let j = 0; j < tmp.key_itvDataGrid.length; j++) {
+                  for (let j = 0; j < initData.key_itvDataGrid.length; j++) {
                     if (this.initData_editgrid_intervention.data.key_editgrid_intervention == null) {
                       this.initData_editgrid_intervention.data.key_editgrid_intervention = [];
                     }
                     let questionComboItem = {};
-                    questionComboItem.key_radioButton = tmp.key_radioButton;
-                    questionComboItem.hidden_key = tmp.hidden_key;
-                    questionComboItem.key_comments = tmp.key_comments;
-                    questionComboItem.key_checkbox = tmp.key_checkbox;
-                    questionComboItem.key_questionLabel = tmp.key_questionLabel;
+                    questionComboItem.key_radioButton = initData.key_radioButton;
+                    questionComboItem.hidden_key = theKey;
+                    questionComboItem.key_comments = initData.key_comments;
+                    questionComboItem.key_checkbox = initData.key_checkbox;
+                    questionComboItem.key_questionLabel = curComponent.questionLabel;
                     // if key_itv_type value is 'other', use the value of key_itv_other
-                    questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_type;
-                    if (tmp.key_itvDataGrid[j].key_itv_type === "other") {
-                      questionComboItem.key_itv_type = tmp.key_itvDataGrid[j].key_itv_other;
+                    questionComboItem.key_itv_type = initData.key_itvDataGrid[j].key_itv_type;
+                    if (initData.key_itvDataGrid[j].key_itv_type === "other") {
+                      questionComboItem.key_itv_type = initData.key_itvDataGrid[j].key_itv_other;
                     }
-                    questionComboItem.key_itv_description = tmp.key_itvDataGrid[j].key_itv_description;
+                    questionComboItem.key_itv_description = initData.key_itvDataGrid[j].key_itv_description;
                     
                     this.initData_editgrid_intervention.data.key_editgrid_intervention[index++] = questionComboItem;
 
@@ -486,12 +486,12 @@ export default {
                   }
                   this.key_editgrid_radiotextList++;
                  
-                  let tmp = {};
-                  tmp.key_comments = initData.key_comments;
-                  tmp.key_radioButton = initData.key_radioButton;
-                  tmp.hidden_key = curComponent.key;
-                  tmp.key_questionLabel = curComponent.questionLabel;
-                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = tmp;
+                  let item = {};
+                  item.key_comments = initData.key_comments;
+                  item.key_radioButton = initData.key_radioButton;
+                  item.hidden_key = curComponent.key;
+                  item.key_questionLabel = curComponent.questionLabel;
+                  this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = item;
 
                   this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
 
@@ -499,7 +499,7 @@ export default {
                   if (this.initData_radio[theKey] == null) {
                     this.initData_radio[theKey] = {"data": {}};
                   }
-                  let item = {};
+                  item = {};
                   item.key_radioButton = initData.key_radioButton;
                   item.key_comments = initData.key_comments;
                   this.initData_radio[theKey].data = item; 
