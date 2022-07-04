@@ -13,26 +13,11 @@
                     "optionsLabelPosition": "right",
                     "inline": false,
                     "tableView": false,
-                    "values": [
-                        {
-                            "label": "Low",
-                            "value": "l",
-                            "shortcut": "l"
-                        },
-                        {
-                            "label": "Medium",
-                            "value": "m",
-                            "shortcut": "m"
-                        },
-                        {
-                            "label": "High",
-                            "value": "h",
-                            "shortcut": "h"
-                        }
-                    ],
+                    "values": [],
                     "key": "${key_radioButton}",
                     "type": "radio",
-                    "input": true
+                    "input": true,
+                    "defaultValue": "${defaultValue}"
                 }
             ]
         }

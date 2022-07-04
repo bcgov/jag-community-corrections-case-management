@@ -29,6 +29,7 @@ export default {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateCheckboxTextarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${key_well}', this.dataModel.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${content_html}', this.dataModel.label_description);
       tmpJSONStr = tmpJSONStr.replaceAll('${content_title}', this.dataModel.label_subSection);
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
@@ -56,10 +57,25 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleChangeEvent(event) {
-      //if (event.changed && event.changed.component.key === 'customerNumber' && event.changed.value) {
-      if (event.changed) {
-        //console.log("event: ", event);
-        //console.log("data: ", JSON.stringify(event.data));
+      if (event.changed && ( event.changed.component.key === this.dataModel.key_checkbox 
+                          || event.changed.component.key === this.dataModel.key_textarea )) {
+        let containerKey = event.changed.instance.parent.path;
+        let parentKey = event.changed.instance.parent.parent.path;
+        let questionLabel = event.changed.component.label;
+        //if textarea is updated, need to get the checkbox lable
+        if (event.changed.component.key === this.dataModel.key_textarea) {
+          let components = event.changed.instance.parent.component.components;
+          if (components != null) {
+            for (let i = 0; i < components.length; i++) {
+              if (components[i].key === this.dataModel.key_checkbox) {
+                questionLabel = components[i].label;
+                break;
+              }
+            }
+          }
+        }
+        //console.log("formio checkbox textarea list event change: ", containerKey, event);
+        this.$emit('dataOnChanged', event.data, parentKey, containerKey, questionLabel);
       }
     }
   }

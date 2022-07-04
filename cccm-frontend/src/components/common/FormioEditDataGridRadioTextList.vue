@@ -28,13 +28,12 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
-    //console.log("initdata: ", this.initData);
+    // if (this.initData != null) {
+    //   console.log("EditDataGridRadioTextList Initdata: ", this.initData.data.key_editgrid_radiotext[0].hidden_key);
+    // }
   },
   methods: {
     buildFormioTemplate() {
-      //console.log("initData: ", this.initData);
-      //console.log("dataTemplate: ", this.dataTemplate);
-      //console.log("dataTemplateP: ", this.dataTemplateP);
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
 
@@ -74,8 +73,8 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      console.log("event: ", event.row);
-      //this.$emit('dataOnChanged', event.row);
+      //console.log("datagrid radio text list event data: ", event.row);
+      this.$emit('dataOnChanged', event.row);
     }
   }
 }

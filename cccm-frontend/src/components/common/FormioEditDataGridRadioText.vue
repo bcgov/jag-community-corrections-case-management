@@ -25,6 +25,9 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
+    // if (this.initData != null) {
+    //   console.log("EditDataGridRadioText Initdata: ", this.initData.data.key_editgrid_radiotext[0].hidden_key);
+    // }
   },
   methods: {
     buildFormioTemplate() {
@@ -46,8 +49,8 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      console.log("event: ", event);
-      //this.$emit('dataOnChanged', event.row);
+      //console.log("datagrid radio text event data: ", event.row);
+      this.$emit('dataOnChanged', event.row);
     }
   }
 }

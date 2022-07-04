@@ -55,28 +55,7 @@
                     "optionsLabelPosition": "right",
                     "inline": false,
                     "tableView": false,
-                    "values": [
-                      {
-                        "label": "Pattern of stable and supportive relationships",
-                        "value": "P",
-                        "shortcut": "P"
-                      },
-                      {
-                          "label": "No current difficulties",
-                          "value": "N",
-                          "shortcut": "N"
-                      },
-                      {
-                          "label": "Occasional Instability in relationships",
-                          "value": "O",
-                          "shortcut": "O"
-                      },
-                      {
-                          "label": "Very unstable pattern of relationships",
-                          "value": "V",
-                          "shortcut": "V"
-                      }
-                    ],
+                    "values": [],
                     "input": true,
                     "defaultValue": "a"
                   }

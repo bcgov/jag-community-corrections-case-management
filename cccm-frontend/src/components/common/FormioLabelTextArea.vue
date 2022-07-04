@@ -36,6 +36,7 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
       tmpJSONStr = tmpJSONStr.replaceAll('${maxLength_textarea}', this.dataModel.maxLength_textarea);
+      tmpJSONStr = tmpJSONStr.replaceAll('${defaultValue}', this.dataModel.initData.data.key_textarea);
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);
@@ -43,9 +44,9 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_textarea) {
-        let key = event.changed.instance.parent.component.key;
-        console.log("event: ", key);
-        this.$emit('dataOnChanged', event.data, key);
+        //let key = event.changed.instance.parent.component.key;
+        //console.log("lable textarea event changed: ", event.data, this.dataModel.key);
+        this.$emit('dataOnChanged', event.data, this.dataModel.key);
       }
     }
   }

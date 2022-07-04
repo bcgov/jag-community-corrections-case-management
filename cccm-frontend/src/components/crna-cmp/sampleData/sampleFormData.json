@@ -104,7 +104,6 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "P",
-                            "hidden_key": "quetionCombo_fr",
                             "key_comments": "Comments for family relationships",
                             "key_checkbox": true,
                             "key_itvDataGrid": [
@@ -113,15 +112,13 @@
                                     "key_itv_other": "",
                                     "key_itv_description": "some comments for type 1"
                                 }
-                            ],
-                            "key_questionLabel": "Family Relationships"
+                            ]
                         }
                     },
                     "questionLabel": "Family Relationships",
-                    "key": "quetionCombo_fr",
+                    "key": "questionCombo_fr",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "P",
                         "values": [
                             {
                                 "label": "Pattern of stable and supportive relationships",
@@ -145,16 +142,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
                         "label": "Intervention needed",
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -169,17 +161,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_at",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 { 
@@ -187,17 +169,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "P",
-                            "hidden_key": "quetionCombo_la",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Living Arrangements"
+                            "key_checkbox": false
                         }
                     }, 
                     "questionLabel": "Living Arrangements",
-                    "key": "quetionCombo_la",
+                    "key": "questionCombo_la",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "P",
                         "values": [
                             {
                                 "label": "Pattern of satisfactory living arrangements",
@@ -221,16 +200,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
                         "label": "Intervention needed",
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -245,35 +219,22 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_la",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 {
                     "type": "questionCombo",
                     "initData": {
                         "data": {
-                            "key_radioButton": "m",
-                            "hidden_key": "quetionCombo_cso",
+                            "key_radioButton": "p",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Companions/Significant Others"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Companions/Significant Others",
-                    "key": "quetionCombo_cso",
+                    "key": "questionCombo_cso",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "m",
                         "values": [
                             {
                                 "label": "Pattern of non-criminal and/or positive associations",
@@ -282,8 +243,8 @@
                             },
                             {
                                 "label": "Mostly non-criminal and/or positive associations",
-                                "value": "m",
-                                "shortcut": "m"
+                                "value": "mp",
+                                "shortcut": "mp"
                             },
                             {
                                 "label": "Some criminal and/or negative associations",
@@ -292,21 +253,16 @@
                             },
                             {
                                 "label": "Mostly criminal and/or negative associations",
-                                "value": "m",
-                                "shortcut": "m"
+                                "value": "mn",
+                                "shortcut": "mn"
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
                         "label": "Intervention needed",
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -321,17 +277,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_co",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }  
                 },
                 {   
@@ -339,17 +285,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_avs",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Academic/Vocational Skills"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Academic/Vocational Skills",
-                    "key": "quetionCombo_avs",
+                    "key": "questionCombo_avs",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "na",
                         "values": [
                             {
                                 "label": "Not Applicable",
@@ -373,16 +316,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox", 
                         "label": "Intervention needed",
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -397,17 +335,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_avs",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 {
@@ -415,17 +343,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "s",
-                            "hidden_key": "quetionCombo_epf",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Employment Pattern Factors"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Employment Pattern Factors",
-                    "key": "quetionCombo_epf",
+                    "key": "questionCombo_epf",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "s",
                         "values": [
                             {
                                 "label": "Stable pattern of employment",
@@ -449,16 +374,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
                         "label": "Intervention needed", 
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -473,17 +393,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_epf",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }  
                 },
                 {   
@@ -491,17 +401,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "n",
-                            "hidden_key": "quetionCombo_fm",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Financial Management"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Financial Management",
-                    "key": "quetionCombo_fm",
+                    "key": "questionCombo_fm",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "n",
                         "values": [
                             {
                                 "label": "Pattern of effective management",
@@ -525,16 +432,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
                         "label": "Intervention needed", 
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -549,17 +451,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_fm",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 {   
@@ -567,17 +459,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_besf",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Behavioural/Emotional Stability Factors"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Behavioural/Emotional Stability Factors",
-                    "key": "quetionCombo_besf",
+                    "key": "questionCombo_besf",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "na",
                         "values": [
                             {
                                 "label": "Not Applicable",
@@ -601,16 +490,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
                         "label": "Intervention needed", 
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -625,17 +509,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_be",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 {
@@ -643,17 +517,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "hidden_key": "quetionCombo_sm",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Substance Misuse"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Substance Misuse",
-                    "key": "quetionCombo_sm",
+                    "key": "questionCombo_sm",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "na",
                         "values": [
                             {
                                 "label": "Not Applicable",
@@ -677,16 +548,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
                         "label": "Intervention needed", 
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -701,17 +567,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_sm",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }  
                 },
                 {   
@@ -719,17 +575,14 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "a",
-                            "hidden_key": "quetionCombo_a",
                             "key_comments": "",
-                            "key_checkbox": false,
-                            "key_questionLabel": "Attitude"
+                            "key_checkbox": false
                         }
                     },
                     "questionLabel": "Attitude",
-                    "key": "quetionCombo_a",
+                    "key": "questionCombo_a",
                     "radioGroup": {
                         "key": "key_radioButton",
-                        "defaultValue": "a",
                         "values": [
                             {
                                 "label": "Actively involved and responding consistently well to assistance",
@@ -753,16 +606,11 @@
                             }
                         ]
                     },
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments",
-                        "defaultValue": ""
-                    },
+                    "key_comments": "key_comments",
                     "interventionNeeded": {
                         "key_itvDataGrid": "key_itvDataGrid",
                         "key_checkbox": "key_checkbox",
                         "label": "Intervention needed", 
-                        "defaultValue": false,
                         "key_itv_type": "key_itv_type",
                         "itv_type_data": {
                             "values": [
@@ -777,17 +625,7 @@
                             ]
                         },
                         "key_itv_other": "key_itv_other",
-                        "value_itv_other": "",
-                        "key_itv_description": "key_itv_description",
-                        "value_itv_description": "",
-                        "button": [
-                            {
-                                "action": "submit",
-                                "key": "btn_add_itv_a",
-                                "label": "Add Intervention",
-                                "theme": "primary"
-                            }
-                        ]
+                        "key_itv_description": "key_itv_description"
                     }
                 },
                 {   
@@ -797,7 +635,7 @@
                     "key_radioButton": "key_radioButton",
                     "initData": {
                         "data": {
-                            "key_radioButton": "l"
+                            "key_radioButton": "m"
                         }
                     },
                     "values": [
@@ -822,7 +660,7 @@
                     "type": "labelTextarea",
                     "initData": {
                         "data": {
-                            "key_textarea": "Sample additional comments for need assessments"
+                            "key_textarea": ""
                         }
                     },
                     "key": "key_additionComments_na",
@@ -855,7 +693,7 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "na",
-                            "key_comments": "Sample comments"
+                            "key_comments": ""
                         }
                     },
                     "values": [
@@ -866,24 +704,21 @@
                         },
                         {
                             "label": "1",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "n1",
+                            "shortcut": "n1"
                         },
                         {
                             "label": "2",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "n2",
+                            "shortcut": "n2"
                         },
                         {
                             "label": "3 or more",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "n3",
+                            "shortcut": "n3"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -904,24 +739,21 @@
                         },
                         {
                             "label": "1",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "n1",
+                            "shortcut": "n1"
                         },
                         {
                             "label": "2",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "n2",
+                            "shortcut": "n2"
                         },
                         {
                             "label": "3 or more",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "n3",
+                            "shortcut": "n3"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -930,36 +762,33 @@
                     "key_radioButton": "key_radioButton",
                     "initData": {
                         "data": {
-                            "key_radioButton": "1",
-                            "key_comments": "Sample comments"
+                            "key_radioButton": "a",
+                            "key_comments": ""
                         }
                     },
                     "values": [
                         {
                             "label": "25+",
-                            "value": "1",
-                            "shortcut": "1"
+                            "value": "a",
+                            "shortcut": "a"
                         },
                         {
                             "label": "18 to 24",
-                            "value": "2",
-                            "shortcut": "2"
+                            "value": "b",
+                            "shortcut": "b"
                         },
                         {
                             "label": "14 to 17",
-                            "value": "3",
-                            "shortcut": "3"
+                            "value": "c",
+                            "shortcut": "c"
                         },
                         {
                             "label": "13 and under",
-                            "value": "4",
-                            "shortcut": "4"
+                            "value": "d",
+                            "shortcut": "d"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -994,10 +823,7 @@
                             "shortcut": "y"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -1007,7 +833,7 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "n",
-                            "key_comments": "Sample comments"
+                            "key_comments": ""
                         }
                     },
                     "values": [
@@ -1032,10 +858,7 @@
                             "shortcut": "y"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -1045,7 +868,7 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "n",
-                            "key_comments": "Sample comments"
+                            "key_comments": ""
                         }
                     },
                     "values": [
@@ -1070,10 +893,7 @@
                             "shortcut": "h"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {
                     "type": "radioTextarea",
@@ -1083,7 +903,7 @@
                     "initData": {
                         "data": {
                             "key_radioButton": "n",
-                            "key_comments": "Sample comments"
+                            "key_comments": ""
                         }
                     },
                     "values": [
@@ -1108,10 +928,7 @@
                             "shortcut": "h"
                         }
                     ],
-                    "comments": {
-                        "type": "textarea",
-                        "key": "key_comments"
-                    }  
+                    "key_comments": "key_comments"  
                 },
                 {   
                     "type": "radio",
@@ -1145,7 +962,7 @@
                     "type": "labelTextarea",
                     "initData": {
                         "data": {
-                            "key_textarea": "Sample additional comments for chra"
+                            "key_textarea": ""
                         }
                     },
                     "key": "key_additionalComments_chra",
@@ -1231,7 +1048,7 @@
                     "questionLabel": "Overall Supervision Rating",
                     "key": "radio_osr",
                     "key_radioButton": "key_radioButton",
-                    "initData": {
+                     "initData": {
                         "data": {
                             "key_radioButton": "l"
                         }
@@ -1258,7 +1075,7 @@
                     "type": "labelTextarea",
                     "initData": {
                         "data": {
-                            "key_textarea": "Sample supervision Rating Comments"
+                            "key_textarea": ""
                         }
                     },
                     "key": "key_supervisionRC_sr",
@@ -1378,7 +1195,7 @@
                     "type": "labelTextarea",
                     "initData": {
                         "data": {
-                            "key_textarea": "Sample additional comments"
+                            "key_textarea": "Sample Supervision Plan comments"
                         }
                     },
                     "key": "key_supervisionPlan",
@@ -1413,49 +1230,49 @@
                     "key_radioButton": "key_radioButton",
                     "editgriditems": [
                         {
-                            "ref_key_subsection": "quetionCombo_fr",
+                            "ref_key_subsection": "questionCombo_fr",
                             "show_header": true,
                             "show_label": true, 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_la", 
+                            "ref_key_subsection": "questionCombo_la", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_cso", 
+                            "ref_key_subsection": "questionCombo_cso", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_avs", 
+                            "ref_key_subsection": "questionCombo_avs", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_epf", 
+                            "ref_key_subsection": "questionCombo_epf", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_fm", 
+                            "ref_key_subsection": "questionCombo_fm", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_besf", 
+                            "ref_key_subsection": "questionCombo_besf", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_sm", 
+                            "ref_key_subsection": "questionCombo_sm", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
                         {
-                            "ref_key_subsection": "quetionCombo_a", 
+                            "ref_key_subsection": "questionCombo_a", 
                             "show_radioButtons": true,
                             "show_comments": true
                         },
