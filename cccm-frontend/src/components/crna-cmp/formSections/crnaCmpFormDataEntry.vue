@@ -35,7 +35,6 @@ import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
 import FormioSectionTitle from "@/components/common/FormioSectionTitle.vue";
 import FormioRadioTextarea from "@/components/common/FormioRadioTextarea.vue";
-import FormioButton from "@/components/common/FormioButton.vue";
 import FormioEditDataGridIntervention from "@/components/common/FormioEditDataGridIntervention.vue";
 import FormioEditDataGridRadioTextList from "@/components/common/FormioEditDataGridRadioTextList.vue";
 import FormioCheckboxTextareaList from "@/components/common/FormioCheckboxTextareaList.vue";
@@ -52,7 +51,6 @@ export default {
     FormioRadio,
     FormioSectionTitle,
     FormioRadioTextarea,
-    FormioButton,
     FormioEditDataGridIntervention,
     FormioEditDataGridRadioTextList,
     FormioCheckboxTextareaList,
