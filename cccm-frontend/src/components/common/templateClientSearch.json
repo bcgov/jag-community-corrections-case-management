@@ -1,0 +1,34 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "form_info",
+            "key": "formInfo",
+            "type": "well",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "HTML",
+                    "tag": "h5",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "aaaaaaaaaaa",
+                    "refreshOnChange": false,
+                    "key": "html",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                }
+            ]
+        }
+    ],
+    "input": true,
+    "key": "",
+    "tableView": false,
+    "label": ""
+}

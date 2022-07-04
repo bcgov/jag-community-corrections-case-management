@@ -12,6 +12,7 @@
     </span>
     <span class="headerNav textShadow">
       <a href="/" class="headerA">Dashboard</a> | 
+      <a href="/clientsearch" class="headerA">Client Search</a> |
       <a href="/crnacmp" class="headerA">CRNA/CMP Form</a>
     </span>
   </div>
