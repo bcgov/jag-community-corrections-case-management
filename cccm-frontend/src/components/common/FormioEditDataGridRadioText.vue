@@ -25,6 +25,9 @@ export default {
   },
   mounted(){
     this.buildFormioTemplate();
+    // if (this.initData != null) {
+    //   console.log("EditDataGridRadioText Initdata: ", this.initData.data.key_editgrid_radiotext[0].hidden_key);
+    // }
   },
   methods: {
     buildFormioTemplate() {

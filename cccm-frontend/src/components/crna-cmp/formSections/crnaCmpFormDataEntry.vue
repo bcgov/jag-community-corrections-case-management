@@ -5,22 +5,24 @@
           :key="indexp">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key=Key_questionCombo @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
-            <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key=key_labeltextarea @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]"/>
+            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key="`${indexc}${Key_questionCombo}`" @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
+            <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key="`${indexc}${key_labeltextarea}`" @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]"/>
             <FormioRadio v-else-if="headerc.type === 'radio'" :key=key_radio[headerc.key] @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
             <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
             <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key=key_radiotextarea[headerc.key] @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
-            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key=key_editgrid_intervention @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
-            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key=key_editgrid_radiotext @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
-            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key=key_checkboxTextareaList @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
-            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
+            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key="`${indexc}${key_editgrid_intervention}`" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
+            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key="`${indexc}${key_editgrid_radiotext}`" @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
+            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
+            <div v-else-if="headerc.type === 'editGridRadioTextList'">
+              <FormioEditDataGridRadioTextList  
                 v-for="(headergc, indexgc) in headerc.editgriditems" 
-                :key=key_editgrid_radiotextList[headergc.ref_key_subsection]
+                :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
                 @dataOnChanged="handleGridRadioTextListDataGridDataOnChanged"
                 :dataTemplate="headergc" :dataTemplateP="headerc" 
                 :editgridLabel="editgridLabel[headerc.ref_key_section]" 
                 :radioValue="radioValue[headergc.ref_key_subsection]" 
                 :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
+            </div>
           </div>
         </div>
       </div>
@@ -66,7 +68,7 @@ export default {
       initData_questionCombo: [],
       questionComboData: {},
       questionComboIndex: 0,
-      key_editgrid_radiotextList: [],
+      key_editgrid_radiotextList: 0,
       key_editgrid_radiotext: 0,
       initData_editgrid_radiotextList: [],
       initData_radiotextarea: [],
@@ -175,12 +177,8 @@ export default {
           this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
           this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
           
-          //console.log("TTTTTTTTTTTTTTTTBEFOREthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
           // force FormioEditDataGridRadioTextList component refresh
-          this.key_editgrid_radiotextList[theKey]++;
-          //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList[theKey]);
-          //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
-          //console.log("TTTTTTTTTTTTTTTTthis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
+          this.key_editgrid_radiotextList++;
         }
       } 
     },
@@ -192,9 +190,7 @@ export default {
         this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
 
         // force FormioEditDataGridRadioTextList component refresh
-        this.key_editgrid_radiotextList[theKey]++;
-        //console.log("TTTTTTTTTTTTTTTTthis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
-        //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
+        this.key_editgrid_radiotextList++;
       }
     },
     handleLabelTextareaDataOnChanged(dataValue, key) {
@@ -212,12 +208,12 @@ export default {
         let item = this.initData_editgrid_radiotextList[key].data.key_editgrid_radiotext[0];
         item.key_comments = dataValue.key_textarea;
         item.hidden_key = key;
-        this.key_editgrid_radiotextList[key]++;
+        this.key_editgrid_radiotextList++;
       }
     },
     handleRadioTextDataGridOnChanged(dataValue) {
       // force FormioEditDataGridRadioTextList component to reload
-      this.key_editgrid_radiotextList[dataValue.hidden_key]++;
+      this.key_editgrid_radiotextList++;
     },
     handleInterventionDataGridOnChanged(dataValue) {
       // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
@@ -269,10 +265,8 @@ export default {
       //   "key_checkbox": false,
       //   "questionLabel": "Family Relationships"
       // }
-      //console.log("TTTTTTTTTTTTTTTTTTT BEFOREhis.initData_editgrid_intervention: ", this.initData_editgrid_intervention);
       this.private_update_initData_editgrid_intervention(dataValue);
       this.private_update_initData_editgrid_radiotextList(dataValue);
-      //console.log("TTTTTTTTTTTTTTTTTTT AFTERhis.initData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
     },
     private_update_initData_editgrid_intervention(dataValue) {
       // Sample data for this.questionComboData
@@ -362,15 +356,13 @@ export default {
     private_update_initData_editgrid_radiotextList(dataValue) {
       if (dataValue != null) {
         let theKey = dataValue.hidden_key;
-        if (this.initData_editgrid_radiotextList[theKey] != null && this.key_editgrid_radiotextList[theKey] != null) {
+        if (this.initData_editgrid_radiotextList[theKey] != null) {
           this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_comments = dataValue.key_comments;
           this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_radioButton = dataValue.key_radioButton;
           this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].hidden_key = theKey;
 
           // force FormioEditDataGridRadioTextList component refresh
-          this.key_editgrid_radiotextList[theKey]++;
-          //console.log("TTTTTTTTTTTTTTTTinitData_editgrid_radiotextList: ", this.initData_editgrid_radiotextList);
-          //console.log("TTTTTTTTTTTTTTTTthis.key_editgrid_radiotextList: ", this.key_editgrid_radiotextList);
+          this.key_editgrid_radiotextList++;
         }
       }
     },
@@ -405,10 +397,8 @@ export default {
                   item.key_questionLabel = curComponent.questionLabel;
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = item;
                   // force FormioEditDataGridRadioTextList component to reload
-                  if (this.key_editgrid_radiotextList[theKey] == null) {
-                    this.key_editgrid_radiotextList[theKey] = this.genRandomNumber();
-                  }
-
+                  this.key_editgrid_radiotextList++;
+                  
                   // add to this.initData_questionCombo
                   this.initData_questionCombo[theKey]=this.dataModel.data[g].subsections[i].initData;
 
@@ -445,7 +435,7 @@ export default {
                     this.initData_editgrid_intervention.data.key_editgrid_intervention[index++] = questionComboItem;
 
                     // force FormioEditDataGridIntervention component to reload
-                    this.key_editgrid_intervention = this.genRandomNumber();
+                    this.key_editgrid_intervention++;
                   }
                 }
               } 
@@ -494,10 +484,8 @@ export default {
                   if (this.initData_editgrid_radiotextList[theKey] == null) {
                     this.initData_editgrid_radiotextList[theKey] = {"data": {"key_editgrid_radiotext": []}};
                   }
-                  if (this.key_editgrid_radiotextList[theKey] == null) {
-                    this.key_editgrid_radiotextList[theKey] = this.genRandomNumber();
-                  }
-
+                  this.key_editgrid_radiotextList++;
+                 
                   let tmp = {};
                   tmp.key_comments = initData.key_comments;
                   tmp.key_radioButton = initData.key_radioButton;
@@ -539,10 +527,8 @@ export default {
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = item;
 
                   // force FormioEditDataGridRadioTextList component to reload
-                  if (this.key_editgrid_radiotextList[theKey] == null) {
-                    this.key_editgrid_radiotextList[theKey] = this.genRandomNumber();
-                  }
-
+                  this.key_editgrid_radiotextList++;
+                  
                   this.radioValue[theKey]=this.dataModel.data[g].subsections[i].values;
 
                   // populate initData_radiotextarea
@@ -595,9 +581,7 @@ export default {
                   item.hidden_key = theKey;
                   item.key_questionLabel = curComponent.label;
                   this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0] = item;
-                  if (this.key_editgrid_radiotextList[theKey] == null) {
-                    this.key_editgrid_radiotextList[theKey] = this.genRandomNumber();
-                  }
+                  this.key_editgrid_radiotextList++;
                 }
               } 
             }
