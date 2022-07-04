@@ -13,16 +13,14 @@
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key="`${indexc}${key_editgrid_intervention}`" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key="`${indexc}${key_editgrid_radiotext}`" @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
             <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
-            <div v-else-if="headerc.type === 'editGridRadioTextList'">
-              <FormioEditDataGridRadioTextList  
-                v-for="(headergc, indexgc) in headerc.editgriditems" 
-                :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
-                @dataOnChanged="handleGridRadioTextListDataGridDataOnChanged"
-                :dataTemplate="headergc" :dataTemplateP="headerc" 
-                :editgridLabel="editgridLabel[headerc.ref_key_section]" 
-                :radioValue="radioValue[headergc.ref_key_subsection]" 
-                :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
-            </div>
+            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
+              v-for="(headergc, indexgc) in headerc.editgriditems" 
+              :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
+              @dataOnChanged="handleGridRadioTextListDataGridDataOnChanged"
+              :dataTemplate="headergc" :dataTemplateP="headerc" 
+              :editgridLabel="editgridLabel[headerc.ref_key_section]" 
+              :radioValue="radioValue[headergc.ref_key_subsection]" 
+              :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
           </div>
         </div>
       </div>
