@@ -36,7 +36,7 @@ jobs:
         run: |  
           docker tag cccm-web ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
       
-      - name: Vulnerability Scan Backend
+      - name: Vulnerability Scan Frontend
         uses: Azure/container-scan@v0
         continue-on-error: true
         with:
