@@ -548,13 +548,13 @@
                                             "components": [
                                                 {
                                                     "label": "Search",
+                                                    "action": "event",
                                                     "showValidations": false,
-                                                    "theme": "primary",
                                                     "tableView": false,
                                                     "key": "search",
                                                     "type": "button",
                                                     "input": true,
-                                                    "saveOnEnter": false
+                                                    "event": "clientSearchEvent"
                                                 }
                                             ],
                                             "width": 6,

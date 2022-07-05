@@ -1,10 +1,11 @@
 <template>
-  <Form :form="formJSON"/>
+  <Form :form="formJSON" v-on:clientSearchEvent="handleClientSearch"/>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import {clientSearch} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 
 export default {
@@ -30,6 +31,15 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
            
       this.formJSON = tmpJSON;
+    },
+    async handleClientSearch(payload) {
+      console.log("handleClientSearch", payload);
+      const [error, response] = await clientSearch(payload);
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("clientSearch result: ", response);
+      }
     }
   },
 }
