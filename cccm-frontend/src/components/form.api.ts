@@ -41,7 +41,7 @@ export async function saveFormData(formData: object) {
 // function to search client
 export async function clientSearch(formData: object) {
     try{
-        console.log("ClientSearch payload", formData);
+        //console.log("ClientSearch payload", formData);
         const { data } = await axiosClient.get('/clients');
         return [null, data];
     } catch (error) {

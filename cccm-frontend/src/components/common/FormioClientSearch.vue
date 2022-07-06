@@ -19,17 +19,20 @@
         :items="clients"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
-        
         item-key="id"
         no-results-text="No clients found"
         :search="search"
         hide-default-header
         show-expand
         class="elevation-1"
+        hide-default-footer
+        :page.sync="page"
+        :items-per-page="itemsPerPage"
+        @page-count="pageCount = $event"
         >
         <template v-slot:header="{ props: { headers } }">
           <thead>
-            <tr class="some-other-style">
+            <tr class="datatable-header-bg-style">
               <th v-for="h in headers" :class="h.class">
                 <span>{{h.text}}</span>
               </th>
@@ -68,8 +71,26 @@
           </td>
         </template>
       </v-data-table>
+      <br/>
+      <div v-if="!loading" class="text-center pt-2">
+        <v-row>
+          <v-col cols="2" sm="2">
+            <v-select
+              solo
+              :items="items"
+              value=1
+              dense
+              item-color="primary"
+              @input="itemsPerPage = parseInt($event, 10)"
+            ></v-select>
+          </v-col>
+          <v-col cols="10" sm="10">
+            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
+          </v-col>
+        </v-row>
+      </div>
     </v-card>
-    <br/><br/><br/><br/><br/>
+    <br/><br/>
   </div>
 </template>
 
@@ -87,12 +108,12 @@ export default {
       formInfoTemplate : template,
       formJSON : {},
       // datatable variables
-      totalDesserts: 0,
+      items: ['1', '2', '5', '10', '15'],
+      page: 1,
+      pageCount: 1,
+      itemsPerPage: 1,
+      totalClients: 0,
       loading: true,
-      options: {
-          page: 1,
-          itemsPerPage: 2
-        },
       search: '',
       expanded: [],
       singleExpand: false,
@@ -102,15 +123,15 @@ export default {
           align: 'start',
           sortable: true,
           value: 'fullName',
-          class: 'my-header-style'
+          class: 'datatable-header-text-style'
         },
-        { text: 'Age', value: 'clientAge', class: 'my-header-style' },
-        { text: 'Date of Bith', value: 'birthDate', class: 'my-header-style' },
-        { text: 'Address', value: 'fullAddress', class: 'my-header-style' },
-        { text: 'Address Type', value: 'addressType', class: 'my-header-style' },
-        { text: 'Expired?', value: 'expired', class: 'my-header-style' },
-        { text: 'CS#', value: 'csNumber', class: 'my-header-style' },
-        { text: 'Record Sealed?', value: 'recordSealed', class: 'my-header-style' },
+        { text: 'Age', value: 'clientAge', class: 'datatable-header-text-style' },
+        { text: 'Date of Bith', value: 'birthDate', class: 'datatable-header-text-style' },
+        { text: 'Address', value: 'fullAddress', class: 'datatable-header-text-style' },
+        { text: 'Address Type', value: 'addressType', class: 'datatable-header-text-style' },
+        { text: 'Expired?', value: 'expired', class: 'datatable-header-text-style' },
+        { text: 'CS#', value: 'csNumber', class: 'datatable-header-text-style' },
+        { text: 'Record Sealed?', value: 'recordSealed', class: 'datatable-header-text-style' },
       ],
       clients: [],
     }
@@ -159,12 +180,14 @@ export default {
       //         ]
       //     }
       // ]
-      console.log("handleClientSearch", payload);
-      this.loading = true
       const [error, response] = await clientSearch(payload);
-      this.totalDesserts = response.length;
-      this.loading = false;
+      // this.totalClients = response.length;
+      // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
+      // if (this.totalClients % this.itemsPerPage != 0) {
+      //   this.pageCount++;
+      // };
       this.key_clientsearchresult++;
+      this.loading = false;
       this.clients =   
         [
           {
@@ -416,12 +439,20 @@ export default {
 }
 </script>
 
-<style scoped>
-.some-other-style {
+<style >
+.datatable-header-bg-style {
   background: #154c79;
 }
-.my-header-style {
+.datatable-header-text-style {
   color: #ffffff !important;
 }
-
+.wild-search-text {
+  color: #154c79;
+  font-size: 0.5em;
+  text-align: right;
+}
+.primary {
+  background-color: #1867c0 !important;
+  border-color: #1867c0 !important;
+}
 </style>
