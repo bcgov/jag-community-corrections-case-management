@@ -1,7 +1,7 @@
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM maven:3.8.6-jdk-11 as build
+FROM maven:3.6.3-jdk-11 as build
 
 ARG SERVICE_NAME
 ARG SKIP_TESTS=false
@@ -17,7 +17,12 @@ RUN mvn -B clean install \
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
-FROM openjdk:11-jdk-slim
+FROM openjdk:11-jre-slim
+
+RUN apt-get update && \
+    apt-get -y --allow-unauthenticated upgrade && \
+    #apt-get -y install vim procps curl && \
+    apt-get -y clean all
 
 # ARG MVN_PROFILES
 ARG SERVICE_NAME
