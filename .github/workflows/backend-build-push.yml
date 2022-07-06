@@ -2,7 +2,7 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [vuln-testing]
+    branches: [main]
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
