@@ -3,6 +3,11 @@
 #############################################################################################
 FROM maven:3.6.3-jdk-11 as build
 
+RUN apt-get update && \
+    apt-get -y --allow-unauthenticated upgrade && \
+    #apt-get -y install vim procps curl && \
+    apt-get -y clean all
+
 ARG SERVICE_NAME
 ARG SKIP_TESTS=false
 
