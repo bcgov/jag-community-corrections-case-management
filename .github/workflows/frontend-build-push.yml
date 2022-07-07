@@ -6,6 +6,9 @@ on:
     paths:
       - 'cccm-frontend/**'
   workflow_dispatch:
+env:
+  # See https://github.com/goodwithtech/dockle/issues/188
+  DOCKLE_HOST: "unix:///var/run/docker.sock"
 jobs:
   build:
     runs-on: ubuntu-latest
