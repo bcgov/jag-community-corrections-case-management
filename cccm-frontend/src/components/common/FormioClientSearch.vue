@@ -33,11 +33,26 @@
         <template v-slot:header="{ props: { headers } }">
           <thead>
             <tr class="datatable-header-bg-style">
-              <th v-for="h in headers" :class="h.class">
+              <th v-for="h in headers" :class="h.class" :key="h.id">
                 <span>{{h.text}}</span>
               </th>
             </tr>
           </thead>
+        </template>
+        <template v-slot:body="{ items }">
+          <tbody>
+            <tr v-for="h in items" :key="h.id">
+              <td></td>
+              <td><a href="https://www.w3schools.com">{{h.fullName}}</a></td>
+              <td>{{h.clientAge}}</td>
+              <td>{{h.birthDate}}</td>
+              <td>{{h.fullAddress}}</td>
+              <td>{{h.addressType}}</td>
+              <td>{{h.expired}}</td>
+              <td>{{h.csNumber}}</td>
+              <td>{{h.recordSealed}}</td>
+            </tr>
+          </tbody>
         </template>
         <!-- <template v-slot:top>
           <v-toolbar flat>
@@ -78,7 +93,7 @@
             <v-select
               solo
               :items="items"
-              value=1
+              value=5
               dense
               item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"
@@ -111,7 +126,7 @@ export default {
       items: ['1', '2', '5', '10', '15'],
       page: 1,
       pageCount: 1,
-      itemsPerPage: 1,
+      itemsPerPage: 5,
       totalClients: 0,
       loading: true,
       search: '',
