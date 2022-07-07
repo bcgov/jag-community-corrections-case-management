@@ -30,6 +30,7 @@
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
         >
+        <!--Customize the header style-->
         <template v-slot:header="{ props: { headers } }">
           <thead>
             <tr class="datatable-header-bg-style">
@@ -39,26 +40,11 @@
             </tr>
           </thead>
         </template>
-        <template v-slot:body="{ items }">
-          <tbody>
-            <tr v-for="h in items" :key="h.id">
-              <td></td>
-              <td><a href="https://www.w3schools.com">{{h.fullName}}</a></td>
-              <td>{{h.clientAge}}</td>
-              <td>{{h.birthDate}}</td>
-              <td>{{h.fullAddress}}</td>
-              <td>{{h.addressType}}</td>
-              <td>{{h.expired}}</td>
-              <td>{{h.csNumber}}</td>
-              <td>{{h.recordSealed}}</td>
-            </tr>
-          </tbody>
+        <!--Customize the Name field, making it clickable-->
+        <template v-slot:item.fullName="{ item }">
+          <a href="/clientprofile/1">{{item.fullName}}</a>
         </template>
-        <!-- <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>Results</v-toolbar-title>
-          </v-toolbar>
-        </template> -->
+        <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="1"></td>
           <td :colspan="1">
@@ -87,6 +73,7 @@
         </template>
       </v-data-table>
       <br/>
+      <!--Customize the footer-->
       <div v-if="!loading" class="text-center pt-2">
         <v-row>
           <v-col cols="2" sm="2">
@@ -133,6 +120,11 @@ export default {
       expanded: [],
       singleExpand: false,
       clientHeaders: [
+        {
+          text: '',
+          align: 'start',
+          value: 'data-table-expand'
+        },
         {
           text: 'Name',
           align: 'start',
