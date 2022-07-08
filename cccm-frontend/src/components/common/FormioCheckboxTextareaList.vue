@@ -30,6 +30,7 @@ export default {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateCheckboxTextarea);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_well}', this.dataModel.key);
+      tmpJSONStr = tmpJSONStr.replaceAll('${tooltip_title}', this.dataModel.tooltip_title);
       tmpJSONStr = tmpJSONStr.replaceAll('${content_html}', this.dataModel.label_description);
       tmpJSONStr = tmpJSONStr.replaceAll('${content_title}', this.dataModel.label_subSection);
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataModel.className_label);
@@ -37,8 +38,9 @@ export default {
 
       //console.log("tmpJSONStr: ", tmpJSONStr);
       let tmpJSON = JSON.parse(tmpJSONStr);
+      let containerIndex = 1;
 
-      let componentJSON = tmpJSON.components[0].components[2];
+      let componentJSON = tmpJSON.components[0].components[0].components[containerIndex];
       let tmpComponentJSONStr = JSON.stringify(componentJSON);
 
 
@@ -51,7 +53,7 @@ export default {
         componentJSONStr = componentJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
         componentJSONStr = componentJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
 
-        tmpJSON.components[0].components[i+2] = JSON.parse(componentJSONStr);
+        tmpJSON.components[0].components[0].components[i+containerIndex] = JSON.parse(componentJSONStr);
       }
       //console.log("formJSONStr: ", JSON.stringify(tmpJSON));
       this.formJSON = tmpJSON;
@@ -82,3 +84,12 @@ export default {
 }
 </script>
 
+<!-- <style>
+.legend {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
+  text-decoration-color: rgb(255, 208, 0);
+}
+</style> -->

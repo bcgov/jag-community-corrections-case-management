@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CrnaCmpView from '../views/CrnaCmpView.vue'
+import ClientSearchView from '../views/ClientSearchView.vue'
+import ClientProfileView from '../views/ClientProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -14,7 +16,23 @@ const router = new VueRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        isAuthenticated: false
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/clientsearch',
+      name: 'clientsearch',
+      component: ClientSearchView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/clientProfile/:id',
+      name: 'clientprofile',
+      component: ClientProfileView,
+      meta: {
+        isAuthenticated: true
       }
     },
     {

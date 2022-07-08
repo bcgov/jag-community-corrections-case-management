@@ -1103,6 +1103,7 @@
                     "type": "checkboxTextareaList",
                     "className_label": "subSectionTitleClass",
                     "key": "key_responsivityFactors",
+                    "tooltip_title": "What information would assist another Probation Officer in working with this client? What will assist in engaging with this client? What does this client need to succeed?",
                     "maxLength_textarea": 500,
                     "label_subSection": "Responsivity Factors",
                     "label_description": "<div>This section is intended to provide the case manager with space to identify circumstances and factors which could influence how supervision of the client is approached.</div> <br/><div>Please select which Specific Factors apply: </div>",
@@ -1141,42 +1142,42 @@
                     "checkboxTextareaItems": [
                         {
                             "label_checkbox": "Indigenous considerations",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Does the client identify as indigenous (including Metis)? If so, note any available information regarding the client's nation and band affiliation. Is the client connected to cultural supports in the community?",
                             "key_container": "key_container_ic"
                         },
                         {
                             "label_checkbox": "Mental health and/or cognitive functioning concerns",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "This can include any suspected, self-identified, or confirmed  mental illness, brain injury, learning challenges, or other cognitive issues that could impact the client's functioning or require an adaptive approach to delivering meaningful interventions.",
                             "key_container": "key_container_mh"
                         },
                         {
                             "label_checkbox": "Previous responses to supervision and motivation to engage in interventions",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Note the level of compliance and engagement during previous periods of supervision. How is the client's history of reporting? Have they completed any programs? What is their current level of motivation to engage in interventions?",
                             "key_container": "key_container_prsm"
                         },
                         {
                             "label_checkbox": "Barriers to communication",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Note the presence of any language or literacy barriers as well as any cognitive factors that could impact communication. If applicable, are you aware of any strategies to assist in communicating with the client",
                             "key_container": "key_container_bc"
                         },
                         {
                             "label_checkbox": "Trauma informed approaches to supervision",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Are you aware of any past trauma that could be impacting the client’s responsivity? Are there strategies or adaptations that can be employed to minimise the client's trauma response? ",
                             "key_container": "key_container_tias"
                         },
                         {
                             "label_checkbox": "Gender based considerations for LGBTQ2+ clients",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Considerations include the client’s gender identity, preferred pronouns, name, etc. Note any adaptations to consider in meeting the client's program needs. Is client connected to any community supports/allies?",
                             "key_container": "key_container_gbc"
                         },
                         {
                             "label_checkbox": "Strength based considerations",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "Outline strengths that can be engaged to maximise the potential for success. Examples can include resiliency, programming/treatment completed, learning style, strengths/hopes, etc. What are the client's goals? What motivates them? ",
                             "key_container": "key_container_sbc"
                         },
                         {
                             "label_checkbox": "Other",
-                            "tooltip_checkbox": "TBD",
+                            "tooltip_checkbox": "",
                             "key_container": "key_container_other"
                         }
                     ]
