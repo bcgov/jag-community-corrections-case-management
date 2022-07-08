@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const axiosClient = axios.create({
     baseURL: config.VUE_APP_CCCM_API_ENDPOINT,
-    // baseURL: "http://localhost:8080"
+    //baseURL: "http://localhost:8080"
 });
 
 // function to fetch the location info
@@ -43,6 +43,18 @@ export async function clientSearch(formData: object) {
     try{
         //console.log("ClientSearch payload", formData);
         const { data } = await axiosClient.get('/clients');
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to search client profile
+export async function clientProfileSearch(clientId: number) {
+    try{
+        //console.log("ClientProfileSearch clientID", clientId);
+        const { data } = await axiosClient.get('/clients/${clientId}');
+        //const { data } = await axiosClient.get('/clients');
         return [null, data];
     } catch (error) {
         return [error];
