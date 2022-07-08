@@ -13,7 +13,7 @@
     <span class="headerNav textShadow">
       <a href="/" class="headerA">My Dashboard</a> | 
       <a href="/clientsearch" class="headerA">Client Search</a> |
-      <a href="/clientprofile" class="headerA">Client Profile</a> |
+      <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
       <a href="/crnacmp" class="headerA">CRNA/CMP Form</a>
     </span>
   </div>
