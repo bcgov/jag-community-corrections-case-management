@@ -42,7 +42,7 @@
         </template>
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.fullName="{ item }">
-          <a href="/clientprofile/1">{{item.fullName}}</a>
+          <a :href="`/clientprofile/${item.id}`" target="_blank">{{item.fullName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
