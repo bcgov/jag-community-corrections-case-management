@@ -62,6 +62,27 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: clients
+  /clients/{clientId}/photo:
+    get:
+      operationId: GetClientPhoto
+      parameters:
+        - explode: false
+          in: path
+          name: clientId
+          required: true
+          schema:
+            type: number
+          style: simple
+      responses:
+        "200":
+          description: get client photo
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+      tags:
+        - clients
   /forms:
     get:
       operationId: GetForms
@@ -515,15 +536,6 @@ components:
             $ref: '#/components/schemas/Location'
           type: array
       type: object
-    SideCards:
-      type: object
-      properties:
-        display:
-          type: string
-        components:
-          type: array
-          items:
-            $ref: "#/components/schemas/Component"
     Component:
       type: object
       properties:
@@ -573,6 +585,10 @@ components:
     Client:
       type: object
       properties:
+        clientNum:
+          type: string
+        clientName:
+          type: string
         firstName:
           type: string
         LastName:

@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.vertx.ext.web.client.WebClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
