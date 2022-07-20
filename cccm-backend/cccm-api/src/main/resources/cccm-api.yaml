@@ -83,6 +83,26 @@ paths:
                 format: binary
       tags:
         - clients
+  /clients/{clientId}:
+    get:
+      operationId: GetClient
+      parameters:
+        - explode: false
+          in: path
+          name: clientId
+          required: true
+          schema:
+            type: number
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: get a client
+      tags:
+        - clients
   /forms:
     get:
       operationId: GetForms
