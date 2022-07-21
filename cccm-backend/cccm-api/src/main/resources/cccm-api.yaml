@@ -623,12 +623,100 @@ components:
           type: string
         communityLocation:
           type: string
+        status:
+          type: string
         caseManager:
           type: string
+        secondaryManager:
+          type: string
+        supervisionLevel:
+          type: string
+        orderInformation:
+          $ref: "#/components/schemas/OrderInformation"
+        courtInformation:
+          $ref: "#/components/schemas/CourtInformation"
+        generalInformation:
+          $ref: "#/components/schemas/GeneralInformation"
+        locationInformation:
+          $ref: "#/components/schemas/LocationInformation"
+        biometric:
+          $ref: "#/components/schemas/Biometric"
         address:
           type: array
           items:
             $ref: "#/components/schemas/Address"
+        designations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Designation"
+    OrderInformation:
+      type: object
+      properties:
+        orders:
+          type: string
+        effectiveDate:
+          type: string
+        expiryDate:
+          type: string
+        dueDate:
+          type: string
+    CourtInformation:
+      type: object
+      properties:
+        court:
+          type: string
+        effectiveDate:
+          type: string
+        expiryDate:
+          type: string
+        dueDate:
+          type: string
+    Biometric:
+      type: object
+      properties:
+        type:
+          type: string
+        status:
+          type: string
+        eServices:
+          type: string
+        eReporting:
+          type: string
+    GeneralInformation:
+      type: object
+      properties:
+        institution:
+          type: string
+        status:
+          type: string
+        custody:
+          type: string
+        dischargeDate:
+          type: string
+        type:
+          type: string
+        paroleDate:
+          type: string
+    LocationInformation:
+      type: object
+      properties:
+        institution:
+          type: string
+        status:
+          type: string
+        custody:
+          type: string
+        dischargeDate:
+          type: string
+        type:
+          type: string
+        paroleDate:
+          type: string
+    Designation:
+      type: object
+      properties:
+        type:
+          type: string
     Address:
       type: object
       properties:
