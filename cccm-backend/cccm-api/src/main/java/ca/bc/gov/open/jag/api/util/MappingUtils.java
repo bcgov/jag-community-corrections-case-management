@@ -3,11 +3,14 @@ package ca.bc.gov.open.jag.api.util;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.logging.Logger;
 
 public class MappingUtils {
+
+    private MappingUtils() {}
 
     private static final Logger logger = Logger.getLogger(String.valueOf(MappingUtils.class));
 
@@ -25,6 +28,22 @@ public class MappingUtils {
             logger.severe(e.getMessage());
             return BigDecimal.ZERO;
         }
+
+    }
+
+    public static Boolean yesNoToBool(String input) {
+
+        return StringUtils.equalsIgnoreCase(input, "Y");
+
+    }
+
+    public static Boolean isExpired(Date inDate) {
+
+        if (inDate == null) {
+            return false;
+        }
+
+        return inDate.toLocalDate().isAfter(LocalDate.now());
 
     }
 

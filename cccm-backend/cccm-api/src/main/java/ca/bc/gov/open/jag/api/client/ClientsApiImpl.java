@@ -1,5 +1,7 @@
 package ca.bc.gov.open.jag.api.client;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
@@ -13,7 +15,9 @@ import javax.inject.Inject;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,26 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Inject
     ClientMapper clientMapper;
+
+    @Override
+    @RolesAllowed("client-search")
+    public Client getClient(BigDecimal clientId) {
+
+        final String csNumberPadded = ("00000000" + clientId.toPlainString()).substring(clientId.toPlainString().length());
+
+       Optional<ca.bc.gov.open.jag.api.model.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
+
+        if (result.isPresent()) {
+
+            return clientMapper.toApiClient(result.get(), speedmentClientService.getClientAddress(csNumberPadded));
+
+        } else {
+
+            throw new CCCMException("Client not found", CCCMErrorCode.RECORDNOTFOUND);
+
+        }
+
+    }
 
     @Override
     @RolesAllowed("client-search")
