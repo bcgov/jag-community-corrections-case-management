@@ -1,5 +1,31 @@
 <template>
-  <Form :form="formJSON" :submission="initData"/>
+  <div>
+    <br>
+    <v-row :key="theKey" align="center" justify="space-around">
+      <div class="sectionTitleClass">Client Profile</div>
+      <div :class="['fas fa-exclamation-triangle warrants', showWarrantDetails ? '' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
+        Client has {{getNumOfWarrants}} Outstanding Warrants 
+        <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', '']">
+          <div v-for="(item, index) in getWarrantDetails" :key="index">
+            {{item.date}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.details}} <br>
+          </div>
+        </div>
+      </div>
+      <div :class="['fas fa-exclamation-triangle critical', showAlertDetails ? '' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
+        Client has {{getNumOfAlerts}} Community Alerts
+        <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
+          <div v-for="(item, index) in getAlertDetails" :key="index">
+            {{item.date}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.details}} <br>
+          </div>
+        </div>
+      </div>
+    </v-row>
+    <br/><br/><br/>
+    <v-row>
+      <Form :form="formJSON" :submission="initData"/>
+    </v-row>
+  </div>
+  
 </template>
 
 <script lang="ts">
@@ -19,6 +45,8 @@ export default {
       theKey: 0,
       formJSON: templateClientProfile,
       initData: {},
+      showWarrantDetails: false,
+      showAlertDetails: false,
     }
   },
   components: {
@@ -26,8 +54,23 @@ export default {
   },
   mounted(){
     this.clientProfileSearch(this.csNum);
+    this.theKey++;
   },
   methods: {
+    showHideMoreWarrants() {
+      if (this.showWarrantDetails) {
+        this.showWarrantDetails = false;
+      } else {
+        this.showWarrantDetails = true;
+      }
+    },
+    showHideMoreAlerts() {
+      if (this.showAlertDetails) {
+        this.showAlertDetails = false;
+      } else {
+        this.showAlertDetails = true;
+      }
+    },
     async clientProfileSearch(csNum) {
       const [error, response] = await clientProfileSearch(csNum);
       //this.initData = response.data;
@@ -37,10 +80,37 @@ export default {
             "id": "1",
             "key_fullName": "Ross, Bob",
             "key_csNumber": "123456780",
+            "key_photo": "https://www.w3schools.com/images/lamp.jpg",
             "clientAge": 44,
             "key_datePhotoTaken": "2022-10-10",
-            "key_numOfWarrants": 3,
-            "key_numOfAlerts": 3,
+            "communityAlerts": [
+              {
+                "date": "2022-01-02",
+                "details": "Client threatened staff"
+              },
+              {
+                "date": "2022-03-02",
+                "details": "Client brought knife to meeting"
+              },
+              {
+                "date": "2022-04-02",
+                "details": "Client attacked staff"
+              }
+            ],
+            "outstandingWarrants": [
+              {
+                "date": "2022-01-02",
+                "details": "Client threatened staff"
+              },
+              {
+                "date": "2022-03-02",
+                "details": "Client brought knife to meeting"
+              },
+              {
+                "date": "2022-04-02",
+                "details": "Client attacked staff"
+              }
+            ],
             "key_designation": "GEN, IPV, SMO",
             "key_supervisionLevel": "High",
             "key_birthDate": "1979-12-03",
@@ -89,6 +159,75 @@ export default {
         console.error(error);
       } 
     }
+  },
+  computed: {
+    getNumOfWarrants() {
+      let numWarrants = 0;
+      if (this.initData != null && this.initData.data != null && this.initData.data.outstandingWarrants != null) {
+        numWarrants = this.initData.data.outstandingWarrants.length;
+      }
+      return numWarrants
+    },
+    getWarrantDetails() {
+      let details = [];
+      if (this.initData != null && this.initData.data != null && this.initData.data.outstandingWarrants != null) {
+        return this.initData.data.outstandingWarrants;
+        // for (let i = 0; i < this.initData.data.outstandingWarrants.length; i++) {
+        //   details += this.initData.data.outstandingWarrants[i].date;
+        //   details += "       "
+        //   details += this.initData.data.outstandingWarrants[i].details;
+        //   details += "&#10;";
+        // }
+      }
+      return details;
+    },
+    getNumOfAlerts() {
+      let numAlerts = 0;
+      if (this.initData != null && this.initData.data != null && this.initData.data.communityAlerts != null) {
+        numAlerts = this.initData.data.communityAlerts.length;
+      }
+      return numAlerts;
+    },
+    getAlertDetails() {
+      let details = [];
+      if (this.initData != null && this.initData.data != null && this.initData.data.communityAlerts != null) {
+        details = this.initData.data.communityAlerts;
+        // for (let i = 0; i < this.initData.data.communityAlerts.length; i++) {
+        //   details += this.initData.data.communityAlerts[i].date;
+        //   details += "&nbsp;&nbsp;&nbsp;&nbsp;"
+        //   details += this.initData.data.communityAlerts[i].details;
+        //   details += "&#10;";
+        // }
+      }
+      return details;
+    }
   }
 }
 </script>
+
+<style >
+.critical {
+  font-size: 15px;
+  font-weight: bold;
+  background-color: rgb(243, 195, 195);
+  color: rgb(255, 0, 0);
+  line-height: 1.6;
+}
+
+.warrants {
+  font-size: 15px;
+  font-weight: bold;
+  background-color: rgb(205, 236, 103);
+  line-height: 1.6;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profilePhoto {
+  text-align: center;
+}
+</style>

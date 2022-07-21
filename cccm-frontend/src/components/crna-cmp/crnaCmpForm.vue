@@ -186,4 +186,11 @@ li {
     display: list-item;
     text-align: -webkit-match-parent;
 }
+
+.hide {
+	display: none;
+}
+.show {
+	display: block;
+}
 </style>
