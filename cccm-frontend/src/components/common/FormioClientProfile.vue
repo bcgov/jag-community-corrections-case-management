@@ -172,12 +172,6 @@ export default {
       let details = [];
       if (this.initData != null && this.initData.data != null && this.initData.data.outstandingWarrants != null) {
         return this.initData.data.outstandingWarrants;
-        // for (let i = 0; i < this.initData.data.outstandingWarrants.length; i++) {
-        //   details += this.initData.data.outstandingWarrants[i].date;
-        //   details += "       "
-        //   details += this.initData.data.outstandingWarrants[i].details;
-        //   details += "&#10;";
-        // }
       }
       return details;
     },
@@ -192,12 +186,6 @@ export default {
       let details = [];
       if (this.initData != null && this.initData.data != null && this.initData.data.communityAlerts != null) {
         details = this.initData.data.communityAlerts;
-        // for (let i = 0; i < this.initData.data.communityAlerts.length; i++) {
-        //   details += this.initData.data.communityAlerts[i].date;
-        //   details += "&nbsp;&nbsp;&nbsp;&nbsp;"
-        //   details += this.initData.data.communityAlerts[i].details;
-        //   details += "&#10;";
-        // }
       }
       return details;
     }
@@ -205,7 +193,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
 .critical {
   font-size: 15px;
   font-weight: bold;
