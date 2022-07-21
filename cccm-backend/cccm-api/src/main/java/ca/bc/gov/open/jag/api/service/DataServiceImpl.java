@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SideCards;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -51,22 +50,6 @@ public class DataServiceImpl implements DataService {
 
         }
 
-    }
-
-    @Override
-    public SideCards getSideCardsById(BigDecimal id) throws CCCMException {
-
-        logger.log(Level.INFO, "Fetching side card");
-
-        try {
-
-            return objectMapper.readValue(Paths.get("sampleSideCard.json").toFile(), SideCards.class);
-
-        } catch (Exception ex) {
-
-            throw new CCCMException("Error loading json data", CCCMErrorCode.DATALOADERROR);
-
-        }
     }
 
 }

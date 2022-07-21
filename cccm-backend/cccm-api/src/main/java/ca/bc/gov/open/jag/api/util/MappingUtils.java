@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 public class MappingUtils {
 
+    private MappingUtils() {}
+
     private static final Logger logger = Logger.getLogger(String.valueOf(MappingUtils.class));
 
     public static BigDecimal calculateAge(String birthDate) {
@@ -41,7 +43,7 @@ public class MappingUtils {
             return false;
         }
 
-        return inDate.toLocalDate().isBefore(LocalDate.now());
+        return inDate.toLocalDate().isAfter(LocalDate.now());
 
     }
 
