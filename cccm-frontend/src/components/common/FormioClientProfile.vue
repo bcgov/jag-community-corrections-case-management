@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <v-row :key="theKey" align="center" justify="space-around">
+    <v-row :key="theKey">
       <div class="sectionTitleClass">Client Profile</div>
       <div :class="['fas fa-exclamation-triangle warrants', showWarrantDetails ? '' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
         Client has {{getNumOfWarrants}} Outstanding Warrants 
@@ -10,6 +10,10 @@
             {{item.date}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.details}} <br>
           </div>
         </div>
+      </div>
+      <div class="critical center" v-if="isProfileClosed">
+        Profile is closed <br>
+        Client has been released
       </div>
       <div :class="['fas fa-exclamation-triangle critical', showAlertDetails ? '' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
         Client has {{getNumOfAlerts}} Community Alerts
@@ -78,11 +82,12 @@ export default {
       this.initData.data = 
         {
             "id": "1",
-            "key_fullName": "Ross, Bob",
-            "key_csNumber": "123456780",
-            "key_photo": "https://www.w3schools.com/images/lamp.jpg",
+            "fullName": "Ross, Bob",
+            "csNumber": "123456780",
+            "photo": "https://www.w3schools.com/images/lamp.jpg",
             "clientAge": 44,
-            "key_datePhotoTaken": "2022-10-10",
+            "datePhotoTaken": "2022-10-10",
+            "profileClosed": false,
             "communityAlerts": [
               {
                 "date": "2022-01-02",
@@ -111,32 +116,32 @@ export default {
                 "details": "Client attacked staff"
               }
             ],
-            "key_designation": "GEN, IPV, SMO",
-            "key_supervisionLevel": "High",
-            "key_birthDate": "1979-12-03",
-            "key_communityLocation": "Victoria",
-            "key_communityStatus": "Active",
-            "key_primaryCaseManager": "Smith, Bob",
-            "key_secondaryCaseManagers": "Doe, Jane",
-            "key_orders": "None",
-            "key_nextConditionDueDate": "2022-03-04",
-            "key_orderEffectiveDate": "2022-03-04",
-            "key_finalOrderExpiryDate": "2022-03-05",
-            "key_institution": "0543- Sunshine Coast Health Centre",
-            "key_probDischargeDate": "2022-04-03",
-            "key_institutionStatus": "Inactive",
-            "key_custodyType": "Warrant of commital",
-            "key_inOutCustody": "In (parole)",
-            "key_paroleDate": "2022-03-04",
-            "key_internalLocation": "0543 - Sunshine Coast Health Centre",
-            "key_outLocation": "0543 - Sunshine Coast Health Centre",
-            "key_federalParoleOffice": "0101 - Victoria Corrections",
-            "key_outReason": "Sentence ended",
-            "key_finalWarrantExpDate": "2022-05-04",
-            "key_biometric": "No",
-            "key_eReporting": "No",
-            "key_biometricStatus": "Inactive",
-            "key_eServices": "No",
+            "designation": "GEN, IPV, SMO",
+            "supervisionLevel": "High",
+            "birthDate": "1979-12-03",
+            "communityLocation": "Victoria",
+            "communityStatus": "Active",
+            "primaryCaseManager": "Smith, Bob",
+            "secondaryCaseManagers": "Doe, Jane",
+            "orders": "None",
+            "nextConditionDueDate": "2022-03-04",
+            "orderEffectiveDate": "2022-03-04",
+            "finalOrderExpiryDate": "2022-03-05",
+            "institution": "0543- Sunshine Coast Health Centre",
+            "probDischargeDate": "2022-04-03",
+            "institutionStatus": "Inactive",
+            "custodyType": "Warrant of commital",
+            "inOutCustody": "In (parole)",
+            "paroleDate": "2022-03-04",
+            "internalLocation": "0543 - Sunshine Coast Health Centre",
+            "outLocation": "0543 - Sunshine Coast Health Centre",
+            "federalParoleOffice": "0101 - Victoria Corrections",
+            "outReason": "Sentence ended",
+            "finalWarrantExpDate": "2022-05-04",
+            "biometric": "No",
+            "eReporting": "No",
+            "biometricStatus": "Inactive",
+            "eServices": "No",
             "fullAddress": "123 Hello St, Victoria BC", 
             "addressType": "Work",
             "expired": "No",
@@ -146,7 +151,6 @@ export default {
             "location": "VICTORIA",
             "pcm": "Gillis, Mike",
             "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-            "datePhotoTaken": "2022-03-02",
             "address": [
                 {
                     "street": "123 Hello St",
@@ -188,6 +192,13 @@ export default {
         details = this.initData.data.communityAlerts;
       }
       return details;
+    },
+    isProfileClosed() {
+      let closed = false;
+      if (this.initData != null && this.initData.data != null) {
+        closed = this.initData.data.profileClosed;
+      }
+      return closed;
     }
   }
 }

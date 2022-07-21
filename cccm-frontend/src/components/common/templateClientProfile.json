@@ -21,7 +21,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<img src={{data.key_photo}} alt=\"Client photo\" width=\"300\" height=\"300\" /> <br> <div class=\"profilePhoto\">Photo taken {{data.key_datePhotoTaken}}</div>",
+                                    "content": "<img src={{data.photo}} alt=\"Client photo\" width=\"300\" height=\"300\" /> <br> <div class=\"profilePhoto\">Photo taken {{data.datePhotoTaken}}</div>",
                                     "refreshOnChange": true,
                                     "key": "html3",
                                     "type": "htmlelement",
@@ -36,7 +36,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<div><Strong>Name: </Strong>{{data.key_fullName}}</div>",
+                                    "content": "<div><Strong>Name: </Strong>{{data.fullName}}</div>",
                                     "refreshOnChange": true,
                                     "key": "html4",
                                     "type": "htmlelement",
@@ -56,7 +56,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>Date of Birth: </Strong>{{data.key_birthDate}}</div><br><div><Strong>Supervision Level: </Strong>{{data.key_supervisionLevel}}</div>",
+                                                    "content": "<div><Strong>Date of Birth: </Strong>{{data.birthDate}}</div><br><div><Strong>Supervision Level: </Strong>{{data.supervisionLevel}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html5",
                                                     "type": "htmlelement",
@@ -81,7 +81,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>CS #: </Strong>{{data.key_csNumber}}</div><br><div><Strong>Designation: </Strong>{{data.key_designation}}</div>",
+                                                    "content": "<div><Strong>CS #: </Strong>{{data.csNumber}}</div><br><div><Strong>Designation: </Strong>{{data.designation}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html6",
                                                     "type": "htmlelement",
@@ -146,7 +146,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Active Location: </Strong>{{data.key_communityLocation}}</div><br><div><Strong>Primary Case Manager: </Strong>{{data.key_primaryCaseManager}}</div>",
+                                                                                "content": "<div><Strong>Active Location: </Strong>{{data.communityLocation}}</div><br><div><Strong>Primary Case Manager: </Strong>{{data.primaryCaseManager}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -171,7 +171,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Status: </Strong>{{data.key_communityStatus}}</div><br><div><Strong>Secondary Case Managers: </Strong>{{data.key_secondaryCaseManagers}}</div>",
+                                                                                "content": "<div><Strong>Status: </Strong>{{data.communityStatus}}</div><br><div><Strong>Secondary Case Managers: </Strong>{{data.secondaryCaseManagers}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -226,7 +226,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Orders: </Strong>{{data.key_orders}}</div><br><div><Strong>Next Condition Due Date: </Strong>{{data.key_nextConditionDueDate}}</div>",
+                                                                                                "content": "<div><Strong>Orders: </Strong>{{data.orders}}</div><br><div><Strong>Next Condition Due Date: </Strong>{{data.nextConditionDueDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -251,7 +251,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Order Effective Date: </Strong>{{data.key_orderEffectiveDate}}</div>",
+                                                                                                "content": "<div><Strong>Order Effective Date: </Strong>{{data.orderEffectiveDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -276,7 +276,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Final Order Expiry Date: </Strong>{{data.key_finalOrderExpiryDate}}</div>",
+                                                                                                "content": "<div><Strong>Final Order Expiry Date: </Strong>{{data.finalOrderExpiryDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -348,7 +348,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Institution: </Strong>{{data.key_institution}}</div><br><div><Strong>Prob. Discharge/RTC Date: </Strong>{{data.key_probDischargeDate}}</div>",
+                                                                                                "content": "<div><Strong>Institution: </Strong>{{data.institution}}</div><br><div><Strong>Prob. Discharge/RTC Date: </Strong>{{data.probDischargeDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -373,7 +373,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Status: </Strong>{{data.key_institutionStatus}}</div><br><div><Strong>Type of Custody: </Strong>{{data.key_custodyType}}</div>",
+                                                                                                "content": "<div><Strong>Status: </Strong>{{data.institutionStatus}}</div><br><div><Strong>Type of Custody: </Strong>{{data.custodyType}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -398,7 +398,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>In/out Custody: </Strong>{{data.key_inOutCustody}}</div><br><div><Strong>Possible Parole Date: </Strong>{{data.key_paroleDate}}</div>",
+                                                                                                "content": "<div><Strong>In/out Custody: </Strong>{{data.inOutCustody}}</div><br><div><Strong>Possible Parole Date: </Strong>{{data.paroleDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -438,7 +438,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Internal Location: </Strong>{{data.key_internalLocation}}</div><br><div><Strong>Out Location: </Strong>{{data.key_outLocation}}</div>",
+                                                                                                "content": "<div><Strong>Internal Location: </Strong>{{data.internalLocation}}</div><br><div><Strong>Out Location: </Strong>{{data.outLocation}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -463,7 +463,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Federal Parole Office: </Strong>{{data.key_federalParoleOffice}}</div><br><div><Strong>Out Reason: </Strong>{{data.key_outReason}}</div>",
+                                                                                                "content": "<div><Strong>Federal Parole Office: </Strong>{{data.federalParoleOffice}}</div><br><div><Strong>Out Reason: </Strong>{{data.outReason}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -488,7 +488,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Final Warrant Exp. Date: </Strong>{{data.key_finalWarrantExpDate}}</div>",
+                                                                                                "content": "<div><Strong>Final Warrant Exp. Date: </Strong>{{data.finalWarrantExpDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -544,7 +544,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Biometric: </Strong>{{data.key_biometric}}</div><br><div><Strong>eReporting: </Strong>{{data.key_eReporting}}</div>",
+                                                                                "content": "<div><Strong>Biometric: </Strong>{{data.biometric}}</div><br><div><Strong>eReporting: </Strong>{{data.eReporting}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -569,7 +569,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Status: </Strong>{{data.key_biometricStatus}}</div>",
+                                                                                "content": "<div><Strong>Status: </Strong>{{data.biometricStatus}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -594,7 +594,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>eServices: </Strong>{{data.key_eServices}}</div>",
+                                                                                "content": "<div><Strong>eServices: </Strong>{{data.eServices}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
