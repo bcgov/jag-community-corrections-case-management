@@ -65,18 +65,14 @@ router.beforeEach((to, from, next) => {
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  
-    //console.log("Vue.$keycloak: ", Vue.$keycloak);
+    const roles = ['client-search', 'client-view'];
+    console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
       //console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
-    } else if (Vue.$keycloak.hasRealmRole('client-search') || 
-              Vue.$keycloak.hasRealmRole('client-view') ||
-              Vue.$keycloak.hasRealmRole('data-view') ||
-              Vue.$keycloak.hasRealmRole('form-add') ||
-              Vue.$keycloak.hasRealmRole('form-delete') ||
-              Vue.$keycloak.hasRealmRole('form-update') ||
-              Vue.$keycloak.hasRealmRole('form-view')) {
+     } else if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
+              'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
       //console.log("Authenticated and has 'client-search' role");
