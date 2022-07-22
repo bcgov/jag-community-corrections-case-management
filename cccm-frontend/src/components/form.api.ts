@@ -50,10 +50,10 @@ export async function clientSearch(formData: object) {
 }
 
 // function to search client profile
-export async function clientProfileSearch(clientId: number) {
+export async function clientProfileSearch(csNumber: number) {
     try{
-        //console.log("ClientProfileSearch clientID", clientId);
-        const { data } = await axiosClient.get('/clients/${clientId}');
+        //console.log("ClientProfileSearch csNumber", csNumber);
+        const { data } = await axiosClient.get('/clients/${csNumber}');
         //const { data } = await axiosClient.get('/clients');
         return [null, data];
     } catch (error) {
