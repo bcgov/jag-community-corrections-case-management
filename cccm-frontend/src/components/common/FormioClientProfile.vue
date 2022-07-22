@@ -2,7 +2,7 @@
   <div>
     <br>
     <v-row :key="theKey">
-      <div class="sectionTitleClass">Client Profile</div>
+      <div class="sectionTitleClass">&nbsp;&nbsp;&nbsp;&nbsp;Client Profile</div>
       <div :class="['fas fa-exclamation-triangle warrants', showWarrantDetails ? '' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
         Client has {{getNumOfWarrants}} Outstanding Warrants 
         <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', '']">
@@ -25,9 +25,8 @@
       </div>
     </v-row>
     <br/><br/><br/>
-    <v-row>
-      <Form :form="formJSON" :submission="initData"/>
-    </v-row>
+    <Form :form="formJSON" :submission="initData"/>
+    
   </div>
   
 </template>
@@ -204,7 +203,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .critical {
   font-size: 15px;
   font-weight: bold;

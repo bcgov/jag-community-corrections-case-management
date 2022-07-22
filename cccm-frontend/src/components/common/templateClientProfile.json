@@ -15,13 +15,26 @@
                             "components": [
                                 {
                                     "label": "HTML",
+                                    "tag": "img",
                                     "attrs": [
                                         {
-                                            "attr": "",
-                                            "value": ""
+                                            "attr": "src",
+                                            "value": "{{data.photo}}"
+                                        },
+                                        {
+                                            "attr": "alt",
+                                            "value": "Client photo"
+                                        },
+                                        {
+                                            "attr": "width",
+                                            "value": "250"
+                                        },
+                                        {
+                                            "attr": "height",
+                                            "value": "300"
                                         }
                                     ],
-                                    "content": "<img src={{data.photo}} alt=\"Client photo\" width=\"300\" height=\"300\" /> <br> <div class=\"profilePhoto\">Photo taken {{data.datePhotoTaken}}</div>",
+                                    "content": "",
                                     "refreshOnChange": true,
                                     "key": "html3",
                                     "type": "htmlelement",
@@ -30,13 +43,31 @@
                                 },
                                 {
                                     "label": "HTML",
+                                    "tag": "div",
+                                    "className": "profilePhoto",
                                     "attrs": [
                                         {
                                             "attr": "",
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<div><Strong>Name: </Strong>{{data.fullName}}</div>",
+                                    "content": "Photo taken {{data.datePhotoTaken}}",
+                                    "refreshOnChange": true,
+                                    "key": "html3",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "HTML",
+                                    "tag": "div",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<br><Strong>Name: </Strong>{{data.fullName}}",
                                     "refreshOnChange": true,
                                     "key": "html4",
                                     "type": "htmlelement",
