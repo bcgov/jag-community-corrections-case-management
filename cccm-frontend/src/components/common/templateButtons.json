@@ -14,7 +14,7 @@
                   "tableView": true,
                   "key": "${key_btn_save}",
                   "type": "button",
-                  "input": true,
+                  "input": false,
                   "event": "${evt_btn_save}",
                   "theme": "${theme_save}"
                 }
@@ -36,7 +36,7 @@
                   "tableView": true,
                   "key": "${key_btn_other}",
                   "type": "button",
-                  "input": true,
+                  "input": false,
                   "event": "${evt_btn_other}",
                   "theme": "${theme_other}"
                 }

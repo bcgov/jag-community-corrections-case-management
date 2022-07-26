@@ -1443,7 +1443,7 @@
     "buttonGroupSavePrint": [
         {
             "action": "event",
-            "event": "evt_save",
+            "event": "evt_saveDraft",
             "key": "add_saveDraft",
             "label": "Save as Draft",
             "theme": "primary"

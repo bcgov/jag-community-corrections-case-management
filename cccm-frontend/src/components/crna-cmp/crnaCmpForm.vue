@@ -1,33 +1,31 @@
 <template>
     <div class="main">
       <div class="wrap">
-        <form id="formID" @submit.prevent="submit">
-          <div class="mainRow">
-            <div class="column L">
-              <div class="menu-Sticky">
-                <div class="menuR1">
-                  <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey"/>
-                </div>
-                <div class="menuR2">
-                  <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
-                </div>
+        <div class="mainRow">
+          <div class="column L">
+            <div class="menu-Sticky">
+              <div class="menuR1">
+                <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey"/>
               </div>
-              <div class="mainContent">
-                <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey" :notifySavingData="notifySavingData"></CrnaCmpFormDataEntry>   
-                <!--Save and continue button group-->
-                <FormioButton :dataModel="formJSONFormData.buttonGroupSaveCancel" @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>
+              <div class="menuR2">
+                <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
               </div>
             </div>
-            <div class="column R">
-              <div class="R-Sticky">
-                <br/>
-                <!--Save draft button group-->
-                <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
-                <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
-              </div>
+            <div class="mainContent">
+              <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey" :notifySavingData="notifySavingData"></CrnaCmpFormDataEntry>   
+              <!--Save and continue button group-->
+              <FormioButton :dataModel="formJSONFormData.buttonGroupSaveCancel" @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>
             </div>
           </div>
-        </form>
+          <div class="column R">
+            <div class="R-Sticky">
+              <br/>
+              <!--Save draft button group-->
+              <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
+              <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -88,19 +86,19 @@ export default {
         this.componentKey += 1;
       }
     },
-    handleSaveContinue() {
-      // if clicking "Save and Continue" button, increment this.parentNavCurLocation to navigate to the next section
-      if (this.parentNavCurLocation < this.totalNumParentNav - 1) {
-        // have to make sure the value is different to trigger the child logic
+    handleSaveContinue(continueToNextSection) {
+      // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
+      if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         this.parentNavMoveToNext++;
-        this.notifySavingData++;
       }
+      // have to make sure the value is different to notify child components to gather the data
+      this.notifySavingData++;
     },
     handlePrintForm() {
-      alert('Print Form.')
+      console.log('Print Form.')
     },
     handleCancelForm() {
-      alert('Cancel Form.')
+      console.log("Cancel Form");
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;

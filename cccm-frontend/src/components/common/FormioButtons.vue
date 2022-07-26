@@ -1,6 +1,5 @@
 <template>
-    <!--evt_changeButtonLabe needs to match this.dataModel.button.event-->
-    <Form :form="formJSON" @evt_save="handleSave" @evt_cancel="handleCancelForm" @evt_print="handlePrint"/>
+    <Form :form="formJSON" @evt_save="handleSave" @evt_saveDraft="handleSaveDraft" @evt_cancel="handleCancelForm" @evt_print="handlePrint"/>
 </template>
 
 <script lang="ts">
@@ -17,6 +16,10 @@ export default {
     return {
       templatePanel : templateButtons,
       formJSON : {},
+      canEmitSave: true,
+      canEmitSaveDraft: true,
+      canEmitCancel: true,
+      canEmitPrint: true,
     }
   },
   components: {
@@ -44,16 +47,40 @@ export default {
       this.formJSON = JSON.parse(tmpJSONStr);
     },
     handleSave(evt) {
-      // emit an event, saveContinueClicked, to the parent, so parent knows it's time to save data
-      this.$emit('saveContinueClicked');
+      // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
+      if (this.canEmitSave) {
+        this.canEmitSave = false;
+        this.$emit('saveContinueClicked', true);
+      } else {
+        this.canEmitSave = true;
+      }
+    },
+    handleSaveDraft(evt) {
+      // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
+      if (this.canEmitSaveDraft) {
+        this.canEmitSaveDraft = false;
+        this.$emit('saveContinueClicked', false);
+      } else {
+        this.canEmitSaveDraft = true;
+      }
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
-      this.$emit('cancelFormClicked');
+      if (this.canEmitCancel) {
+        this.canEmitCancel = false;
+        this.$emit('cancelFormClicked');
+      } else {
+        this.canEmitCancel = true;
+      }
     },
     handlePrint(evt) {
       // emit an event, printFormClicked, to the parent, so parent knows it's time to cancel form
-      this.$emit('printFormClicked');
+      if (this.canEmitPrint) {
+        this.canEmitPrint = false;
+        this.$emit('printFormClicked');
+      } else {
+        this.canEmitPrint = true;
+      }
     }
   }
 }
