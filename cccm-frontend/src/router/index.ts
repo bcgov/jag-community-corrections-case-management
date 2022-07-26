@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import CrnaCmpView from '../views/CrnaCmpView.vue'
 import ClientSearchView from '../views/ClientSearchView.vue'
 import ClientProfileView from '../views/ClientProfileView.vue'
+import Unauthorized from '../views/Unauthorized.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,11 @@ const router = new VueRouter({
       meta: {
         isAuthenticated: true
       }
+    },
+    {
+      path: '/',
+      name: 'unauthorized',
+      component: Unauthorized
     }
   ]
 })
@@ -59,13 +65,17 @@ router.beforeEach((to, from, next) => {
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  
-    //console.log("Vue.$keycloak: ", Vue.$keycloak);
+    const roles = ['client-search', 'client-view'];
+    console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
+      //console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
-    } else if (Vue.$keycloak.hasRealmRole('client-search')) {
+     } else if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
+              'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
+      //console.log("Authenticated and has 'client-search' role");
       Vue.$keycloak.updateToken(70)
         .then(() => {
           next()
