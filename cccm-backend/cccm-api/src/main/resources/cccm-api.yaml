@@ -649,6 +649,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Designation"
+        outstandingWarrants:
+          type: array
+          items:
+            $ref: "#/components/schemas/Warrant"
+        communityAlerts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Alert"
     OrderInformation:
       type: object
       properties:
@@ -700,22 +708,34 @@ components:
     LocationInformation:
       type: object
       properties:
-        institution:
+        internalLocation:
           type: string
-        status:
+        federalParole:
           type: string
-        custody:
+        outLocation:
           type: string
-        dischargeDate:
+        outReason:
           type: string
-        type:
-          type: string
-        paroleDate:
+        warrantExpiryDate:
           type: string
     Designation:
       type: object
       properties:
         type:
+          type: string
+    Warrant:
+      type: object
+      properties:
+        type:
+          type: string
+        date:
+          type: string
+    Alert:
+      type: object
+      properties:
+        type:
+          type: string
+        date:
           type: string
     Address:
       type: object

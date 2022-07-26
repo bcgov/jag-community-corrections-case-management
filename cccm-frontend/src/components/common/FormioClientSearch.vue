@@ -1,6 +1,6 @@
 <template>
   <div data-app>
-    <Form :form="formJSON" v-on:clientSearchEvent="handleClientSearch"/>
+    <Form :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
     <v-card>
       <v-card-title>
         Results
@@ -159,7 +159,7 @@ export default {
            
       this.formJSON = tmpJSON;
     },
-    async handleClientSearch(payload) {
+    async handleClientSearch(evt) {
       // Sample client search results:
       //   [
       //     {
@@ -187,260 +187,283 @@ export default {
       //         ]
       //     }
       // ]
-      const [error, response] = await clientSearch(payload);
-      // this.totalClients = response.length;
-      // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
-      // if (this.totalClients % this.itemsPerPage != 0) {
-      //   this.pageCount++;
-      // };
-      this.key_clientsearchresult++;
-      this.loading = false;
-      this.clients =   
-        [
-          {
-              "id": "1",
-              "fullName": "Ross, Bob",
-              "clientAge": 44,
-              "birthDate": "1979-12-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Work",
-              "expired": "No",
-              "csNumber": "123456780",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Bob Ross",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "2",
-              "fullName": "Smith, Sam",
-              "clientAge": 40,
-              "birthDate": "1983-02-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Home",
-              "expired": "No",
-              "csNumber": "123456781",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Sam Smith",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "3",
-              "fullName": "Ross, Bob",
-              "clientAge": 44,
-              "birthDate": "1979-12-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Work",
-              "expired": "No",
-              "csNumber": "123456782",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Bob Ross",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "4",
-              "fullName": "Smith, Sam",
-              "clientAge": 40,
-              "birthDate": "1983-02-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Home",
-              "expired": "No",
-              "csNumber": "123456783",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Sam Smith",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "5",
-              "fullName": "Ross, Bob",
-              "clientAge": 44,
-              "birthDate": "1979-12-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Work",
-              "expired": "No",
-              "csNumber": "123456784",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Bob Ross",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "6",
-              "fullName": "Smith, Sam",
-              "clientAge": 40,
-              "birthDate": "1983-02-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Home",
-              "expired": "No",
-              "csNumber": "123456785",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Sam Smith",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "7",
-              "fullName": "Ross, Bob",
-              "clientAge": 44,
-              "birthDate": "1979-12-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Work",
-              "expired": "No",
-              "csNumber": "123456786",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Bob Ross",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "8",
-              "fullName": "Smith, Sam",
-              "clientAge": 40,
-              "birthDate": "1983-02-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Home",
-              "expired": "No",
-              "csNumber": "123456787",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Sam Smith",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "9",
-              "fullName": "Ross, Bob",
-              "clientAge": 44,
-              "birthDate": "1979-12-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Work",
-              "expired": "No",
-              "csNumber": "123456788",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Bob Ross",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          },
-          {
-              "id": "10",
-              "fullName": "Smith, Sam",
-              "clientAge": 40,
-              "birthDate": "1983-02-03",
-              "fullAddress": "123 Hello St, Victoria BC", 
-              "addressType": "Home",
-              "expired": "No",
-              "csNumber": "123456789",
-              "recordSealed": "Yes",
-              "gender": "Male",
-              "currentName": "Sam Smith",
-              "location": "VICTORIA",
-              "pcm": "Gillis, Mike",
-              "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-              "datePhotoTaken": "2022-03-02",
-              "address": [
-                  {
-                      "street": "123 Hello St",
-                      "city": "Victoria",
-                      "postalCode": "123 abc"
-                  }
-              ]
-          }
-        ];
-      if (error) {
-        console.error(error);
-      } 
+      if (evt.data != null) {
+        //console.log("payload: ", evt.data);
+        // Sample payload:
+        // {
+        //     "limitedToCurrentActiveLocation": false,
+        //     "lastName": "",
+        //     "lastNameSoundex": false,
+        //     "givenName1Or2": "",
+        //     "gender": "",
+        //     "dobYear": "",
+        //     "age": "",
+        //     "rangeYears": "",
+        //     "addressType": "all",
+        //     "address": "",
+        //     "includeExpiredAddresses": false,
+        //     "city": "",
+        //     "province": "",
+        //     "postalCode": "",
+        //     "idType": "cn",
+        //     "idNumber": ""
+        // }
+        const [error, response] = await clientSearch(evt.data);
+        // this.totalClients = response.length;
+        // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
+        // if (this.totalClients % this.itemsPerPage != 0) {
+        //   this.pageCount++;
+        // };
+        this.key_clientsearchresult++;
+        this.loading = false;
+        this.clients =   
+          [
+            {
+                "id": "1",
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Work",
+                "expired": "No",
+                "csNumber": "123456780",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "2",
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Home",
+                "expired": "No",
+                "csNumber": "123456781",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "3",
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Work",
+                "expired": "No",
+                "csNumber": "123456782",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "4",
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Home",
+                "expired": "No",
+                "csNumber": "123456783",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "5",
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Work",
+                "expired": "No",
+                "csNumber": "123456784",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "6",
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Home",
+                "expired": "No",
+                "csNumber": "123456785",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "7",
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Work",
+                "expired": "No",
+                "csNumber": "123456786",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "8",
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Home",
+                "expired": "No",
+                "csNumber": "123456787",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "9",
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Work",
+                "expired": "No",
+                "csNumber": "123456788",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            },
+            {
+                "id": "10",
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "fullAddress": "123 Hello St, Victoria BC", 
+                "addressType": "Home",
+                "expired": "No",
+                "csNumber": "123456789",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc"
+                    }
+                ]
+            }
+          ];
+        if (error) {
+          console.error(error);
+        }
+      }
+       
     }
   },
 }
