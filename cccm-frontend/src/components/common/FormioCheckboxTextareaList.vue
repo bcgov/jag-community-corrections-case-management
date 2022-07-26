@@ -1,5 +1,5 @@
 <template>
-    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData"/>
+    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
 </template>
 
 <script lang="ts">
@@ -11,12 +11,29 @@ export default {
   name: 'FormioCheckboxTextareaList',
   props: {
     dataModel: {},
-    initData: {}
+    initData: {},
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    }
   },
   data() {
     return {
       templateCheckboxTextarea : templateCheckboxTextarea,
       formJSON : {},
+    }
+  },
+  watch: {
+    notifySavingData() {
+      // Submit the form by simulating clicking the submit button
+      for (let i = 0; i < this.dataModel.checkboxTextareaItems.length; i++) {
+        let btn = document.getElementById(this.dataModel.checkboxTextareaItems[i].key_container);
+        if (btn != null) { 
+          //console.log("Simulate the btn click: ", btn);
+          btn.click(); 
+        }
+      }
     }
   },
   components: {
@@ -26,6 +43,13 @@ export default {
     this.buildFormData()
   },
   methods: {
+    handleSubmit(evt) {
+      // emit an event, dataSubmitted, to the parent, so parent knows form data
+      if (evt.data != null) {
+        //console.log("child data submitted: ", evt.data.hidden_key, evt.data);
+        this.$emit('dataSubmitted', evt.data);
+      }
+    },
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateCheckboxTextarea);
@@ -52,6 +76,7 @@ export default {
         componentJSONStr = componentJSONStr.replaceAll('${key_checkbox}', this.dataModel.key_checkbox);
         componentJSONStr = componentJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
         componentJSONStr = componentJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
+        componentJSONStr = componentJSONStr.replaceAll('${value_hiddenKey}', this.dataModel.checkboxTextareaItems[i].key_container);
 
         tmpJSON.components[0].components[0].components[i+containerIndex] = JSON.parse(componentJSONStr);
       }

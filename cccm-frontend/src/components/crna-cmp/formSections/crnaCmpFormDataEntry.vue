@@ -5,14 +5,14 @@
           :key="indexp">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key="`${indexc}${Key_questionCombo}`" @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
-            <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key="`${indexc}${key_labeltextarea}`" @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]"/>
-            <FormioRadio v-else-if="headerc.type === 'radio'" :key="`${indexc}${key_radio}`" @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
-            <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
-            <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key="`${indexc}${key_radiotextarea}`" @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
+            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key="`${indexc}${Key_questionCombo}`" @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key="`${indexc}${key_labeltextarea}`" @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioRadio v-else-if="headerc.type === 'radio'" :key="`${indexc}${key_radio}`" @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key="`${indexc}${key_radiotextarea}`" @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc" />
             <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key="`${indexc}${key_editgrid_intervention}`" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key="`${indexc}${key_editgrid_radiotext}`" @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
-            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
             <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
               v-for="(headergc, indexgc) in headerc.editgriditems" 
               :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
@@ -20,7 +20,8 @@
               :dataTemplate="headergc" :dataTemplateP="headerc" 
               :editgridLabel="editgridLabel[headerc.ref_key_section]" 
               :radioValue="radioValue[headergc.ref_key_subsection]" 
-              :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
+              :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"
+              />
           </div>
         </div>
       </div>
@@ -30,6 +31,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
+import {saveFormData} from "@/components/form.api";
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
@@ -44,6 +46,11 @@ export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
     dataModel: {},
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    }
   },
   components: {
     FormioQuestionCombo,
@@ -78,12 +85,39 @@ export default {
       key_labeltextarea: 0,
       initData_radio: [],
       key_radio: 0,
+      notifyChildSavingData: 1,
+      submitData: {"data": []},
+      submitDataIndex: 0,
     }
   },
   mounted(){
     this.getInitData();
   },
+  watch: {
+    notifySavingData() {
+      this.notifyChildSavingData++;
+    }
+  },
   methods: {
+    async handleDataSubmitted(data) {
+      this.submitData.data[this.submitDataIndex++] = data;
+
+      // Once all data are submitted, reset the counter, emit an event, dataSubmitted, to parent
+      //console.log("submitDataIndex: ", this.submitDataIndex);
+      if (this.submitDataIndex == 33) {
+        console.log("Submitted data: ", this.submitData);
+        this.submitDataIndex = 0;
+        
+        // call backend to save the data
+        const [error, response] = await saveFormData(this.submitData);
+        if (error) {
+          console.error("SaveFormData error", error);
+        } else {
+          console.log("SaveFormData success", response);
+        }
+      }
+      
+    },
     handleCheckboxTextareaListDataOnChanged(dataValue, parentKey, containerKey, questionLabel) {
       if (dataValue != null) {
         let initVal = dataValue;
@@ -147,7 +181,6 @@ export default {
         //Update this.initData_radio
         if (this.initData_radio[theKey] != null) {
           this.initData_radio[theKey].data.key_radioButton = dataValue.key_radioButton;
-          this.initData_radio[theKey].data.key_comments = dataValue.key_comments;
 
           // force FormioRadio component to refresh
           this.key_radio++;
@@ -535,7 +568,6 @@ export default {
                   }
                   item = {};
                   item.key_radioButton = initData.key_radioButton;
-                  item.key_comments = initData.key_comments;
                   this.initData_radio[theKey].data = item; 
                   this.key_radio++;
                 }
@@ -582,9 +614,10 @@ export default {
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   // populate this.initData_labeltextarea
                   if (this.initData_labeltextarea[theKey] == null) {
-                    this.initData_labeltextarea[theKey] = {"data": {"key_textarea": ""}};
+                    this.initData_labeltextarea[theKey] = {"data": {"key_textarea": "", "hidden_key": ""}};
                   }
                   this.initData_labeltextarea[theKey].data.key_textarea = curComponent.initData.data.key_textarea;
+                  this.initData_labeltextarea[theKey].data.hidden_key = theKey;
                   this.key_labeltextarea++;
 
                   // populate this.initData_editgrid_radiotext 

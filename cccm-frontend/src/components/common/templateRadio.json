@@ -18,6 +18,32 @@
                     "type": "radio",
                     "input": true,
                     "defaultValue": "${defaultValue}"
+                },
+                {
+                  "label": "",
+                  "tableView": true,
+                  "hide": true,
+                  "clearOnHide": false,
+                  "key": "hidden_key",
+                  "defaultValue": "${value_hiddenKey}",
+                  "type": "textfield",
+                  "input": true
+                },
+                {
+                  "label": "",
+                  "action": "event",
+                  "attributes": { 
+                      "id": "${key}" 
+                  },
+                  "hide": false,
+                  "customClass": "hide",
+                  "showValidations": false,
+                  "disableOnInvalid": true,
+                  "tableView": true,
+                  "key": "key_submit",
+                  "type": "button",
+                  "input": false,
+                  "event": "evt_submitBtnClicked"
                 }
             ]
         }

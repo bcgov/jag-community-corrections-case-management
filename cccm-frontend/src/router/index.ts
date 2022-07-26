@@ -66,7 +66,7 @@ router.beforeEach((to, from, next) => {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  
     const roles = ['client-search', 'client-view'];
-    console.log("Vue.$keycloak: ", Vue.$keycloak);
+    //console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
       //console.log("Not authenticated");

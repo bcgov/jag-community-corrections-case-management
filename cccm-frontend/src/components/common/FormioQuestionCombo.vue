@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form :form="formJSON" v-on:change="handleChangeEvent" :submission="initData"/>
+    <Form :form="formJSON" v-on:change="handleChangeEvent" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
   </div>
 </template>
 
@@ -14,11 +14,26 @@ export default {
   props: {
     dataModel: {},
     initData: {},
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    }
   },
   data() {
     return {
       questionComboTemplate : templateQuestionCombo,
       formJSON : {}
+    }
+  },
+  watch: {
+    notifySavingData() {
+      // Submit the form by simulating clicking the submit button
+      let btn = document.getElementById(this.dataModel.key);
+      if (btn != null) { 
+        //console.log("Simulate the btn click: ", btn);
+        btn.click(); 
+      }
     }
   },
   components: {
@@ -29,6 +44,14 @@ export default {
     //console.log("initData: ", this.initData);
   },
   methods: {
+    handleSubmit(evt) {
+      // emit an event, dataSubmitted, to the parent, so parent knows form data
+      if (evt.data != null) {
+        //console.log("child data submitted: ", evt.data.hidden_key, evt.data);
+        this.$emit('dataSubmitted', evt.data);
+      }
+      
+    },
     buildFormInfoDataEntry() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.questionComboTemplate);

@@ -1422,5 +1422,38 @@
                 }
             ]
         }
+    ],
+    "buttonGroupSaveCancel": [
+        {
+            "action": "event",
+            "event": "evt_save",
+            "key": "save_contine",
+            "label": "Save and Continue",
+            "toggledLabel": "Submit",
+            "theme": "primary"
+        },
+        {
+            "action": "event",
+            "event": "evt_cancel",
+            "key": "add_cancel",
+            "label": "Cancel Form",
+            "theme": "danger"
+        }
+    ],
+    "buttonGroupSavePrint": [
+        {
+            "action": "event",
+            "event": "evt_save",
+            "key": "add_saveDraft",
+            "label": "Save as Draft",
+            "theme": "primary"
+        },
+        {
+            "action": "event",
+            "event": "evt_print",
+            "key": "add_print",
+            "label": "Print Form",
+            "theme": "primary"
+        }
     ]
 }

@@ -22,7 +22,7 @@
               {
                 "label": "",
                 "tableView": true,
-                "hidden": true,
+                "hide": true,
                 "clearOnHide": false,
                 "key": "hidden_key",
                 "defaultValue": "${value_hiddenKey}",
@@ -147,7 +147,7 @@
               {
                 "label": "",
                 "tableView": true,
-                "hidden": true,
+                "hide": true,
                 "clearOnHide": false,
                 "key": "questionLabel",
                 "defaultValue": "${questionLabel}",
@@ -155,6 +155,22 @@
                 "input": true
               }
             ]
+          },
+          {
+            "label": "",
+            "action": "event",
+            "attributes": { 
+                "id": "${value_hiddenKey}" 
+            },
+            "hide": false,
+            "customClass": "hide",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": true,
+            "key": "key_submit",
+            "type": "button",
+            "input": false,
+            "event": "evt_submitBtnClicked"
           }
     ]
 }
