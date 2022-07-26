@@ -22,7 +22,7 @@
                 {
                   "label": "",
                   "tableView": true,
-                  "hide": true,
+                  "hidden": true,
                   "clearOnHide": false,
                   "key": "hidden_key",
                   "defaultValue": "${value_hiddenKey}",
@@ -35,7 +35,7 @@
                   "attributes": { 
                       "id": "${key}" 
                   },
-                  "hide": false,
+                  "hidden": false,
                   "customClass": "hide",
                   "showValidations": false,
                   "disableOnInvalid": true,

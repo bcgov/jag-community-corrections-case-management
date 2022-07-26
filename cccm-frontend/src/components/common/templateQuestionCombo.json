@@ -22,7 +22,7 @@
               {
                 "label": "",
                 "tableView": true,
-                "hide": true,
+                "hidden": true,
                 "clearOnHide": false,
                 "key": "hidden_key",
                 "defaultValue": "${value_hiddenKey}",
@@ -147,7 +147,7 @@
               {
                 "label": "",
                 "tableView": true,
-                "hide": true,
+                "hidden": true,
                 "clearOnHide": false,
                 "key": "questionLabel",
                 "defaultValue": "${questionLabel}",
@@ -162,7 +162,7 @@
             "attributes": { 
                 "id": "${value_hiddenKey}" 
             },
-            "hide": false,
+            "hidden": false,
             "customClass": "hide",
             "showValidations": false,
             "disableOnInvalid": true,
