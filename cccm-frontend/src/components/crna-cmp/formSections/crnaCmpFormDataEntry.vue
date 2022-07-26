@@ -88,6 +88,7 @@ export default {
       notifyChildSavingData: 1,
       submitData: {"data": []},
       submitDataIndex: 0,
+      totalNumOfDataElement: 0,
     }
   },
   mounted(){
@@ -103,9 +104,10 @@ export default {
       this.submitData.data[this.submitDataIndex++] = data;
 
       // Once all data are submitted, reset the counter, emit an event, dataSubmitted, to parent
-      //console.log("submitDataIndex: ", this.submitDataIndex);
-      if (this.submitDataIndex == 33) {
-        console.log("Submitted data: ", this.submitData);
+      //console.log("totalNumOfDataElement: ", this.totalNumOfDataElement);
+      if (this.submitDataIndex == this.totalNumOfDataElement) {
+        //console.log("Submitted data: ", this.submitData);
+        // Reset the index
         this.submitDataIndex = 0;
         
         // call backend to save the data
@@ -451,6 +453,7 @@ export default {
               // populate initData_editgrid_intervention
               let curComponent = this.dataModel.data[g].subsections[i];
               if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
+                this.totalNumOfDataElement++;
                 let initData = curComponent.initData.data;
                 // add to this.initData_editgrid_radiotextList
                 if (initData != null) {
@@ -521,6 +524,7 @@ export default {
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initVal = curComponent.initData.data;
                   for (let a = 0; a < curComponent.checkboxTextareaItems.length; a++) {
+                    this.totalNumOfDataElement++;
                     if (this.initData_editgrid_radiotext[theKey] == null) {
                       this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": []}};
                     }
@@ -544,6 +548,7 @@ export default {
               // populate initData_editgrid_radiotextList
               // populate initData_radio
               if (this.dataModel.data[g].subsections[i].type === 'radio') {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initData = curComponent.initData.data;
 
@@ -576,6 +581,7 @@ export default {
               // populate initData_editgrid_radiotextList
               // populate initData_radiotextarea
               if (this.dataModel.data[g].subsections[i].type === 'radioTextarea') {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initData = curComponent.initData.data;
 
@@ -611,6 +617,7 @@ export default {
               // populate this.initData_editgrid_radiotext
               // populate this.initData_labeltextarea
               if (this.dataModel.data[g].subsections[i].type === 'labelTextarea') {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   // populate this.initData_labeltextarea
                   if (this.initData_labeltextarea[theKey] == null) {
