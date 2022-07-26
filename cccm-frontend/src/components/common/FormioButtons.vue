@@ -16,10 +16,6 @@ export default {
     return {
       templatePanel : templateButtons,
       formJSON : {},
-      canEmitSave: true,
-      canEmitSaveDraft: true,
-      canEmitCancel: true,
-      canEmitPrint: true,
     }
   },
   components: {
@@ -48,39 +44,33 @@ export default {
     },
     handleSave(evt) {
       // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (this.canEmitSave) {
-        this.canEmitSave = false;
+      if (evt != null && evt.type === this.dataModel[0].event ) {
         this.$emit('saveContinueClicked', true);
-      } else {
-        this.canEmitSave = true;
-      }
+      } 
     },
     handleSaveDraft(evt) {
       // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (this.canEmitSaveDraft) {
-        this.canEmitSaveDraft = false;
+      if (evt != null && evt.type === this.dataModel[0].event ) {
         this.$emit('saveContinueClicked', false);
-      } else {
-        this.canEmitSaveDraft = true;
-      }
+      } 
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
-      if (this.canEmitCancel) {
-        this.canEmitCancel = false;
+      // if (this.canEmitCancel) {
+      //   this.canEmitCancel = false;
+      //   this.$emit('cancelFormClicked');
+      // } else {
+      //   this.canEmitCancel = true;
+      // }
+      if (evt != null && evt.type === this.dataModel[1].event ) {
         this.$emit('cancelFormClicked');
-      } else {
-        this.canEmitCancel = true;
       }
     },
     handlePrint(evt) {
       // emit an event, printFormClicked, to the parent, so parent knows it's time to cancel form
-      if (this.canEmitPrint) {
-        this.canEmitPrint = false;
+      if (evt != null && evt.type === this.dataModel[1].event ) {
         this.$emit('printFormClicked');
-      } else {
-        this.canEmitPrint = true;
-      }
+      } 
     }
   }
 }
