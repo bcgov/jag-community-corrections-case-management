@@ -733,7 +733,7 @@ components:
     Alert:
       type: object
       properties:
-        type:
+        comment:
           type: string
         date:
           type: string
