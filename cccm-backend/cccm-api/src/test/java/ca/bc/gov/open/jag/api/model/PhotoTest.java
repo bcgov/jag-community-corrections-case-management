@@ -16,7 +16,6 @@ public class PhotoTest {
         byte[] test = "GARBAGE".getBytes();
 
         sut.setImage(test);
-
         Assertions.assertEquals(test, sut.getImage());
 
     }
