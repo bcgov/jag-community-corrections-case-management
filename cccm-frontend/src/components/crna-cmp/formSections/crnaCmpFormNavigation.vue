@@ -185,13 +185,6 @@ div > a {
 	border-left: 1px solid #ccc;
 	padding-left: 0em;
 }
-
-.hide {
-	display: none;
-}
-.show {
-	display: block;
-}
 .divTable {
 	display: table;
 	width: 100%;

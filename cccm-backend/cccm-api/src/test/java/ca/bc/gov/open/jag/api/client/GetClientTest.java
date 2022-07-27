@@ -1,23 +1,28 @@
 package ca.bc.gov.open.jag.api.client;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.quarkus.test.security.TestSecurity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @QuarkusTest
-public class GetClientsTest {
+public class GetClientTest {
 
     @Inject
     ClientsApiImpl sut;
@@ -35,12 +40,23 @@ public class GetClientsTest {
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any())).thenReturn(createClientList());
+        Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
         Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
 
-       List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients(null, null,null,null,null,null,null,null);
+        Client result = sut.getClient(BigDecimal.ONE);
 
-       Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("123", result.getClientNum());
+
+    }
+
+    @Test
+    @TestSecurity(user = "userOidc", roles = "client-search")
+    @DisplayName("404: client not found")
+    public void testGetClientsNotFoundEndpoint() {
+
+        Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
+
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClient(BigDecimal.ONE));
 
     }
 
@@ -49,7 +65,7 @@ public class GetClientsTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(BigDecimal.ONE));
 
     }
 
@@ -57,7 +73,7 @@ public class GetClientsTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(BigDecimal.ONE));
 
     }
 
@@ -72,16 +88,8 @@ public class GetClientsTest {
         client1.setCustodyLocation("TEST1");
         client1.setCommunityLocation("TEST1");
 
-        ca.bc.gov.open.jag.api.model.Client client2 = new ca.bc.gov.open.jag.api.model.Client();
-        client2.setClientNo(BigDecimal.valueOf(124));
-        client2.setClientName("TEST2, TESTER");
-        client2.setCurrentNameYn("N");
-        client2.setGenderCode("F");
-        client2.setBirthDate("1961-04-17");
-        client2.setCustodyLocation("TEST2");
-        client2.setCommunityLocation("TEST2");
 
-        return Arrays.asList(client1, client2);
+        return Collections.singletonList(client1);
 
     }
 
