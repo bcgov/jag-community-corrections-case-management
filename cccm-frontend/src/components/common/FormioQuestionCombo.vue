@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form :form="formJSON" v-on:change="handleChangeEvent" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
+    <Form :form="formJSON" v-on:change="handleChangeEvent" v-on:blur="handleBlurEvent" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
   props: {
     dataModel: {},
     initData: {},
+    uiType: "",
     // param passed from parent to indicate time to save data
     notifySavingData: {
       type: Number,
@@ -23,7 +24,8 @@ export default {
   data() {
     return {
       questionComboTemplate : templateQuestionCombo,
-      formJSON : {}
+      formJSON : {},
+      triggerAutoSave: false,
     }
   },
   watch: {
@@ -90,14 +92,27 @@ export default {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (   event.changed 
           && ( event.changed.component.key === this.dataModel.key_comments  
-            || event.changed.component.key === this.dataModel.radioGroup.key
-            || event.changed.component.key === this.dataModel.interventionNeeded.key_checkbox 
-            || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_type
-            || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_other
             || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_description)
           ) {
-            //console.log("Formio questioncombo: ", event);
-            this.$emit('dataOnChanged', event.data);
+            this.triggerAutoSave = true;
+      }
+
+      // Trigger auto save
+      if (   event.changed 
+          && ( event.changed.component.key === this.dataModel.radioGroup.key
+            || event.changed.component.key === this.dataModel.interventionNeeded.key_checkbox 
+            || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_type
+            || event.changed.component.key === this.dataModel.interventionNeeded.key_itv_other)
+          ) {
+            //console.log("AutoSave triggered: ", event);
+            this.$emit('dataOnChanged', this.uiType, event.data);
+      }
+    },
+    handleBlurEvent(event) {
+      if (this.triggerAutoSave) {
+        //console.log("AutoSave blur triggered: ", event);
+        this.triggerAutoSave = false;
+        this.$emit('dataOnChanged', this.uiType, event.parent.parent._data);
       }
     }
   }

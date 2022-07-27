@@ -1,5 +1,5 @@
 <template>
-    <Form v-on:change="handleChangeEvent" :submission="initData" :form="formJSON" @evt_submitBtnClicked="handleSubmit"/>
+    <Form v-on:change="handleChangeEvent" v-on:blur="handleBlurEvent" :submission="initData" :form="formJSON" @evt_submitBtnClicked="handleSubmit"/>
 </template>
 
 <script lang="ts">
@@ -12,6 +12,7 @@ export default {
   props: {
     dataModel: {},
     initData: {},
+    uiType: "",
     // param passed from parent to indicate time to save data
     notifySavingData: {
       type: Number,
@@ -22,6 +23,7 @@ export default {
     return {
       templateLabelTextArea : templateLabelTextArea,
       formJSON : {},
+      triggerAutoSave: false,
     }
   },
   watch: {
@@ -68,9 +70,14 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_textarea) {
-        //let key = event.changed.instance.parent.component.key;
-        //console.log("lable textarea event changed: ", event.data, this.dataModel.key);
-        this.$emit('dataOnChanged', event.data, this.dataModel.key);
+        this.triggerAutoSave = true;
+      }
+    },
+    handleBlurEvent(event) {
+      if (this.triggerAutoSave) {
+        //console.log("AutoSave blur triggered: ", event._data);
+        this.triggerAutoSave = false;
+        this.$emit('dataOnChanged', this.uiType, event._data, this.dataModel.key);
       }
     }
   }

@@ -149,7 +149,7 @@
                 "tableView": true,
                 "hidden": true,
                 "clearOnHide": false,
-                "key": "questionLabel",
+                "key": "key_questionLabel",
                 "defaultValue": "${questionLabel}",
                 "type": "textfield",
                 "input": true

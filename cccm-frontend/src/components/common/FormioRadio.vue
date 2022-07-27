@@ -12,6 +12,7 @@ export default {
   props: {
     dataModel: {},
     initData: {},
+    uiType: "",
     // param passed from parent to indicate time to save data
     notifySavingData: {
       type: Number,
@@ -69,7 +70,7 @@ export default {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if (event.changed && event.changed.component.key === this.dataModel.key_radioButton) {
         //console.log("Formio Radio changed: ", event);
-        this.$emit('dataOnChanged', event.data, this.dataModel.key);
+        this.$emit('dataOnChanged', this.uiType, event.data, this.dataModel.key);
       }
     }
   }
