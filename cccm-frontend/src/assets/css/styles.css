@@ -2,10 +2,28 @@ body {
 	background-color: #F9FAFB;
 }
 
-.header { 
-	background-image: url("header-bg.jpg");
-	background-repeat: repeat-x; 	
-	padding:6px 20px 0px 20px;
+.header {
+	background-color: #036;
+}
+
+.header-section {
+	padding: 10px 0;
+}
+
+.header-img {
+	display: inline-block;
+	padding: 0 14px;
+}
+.header img {
+	padding: 12px 5px 12px 12px;
+}
+
+.headerNavContainer {
+	width:100%;
+	height:inherit!important;
+	padding: 24px 10px;
+	background-color: #38598a;
+	border-top: 2px solid #fcba19;
 }
 
 .headerText {
@@ -20,13 +38,13 @@ body {
 .headerNav {
 	font-weight: 400;
 	color: #fff;
-	position:absolute;
-	left: 20px;
-	top:78px;
 	font-size: 1rem;
 	letter-spacing: 0.08em;
 }
 
+a.headerA:first-of-type {
+	margin-left: 85px;
+}
 a.headerA {
 	color: #fff;
 	text-decoration: none;
@@ -49,10 +67,11 @@ a.headerA:hover {
 	/* little formatting should be needed here */
 }
 
-.footer { 
-	background-image: url("footer-bg.jpg");
-	background-repeat: repeat-x; 	
-	height:50px;
+.footer {
+	/*Maybe not necessary - Daniel Ram*/
+	/*background-image: url("footer-bg.jpg");*/
+	/*background-repeat: repeat-x; 	*/
+	/*height:50px;*/
 }
 
 div.menu-Sticky {

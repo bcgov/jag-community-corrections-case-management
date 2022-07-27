@@ -15,7 +15,6 @@ body {
 .header { 
 	grid-area: header; 
 	position: sticky;
-	height:110px;
 }
 .main { 
 	grid-area: main; 
@@ -51,7 +50,7 @@ div.menu-Sticky {
 	z-index:10;
 }
 .menuR1 {
-	padding: 0px 15px;
+	padding: 0px 28px;
 
 }
 .menuR2 {
@@ -67,11 +66,13 @@ div.R-Sticky {
 	padding-bottom:20px;
 }
 .mainContent {
-	position:relative;
-	z-index:9;
-	overflow-y: auto;
+	/*z-index:9;*/
+	/*position:relative;*/
 	height: 350px;
+	padding: 0 28px;
+	overflow-y: auto;
 }
+
 * {
 	box-sizing: border-box;
 }
