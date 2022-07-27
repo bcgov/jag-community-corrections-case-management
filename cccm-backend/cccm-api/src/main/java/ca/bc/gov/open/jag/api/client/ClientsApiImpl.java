@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.client;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
+import ca.bc.gov.open.jag.api.model.ClientProfile;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
@@ -15,7 +16,7 @@ import javax.inject.Inject;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.net.http.HttpResponse;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -43,11 +44,13 @@ public class ClientsApiImpl implements ClientsApi {
 
         final String csNumberPadded = ("00000000" + clientId.toPlainString()).substring(clientId.toPlainString().length());
 
-       Optional<ca.bc.gov.open.jag.api.model.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
+        BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
+
+        Optional<ca.bc.gov.open.jag.api.model.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
 
         if (result.isPresent()) {
 
-            return clientMapper.toApiClient(result.get(), speedmentClientService.getClientAddress(csNumberPadded));
+            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getClientAddress(csNumberPadded), speedmentClientService.getAlerts(dbClientId));
 
         } else {
 
@@ -76,7 +79,7 @@ public class ClientsApiImpl implements ClientsApi {
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.Client> clients) {
 
         return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, speedmentClientService.getClientAddress(client1.getClientNo().toPlainString())))
+                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo().toPlainString()), Collections.emptyList()))
                 .collect(Collectors.toList());
 
     }
