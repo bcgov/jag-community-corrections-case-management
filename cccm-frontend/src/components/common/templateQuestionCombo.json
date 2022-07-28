@@ -149,12 +149,28 @@
                 "tableView": true,
                 "hidden": true,
                 "clearOnHide": false,
-                "key": "questionLabel",
+                "key": "key_questionLabel",
                 "defaultValue": "${questionLabel}",
                 "type": "textfield",
                 "input": true
               }
             ]
+          },
+          {
+            "label": "",
+            "action": "event",
+            "attributes": { 
+                "id": "${value_hiddenKey}" 
+            },
+            "hidden": false,
+            "customClass": "hide",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": true,
+            "key": "key_submit",
+            "type": "button",
+            "input": false,
+            "event": "evt_submitBtnClicked"
           }
     ]
 }

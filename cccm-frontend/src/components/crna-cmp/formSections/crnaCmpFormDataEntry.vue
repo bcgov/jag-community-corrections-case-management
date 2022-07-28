@@ -5,22 +5,24 @@
           :key="indexp">
         <div v-for="(headerc, indexc) in header.subsections" :key="indexc">
           <div :id="`${indexp}${indexc}`" class="formio_anchor_class">
-            <FormioQuestionCombo v-if="headerc.type === 'questionCombo'" :key="`${indexc}${Key_questionCombo}`" @dataOnChanged="handleQuestionComboDataOnChanged" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]"/>
-            <FormioLabelTextarea v-else-if="headerc.type === 'labelTextarea'" :key="`${indexc}${key_labeltextarea}`" @dataOnChanged="handleLabelTextareaDataOnChanged" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]"/>
-            <FormioRadio v-else-if="headerc.type === 'radio'" :key="`${indexc}${key_radio}`" @dataOnChanged="handleRadioDataOnChanged" :dataModel="headerc" :initData="initData_radio[headerc.key]"/>
-            <FormioSectionTitle v-else-if="headerc.type === 'sectionTitle'" :dataModel="headerc"/>
-            <FormioRadioTextarea v-else-if="headerc.type === 'radioTextarea'" :key="`${indexc}${key_radiotextarea}`" @dataOnChanged="handleRadioTextareaDataOnChanged" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]"/>
-            <FormioEditDataGridIntervention v-else-if="headerc.type === 'editGridIntervention'" :key="`${indexc}${key_editgrid_intervention}`" @dataOnChanged="handleInterventionDataGridOnChanged" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
-            <FormioEditDataGridRadioText v-else-if="headerc.type === 'editGridRadioText'" :key="`${indexc}${key_editgrid_radiotext}`" @dataOnChanged="handleRadioTextDataGridDataOnChanged" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
-            <FormioCheckboxTextareaList v-else-if="headerc.type === 'checkboxTextareaList'" :key="`${indexc}${key_checkboxTextareaList}`" @dataOnChanged="handleCheckboxTextareaListDataOnChanged" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]"/>
-            <FormioEditDataGridRadioTextList v-else-if="headerc.type === 'editGridRadioTextList'" 
+            <FormioQuestionCombo v-if="headerc.type === `${const_type_questionCombo}`" :key="`${indexc}${Key_questionCombo}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataModel="headerc" :initData="initData_questionCombo[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioLabelTextarea v-else-if="headerc.type === `${const_type_labelTextarea}`" :key="`${indexc}${key_labeltextarea}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataModel="headerc" :initData="initData_labeltextarea[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioRadio v-else-if="headerc.type === `${const_type_radio}`" :key="`${indexc}${key_radio}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataModel="headerc" :initData="initData_radio[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioRadioTextarea v-else-if="headerc.type === `${const_type_radioTextarea}`" :key="`${indexc}${key_radiotextarea}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataModel="headerc" :initData="initData_radiotextarea[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioCheckboxTextareaList v-else-if="headerc.type === `${const_type_checkboxTextareaList}`" :key="`${indexc}${key_checkboxTextareaList}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataModel="headerc" :initData="initData_checkboxTextareaList[headerc.key]" :notifySavingData="notifyChildSavingData" @dataSubmitted="handleDataSubmitted"/>
+            <FormioSectionTitle v-else-if="headerc.type === `${const_type_sectionTitle}`" :dataModel="headerc" />
+            <FormioEditDataGridIntervention v-else-if="headerc.type === `${const_type_editGridIntervention}`" :key="`${indexc}${key_editgrid_intervention}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
+            <FormioEditDataGridRadioText v-else-if="headerc.type === `${const_type_editGridRadioText}`" :key="`${indexc}${key_editgrid_radiotext}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
+            <FormioEditDataGridRadioTextList v-else-if="headerc.type === `${const_type_editGridRadioTextList}`" 
               v-for="(headergc, indexgc) in headerc.editgriditems" 
               :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
-              @dataOnChanged="handleGridRadioTextListDataGridDataOnChanged"
+              :uiType="headerc.type" 
+              @dataOnChanged="handleDataOnChange"
               :dataTemplate="headergc" :dataTemplateP="headerc" 
               :editgridLabel="editgridLabel[headerc.ref_key_section]" 
               :radioValue="radioValue[headergc.ref_key_subsection]" 
-              :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"/>
+              :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"
+              />
           </div>
         </div>
       </div>
@@ -30,6 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
+import {saveFormData} from "@/components/form.api";
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
@@ -44,6 +47,11 @@ export default {
   name: 'CrnaCmpFormDataEntry',
   props: {
     dataModel: {},
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    }
   },
   components: {
     FormioQuestionCombo,
@@ -78,13 +86,82 @@ export default {
       key_labeltextarea: 0,
       initData_radio: [],
       key_radio: 0,
+      notifyChildSavingData: 1,
+      submitData: {"data": []},
+      submitDataIndex: 0,
+      totalNumOfDataElement: 0,
+      const_type_checkboxTextareaList: "checkboxTextareaList",
+      const_type_questionCombo: "questionCombo",
+      const_type_labelTextarea: "labelTextarea",
+      const_type_radio: "radio",
+      const_type_radioTextarea: "radioTextarea",
+      const_type_sectionTitle: "sectionTitle",
+      const_type_editGridIntervention: "editGridIntervention",
+      const_type_editGridRadioText: "editGridRadioText",
+      const_type_editGridRadioTextList: "editGridRadioTextList",
     }
   },
   mounted(){
     this.getInitData();
   },
+  watch: {
+    notifySavingData() {
+      this.notifyChildSavingData++;
+    }
+  },
   methods: {
-    handleCheckboxTextareaListDataOnChanged(dataValue, parentKey, containerKey, questionLabel) {
+    async handleDataSubmitted(data) {
+      this.submitData.data[this.submitDataIndex++] = data;
+
+      // Once all data are submitted, reset the counter, emit an event, dataSubmitted, to parent
+      //console.log("totalNumOfDataElement: ", this.totalNumOfDataElement);
+      if (this.submitDataIndex == this.totalNumOfDataElement) {
+        //console.log("Submitted data: ", this.submitData);
+        // Reset the index
+        this.submitDataIndex = 0;
+        
+        // call backend to save the data
+        this.private_autoSave(this.submitData);
+      }
+      
+    },
+    async handleDataOnChange(uiType, dataValue, parentKey, containerKey, questionLabel) {
+      // call backend to autoSave the data
+      this.private_autoSave(dataValue);
+
+      if (uiType === this.const_type_questionCombo) {
+        this.private_handleQuestionComboDataOnChanged(dataValue);
+      }
+
+      if (uiType === this.const_type_labelTextarea) {
+        this.private_handleLabelTextareaDataOnChanged(dataValue, parentKey);
+      }
+
+      if (uiType === this.const_type_checkboxTextareaList) {
+        this.private_handleCheckboxTextareaListDataOnChanged(dataValue, parentKey, containerKey, questionLabel);
+      }
+
+      if (uiType === this.const_type_radio) {
+        this.private_handleRadioDataOnChanged(dataValue, parentKey);
+      }
+
+      if (uiType === this.const_type_radioTextarea) {
+        this.private_handleRadioTextareaDataOnChanged(dataValue);
+      }
+
+      if (uiType === this.const_type_editGridIntervention) {
+        this.private_handleEditGridIntervention(dataValue);
+      }
+
+      if (uiType === this.const_type_editGridRadioText) {
+        this.private_handleEditGridRadioText(dataValue);
+      }
+
+      if (uiType === this.const_type_editGridRadioTextList) {
+        this.private_handleEditGridRadioTextList(dataValue);
+      }
+    },
+    private_handleCheckboxTextareaListDataOnChanged(dataValue, parentKey, containerKey, questionLabel) {
       if (dataValue != null) {
         let initVal = dataValue;
         if (this.initData_editgrid_radiotext[parentKey] == null) {
@@ -109,7 +186,7 @@ export default {
             item.key_questionLabel = questionLabel;
             item.hidden_key = containerKey;
             item.hidden_parent_key = parentKey;
-            item.source_type = "checkboxTextareaList";
+            item.source_type = this.const_type_checkboxTextareaList;
             this.initData_editgrid_radiotext[parentKey].data.key_editgrid_radiotext[theIndex] = item;
           } else {
             // the checkbox is unchecked, remove the item from the list
@@ -123,82 +200,14 @@ export default {
           item.key_questionLabel = questionLabel;
           item.hidden_key = containerKey;
           item.hidden_parent_key = parentKey;
-          item.source_type = "checkboxTextareaList";
+          item.source_type = this.const_type_checkboxTextareaList;
           this.initData_editgrid_radiotext[parentKey].data.key_editgrid_radiotext[arrayLength] = item;
         }
         // force the FormioEditDataGridRadioText component to refresh
         this.key_editgrid_radiotext++;
       }
     },
-    handleGridRadioTextListDataGridDataOnChanged(dataValue) {
-      //console.log("RadioTextListDataGridData data on change: ", dataValue);
-      
-      if (dataValue != null) {
-        let theKey = dataValue.hidden_key;
-        // Update this.initData_questionCombo
-        if (this.initData_questionCombo[theKey] != null) {
-          this.initData_questionCombo[theKey].data.key_comments = dataValue.key_comments;
-          this.initData_questionCombo[theKey].data.key_radioButton = dataValue.key_radioButton;
-
-          // force FormioQuestionCombo component to refresh
-          this.Key_questionCombo++;
-        }
-
-        //Update this.initData_radio
-        if (this.initData_radio[theKey] != null) {
-          this.initData_radio[theKey].data.key_radioButton = dataValue.key_radioButton;
-          this.initData_radio[theKey].data.key_comments = dataValue.key_comments;
-
-          // force FormioRadio component to refresh
-          this.key_radio++;
-        }
-
-        // Update this.initData_radiotextarea 
-        if (this.initData_radiotextarea[theKey] != null) {
-          this.initData_radiotextarea[theKey].data.key_radioButton = dataValue.key_radioButton;
-          this.initData_radiotextarea[theKey].data.key_comments = dataValue.key_comments;
-
-          // force FormioRadioTextarea component to refresh
-          this.key_radiotextarea++;
-        }
-        
-        // Update this.initData_labeltextarea 
-        if (this.initData_labeltextarea[theKey] != null) {
-          this.initData_labeltextarea[theKey].data.key_textarea = dataValue.key_comments;
-
-          // force FormioLabelTextarea component to refresh
-          this.key_labeltextarea++;
-        }
-      }
-    },
-    handleRadioTextDataGridDataOnChanged(dataValue) {
-      //console.log("RadioTextDataGridData data on change: ", dataValue);
-      // Sample dataValue
-      // {
-      //   "key_comments": "sample comments aaa",
-      //   "key_questionLabel": "Indigenous considerations",
-      //   "hidden_key": "key_container_ic",
-      //   "hidden_parent_key": "key_responsivityFactors",
-      //   "source_type": "checkboxTextareaList"
-      // }
-      if (dataValue != null) {
-        let theKey = dataValue.hidden_parent_key;
-        if (dataValue.source_type === "checkboxTextareaList") {
-          this.initData_checkboxTextareaList[theKey].data[dataValue.hidden_key].key_textarea = dataValue.key_comments;
-          //force FormioCheckboxTextareaList component to refresh
-          this.key_checkboxTextareaList++;
-        } else if (dataValue.source_type === "labelTextarea") {
-          // update this.initData_labeltextarea
-          if (this.initData_labeltextarea[theKey] == null) {
-            this.initData_labeltextarea[theKey] = {"data": {"key_textarea": ""}};
-          }
-          this.initData_labeltextarea[theKey].data.key_textarea = dataValue.key_comments;
-          //force FormioLabelTextarea component to refresh
-          this.key_labeltextarea++;
-        }
-      }
-    },
-    handleRadioTextareaDataOnChanged(dataValue) {
+    private_handleRadioTextareaDataOnChanged(dataValue) {
       //console.log("RadioTextarea data on change: ", dataValue);
       // {
       //   "key_radioButton": "n",
@@ -216,7 +225,7 @@ export default {
         }
       } 
     },
-    handleRadioDataOnChanged(dataValue, theKey) {
+    private_handleRadioDataOnChanged(dataValue, theKey) {
       //console.log("Radio data on change: ", dataValue, theKey);
       if (dataValue != null && this.initData_editgrid_radiotextList[theKey] != null) {
         this.initData_editgrid_radiotextList[theKey].data.key_editgrid_radiotext[0].key_comments = dataValue.key_comments;
@@ -227,14 +236,14 @@ export default {
         this.key_editgrid_radiotextList++;
       }
     },
-    handleLabelTextareaDataOnChanged(dataValue, key) {
+    private_handleLabelTextareaDataOnChanged(dataValue, key) {
       //console.log("dataValue: ", dataValue, key);
       if (this.initData_editgrid_radiotext[key] != null) {
         let item = this.initData_editgrid_radiotext[key].data.key_editgrid_radiotext[0];
         item.key_comments = dataValue.key_textarea;
         item.hidden_parent_key = key;
         item.hidden_key = key;
-        item.source_type = "labelTextarea";
+        item.source_type = this.const_type_labelTextarea;
         this.key_editgrid_radiotext++;
       }
       
@@ -249,32 +258,7 @@ export default {
       // force FormioEditDataGridRadioTextList component to reload
       this.key_editgrid_radiotextList++;
     },
-    handleInterventionDataGridOnChanged(dataValue) {
-      // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
-      // Sample dataValue, should only contain 1 object
-      // {
-      //   "key_radioButton": "P",
-      //   "hidden_key": "questionCombo_fr",
-      //   "key_comments": "",
-      //   "key_checkbox": true,
-      //   "questionLabel": "Family Relationships",
-      //   "key_itv_type": "type1",
-      //   "key_itv_description": "some comments for type 1",
-      // }
-      
-      // Update this.initData_questionCombo
-      this.initData_questionCombo[dataValue.hidden_key].data.key_comments = dataValue.key_comments;
-      for (let k = 0; k < this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid.length; k++) {
-        if (this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_type === dataValue.key_itv_type 
-          || this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_other === dataValue.key_itv_type) {
-          // replace the 'key_itv_description' value
-          this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_description = dataValue.key_itv_description;
-        }
-      }
-      // force FormioQuestionCombo component to reload
-      this.Key_questionCombo++;
-    },
-    handleQuestionComboDataOnChanged(dataValue) {
+    private_handleQuestionComboDataOnChanged(dataValue) {
       //console.log("QuestionComboDataOnChanged: ", dataValue);
       // Sample dataValue when checkbox is checked
       // {
@@ -400,6 +384,98 @@ export default {
         }
       }
     },
+    private_handleEditGridRadioTextList(dataValue) {
+      //console.log("RadioTextListDataGridData data on change: ", dataValue);
+      
+      if (dataValue != null) {
+        let theKey = dataValue.hidden_key;
+        // Update this.initData_questionCombo
+        if (this.initData_questionCombo[theKey] != null) {
+          this.initData_questionCombo[theKey].data.key_comments = dataValue.key_comments;
+          this.initData_questionCombo[theKey].data.key_radioButton = dataValue.key_radioButton;
+
+          // force FormioQuestionCombo component to refresh
+          this.Key_questionCombo++;
+        }
+
+        //Update this.initData_radio
+        if (this.initData_radio[theKey] != null) {
+          this.initData_radio[theKey].data.key_radioButton = dataValue.key_radioButton;
+
+          // force FormioRadio component to refresh
+          this.key_radio++;
+        }
+
+        // Update this.initData_radiotextarea 
+        if (this.initData_radiotextarea[theKey] != null) {
+          this.initData_radiotextarea[theKey].data.key_radioButton = dataValue.key_radioButton;
+          this.initData_radiotextarea[theKey].data.key_comments = dataValue.key_comments;
+
+          // force FormioRadioTextarea component to refresh
+          this.key_radiotextarea++;
+        }
+        
+        // Update this.initData_labeltextarea 
+        if (this.initData_labeltextarea[theKey] != null) {
+          this.initData_labeltextarea[theKey].data.key_textarea = dataValue.key_comments;
+
+          // force FormioLabelTextarea component to refresh
+          this.key_labeltextarea++;
+        }
+      }
+    },
+    private_handleEditGridRadioText(dataValue) {
+      //console.log("RadioTextDataGridData data on change: ", dataValue);
+      // Sample dataValue
+      // {
+      //   "key_comments": "sample comments aaa",
+      //   "key_questionLabel": "Indigenous considerations",
+      //   "hidden_key": "key_container_ic",
+      //   "hidden_parent_key": "key_responsivityFactors",
+      //   "source_type": this.const_type_checkboxTextareaList
+      // }
+      if (dataValue != null) {
+        let theKey = dataValue.hidden_parent_key;
+        if (dataValue.source_type === this.const_type_checkboxTextareaList) {
+          this.initData_checkboxTextareaList[theKey].data[dataValue.hidden_key].key_textarea = dataValue.key_comments;
+          //force FormioCheckboxTextareaList component to refresh
+          this.key_checkboxTextareaList++;
+        } else if (dataValue.source_type === this.const_type_labelTextarea) {
+          // update this.initData_labeltextarea
+          if (this.initData_labeltextarea[theKey] == null) {
+            this.initData_labeltextarea[theKey] = {"data": {"key_textarea": ""}};
+          }
+          this.initData_labeltextarea[theKey].data.key_textarea = dataValue.key_comments;
+          //force FormioLabelTextarea component to refresh
+          this.key_labeltextarea++;
+        }
+      }
+    },
+    private_handleEditGridIntervention(dataValue) {
+      // Changes made to intervention list in 'Case plan', need to repopulate the intervention in 'Needs Assessement'
+      // Sample dataValue, should only contain 1 object
+      // {
+      //   "key_radioButton": "P",
+      //   "hidden_key": "questionCombo_fr",
+      //   "key_comments": "",
+      //   "key_checkbox": true,
+      //   "questionLabel": "Family Relationships",
+      //   "key_itv_type": "type1",
+      //   "key_itv_description": "some comments for type 1",
+      // }
+      
+      // Update this.initData_questionCombo
+      this.initData_questionCombo[dataValue.hidden_key].data.key_comments = dataValue.key_comments;
+      for (let k = 0; k < this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid.length; k++) {
+        if (this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_type === dataValue.key_itv_type 
+          || this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_other === dataValue.key_itv_type) {
+          // replace the 'key_itv_description' value
+          this.initData_questionCombo[dataValue.hidden_key].data.key_itvDataGrid[k].key_itv_description = dataValue.key_itv_description;
+        }
+      }
+      // force FormioQuestionCombo component to reload
+      this.Key_questionCombo++;
+    },
     getInitData() {
       // set this.initData_questionCombo for FormioQuestionCombo component
       // set this.initData_editgrid_intervention for FormioEditDataGridIntervention component
@@ -417,7 +493,8 @@ export default {
               // populate initData_questionCombo 
               // populate initData_editgrid_intervention
               let curComponent = this.dataModel.data[g].subsections[i];
-              if (this.dataModel.data[g].subsections[i].type === 'questionCombo') {
+              if (this.dataModel.data[g].subsections[i].type === this.const_type_questionCombo) {
+                this.totalNumOfDataElement++;
                 let initData = curComponent.initData.data;
                 // add to this.initData_editgrid_radiotextList
                 if (initData != null) {
@@ -476,11 +553,7 @@ export default {
 
               // populate this.initData_checkboxTextareaList
               // populate this.initData_editgrid_radiotext
-              if (this.dataModel.data[g].subsections[i].type === 'checkboxTextareaList') {
-                if (this.initData_checkboxTextareaList[theKey] == null) {
-                  this.initData_checkboxTextareaList[theKey] = this.genRandomNumber();
-                }
-                
+              if (this.dataModel.data[g].subsections[i].type === this.const_type_checkboxTextareaList) {
                 this.initData_checkboxTextareaList[theKey] = curComponent.initData;
                 this.key_checkboxTextareaList++;
 
@@ -488,6 +561,7 @@ export default {
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initVal = curComponent.initData.data;
                   for (let a = 0; a < curComponent.checkboxTextareaItems.length; a++) {
+                    this.totalNumOfDataElement++;
                     if (this.initData_editgrid_radiotext[theKey] == null) {
                       this.initData_editgrid_radiotext[theKey] = {"data": {"key_editgrid_radiotext": []}};
                     }
@@ -500,7 +574,7 @@ export default {
                       item.key_questionLabel = questionLabel;
                       item.hidden_key = containerKey;
                       item.hidden_parent_key = theKey;
-                      item.source_type = "checkboxTextareaList";
+                      item.source_type = this.const_type_checkboxTextareaList;
                       this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext[index++] = item;
                     }
                   }
@@ -510,7 +584,8 @@ export default {
 
               // populate initData_editgrid_radiotextList
               // populate initData_radio
-              if (this.dataModel.data[g].subsections[i].type === 'radio') {
+              if (this.dataModel.data[g].subsections[i].type === this.const_type_radio) {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initData = curComponent.initData.data;
 
@@ -535,7 +610,6 @@ export default {
                   }
                   item = {};
                   item.key_radioButton = initData.key_radioButton;
-                  item.key_comments = initData.key_comments;
                   this.initData_radio[theKey].data = item; 
                   this.key_radio++;
                 }
@@ -543,7 +617,8 @@ export default {
 
               // populate initData_editgrid_radiotextList
               // populate initData_radiotextarea
-              if (this.dataModel.data[g].subsections[i].type === 'radioTextarea') {
+              if (this.dataModel.data[g].subsections[i].type === this.const_type_radioTextarea) {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   let initData = curComponent.initData.data;
 
@@ -578,13 +653,15 @@ export default {
               // populate this.initData_editgrid_radiotextList
               // populate this.initData_editgrid_radiotext
               // populate this.initData_labeltextarea
-              if (this.dataModel.data[g].subsections[i].type === 'labelTextarea') {
+              if (this.dataModel.data[g].subsections[i].type === this.const_type_labelTextarea) {
+                this.totalNumOfDataElement++;
                 if (curComponent.initData != null && curComponent.initData.data != null) {
                   // populate this.initData_labeltextarea
                   if (this.initData_labeltextarea[theKey] == null) {
-                    this.initData_labeltextarea[theKey] = {"data": {"key_textarea": ""}};
+                    this.initData_labeltextarea[theKey] = {"data": {"key_textarea": "", "hidden_key": ""}};
                   }
                   this.initData_labeltextarea[theKey].data.key_textarea = curComponent.initData.data.key_textarea;
+                  this.initData_labeltextarea[theKey].data.hidden_key = theKey;
                   this.key_labeltextarea++;
 
                   // populate this.initData_editgrid_radiotext 
@@ -596,7 +673,7 @@ export default {
                   item.key_questionLabel = curComponent.label_textarea;
                   item.hidden_key = theKey;
                   item.hidden_parent_key = theKey;
-                  item.source_type = "labelTextarea";
+                  item.source_type = this.const_type_labelTextarea;
                   this.initData_editgrid_radiotext[theKey].data.key_editgrid_radiotext[0] = item;
                   this.key_editgrid_radiotext++;
 
@@ -635,8 +712,13 @@ export default {
       //   }
       // };
     },
-    genRandomNumber() {
-      return Math.floor(Math.random() * 100000);
+    async private_autoSave(payload) {
+      const [error, response] = await saveFormData(payload);
+      if (error) {
+        console.error("Autosave error", error);
+      } else {
+        console.log("Autosave success", response);
+      }
     }
   }
 }

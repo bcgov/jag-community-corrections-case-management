@@ -1,50 +1,31 @@
 <template>
     <div class="main">
       <div class="wrap">
-        <form id="formID" @submit.prevent="submit">
-          <div class="mainRow">
-            <div class="column L">
-              <div class="menu-Sticky">
-                <div class="menuR1">
-                  <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey"/>
-                </div>
-                <div class="menuR2">
-                  <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
-                </div>
+        <div class="mainRow">
+          <div class="column L">
+            <div class="menu-Sticky">
+              <div class="menuR1">
+                <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey"/>
               </div>
-              <div class="mainContent">
-                <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey"></CrnaCmpFormDataEntry>   
-                <!--Save and continue button group-->
-                <div class="card card-body bg-light mb-3">
-                  <div class="row formio-component formio-component-columns formio-component-btnGroup  formio-component-label-hidden">
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_saveContinue" class="btn btn-primary btn-md" type="submit" >{{ btnSaveContinueText }}</button>
-                    </div>
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_cancelForm" class="btn btn-danger btn-md" type="submit" @click="cancelForm">Cancel Form</button>
-                    </div>
-                  </div>
-                </div>         
+              <div class="menuR2">
+                <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
               </div>
             </div>
-            <div class="column R">
-              <div class="R-Sticky">
-                <!--Save draft button group-->
-                <div class="card card-body bg-light mb-3">
-                  <div class="row formio-component formio-component-columns formio-component-btnGroup  formio-component-label-hidden">
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_saveDraft" class="btn btn-primary btn-md" type="submit" >Save as Draft</button>
-                    </div>
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_printForm" class="btn btn-primary btn-md" type="submit" @click="printForm">Print Form</button>
-                    </div>
-                  </div>
-                </div>
-                <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
-              </div>
+            <div class="mainContent">
+              <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey" :notifySavingData="notifySavingData"></CrnaCmpFormDataEntry>   
+              <!--Save and continue button group-->
+              <FormioButton :dataModel="formJSONFormData.buttonGroupSaveCancel" @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>
             </div>
           </div>
-        </form>
+          <div class="column R">
+            <div class="R-Sticky">
+              <br/>
+              <!--Save draft button group-->
+              <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
+              <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -52,12 +33,13 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import {getFormDetails, saveFormData} from "@/components/form.api";
+import {getFormDetails} from "@/components/form.api";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
 import CrnaCmpFormRightPanel from "@/components/crna-cmp/formSections/crnaCmpFormRightPanel.vue";
 import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
+import FormioButton from "@/components/common/FormioButtons.vue";
 
 import sampleFormData from './sampleData/sampleFormData.json';
 
@@ -75,16 +57,18 @@ export default {
     CrnaCmpFormNavigation,
     CrnaCmpFormRightPanel,
     CrnaCmpFormInfo,
+    FormioButton,
   },
   data() {
     return {
       message: "",
       parentNavMoveToNext: 1,
+      notifySavingData: 1,
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
       formJSONFormData: sampleFormData,
-      componentKey: 0,
+      componentKey: 0
     }
   },
   mounted(){
@@ -102,6 +86,20 @@ export default {
         this.componentKey += 1;
       }
     },
+    handleSaveContinue(continueToNextSection) {
+      // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
+      if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
+        this.parentNavMoveToNext++;
+      }
+      // have to make sure the value is different to notify child components to gather the data
+      this.notifySavingData++;
+    },
+    handlePrintForm() {
+      console.log('Print Form.')
+    },
+    handleCancelForm() {
+      console.log("Cancel Form");
+    },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       if (parentNavCurLocationFromChild == this.totalNumParentNav - 1) {
@@ -109,32 +107,6 @@ export default {
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
       }
-    },
-    async submit(evt) {
-      // if clicking "Save and Continue" button, increment this.parentNavCurLocation to navigate to the next section
-      if (evt.submitter.id == 'btn_saveContinue') {
-        if (this.parentNavCurLocation < this.totalNumParentNav - 1) {
-          // have to make sure the value is different to trigger the child logic
-          this.parentNavMoveToNext++;
-        }
-      }
-      
-      //Obtain the form payload
-      const payload = Object.fromEntries(new FormData(evt.target));
-      
-      // call backend to save the data
-      const [error, response] = await saveFormData(payload);
-      if (error) {
-        console.error("SaveFormData error", error);
-      } else {
-        console.log("SaveFormData success", response);
-      }
-    },
-    printForm() {
-      alert('Print Form.')
-    },
-    cancelForm() {
-      alert('Cancel Form.')
     }
   }  
 }

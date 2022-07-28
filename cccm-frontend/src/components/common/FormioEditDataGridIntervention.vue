@@ -12,7 +12,8 @@ export default {
   props: {
     dataModel: {},
     initData: {},
-    dataTemplate: {}
+    dataTemplate: {},
+    uiType: "",
   },
   data() {
     return {
@@ -45,7 +46,8 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      this.$emit('dataOnChanged', event.row);
+      //console.log("intervention: ", event.row);
+      this.$emit('dataOnChanged', this.uiType, event.row);
     }
   }
 }

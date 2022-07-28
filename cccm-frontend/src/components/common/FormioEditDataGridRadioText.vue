@@ -12,7 +12,8 @@ export default {
   props: {
     dataModel: {},
     initData: {},
-    dataTemplate: {}
+    dataTemplate: {},
+    uiType: ""
   },
   data() {
     return {
@@ -49,8 +50,7 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {
-      //console.log("datagrid radio text event data: ", event.row);
-      this.$emit('dataOnChanged', event.row);
+      this.$emit('dataOnChanged', this.uiType, event.row);
     }
   }
 }
