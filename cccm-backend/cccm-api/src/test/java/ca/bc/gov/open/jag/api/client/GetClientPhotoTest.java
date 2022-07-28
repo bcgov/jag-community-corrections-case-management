@@ -1,7 +1,9 @@
 package ca.bc.gov.open.jag.api.client;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.Photo;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
+import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -14,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -29,20 +30,40 @@ public class GetClientPhotoTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
+    @InjectMock
+    @RestClient
+    SpeedmentClientService speedmentClientService;
+
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
-    @DisplayName("200: should return null photo")
+    @DisplayName("200: should return photo")
     public void testGetClientPhotoEndpoint() {
 
+        byte[] image = "blarg".getBytes();
+
         Photo photo = new Photo();
-        photo.setImage("blarg".getBytes());
+        photo.setImage(image);
         List<Photo> photos = Collections.singletonList(photo);
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
+        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        File result = sut.getClientPhoto(BigDecimal.ONE);
+        byte[] result = sut.getClientPhoto(BigDecimal.ONE);
 
-        Assertions.assertNull(sut.getClientPhoto(null));
+        Assertions.assertEquals(image, sut.getClientPhoto(BigDecimal.ONE));
+
+
+    }
+
+    @Test
+    @TestSecurity(user = "userOidc", roles = "client-search")
+    @DisplayName("404: no photo found should return 404")
+    public void testGetClientPhotoNotFoundEndpoint() {
+
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
+        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(BigDecimal.ONE));
 
     }
 

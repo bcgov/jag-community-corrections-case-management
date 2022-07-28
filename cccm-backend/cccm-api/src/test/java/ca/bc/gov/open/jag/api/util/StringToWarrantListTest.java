@@ -16,7 +16,6 @@ public class StringToWarrantListTest {
     @DisplayName("Success: should return warrants")
     public void testSuccessWarrantsList() {
 
-
         List<Warrant> result = MappingUtils.stringToWarrantList("1,2,3,4");
 
         Assertions.assertEquals(4, result.size());
@@ -30,7 +29,6 @@ public class StringToWarrantListTest {
     @Test
     @DisplayName("Success: no warrants should return empty array")
     public void testSuccessWarrantsEmpty() {
-
 
         List<Warrant> result = MappingUtils.stringToWarrantList("");
 
