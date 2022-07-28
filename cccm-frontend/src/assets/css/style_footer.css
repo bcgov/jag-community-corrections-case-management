@@ -1,5 +1,6 @@
 footer {
-  position: absolute;
+  z-index:9001; /*it's over 9000! https://youtu.be/TBtpyeLxVkI */
+  position: relative;
   bottom: 0;
   height: 65px;
   width:100%;

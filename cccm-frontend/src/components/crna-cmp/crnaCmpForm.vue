@@ -10,22 +10,23 @@
                 </div>
                 <div class="menuR2">
                   <CrnaCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
+
+                    <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey"></CrnaCmpFormDataEntry>
+                    <!--Save and continue button group-->
+                    <div class="card card-body bg-light mb-3">
+                      <div class="row formio-component formio-component-columns formio-component-btnGroup  formio-component-label-hidden">
+                        <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
+                          <button id="btn_saveContinue" class="btn btn-primary btn-md" type="submit" >{{ btnSaveContinueText }}</button>
+                        </div>
+                        <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
+                          <button id="btn_cancelForm" class="btn btn-danger btn-md" type="submit" @click="cancelForm">Cancel Form</button>
+                        </div>
+                      </div>
+                    </div>
+
                 </div>
               </div>
-              <div class="mainContent">
-                <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey"></CrnaCmpFormDataEntry>   
-                <!--Save and continue button group-->
-                <div class="card card-body bg-light mb-3">
-                  <div class="row formio-component formio-component-columns formio-component-btnGroup  formio-component-label-hidden">
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_saveContinue" class="btn btn-primary btn-md" type="submit" >{{ btnSaveContinueText }}</button>
-                    </div>
-                    <div class="col-md-6 col-md-offset-0 col-md-push-0 col-md-pull-0">
-                      <button id="btn_cancelForm" class="btn btn-danger btn-md" type="submit" @click="cancelForm">Cancel Form</button>
-                    </div>
-                  </div>
-                </div>         
-              </div>
+
             </div>
             <div class="column R">
               <div class="R-Sticky">

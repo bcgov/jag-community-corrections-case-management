@@ -1,7 +1,16 @@
 <template>
   <div data-app>
-    <Form :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
-    <v-card>
+    <div class="container">
+      <section class="paper">
+        <div class="pt-5">
+          <Form :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
+        </div>
+      </section>
+    </div>
+
+    <div class="container">
+      <section class="paper">
+        <v-card>
       <v-card-title>
         Results
         <v-spacer></v-spacer>
@@ -92,7 +101,9 @@
         </v-row>
       </div>
     </v-card>
-    <br/><br/>
+      </section>
+    </div>
+
   </div>
 </template>
 

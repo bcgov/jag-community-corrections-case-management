@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-4">
       <div v-for="(header, indexp) in dataModel.data" 
           :id="`${indexp}`"
           :key="indexp">

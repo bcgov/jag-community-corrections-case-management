@@ -56,8 +56,10 @@ div.menu-Sticky {
 .menuR2 {
 	position:relative;
 	top:0px;
-	padding: 0px 15px;
-	
+	margin: 0px 15px;
+	background-color: #fff;
+	border:1px solid #ddd;
+	box-shadow:0 5px 10px 0px #ddd;
 }
 div.R-Sticky {
 	position: -webkit-sticky;
@@ -95,4 +97,10 @@ div.R-Sticky {
 	content: "";
 	display: table;
 	clear: both;
+}
+
+.paper {
+	background-color: #fff!important;
+	box-shadow: 0px 3px 6px #00000029;
+	opacity: 1;
 }
