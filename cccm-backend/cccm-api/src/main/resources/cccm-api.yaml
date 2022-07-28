@@ -80,7 +80,7 @@ paths:
             image/*:
               schema:
                 type: string
-                format: binary
+                format: byte
       tags:
         - clients
   /clients/{clientId}:

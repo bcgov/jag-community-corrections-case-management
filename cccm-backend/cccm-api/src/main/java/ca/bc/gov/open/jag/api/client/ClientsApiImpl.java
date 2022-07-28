@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.ClientProfile;
+import ca.bc.gov.open.jag.api.model.Photo;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
@@ -14,7 +15,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -62,8 +62,19 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public File getClientPhoto(BigDecimal clientId) {
-        return null;
+    public byte[] getClientPhoto(BigDecimal clientId) {
+
+        final String csNumberPadded = ("00000000" + clientId.toPlainString()).substring(clientId.toPlainString().length());
+        BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
+
+        List<Photo> photos = obridgeClientService.getPhotosById(dbClientId);
+
+        if (!photos.isEmpty()) {
+            return photos.stream().findFirst().get().getImage();
+        } else {
+            throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
+        }
+
     }
 
     @Override
