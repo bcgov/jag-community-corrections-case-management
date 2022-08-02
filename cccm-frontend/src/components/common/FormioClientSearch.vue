@@ -3,7 +3,7 @@
     <div class="container">
       <section class="paper">
         <div class="pt-5">
-          <Form :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
+          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
         </div>
       </section>
     </div>

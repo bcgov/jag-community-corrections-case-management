@@ -33,8 +33,16 @@ body {
 	left: 40px;
 	top:10px;
 	font-size: 1.7rem;
-}
 
+}
+@media only screen and (max-width: 600px) {
+	.headerText {
+		display: block;
+		font-size: 17px;
+		left: 0px;
+		top: 0px;
+	}
+}
 .headerNav {
 	font-weight: 400;
 	color: #fff;
