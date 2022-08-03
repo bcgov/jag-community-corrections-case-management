@@ -77,7 +77,7 @@ paths:
         "200":
           description: get client photo
           content:
-            image/*:
+            image/jpeg:
               schema:
                 type: string
                 format: byte
@@ -158,6 +158,39 @@ paths:
       tags:
         - forms
       x-contentType: application/json
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+  /forms/formSearch:
+    get:
+      operationId: GetFormSearch
+      parameters:
+        - in: query
+          name: clientId
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: formTypeId
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: currentPeriod
+          required: true
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormSearchList'
+          description: get all forms
+      summary: get all forms
+      tags:
+        - forms
       x-accepts: application/json
       x-tags:
         - tag: forms
@@ -464,7 +497,6 @@ components:
           type: string
         key:
           type: string
-
     InterventionArea:
       type: object
       properties:
@@ -752,3 +784,32 @@ components:
           type: string
         postalCode:
           type: string
+    Form:
+      type: object
+      properties:
+        type:
+          type: string
+        assessmentStatus:
+          type: string
+        status:
+          type: string
+        updateDate:
+          type: string
+        createdLocation:
+          type: string
+        completedBy:
+          type: string
+        supervisionRating:
+          type: string
+        crnaRating:
+          type: string
+        saraRating:
+          type: string
+    FormSearchList:
+      properties:
+        items:
+          description: Form Search Results
+          items:
+            $ref: '#/components/schemas/Form'
+          type: array
+      type: object

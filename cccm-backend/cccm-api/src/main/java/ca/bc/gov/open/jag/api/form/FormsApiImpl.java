@@ -1,20 +1,28 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.mapper.FormMapper;
+import ca.bc.gov.open.jag.api.model.Form;
 import ca.bc.gov.open.jag.api.model.FormRequest;
 import ca.bc.gov.open.jag.api.service.DataService;
+import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class FormsApiImpl implements FormsApi {
@@ -23,6 +31,13 @@ public class FormsApiImpl implements FormsApi {
 
     @Inject
     DataService dataService;
+
+    @Inject
+    @RestClient
+    SpeedmentClientService speedmentClientService;
+
+    @Inject
+    FormMapper formMapper;
 
     @Override
     @Transactional
@@ -88,6 +103,23 @@ public class FormsApiImpl implements FormsApi {
         logger.warning("Form update not implemented");
 
         return formDetails;
+
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public FormSearchList getFormSearch(@NotNull BigDecimal clientId, @NotNull Boolean currentPeriod, BigDecimal formTypeId) {
+
+        List<Form> forms;
+
+        if (formTypeId == null) {
+            forms = speedmentClientService.getFormsByClient(clientId.toPlainString());
+        } else {
+            forms = speedmentClientService.getFormsByClient(clientId.toPlainString(), formTypeId);
+        }
+
+        return formMapper.toFormSearchList("", forms);
 
     }
 
