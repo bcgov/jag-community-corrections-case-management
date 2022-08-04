@@ -663,6 +663,8 @@ components:
           type: string
         supervisionLevel:
           type: string
+        photoDate:
+          type: string
         orderInformation:
           $ref: "#/components/schemas/OrderInformation"
         courtInformation:
