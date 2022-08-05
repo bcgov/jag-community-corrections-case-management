@@ -36,7 +36,6 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import {clientProfileSearch} from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfile.json';
-import { kill } from 'process';
 
 export default {
   name: "FormioClientprofile",
