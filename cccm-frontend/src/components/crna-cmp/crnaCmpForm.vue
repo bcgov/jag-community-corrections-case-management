@@ -149,9 +149,10 @@ export default {
 .subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
-  text-decoration: underline;
-  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
-  text-decoration-color: rgb(255, 208, 0);
+  color: #fcba19;
+  /*text-decoration: underline;*/
+  /*-webkit-text-decoration-color: rgb(255, 208, 0); !* Safari *!  */
+  /*text-decoration-color: rgb(255, 208, 0);*/
 }
 
 .subSectionChildTitleClass {

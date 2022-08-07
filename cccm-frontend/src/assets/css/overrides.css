@@ -7,9 +7,60 @@
 }
 
 .container {
-    padding: 5px 24px!important;
+    /*margin: 24px 10px!important;*/
+    padding: 24px 50px!important;
     width:100%!important;
     max-width:100%!important;
+}
+
+.client-search-columns {
+    column-gap: 100px;
+
+}
+.col-form-label {
+    font-weight: bold!important;
+}
+
+
+/*FORM IO CUSTOM CSS CLASSES - TODO: Put in different file*/
+.formio-location-input-container{
+    align-items: center;
+}
+.formio-clear-all-container {
+    text-align: right!important;
+}
+.formio-search-btn-container {
+    text-align: left;
+}
+
+.formio-checkbox-container {
+    padding-top: 35px;
+}
+.formio-action-buttons-container {
+    justify-content: space-between!important;
+    padding: 20px 0px 50px 0px;
+    border-top: 1px solid #BCBCBC!important;
+}
+.formio-action-buttons{
+ }
+
+
+
+
+/* VUE Custom styles - todo: put in own file*/
+.v-pagination {
+    align-items: center;
+    display: inline-flex;
+    list-style-type: none;
+    justify-content: flex-end!important;
+    margin: 0;
+    max-width: 100%;
+    width: 100%
+}
+
+
+.v-style-data-table {
+    border: 1px solid #bcbcbc;
 }
 @media only screen and (max-width: 600px) {
     .container {
