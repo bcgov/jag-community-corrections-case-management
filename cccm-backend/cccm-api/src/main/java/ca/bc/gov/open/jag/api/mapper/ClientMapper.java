@@ -7,6 +7,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper(componentModel = "cdi")
@@ -44,7 +45,7 @@ public interface ClientMapper {
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "communityAlerts", source="alerts")
-    Client toApiClient(ca.bc.gov.open.jag.api.model.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.Address> address, List<ca.bc.gov.open.jag.api.model.Alert> alerts);
+    Client toApiClient(ca.bc.gov.open.jag.api.model.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.Address> address, List<ca.bc.gov.open.jag.api.model.Alert> alerts, BigDecimal clientId);
 
 
     @Mapping(target = "street", source = "addressLine1Txt")

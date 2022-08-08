@@ -44,13 +44,13 @@ public class ClientsApiImpl implements ClientsApi {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
-        BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
+        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
 
         Optional<ca.bc.gov.open.jag.api.model.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
 
         if (result.isPresent()) {
 
-            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getClientAddress(csNumberPadded), speedmentClientService.getAlerts(dbClientId));
+            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getClientAddress(csNumberPadded), speedmentClientService.getAlerts(dbClientId), dbClientId);
 
         } else {
 
@@ -87,7 +87,7 @@ public class ClientsApiImpl implements ClientsApi {
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.Client> clients) {
 
         return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo()), Collections.emptyList()))
+                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo()), Collections.emptyList(), null))
                 .collect(Collectors.toList());
 
     }
