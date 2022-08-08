@@ -6,7 +6,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import {saveFormData} from "@/components/form.api";
+import {updateForm} from "@/components/form.api";
 import templateEditPanel from '@/components/common/templateEditPanel.json';
 
 export default {
@@ -89,7 +89,7 @@ export default {
             }
           } else {
             // Save button clicked, call API to save the data
-            const [error, response] = await saveFormData(evt.data);
+            const [error, response] = await updateForm(evt.data);
             if (error) {
               console.error("Save source contacted error", error);
             } else {

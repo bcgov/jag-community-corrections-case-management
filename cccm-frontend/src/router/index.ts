@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CrnaCmpView from '../views/CrnaCmpView.vue'
 import ClientSearchView from '../views/ClientSearchView.vue'
-import ClientProfileView from '../views/ClientProfileView.vue'
+import ClientProfileView from '../components/common/FormioClientProfile.vue'
 import Unauthorized from '../views/Unauthorized.vue'
+import RNAListView from '../views/RNAList.vue'
 
 Vue.use(VueRouter)
 
@@ -37,9 +38,17 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/crnacmp',
+      path: '/crnacmp/:formID',
       name: 'crnacmp',
       component: CrnaCmpView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/rnalist',
+      name: 'rnalist',
+      component: RNAListView,
       meta: {
         isAuthenticated: true
       }

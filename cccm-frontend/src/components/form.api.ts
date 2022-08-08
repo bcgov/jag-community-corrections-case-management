@@ -27,10 +27,31 @@ export async function getFormDetails(formId: number) {
     }
 }
 
-// function to save form data
-export async function saveFormData(formData: object) {
+// function to clone form
+export async function cloneForm(formId: number) {
+    try {
+        const { data } = await axiosClient.post(`/forms/${formId}`);
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to update form data
+export async function updateForm(formData: object) {
     try{
-        console.log("SaveData payload", formData);
+        console.log("Update form payload", formData);
+        const { data } = await axiosClient.put('/forms', formData);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to create form
+export async function createForm(formData: object) {
+    try{
+        console.log("Create form payload", formData);
         const { data } = await axiosClient.post('/forms', formData);
         return [null, data];
     } catch (error) {
@@ -50,11 +71,32 @@ export async function clientSearch(formData: object) {
 }
 
 // function to search client profile
-export async function clientProfileSearch(csNumber: number) {
+export async function clientProfileSearch(clientID: number) {
     try{
-        //console.log("ClientProfileSearch csNumber", csNumber);
-        const { data } = await axiosClient.get('/clients/${csNumber}');
+        //console.log("ClientProfileSearch clientID", clientID);
+        const { data } = await axiosClient.get('/clients', {
+                params: {
+                    clientID: clientID
+                }
+            });
         //const { data } = await axiosClient.get('/clients');
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to search for RNA list
+export async function formSearch(clientID: number, formType: string, supervisionPeriod: boolean) {
+    try{
+        console.log("formSearch for RNA List, clientID: {}, formType: {}, supervisionPeriod: {}", clientID, formType, supervisionPeriod);
+        const { data } = await axiosClient.get('/formSearch', {
+                params: {
+                    clientID: clientID,
+                    formType: formType,
+                    supervisionPeriod: supervisionPeriod
+                }
+            });
         return [null, data];
     } catch (error) {
         return [error];

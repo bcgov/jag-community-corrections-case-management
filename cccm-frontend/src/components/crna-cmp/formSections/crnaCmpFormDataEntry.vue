@@ -32,7 +32,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
-import {saveFormData} from "@/components/form.api";
+import {updateForm} from "@/components/form.api";
 import FormioQuestionCombo from "@/components/common/FormioQuestionCombo.vue";
 import FormioLabelTextarea from "@/components/common/FormioLabelTextArea.vue";
 import FormioRadio from "@/components/common/FormioRadio.vue";
@@ -713,7 +713,7 @@ export default {
       // };
     },
     async private_autoSave(payload) {
-      const [error, response] = await saveFormData(payload);
+      const [error, response] = await updateForm(payload);
       if (error) {
         console.error("Autosave error", error);
       } else {

@@ -36,13 +36,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import {clientProfileSearch} from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfile.json';
-import { kill } from 'process';
 
 export default {
   name: "FormioClientprofile",
-  props: {
-    csNum: 0
-  },
   data() {
     return {
       theKey: 0,
@@ -56,7 +52,7 @@ export default {
     Form
   },
   mounted(){
-    this.clientProfileSearch(this.csNum);
+    this.clientProfileSearchAPI();
     this.theKey++;
   },
   methods: {
@@ -74,8 +70,10 @@ export default {
         this.showAlertDetails = true;
       }
     },
-    async clientProfileSearch(csNum) {
-      const [error, response] = await clientProfileSearch(csNum);
+    async clientProfileSearchAPI() {
+      let clientId= this.$route.params.id;
+      console.log("client profile search, clientId: ", clientId);
+      const [error, response] = await clientProfileSearch(clientId * 1);
       //this.initData = response.data;
       this.initData = {"data": {}};
       this.initData.data = 
