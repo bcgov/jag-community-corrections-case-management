@@ -17,10 +17,27 @@
       </v-row>
       <v-row>
         <v-col class="d-flex align-left" cols="6" sm="2" >
-          <v-select :items="formTypes" label="Filter RNA Form" outlined></v-select>
+          <v-select
+            item-text="text"
+            item-value="value"
+            v-model="selectedFormTypes"
+            :items="formTypes"
+            label="Filter RNA Form"
+            v-on:change="applyFormTypeFilter"
+            outlined
+          >
+          </v-select>
         </v-col>
         <v-col class="d-flex align-left" cols="6" sm="2" >
-          <v-select :items="supervisionPeriods" label="Supervision Periods" outlined></v-select>
+          <v-select 
+            :items="supervisionPeriods" 
+            item-text="text"
+            item-value="value"
+            label="Supervision Periods"
+            v-model="selectedSupervisionPeriods" 
+            v-on:change="applyPeriodFilter"
+            outlined>
+          </v-select>
         </v-col>
         <v-col class="d-flex align-left" cols="6" sm="6" ></v-col>
         <v-col class="d-flex align-right" cols="6" sm="2" >
@@ -32,10 +49,9 @@
         :headers="headers"
         :formTypes="formTypes"
         :supervisionPeriods="supervisionPeriods"
-        :items="rnaList"
+        :items="filteredRNAList"
         item-key="formID"
         no-results-text="No results found"
-        :search="search"
         hide-default-header
         hide-default-footer
         :page.sync="page"
@@ -136,7 +152,6 @@ export default {
       itemsPerPage: 5,
       totalClients: 0,
       loading: true,
-      search: '',
       headers: [
         { text: 'RNA Form', align: 'start', sortable: true, value: 'formType', class: 'datatable-header-text-style' },
         { text: 'Assessment Status', value: 'assessmentStatus', class: 'datatable-header-text-style' },
@@ -149,9 +164,12 @@ export default {
         { text: 'SARA Rating', value: 'saraRating', class: 'datatable-header-text-style' },
         { text: 'Actions', value: 'action', class: 'datatable-header-text-style' },
       ],
+      filteredRNAList: [],
       rnaList: [],
-      formTypes: ["All", "RNA"],
-      supervisionPeriods: ["True", "False"],
+      selectedFormTypes: {text: "ALL", value: ""},
+      formTypes: [{text: "ALL", value: ""},{text: "CRNA", value: "CRNA"},{text: "SARA", value: "SARA"}],
+      selectedSupervisionPeriods: {text: "Current", value: true},
+      supervisionPeriods: [{text: "ALL", value: false}, {text: "Current", value: true}],
       // form creation payload
       formData: {},
       // newly created formID
@@ -159,9 +177,34 @@ export default {
     }
   },
   mounted(){
+    //form search from the backend
     this.formSearchAPI(this.clientID, false)
   },
   methods: {
+    applyFormTypeFilter(ft) {
+      this.private_applyFilter(ft, this.selectedSupervisionPeriods);
+    },
+    applyPeriodFilter(period) {
+      this.private_applyFilter(this.selectedFormTypes, period);
+    },
+    private_applyFilter(formType, currentPeriod) {
+      if (typeof formType == 'object') {
+        formType = formType.value;
+      }
+      if (typeof currentPeriod == 'object') {
+        currentPeriod = currentPeriod.value;
+      }
+      //console.log("filters formType: ", formType);
+      //console.log("filters currentPeriod", currentPeriod);
+      this.filteredRNAList = this.rnaList.filter(el => {
+        if (currentPeriod) {
+          return el.formType.includes(formType) && el.formStatus != 'Complete';
+        } else {
+          return el.formType.includes(formType);
+        }
+      });
+      this.key_rnalistSearchResult++;
+    },
     async createFormAPI() {
       const [error, response] = await createForm(this.formData);
       if (error) {
@@ -185,7 +228,7 @@ export default {
           {
             "csNumber": "123456780",
             "formID": 1212121,
-            "formType": "CRNA CMP",
+            "formType": "SARA CMP",
             "assessmentStatus": "Initial",
             "formStatus": "Overdue",
             "updatedDate": "2022-04-05", 
@@ -198,7 +241,7 @@ export default {
           {
             "csNumber": "123456780",
             "formID": 1212122,
-            "formType": "CRNA CMP",
+            "formType": "SARA CMP",
             "assessmentStatus": "Reassessment",
             "formStatus": "Complete",
             "updatedDate": "2022-01-05", 
@@ -250,6 +293,9 @@ export default {
           "saraRating": "",
         });
       }
+      //apply filter
+      this.private_applyFilter(this.selectedFormTypes.value, this.selectedSupervisionPeriods.value);
+
       if (error) {
         console.error(error);
       }       
@@ -293,7 +339,7 @@ export default {
       colorClass[this.const_rating_medium]='yellow';
       colorClass[this.const_rating_high]='red';
       return colorClass;
-    },
+    }
   }
 }
 </script>
