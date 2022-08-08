@@ -110,14 +110,14 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public FormSearchList getFormSearch(@NotNull String clientId, @NotNull Boolean currentPeriod, String formTypeCd) {
+    public FormSearchList getFormSearch(@NotNull String clientNum, @NotNull Boolean currentPeriod, String formTypeCd) {
 
         List<Form> forms;
 
         if (StringUtils.isBlank(formTypeCd)) {
-            forms = speedmentClientService.getFormsByClient(clientId);
+            forms = speedmentClientService.getFormsByClient(clientNum);
         } else {
-            forms = speedmentClientService.getFormsByClient(clientId, formTypeCd);
+            forms = speedmentClientService.getFormsByClient(clientNum, formTypeCd);
         }
 
         return formMapper.toFormSearchList("", forms);

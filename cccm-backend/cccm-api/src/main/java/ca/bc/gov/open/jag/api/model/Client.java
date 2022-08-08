@@ -1,7 +1,5 @@
 package ca.bc.gov.open.jag.api.model;
 
-import java.math.BigDecimal;
-
 public class Client {
 
     private String clientNo;

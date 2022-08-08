@@ -46,7 +46,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: clientId
+          name: clientNum
           schema:
             type: string
       responses:
@@ -71,7 +71,7 @@ paths:
           name: clientId
           required: true
           schema:
-            type: string
+            type: number
           style: simple
       responses:
         "200":
@@ -83,13 +83,13 @@ paths:
                 format: byte
       tags:
         - clients
-  /clients/{clientId}:
+  /clients/{clientNum}:
     get:
       operationId: GetClient
       parameters:
         - explode: false
           in: path
-          name: clientId
+          name: clientNum
           required: true
           schema:
             type: string
@@ -166,7 +166,7 @@ paths:
       operationId: GetFormSearch
       parameters:
         - in: query
-          name: clientId
+          name: clientNum
           required: true
           schema:
             type: string
@@ -638,14 +638,10 @@ components:
       type: object
       properties:
         clientId:
-          type: string
+          type: number
         clientNum:
           type: string
         clientName:
-          type: string
-        firstName:
-          type: string
-        LastName:
           type: string
         gender:
           type: string

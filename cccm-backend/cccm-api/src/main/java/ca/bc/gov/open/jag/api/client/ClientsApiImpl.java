@@ -40,9 +40,9 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public Client getClient(String clientId) {
+    public Client getClient(String clientNum) {
 
-        final String csNumberPadded = ("00000000" + clientId).substring(clientId.length());
+        final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
         BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
 
@@ -62,12 +62,9 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public byte[] getClientPhoto(String clientId) {
+    public byte[] getClientPhoto(BigDecimal clientId) {
 
-        final String csNumberPadded = ("00000000" + clientId).substring(clientId.length());
-        BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
-
-        List<Photo> photos = obridgeClientService.getPhotosById(dbClientId);
+        List<Photo> photos = obridgeClientService.getPhotosById(clientId);
 
         if (!photos.isEmpty()) {
             return photos.stream().findFirst().get().getImage();
@@ -79,7 +76,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientId) {
+    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientNum) {
 
         logger.info("Client Search Request");
 
