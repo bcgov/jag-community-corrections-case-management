@@ -2,7 +2,7 @@ package ca.bc.gov.open.jag.api.service.dataservice;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.FormRequest;
-import ca.bc.gov.open.jag.api.service.DataServiceImpl;
+import ca.bc.gov.open.jag.api.service.FormDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -24,7 +23,7 @@ import static org.mockito.ArgumentMatchers.*;
 @QuarkusTest
 public class GetFormRequestTest {
 
-    DataServiceImpl sut;
+    FormDataServiceImpl sut;
 
     @Mock
     private ObjectMapper objectMapperMock;
@@ -34,7 +33,7 @@ public class GetFormRequestTest {
 
         MockitoAnnotations.openMocks(this);
 
-        sut = new DataServiceImpl(objectMapperMock);
+        sut = new FormDataServiceImpl(objectMapperMock);
 
     }
 

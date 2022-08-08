@@ -9,18 +9,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class DataServiceImpl implements DataService {
+public class FormDataServiceImpl implements FormDataService {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(DataService.class));
+    private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
 
     private final ObjectMapper objectMapper;
 
-    public DataServiceImpl(ObjectMapper objectMapper) {
+    public FormDataServiceImpl(ObjectMapper objectMapper) {
         objectMapper.findAndRegisterModules();
         this.objectMapper = objectMapper;
     }

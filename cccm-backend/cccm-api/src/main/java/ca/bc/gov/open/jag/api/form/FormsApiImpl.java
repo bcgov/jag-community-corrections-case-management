@@ -3,7 +3,7 @@ package ca.bc.gov.open.jag.api.form;
 import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.Form;
 import ca.bc.gov.open.jag.api.model.FormRequest;
-import ca.bc.gov.open.jag.api.service.DataService;
+import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class FormsApiImpl implements FormsApi {
@@ -31,7 +30,7 @@ public class FormsApiImpl implements FormsApi {
     private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
 
     @Inject
-    DataService dataService;
+    FormDataService formDataService;
 
     @Inject
     @RestClient
@@ -67,7 +66,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form id request received");
 
-        return dataService.getFormRequest(new FormRequest(formId, null));
+        return formDataService.getFormRequest(new FormRequest(formId, null));
 
     }
 
@@ -77,7 +76,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form type request received");
 
-        return dataService.getFormRequest(new FormRequest(null, formType));
+        return formDataService.getFormRequest(new FormRequest(null, formType));
 
     }
 
@@ -90,7 +89,7 @@ public class FormsApiImpl implements FormsApi {
 
         FormList formList = new FormList();
 
-        formList.setItems(Collections.singletonList(dataService.getFormRequest(new FormRequest(BigDecimal.ONE, null))));
+        formList.setItems(Collections.singletonList(formDataService.getFormRequest(new FormRequest(BigDecimal.ONE, null))));
 
         return formList;
 
