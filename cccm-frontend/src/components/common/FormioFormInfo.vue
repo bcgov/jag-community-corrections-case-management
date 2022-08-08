@@ -56,10 +56,11 @@ export default {
 
 <style>
 .custom_wrap {
+  color: #FCBA19;
+  text-align:center;
   margin: 10px;
-  display: flex;
-  align-self: flex-end;
+  padding: 10px;
+  background-color:#FDF4DF;
   font-size: 25px;
-  display: block; 
 }
 </style>

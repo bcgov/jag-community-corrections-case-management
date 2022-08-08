@@ -45,8 +45,30 @@
  }
 
 
+/*CRNA FORM STYLES - TODO: Move to own file*/
+.crna-formio-h1 {
+    margin-top: 80px;
+}
 
+.crna-formio-metadata-section {
+    margin-top: 11px!important;
+    margin-bottom: 23px!important;
+    background-color: rgba(224, 224, 224, .5);
+}
 
+.crna-subSectionTitleClass {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: underline;
+    -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */
+    text-decoration-color: rgb(255, 208, 0);
+}
+
+.divTable {
+    z-index: 9000;
+    position: sticky!important;
+    top: 0!important;
+}
 /* VUE Custom styles - todo: put in own file*/
 .v-pagination {
     align-items: center;

@@ -67,7 +67,7 @@ export default {
   props: {
     formId: {
       type: Number,
-      requred: false,
+      required: false,
       default: 1
     }
   },
@@ -141,7 +141,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .sectionTitleClass {
   font-size: 35px;
 }
@@ -150,9 +150,9 @@ export default {
   font-size: 20px;
   font-weight: bold;
   color: #fcba19;
-  /*text-decoration: underline;*/
-  /*-webkit-text-decoration-color: rgb(255, 208, 0); !* Safari *!  */
-  /*text-decoration-color: rgb(255, 208, 0);*/
+  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */
+  text-decoration-color: rgb(255, 208, 0);
 }
 
 .subSectionChildTitleClass {
@@ -160,6 +160,15 @@ export default {
   font-weight: bold;
   
 }
+
+.crna-subSectionTitleClass {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */
+  text-decoration-color: rgb(255, 208, 0);
+}
+
 
 /* 
  * Need to add the following definition, 
