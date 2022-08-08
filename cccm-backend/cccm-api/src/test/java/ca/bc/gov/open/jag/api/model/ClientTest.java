@@ -16,7 +16,7 @@ public class ClientTest {
 
         Client sut = new Client();
 
-        sut.setClientNo(BigDecimal.ONE);
+        sut.setClientNo("01");
         sut.setClientName("TEST");
         sut.setCurrentNameYn("TEST");
         sut.setGenderCode("TEST");
@@ -24,7 +24,7 @@ public class ClientTest {
         sut.setCustodyLocation("TEST");
         sut.setCommunityLocation("TEST");
 
-        Assertions.assertEquals(BigDecimal.ONE, sut.getClientNo());
+        Assertions.assertEquals("01", sut.getClientNo());
         Assertions.assertEquals("TEST", sut.getClientName());
         Assertions.assertEquals("TEST", sut.getCurrentNameYn());
         Assertions.assertEquals("TEST", sut.getGenderCode());

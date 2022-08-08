@@ -40,9 +40,9 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public Client getClient(BigDecimal clientId) {
+    public Client getClient(String clientId) {
 
-        final String csNumberPadded = ("00000000" + clientId.toPlainString()).substring(clientId.toPlainString().length());
+        final String csNumberPadded = ("00000000" + clientId).substring(clientId.length());
 
         BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
 
@@ -62,9 +62,9 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public byte[] getClientPhoto(BigDecimal clientId) {
+    public byte[] getClientPhoto(String clientId) {
 
-        final String csNumberPadded = ("00000000" + clientId.toPlainString()).substring(clientId.toPlainString().length());
+        final String csNumberPadded = ("00000000" + clientId).substring(clientId.length());
         BigDecimal dbClientId = speedmentClientService.getClientId(csNumberPadded);
 
         List<Photo> photos = obridgeClientService.getPhotosById(dbClientId);
@@ -79,7 +79,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, BigDecimal clientId) {
+    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientId) {
 
         logger.info("Client Search Request");
 
@@ -90,7 +90,7 @@ public class ClientsApiImpl implements ClientsApi {
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.Client> clients) {
 
         return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo().toPlainString()), Collections.emptyList()))
+                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo()), Collections.emptyList()))
                 .collect(Collectors.toList());
 
     }

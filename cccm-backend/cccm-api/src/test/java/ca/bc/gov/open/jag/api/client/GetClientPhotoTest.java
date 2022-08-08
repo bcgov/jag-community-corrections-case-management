@@ -48,9 +48,7 @@ public class GetClientPhotoTest {
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        byte[] result = sut.getClientPhoto(BigDecimal.ONE);
-
-        Assertions.assertEquals(image, sut.getClientPhoto(BigDecimal.ONE));
+        Assertions.assertEquals(image, sut.getClientPhoto("01"));
 
 
     }
@@ -63,7 +61,7 @@ public class GetClientPhotoTest {
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto("01"));
 
     }
 

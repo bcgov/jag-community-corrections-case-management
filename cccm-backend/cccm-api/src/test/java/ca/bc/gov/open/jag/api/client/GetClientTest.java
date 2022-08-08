@@ -10,7 +10,6 @@ import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.quarkus.test.security.TestSecurity;
-import org.checkerframework.checker.units.qual.C;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -47,9 +45,9 @@ public class GetClientTest {
         Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
         Mockito.when(speedmentClientService.getAlerts(Mockito.any())).thenReturn(Collections.emptyList());
 
-        Client result = sut.getClient(BigDecimal.ONE);
+        Client result = sut.getClient("01");
 
-        Assertions.assertEquals("123", result.getClientNum());
+        Assertions.assertEquals("01", result.getClientNum());
 
     }
 
@@ -60,7 +58,7 @@ public class GetClientTest {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClient("01"));
 
     }
 
@@ -69,7 +67,7 @@ public class GetClientTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient("01"));
 
     }
 
@@ -77,14 +75,14 @@ public class GetClientTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient("01"));
 
     }
 
     private List<ca.bc.gov.open.jag.api.model.Client> createClientList() {
 
         ca.bc.gov.open.jag.api.model.Client client1 = new ca.bc.gov.open.jag.api.model.Client();
-        client1.setClientNo(BigDecimal.valueOf(123));
+        client1.setClientNo("01");
         client1.setClientName("TEST1, TESTER");
         client1.setCurrentNameYn("N");
         client1.setGenderCode("M");

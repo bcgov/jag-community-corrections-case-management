@@ -35,7 +35,7 @@ public interface SpeedmentClientService {
 
     @GET
     @Path("/CMS/getFormsByClient")
-    List<Form> getFormsByClient(@QueryParam("clientNo") String clientNo, @QueryParam("formId") BigDecimal formId);
+    List<Form> getFormsByClient(@QueryParam("clientNo") String clientNo, @QueryParam("formId") String formId);
 
     @GET
     @Path("/CMS/getLocation")

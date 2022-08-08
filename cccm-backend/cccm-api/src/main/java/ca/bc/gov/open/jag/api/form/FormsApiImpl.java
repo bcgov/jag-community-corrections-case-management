@@ -9,6 +9,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.annotation.security.RolesAllowed;
@@ -109,14 +110,14 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public FormSearchList getFormSearch(@NotNull BigDecimal clientId, @NotNull Boolean currentPeriod, BigDecimal formTypeId) {
+    public FormSearchList getFormSearch(@NotNull String clientId, @NotNull Boolean currentPeriod, String formTypeCd) {
 
         List<Form> forms;
 
-        if (formTypeId == null) {
-            forms = speedmentClientService.getFormsByClient(clientId.toPlainString());
+        if (StringUtils.isBlank(formTypeCd)) {
+            forms = speedmentClientService.getFormsByClient(clientId);
         } else {
-            forms = speedmentClientService.getFormsByClient(clientId.toPlainString(), formTypeId);
+            forms = speedmentClientService.getFormsByClient(clientId, formTypeCd);
         }
 
         return formMapper.toFormSearchList("", forms);

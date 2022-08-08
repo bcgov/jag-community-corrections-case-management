@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Client {
 
-    private BigDecimal clientNo;
+    private String clientNo;
     private String clientName;
     private String currentNameYn;
     private String genderCode;
@@ -12,11 +12,11 @@ public class Client {
     private String custodyLocation;
     private String communityLocation;
 
-    public BigDecimal getClientNo() {
+    public String getClientNo() {
         return clientNo;
     }
 
-    public void setClientNo(BigDecimal clientNo) {
+    public void setClientNo(String clientNo) {
         this.clientNo = clientNo;
     }
 

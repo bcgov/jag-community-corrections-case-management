@@ -55,7 +55,7 @@ public class GetFormSearchTest {
 
         Mockito.when(speedmentClientService.getFormsByClient(Mockito.any())).thenReturn(mockResult);
 
-        FormSearchList result = sut.getFormSearch(BigDecimal.ONE, true, null);
+        FormSearchList result = sut.getFormSearch("01", true, null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getAssessmentStatus());
@@ -90,7 +90,7 @@ public class GetFormSearchTest {
 
         Mockito.when(speedmentClientService.getFormsByClient(Mockito.any(), Mockito.any())).thenReturn(mockResult);
 
-        FormSearchList result = sut.getFormSearch(BigDecimal.ONE, true, BigDecimal.ONE);
+        FormSearchList result = sut.getFormSearch("01", true, "01");
 
         Assertions.assertEquals(1, result.getItems().size());
 
@@ -112,7 +112,7 @@ public class GetFormSearchTest {
     @DisplayName("403: throw unauthorized exception")
     public void getTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormSearch(BigDecimal.ONE, true, null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormSearch("01", true, null));
 
     }
 
@@ -120,7 +120,7 @@ public class GetFormSearchTest {
     @DisplayName("401: throw unauthorized exception")
     public void getTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormSearch(BigDecimal.ONE, true, null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormSearch("01", true, null));
 
     }
 

@@ -64,7 +64,7 @@ public class GetClientsTest {
     private List<ca.bc.gov.open.jag.api.model.Client> createClientList() {
 
         ca.bc.gov.open.jag.api.model.Client client1 = new ca.bc.gov.open.jag.api.model.Client();
-        client1.setClientNo(BigDecimal.valueOf(123));
+        client1.setClientNo("01");
         client1.setClientName("TEST1, TESTER");
         client1.setCurrentNameYn("N");
         client1.setGenderCode("M");
@@ -73,7 +73,7 @@ public class GetClientsTest {
         client1.setCommunityLocation("TEST1");
 
         ca.bc.gov.open.jag.api.model.Client client2 = new ca.bc.gov.open.jag.api.model.Client();
-        client2.setClientNo(BigDecimal.valueOf(124));
+        client2.setClientNo("01");
         client2.setClientName("TEST2, TESTER");
         client2.setCurrentNameYn("N");
         client2.setGenderCode("F");
