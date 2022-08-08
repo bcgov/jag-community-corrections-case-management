@@ -1,9 +1,8 @@
 package ca.bc.gov.open.jag.api.lookup;
 
-import ca.bc.gov.open.jag.api.model.CodeTable;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationList;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;

@@ -1,14 +1,12 @@
-package ca.bc.gov.open.jag.api.client;
+package ca.bc.gov.open.jag.api.service.dataservice.client;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Address;
+import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import io.quarkus.security.ForbiddenException;
-import io.quarkus.security.UnauthorizedException;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.quarkus.test.security.TestSecurity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -22,11 +20,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@QuarkusTest
-public class GetClientTest {
+public class ClientProfileTest {
 
     @Inject
-    ClientsApiImpl sut;
+    ClientDataService sut;
 
     @InjectMock
     @RestClient
@@ -37,8 +34,7 @@ public class GetClientTest {
     SpeedmentClientService speedmentClientService;
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "client-search")
-    @DisplayName("200: should return clients")
+    @DisplayName("Success: should return clients")
     public void testGetClientsEndpoint() {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
@@ -46,37 +42,19 @@ public class GetClientTest {
         Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
         Mockito.when(speedmentClientService.getAlerts(Mockito.any())).thenReturn(Collections.emptyList());
 
-        Client result = sut.getClient("01");
+        Client result = sut.clientProfile("01");
 
         Assertions.assertEquals("01", result.getClientNum());
 
     }
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "client-search")
-    @DisplayName("404: client not found")
+    @DisplayName("Exception: client not found")
     public void testGetClientsNotFoundEndpoint() {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClient("01"));
-
-    }
-
-    @Test
-    @TestSecurity(user = "userOidc", roles = "someotherrole")
-    @DisplayName("403: throw unauthorized exception")
-    public void addTestExceptionBadRole() {
-
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient("01"));
-
-    }
-
-    @Test
-    @DisplayName("401: throw unauthorized exception")
-    public void addTestExceptionNoToken() {
-
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient("01"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.clientProfile("01"));
 
     }
 
@@ -110,5 +88,5 @@ public class GetClientTest {
         return Arrays.asList(address1, address2);
 
     }
-
+    
 }

@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.model;
 
+import ca.bc.gov.open.jag.api.model.data.Photo;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

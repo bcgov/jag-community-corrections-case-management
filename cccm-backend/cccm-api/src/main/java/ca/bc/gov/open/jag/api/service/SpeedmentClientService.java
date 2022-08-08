@@ -1,9 +1,9 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.api.model.Address;
-import ca.bc.gov.open.jag.api.model.Alert;
-import ca.bc.gov.open.jag.api.model.CodeTable;
-import ca.bc.gov.open.jag.api.model.Form;
+import ca.bc.gov.open.jag.api.model.data.Address;
+import ca.bc.gov.open.jag.api.model.data.Alert;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
+import ca.bc.gov.open.jag.api.model.data.Form;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.enterprise.context.ApplicationScoped;

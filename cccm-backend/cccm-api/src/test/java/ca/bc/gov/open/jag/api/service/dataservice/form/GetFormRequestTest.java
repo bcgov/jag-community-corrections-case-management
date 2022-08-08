@@ -1,7 +1,7 @@
-package ca.bc.gov.open.jag.api.service.dataservice;
+package ca.bc.gov.open.jag.api.service.dataservice.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.FormRequest;
+import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.api.service.FormDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;

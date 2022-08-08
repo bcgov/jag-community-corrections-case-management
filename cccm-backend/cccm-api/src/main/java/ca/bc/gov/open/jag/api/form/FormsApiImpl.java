@@ -1,16 +1,11 @@
 package ca.bc.gov.open.jag.api.form;
 
-import ca.bc.gov.open.jag.api.mapper.FormMapper;
-import ca.bc.gov.open.jag.api.model.Form;
-import ca.bc.gov.open.jag.api.model.FormRequest;
+import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.api.service.FormDataService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
-import org.apache.commons.lang3.StringUtils;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +15,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,13 +25,6 @@ public class FormsApiImpl implements FormsApi {
 
     @Inject
     FormDataService formDataService;
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @Inject
-    FormMapper formMapper;
 
     @Override
     @Transactional
@@ -111,15 +98,7 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-view")
     public FormSearchList getFormSearch(@NotNull String clientNum, @NotNull Boolean currentPeriod, String formTypeCd) {
 
-        List<Form> forms;
-
-        if (StringUtils.isBlank(formTypeCd)) {
-            forms = speedmentClientService.getFormsByClient(clientNum);
-        } else {
-            forms = speedmentClientService.getFormsByClient(clientNum, formTypeCd);
-        }
-
-        return formMapper.toFormSearchList("", forms);
+        return formDataService.formSearch(clientNum, currentPeriod, formTypeCd);
 
     }
 

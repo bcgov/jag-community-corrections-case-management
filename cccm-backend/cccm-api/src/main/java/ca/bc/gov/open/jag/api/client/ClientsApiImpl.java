@@ -3,8 +3,11 @@ package ca.bc.gov.open.jag.api.client;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
-import ca.bc.gov.open.jag.api.model.ClientProfile;
-import ca.bc.gov.open.jag.api.model.Photo;
+import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.Photo;
+import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.api.service.ClientDataService;
+import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
@@ -28,35 +31,13 @@ public class ClientsApiImpl implements ClientsApi {
     private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiImpl.class));
 
     @Inject
-    @RestClient
-    ObridgeClientService obridgeClientService;
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @Inject
-    ClientMapper clientMapper;
+    ClientDataService clientDataService;
 
     @Override
     @RolesAllowed("client-search")
     public Client getClient(String clientNum) {
 
-        final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
-
-        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
-
-        Optional<ca.bc.gov.open.jag.api.model.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
-
-        if (result.isPresent()) {
-
-            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getClientAddress(csNumberPadded), speedmentClientService.getAlerts(dbClientId), dbClientId);
-
-        } else {
-
-            throw new CCCMException("Client not found", CCCMErrorCode.RECORDNOTFOUND);
-
-        }
+            return clientDataService.clientProfile(clientNum);
 
     }
 
@@ -64,13 +45,7 @@ public class ClientsApiImpl implements ClientsApi {
     @RolesAllowed("client-search")
     public byte[] getClientPhoto(BigDecimal clientId) {
 
-        List<Photo> photos = obridgeClientService.getPhotosById(clientId);
-
-        if (!photos.isEmpty()) {
-            return photos.stream().findFirst().get().getImage();
-        } else {
-            throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
-        }
+            return clientDataService.clientPhoto(clientId);
 
     }
 
@@ -80,15 +55,7 @@ public class ClientsApiImpl implements ClientsApi {
 
         logger.info("Client Search Request");
 
-        return createClientResult(obridgeClientService.getClientSearch("EXACT", name));
-
-    }
-
-    private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.Client> clients) {
-
-        return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo()), Collections.emptyList(), null))
-                .collect(Collectors.toList());
+        return clientDataService.clientSearch(new ClientSearch(name, soundex, birthYear, age, address, location, gender, clientNum));
 
     }
 

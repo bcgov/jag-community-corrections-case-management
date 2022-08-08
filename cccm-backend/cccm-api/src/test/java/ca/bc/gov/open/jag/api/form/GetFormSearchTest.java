@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.Form;
+import ca.bc.gov.open.jag.api.model.data.Form;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 import io.quarkus.security.ForbiddenException;
@@ -16,9 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

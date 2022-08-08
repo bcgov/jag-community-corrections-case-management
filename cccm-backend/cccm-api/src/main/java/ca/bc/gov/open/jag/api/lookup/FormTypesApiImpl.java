@@ -2,6 +2,8 @@ package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.api.mapper.CodeTableMapper;
 import ca.bc.gov.open.jag.api.mapper.FormMapper;
+import ca.bc.gov.open.jag.api.service.CodeTableService;
+import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormtypesApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormType;
@@ -21,11 +23,7 @@ public class FormTypesApiImpl implements FormtypesApi {
     private static final Logger logger = Logger.getLogger(String.valueOf(FormTypesApiImpl.class));
 
     @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @Inject
-    CodeTableMapper codeTableMapper;
+    CodeTableService codeTableService;
 
     @Override
     @Transactional
@@ -34,7 +32,7 @@ public class FormTypesApiImpl implements FormtypesApi {
 
         logger.info("Get form types request received");
 
-        return codeTableMapper.toFormTypes("dummyValue", speedmentClientService.getFormTypes());
+        return codeTableService.getFormTypeCodeTable();
 
     }
 

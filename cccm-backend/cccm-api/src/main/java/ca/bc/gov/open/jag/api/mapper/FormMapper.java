@@ -12,9 +12,9 @@ public interface FormMapper {
 
     @Mapping(target = "items", source="forms")
     //Mapstruct cannot map the array directly. Dummy value is required to bypass
-    FormSearchList toFormSearchList(String dummyValue, List<ca.bc.gov.open.jag.api.model.Form> forms);
+    FormSearchList toFormSearchList(String dummyValue, List<ca.bc.gov.open.jag.api.model.data.Form> forms);
 
     @Mapping(target = "type", source="formType")
-    Form toForm(ca.bc.gov.open.jag.api.model.Form form);
+    Form toForm(ca.bc.gov.open.jag.api.model.data.Form form);
 
 }

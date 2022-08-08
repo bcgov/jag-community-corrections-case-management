@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.api.mapper;
 
-import ca.bc.gov.open.jag.api.model.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Alert;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
@@ -45,7 +45,7 @@ public interface ClientMapper {
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "communityAlerts", source="alerts")
-    Client toApiClient(ca.bc.gov.open.jag.api.model.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.Address> address, List<ca.bc.gov.open.jag.api.model.Alert> alerts, BigDecimal clientId);
+    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.data.Address> address, List<ca.bc.gov.open.jag.api.model.data.Alert> alerts, BigDecimal clientId);
 
 
     @Mapping(target = "street", source = "addressLine1Txt")
@@ -54,10 +54,10 @@ public interface ClientMapper {
     @Mapping(target = "sealed", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.yesNoToBool(address.getSealedYn()))")
     @Mapping(target = "type", source = "ddtyCd")
     @Mapping(target = "expired", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.isExpired(address.getExpiryDt()))")
-    Address toAddress(ca.bc.gov.open.jag.api.model.Address address);
+    Address toAddress(ca.bc.gov.open.jag.api.model.data.Address address);
 
     @Mapping(target = "comment", source = "commentTxt")
     @Mapping(target = "date", source = "effectiveDt")
-    Alert toAlert(ca.bc.gov.open.jag.api.model.Alert alert);
+    Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
 }

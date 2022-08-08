@@ -1,7 +1,7 @@
 package ca.bc.gov.open.jag.api.client;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.Photo;
+import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.security.ForbiddenException;
