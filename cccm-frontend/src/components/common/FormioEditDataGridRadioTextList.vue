@@ -15,7 +15,8 @@ export default {
     dataTemplate: {},
     dataTemplateP: {},
     radioValue: {},
-    editgridLabel: ""
+    editgridLabel: "",
+    uiType: "",
   },
   data() {
     return {
@@ -74,7 +75,7 @@ export default {
     },
     handleEditGridSaveRowEvent(event) {
       //console.log("datagrid radio text list event data: ", event.row);
-      this.$emit('dataOnChanged', event.row);
+      this.$emit('dataOnChanged', this.uiType, event.row);
     }
   }
 }

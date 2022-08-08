@@ -65,7 +65,7 @@
 }
 
 .divTable {
-    z-index: 9000;
+    z-index: 1;
     position: sticky!important;
     top: 0!important;
 }

@@ -6,6 +6,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import {saveFormData} from "@/components/form.api";
 import templateEditPanel from '@/components/common/templateEditPanel.json';
 
 export default {
@@ -58,7 +59,7 @@ export default {
           textBox[0].setAttribute('style', 'display:none');
         }
     },
-    changeButtonLabel(evt) {
+    async changeButtonLabel(evt) {
       if (evt != null && evt.type === this.dataModel.button.event ) {
         // get button instance
         let btnName= "data[" + this.dataModel.button.key + "]";
@@ -86,8 +87,15 @@ export default {
             if (theHtmlParentDiv != null) {
               theHtmlParentDiv.setAttribute('style', 'display:none');
             }
-
           } else {
+            // Save button clicked, call API to save the data
+            const [error, response] = await saveFormData(evt.data);
+            if (error) {
+              console.error("Save source contacted error", error);
+            } else {
+              console.log("Save source contacted success", response);
+            }
+            
             theBtn[0].innerText = this.dataModel.button.label;
             // hide textbox
             if (textBox != null &&  textBox[0] != null) {

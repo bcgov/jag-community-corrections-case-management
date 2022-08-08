@@ -40,6 +40,22 @@
                   "defaultValue": "${value_hiddenKey}",
                   "type": "textfield",
                   "input": true
+                },
+                {
+                  "label": "",
+                  "action": "event",
+                  "attributes": { 
+                      "id": "${key}" 
+                  },
+                  "hidden": false,
+                  "customClass": "hide",
+                  "showValidations": false,
+                  "disableOnInvalid": true,
+                  "tableView": true,
+                  "key": "key_submit",
+                  "type": "button",
+                  "input": false,
+                  "event": "evt_submitBtnClicked"
                 }
             ]
         }

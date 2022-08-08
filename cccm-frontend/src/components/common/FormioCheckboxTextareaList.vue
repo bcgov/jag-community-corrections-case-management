@@ -1,5 +1,5 @@
 <template>
-    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData"/>
+    <Form v-on:change="handleChangeEvent" v-on:blur="handleBlurEvent" :form="formJSON" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
 </template>
 
 <script lang="ts">
@@ -11,12 +11,31 @@ export default {
   name: 'FormioCheckboxTextareaList',
   props: {
     dataModel: {},
-    initData: {}
+    initData: {},
+    uiType: "",
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    }
   },
   data() {
     return {
       templateCheckboxTextarea : templateCheckboxTextarea,
       formJSON : {},
+      triggerAutoSave: false,
+    }
+  },
+  watch: {
+    notifySavingData() {
+      // Submit the form by simulating clicking the submit button
+      for (let i = 0; i < this.dataModel.checkboxTextareaItems.length; i++) {
+        let btn = document.getElementById(this.dataModel.checkboxTextareaItems[i].key_container);
+        if (btn != null) { 
+          //console.log("Simulate the btn click: ", btn);
+          btn.click(); 
+        }
+      }
     }
   },
   components: {
@@ -26,6 +45,13 @@ export default {
     this.buildFormData()
   },
   methods: {
+    handleSubmit(evt) {
+      // emit an event, dataSubmitted, to the parent, so parent knows form data
+      if (evt.data != null) {
+        //console.log("child data submitted: ", evt.data.hidden_key, evt.data);
+        this.$emit('dataSubmitted', evt.data);
+      }
+    },
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateCheckboxTextarea);
@@ -52,6 +78,7 @@ export default {
         componentJSONStr = componentJSONStr.replaceAll('${key_checkbox}', this.dataModel.key_checkbox);
         componentJSONStr = componentJSONStr.replaceAll('${label_textarea}', this.dataModel.label_textarea);
         componentJSONStr = componentJSONStr.replaceAll('${key_textarea}', this.dataModel.key_textarea);
+        componentJSONStr = componentJSONStr.replaceAll('${value_hiddenKey}', this.dataModel.checkboxTextareaItems[i].key_container);
 
         tmpJSON.components[0].components[0].components[i+containerIndex] = JSON.parse(componentJSONStr);
       }
@@ -59,25 +86,37 @@ export default {
       this.formJSON = tmpJSON;
     },
     handleChangeEvent(event) {
-      if (event.changed && ( event.changed.component.key === this.dataModel.key_checkbox 
-                          || event.changed.component.key === this.dataModel.key_textarea )) {
+      if (event.changed && (event.changed.component.key === this.dataModel.key_textarea)) {
+        this.triggerAutoSave = true;
+      }
+
+      if (event.changed && (event.changed.component.key === this.dataModel.key_checkbox)) {
         let containerKey = event.changed.instance.parent.path;
         let parentKey = event.changed.instance.parent.parent.path;
         let questionLabel = event.changed.component.label;
-        //if textarea is updated, need to get the checkbox lable
-        if (event.changed.component.key === this.dataModel.key_textarea) {
-          let components = event.changed.instance.parent.component.components;
-          if (components != null) {
-            for (let i = 0; i < components.length; i++) {
-              if (components[i].key === this.dataModel.key_checkbox) {
-                questionLabel = components[i].label;
-                break;
-              }
+
+        this.$emit('dataOnChanged', this.uiType, event.data, parentKey, containerKey, questionLabel);
+      }
+    },
+    handleBlurEvent(event) {
+      if (this.triggerAutoSave) {
+        this.triggerAutoSave = false;
+
+        let containerKey = event.parent.path;
+        let parentKey = event.parent.parent.path;
+        let questionLabel = "";
+        
+        //if textarea is updated, need to get the checkbox label
+        let components = event.parent.component.components;
+        if (components != null) {
+          for (let i = 0; i < components.length; i++) {
+            if (components[i].key === this.dataModel.key_checkbox) {
+              questionLabel = components[i].label;
+              break;
             }
           }
         }
-        //console.log("formio checkbox textarea list event change: ", containerKey, event);
-        this.$emit('dataOnChanged', event.data, parentKey, containerKey, questionLabel);
+        this.$emit('dataOnChanged', this.uiType, event.parent._data, parentKey, containerKey, questionLabel);
       }
     }
   }

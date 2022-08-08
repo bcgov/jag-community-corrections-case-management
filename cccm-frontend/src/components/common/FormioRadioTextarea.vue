@@ -1,5 +1,5 @@
 <template>
-    <Form v-on:change="handleChangeEvent" :form="formJSON" :submission="initData"/>
+    <Form v-on:change="handleChangeEvent" v-on:blur="handleBlurEvent" :form="formJSON" :submission="initData" @evt_submitBtnClicked="handleSubmit"/>
 </template>
 
 <script lang="ts">
@@ -12,11 +12,28 @@ export default {
   props: {
     dataModel: {},
     initData: {},
+    uiType: "",
+    // param passed from parent to indicate time to save data
+    notifySavingData: {
+      type: Number,
+      default: 1,
+    },
   },
   data() {
     return {
       templateJSON: formTemplate,
       formJSON : {},
+      triggerAutoSave: false,
+    }
+  },
+  watch: {
+    notifySavingData() {
+      // Submit the form by simulating clicking the submit button
+      let btn = document.getElementById(this.dataModel.key);
+      if (btn != null) { 
+        //console.log("Simulate the btn click: ", btn);
+        btn.click(); 
+      }
     }
   },
   components: {
@@ -26,6 +43,14 @@ export default {
     this.buildFormData()
   },
   methods: {
+    handleSubmit(evt) {
+      // emit an event, dataSubmitted, to the parent, so parent knows form data
+      if (evt.data != null) {
+        //console.log("child data submitted: ", evt.data.hidden_key, evt.data);
+        this.$emit('dataSubmitted', evt.data);
+      }
+      
+    },
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templateJSON);
@@ -50,11 +75,23 @@ export default {
     handleChangeEvent(event) {
       // emit an event, dataOnChanged, to the parent, so parent knows the changes
       if ( event.changed 
-        && (  event.changed.component.key === this.dataModel.key_radioButton
-          ||  event.changed.component.key === this.dataModel.key_comments)
+        && (event.changed.component.key === this.dataModel.key_comments)
+        ) {
+        this.triggerAutoSave = true;
+      }
+
+      if ( event.changed 
+        && (  event.changed.component.key === this.dataModel.key_radioButton)
         ) {
         //console.log("Formio radioTextarea: ", event);
-        this.$emit('dataOnChanged', event.data);
+        this.$emit('dataOnChanged', this.uiType, event.data);
+      }
+    },
+    handleBlurEvent(event) {
+      if (this.triggerAutoSave) {
+        //console.log("AutoSave blur triggered: ", event._data);
+        this.triggerAutoSave = false;
+        this.$emit('dataOnChanged', this.uiType, event._data);
       }
     }
   }
