@@ -51,7 +51,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "Photo taken {{data.datePhotoTaken}}",
+                                    "content": "Photo Taken: {{data.datePhotoTaken}}",
                                     "refreshOnChange": true,
                                     "key": "html3",
                                     "type": "htmlelement",
