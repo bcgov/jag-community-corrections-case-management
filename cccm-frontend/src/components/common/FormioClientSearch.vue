@@ -131,7 +131,7 @@ export default {
         { text: 'Name', align: 'start', sortable: true, value: 'fullName', class: 'datatable-header-text-style' },
         { text: 'Current Name?', value: 'currentNameIndicator', class: 'datatable-header-text-style' },
         { text: 'Age', value: 'clientAge', class: 'datatable-header-text-style' },
-        { text: 'Date of Bith', value: 'birthDate', class: 'datatable-header-text-style' },
+        { text: 'Date of Birth', value: 'birthDate', class: 'datatable-header-text-style' },
         { text: 'Address', value: 'fullAddress', class: 'datatable-header-text-style' },
         { text: 'Address Type', value: 'addressType', class: 'datatable-header-text-style' },
         { text: 'Expired?', value: 'expired', class: 'datatable-header-text-style' },

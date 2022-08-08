@@ -40,7 +40,7 @@
                         {
                             "components": [
                                 {
-                                    "legend": "How to create a \"wildcard\" search",
+                                    "legend": "Create a \"wildcard\" search",
                                     "tooltip": "To expand your search, use the wildcard character '%' to represent any letter in your search. \n For example, ",
                                     "customClass": "wild-search-text",
                                     "key": "fieldSet",
@@ -65,7 +65,7 @@
                     "tableView": false
                 },
                 {
-                    "label": "Limited to current active location",
+                    "label": "Limit search to current active location",
                     "tableView": false,
                     "key": "limitedToCurrentActiveLocation",
                     "type": "checkbox",
@@ -208,7 +208,7 @@
                                                     "value": ""
                                                 }
                                             ],
-                                            "content": "Birthdate",
+                                            "content": "Date of Birth (DOB)",
                                             "refreshOnChange": false,
                                             "key": "html",
                                             "type": "htmlelement",
