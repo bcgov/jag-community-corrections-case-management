@@ -194,8 +194,7 @@ export default {
       if (typeof currentPeriod == 'object') {
         currentPeriod = currentPeriod.value;
       }
-      //console.log("filters formType: ", formType);
-      //console.log("filters currentPeriod", currentPeriod);
+      
       this.filteredRNAList = this.rnaList.filter(el => {
         if (currentPeriod) {
           return el.formType.includes(formType) && el.formStatus != 'Complete';
@@ -294,7 +293,7 @@ export default {
         });
       }
       //apply filter
-      this.private_applyFilter(this.selectedFormTypes.value, this.selectedSupervisionPeriods.value);
+      this.private_applyFilter(this.selectedFormTypes, this.selectedSupervisionPeriods);
 
       if (error) {
         console.error(error);
