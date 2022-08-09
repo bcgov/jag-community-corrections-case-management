@@ -46,7 +46,7 @@ public class GetFormRequestTest {
 
         Mockito.when(objectMapperMock.readValue(any(InputStream.class), eq(FormDetails.class))).thenReturn(form);
 
-        FormDetails result = sut.getFormRequest(new FormRequest(BigDecimal.ONE, null));
+        FormDetails result = sut.formRequest(new FormRequest(BigDecimal.ONE, null));
 
         Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
 
@@ -56,7 +56,7 @@ public class GetFormRequestTest {
     @DisplayName("Not Found Id: should return not found exception")
     public void getThrowNotFoundException() throws CCCMException {
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(BigDecimal.valueOf(999), null)));
+        Assertions.assertThrows(CCCMException.class, () -> sut.formRequest(new FormRequest(BigDecimal.valueOf(999), null)));
 
     }
 
@@ -64,7 +64,7 @@ public class GetFormRequestTest {
     @DisplayName("Not Found Type: should return not found exception")
     public void getByTypeThrowNotFoundException() throws CCCMException {
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(null, "NOTFOUND")));
+        Assertions.assertThrows(CCCMException.class, () -> sut.formRequest(new FormRequest(null, "NOTFOUND")));
 
     }
 
@@ -74,7 +74,7 @@ public class GetFormRequestTest {
 
         Mockito.when(objectMapperMock.readValue(any(InputStream.class), eq(FormDetails.class))).thenThrow(new IOException());
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getFormRequest(new FormRequest(BigDecimal.ONE, null)));
+        Assertions.assertThrows(CCCMException.class, () -> sut.formRequest(new FormRequest(BigDecimal.ONE, null)));
 
     }
 

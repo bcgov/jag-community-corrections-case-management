@@ -1,7 +1,9 @@
 package ca.bc.gov.open.jag.api.client;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.Photo;
+import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.security.ForbiddenException;
@@ -27,12 +29,7 @@ public class GetClientPhotoTest {
     ClientsApiImpl sut;
 
     @InjectMock
-    @RestClient
-    ObridgeClientService obridgeClientService;
-
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
+    ClientDataService clientDataService;
 
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
@@ -41,12 +38,7 @@ public class GetClientPhotoTest {
 
         byte[] image = "blarg".getBytes();
 
-        Photo photo = new Photo();
-        photo.setImage(image);
-        List<Photo> photos = Collections.singletonList(photo);
-
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(image);
 
         Assertions.assertEquals(image, sut.getClientPhoto(BigDecimal.ONE));
 
@@ -58,8 +50,7 @@ public class GetClientPhotoTest {
     @DisplayName("404: no photo found should return 404")
     public void testGetClientPhotoNotFoundEndpoint() {
 
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
 
         Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(BigDecimal.ONE));
 

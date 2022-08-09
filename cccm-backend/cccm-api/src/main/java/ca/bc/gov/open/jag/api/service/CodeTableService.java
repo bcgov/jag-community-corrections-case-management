@@ -5,8 +5,8 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationList;
 
 public interface CodeTableService {
 
-    FormTypeList getFormTypeCodeTable();
+    FormTypeList formTypeCodes();
 
-    LocationList getLocationCodeTable();
+    LocationList locationCodes();
 
 }

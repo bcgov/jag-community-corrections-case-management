@@ -8,7 +8,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 
 public interface FormDataService {
 
-    FormDetails getFormRequest(FormRequest formRequest) throws CCCMException;
+    FormDetails formRequest(FormRequest formRequest) throws CCCMException;
 
     FormSearchList formSearch(String clientNum, Boolean currentPeriod, String formTypeCd);
 

@@ -5,8 +5,10 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationList;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+@ApplicationScoped
 public class CodeTableServiceImpl implements CodeTableService {
 
     @Inject
@@ -17,12 +19,12 @@ public class CodeTableServiceImpl implements CodeTableService {
     CodeTableMapper codeTableMapper;
 
     @Override
-    public FormTypeList getFormTypeCodeTable() {
+    public FormTypeList formTypeCodes() {
         return codeTableMapper.toFormTypes("dummyValue", speedmentClientService.getFormTypes());
     }
 
     @Override
-    public LocationList getLocationCodeTable() {
+    public LocationList locationCodes() {
         return codeTableMapper.toLocations("dummyValue", speedmentClientService.getLocation());
     }
 

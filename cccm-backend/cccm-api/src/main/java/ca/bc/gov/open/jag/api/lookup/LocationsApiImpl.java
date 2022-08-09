@@ -21,7 +21,7 @@ public class LocationsApiImpl implements LocationsApi {
 
         logger.info("Get location request received");
 
-        return codeTableService.getLocationCodeTable();
+        return codeTableService.locationCodes();
 
     }
 

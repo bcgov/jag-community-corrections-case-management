@@ -33,7 +33,7 @@ public class ClientSearchTest {
 
     @Test
     @DisplayName("Success: should return clients")
-    public void testGetClientsEndpoint() {
+    public void testGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any())).thenReturn(createClientList());
         Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());

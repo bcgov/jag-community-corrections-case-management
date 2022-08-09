@@ -39,7 +39,7 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public FormDetails getFormRequest(FormRequest formRequest) throws CCCMException {
+    public FormDetails formRequest(FormRequest formRequest) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching form details");
 

@@ -35,7 +35,7 @@ public class ClientProfileTest {
 
     @Test
     @DisplayName("Success: should return clients")
-    public void testGetClientsEndpoint() {
+    public void testGetClients() {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
         Mockito.when(obridgeClientService.getProfileById(Mockito.any())).thenReturn(new ClientProfile());
@@ -50,7 +50,7 @@ public class ClientProfileTest {
 
     @Test
     @DisplayName("Exception: client not found")
-    public void testGetClientsNotFoundEndpoint() {
+    public void testGetClientsNotFound() {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
 
@@ -88,5 +88,5 @@ public class ClientProfileTest {
         return Arrays.asList(address1, address2);
 
     }
-    
+
 }

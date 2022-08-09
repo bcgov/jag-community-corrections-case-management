@@ -53,7 +53,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form id request received");
 
-        return formDataService.getFormRequest(new FormRequest(formId, null));
+        return formDataService.formRequest(new FormRequest(formId, null));
 
     }
 
@@ -63,7 +63,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form type request received");
 
-        return formDataService.getFormRequest(new FormRequest(null, formType));
+        return formDataService.formRequest(new FormRequest(null, formType));
 
     }
 
@@ -76,7 +76,7 @@ public class FormsApiImpl implements FormsApi {
 
         FormList formList = new FormList();
 
-        formList.setItems(Collections.singletonList(formDataService.getFormRequest(new FormRequest(BigDecimal.ONE, null))));
+        formList.setItems(Collections.singletonList(formDataService.formRequest(new FormRequest(BigDecimal.ONE, null))));
 
         return formList;
 
