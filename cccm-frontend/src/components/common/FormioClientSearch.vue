@@ -48,7 +48,10 @@
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="1"></td>
           <td :colspan="1">
-            <img :src="item.photoURL" alt="Client photo" width="132" height="132" />
+            <figure>
+              <img :src="item.photoURL" alt="Client photo" width="132" height="132" />
+              <figcaption>Photo Taken: {{item.datePhotoTaken}}</figcaption>
+            </figure>
           </td>
           <td :colspan="1">
             <strong>Current Name</strong>
@@ -125,15 +128,10 @@ export default {
           align: 'start',
           value: 'data-table-expand'
         },
-        {
-          text: 'Name',
-          align: 'start',
-          sortable: true,
-          value: 'fullName',
-          class: 'datatable-header-text-style'
-        },
+        { text: 'Name', align: 'start', sortable: true, value: 'fullName', class: 'datatable-header-text-style' },
+        { text: 'Current Name?', value: 'currentNameIndicator', class: 'datatable-header-text-style' },
         { text: 'Age', value: 'clientAge', class: 'datatable-header-text-style' },
-        { text: 'Date of Bith', value: 'birthDate', class: 'datatable-header-text-style' },
+        { text: 'Date of Birth', value: 'birthDate', class: 'datatable-header-text-style' },
         { text: 'Address', value: 'fullAddress', class: 'datatable-header-text-style' },
         { text: 'Address Type', value: 'addressType', class: 'datatable-header-text-style' },
         { text: 'Expired?', value: 'expired', class: 'datatable-header-text-style' },
@@ -459,13 +457,33 @@ export default {
                 ]
             }
           ];
+
+        // Might need to be removed if backend returns the currentNameIndicator
+        // populate currentNameIndicator fields
+        this.clients = this.clients.filter(el => {
+          let currentNameIndicator = "Yes";
+          // console.log("fullName: ", el.fullName);
+          // console.log("currentName: ", el.currentName);
+          // let fnArray = el.fullName.trim().split(",");
+          // let cnArray = el.currentName.trim().split(" ");
+          // if ((fnArray == null || fnArray.length !== 2) && 
+          //     (cnArray == null || cnArray.length !== 2)) {
+          //   if (fnArray[0].trim() == cnArray[1].trim() && fnArray[1].trim() == cnArray[0].trim()) {
+          //     currentNameIndicator = "Yes";
+          //   }
+          // };
+          
+          el.currentNameIndicator = currentNameIndicator;
+          return el;
+        });
+          
         if (error) {
           console.error(error);
         }
       }
        
     }
-  },
+  }
 }
 </script>
 
