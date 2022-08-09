@@ -18,7 +18,7 @@
       "input": true,
       "hideLabel": false,
       "templates": {
-        "header": "\n<div class=\"row\"> \n  {% util.eachComponent(components, function(component) { %}  \n    <div class=\"col-sm-3\">\n      <strong>{{ component.label }}</strong> \n    </div> \n  {% }) %} \n \n <div class=\"col-sm-3\">\n <strong>Actions</strong>\n</div> </div> ",
+        "header": "\n<div class=\"row\"> \n  {% util.eachComponent(components, function(component)   { %}  \n    <div class=\"col-sm-3\">\n      <strong>{{ component.label }}</strong> \n    </div> \n  {% }) %} \n \n <div class=\"col-sm-3\">\n <strong>Actions</strong>\n</div> </div> ",
         "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
         "footer": ""
       },
