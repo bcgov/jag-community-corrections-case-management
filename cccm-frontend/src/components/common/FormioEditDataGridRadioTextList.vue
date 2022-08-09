@@ -44,7 +44,7 @@ export default {
         label = "";
       } 
       
-      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', this.dataTemplateP.className_label);
+      tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', label ? this.dataTemplateP.className_label : "");
       tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', label);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplateP.key_questionLabel);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplateP.key);

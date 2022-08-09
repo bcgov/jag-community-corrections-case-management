@@ -135,19 +135,14 @@ export default {
 .crna-subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
-
-  text-decoration: underline;
-  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */
-  text-decoration-color: rgb(255, 208, 0);
 }
 
 .crna-subSectionTitleClass:nth-child(1):after {
   content: "";
-  display: block;
-  background: #c00;
-  height: 18px;
+  height: 0px;
   width: 50px;
-
+  display: block;
+  border: 4px solid #FCBA19;
 }
 
 
