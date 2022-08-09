@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.service.CodeTableService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
+import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +15,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.util.Collections;
 
+@QuarkusTest
 public class GetFormTypeCodeTableTest {
 
     private static final String TEST_CD = "CD";

@@ -18,9 +18,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @QuarkusTest
 public class GetClientTest {

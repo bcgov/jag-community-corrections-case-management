@@ -31,7 +31,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Inject
     ClientMapper clientMapper;
 
-
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
 

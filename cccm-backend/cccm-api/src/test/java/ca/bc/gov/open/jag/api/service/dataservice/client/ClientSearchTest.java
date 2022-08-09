@@ -6,8 +6,8 @@ import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
+import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
-import io.quarkus.test.security.TestSecurity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 
+@QuarkusTest
 public class ClientSearchTest {
 
     @Inject

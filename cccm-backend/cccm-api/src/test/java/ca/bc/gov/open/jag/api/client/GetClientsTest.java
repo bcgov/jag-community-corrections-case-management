@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.api.client;
 
 import ca.bc.gov.open.jag.api.service.ClientDataService;
+import ca.bc.gov.open.jag.api.service.ObridgeClientService;
+import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
@@ -12,17 +14,18 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
 @QuarkusTest
+@Transactional
 public class GetClientsTest {
 
     @Inject
     ClientsApiImpl sut;
 
     @InjectMock
-    @RestClient
     ClientDataService clientDataService;
 
     @Test

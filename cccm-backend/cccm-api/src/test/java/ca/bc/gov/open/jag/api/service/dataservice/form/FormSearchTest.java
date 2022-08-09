@@ -5,8 +5,8 @@ import ca.bc.gov.open.jag.api.model.data.Form;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
-import io.quarkus.test.security.TestSecurity;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+@QuarkusTest
 public class FormSearchTest {
 
     private static final String TEST_STRING = "TEST";
@@ -34,7 +35,7 @@ public class FormSearchTest {
     @DisplayName("Success: form search without a type")
     public void testFormSearch() throws CCCMException {
 
-        Mockito.when(speedmentClientService.getFormsByClient(Mockito.any(), Mockito.any())).thenReturn(createFormList());
+        Mockito.when(speedmentClientService.getFormsByClient(Mockito.any())).thenReturn(createFormList());
 
         FormSearchList result = sut.formSearch("01", true, null);
 
