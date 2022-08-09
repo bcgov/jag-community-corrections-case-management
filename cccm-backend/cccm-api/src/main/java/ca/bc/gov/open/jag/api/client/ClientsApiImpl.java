@@ -8,7 +8,6 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;

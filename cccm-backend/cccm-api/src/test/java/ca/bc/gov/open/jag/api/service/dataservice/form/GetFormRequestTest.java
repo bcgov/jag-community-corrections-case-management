@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 @QuarkusTest
 public class GetFormRequestTest {

@@ -1,7 +1,5 @@
 package ca.bc.gov.open.jag.api.error;
 
-import java.io.Serializable;
-
 public class CCCMException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
