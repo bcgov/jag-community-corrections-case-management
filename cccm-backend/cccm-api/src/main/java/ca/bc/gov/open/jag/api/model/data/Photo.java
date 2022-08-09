@@ -1,4 +1,4 @@
-package ca.bc.gov.open.jag.api.model;
+package ca.bc.gov.open.jag.api.model.data;
 
 public class Photo {
 

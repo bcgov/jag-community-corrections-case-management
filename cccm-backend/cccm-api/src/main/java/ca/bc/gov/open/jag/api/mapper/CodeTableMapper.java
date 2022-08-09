@@ -1,6 +1,6 @@
 package ca.bc.gov.open.jag.api.mapper;
 
-import ca.bc.gov.open.jag.api.model.CodeTable;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormType;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Location;

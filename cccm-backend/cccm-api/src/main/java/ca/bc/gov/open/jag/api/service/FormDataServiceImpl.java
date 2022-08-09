@@ -2,31 +2,44 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.FormRequest;
+import ca.bc.gov.open.jag.api.mapper.FormMapper;
+import ca.bc.gov.open.jag.api.model.data.Form;
+import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-public class DataServiceImpl implements DataService {
+public class FormDataServiceImpl implements FormDataService {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(DataService.class));
+    private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
+
+    @Inject
+    @RestClient
+    SpeedmentClientService speedmentClientService;
+
+    @Inject
+    FormMapper formMapper;
 
     private final ObjectMapper objectMapper;
 
-    public DataServiceImpl(ObjectMapper objectMapper) {
+    public FormDataServiceImpl(ObjectMapper objectMapper) {
         objectMapper.findAndRegisterModules();
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public FormDetails getFormRequest(FormRequest formRequest) throws CCCMException {
+    public FormDetails formRequest(FormRequest formRequest) throws CCCMException {
 
         logger.log(Level.INFO, "Fetching form details");
 
@@ -52,4 +65,18 @@ public class DataServiceImpl implements DataService {
 
     }
 
+    @Override
+    public FormSearchList formSearch(String clientNum, Boolean currentPeriod, String formTypeCd) {
+
+        List<Form> forms;
+
+        if (StringUtils.isBlank(formTypeCd)) {
+            forms = speedmentClientService.getFormsByClient(clientNum);
+        } else {
+            forms = speedmentClientService.getFormsByClient(clientNum, formTypeCd);
+        }
+
+        return formMapper.toFormSearchList("", forms);
+
+    }
 }

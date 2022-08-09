@@ -46,9 +46,9 @@ paths:
           schema:
             type: string
         - in: query
-          name: clientId
+          name: clientNum
           schema:
-            type: number
+            type: string
       responses:
         "200":
           content:
@@ -83,16 +83,16 @@ paths:
                 format: byte
       tags:
         - clients
-  /clients/{clientId}:
+  /clients/{clientNum}:
     get:
       operationId: GetClient
       parameters:
         - explode: false
           in: path
-          name: clientId
+          name: clientNum
           required: true
           schema:
-            type: number
+            type: string
           style: simple
       responses:
         "200":
@@ -166,15 +166,15 @@ paths:
       operationId: GetFormSearch
       parameters:
         - in: query
-          name: clientId
+          name: clientNum
           required: true
           schema:
-            type: number
+            type: string
         - in: query
-          name: formTypeId
+          name: formTypeCd
           required: false
           schema:
-            type: number
+            type: string
         - in: query
           name: currentPeriod
           required: true
@@ -637,13 +637,11 @@ components:
     Client:
       type: object
       properties:
+        clientId:
+          type: number
         clientNum:
           type: string
         clientName:
-          type: string
-        firstName:
-          type: string
-        LastName:
           type: string
         gender:
           type: string
@@ -653,18 +651,12 @@ components:
           type: string
         custodyLocation:
           type: string
-        communityLocation:
-          type: string
-        status:
-          type: string
-        caseManager:
-          type: string
-        secondaryManager:
-          type: string
         supervisionLevel:
           type: string
         photoDate:
           type: string
+        communityInformation:
+          $ref: "#/components/schemas/CommunityInformation"
         orderInformation:
           $ref: "#/components/schemas/OrderInformation"
         courtInformation:
@@ -691,6 +683,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Alert"
+    CommunityInformation:
+      type: object
+      properties:
+        communityLocation:
+          type: string
+        status:
+          type: string
+        caseManager:
+          type: string
+        secondaryManager:
+          type: string
     OrderInformation:
       type: object
       properties:
@@ -756,6 +759,8 @@ components:
       type: object
       properties:
         type:
+          type: string
+        rating:
           type: string
     Warrant:
       type: object

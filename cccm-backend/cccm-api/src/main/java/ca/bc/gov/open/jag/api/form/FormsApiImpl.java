@@ -1,15 +1,11 @@
 package ca.bc.gov.open.jag.api.form;
 
-import ca.bc.gov.open.jag.api.mapper.FormMapper;
-import ca.bc.gov.open.jag.api.model.Form;
-import ca.bc.gov.open.jag.api.model.FormRequest;
-import ca.bc.gov.open.jag.api.service.DataService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
+import ca.bc.gov.open.jag.api.model.service.FormRequest;
+import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -19,10 +15,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class FormsApiImpl implements FormsApi {
@@ -30,14 +24,7 @@ public class FormsApiImpl implements FormsApi {
     private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
 
     @Inject
-    DataService dataService;
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @Inject
-    FormMapper formMapper;
+    FormDataService formDataService;
 
     @Override
     @Transactional
@@ -66,7 +53,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form id request received");
 
-        return dataService.getFormRequest(new FormRequest(formId, null));
+        return formDataService.formRequest(new FormRequest(formId, null));
 
     }
 
@@ -76,7 +63,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Get form type request received");
 
-        return dataService.getFormRequest(new FormRequest(null, formType));
+        return formDataService.formRequest(new FormRequest(null, formType));
 
     }
 
@@ -89,7 +76,7 @@ public class FormsApiImpl implements FormsApi {
 
         FormList formList = new FormList();
 
-        formList.setItems(Collections.singletonList(dataService.getFormRequest(new FormRequest(BigDecimal.ONE, null))));
+        formList.setItems(Collections.singletonList(formDataService.formRequest(new FormRequest(BigDecimal.ONE, null))));
 
         return formList;
 
@@ -109,17 +96,9 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public FormSearchList getFormSearch(@NotNull BigDecimal clientId, @NotNull Boolean currentPeriod, BigDecimal formTypeId) {
+    public FormSearchList getFormSearch(@NotNull String clientNum, @NotNull Boolean currentPeriod, String formTypeCd) {
 
-        List<Form> forms;
-
-        if (formTypeId == null) {
-            forms = speedmentClientService.getFormsByClient(clientId.toPlainString());
-        } else {
-            forms = speedmentClientService.getFormsByClient(clientId.toPlainString(), formTypeId);
-        }
-
-        return formMapper.toFormSearchList("", forms);
+        return formDataService.formSearch(clientNum, currentPeriod, formTypeCd);
 
     }
 

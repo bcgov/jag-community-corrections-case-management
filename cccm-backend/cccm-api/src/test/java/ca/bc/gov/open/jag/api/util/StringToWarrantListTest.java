@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.util;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Designation;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Warrant;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;

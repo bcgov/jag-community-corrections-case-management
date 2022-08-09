@@ -1,17 +1,14 @@
 package ca.bc.gov.open.jag.api.client;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.ClientProfile;
-import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
+import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.quarkus.test.security.TestSecurity;
-import org.checkerframework.checker.units.qual.C;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +16,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @QuarkusTest
 public class GetClientTest {
@@ -30,26 +24,17 @@ public class GetClientTest {
     ClientsApiImpl sut;
 
     @InjectMock
-    @RestClient
-    ObridgeClientService obridgeClientService;
-
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
+    ClientDataService clientDataService;
 
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        Mockito.when(obridgeClientService.getProfileById(Mockito.any())).thenReturn(new ClientProfile());
-        Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
-        Mockito.when(speedmentClientService.getAlerts(Mockito.any())).thenReturn(Collections.emptyList());
+        Mockito.when(clientDataService.clientProfile(Mockito.any())).thenReturn(createClient());
+        Client result = sut.getClient("01");
 
-        Client result = sut.getClient(BigDecimal.ONE);
-
-        Assertions.assertEquals("123", result.getClientNum());
+        Assertions.assertEquals("01", result.getClientNum());
 
     }
 
@@ -58,9 +43,9 @@ public class GetClientTest {
     @DisplayName("404: client not found")
     public void testGetClientsNotFoundEndpoint() {
 
-        Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
+        Mockito.when(clientDataService.clientProfile(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClient("01"));
 
     }
 
@@ -69,7 +54,7 @@ public class GetClientTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient("01"));
 
     }
 
@@ -77,39 +62,24 @@ public class GetClientTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(BigDecimal.ONE));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient("01"));
 
     }
 
-    private List<ca.bc.gov.open.jag.api.model.Client> createClientList() {
+    private Client createClient() {
 
-        ca.bc.gov.open.jag.api.model.Client client1 = new ca.bc.gov.open.jag.api.model.Client();
-        client1.setClientNo(BigDecimal.valueOf(123));
-        client1.setClientName("TEST1, TESTER");
-        client1.setCurrentNameYn("N");
-        client1.setGenderCode("M");
-        client1.setBirthDate("1961-04-17");
-        client1.setCustodyLocation("TEST1");
-        client1.setCommunityLocation("TEST1");
+        Client client = new Client();
+        client.setClientNum("01");
+        client.setClientId(BigDecimal.ONE);
+        client.setClientName("TEST1, TESTER");
+        client.setGender("M");
+        client.setBirthDate("1961-04-17");
+        client.setCustodyLocation("TEST1");
 
-
-        return Collections.singletonList(client1);
+        return client;
 
     }
 
-    private List<ca.bc.gov.open.jag.api.model.Address> createAddressList() {
 
-        ca.bc.gov.open.jag.api.model.Address address1 = new ca.bc.gov.open.jag.api.model.Address();
-        address1.setAddressLine1Txt("1234 Street st");
-        address1.setCityCd("TEST1");
-        address1.setPostalCodeTxt("V0H 1V0");
-        ca.bc.gov.open.jag.api.model.Address address2 = new ca.bc.gov.open.jag.api.model.Address();
-        address2.setAddressLine1Txt("1235 Street st");
-        address2.setCityCd("TEST2");
-        address2.setPostalCodeTxt("V0H 2V0");
-
-        return Arrays.asList(address1, address2);
-
-    }
 
 }
