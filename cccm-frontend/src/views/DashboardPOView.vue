@@ -174,10 +174,11 @@ export default {
             "supervisionRating": "H",
             "rnaCompleteDate": "2022-08-10",
             "dueNext": "Conditions Due",
-            "dueDate": "2022-05-10",
+            "dueDate": "2022-08-15",
             "datePhotoTaken": "2021-10-10",
             "photo": "https://www.w3schools.com/images/lamp.jpg",
             "birthDate": "1979-12-03",
+            "rnaStatus": "OD",
             "communityAlerts": [
               {
                 "date": "2022-01-02",
@@ -217,14 +218,14 @@ export default {
                 "name": "Violence Prevention",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               },
               {
                 "referredDate": "2022-01-02",
                 "name": "Substance Abuse",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               }
             ],
           },
@@ -243,6 +244,7 @@ export default {
             "datePhotoTaken": "2021-10-10",
             "photo": "https://www.w3schools.com/images/lamp.jpg",
             "birthDate": "1979-12-03",
+            "rnaStatus": "OD",
             "communityAlerts": [
               {
                 "date": "2022-01-02",
@@ -282,14 +284,14 @@ export default {
                 "name": "Violence Prevention",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               },
               {
                 "referredDate": "2022-01-02",
                 "name": "Substance Abuse",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               }
             ],
           },
@@ -308,6 +310,7 @@ export default {
             "datePhotoTaken": "2021-10-10",
             "photo": "https://www.w3schools.com/images/lamp.jpg",
             "birthDate": "1979-12-03",
+            "rnaStatus": "OD",
             "communityAlerts": [
               {
                 "date": "2022-01-02",
@@ -347,14 +350,14 @@ export default {
                 "name": "Violence Prevention",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               },
               {
                 "referredDate": "2022-01-02",
                 "name": "Substance Abuse",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               }
             ],
           },
@@ -373,6 +376,7 @@ export default {
             "datePhotoTaken": "2021-10-10",
             "photo": "https://www.w3schools.com/images/lamp.jpg",
             "birthDate": "1979-12-03",
+            "rnaStatus": "OD",
             "communityAlerts": [
               {
                 "date": "2022-01-02",
@@ -412,14 +416,14 @@ export default {
                 "name": "Violence Prevention",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               },
               {
                 "referredDate": "2022-01-02",
                 "name": "Substance Abuse",
                 "status": "Enrolled",
                 "startDate": "2022-01-02",
-                "Outcome": "Failed to complete"
+                "outcome": "Failed to complete"
               }
             ],
           }
@@ -454,7 +458,6 @@ export default {
     },
     getInitData() {
       for (let el of this.clientList) {
-        console.log("el: ", el);
         let initData = {"data": {}};
         let dataContent = {};
         dataContent.photo = el.photo;
@@ -462,17 +465,23 @@ export default {
         dataContent.fullName = el.clientName;
         dataContent.csNumber = el.csNumber;
         dataContent.birthDate = el.birthDate;
-        dataContent.communityAlerts = el.communityAlerts;
+        //build communityAlerts
+        let caVal = "";
+        for (let ca of el.communityAlerts) {
+          caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
+        }
+        dataContent.communityAlerts = caVal;
         dataContent.outstandingWarrants = el.outstandingWarrants;
         dataContent.nextAppointmentDate = el.nextAppointmentDate;
         dataContent.orderEffectiveDate = el.orderEffectiveDate;
         dataContent.programs = el.programs;
+        dataContent.rnaStatus = el.rnaStatus;
         
         initData.data = dataContent;
         this.initDataArray[el.csNumber] = initData;
       };
 
-      console.log("initDataArray: ", this.initDataArray);
+      //console.log("initDataArray: ", this.initDataArray);
     }
   }
 }
