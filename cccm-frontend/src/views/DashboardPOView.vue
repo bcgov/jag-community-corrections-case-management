@@ -453,10 +453,6 @@ export default {
       }
     },
     getInitData() {
-      //let initDataArray = {};
-      //let initData = {"data": {}};
-
-      //this.clientList.forEach((el) => {
       for (let el of this.clientList) {
         console.log("el: ", el);
         let initData = {"data": {}};
@@ -476,48 +472,8 @@ export default {
         this.initDataArray[el.csNumber] = initData;
       };
 
-      // this.clientList.filter(el => {
-      //   let initData = {"data": {}};
-      //   let dataContent = {};
-      //   dataContent.photo = el.photo;
-      //   dataContent.datePhotoTaken = el.datePhotoTaken;
-      //   dataContent.fullName = el.clientName;
-      //   dataContent.csNumber = el.csNumber;
-      //   dataContent.birthDate = el.birthDate;
-      //   dataContent.communityAlerts = el.communityAlerts;
-      //   dataContent.outstandingWarrants = el.outstandingWarrants;
-      //   dataContent.nextAppointmentDate = el.nextAppointmentDate;
-      //   dataContent.orderEffectiveDate = el.orderEffectiveDate;
-      //   dataContent.programs = el.programs;
-        
-      //   initData.data = dataContent;
-      //   this.initDataArray[el.csNumber] = initData;
-      // });
       console.log("initDataArray: ", this.initDataArray);
     }
   }
 }
 </script>
-
-<style>
-.red {
-  font-size: 15px;
-  background-color: rgb(255, 0, 0);
-  color: hsl(0, 0%, 1%)
-}
-
-.yellow {
-  font-size: 15px;
-  background-color: rgb(236, 216, 103);
-  color: hsl(0, 0%, 1%);
-  line-height: 1.6;
-}
-
-.green {
-  font-size: 15px;
-  background-color: rgb(103, 236, 147);
-  color: hsl(0, 0%, 1%);
-  line-height: 1.6;
-}
-
-</style>

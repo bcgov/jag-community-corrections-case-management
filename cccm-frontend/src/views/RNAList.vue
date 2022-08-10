@@ -342,23 +342,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.red {
-  font-size: 15px;
-  color: rgb(255, 0, 0);
-}
-
-.yellow {
-  font-size: 15px;
-  color: rgb(205, 236, 103);
-  line-height: 1.6;
-}
-
-.green {
-  font-size: 15px;
-  color: rgb(103, 236, 147);
-  line-height: 1.6;
-}
-
-</style>
