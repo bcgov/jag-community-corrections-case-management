@@ -28,18 +28,24 @@
           >
           </v-select>
         </v-col>
-        <v-col class="d-flex align-left" cols="6" sm="2" >
-          <v-select 
-            :items="supervisionPeriods" 
-            item-text="text"
-            item-value="value"
+        <v-col class="d-flex align-left" cols="6" sm="6" >
+          <v-radio-group
             label="Supervision Periods"
-            v-model="selectedSupervisionPeriods" 
+            v-model="selectedSupervisionPeriods"
+            row
             v-on:change="applyPeriodFilter"
-            outlined>
-          </v-select>
+          >
+            <v-radio
+              label="All Supervision Periods"
+              value="false"
+            ></v-radio>
+            <v-radio
+              label="Current Supervision Perios"
+              value="true"
+            ></v-radio>
+          </v-radio-group>
         </v-col>
-        <v-col class="d-flex align-left" cols="6" sm="6" ></v-col>
+        <v-col class="d-flex align-left" cols="6" sm="2" ></v-col>
         <v-col class="d-flex align-right" cols="6" sm="2" >
           <button @click="formCreate()">New RNA</button>
         </v-col>
@@ -48,7 +54,6 @@
         :key="key_rnalistSearchResult"
         :headers="headers"
         :formTypes="formTypes"
-        :supervisionPeriods="supervisionPeriods"
         :items="filteredRNAList"
         item-key="formID"
         no-results-text="No results found"
@@ -168,8 +173,7 @@ export default {
       rnaList: [],
       selectedFormTypes: {text: "ALL", value: ""},
       formTypes: [{text: "ALL", value: ""},{text: "CRNA", value: "CRNA"},{text: "SARA", value: "SARA"}],
-      selectedSupervisionPeriods: {text: "Current", value: true},
-      supervisionPeriods: [{text: "ALL", value: false}, {text: "Current", value: true}],
+      selectedSupervisionPeriods: "false",
       // form creation payload
       formData: {},
       // newly created formID
@@ -194,9 +198,8 @@ export default {
       if (typeof currentPeriod == 'object') {
         currentPeriod = currentPeriod.value;
       }
-      
       this.filteredRNAList = this.rnaList.filter(el => {
-        if (currentPeriod) {
+        if (currentPeriod == "true") {
           return el.formType.includes(formType) && el.formStatus != 'Complete';
         } else {
           return el.formType.includes(formType);
