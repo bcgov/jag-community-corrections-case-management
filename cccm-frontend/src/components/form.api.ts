@@ -70,6 +70,21 @@ export async function clientSearch(formData: object) {
     }
 }
 
+// function to search clients assigned to the given probation office ID
+export async function clientSearchByPO(POID: String) {
+    try{
+        //console.log("ClientSearch by PO id: ", POID);
+        const { data } = await axiosClient.get('/clients/poid', {
+            params: {
+                poid: POID
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
 // function to search client profile
 export async function clientProfileSearch(clientID: number) {
     try{
@@ -79,7 +94,6 @@ export async function clientProfileSearch(clientID: number) {
                     clientID: clientID
                 }
             });
-        //const { data } = await axiosClient.get('/clients');
         return [null, data];
     } catch (error) {
         return [error];

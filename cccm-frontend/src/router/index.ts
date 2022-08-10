@@ -6,6 +6,8 @@ import ClientSearchView from '../views/ClientSearchView.vue'
 import ClientProfileView from '../components/common/FormioClientProfile.vue'
 import Unauthorized from '../views/Unauthorized.vue'
 import RNAListView from '../views/RNAList.vue'
+import DashboardPOView from '../views/DashboardPOView.vue'
+import DashboardSupervisorView from '../views/DashboardSupervisorView.vue'
 
 Vue.use(VueRouter)
 
@@ -17,6 +19,22 @@ const router = new VueRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/dashboardpo',
+      name: 'dashboardpo',
+      component: DashboardPOView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/dashboardsupervisor',
+      name: 'dashboardsupervisor',
+      component: DashboardSupervisorView,
       meta: {
         isAuthenticated: true
       }
@@ -87,7 +105,18 @@ router.beforeEach((to, from, next) => {
       //console.log("Authenticated and has 'client-search' role");
       Vue.$keycloak.updateToken(70)
         .then(() => {
-          next()
+          // if the login user is supervisor, direct them to dashboardsupervisor view
+          if (to.name == 'home') {
+            if (Vue.$keycloak.hasRealmRole('client-search')) {
+              next({ name: 'dashboardpo' })
+            } else {
+              next({ name: 'dashboardsupervisor' })
+            }
+          } else {
+            // otherwise, direct them to dashboardpo view
+            next()
+          }
+          
         })
         .catch(err => {
           console.error(err)
