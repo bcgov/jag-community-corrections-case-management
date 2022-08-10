@@ -3,21 +3,25 @@
     <v-card>
       <div class="row">
         <div class="col-sm-6">
-          <v-card-title>My Dashboard</v-card-title>
+          <h4>My Dashboard</h4>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+          <button @click="print()">Print Report</button>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-6">
-          <strong>&nbsp;&nbsp;&nbsp;&nbsp;Designation Total</strong>
-          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;GEN: </strong> {{ numOfGen }}</p>
-          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;SMO: </strong> {{ numOfSMO }}</p>
-          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;IPV: </strong> {{ numOfIPV }}</p>
+          <h5>&nbsp;&nbsp;&nbsp;&nbsp;Designation Total</h5>
+          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GEN: </strong> {{ numOfGen }}</div>
+          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMO: </strong> {{ numOfSMO }}</div>
+          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IPV: </strong> {{ numOfIPV }}</div>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-2">
-          <p class="red">Due today or overdue</p>
-          <p class="yellow">Due within 1 to 14 days</p>
-          <p class="green">Due in over 14 days</p>
+          <div>Due today or overdue</div>
+          <div>Due within 1 to 14 days</div>
+          <div>Due in over 14 days</div>
         </div>
       </div>
       <v-data-table
@@ -49,6 +53,14 @@
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
           <a :href="`/clientprofile/${item.csNumber}`" target="_blank">{{item.clientName}}</a>
+        </template>
+        <!--Customize the alerts field, show the alert count -->
+        <template v-slot:item.communityAlerts="{ item }">
+          <span>{{getAlerts[item.csNumber]}}</span>
+        </template>
+        <!--Customize the warrant field, show the warrant count -->
+        <template v-slot:item.outstandingWarrants="{ item }">
+          <span>{{getWarrants[item.csNumber]}}</span>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
@@ -107,6 +119,10 @@ export default {
   },
   data() {
     return {
+      //const designation
+      CONST_DESIGNATION_GEN: "GEN",
+      CONST_DESIGNATION_SMO: "SMO",
+      CONST_DESIGNATION_IPV: "IPV",
       key_results: 0,
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
@@ -117,8 +133,8 @@ export default {
       loading: true,
       headers: [
         { text: 'Client Name', value: 'clientName', sortable: true, class: 'datatable-header-text-style' },
-        { text: 'Alert(s) (Y/N)', value: 'alerts', class: 'datatable-header-text-style' },
-        { text: 'Outstanding Warrant (Y/N)', value: 'warrants', class: 'datatable-header-text-style' },
+        { text: 'Alert(s) (Y/N)', value: 'communityAlerts', class: 'datatable-header-text-style' },
+        { text: 'Outstanding Warrant (Y/N)', value: 'outstandingWarrants', class: 'datatable-header-text-style' },
         { text: 'Designation', value: 'designation', class: 'datatable-header-text-style' },
         { text: 'In Custody (Y/N)', value: 'inCustody', class: 'datatable-header-text-style' },
         { text: 'Order Expiry Date', value: 'orderExpiryDate', class: 'datatable-header-text-style' },
@@ -145,6 +161,9 @@ export default {
     this.clientSearchAPI(this.POID)
   },
   methods: {
+    print() {
+      console.log("Print client list");
+    },
     async clientSearchAPI(POID) {
       const [error, response] = await clientSearchByPO(POID);
       //this.initData = response.data;
@@ -155,9 +174,7 @@ export default {
           {
             "csNumber": "123456780",
             "clientName": "Arsenault, Sonja",
-            "alerts": "N",
-            "warrants": "N",
-            "designation": "GEN, IPV, SMO",
+            "designation": ["GEN", "IPV", "SMO"],
             "inCustody": "Y", 
             "orderExpiryDate": "2022-10-10",
             "supervisionRating": "H",
@@ -217,13 +234,12 @@ export default {
                 "outcome": "Failed to complete"
               }
             ],
+            "nextCourtDate": "2022-11-01"
           },
           {
             "csNumber": "123456781",
             "clientName": "Kovlachek, Maris",
-            "alerts": "N",
-            "warrants": "N",
-            "designation": "GEN",
+            "designation": ["GEN"],
             "inCustody": "N", 
             "orderExpiryDate": "2022-10-04",
             "supervisionRating": "H",
@@ -283,13 +299,12 @@ export default {
                 "outcome": "Failed to complete"
               }
             ],
+            "nextCourtDate": "2022-11-01"
           },
           {
             "csNumber": "123456782",
             "clientName": "Shiau, Ann",
-            "alerts": "Y (3)",
-            "warrants": "Y",
-            "designation": "GEN, IPV",
+            "designation": ["GEN", "IPV"],
             "inCustody": "N", 
             "orderExpiryDate": "2022-12-10",
             "supervisionRating": "H",
@@ -349,13 +364,12 @@ export default {
                 "outcome": "Failed to complete"
               }
             ],
+            "nextCourtDate": "2022-11-01"
           },
           {
             "csNumber": "123456783",
             "clientName": "Tyler, Steven",
-            "alerts": "Y (1)",
-            "warrants": "Y",
-            "designation": "GEN, IPV, SMO",
+            "designation": ["GEN", "IPV", "SMO"],
             "inCustody": "Y", 
             "orderExpiryDate": "2022-11-10",
             "supervisionRating": "H",
@@ -415,12 +429,23 @@ export default {
                 "outcome": "Failed to complete"
               }
             ],
+            "nextCourtDate": "2022-11-01"
           }
         ];
       //update the counts
-      this.numOfGen = 1;
-      this.numOfSMO = 2;
-      this.numOfIPV = 3;
+      for (let el of this.clientList) {
+        for (let d of el.designation) {
+          if (d == this.CONST_DESIGNATION_GEN) {
+            this.numOfGen++;
+          }
+          if (d == this.CONST_DESIGNATION_SMO) {
+            this.numOfSMO++;
+          }
+          if (d == this.CONST_DESIGNATION_IPV) {
+            this.numOfIPV++;
+          }
+        }
+      }
 
       // populate this.initDataArray
       this.getInitData();
@@ -465,12 +490,37 @@ export default {
         dataContent.orderEffectiveDate = el.orderEffectiveDate;
         dataContent.programs = el.programs;
         dataContent.rnaStatus = el.rnaStatus;
+        dataContent.nextCourtDate = el.nextCourtDate;
         
         initData.data = dataContent;
         this.initDataArray[el.csNumber] = initData;
       };
 
       //console.log("initDataArray: ", this.initDataArray);
+    }
+  },
+  computed: {
+    getAlerts() {
+      let alertArray = [];
+      let alert = "N";
+      for (let el of this.clientList) {
+        if (el.communityAlerts != null && el.communityAlerts.length > 0) {
+          alert = "Y (" + el.communityAlerts.length + ")";
+        }
+        alertArray[el.csNumber] = alert;
+      }
+      return alertArray;
+    },
+    getWarrants() {
+      let alertWarrant = [];
+      let warrant = "N";
+      for (let el of this.clientList) {
+        if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
+          warrant = "Y (" + el.outstandingWarrants.length + ")";
+        }
+        alertWarrant[el.csNumber] = warrant;
+      }
+      return alertWarrant;
     }
   }
 }

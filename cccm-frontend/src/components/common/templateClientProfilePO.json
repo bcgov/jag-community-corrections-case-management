@@ -152,7 +152,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Date of Birth: </Strong>{{data.birthDate}}</div><br>",
+                                                                                "content": "<div><Strong>Date of Birth: </Strong>{{data.birthDate}}</div><br><div><Strong>Next Court Date: </Strong>{{data.nextCourtDate}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
