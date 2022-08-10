@@ -1,38 +1,25 @@
 <template>
   <div data-app>
     <v-card>
-      <v-row>
-        <v-col class="d-flex align-right" cols="6" sm="5" >
+      <div class="row">
+        <div class="col-sm-6">
           <v-card-title>My Dashboard</v-card-title>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col class="d-flex align-left" cols="6" sm="10">
-          <strong>Designation Total</strong>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col class="d-flex align-left" cols="6" sm="10" >
-          <v-row>
-            <v-col class="d-flex align-left" cols="3" sm="1" >
-              <strong>GEN:</strong> {{ numOfGen }}
-            </v-col>
-            <v-col class="d-flex align-left" cols="3" sm="1" >
-              <strong>SMO：</strong> {{ numOfSMO }}
-            </v-col>
-            <v-col class="d-flex align-left" cols="3" sm="1" >
-              <strong>IPV：</strong> {{ numOfIPV }}
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col class="d-flex align-right" cols="6" sm="2">
-          <div class="col-sm-12">
-            <p class="red">Due today or overdue</p>
-            <p class="yellow">Due within 1 to 14 days</p>
-            <p class="green">Due in over 14 days</p>
-          </div>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>&nbsp;&nbsp;&nbsp;&nbsp;Designation Total</strong>
+          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;GEN: </strong> {{ numOfGen }}</p>
+          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;SMO: </strong> {{ numOfSMO }}</p>
+          <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;IPV: </strong> {{ numOfIPV }}</p>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+          <p class="red">Due today or overdue</p>
+          <p class="yellow">Due within 1 to 14 days</p>
+          <p class="green">Due in over 14 days</p>
+        </div>
+      </div>
       <v-data-table
         :key="key_results"
         :headers="headers"
