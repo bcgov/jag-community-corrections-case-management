@@ -27,9 +27,9 @@
         </v-col>
         <v-col class="d-flex align-right" cols="6" sm="2">
           <div class="col-sm-12">
-            Due today or overdue
-            Due within 1 to 14 days
-            Due in over 14 days
+            <p class="red">Due today or overdue</p>
+            <p class="yellow">Due within 1 to 14 days</p>
+            <p class="green">Due in over 14 days</p>
           </div>
         </v-col>
       </v-row>
