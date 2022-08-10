@@ -26,9 +26,11 @@
           </v-row>
         </v-col>
         <v-col class="d-flex align-right" cols="6" sm="2">
-          Due today or overdue
-          Due within 1 to 14 days
-          Due in over 14 days
+          <div class="col-sm-12">
+            Due today or overdue
+            Due within 1 to 14 days
+            Due in over 14 days
+          </div>
         </v-col>
       </v-row>
       <v-data-table
