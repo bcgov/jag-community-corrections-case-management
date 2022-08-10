@@ -168,4 +168,24 @@ li {
 .show {
 	display: block;
 }
+
+.red {
+  font-size: 15px;
+  background-color: rgb(255, 0, 0);
+  color: hsl(0, 0%, 1%)
+}
+
+.yellow {
+  font-size: 15px;
+  background-color: rgb(236, 216, 103);
+  color: hsl(0, 0%, 1%);
+  line-height: 1.6;
+}
+
+.green {
+  font-size: 15px;
+  background-color: rgb(103, 236, 147);
+  color: hsl(0, 0%, 1%);
+  line-height: 1.6;
+}
 </style>
