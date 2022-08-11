@@ -655,6 +655,10 @@ components:
           type: string
         photoDate:
           type: string
+        dueNext:
+          type: string
+        dueDate:
+          type: string
         communityInformation:
           $ref: "#/components/schemas/CommunityInformation"
         orderInformation:
@@ -683,6 +687,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Alert"
+        programs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Program"
     CommunityInformation:
       type: object
       properties:
@@ -769,6 +777,8 @@ components:
           type: string
         date:
           type: string
+        courtFile:
+          type: string
     Alert:
       type: object
       properties:
@@ -790,6 +800,19 @@ components:
         city:
           type: string
         postalCode:
+          type: string
+    Program:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        referredDate:
+          type: string
+        startDate:
+          type: string
+        outcome:
           type: string
     Form:
       type: object
