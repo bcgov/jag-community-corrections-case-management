@@ -250,20 +250,7 @@ export default {
             "photo": "https://www.w3schools.com/images/lamp.jpg",
             "birthDate": "1979-12-03",
             "rnaStatus": "OD",
-            "communityAlerts": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff"
-              }
-            ],
+            "communityAlerts": [],
             "outstandingWarrants": [
               {
                 "date": "2022-01-02",
@@ -329,23 +316,7 @@ export default {
                 "details": "Client attacked staff"
               }
             ],
-            "outstandingWarrants": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff",
-                "fileNumber": "18-0184"
-              }
-            ],
+            "outstandingWarrants": [],
             "nextAppointmentDate": "2022-12-01",
             "orderEffectiveDate": "2022-11-01",
             "programs": [
@@ -386,10 +357,6 @@ export default {
                 "details": "Client threatened staff"
               },
               {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
-              },
-              {
                 "date": "2022-04-02",
                 "details": "Client attacked staff"
               }
@@ -398,16 +365,6 @@ export default {
               {
                 "date": "2022-01-02",
                 "details": "Client threatened staff",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff",
                 "fileNumber": "18-0184"
               }
             ],
@@ -481,9 +438,14 @@ export default {
         dataContent.birthDate = el.birthDate;
         //build communityAlerts
         let caVal = "";
-        for (let ca of el.communityAlerts) {
-          caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
+        if (el.communityAlerts != null && el.communityAlerts.length > 0) {
+          for (let ca of el.communityAlerts) {
+            caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
+          }
+        } else {
+          caVal = "<li>No Community Alerts</li>"
         }
+        
         dataContent.communityAlerts = caVal;
         dataContent.outstandingWarrants = el.outstandingWarrants;
         dataContent.nextAppointmentDate = el.nextAppointmentDate;
@@ -502,8 +464,8 @@ export default {
   computed: {
     getAlerts() {
       let alertArray = [];
-      let alert = "N";
       for (let el of this.clientList) {
+        let alert = "N";
         if (el.communityAlerts != null && el.communityAlerts.length > 0) {
           alert = "Y (" + el.communityAlerts.length + ")";
         }
@@ -513,8 +475,8 @@ export default {
     },
     getWarrants() {
       let alertWarrant = [];
-      let warrant = "N";
       for (let el of this.clientList) {
+        let warrant = "N";
         if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
           warrant = "Y (" + el.outstandingWarrants.length + ")";
         }
