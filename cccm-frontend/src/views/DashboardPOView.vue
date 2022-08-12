@@ -111,12 +111,6 @@ import templateClientProfile from '@/components/common/templateClientProfilePO.j
 
 export default {
   name: 'RNAList',
-  props: {
-    POID: {
-      type: String,
-      default: '1',
-    }
-  },
   data() {
     return {
       //const designation
@@ -158,7 +152,7 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.clientSearchAPI(this.POID)
+    this.clientSearchAPI(this.$route.params.poID)
   },
   methods: {
     print() {

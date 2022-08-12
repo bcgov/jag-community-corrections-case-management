@@ -24,7 +24,7 @@
         :key="key_results"
         :headers="headers"
         :items="officerList"
-        item-key="poNumber"
+        item-key="poID"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
         no-results-text="No results found"
@@ -36,6 +36,7 @@
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
         >
+        <!--Added the Total row-->
         <template slot="body.append">
           <tr class="pink--text">
             <th></th>
@@ -50,6 +51,10 @@
             <th class="title">{{ sumField('numOverdue') }}</th>
             <th class="title">{{ sumField('numActiveReports') }}</th>
           </tr>
+        </template>
+        <!--Customize the poName field, making it clickable-->
+        <template v-slot:item.poName="{ item }">
+          <a :href="`/dashboardpo/${item.poID}`" target="_blank">{{item.poName}}</a>
         </template>
         <!--Customize the header style-->
         <template v-slot:header="{ props: { headers } }">
@@ -145,12 +150,6 @@ import {officerSearch} from "@/components/form.api";
 
 export default {
   name: 'OfficerList',
-  props: {
-    supervisorID: {
-      type: String,
-      default: '1',
-    }
-  },
   data() {
     return {
       key_results: 0,
@@ -183,7 +182,8 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.officerSearchAPI(this.supervisorID)
+    this.officerSearchAPI(this.$route.params.supervisorID)
+    this.key_results++;
   },
   methods: {
     sumField(key) {
@@ -199,13 +199,11 @@ export default {
     },
     async officerSearchAPI(supervisorID) {
       const [error, response] = await officerSearch(supervisorID);
-      
-      this.key_results++;
       this.loading = false;
       this.officerList =   
         [
           {
-            "poNumber": "1233440",
+            "poID": "1233440",
             "poName": "Arsenault, Sonja",
             "numActive": 44,
             "numAdminClosed": 8, 
@@ -225,7 +223,7 @@ export default {
             "numDue7Days": 3,
           },
           {
-            "poNumber": "1233441",
+            "poID": "1233441",
             "poName": "Kovlachek, Maria",
             "numActive": 56,
             "numAdminClosed": 0, 
@@ -245,7 +243,7 @@ export default {
             "numDue7Days": 3,
           },
           {
-            "poNumber": "1233442",
+            "poID": "1233442",
             "poName": "Shiau, Ann",
             "numActive": 21,
             "numAdminClosed": 2, 
@@ -265,7 +263,7 @@ export default {
             "numDue7Days": 3,
           },
           {
-            "poNumber": "1233443",
+            "poID": "1233443",
             "poName": "Tyler, Steven",
             "numActive": 39,
             "numAdminClosed": 2, 
