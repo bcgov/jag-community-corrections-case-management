@@ -40,7 +40,7 @@
               value="false"
             ></v-radio>
             <v-radio
-              label="Current Supervision Perios"
+              label="Current Supervision Period"
               value="true"
             ></v-radio>
           </v-radio-group>
