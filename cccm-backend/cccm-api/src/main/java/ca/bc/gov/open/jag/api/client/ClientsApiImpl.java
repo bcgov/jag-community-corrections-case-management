@@ -38,11 +38,11 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientNum) {
+    public List<Client> searchClients(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientNum, String officer) {
 
         logger.info("Client Search Request");
 
-        return clientDataService.clientSearch(new ClientSearch(name, soundex, birthYear, age, address, location, gender, clientNum));
+        return clientDataService.clientSearch(new ClientSearch(name, soundex, birthYear, age, address, location, gender, clientNum, officer));
 
     }
 

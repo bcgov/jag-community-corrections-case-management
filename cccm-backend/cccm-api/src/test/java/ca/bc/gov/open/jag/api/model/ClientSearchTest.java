@@ -15,7 +15,7 @@ public class ClientSearchTest {
     @DisplayName("Test Client Search Model")
     public void testModel() {
 
-        ClientSearch sut = new ClientSearch(TEST_STRING, false, 1, 1, TEST_STRING, TEST_STRING, TEST_STRING, TEST_STRING);
+        ClientSearch sut = new ClientSearch(TEST_STRING, false, 1, 1, TEST_STRING, TEST_STRING, TEST_STRING, TEST_STRING, TEST_STRING);
 
         Assertions.assertEquals(TEST_STRING, sut.getName());
         Assertions.assertEquals(false, sut.getSoundex());
@@ -25,8 +25,7 @@ public class ClientSearchTest {
         Assertions.assertEquals(TEST_STRING, sut.getClientNum());
         Assertions.assertEquals(TEST_STRING, sut.getGender());
         Assertions.assertEquals(TEST_STRING, sut.getLocation());
-
-
+        Assertions.assertEquals(TEST_STRING, sut.getOfficer());
 
     }
 

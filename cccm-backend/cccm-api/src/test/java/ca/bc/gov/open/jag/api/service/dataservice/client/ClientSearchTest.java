@@ -39,7 +39,7 @@ public class ClientSearchTest {
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any())).thenReturn(createClientList());
         Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch(null, null,null,null,null,null,null,null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch(null, null,null,null,null,null,null,null, null));
 
         Assertions.assertEquals(2, result.size());
 
