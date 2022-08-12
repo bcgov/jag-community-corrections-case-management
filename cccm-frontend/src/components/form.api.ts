@@ -70,6 +70,21 @@ export async function clientSearch(formData: object) {
     }
 }
 
+// function to search PO
+export async function officerSearch(supervisorID: String) {
+    try{
+        //console.log("OfficerSearch by supervisor id: ", supervisorID);
+        const { data } = await axiosClient.get('/officers', {
+            params: {
+                supervisorID: supervisorID
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
 // function to search clients assigned to the given probation office ID
 export async function clientSearchByPO(POID: String) {
     try{

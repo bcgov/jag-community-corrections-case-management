@@ -238,7 +238,7 @@ export default {
           },
           {
             "csNumber": "123456781",
-            "clientName": "Kovlachek, Maris",
+            "clientName": "Kovlachek, Maria",
             "designation": ["GEN"],
             "inCustody": "N", 
             "orderExpiryDate": "2022-10-04",

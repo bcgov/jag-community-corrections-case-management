@@ -108,9 +108,9 @@ router.beforeEach((to, from, next) => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == 'home') {
             if (Vue.$keycloak.hasRealmRole('client-search')) {
-              next({ name: 'dashboardpo' })
-            } else {
               next({ name: 'dashboardsupervisor' })
+            } else {
+              next({ name: 'dashboardpo' })
             }
           } else {
             // otherwise, direct them to dashboardpo view
