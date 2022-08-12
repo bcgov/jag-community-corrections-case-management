@@ -193,23 +193,7 @@ export default {
                 "details": "Client attacked staff"
               }
             ],
-            "outstandingWarrants": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff",
-                "fileNumber": "18-0184"
-              }
-            ],
+            "outstandingWarrants": [],
             "nextAppointmentDate": "2022-12-01",
             "orderEffectiveDate": "2022-11-01",
             "programs": [
@@ -264,22 +248,7 @@ export default {
             ],
             "nextAppointmentDate": "2022-12-01",
             "orderEffectiveDate": "2022-11-01",
-            "programs": [
-              {
-                "referredDate": "2022-01-02",
-                "name": "Violence Prevention",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              },
-              {
-                "referredDate": "2022-01-02",
-                "name": "Substance Abuse",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              }
-            ],
+            "programs": [],
             "nextCourtDate": "2022-11-01"
           },
           {
@@ -437,14 +406,28 @@ export default {
             caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
           }
         } else {
-          caVal = "<li>No Community Alerts</li>"
+          caVal = "<li>The client doesn't have any Community Alerts</li>"
         }
-        
         dataContent.communityAlerts = caVal;
+        
+        //build outstandingWarrants
+        let waVal = "N";
+        if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
+          waVal = "Y";
+        };
         dataContent.outstandingWarrants = el.outstandingWarrants;
+        dataContent.outstandingWarrants_yn = waVal;
+
+        //build programs
+        let pVal = "N";
+        if (el.programs != null && el.programs.length > 0) {
+          pVal = "Y";
+        };
+        dataContent.programs = el.programs;
+        dataContent.programs_yn = pVal;
+
         dataContent.nextAppointmentDate = el.nextAppointmentDate;
         dataContent.orderEffectiveDate = el.orderEffectiveDate;
-        dataContent.programs = el.programs;
         dataContent.rnaStatus = el.rnaStatus;
         dataContent.nextCourtDate = el.nextCourtDate;
         
