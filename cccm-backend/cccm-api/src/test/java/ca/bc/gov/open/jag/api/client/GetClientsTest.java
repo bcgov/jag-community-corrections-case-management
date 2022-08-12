@@ -34,7 +34,7 @@ public class GetClientsTest {
 
         Mockito.when(clientDataService.clientSearch(Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients(null, null,null,null,null,null,null,null);
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients(null, null,null,null,null,null,null,null, null);
 
         Assertions.assertEquals(2, result.size());
 
@@ -45,7 +45,7 @@ public class GetClientsTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null, null));
 
     }
 
@@ -53,7 +53,7 @@ public class GetClientsTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClients(null,null,null,null,null,null,null,null, null));
 
     }
 

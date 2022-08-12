@@ -49,6 +49,10 @@ paths:
           name: clientNum
           schema:
             type: string
+        - in: query
+          name: officer
+          schema:
+            type: string
       responses:
         "200":
           content:

@@ -10,8 +10,9 @@ public class ClientSearch {
     private  String location;
     private  String gender;
     private  String clientNum;
+    private String officer;
 
-    public ClientSearch(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientNum) {
+    public ClientSearch(String name, Boolean soundex, Integer birthYear, Integer age, String address, String location, String gender, String clientNum, String officer) {
         this.name = name;
         this.soundex = soundex;
         this.birthYear = birthYear;
@@ -20,6 +21,7 @@ public class ClientSearch {
         this.location = location;
         this.gender = gender;
         this.clientNum = clientNum;
+        this.officer = officer;
     }
 
     public String getName() {
@@ -53,4 +55,7 @@ public class ClientSearch {
     public String getClientNum() {
         return clientNum;
     }
+
+    public String getOfficer() { return this.officer; }
+
 }
