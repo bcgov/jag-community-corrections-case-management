@@ -43,7 +43,7 @@
         </template>
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.fullName="{ item }">
-          <a :href="`/clientprofile/${item.clientID}`" target="_blank">{{item.fullName}}</a>
+          <a :href="`/clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.fullName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
@@ -139,8 +139,7 @@ export default {
         { text: 'CS#', value: 'csNumber', class: 'datatable-header-text-style' },
         { text: 'Record Sealed?', value: 'recordSealed', class: 'datatable-header-text-style' },
       ],
-      clients: [],
-      clientPhoto: {}
+      clients: []
     }
   },
   components: {
@@ -151,7 +150,10 @@ export default {
   },
   methods: {
     expandRow ({ item, value }) {
-      this.handlePhotoSearch(item.clientID);
+      // call searchPhotoAPI only when the photo hasn't loaded.
+      if (item.photoData == null) {
+        this.handlePhotoSearch(item.clientID);
+      }
     },
     buildForm() {
       // make a deep copy of the template
@@ -233,7 +235,7 @@ export default {
         this.clients =   
           [
             {
-                "clientID": "10010101",
+                "clientID": 10010101,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
@@ -257,7 +259,7 @@ export default {
                 ]
             },
             {
-                "clientID": "20010101",
+                "clientID": 20010101,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
@@ -281,7 +283,7 @@ export default {
                 ]
             },
             {
-                "clientID": "20010103",
+                "clientID": 20010103,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
@@ -305,7 +307,7 @@ export default {
                 ]
             },
             {
-                "clientID": "100153101",
+                "clientID": 100153101,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
@@ -329,7 +331,7 @@ export default {
                 ]
             },
             {
-                "clientID": "10048392",
+                "clientID": 10048392,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
@@ -353,7 +355,7 @@ export default {
                 ]
             },
             {
-                "clientID": "28398322",
+                "clientID": 28398322,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
@@ -377,7 +379,7 @@ export default {
                 ]
             },
             {
-                "clientID": "38440221",
+                "clientID": 38440221,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
@@ -401,7 +403,7 @@ export default {
                 ]
             },
             {
-                "clientID": "43502022",
+                "clientID": 43502022,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
@@ -425,7 +427,7 @@ export default {
                 ]
             },
             {
-                "clientID": "430493242",
+                "clientID": 430493242,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
@@ -449,7 +451,7 @@ export default {
                 ]
             },
             {
-                "clientID": "1324233555",
+                "clientID": 1324233555,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
@@ -499,6 +501,7 @@ export default {
       }
     },
     async handlePhotoSearch(clientID) {
+      console.log("Photo search for clientID: ", clientID);
       const [error, response] = await photoSearch(clientID);
 
       // To be deleted, sample data
@@ -518,7 +521,6 @@ export default {
           if (el.clientID == clientID) {
             el.photoData = "data:image/png;base64, " + sd;
             el.csNumber = " " + el.csNumber; // force the expanded row to refresh
-            this.clientPhoto[el.clientID] = el.photoData;
             break;
           }
         }

@@ -48,7 +48,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientProfile/:id',
+      path: '/clientProfile/:clientID/:csNumber',
       name: 'clientprofile',
       component: ClientProfileView,
       meta: {
