@@ -73,7 +73,7 @@ export default {
     async clientProfileSearchAPI() {
       let clientId= this.$route.params.id;
       console.log("client profile search, clientId: ", clientId);
-      const [error, response] = await clientProfileSearch(clientId * 1);
+      const [error, response] = await clientProfileSearch(clientId);
       //this.initData = response.data;
       this.initData = {"data": {}};
       this.initData.data = 

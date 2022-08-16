@@ -135,9 +135,9 @@ import {formSearch, cloneForm, createForm} from "@/components/form.api";
 export default {
   name: 'RNAList',
   props: {
-    clientID: {
-      type: Number,
-      default: 1,
+    clientNum: {
+      type: String,
+      default: '',
     }
   },
   data() {
@@ -182,7 +182,7 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.formSearchAPI(this.clientID, false)
+    this.formSearchAPI(this.clientNum, false)
   },
   methods: {
     applyFormTypeFilter(ft) {
@@ -220,8 +220,8 @@ export default {
         console.error(error);
       } 
     },
-    async formSearchAPI(clientID, tobeRemoved_addOne) {
-      const [error, response] = await formSearch(clientID, 'RNA', true);
+    async formSearchAPI(clientNum, tobeRemoved_addOne) {
+      const [error, response] = await formSearch(clientNum, 'RNA', true);
       //this.initData = response.data;
       this.key_rnalistSearchResult++;
       this.loading = false;
@@ -312,7 +312,7 @@ export default {
     async formClone(formID) {
       console.log("formClone", formID);
       this.formCloneAPI(formID);
-      this.formSearchAPI(this.clientID, true);
+      this.formSearchAPI(this.clientNum, true);
     },
     formPrint(formID) {
       console.log("formPrint", formID);

@@ -104,7 +104,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {clientSearchByPO} from "@/components/form.api";
+import {clientSearch} from "@/components/form.api";
 import { Form } from 'vue-formio';
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 
@@ -159,7 +159,8 @@ export default {
       console.log("Print client list");
     },
     async clientSearchAPI(POID) {
-      const [error, response] = await clientSearchByPO(POID);
+      const [error, response] = await clientSearch(null, null, null, null,
+            null, null, null, POID, null);
       //this.initData = response.data;
       this.key_results++;
       this.loading = false;
