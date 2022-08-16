@@ -28,7 +28,6 @@
         :single-expand="singleExpand"
         :expanded.sync="expanded"
         no-results-text="No results found"
-        hide-default-header
         show-expand
         class="elevation-1"
         hide-default-footer
@@ -55,16 +54,6 @@
         <!--Customize the poName field, making it clickable-->
         <template v-slot:item.poName="{ item }">
           <a :href="`/dashboardpo/${item.poID}`" target="_blank">{{item.poName}}</a>
-        </template>
-        <!--Customize the header style-->
-        <template v-slot:header="{ props: { headers } }">
-          <thead>
-            <tr class="datatable-header-bg-style">
-              <th v-for="h in headers" :class="h.class" :key="h.id">
-                <span>{{h.text}}</span>
-              </th>
-            </tr>
-          </thead>
         </template>
         <!--Customize the expanded item to show more-->
         <template v-slot:expanded-item="{ headers, item }">
@@ -163,16 +152,16 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'PO Name', value: 'poName', sortable: true, class: 'datatable-header-text-style' },
-        { text: 'Active/Admin', value: 'numActive', class: 'datatable-header-text-style' },
-        { text: 'Admin Closed', value: 'numAdminClosed', class: 'datatable-header-text-style' },
-        { text: 'BAL', value: 'numBAL', class: 'datatable-header-text-style' },
-        { text: 'High', value: 'numHigh', class: 'datatable-header-text-style' },
-        { text: 'Medium', value: 'numMedium', class: 'datatable-header-text-style' },
-        { text: 'Low', value: 'numLow', class: 'datatable-header-text-style' },
-        { text: 'Unknown', value: 'numUnknown', class: 'datatable-header-text-style' },
-        { text: 'Overdue RNA\'s', value: 'numOverdue', class: 'datatable-header-text-style' },
-        { text: 'Active Reports', value: 'numActiveReports', class: 'datatable-header-text-style' },
+        { text: 'PO Name', value: 'poName', sortable: true },
+        { text: 'Active/Admin', value: 'numActive' },
+        { text: 'Admin Closed', value: 'numAdminClosed' },
+        { text: 'BAL', value: 'numBAL' },
+        { text: 'High', value: 'numHigh' },
+        { text: 'Medium', value: 'numMedium' },
+        { text: 'Low', value: 'numLow' },
+        { text: 'Unknown', value: 'numUnknown' },
+        { text: 'Overdue RNA\'s', value: 'numOverdue' },
+        { text: 'Active Reports', value: 'numActiveReports' },
       ],
       expanded: [],
       singleExpand: false,

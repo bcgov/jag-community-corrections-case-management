@@ -23,7 +23,6 @@
         item-key="clientID"
         no-results-text="No clients found"
         :search="search"
-        hide-default-header
         show-expand
         class="elevation-1"
         hide-default-footer
@@ -31,16 +30,6 @@
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
         >
-        <!--Customize the header style-->
-        <template v-slot:header="{ props: { headers } }">
-          <thead>
-            <tr class="datatable-header-bg-style">
-              <th v-for="h in headers" :class="h.class" :key="h.clientID">
-                <span>{{h.text}}</span>
-              </th>
-            </tr>
-          </thead>
-        </template>
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.fullName="{ item }">
           <a :href="`/clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.fullName}}</a>
@@ -129,15 +118,15 @@ export default {
           align: 'start',
           value: 'data-table-expand'
         },
-        { text: 'Name', align: 'start', sortable: true, value: 'fullName', class: 'datatable-header-text-style' },
-        { text: 'Current Name?', value: 'currentNameIndicator', class: 'datatable-header-text-style' },
-        { text: 'Age', value: 'clientAge', class: 'datatable-header-text-style' },
-        { text: 'Date of Birth', value: 'birthDate', class: 'datatable-header-text-style' },
-        { text: 'Address', value: 'fullAddress', class: 'datatable-header-text-style' },
-        { text: 'Address Type', value: 'addressType', class: 'datatable-header-text-style' },
-        { text: 'Expired?', value: 'expired', class: 'datatable-header-text-style' },
-        { text: 'CS#', value: 'csNumber', class: 'datatable-header-text-style' },
-        { text: 'Record Sealed?', value: 'recordSealed', class: 'datatable-header-text-style' },
+        { text: 'Name', align: 'start', sortable: true, value: 'fullName' },
+        { text: 'Current Name?', value: 'currentNameIndicator' },
+        { text: 'Age', value: 'clientAge' },
+        { text: 'Date of Birth', value: 'birthDate' },
+        { text: 'Address', value: 'fullAddress' },
+        { text: 'Address Type', value: 'addressType' },
+        { text: 'Expired?', value: 'expired' },
+        { text: 'CS#', value: 'csNumber' },
+        { text: 'Record Sealed?', value: 'recordSealed' },
       ],
       clients: []
     }
@@ -534,12 +523,6 @@ export default {
 </script>
 
 <style >
-.datatable-header-bg-style {
-  background: #154c79;
-}
-.datatable-header-text-style {
-  color: #ffffff !important;
-}
 .wild-search-text {
   color: #154c79;
   font-size: 0.5em;

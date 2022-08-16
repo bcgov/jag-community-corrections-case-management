@@ -33,7 +33,6 @@
         :expanded.sync="expanded"
         @item-expanded="expandRow"
         no-results-text="No results found"
-        hide-default-header
         show-expand
         class="elevation-1"
         hide-default-footer
@@ -41,16 +40,6 @@
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
         >
-        <!--Customize the header style-->
-        <template v-slot:header="{ props: { headers } }">
-          <thead>
-            <tr class="datatable-header-bg-style">
-              <th v-for="h in headers" :class="h.class" :key="h.id">
-                <span>{{h.text}}</span>
-              </th>
-            </tr>
-          </thead>
-        </template>
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
           <a :href="`/clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.clientName}}</a>
@@ -127,16 +116,16 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'Client Name', value: 'clientName', sortable: true, class: 'datatable-header-text-style' },
-        { text: 'Alert(s) (Y/N)', value: 'communityAlerts', class: 'datatable-header-text-style' },
-        { text: 'Outstanding Warrant (Y/N)', value: 'outstandingWarrants', class: 'datatable-header-text-style' },
-        { text: 'Designation', value: 'designation', class: 'datatable-header-text-style' },
-        { text: 'In Custody (Y/N)', value: 'inCustody', class: 'datatable-header-text-style' },
-        { text: 'Order Expiry Date', value: 'orderExpiryDate', class: 'datatable-header-text-style' },
-        { text: 'Supervision Rating', value: 'supervisionRating', class: 'datatable-header-text-style' },
-        { text: 'RNA Completed', value: 'rnaCompleteDate', class: 'datatable-header-text-style' },
-        { text: 'Due Next', value: 'dueNext', class: 'datatable-header-text-style' },
-        { text: 'Due Date', value: 'dueDate', class: 'datatable-header-text-style' },
+        { text: 'Client Name', value: 'clientName' },
+        { text: 'Alert(s) (Y/N)', value: 'communityAlerts' },
+        { text: 'Outstanding Warrant (Y/N)', value: 'outstandingWarrants' },
+        { text: 'Designation', value: 'designation' },
+        { text: 'In Custody (Y/N)', value: 'inCustody' },
+        { text: 'Order Expiry Date', value: 'orderExpiryDate' },
+        { text: 'Supervision Rating', value: 'supervisionRating' },
+        { text: 'RNA Completed', value: 'rnaCompleteDate' },
+        { text: 'Due Next', value: 'dueNext' },
+        { text: 'Due Date', value: 'dueDate' },
       ],
       expanded: [],
       singleExpand: false,
