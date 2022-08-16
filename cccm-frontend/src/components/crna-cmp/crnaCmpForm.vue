@@ -135,6 +135,7 @@ export default {
 .crna-subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
+  padding-bottom: 1px!important;
 }
 
 .crna-subSectionTitleClass:nth-child(1):after {
@@ -143,6 +144,7 @@ export default {
   width: 50px;
   display: block;
   border: 4px solid #FCBA19;
+  margin-bottom:20px;
 }
 
 

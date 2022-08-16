@@ -31,7 +31,7 @@
           {
               "components": [
                 {
-                  "customClass": "text-right pr-4",
+                  "customClass": "text-right mr-2",
                   "label": "${label_btn_other}",
                   "action": "event",
                   "showValidations": false,

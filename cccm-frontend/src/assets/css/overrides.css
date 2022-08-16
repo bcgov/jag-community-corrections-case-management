@@ -44,6 +44,9 @@
 .formio-action-buttons{
  }
 
+.formio-form {
+    min-height:auto!important;
+}
 
 /*CRNA FORM STYLES - TODO: Move to own file*/
 .crna-formio-h1 {
@@ -84,8 +87,45 @@
 .v-style-data-table {
     border: 1px solid #bcbcbc;
 }
+
+.list-group {
+    margin-top: 0px!important;
+}
 .list-group-header {
-    background-color: blue!important;
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.list-group-header {
+    display:none;
+}
+
+.list-group-item {
+    box-shadow: none;
+    border-radius:0px!important;
+}
+.list-group-item > .row {
+    margin:0;
+    padding:0;
+}
+
+p[ref="html"]{
+    padding:0!important;
+    margin:0!important;
+    min-height:0px!important;
+}
+
+.hide-input > div > input {
+    display:none;
+}
+
+.editgrid-header {
+    margin: 0 1px!important;
+    text-align:center;
+    background-color:#38598A;
+    color: #fff;
+    border: 1px solid #ccc;
 }
 @media only screen and (max-width: 600px) {
     .container {
