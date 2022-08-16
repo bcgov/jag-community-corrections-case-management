@@ -93,7 +93,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  
-    const roles = ['client-search', 'client-view'];
+    const subjectID = Vue.$keycloak.subject;
     console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
@@ -111,15 +111,19 @@ router.beforeEach((to, from, next) => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == 'home') {
             if (Vue.$keycloak.hasRealmRole('po-manage')) {
-              next({ name: 'dashboardsupervisor', params: { supervisorID: Vue.$keycloak.subject } });
+              next({ name: 'dashboardsupervisor', params: { supervisorID: subjectID } });
             } else {
-              next({ name: 'dashboardpo', params: { poID: Vue.$keycloak.subject }  })
+              next({ name: 'dashboardpo', params: { poID: subjectID }  })
             }
           } else {
-            // otherwise, direct them to dashboardpo view
-            next()
+            // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
+            if (to.name == 'dashboardsupervisor' && !Vue.$keycloak.hasRealmRole('po-manage')) {
+              next({ name: 'dashboardpo', params: { poID: subjectID }  })
+            } else {
+              // otherwise, direct them to dashboardpo view
+              next()
+            }
           }
-          
         })
         .catch(err => {
           console.error(err)
