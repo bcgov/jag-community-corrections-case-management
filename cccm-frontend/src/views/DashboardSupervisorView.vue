@@ -9,6 +9,7 @@
       <div class="row">
         <div class="col-sm-2">
           <v-select
+            :key="key_location"
             item-text="text"
             item-value="value"
             v-model="selectedLocation"
@@ -142,8 +143,9 @@ export default {
   data() {
     return {
       key_results: 0,
-      selectedLocation: '',
-      locationTypes: ['victoria', 'vancouver', 'nanaimo'],
+      key_location: 0,
+      selectedLocation: {text: "", value: ""},
+      locationTypes: [{text: "Victoria Probation Office", value: "victoria"}, {text: "Vancouver", value: "vancouver"}, {text: "Nanaimo", value: "nanaimo"}],
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
       page: 1,
@@ -171,13 +173,12 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.officerSearchAPI(this.$route.params.supervisorID)
     if (this.$locationCD == 'notset') {
-      this.getLocation();
+      this.getLocationAndPOList();
     }
   },
   methods: {
-    async getLocation() {
+    async getLocationAndPOList() {
       const [error, response] = await getLocationInfo();
       if (error) {
         console.error(error);
@@ -185,21 +186,25 @@ export default {
         if (response != null && response.items != null && response.items.length > 0) {
             this.$locationDescrption = response.items[0].locationDescription;
             this.$locationCD = response.items[0].locationCd;
-            this.selectedLocation = this.$locationCD;
+            this.selectedLocation.value = this.$locationCD;
+            this.selectedLocation.text = this.$locationDescrption;
         }
       }
       // to be removed
       this.$locationDescrption = "Victoria Probation Office";
       this.$locationCD = "victoria";
-      this.selectedLocation = this.$locationCD;
+      this.selectedLocation.value = this.$locationCD;
+      this.selectedLocation.text = this.$locationDescrption;
       this.key_results++;
+      this.key_location++;
+
+      this.officerSearchAPI(this.$route.params.supervisorID);
     },
     sumField(key) {
       // sum data in give key (property)
       return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
-      console.log("selected locationType: ", locationType);
       this.filteredOfficerList = this.officerList.filter(el => {
         return el.locations.includes(locationType.toLowerCase());
       });
@@ -295,8 +300,9 @@ export default {
             "locations": ["vancouver"]
           }
         ];
-      // init filteredOfficerList
-      this.filteredOfficerList = this.officerList;
+      // apply location filter
+      this.applyLocationFilter(this.selectedLocation.value);
+      
       if (error) {
         console.error(error);
       }       
