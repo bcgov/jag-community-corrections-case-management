@@ -20,10 +20,21 @@
           >
           </v-select>
         </div>
+        <div class="col-sm-8"></div>
+        <div class="col-sm-2">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label=""
+            single-line
+            hide-details
+          ></v-text-field>
+        </div>
       </div>
       <v-data-table
         :key="key_results"
         :headers="headers"
+        :search="search"
         :items="filteredOfficerList"
         item-key="poID"
         :single-expand="singleExpand"
@@ -168,7 +179,8 @@ export default {
       expanded: [],
       singleExpand: false,
       filteredOfficerList: [],
-      officerList: []
+      officerList: [],
+      search: ''
     }
   },
   mounted(){
