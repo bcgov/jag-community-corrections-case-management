@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--Header section-->
-    <HeaderComponent :locationInfo="locationVal" />
+    <HeaderComponent :key="key_header" :locationInfo="$locationDescrption" />
 
     <!--Body section-->
     <router-view />
@@ -24,50 +24,38 @@ export default Vue.extend({
     HeaderComponent,
     FooterComponent
   },
+  data() {
+    return {
+      key_header: 0
+    }
+  },
   watch: {
     $route() {
       updateToken();
     },
   },
-  data() {
-    return {
-        // default location
-        locationVal: "Victoria Probation Office"
-    }
-  },
   mounted () {
-    this.getLocation();
+    if (this.$locationCD == 'notset') {
+      this.getLocation();
+    }
   },
   methods: {
     async getLocation() {
-      //this.locationVal = "Victoria Probation Office";
-
-      //Sample get /locations return:
-      // {
-      //   "items": [
-      //     {
-      //       "locationId": 1,
-      //       "locationCd": "victoria",
-      //       "locationDescription": "Victoria"
-      //     },
-      //     {
-      //       "locationId": 10,
-      //       "locationCd": "vancouver",
-      //       "locationDescription": "Vancouver"
-      //     }
-      //   ]
-      // }
       const [error, response] = await getLocationInfo();
       if (error) {
         console.error(error);
       } else {
         if (response != null && response.items != null && response.items.length > 0) {
-            this.locationVal = response.items[0].locationDescription;
+            this.$locationDescrption = response.items[0].locationDescription;
+            this.$locationCD = response.items[0].locationCd;
         }
-        
-        console.info("Location fetched: ", response.items);
+        //console.info("Location fetched: ", response.items);
       }
+      // to be removed
+      this.$locationDescrption = "Victoria Probation Office";
+      this.$locationCD = "victoria";
+      this.key_header++;
     }
-  } 
+  }
 });
 </script>

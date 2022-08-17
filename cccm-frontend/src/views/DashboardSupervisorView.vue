@@ -23,7 +23,7 @@
       <v-data-table
         :key="key_results"
         :headers="headers"
-        :items="officerList"
+        :items="filteredOfficerList"
         item-key="poID"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
@@ -135,15 +135,15 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {officerSearch} from "@/components/form.api";
+import {officerSearch, getLocationInfo} from "@/components/form.api";
 
 export default {
   name: 'OfficerList',
   data() {
     return {
       key_results: 0,
-      selectedLocation: 'Victoria',
-      locationTypes: ['Victoria', 'Vancouver', 'Nanaimo'],
+      selectedLocation: '',
+      locationTypes: ['victoria', 'vancouver', 'nanaimo'],
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
       page: 1,
@@ -172,17 +172,36 @@ export default {
   mounted(){
     //form search from the backend
     this.officerSearchAPI(this.$route.params.supervisorID)
-    this.key_results++;
+    if (this.$locationCD == 'notset') {
+      this.getLocation();
+    }
   },
   methods: {
+    async getLocation() {
+      const [error, response] = await getLocationInfo();
+      if (error) {
+        console.error(error);
+      } else {
+        if (response != null && response.items != null && response.items.length > 0) {
+            this.$locationDescrption = response.items[0].locationDescription;
+            this.$locationCD = response.items[0].locationCd;
+            this.selectedLocation = this.$locationCD;
+        }
+      }
+      // to be removed
+      this.$locationDescrption = "Victoria Probation Office";
+      this.$locationCD = "victoria";
+      this.selectedLocation = this.$locationCD;
+      this.key_results++;
+    },
     sumField(key) {
       // sum data in give key (property)
-      return this.officerList.reduce((total, obj) => total + obj[key], 0);
+      return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
       console.log("selected locationType: ", locationType);
       this.filteredOfficerList = this.officerList.filter(el => {
-        return el.location.includes(locationType);
+        return el.locations.includes(locationType.toLowerCase());
       });
       this.key_results++;
     },
@@ -210,6 +229,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria", "vancouver"]
           },
           {
             "poID": "1233441",
@@ -230,6 +250,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria"]
           },
           {
             "poID": "1233442",
@@ -250,6 +271,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria", "vancouver", "nanaimo"]
           },
           {
             "poID": "1233443",
@@ -270,9 +292,11 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["vancouver"]
           }
         ];
-      
+      // init filteredOfficerList
+      this.filteredOfficerList = this.officerList;
       if (error) {
         console.error(error);
       }       
