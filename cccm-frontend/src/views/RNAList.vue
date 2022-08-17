@@ -40,7 +40,7 @@
               value="false"
             ></v-radio>
             <v-radio
-              label="Current Supervision Perios"
+              label="Current Supervision Period"
               value="true"
             ></v-radio>
           </v-radio-group>
@@ -57,22 +57,11 @@
         :items="filteredRNAList"
         item-key="formID"
         no-results-text="No results found"
-        hide-default-header
         hide-default-footer
         :page.sync="page"
         :items-per-page="itemsPerPage"
         @page-count="pageCount = $event"
         >
-        <!--Customize the header style-->
-        <template v-slot:header="{ props: { headers } }">
-          <thead>
-            <tr class="datatable-header-bg-style">
-              <th v-for="h in headers" :class="h.class" :key="h.id">
-                <span>{{h.text}}</span>
-              </th>
-            </tr>
-          </thead>
-        </template>
         <!--Customize the formStatus field -->
         <template v-slot:item.formStatus="{ item }">
           <span :class="getFormStatusColor[item.formStatus]">{{item.formStatus}}</span>
@@ -135,9 +124,9 @@ import {formSearch, cloneForm, createForm} from "@/components/form.api";
 export default {
   name: 'RNAList',
   props: {
-    clientID: {
-      type: Number,
-      default: 1,
+    clientNum: {
+      type: String,
+      default: '',
     }
   },
   data() {
@@ -158,16 +147,16 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'RNA Form', align: 'start', sortable: true, value: 'formType', class: 'datatable-header-text-style' },
-        { text: 'Assessment Status', value: 'assessmentStatus', class: 'datatable-header-text-style' },
-        { text: 'Status', value: 'formStatus', class: 'datatable-header-text-style' },
-        { text: 'Updated Date', value: 'updatedDate', class: 'datatable-header-text-style' },
-        { text: 'Created Location', value: 'createdLocation', class: 'datatable-header-text-style' },
-        { text: 'Completed By', value: 'completedBy', class: 'datatable-header-text-style' },
-        { text: 'Supervision Rating', value: 'supervisionRating', class: 'datatable-header-text-style' },
-        { text: 'CRNA Rating', value: 'crnaRating', class: 'datatable-header-text-style' },
-        { text: 'SARA Rating', value: 'saraRating', class: 'datatable-header-text-style' },
-        { text: 'Actions', value: 'action', class: 'datatable-header-text-style' },
+        { text: 'RNA Form', align: 'start', sortable: true, value: 'formType' },
+        { text: 'Assessment Status', value: 'assessmentStatus' },
+        { text: 'Status', value: 'formStatus' },
+        { text: 'Updated Date', value: 'updatedDate' },
+        { text: 'Created Location', value: 'createdLocation' },
+        { text: 'Completed By', value: 'completedBy' },
+        { text: 'Supervision Rating', value: 'supervisionRating' },
+        { text: 'CRNA Rating', value: 'crnaRating' },
+        { text: 'SARA Rating', value: 'saraRating' },
+        { text: 'Actions', value: 'action' },
       ],
       filteredRNAList: [],
       rnaList: [],
@@ -182,7 +171,7 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.formSearchAPI(this.clientID, false)
+    this.formSearchAPI(this.clientNum, false)
   },
   methods: {
     applyFormTypeFilter(ft) {
@@ -220,8 +209,8 @@ export default {
         console.error(error);
       } 
     },
-    async formSearchAPI(clientID, tobeRemoved_addOne) {
-      const [error, response] = await formSearch(clientID, 'RNA', true);
+    async formSearchAPI(clientNum, tobeRemoved_addOne) {
+      const [error, response] = await formSearch(clientNum, 'RNA', true);
       //this.initData = response.data;
       this.key_rnalistSearchResult++;
       this.loading = false;
@@ -312,7 +301,7 @@ export default {
     async formClone(formID) {
       console.log("formClone", formID);
       this.formCloneAPI(formID);
-      this.formSearchAPI(this.clientID, true);
+      this.formSearchAPI(this.clientNum, true);
     },
     formPrint(formID) {
       console.log("formPrint", formID);

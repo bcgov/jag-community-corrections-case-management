@@ -239,8 +239,43 @@
                                                         "tableView": false,
                                                         "components": [
                                                             {
+                                                                "label": "",
+                                                                "hidden": true,
+                                                                "tableView": true,
+                                                                "clearOnHide": false,
+                                                                "key": "outstandingWarrants_yn",
+                                                                "type": "textfield",
+                                                                "input": true
+                                                            },
+                                                            {
+                                                                "label": "HTML",
+                                                                "tag": "p",
+                                                                "attrs": [
+                                                                    {
+                                                                        "attr": "style",
+                                                                        "value": "list-style-type:none;"
+                                                                    }
+                                                                ],
+                                                                "content": "The client doesn't have any Outstanding Warrants",
+                                                                "refreshOnChange": true,
+                                                                "key": "html",
+                                                                "type": "htmlelement",
+                                                                "input": false,
+                                                                "tableView": false,
+                                                                "conditional": {
+                                                                    "show": true,
+                                                                    "when": "outstandingWarrants_yn",
+                                                                    "eq": "N"
+                                                                }
+                                                            },
+                                                            {
                                                                 "type": "editgrid",
                                                                 "key": "outstandingWarrants",
+                                                                "conditional": {
+                                                                    "show": true,
+                                                                    "when": "outstandingWarrants_yn",
+                                                                    "eq": "Y"
+                                                                },
                                                                 "label": "",
                                                                 "input": true,
                                                                 "hideLabel": false,
@@ -332,9 +367,44 @@
                                                         "tableView": false,
                                                         "components": [
                                                             {
+                                                                "label": "",
+                                                                "hidden": true,
+                                                                "tableView": true,
+                                                                "clearOnHide": false,
+                                                                "key": "programs_yn",
+                                                                "type": "textfield",
+                                                                "input": true
+                                                            },
+                                                            {
+                                                                "label": "HTML",
+                                                                "tag": "p",
+                                                                "attrs": [
+                                                                    {
+                                                                        "attr": "style",
+                                                                        "value": "list-style-type:none;"
+                                                                    }
+                                                                ],
+                                                                "content": "The client doesn't have any programs",
+                                                                "refreshOnChange": true,
+                                                                "key": "html",
+                                                                "type": "htmlelement",
+                                                                "input": false,
+                                                                "tableView": false,
+                                                                "conditional": {
+                                                                    "show": true,
+                                                                    "when": "programs_yn",
+                                                                    "eq": "N"
+                                                                }
+                                                            },
+                                                            {
                                                                 "type": "editgrid",
                                                                 "key": "programs",
                                                                 "label": "",
+                                                                "conditional": {
+                                                                    "show": true,
+                                                                    "when": "programs_yn",
+                                                                    "eq": "Y"
+                                                                },
                                                                 "input": true,
                                                                 "hideLabel": false,
                                                                 "templates": {

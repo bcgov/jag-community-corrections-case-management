@@ -24,7 +24,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardpo',
+      path: '/dashboardpo/:poID',
       name: 'dashboardpo',
       component: DashboardPOView,
       meta: {
@@ -32,7 +32,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardsupervisor',
+      path: '/dashboardsupervisor/:supervisorID',
       name: 'dashboardsupervisor',
       component: DashboardSupervisorView,
       meta: {
@@ -48,7 +48,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientProfile/:id',
+      path: '/clientProfile/:clientID/:csNumber',
       name: 'clientprofile',
       component: ClientProfileView,
       meta: {
@@ -88,18 +88,21 @@ const router = new VueRouter({
 // form-delete	
 // form-update	
 // form-view
+// po-manage
 router.beforeEach((to, from, next) => {
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  
-    const roles = ['client-search', 'client-view'];
-    //console.log("Vue.$keycloak: ", Vue.$keycloak);
+    const subjectID = Vue.$keycloak.subject;
+    console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
       //console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
      } else if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
-              'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
+                'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')
+              || Vue.$keycloak.hasRealmRole('po-manage', 'client-search', 'client-view', 
+                'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
       //console.log("Authenticated and has 'client-search' role");
@@ -107,16 +110,20 @@ router.beforeEach((to, from, next) => {
         .then(() => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == 'home') {
-            if (Vue.$keycloak.hasRealmRole('client-search')) {
-              next({ name: 'dashboardpo' })
+            if (Vue.$keycloak.hasRealmRole('po-manage')) {
+              next({ name: 'dashboardsupervisor', params: { supervisorID: subjectID } });
             } else {
-              next({ name: 'dashboardsupervisor' })
+              next({ name: 'dashboardpo', params: { poID: subjectID }  })
             }
           } else {
-            // otherwise, direct them to dashboardpo view
-            next()
+            // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
+            if (to.name == 'dashboardsupervisor' && !Vue.$keycloak.hasRealmRole('po-manage')) {
+              next({ name: 'dashboardpo', params: { poID: subjectID }  })
+            } else {
+              // otherwise, direct them to dashboardpo view
+              next()
+            }
           }
-          
         })
         .catch(err => {
           console.error(err)
