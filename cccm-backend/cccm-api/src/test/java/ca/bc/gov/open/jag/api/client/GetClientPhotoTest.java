@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.client;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -31,11 +32,14 @@ public class GetClientPhotoTest {
     @DisplayName("200: should return photo")
     public void testGetClientPhotoEndpoint() {
 
-        byte[] image = "blarg".getBytes();
+        Photo mockResult = new Photo();
+        mockResult.setImage("blarg".getBytes());
 
-        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(image);
+        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(mockResult);
 
-        Assertions.assertEquals(image, sut.getClientPhoto(BigDecimal.ONE));
+        Photo result = sut.getClientPhoto(BigDecimal.ONE);
+
+        Assertions.assertEquals(mockResult.getImage(), result.getImage());
 
 
     }

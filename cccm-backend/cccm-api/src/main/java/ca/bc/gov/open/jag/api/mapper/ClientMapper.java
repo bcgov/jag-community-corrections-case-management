@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Alert;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -59,5 +60,8 @@ public interface ClientMapper {
     @Mapping(target = "comment", source = "commentTxt")
     @Mapping(target = "date", source = "effectiveDt")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
+
+    @Mapping(target = "image", source = "photo")
+    Photo toPhoto(String dummy, byte[] photo);
 
 }

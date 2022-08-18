@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -30,7 +31,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public byte[] getClientPhoto(BigDecimal clientId) {
+    public Photo getClientPhoto(BigDecimal clientId) {
 
             return clientDataService.clientPhoto(clientId);
 
