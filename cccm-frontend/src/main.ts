@@ -8,6 +8,9 @@ import updateToken from '@/middleware/update-token';
 import setupInterceptors from '@/services/setupAxioInterceptors';
 import vuetify from '@/plugins/vuetify'
 
+Vue.prototype.$locationCD = 'notset'
+Vue.prototype.$locationDescrption = 'notset'
+
 Vue.use(VueCompositionAPI)
 Vue.use(authentication)
 

@@ -9,6 +9,7 @@
       <div class="row">
         <div class="col-sm-2">
           <v-select
+            :key="key_location"
             item-text="text"
             item-value="value"
             v-model="selectedLocation"
@@ -19,11 +20,22 @@
           >
           </v-select>
         </div>
+        <div class="col-sm-8"></div>
+        <div class="col-sm-2">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label=""
+            single-line
+            hide-details
+          ></v-text-field>
+        </div>
       </div>
       <v-data-table
         :key="key_results"
         :headers="headers"
-        :items="officerList"
+        :search="search"
+        :items="filteredOfficerList"
         item-key="poID"
         :single-expand="singleExpand"
         :expanded.sync="expanded"
@@ -135,15 +147,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {officerSearch} from "@/components/form.api";
+import {officerSearch, getLocationInfo} from "@/components/form.api";
 
 export default {
   name: 'OfficerList',
   data() {
     return {
       key_results: 0,
-      selectedLocation: 'Victoria',
-      locationTypes: ['Victoria', 'Vancouver', 'Nanaimo'],
+      key_location: 0,
+      selectedLocation: {text: "", value: ""},
+      locationTypes: [{text: "Victoria Probation Office", value: "victoria"}, {text: "Vancouver", value: "vancouver"}, {text: "Nanaimo", value: "nanaimo"}],
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
       page: 1,
@@ -166,23 +179,46 @@ export default {
       expanded: [],
       singleExpand: false,
       filteredOfficerList: [],
-      officerList: []
+      officerList: [],
+      search: ''
     }
   },
   mounted(){
     //form search from the backend
-    this.officerSearchAPI(this.$route.params.supervisorID)
-    this.key_results++;
+    if (this.$locationCD == 'notset') {
+      this.getLocationAndPOList();
+    }
   },
   methods: {
+    async getLocationAndPOList() {
+      const [error, response] = await getLocationInfo();
+      if (error) {
+        console.error(error);
+      } else {
+        if (response != null && response.items != null && response.items.length > 0) {
+            this.$locationDescrption = response.items[0].locationDescription;
+            this.$locationCD = response.items[0].locationCd;
+            this.selectedLocation.value = this.$locationCD;
+            this.selectedLocation.text = this.$locationDescrption;
+        }
+      }
+      // to be removed
+      this.$locationDescrption = "Victoria Probation Office";
+      this.$locationCD = "victoria";
+      this.selectedLocation.value = this.$locationCD;
+      this.selectedLocation.text = this.$locationDescrption;
+      this.key_results++;
+      this.key_location++;
+
+      this.officerSearchAPI(this.$route.params.supervisorID);
+    },
     sumField(key) {
       // sum data in give key (property)
-      return this.officerList.reduce((total, obj) => total + obj[key], 0);
+      return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
-      console.log("selected locationType: ", locationType);
       this.filteredOfficerList = this.officerList.filter(el => {
-        return el.location.includes(locationType);
+        return el.locations.includes(locationType.toLowerCase());
       });
       this.key_results++;
     },
@@ -210,6 +246,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria", "vancouver"]
           },
           {
             "poID": "1233441",
@@ -230,6 +267,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria"]
           },
           {
             "poID": "1233442",
@@ -250,6 +288,7 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["victoria", "vancouver", "nanaimo"]
           },
           {
             "poID": "1233443",
@@ -270,8 +309,11 @@ export default {
             "numExpiry30Days": 4,
             "numNotRquired": 1,
             "numDue7Days": 3,
+            "locations": ["vancouver"]
           }
         ];
+      // apply location filter
+      this.applyLocationFilter(this.selectedLocation.value);
       
       if (error) {
         console.error(error);
