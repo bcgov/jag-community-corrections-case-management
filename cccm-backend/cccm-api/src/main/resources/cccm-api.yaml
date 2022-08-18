@@ -12,6 +12,8 @@ tags:
     name: forms
   - description: Endpoints for code tables data
     name: lookups
+  - description: Endpoints for dashboards
+    name: dashboards
 paths:
   /clients:
     get:
@@ -81,10 +83,9 @@ paths:
         "200":
           description: get client photo
           content:
-            image/jpeg:
+            application/json:
               schema:
-                type: string
-                format: byte
+                $ref: '#/components/schemas/Photo'
       tags:
         - clients
   /clients/{clientNum}:
@@ -107,6 +108,27 @@ paths:
           description: get a client
       tags:
         - clients
+  /dashboards/supervisor:
+    get:
+      operationId: GetSupervisorDashboard
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupervisorDashboard'
+          description: get get supervisor dahsboard
+      summary: get supervisor dashboard
+      tags:
+        - dashboards
+      x-accepts: application/json
+      x-tags:
+        - tag: dashboards
   /forms:
     get:
       operationId: GetForms
@@ -847,3 +869,46 @@ components:
             $ref: '#/components/schemas/Form'
           type: array
       type: object
+    Photo:
+      type: object
+      properties:
+        image:
+          type: string
+          format: byte
+    SupervisorDashboard:
+      type: object
+      properties:
+        officer:
+          type: string
+        activeAdmin:
+          type: number
+        adminClosed:
+          type: number
+        bal:
+          type: number
+        high:
+          type: number
+        medium:
+          type: number
+        low:
+          type: number
+        unknown:
+          type: number
+        overdue:
+          type: number
+        activeReports:
+          type: number
+        pcm:
+          type: number
+        scm:
+          type: number
+        smo:
+          type: number
+        closedIncomplete:
+          type: number
+        expiringThirty:
+          type: number
+        notRequired:
+          type: number
+        dueSeven:
+          type: number

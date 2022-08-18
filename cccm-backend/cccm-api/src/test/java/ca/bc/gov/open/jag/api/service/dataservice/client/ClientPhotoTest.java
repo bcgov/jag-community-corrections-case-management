@@ -38,15 +38,16 @@ public class ClientPhotoTest {
 
         byte[] image = "blarg".getBytes();
 
-        Photo photo = new Photo();
-        photo.setImage(image);
-        List<Photo> photos = Collections.singletonList(photo);
+        Photo mockResult = new Photo();
+        mockResult.setImage(image);
+        List<Photo> photos = Collections.singletonList(mockResult);
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        Assertions.assertEquals(image, sut.clientPhoto(BigDecimal.ONE));
+        ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto(BigDecimal.ONE);
 
+        Assertions.assertArrayEquals(image, result.getImage());
 
     }
 

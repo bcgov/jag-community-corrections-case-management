@@ -61,12 +61,12 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public byte[] clientPhoto(BigDecimal clientId) {
+    public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(BigDecimal clientId) {
 
         List<Photo> photos = obridgeClientService.getPhotosById(clientId);
 
         if (!photos.isEmpty()) {
-            return photos.stream().findFirst().get().getImage();
+            return clientMapper.toPhoto("", photos.stream().findFirst().get().getImage());
         } else {
             throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
         }
