@@ -7,10 +7,10 @@ const axiosClient = axios.create({
 });
 
 // function to fetch the location info
-export async function getLocationInfo() {
+export function getLocationInfo() {
     try {
         //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
-        const { data } = await axiosClient.get('/locations');
+        const data = axiosClient.get('/locations');
         return [null, data];
     }catch (error) {
         return [error];

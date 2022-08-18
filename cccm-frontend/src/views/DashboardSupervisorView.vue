@@ -185,38 +185,18 @@ export default {
   },
   mounted(){
     //form search from the backend
-    if (this.$locationCD == 'notset') {
-      this.getLocationAndPOList();
-    }
+    this.officerSearchAPI(this.$route.params.supervisorID);
   },
   methods: {
-    async getLocationAndPOList() {
-      const [error, response] = await getLocationInfo();
-      if (error) {
-        console.error(error);
-      } else {
-        if (response != null && response.items != null && response.items.length > 0) {
-            this.$locationDescrption = response.items[0].locationDescription;
-            this.$locationCD = response.items[0].locationCd;
-            this.selectedLocation.value = this.$locationCD;
-            this.selectedLocation.text = this.$locationDescrption;
-        }
-      }
-      // to be removed
-      this.$locationDescrption = "Victoria Probation Office";
-      this.$locationCD = "victoria";
-      this.selectedLocation.value = this.$locationCD;
-      this.selectedLocation.text = this.$locationDescrption;
-      this.key_results++;
-      this.key_location++;
-
-      this.officerSearchAPI(this.$route.params.supervisorID);
-    },
     sumField(key) {
       // sum data in give key (property)
       return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
+      if (typeof locationType == 'object') {
+        locationType = locationType.value;
+      }
+      
       this.filteredOfficerList = this.officerList.filter(el => {
         return el.locations.includes(locationType.toLowerCase());
       });
@@ -312,8 +292,17 @@ export default {
             "locations": ["vancouver"]
           }
         ];
+      
+      // init this.selectedLocation
+      this.selectedLocation.value = this.$root.locationCD;
+      this.selectedLocation.text = this.$root.locationDescrption;
+
+      // force the page to refresh
+      this.key_results++;
+      this.key_location++;
+
       // apply location filter
-      this.applyLocationFilter(this.selectedLocation.value);
+      this.applyLocationFilter(this.selectedLocation);
       
       if (error) {
         console.error(error);

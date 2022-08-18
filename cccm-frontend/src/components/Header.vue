@@ -2,7 +2,7 @@
   <!--Header section-->
   <div class="header">
     <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="150px" border="0" /></a>
-    <span class="headerText textShadow">BC Corrections - {{ locationInfo }}
+    <span class="headerText textShadow">BC Corrections - {{ getLocation }}
       <span v-if="isUserAuthenticated" class="col-sm-2 text-right">
         <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp; 
         <a @click="logout">
@@ -24,13 +24,10 @@ import Vue from 'vue'
 
 export default {
   name: 'HeaderComponent',
-  props: {
-    locationInfo: "",
-  },
   methods: {
     logout () {
       Vue.$keycloak.logout({ redirectUri: window.location.origin })
-    }
+    },
   },
   computed: {
     isUserAuthenticated() {
@@ -38,6 +35,9 @@ export default {
     },
     getUserName() {
         return Vue.$keycloak.tokenParsed.preferred_username;
+    },
+    getLocation() {
+      return this.$root.locationDescrption;
     }
   },
 }
