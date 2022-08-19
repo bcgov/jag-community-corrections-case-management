@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./cccm/",
     "target": "esnext",
     "useDefineForClassFields": true,
     "module": "esnext",
