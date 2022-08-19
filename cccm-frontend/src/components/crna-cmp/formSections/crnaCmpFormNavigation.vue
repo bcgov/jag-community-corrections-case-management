@@ -27,6 +27,7 @@
                 {{ headerc.questionLabel }}
               </a>
             </span>
+
         </div>
       </div>
     </div>
@@ -196,7 +197,6 @@ div > a {
 .divTableRowNav {
 	padding: 15px 20px 25px 20px;
 	background-color: #fff;
-	box-shadow:0 5px 10px 0px #ddd;
 }
 
 .divTableRowL1 {

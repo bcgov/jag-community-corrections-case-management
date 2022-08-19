@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-4">
       <div v-for="(header, indexp) in dataModel.data" 
           :id="`${indexp}`"
           :key="indexp">
@@ -13,14 +13,14 @@
             <FormioSectionTitle v-else-if="headerc.type === `${const_type_sectionTitle}`" :dataModel="headerc" />
             <FormioEditDataGridIntervention v-else-if="headerc.type === `${const_type_editGridIntervention}`" :key="`${indexc}${key_editgrid_intervention}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataTemplate="headerc" :dataModel="dataModel.data" :initData="initData_editgrid_intervention"/>
             <FormioEditDataGridRadioText v-else-if="headerc.type === `${const_type_editGridRadioText}`" :key="`${indexc}${key_editgrid_radiotext}`" :uiType="headerc.type" @dataOnChanged="handleDataOnChange" :dataTemplate="headerc" :initData="initData_editgrid_radiotext[headerc.ref_key_section]"/>
-            <FormioEditDataGridRadioTextList v-else-if="headerc.type === `${const_type_editGridRadioTextList}`" 
-              v-for="(headergc, indexgc) in headerc.editgriditems" 
+            <FormioEditDataGridRadioTextList v-else-if="headerc.type === `${const_type_editGridRadioTextList}`"
+              v-for="(headergc, indexgc) in headerc.editgriditems"
               :key="`${indexc}${indexgc}${key_editgrid_radiotextList}`"
-              :uiType="headerc.type" 
+              :uiType="headerc.type"
               @dataOnChanged="handleDataOnChange"
-              :dataTemplate="headergc" :dataTemplateP="headerc" 
-              :editgridLabel="editgridLabel[headerc.ref_key_section]" 
-              :radioValue="radioValue[headergc.ref_key_subsection]" 
+              :dataTemplate="headergc" :dataTemplateP="headerc"
+              :editgridLabel="editgridLabel[headerc.ref_key_section]"
+              :radioValue="radioValue[headergc.ref_key_subsection]"
               :initData="initData_editgrid_radiotextList[headergc.ref_key_subsection]"
               />
           </div>

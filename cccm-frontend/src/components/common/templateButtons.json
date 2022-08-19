@@ -3,10 +3,12 @@
   "components": [
     {
       "label": "Columns",
+      "customClass": "d-flex justify-content-between p-1",
       "columns": [
           {
               "components": [
                 {
+                  "customClass": "text-left pl-4",
                   "label": "${label_btn_save}",
                   "action": "event",
                   "showValidations": false,
@@ -29,6 +31,7 @@
           {
               "components": [
                 {
+                  "customClass": "text-right mr-2",
                   "label": "${label_btn_other}",
                   "action": "event",
                   "showValidations": false,

@@ -15,7 +15,6 @@ body {
 .header { 
 	grid-area: header; 
 	position: sticky;
-	height:110px;
 }
 .main { 
 	grid-area: main; 
@@ -51,14 +50,16 @@ div.menu-Sticky {
 	z-index:10;
 }
 .menuR1 {
-	padding: 0px 15px;
+	padding: 0px 28px;
 
 }
 .menuR2 {
 	position:relative;
 	top:0px;
-	padding: 0px 15px;
-	
+	margin: 0px 15px;
+	background-color: #fff;
+	border:1px solid #ddd;
+	box-shadow:0 5px 10px 0px #ddd;
 }
 div.R-Sticky {
 	position: -webkit-sticky;
@@ -67,11 +68,15 @@ div.R-Sticky {
 	padding-bottom:20px;
 }
 .mainContent {
-	position:relative;
-	z-index:9;
+	height: fit-content;
+	margin: 0 20px;
+	padding: 0 28px;
 	overflow-y: auto;
-	height: 350px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	box-shadow: 0px 3px 6px #00000029;
 }
+
 * {
 	box-sizing: border-box;
 }
@@ -94,4 +99,11 @@ div.R-Sticky {
 	content: "";
 	display: table;
 	clear: both;
+}
+
+.paper {
+	padding: 15px;
+	background-color: #fff!important;
+	box-shadow: 0px 3px 6px #00000029;
+	opacity: 1;
 }

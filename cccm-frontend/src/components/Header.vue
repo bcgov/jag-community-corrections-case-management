@@ -1,21 +1,27 @@
 <template>
   <!--Header section-->
   <div class="header">
-    <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="150px" border="0" /></a>
-    <span class="headerText textShadow">BC Corrections - {{ locationInfo }}
+    <div class="header-section">
+      <div class="header-img">
+        <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
+      </div>
+      <span class="headerText textShadow">BC Corrections - {{ locationInfo }}
       <span v-if="isUserAuthenticated" class="col-sm-2 text-right">
-        <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp; 
+        <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
         <a @click="logout">
           <span>Logout</span>
-        </a>				
+        </a>
       </span>
     </span>
-    <span class="headerNav textShadow">
-      <a href="/" class="headerA">My Dashboard</a> | 
-      <a href="/clientsearch" class="headerA">Client Search</a> |
-      <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
-      <a href="/crnacmp" class="headerA">CRNA/CMP Form</a>
-    </span>
+    </div>
+    <div class="headerNavContainer">
+      <span class="headerNav textShadow">
+        <a href="/" class="headerA">My Dashboard</a> |
+        <a href="/clientsearch" class="headerA">Client Search</a> |
+        <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
+        <a href="/crnacmp" class="headerA">CRNA/CMP Form</a>
+      </span>
+    </div>
   </div>
 </template>
 
