@@ -10,7 +10,7 @@
             "components": [
                 {
                     "label": "HTML",
-                    "tag": "h5",
+                    "tag": "h1",
                     "attrs": [
                         {
                             "attr": "",
@@ -22,15 +22,18 @@
                     "key": "html",
                     "type": "htmlelement",
                     "input": false,
-                    "tableView": false
+                    "tableView": false,
+                    "customClass": "crna-formio-h1"
                 },
                 {
                     "label": "Columns",
+
                     "columns": [
                         {
                             "components": [
                                 {
                                     "label": "Columns",
+                                    "customClass": "crna-formio-metadata-section",
                                     "columns": [
                                         {
                                             "components": [
@@ -41,9 +44,10 @@
                                                         {
                                                             "attr": "",
                                                             "value": ""
+
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>Created Date: </Strong>${createdDate}</div><div><Strong>Created By: </Strong>${createdBy}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Created Date: </Strong>${createdDate}</div><div><Strong>Created By: </Strong>${createdBy}</div>",
                                                     "refreshOnChange": false,
                                                     "key": "html1",
                                                     "type": "htmlelement",
@@ -69,7 +73,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>Updated Date: </Strong>${updatedDate}</div><div><Strong>Completed Date: </Strong>${completedDate}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>${updatedDate}</div><div><Strong>Completed Date: </Strong>${completedDate}</div>",
                                                     "refreshOnChange": false,
                                                     "key": "html1",
                                                     "type": "htmlelement",
@@ -88,6 +92,7 @@
                                             "components": [
                                                 {
                                                     "label": "CRNA-CMP Type",
+                                                    "customClass": "mt-2",
                                                     "widget": "choicesjs",
                                                     "tableView": true,
                                                     "data": {

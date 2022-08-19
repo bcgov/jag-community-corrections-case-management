@@ -1,7 +1,16 @@
 <template>
   <div data-app>
-    <Form :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
-    <v-card>
+    <div class="container">
+      <section class="paper">
+        <div class="pt-5">
+          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
+        </div>
+      </section>
+    </div>
+    
+    <div class="container">
+      <section class="paper">
+    <v-card class="p-2">
       <v-card-title>
         Results
         <v-spacer></v-spacer>
@@ -46,30 +55,30 @@
           <td :colspan="1">
             <strong>Current Name</strong>
             <br />
-            {{ item.currentName}}
+            {{ item.currentName }}
           </td>
           <td :colspan="1">
             <strong>Gender</strong>
             <br />
-            {{ item.gender}}
+            {{ item.gender }}
           </td>
           <td :colspan="1">
             <strong>Location</strong>
             <br />
-            {{ item.location}}
+            {{ item.location }}
           </td>
           <td :colspan="1">
             <strong>PCM</strong>
             <br />
-            {{ item.pcm}}
+            {{ item.pcm }}
           </td>
         </template>
       </v-data-table>
       <br/>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center pt-2">
-        <v-row>
-          <v-col cols="2" sm="2">
+        <v-row class="flex justify-content-between">
+          <v-col cols="1" sm="1">
             <v-select
               solo
               :items="items"
@@ -79,19 +88,20 @@
               @input="itemsPerPage = parseInt($event, 10)"
             ></v-select>
           </v-col>
-          <v-col cols="10" sm="10">
+          <v-col cols="5" sm="5" class="text-right">
             <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
           </v-col>
         </v-row>
       </div>
     </v-card>
-    <br/><br/>
+    </section>
+   </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import {Component, Vue} from 'vue-property-decorator';
+import {Form} from 'vue-formio';
 import {clientSearch, photoSearch} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 
@@ -100,8 +110,8 @@ export default {
   data() {
     return {
       key_clientsearchresult: 0,
-      formInfoTemplate : template,
-      formJSON : {},
+      formInfoTemplate: template,
+      formJSON: {},
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
       page: 1,
@@ -111,7 +121,7 @@ export default {
       loading: true,
       search: '',
       expanded: [],
-      singleExpand: true,
+      singleExpand: false,
       clientHeaders: [
         {
           text: '',
@@ -134,7 +144,7 @@ export default {
   components: {
     Form
   },
-  mounted(){
+  mounted() {
     this.buildForm()
   },
   methods: {
@@ -522,11 +532,11 @@ export default {
 }
 </script>
 
-<style >
+<style>
 .wild-search-text {
   color: #154c79;
   font-size: 0.5em;
-  text-align: right;
+  text-align: center;
 }
 .primary {
   background-color: #1867c0 !important;

@@ -1,0 +1,135 @@
+.bg-light {
+    background-color: #fff!important;
+}
+.formio-container {
+    max-width: 100%!important;
+    overflow-y:hidden;
+}
+
+.container {
+    /*margin: 24px 10px!important;*/
+    padding: 24px 50px!important;
+    width:100%!important;
+    max-width:100%!important;
+}
+
+.client-search-columns {
+    column-gap: 100px;
+
+}
+.col-form-label {
+    font-weight: bold!important;
+}
+
+
+/*FORM IO CUSTOM CSS CLASSES - TODO: Put in different file*/
+.formio-location-input-container{
+    align-items: center;
+}
+.formio-clear-all-container {
+    text-align: right!important;
+}
+.formio-search-btn-container {
+    text-align: left;
+}
+
+.formio-checkbox-container {
+    padding-top: 35px;
+}
+.formio-action-buttons-container {
+    justify-content: space-between!important;
+    padding: 20px 0px 50px 0px;
+    border-top: 1px solid #BCBCBC!important;
+}
+.formio-action-buttons{
+ }
+
+.formio-form {
+    min-height:auto!important;
+}
+
+/*CRNA FORM STYLES - TODO: Move to own file*/
+.crna-formio-h1 {
+    margin-top: 80px;
+}
+
+.crna-formio-metadata-section {
+    margin-top: 11px!important;
+    margin-bottom: 23px!important;
+    background-color: rgba(224, 224, 224, .5);
+}
+
+/*.crna-subSectionTitleClass {*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*    text-decoration: underline;*/
+/*    -webkit-text-decoration-color: rgb(255, 208, 0); !* Safari *!*/
+/*    text-decoration-color: rgb(255, 208, 0);*/
+/*}*/
+
+.divTable {
+    z-index: 1;
+    position: sticky!important;
+    top: 0!important;
+}
+/* VUE Custom styles - todo: put in own file*/
+.v-pagination {
+    align-items: center;
+    display: inline-flex;
+    list-style-type: none;
+    justify-content: flex-end!important;
+    margin: 0;
+    max-width: 100%;
+    width: 100%
+}
+
+
+.v-style-data-table {
+    border: 1px solid #bcbcbc;
+}
+
+.list-group {
+    margin-top: 0px!important;
+}
+.list-group-header {
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.list-group-header {
+    display:none;
+}
+
+.list-group-item {
+    box-shadow: none;
+    border-radius:0px!important;
+}
+.list-group-item > .row {
+    margin:0;
+    padding:0;
+}
+
+p[ref="html"]{
+    padding:0!important;
+    margin:0!important;
+    min-height:0px!important;
+}
+
+.hide-input > div > input {
+    display:none;
+}
+
+.editgrid-header {
+    margin: 0 1px!important;
+    text-align:center;
+    background-color:#38598A;
+    color: #fff;
+    border: 1px solid #ccc;
+}
+@media only screen and (max-width: 600px) {
+    .container {
+        padding: 0px!important;
+        margin: 0px!important;
+    }
+}

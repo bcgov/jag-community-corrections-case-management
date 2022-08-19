@@ -1215,7 +1215,7 @@
             "subsections": [
                 {
                     "type": "sectionTitle",
-                    "className_label": "sectionTitleClass",
+                    "className_label": "crna-sectionTitleClass",
                     "sectionKey": "section_summary",
                     "subSectionKey": "subsection_summary",
                     "sectionTitle": "Summary",
@@ -1223,7 +1223,7 @@
                 },
                 {
                     "type": "editGridRadioTextList",
-                    "className_label": "subSectionTitleClass",
+                    "className_label": "crna-subSectionTitleClass",
                     "ref_key_section": "key_section_needAssessment",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
@@ -1291,7 +1291,7 @@
                 },
                 {
                     "type": "editGridRadioTextList",
-                    "className_label": "subSectionTitleClass",
+                    "className_label": "crna-subSectionTitleClass",
                     "ref_key_section": "key_section_chra",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
@@ -1349,7 +1349,7 @@
                 },
                 {
                     "type": "editGridRadioTextList",
-                    "className_label": "subSectionTitleClass",
+                    "className_label":"crna-subSectionTitleClass",
                     "ref_key_section": "key_section_sr",
                     "key": "key_editgrid_radiotext",
                     "key_questionLabel": "key_questionLabel",
@@ -1382,7 +1382,7 @@
                 },
                 {
                     "type": "sectionTitle",
-                    "className_label": "subSectionTitleClass",
+                    "className_label": "crna-subSectionTitleClass",
                     "sectionKey": "section_summary_cp",
                     "subSectionKey": "subsection_summary_cp",
                     "sectionTitle": "Case Plan",
