@@ -17,9 +17,8 @@
     <div class="headerNavContainer">
       <span class="headerNav textShadow">
         <a href="/" class="headerA">My Dashboard</a> |
-        <a href="/clientsearch" class="headerA">Client Search</a> |
+        <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> |
         <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
-        <a href="/crnacmp" class="headerA">CRNA/CMP Form</a>
       </span>
     </div>
   </div>
@@ -32,6 +31,11 @@ export default {
   name: 'HeaderComponent',
   props: {
     locationInfo: "",
+  },
+  data() {
+    return {
+      baseURL: import.meta.env.BASE_URL,
+    }
   },
   methods: {
     logout () {
