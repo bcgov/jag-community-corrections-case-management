@@ -16,7 +16,7 @@
     </div>
     <div class="headerNavContainer">
       <span class="headerNav textShadow">
-        <a href="/" class="headerA">My Dashboard</a> |
+        <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
         <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> |
         <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
       </span>
