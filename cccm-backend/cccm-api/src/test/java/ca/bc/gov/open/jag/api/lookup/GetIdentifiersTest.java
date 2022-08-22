@@ -17,9 +17,8 @@ import javax.inject.Inject;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
-
 @QuarkusTest
-public class GetLocationsTest {
+public class GetIdentifiersTest {
 
     private static final String TEST_CD = "CD";
     private static final String TEST_VALUE = "VALUE";
@@ -33,19 +32,19 @@ public class GetLocationsTest {
     @Test
     @TestSecurity(user = "userOidc", roles = "data-view")
     @DisplayName("200: should return form types")
-    public void testGetFormTypesEndpoint() {
+    public void testGetIdentifierTypesEndpoint() {
 
-        CodeList locationList = new CodeList();
+        CodeList identifierList = new CodeList();
 
-        Code location = new Code();
-        location.setCode(TEST_CD);
-        location.setDescription(TEST_VALUE);
-        locationList.setItems(Collections.singletonList(location));
+        Code identifier = new Code();
+        identifier.setCode(TEST_CD);
+        identifier.setDescription(TEST_VALUE);
+        identifierList.setItems(Collections.singletonList(identifier));
 
 
-        Mockito.when(codeTableService.getCodes(any())).thenReturn(locationList);
+        Mockito.when(codeTableService.getCodes(any())).thenReturn(identifierList);
 
-        CodeList result = sut.getLocations();
+        CodeList result = sut.getIdentifiers();
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
@@ -56,17 +55,17 @@ public class GetLocationsTest {
     @Test
     @TestSecurity(user = "userOidc", roles = "someotherrole")
     @DisplayName("403: throw unauthorized exception")
-    public void getLocationsTestExceptionBadRole() {
+    public void getIdentifierTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getLocations());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getIdentifiers());
 
     }
 
     @Test
     @DisplayName("401: throw unauthorized exception")
-    public void getLocationsTestExceptionNoToken() {
+    public void getIdentifierTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getLocations());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getIdentifiers());
 
     }
 

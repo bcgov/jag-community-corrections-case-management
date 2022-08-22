@@ -48,6 +48,22 @@ public class CCCMExceptionHandlerTest {
 
     @Test
     @DisplayName("Error: should return data load error")
+    public void testInvalidUserError() {
+
+        CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.INVALIDUSER);
+
+        Response result = sut.toResponse(error);
+
+        CCCMError body = (CCCMError)result.getEntity();
+
+        Assertions.assertEquals(403, result.getStatus());
+        Assertions.assertEquals(CCCMErrorCode.INVALIDUSER, body.getError());
+        Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
+
+    }
+
+    @Test
+    @DisplayName("Error: should return data load error")
     public void testUnknownError() {
 
         CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.UNKNOWN);
