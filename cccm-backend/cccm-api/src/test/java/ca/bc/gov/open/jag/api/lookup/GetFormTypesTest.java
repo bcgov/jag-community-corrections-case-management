@@ -1,8 +1,8 @@
 package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.api.service.CodeTableService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormType;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -16,6 +16,8 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.util.Collections;
 
+import static org.mockito.ArgumentMatchers.any;
+
 @QuarkusTest
 public class GetFormTypesTest {
 
@@ -23,7 +25,7 @@ public class GetFormTypesTest {
     private static final String TEST_VALUE = "VALUE";
 
     @Inject
-    FormTypesApiImpl sut;
+    LookupApiImpl sut;
 
     @InjectMock
     CodeTableService codeTableService;
@@ -33,21 +35,21 @@ public class GetFormTypesTest {
     @DisplayName("200: should return form types")
     public void testGetFormTypesEndpoint() {
 
-        FormTypeList formTypeList = new FormTypeList();
+        CodeList formTypeList = new CodeList();
 
-        FormType formType = new FormType();
-        formType.setTypeCd(TEST_CD);
-        formType.setTypeDescription(TEST_VALUE);
+        Code formType = new Code();
+        formType.setCode(TEST_CD);
+        formType.setDescription(TEST_VALUE);
         formTypeList.setItems(Collections.singletonList(formType));
 
 
-        Mockito.when(codeTableService.formTypeCodes()).thenReturn(formTypeList);
+        Mockito.when(codeTableService.getCodes(any())).thenReturn(formTypeList);
 
-        FormTypeList result = sut.getFormTypes();
+        CodeList result = sut.getFormTypes();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getTypeCd());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getTypeDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
 
     }
 

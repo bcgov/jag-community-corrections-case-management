@@ -291,7 +291,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
-  /formtypes:
+  /lookup/formtypes:
     get:
       operationId: GetFormTypes
       responses:
@@ -299,7 +299,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FormTypeList'
+                $ref: '#/components/schemas/CodeList'
           description: get all Form Types
       summary: get all form types
       tags:
@@ -307,7 +307,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
-  /locations:
+  /lookup/locations:
     get:
       operationId: GetLocations
       responses:
@@ -315,9 +315,57 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LocationList'
+                $ref: '#/components/schemas/CodeList'
           description: get all locations
       summary: get all locations
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
+  /lookup/genders:
+    get:
+      operationId: GetGenders
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get all genders
+      summary: get all genders
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
+  /lookup/identifiers:
+    get:
+      operationId: GetIdentifiers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get all identifiers
+      summary: get all identifiers
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
+  /lookup/address:
+    get:
+      operationId: GetAddress
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get all address types
+      summary: get all address types
       tags:
         - lookups
       x-accepts: application/json
@@ -552,66 +600,6 @@ components:
           description: FormDetails
           items:
             $ref: '#/components/schemas/FormDetails'
-          type: array
-      type: object
-    FormType:
-      description: Form Type
-      example:
-        typeCd: typeCd
-        typeId: 0.8008281904610115
-        typeDescription: typeDescription
-      properties:
-        typeId:
-          type: number
-        typeCd:
-          type: string
-        typeDescription:
-          type: string
-      type: object
-    FormTypeList:
-      example:
-        items:
-          - typeCd: typeCd
-            typeId: 0.8008281904610115
-            typeDescription: typeDescription
-          - typeCd: typeCd
-            typeId: 0.8008281904610115
-            typeDescription: typeDescription
-      properties:
-        items:
-          description: FormType
-          items:
-            $ref: '#/components/schemas/FormType'
-          type: array
-      type: object
-    Location:
-      description: Location
-      example:
-        locationCd: locationCd
-        locationId: 0.8008281904610115
-        locationDescription: locationDescription
-      properties:
-        locationId:
-          type: number
-        locationCd:
-          type: string
-        locationDescription:
-          type: string
-      type: object
-    LocationList:
-      example:
-        items:
-          - locationCd: locationCd
-            locationId: 0.8008281904610115
-            locationDescription: locationDescription
-          - locationCd: locationCd
-            locationId: 0.8008281904610115
-            locationeDescription: locationDescription
-      properties:
-        items:
-          description: Location
-          items:
-            $ref: '#/components/schemas/Location'
           type: array
       type: object
     Component:
@@ -912,3 +900,17 @@ components:
           type: number
         dueSeven:
           type: number
+    Code:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+    CodeList:
+      properties:
+        items:
+          description: Code Type Results
+          items:
+            $ref: '#/components/schemas/Code'
+          type: array

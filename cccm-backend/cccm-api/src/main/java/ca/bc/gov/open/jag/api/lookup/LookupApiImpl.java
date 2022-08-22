@@ -1,0 +1,70 @@
+package ca.bc.gov.open.jag.api.lookup;
+
+import ca.bc.gov.open.jag.api.service.CodeTableService;
+import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+
+import javax.annotation.security.RolesAllowed;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.util.logging.Logger;
+
+@ApplicationScoped
+public class LookupApiImpl implements LookupApi {
+
+    private static final Logger logger = Logger.getLogger(String.valueOf(LookupApiImpl.class));
+
+    @Inject
+    CodeTableService codeTableService;
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getAddress() {
+
+        logger.info("Get address types request received");
+
+        return codeTableService.getCodes(CodeTableType.ADDRESS_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getFormTypes() {
+
+        logger.info("Get form types request received");
+
+        return codeTableService.getCodes(CodeTableType.FORM_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getGenders() {
+
+        logger.info("Get gender types request received");
+
+        return codeTableService.getCodes(CodeTableType.GENDER_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getIdentifiers() {
+
+        logger.info("Get identifier request received");
+
+        return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getLocations() {
+
+        logger.info("Get location request received");
+
+        return codeTableService.getCodes(CodeTableType.LOCATION_TYPE);
+
+    }
+
+}

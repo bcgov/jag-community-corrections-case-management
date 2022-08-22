@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -35,5 +36,17 @@ public interface ObridgeClientService {
     @GET
     @Path("/client/{clientId}/information")
     ClientProfile getProfileById(@PathParam("clientId") BigDecimal clientId);
+
+    @GET
+    @Path("/lookup/identifierTypes")
+    List<CodeTable> getIdentifierTypes();
+
+    @GET
+    @Path("/lookup/addressTypes")
+    List<CodeTable> getAddressTypes();
+
+    @GET
+    @Path("/lookup/genderTypes")
+    List<CodeTable> getGenderTypes();
 
 }

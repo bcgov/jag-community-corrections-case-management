@@ -17,9 +17,8 @@ import javax.inject.Inject;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
-
 @QuarkusTest
-public class GetLocationsTest {
+public class GetGendersTest {
 
     private static final String TEST_CD = "CD";
     private static final String TEST_VALUE = "VALUE";
@@ -32,20 +31,20 @@ public class GetLocationsTest {
 
     @Test
     @TestSecurity(user = "userOidc", roles = "data-view")
-    @DisplayName("200: should return form types")
-    public void testGetFormTypesEndpoint() {
+    @DisplayName("200: should return gender types")
+    public void testGetGenderTypesEndpoint() {
 
-        CodeList locationList = new CodeList();
+        CodeList genderList = new CodeList();
 
-        Code location = new Code();
-        location.setCode(TEST_CD);
-        location.setDescription(TEST_VALUE);
-        locationList.setItems(Collections.singletonList(location));
+        Code gender = new Code();
+        gender.setCode(TEST_CD);
+        gender.setDescription(TEST_VALUE);
+        genderList.setItems(Collections.singletonList(gender));
 
 
-        Mockito.when(codeTableService.getCodes(any())).thenReturn(locationList);
+        Mockito.when(codeTableService.getCodes(any())).thenReturn(genderList);
 
-        CodeList result = sut.getLocations();
+        CodeList result = sut.getGenders();
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
@@ -56,17 +55,17 @@ public class GetLocationsTest {
     @Test
     @TestSecurity(user = "userOidc", roles = "someotherrole")
     @DisplayName("403: throw unauthorized exception")
-    public void getLocationsTestExceptionBadRole() {
+    public void getGendersTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getLocations());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getGenders());
 
     }
 
     @Test
     @DisplayName("401: throw unauthorized exception")
-    public void getLocationsTestExceptionNoToken() {
+    public void getGendersTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getLocations());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getGenders());
 
     }
 

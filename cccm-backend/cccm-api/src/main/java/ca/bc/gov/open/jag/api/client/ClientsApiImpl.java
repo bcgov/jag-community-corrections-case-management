@@ -5,6 +5,8 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -21,11 +23,17 @@ public class ClientsApiImpl implements ClientsApi {
     @Inject
     ClientDataService clientDataService;
 
+    @Inject
+    @Claim(standard = Claims.preferred_username)
+    String username;
+
     @Override
     @RolesAllowed("client-search")
     public Client getClient(String clientNum) {
 
-            return clientDataService.clientProfile(clientNum);
+        logger.info(username);
+
+        return clientDataService.clientProfile(clientNum);
 
     }
 
@@ -33,7 +41,7 @@ public class ClientsApiImpl implements ClientsApi {
     @RolesAllowed("client-search")
     public Photo getClientPhoto(BigDecimal clientId) {
 
-            return clientDataService.clientPhoto(clientId);
+        return clientDataService.clientPhoto(clientId);
 
     }
 
