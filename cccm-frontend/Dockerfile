@@ -19,7 +19,7 @@ RUN rm -rf /opt/app-root/src/*
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
 
 # Copy from the stage 1 build result
-COPY --from=build /app/dist /opt/app-root/src
+COPY --from=build /app/dist /opt/app-root/src/cccm
 COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8000
