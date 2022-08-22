@@ -196,17 +196,17 @@ export default {
         console.error(error);
       } else {
         if (response != null && response.items != null && response.items.length > 0) {
-            this.$locationDescrption = response.items[0].locationDescription;
+            this.$locationDescription = response.items[0].locationDescription;
             this.$locationCD = response.items[0].locationCd;
             this.selectedLocation.value = this.$locationCD;
-            this.selectedLocation.text = this.$locationDescrption;
+            this.selectedLocation.text = this.$locationDescription;
         }
       }
       // to be removed
-      this.$locationDescrption = "Victoria Probation Office";
+      this.$locationDescription = "Victoria Probation Office";
       this.$locationCD = "victoria";
       this.selectedLocation.value = this.$locationCD;
-      this.selectedLocation.text = this.$locationDescrption;
+      this.selectedLocation.text = this.$locationDescription;
       this.key_results++;
       this.key_location++;
 
