@@ -148,6 +148,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import {officerSearch, getLocationInfo} from "@/components/form.api";
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'OfficerList',
@@ -186,28 +188,13 @@ export default {
   },
   mounted(){
     //form search from the backend
-    if (this.$locationCD == 'notset') {
-      this.getLocationAndPOList();
-    }
+    //console.log("SDashboard this.locationCD: ", this.mainStore.locationCD, this.mainStore.locationDescription);
+    this.getLocationAndPOList();
   },
   methods: {
     async getLocationAndPOList() {
-      const [error, response] = await getLocationInfo();
-      if (error) {
-        console.error(error);
-      } else {
-        if (response != null && response.items != null && response.items.length > 0) {
-            this.$locationDescription = response.items[0].locationDescription;
-            this.$locationCD = response.items[0].locationCd;
-            this.selectedLocation.value = this.$locationCD;
-            this.selectedLocation.text = this.$locationDescription;
-        }
-      }
-      // to be removed
-      this.$locationDescription = "Victoria Probation Office";
-      this.$locationCD = "victoria";
-      this.selectedLocation.value = this.$locationCD;
-      this.selectedLocation.text = this.$locationDescription;
+      this.selectedLocation.value = this.mainStore.locationCD;
+      this.selectedLocation.text = this.mainStore.locationDescription;
       this.key_results++;
       this.key_location++;
 
@@ -320,6 +307,11 @@ export default {
         console.error(error);
       }       
     }
+  },
+  computed: {
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   }
 }
 </script>
