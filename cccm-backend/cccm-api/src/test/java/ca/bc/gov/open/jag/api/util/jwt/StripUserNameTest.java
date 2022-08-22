@@ -2,15 +2,10 @@ package ca.bc.gov.open.jag.api.util.jwt;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.util.JwtUtils;
-import ca.bc.gov.open.jag.api.util.MappingUtils;
-import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @QuarkusTest
 public class StripUserNameTest {
