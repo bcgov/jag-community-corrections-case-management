@@ -20,7 +20,7 @@ paths:
       operationId: SearchClients
       parameters:
         - in: query
-          name: name
+          name: lastName
           schema:
             type: string
         - in: query
@@ -28,11 +28,19 @@ paths:
           schema:
             type: boolean
         - in: query
+          name: givenName
+          schema:
+            type: string
+        - in: query
           name: birthYear
           schema:
             type: integer
         - in: query
           name: age
+          schema:
+            type: integer
+        - in: query
+          name: range
           schema:
             type: integer
         - in: query
@@ -48,7 +56,11 @@ paths:
           schema:
             type: string
         - in: query
-          name: clientNum
+          name: identifierType
+          schema:
+            type: string
+        - in: query
+          name: identifier
           schema:
             type: string
         - in: query
@@ -705,6 +717,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Program"
+        alias:
+          type: array
+          items:
+            $ref: "#/components/schemas/Alias"
+    Alias:
+      type: object
+      properties:
+        fullName:
+          type: string
     CommunityInformation:
       type: object
       properties:
