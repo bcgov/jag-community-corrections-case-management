@@ -14,14 +14,14 @@ export const useStore = defineStore('main', {
     // actions
     actions: {
         clearCachedLocation() {
-            console.info("Clear cached location.");
+            //console.info("Clear cached location.");
             this.locationCD = '';
             this.locationDescription = '';
         },
         getLocation() {
-            console.info("Attempt to fetch getLocation.");
+            //console.info("Attempt to fetch getLocation.");
             if (this.locationCD == '') {
-                console.info("Fetching...");
+                console.info("Fetching location ...");
                 const [error, response] = getLocationInfo();
                 if (error) {
                     console.error(error);
