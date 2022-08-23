@@ -5,8 +5,8 @@ import { getLocationInfo } from "@/components/form.api";
 export const useStore = defineStore('main', { 
     // state
     state: () =>({
-        locationCD: useLocalStorage('locationCD', ''),
-        locationDescription: useLocalStorage('locationDescription', ''),
+        locationCD: useSessionStorage('locationCD', ''),
+        locationDescription: useSessionStorage('locationDescription', ''),
         // locationCD: 'notset',
         // locationDescription: 'notset',
     }),

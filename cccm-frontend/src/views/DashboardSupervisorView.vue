@@ -65,7 +65,7 @@
         </template>
         <!--Customize the poName field, making it clickable-->
         <template v-slot:item.poName="{ item }">
-          <a :href="`${baseURL}dashboardpo/${item.poID}`" target="_blank">{{item.poName}}</a>
+          <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
         </template>
         <!--Customize the expanded item to show more-->
         <template v-slot:expanded-item="{ headers, item }">
