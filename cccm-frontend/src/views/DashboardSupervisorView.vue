@@ -147,7 +147,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {officerSearch, getLocationInfo} from "@/components/form.api";
+import {officerSearch} from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
@@ -189,10 +189,10 @@ export default {
   mounted(){
     //form search from the backend
     //console.log("SDashboard this.locationCD: ", this.mainStore.locationCD, this.mainStore.locationDescription);
-    this.getLocationAndPOList();
+    this.getPOList();
   },
   methods: {
-    async getLocationAndPOList() {
+    async getPOList() {
       this.selectedLocation.value = this.mainStore.locationCD;
       this.selectedLocation.text = this.mainStore.locationDescription;
       this.key_results++;

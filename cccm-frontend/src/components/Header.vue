@@ -36,14 +36,11 @@ export default {
       baseURL: import.meta.env.BASE_URL,
     }
   },
-  mounted () {
-    //console.log("Header this.locationCD before: ", this.mainStore.locationCD, this.mainStore.locationDescription);
-    this.mainStore.getLocation();
-    //console.log("Header this.locationCD after: ", this.mainStore.locationCD, this.mainStore.locationDescription);
-  },
   methods: {
     logout () {
-      Vue.$keycloak.logout({ redirectUri: window.location.origin })
+      // clear cached location info
+      this.mainStore.clearCachedLocation();
+      Vue.$keycloak.logout({ redirectUri: window.location.origin });
     }
   },
   computed: {

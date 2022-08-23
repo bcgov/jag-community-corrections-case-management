@@ -1,20 +1,27 @@
 import {defineStore} from 'pinia';
+import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { getLocationInfo } from "@/components/form.api";
 
 export const useStore = defineStore('main', { 
     // state
     state: () =>({
-        // locationCD: useLocalStorage('locationCD', 'notset'),
-        // locationDescription: useLocalStorage('locationDescription', 'notset'),
-        locationCD: 'notset',
-        locationDescription: 'notset',
+        locationCD: useLocalStorage('locationCD', ''),
+        locationDescription: useLocalStorage('locationDescription', ''),
+        // locationCD: 'notset',
+        // locationDescription: 'notset',
     }),
 
     // actions
     actions: {
+        clearCachedLocation() {
+            console.info("Clear cached location.");
+            this.locationCD = '';
+            this.locationDescription = '';
+        },
         getLocation() {
-            if (this.locationCD == 'notset') {
-                console.info("HEADER Location fetched in store ");
+            console.info("Attempt to fetch getLocation.");
+            if (this.locationCD == '') {
+                console.info("Fetching...");
                 const [error, response] = getLocationInfo();
                 if (error) {
                     console.error(error);
