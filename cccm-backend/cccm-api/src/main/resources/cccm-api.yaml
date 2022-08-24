@@ -924,9 +924,9 @@ components:
     Code:
       type: object
       properties:
-        code:
+        key:
           type: string
-        description:
+        value:
           type: string
     CodeList:
       properties:

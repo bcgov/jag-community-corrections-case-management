@@ -14,8 +14,8 @@ public interface CodeTableMapper {
     @Mapping(target = "items", source = "codes")
     CodeList toCodeResult(String dummyValue, List<CodeTable> codes);
 
-    @Mapping(target = "code", source = "code")
-    @Mapping(target = "description", source = "value")
+    @Mapping(target = "key", source = "code")
+    @Mapping(target = "value", source = "value")
     Code toCode(CodeTable codeTable);
 
 

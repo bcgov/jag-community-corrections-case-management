@@ -38,8 +38,8 @@ public class GetFormTypesTest {
         CodeList formTypeList = new CodeList();
 
         Code formType = new Code();
-        formType.setCode(TEST_CD);
-        formType.setDescription(TEST_VALUE);
+        formType.setKey(TEST_CD);
+        formType.setValue(TEST_VALUE);
         formTypeList.setItems(Collections.singletonList(formType));
 
 
@@ -48,8 +48,8 @@ public class GetFormTypesTest {
         CodeList result = sut.getFormTypes();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
