@@ -1,12 +1,10 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormTypeList;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationList;
+import ca.bc.gov.open.jag.api.lookup.CodeTableType;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 
 public interface CodeTableService {
 
-    FormTypeList formTypeCodes();
-
-    LocationList locationCodes();
+    CodeList getCodes(CodeTableType type);
 
 }

@@ -7,10 +7,12 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.QueryParam;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -34,9 +36,26 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
 
-        //TODO: add additional search fields when present
+        String searchType;
+        //This is based on the current stored procedure
+        if (Boolean.TRUE.equals(clientSearch.getSoundex())) {
+            searchType = "SOUNDEX";
+        } else if (StringUtils.isNoneBlank(clientSearch.getIdentifierType())) {
+            searchType = "ID";
+        } else if (StringUtils.isNoneBlank(clientSearch.getLastName()) && clientSearch.getLastName().contains("%")) {
+            searchType = "PARTIAL";
+        } else {
+            searchType = "EXACT";
+        }
 
-        return createClientResult(obridgeClientService.getClientSearch("EXACT", clientSearch.getName()));
+        //Validation tbd
+        return createClientResult(obridgeClientService.getClientSearch(searchType, clientSearch.getLastName(),
+                clientSearch.getGivenName(),
+                (clientSearch.getBirthYear() != null ? BigDecimal.valueOf(clientSearch.getBirthYear()) : null),
+                (clientSearch.getRange() != null ? BigDecimal.valueOf(clientSearch.getRange()): null),
+                clientSearch.getAge(),
+                clientSearch.getGender(), clientSearch.getIdentifierType(),
+                clientSearch.getIdentifier()));
     }
 
     @Override

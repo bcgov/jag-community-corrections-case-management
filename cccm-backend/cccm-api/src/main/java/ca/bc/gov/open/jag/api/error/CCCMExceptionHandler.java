@@ -20,6 +20,9 @@ public class CCCMExceptionHandler implements ExceptionMapper<CCCMException> {
             case DATALOADERROR:
                 logger.severe("Data load exception ");
                 return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);
+            case INVALIDUSER:
+                logger.severe("Invalid user exception ");
+                return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.FORBIDDEN);
             default:
                 logger.severe(e.getMessage());
                 return buildResponse(CCCMErrorCode.UNKNOWN, e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);

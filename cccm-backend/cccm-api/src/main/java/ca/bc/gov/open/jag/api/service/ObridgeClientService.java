@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -19,12 +20,20 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/clientSearch")
-    //TODO: Add optional query params, for poc using only basic
+    List<Client> getClientSearch(@QueryParam("searchType") String searchType, @QueryParam("surname") String surname,
+                                 @QueryParam("givenName") String givenName, @QueryParam("birthYear") BigDecimal birthYear,
+                                 @QueryParam("birthYearRange") BigDecimal birthYearRange, @QueryParam("age") Integer age,
+                                 @QueryParam("gender") String gender, @QueryParam("identifierType") String identifierType,
+                                 @QueryParam("identifierText") String identifierText);
+
+    @GET
+    @Path("/clientSearch")
+    //Lastname search only
     List<Client> getClientSearch(@QueryParam("searchType") String searchType, @QueryParam("surname") String surname);
 
     @GET
     @Path("/clientSearch")
-    //TODO: Add optional query params, for poc using only basic
+    //Get a client
     List<Client> getClientById(@QueryParam("searchType") String searchType, @QueryParam("identifierType") String identifierType,
                                @QueryParam("identifierText") String identifierText);
 
@@ -35,5 +44,17 @@ public interface ObridgeClientService {
     @GET
     @Path("/client/{clientId}/information")
     ClientProfile getProfileById(@PathParam("clientId") BigDecimal clientId);
+
+    @GET
+    @Path("/lookup/identifierTypes")
+    List<CodeTable> getIdentifierTypes();
+
+    @GET
+    @Path("/lookup/addressTypes")
+    List<CodeTable> getAddressTypes();
+
+    @GET
+    @Path("/lookup/genderTypes")
+    List<CodeTable> getGenderTypes();
 
 }
