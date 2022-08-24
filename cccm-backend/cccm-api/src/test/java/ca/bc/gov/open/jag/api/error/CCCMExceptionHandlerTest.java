@@ -47,7 +47,7 @@ public class CCCMExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Error: should return data load error")
+    @DisplayName("Error: should return invalid error")
     public void testInvalidUserError() {
 
         CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.INVALIDUSER);
@@ -58,6 +58,22 @@ public class CCCMExceptionHandlerTest {
 
         Assertions.assertEquals(403, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.INVALIDUSER, body.getError());
+        Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
+
+    }
+
+    @Test
+    @DisplayName("Error: should return invalid request error")
+    public void testInvalidRequestError() {
+
+        CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.VALIDATIONERROR);
+
+        Response result = sut.toResponse(error);
+
+        CCCMError body = (CCCMError)result.getEntity();
+
+        Assertions.assertEquals(400, result.getStatus());
+        Assertions.assertEquals(CCCMErrorCode.VALIDATIONERROR, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
     }
