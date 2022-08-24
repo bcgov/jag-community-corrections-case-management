@@ -277,6 +277,63 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+  /forms/{formId}/question:
+    post:
+      operationId: AddQuestionAnswer
+      parameters:
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormQuestionAnswer'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormQuestionAnswer'
+          description: form question answer created
+      summary: add a form question
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+    put:
+      operationId: UpdateQuestionAnswer
+      parameters:
+        - explode: false
+          in: path
+          name: formId
+          required: true
+          schema:
+            type: number
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormQuestionAnswer'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormQuestionAnswer'
+          description: form question answer updated
+      summary: update an existing form question answer
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
   /forms/{formType}:
     get:
       operationId: GetFormByType
@@ -924,9 +981,9 @@ components:
     Code:
       type: object
       properties:
-        code:
+        key:
           type: string
-        description:
+        value:
           type: string
     CodeList:
       properties:
@@ -935,3 +992,12 @@ components:
           items:
             $ref: '#/components/schemas/Code'
           type: array
+    FormQuestionAnswer:
+      properties:
+        formAnswerId:
+          type: number
+        formQuestionId:
+          type: number
+        formAnswer:
+          type: string
+

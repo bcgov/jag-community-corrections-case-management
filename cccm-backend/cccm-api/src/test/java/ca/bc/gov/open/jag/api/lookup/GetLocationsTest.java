@@ -38,8 +38,8 @@ public class GetLocationsTest {
         CodeList locationList = new CodeList();
 
         Code location = new Code();
-        location.setCode(TEST_CD);
-        location.setDescription(TEST_VALUE);
+        location.setKey(TEST_CD);
+        location.setValue(TEST_VALUE);
         locationList.setItems(Collections.singletonList(location));
 
 
@@ -48,8 +48,8 @@ public class GetLocationsTest {
         CodeList result = sut.getLocations();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
