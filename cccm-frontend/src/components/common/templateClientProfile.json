@@ -34,6 +34,7 @@
                                             "value": "300"
                                         }
                                     ],
+                                    "customClass": "shadow-sm bg-white rounded text-center p-4 mt-4",
                                     "content": "",
                                     "refreshOnChange": true,
                                     "key": "html3",
@@ -44,7 +45,8 @@
                                 {
                                     "label": "HTML",
                                     "tag": "div",
-                                    "className": "profilePhoto",
+                                    "className": "profilePhoto ",
+                                    "customClass": "shadow-sm bg-white",
                                     "attrs": [
                                         {
                                             "attr": "",
@@ -68,6 +70,7 @@
                                         }
                                     ],
                                     "content": "<br><Strong>Name: </Strong>{{data.fullName}}",
+                                    "customClass": "shadow-sm bg-white text-left pl-3 align-items-start",
                                     "refreshOnChange": true,
                                     "key": "html4",
                                     "type": "htmlelement",
@@ -88,6 +91,7 @@
                                                         }
                                                     ],
                                                     "content": "<div><Strong>Date of Birth: </Strong>{{data.birthDate}}</div><br><div><Strong>Supervision Level: </Strong>{{data.supervisionLevel}}</div>",
+                                                    "customClass": "pl-1 pb-5",
                                                     "refreshOnChange": true,
                                                     "key": "html5",
                                                     "type": "htmlelement",
@@ -128,6 +132,7 @@
                                             "currentWidth": 6
                                         }
                                     ],
+                                    "customClass": "m-0 p-0 pb-1 bg-white shadow-sm",
                                     "key": "columns2",
                                     "type": "columns",
                                     "input": false,
@@ -145,6 +150,7 @@
                             "components": [
                                 {
                                     "label": "Table",
+                                    "customClass": "profile-grid",
                                     "cellAlignment": "left",
                                     "key": "table",
                                     "type": "table",

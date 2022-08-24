@@ -196,6 +196,70 @@ p[ref="html"]{
 .dashboard-background-color-green {
     background-color: #C6E8C5;
 }
+
+/* CLIENT PROFILE STYLES -- TODO move to own file */
+.profile-grid {
+    padding: 20px;
+    margin-left:-30px;
+    margin-top: -15px;
+}
+
+.profile-grid table {
+    table-layout: fixed!important;
+}
+.profile-grid table tr td, table {
+   border: 20px solid #F9FAFB;
+
+}
+.profile-grid table>tbody>tr>td {
+    height:100%!important;
+    background-color: white;
+}
+
+.bg-shallow-warning {
+    height:50px;
+    overflow: visible;
+    font-size:18px;
+    font-weight:bold;
+    background-color: #F9F1C6;
+    color: #6C4A00;
+}
+
+.bg-shallow-critical {
+    height:50px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #F2DEDE;
+    color:#D3080C;
+}
+
+legend[ref="header"]{
+    font-weight: bold;
+}
+
+.card-header {
+    background-color: transparent!important;
+}
+
+.card-header li.nav-item {
+
+}
+.card-header li.nav-item >a {
+    color:#ccc!important;
+    border-radius: 0px;
+}
+
+.card-header li.nav-item >a:hover {
+    color:#ccc!important;
+    border-radius: 0px;
+    border: 0px;
+}
+
+.card-header li.nav-item.active>a {
+    color: black!important;
+    border: 0px;
+    border-bottom: 5px solid #38598A;;
+}
 @media only screen and (max-width: 600px) {
     .container {
         padding: 0px!important;
