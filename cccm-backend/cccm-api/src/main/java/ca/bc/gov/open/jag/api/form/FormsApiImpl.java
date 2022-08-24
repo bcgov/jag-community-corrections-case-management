@@ -45,8 +45,10 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-update")
     public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, @Valid FormQuestionAnswer formQuestionAnswer) {
 
-        if (formQuestionAnswer.getFormAnswerId() == null || formQuestionAnswer.getFormQuestionId() == null) {
-            throw new CCCMException("Required ID's not present", CCCMErrorCode.VALIDATIONERROR);
+        logger.info("Add question answer received");
+
+        if (formQuestionAnswer.getFormQuestionId() == null) {
+            throw new CCCMException("Required ID not present", CCCMErrorCode.VALIDATIONERROR);
         }
 
         return null;
