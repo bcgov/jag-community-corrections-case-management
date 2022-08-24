@@ -1,10 +1,13 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormQuestionAnswer;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 
 import javax.annotation.security.RolesAllowed;
@@ -34,6 +37,20 @@ public class FormsApiImpl implements FormsApi {
         logger.warning("Form add not implemented");
         logger.log(Level.INFO, formDetails);
         return new FormDetails();
+
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-update")
+    public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, @Valid FormQuestionAnswer formQuestionAnswer) {
+
+        if (formQuestionAnswer.getFormAnswerId() == null || formQuestionAnswer.getFormQuestionId() == null) {
+            throw new CCCMException("Required ID's not present", CCCMErrorCode.VALIDATIONERROR);
+        }
+
+        return null;
+
 
     }
 
@@ -90,6 +107,21 @@ public class FormsApiImpl implements FormsApi {
         logger.warning("Form update not implemented");
 
         return formDetails;
+
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-update")
+    public FormQuestionAnswer updateQuestionAnswer(BigDecimal formId, @Valid FormQuestionAnswer formQuestionAnswer) {
+
+        logger.info("Update question answer request received");
+
+        if (formQuestionAnswer.getFormAnswerId() == null || formQuestionAnswer.getFormQuestionId() == null) {
+            throw new CCCMException("Required ID's not present", CCCMErrorCode.VALIDATIONERROR);
+        }
+
+        return null;
 
     }
 
