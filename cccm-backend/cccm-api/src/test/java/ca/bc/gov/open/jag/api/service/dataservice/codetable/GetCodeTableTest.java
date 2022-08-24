@@ -45,8 +45,8 @@ public class GetCodeTableTest {
         CodeList result = sut.getCodes(CodeTableType.FORM_TYPE);
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
@@ -61,8 +61,8 @@ public class GetCodeTableTest {
         CodeList result = sut.getCodes(CodeTableType.LOCATION_TYPE);
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
@@ -77,8 +77,8 @@ public class GetCodeTableTest {
         CodeList result = sut.getCodes(CodeTableType.GENDER_TYPE);
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
@@ -93,8 +93,8 @@ public class GetCodeTableTest {
         CodeList result = sut.getCodes(CodeTableType.IDENTIFIER_TYPE);
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
@@ -109,8 +109,8 @@ public class GetCodeTableTest {
         CodeList result = sut.getCodes(CodeTableType.ADDRESS_TYPE);
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 

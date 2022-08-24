@@ -37,8 +37,8 @@ public class GetIdentifiersTest {
         CodeList identifierList = new CodeList();
 
         Code identifier = new Code();
-        identifier.setCode(TEST_CD);
-        identifier.setDescription(TEST_VALUE);
+        identifier.setKey(TEST_CD);
+        identifier.setValue(TEST_VALUE);
         identifierList.setItems(Collections.singletonList(identifier));
 
 
@@ -47,8 +47,8 @@ public class GetIdentifiersTest {
         CodeList result = sut.getIdentifiers();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
