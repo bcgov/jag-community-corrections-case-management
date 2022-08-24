@@ -23,6 +23,9 @@ public class CCCMExceptionHandler implements ExceptionMapper<CCCMException> {
             case INVALIDUSER:
                 logger.severe("Invalid user exception ");
                 return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.FORBIDDEN);
+            case VALIDATIONERROR:
+                logger.severe("Invalid request exception ");
+                return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.BAD_REQUEST);
             default:
                 logger.severe(e.getMessage());
                 return buildResponse(CCCMErrorCode.UNKNOWN, e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);

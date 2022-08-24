@@ -19,7 +19,9 @@ body {
 .main { 
 	grid-area: main; 
 }
-.footer { 
+.footer {
+	position:fixed;
+	bottom:0px;
 	grid-area: footer; 
 }
 .wrap {

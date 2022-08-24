@@ -4,5 +4,6 @@ public enum CCCMErrorCode {
     RECORDNOTFOUND,
     DATALOADERROR,
     INVALIDUSER,
+    VALIDATIONERROR,
     UNKNOWN
 }

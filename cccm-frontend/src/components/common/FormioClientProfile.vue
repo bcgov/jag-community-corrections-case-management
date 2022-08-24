@@ -1,30 +1,30 @@
 <template>
-  <div>
-    <br>
-    <v-row :key="theKey">
-      <div class="sectionTitleClass">&nbsp;&nbsp;&nbsp;&nbsp;Client Profile</div>
-      <div :class="['fas fa-exclamation-triangle warrants', showWarrantDetails ? '' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
-        Client has {{getNumOfWarrants}} Outstanding Warrants 
-        <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', '']">
-          <div v-for="(item, index) in getWarrantDetails" :key="index">
-            {{item.date}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.details}} <br>
+  <div class="p-4">
+    <section class="mb-3">
+      <v-row :key="theKey" class="row">
+        <div class="sectionTitleClass mr-4 col-3">Client Profile</div>
+        <div :class="['bg-shallow-warning mr-3 mt-3 col-3 align-items-start', showWarrantDetails ? 'h-100' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
+          <p><span class="fas fa-exclamation-triangle mr-2 "/>Client has {{getNumOfWarrants}} Outstanding Warrants</p>
+          <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', 'flex-grow-1']">
+            <div v-for="(item, index) in getWarrantDetails" :key="index">
+              {{item.date}}{{item.details}}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="critical center" v-if="isProfileClosed">
-        Profile is closed <br>
-        Client has been released
-      </div>
-      <div :class="['fas fa-exclamation-triangle critical', showAlertDetails ? '' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
-        Client has {{getNumOfAlerts}} Community Alerts
-        <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
-          <div v-for="(item, index) in getAlertDetails" :key="index">
-            {{item.date}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.details}} <br>
+        <div class="bg-shallow-critical mr-3 center mr-3 mt-3 col-2" v-if="isProfileClosed">
+          Profile is closed <br/>
+          Client has been released
+        </div>
+        <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
+          <p><span class="fas fa-exclamation-triangle mr-4 "/>Client has {{getNumOfAlerts}} Community Alerts</p>
+          <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
+            <div v-for="(item, index) in getAlertDetails" :key="index">
+              {{item.date}}{{item.details}}
+            </div>
           </div>
         </div>
-      </div>
-    </v-row>
-    <br/><br/><br/>
+      </v-row>
+    </section>
     <Form :form="formJSON" :submission="initData"/>
   </div>
   

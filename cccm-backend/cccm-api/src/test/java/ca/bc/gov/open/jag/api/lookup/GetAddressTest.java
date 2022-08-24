@@ -37,8 +37,8 @@ public class GetAddressTest {
         CodeList addressList = new CodeList();
 
         Code address = new Code();
-        address.setCode(TEST_CD);
-        address.setDescription(TEST_VALUE);
+        address.setKey(TEST_CD);
+        address.setValue(TEST_VALUE);
         addressList.setItems(Collections.singletonList(address));
 
 
@@ -47,8 +47,8 @@ public class GetAddressTest {
         CodeList result = sut.getAddress();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 

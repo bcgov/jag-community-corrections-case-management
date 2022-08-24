@@ -33,6 +33,15 @@ body {
 	left: 40px;
 	top:10px;
 	font-size: 1.7rem;
+}
+.usernameText {
+	font-weight: 500;
+	color: #fff;
+	position:relative;
+	top:14px;
+	font-size: 1.2rem;
+	text-align:right;
+	padding-right:20px;
 
 }
 @media only screen and (max-width: 600px) {
@@ -73,13 +82,6 @@ a.headerA:hover {
 
 .main { 
 	/* little formatting should be needed here */
-}
-
-.footer {
-	/*Maybe not necessary - Daniel Ram*/
-	/*background-image: url("footer-bg.jpg");*/
-	/*background-repeat: repeat-x; 	*/
-	/*height:50px;*/
 }
 
 div.menu-Sticky {

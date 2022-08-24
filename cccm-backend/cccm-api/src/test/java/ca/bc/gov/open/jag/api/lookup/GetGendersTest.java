@@ -37,8 +37,8 @@ public class GetGendersTest {
         CodeList genderList = new CodeList();
 
         Code gender = new Code();
-        gender.setCode(TEST_CD);
-        gender.setDescription(TEST_VALUE);
+        gender.setKey(TEST_CD);
+        gender.setValue(TEST_VALUE);
         genderList.setItems(Collections.singletonList(gender));
 
 
@@ -47,8 +47,8 @@ public class GetGendersTest {
         CodeList result = sut.getGenders();
 
         Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getCode());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getDescription());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
