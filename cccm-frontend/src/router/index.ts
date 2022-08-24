@@ -8,6 +8,7 @@ import Unauthorized from '../views/Unauthorized.vue'
 import RNAListView from '../views/RNAList.vue'
 import DashboardPOView from '../views/DashboardPOView.vue'
 import DashboardSupervisorView from '../views/DashboardSupervisorView.vue'
+import {useStore} from "@/stores/store";
 
 Vue.use(VueRouter)
 
@@ -90,6 +91,11 @@ const router = new VueRouter({
 // form-view
 // po-manage
 router.beforeEach((to, from, next) => {
+  // Fetch the default location
+  const store = useStore();
+  store.getLocation();
+  //console.log("In router, store: ", store.locationCD, store.locationDescription);
+  
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
     const basePath = window.location.toString();  

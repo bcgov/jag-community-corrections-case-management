@@ -5,7 +5,7 @@
       <div class="header-img">
         <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
       </div>
-      <span class="headerText textShadow">BC Corrections - {{ locationInfo }}
+      <span class="headerText textShadow">BC Corrections - {{ mainStore.locationDescription }}
       <span v-if="isUserAuthenticated" class="col-sm-2 text-right">
         <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
         <a @click="logout">
@@ -26,12 +26,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'HeaderComponent',
-  props: {
-    locationInfo: "",
-  },
   data() {
     return {
       baseURL: import.meta.env.BASE_URL,
@@ -39,7 +38,9 @@ export default {
   },
   methods: {
     logout () {
-      Vue.$keycloak.logout({ redirectUri: window.location.origin })
+      // clear cached location info
+      this.mainStore.clearCachedLocation();
+      Vue.$keycloak.logout({ redirectUri: window.location.origin });
     }
   },
   computed: {
@@ -48,7 +49,10 @@ export default {
     },
     getUserName() {
         return Vue.$keycloak.tokenParsed.preferred_username;
-    }
+    },
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   },
 }
 </script>

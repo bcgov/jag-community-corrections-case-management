@@ -6,11 +6,22 @@ const axiosClient = axios.create({
     //baseURL: "http://localhost:8080"
 });
 
-// function to fetch the location info
-export async function getLocationInfo() {
+// function to async fetch the location info
+export async function async_getLocationInfo() {
     try {
         //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
         const { data } = await axiosClient.get('/locations');
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to sync fetch the location info
+export function getLocationInfo() {
+    try {
+        //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
+        const data = axiosClient.get('/locations');
         return [null, data];
     }catch (error) {
         return [error];

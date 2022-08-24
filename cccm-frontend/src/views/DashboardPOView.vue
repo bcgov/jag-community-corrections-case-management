@@ -42,7 +42,7 @@
         >
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
-          <a :href="`${baseURL}clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.clientName}}</a>
+          <a :href="`${baseURL}clientprofile/${item.clientID}/${item.csNumber}`">{{item.clientName}}</a>
         </template>
         <!--Customize the alerts field, show the alert count -->
         <template v-slot:item.communityAlerts="{ item }">
