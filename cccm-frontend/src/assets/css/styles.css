@@ -75,13 +75,6 @@ a.headerA:hover {
 	/* little formatting should be needed here */
 }
 
-.footer {
-	/*Maybe not necessary - Daniel Ram*/
-	/*background-image: url("footer-bg.jpg");*/
-	/*background-repeat: repeat-x; 	*/
-	/*height:50px;*/
-}
-
 div.menu-Sticky {
 	background-color: #F9FAFB;	
 }

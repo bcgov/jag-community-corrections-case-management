@@ -127,6 +127,75 @@ p[ref="html"]{
     color: #fff;
     border: 1px solid #ccc;
 }
+
+/* Dashboard Styles - TODO split to own file */
+.designation-totals {
+    position: absolute;
+    bottom: 20px;
+    background-color: #efefef;
+    text-align: center;
+}
+
+.designation-totals th:first-of-type {
+    text-align:left;
+}
+
+.designation-totals th {
+    width: 100px;
+}
+
+.dashboard-v-card .v-data-table-header {
+    background-color: #38598A;
+}
+
+.dashboard-v-card .v-data-table-header th[role="columnheader"] {
+
+}
+.dashboard-v-card .v-data-table-header th, i{
+    color:#fff!important;
+}
+
+.dashboard-table-header-ul ul {
+    list-style:  none;
+}
+
+.dashboard-table-header-ul ul>li {
+    padding:0;
+    margin:0;
+}
+.dashboard-table-header-ul ul>li::before {
+    content: "\2022";
+    color: red;
+    font-weight: bold;
+    display: inline-block;
+    position:relative;
+    width: 1em;
+    font-size:2em;
+    top: 5px;
+    margin-left: -.5em;
+    margin-top: -.25em
+}
+
+.dashboard-table-header-ul ul>li:nth-child(1)::before {
+    color: #FFB9B9;
+}
+
+.dashboard-table-header-ul ul>li:nth-child(2)::before {
+    color: #FFE5BD;
+}
+
+.dashboard-table-header-ul ul>li:nth-child(3)::before {
+    color: #C6E8C5;
+}
+.dashboard-background-color-red {
+    background-color: #FFB9B9;
+}
+.dashboard-background-color-yellow {
+    background-color: #FFE5BD ;
+}
+.dashboard-background-color-green {
+    background-color: #C6E8C5;
+}
 @media only screen and (max-width: 600px) {
     .container {
         padding: 0px!important;
