@@ -881,17 +881,7 @@ components:
     Address:
       type: object
       properties:
-        type:
-          type: string
-        expired:
-          type: boolean
-        sealed:
-          type: boolean
-        street:
-          type: string
-        city:
-          type: string
-        postalCode:
+        fullAddress:
           type: string
     Program:
       type: object
@@ -1000,4 +990,3 @@ components:
           type: number
         formAnswer:
           type: string
-

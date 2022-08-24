@@ -22,7 +22,7 @@ public interface ClientMapper {
     @Mapping(target = "custodyLocation", source = "clientProfile.custodyLocation")
     @Mapping(target = "communityInformation.communityLocation", source = "clientProfile.communityLocation")
     @Mapping(target = "communityInformation.status", source = "clientProfile.status")
-    @Mapping(target = "communityInformation.caseManager", source = "clientProfile.caseManager")
+    @Mapping(target = "communityInformation.caseManager", source = "client.caseManager")
     @Mapping(target = "communityInformation.secondaryManager", source = "clientProfile.secondaryManager")
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")
     @Mapping(target = "orderInformation.orders", source = "clientProfile.orders")
@@ -44,18 +44,9 @@ public interface ClientMapper {
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")
     @Mapping(target = "biometric.eServices", source = "clientProfile.eServicesStatus")
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
-    @Mapping(target = "address", source = "address")
+    @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress()))")
     @Mapping(target = "communityAlerts", source="alerts")
-    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.data.Address> address, List<ca.bc.gov.open.jag.api.model.data.Alert> alerts, BigDecimal clientId);
-
-
-    @Mapping(target = "street", source = "addressLine1Txt")
-    @Mapping(target = "city", source = "cityCd")
-    @Mapping(target = "postalCode", source = "postalCodeTxt")
-    @Mapping(target = "sealed", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.yesNoToBool(address.getSealedYn()))")
-    @Mapping(target = "type", source = "ddtyCd")
-    @Mapping(target = "expired", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.isExpired(address.getExpiryDt()))")
-    Address toAddress(ca.bc.gov.open.jag.api.model.data.Address address);
+    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.data.Alert> alerts, BigDecimal clientId);
 
     @Mapping(target = "comment", source = "commentTxt")
     @Mapping(target = "date", source = "effectiveDt")
