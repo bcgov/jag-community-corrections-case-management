@@ -1,74 +1,101 @@
 <template>
-  <div data-app>
-    <v-card>
+  <div data-app class="p-4">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>My Dashboard</h1>
+      </div>
+      <div class="col-sm-4"></div>
+      <div class="col-sm-2 text-right">
+        <button @click="print()" class="btn btn-primary btn-lg">Print Report <i class="bi bi-printer-fill ml-2"></i></button>
+      </div>
+    </div>
+    <v-card class="p-3">
       <div class="row">
         <div class="col-sm-6">
-          <h4>My Dashboard</h4>
+          <table class="designation-totals">
+            <thead>
+              <tr>
+                <th colspan="3"> Designation Total </th>
+              </tr>
+              <tr>
+                <th scope="col">GEN:</th>
+                <th scope="col">SMO</th>
+                <th scope="col">IPV</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ numOfGen }}</td>
+                <td>{{ numOfSMO }}</td>
+                <td>{{ numOfIPV }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-2">
-          <button @click="print()">Print Report</button>
+          <div class="dashboard-table-header-ul float-right">
+            <ul>
+              <li>Due today or overdue</li>
+              <li>Due within 1 to 14 days</li>
+              <li>Due in over 14 days</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <h5>&nbsp;&nbsp;&nbsp;&nbsp;Designation Total</h5>
-          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GEN: </strong> {{ numOfGen }}</div>
-          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMO: </strong> {{ numOfSMO }}</div>
-          <div><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IPV: </strong> {{ numOfIPV }}</div>
-        </div>
-        <div class="col-sm-4"></div>
-        <div class="col-sm-2">
-          <div>Due today or overdue</div>
-          <div>Due within 1 to 14 days</div>
-          <div>Due in over 14 days</div>
-        </div>
-      </div>
-      <v-data-table
-        :key="key_results"
-        :headers="headers"
-        :items="clientList"
-        item-key="csNumber"
-        :single-expand="singleExpand"
-        :expanded.sync="expanded"
-        @item-expanded="expandRow"
-        no-results-text="No results found"
-        show-expand
-        class="elevation-1"
-        hide-default-footer
-        :page.sync="page"
-        :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
+      <div class="dashboard-v-card">
+        <v-data-table
+            :key="key_results"
+            :headers="headers"
+            :items="clientList"
+            item-key="csNumber"
+            :single-expand="singleExpand"
+            :expanded.sync="expanded"
+            @item-expanded="expandRow"
+            no-results-text="No results found"
+            show-expand
+            class="elevation-1"
+            hide-default-footer
+            :page.sync="page"
+            :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
         >
-        <!--Customize the Name field, making it clickable-->
-        <template v-slot:item.clientName="{ item }">
-          <a :href="`${baseURL}clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.clientName}}</a>
-        </template>
-        <!--Customize the alerts field, show the alert count -->
-        <template v-slot:item.communityAlerts="{ item }">
-          <span>{{getAlerts[item.csNumber]}}</span>
-        </template>
-        <!--Customize the warrant field, show the warrant count -->
-        <template v-slot:item.outstandingWarrants="{ item }">
-          <span>{{getWarrants[item.csNumber]}}</span>
-        </template>
-        <!--Customize the expanded item to show photo and more-->
-        <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="1"></td>
-          <td :colspan="11">
-            <Form :key="keyExpandRow" :form="formJSON" :submission="initDataArray[item.clientID]"/>
-          </td>      
-        </template>
-        <!--Customize the formStatus field -->
-        <template v-slot:item.dueNext="{ item }">
-          <span :class="getColor(item.dueDate)">{{item.dueNext}}</span>
-        </template>
-        <!--Customize the supervision rating field -->
-        <template v-slot:item.dueDate="{ item }">
-          <span :class="getColor(item.dueDate)">{{item.dueDate}}</span>
-        </template>
-      </v-data-table>
-      <br/>
+          <!--Customize the Name field, making it clickable-->
+          <template v-slot:item.clientName="{ item }">
+            <div class="w-100 h-100">
+              <a :href="`/clientprofile/${item.clientID}/${item.csNumber}`" target="_blank">{{item.clientName}}</a>
+            </div>
+          </template>
+          <!--Customize the alerts field, show the alert count -->
+          <template v-slot:item.communityAlerts="{ item }">
+            <span>{{getAlerts[item.csNumber]}}</span>
+          </template>
+          <!--Customize the warrant field, show the warrant count -->
+          <template v-slot:item.outstandingWarrants="{ item }">
+            <span>{{getWarrants[item.csNumber]}}</span>
+          </template>
+          <!--Customize the expanded item to show photo and more-->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="1"></td>
+            <td :colspan="11">
+              <Form :key="keyExpandRow" :form="formJSON" :submission="initDataArray[item.clientID]"/>
+            </td>
+          </template>
+          <!--Customize the formStatus field -->
+          <template v-slot:item.dueNext="{ item }">
+            <div :class="`w-100 h-100 ${getColor(item.dueDate)}`">
+              <span :class="getColor(item.dueDate)">{{item.dueNext}}</span>
+            </div>
+
+          </template>
+          <!--Customize the supervision rating field -->
+          <template v-slot:item.dueDate="{ item }">
+            <div :class="`w-100 h-100 ${getColor(item.dueDate)}`">
+              <span :class="getColor(item.dueDate)">{{item.dueDate}}</span>
+            </div>
+          </template>
+        </v-data-table>
+      </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center pt-2">
         <v-row>
@@ -124,8 +151,8 @@ export default {
         { text: 'Order Expiry Date', value: 'orderExpiryDate' },
         { text: 'Supervision Rating', value: 'supervisionRating' },
         { text: 'RNA Completed', value: 'rnaCompleteDate' },
-        { text: 'Due Next', value: 'dueNext' },
-        { text: 'Due Date', value: 'dueDate' },
+        { text: 'Due Next', value: 'dueNext', cellClass: 'p-0 m-0' },
+        { text: 'Due Date', value: 'dueDate', cellClass: 'p-0 m-0' },
       ],
       expanded: [],
       singleExpand: false,
@@ -139,7 +166,6 @@ export default {
       //data for the expand row
       initData: {},
       formJSON: templateClientProfile,
-      baseURL: import.meta.env.BASE_URL,
     }
   },
   mounted(){
@@ -408,13 +434,13 @@ export default {
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       //console.log("diffDays: ", dueDate, dateNow, diffDays);
       if (diffDays <= 0) {
-        return 'red';
+        return 'dashboard-background-color-red';
       }
       if (diffDays >= 1 && diffDays <= 14) {
-        return 'yellow';
+        return 'dashboard-background-color-yellow';
       }
       if (diffDays > 14) {
-        return 'green';
+        return 'dashboard-background-color-green';
       }
     },
     getInitData() {
