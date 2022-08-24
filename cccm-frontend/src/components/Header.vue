@@ -6,13 +6,13 @@
         <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
       </div>
       <span class="headerText textShadow">BC Corrections - {{ locationInfo }}
-      <span v-if="isUserAuthenticated" class="col-sm-2 text-right">
+    </span>
+      <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
         <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
         <a @click="logout">
           <span>Logout</span>
         </a>
       </span>
-    </span>
     </div>
     <div class="headerNavContainer">
       <span class="headerNav textShadow">
