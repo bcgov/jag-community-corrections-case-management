@@ -166,6 +166,7 @@ export default {
       //data for the expand row
       initData: {},
       formJSON: templateClientProfile,
+      baseURL: import.meta.env.BASE_URL
     }
   },
   mounted(){
