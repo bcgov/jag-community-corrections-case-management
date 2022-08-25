@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.util;
 
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Designation;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Warrant;
 import org.apache.commons.lang3.StringUtils;
@@ -93,6 +94,18 @@ public class MappingUtils {
         }
 
         return designations;
+
+    }
+
+    public static List<Address> stringToAddressList(String address) {
+
+        if (StringUtils.isBlank(address)) {
+            return new ArrayList<>();
+        }
+
+        Address address1 = new Address();
+        address1.setFullAddress(address);
+        return Collections.singletonList(address1);
 
     }
 

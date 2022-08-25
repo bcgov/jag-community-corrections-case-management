@@ -40,7 +40,6 @@ public class ClientProfileTest {
 
         Mockito.when(obridgeClientService.getClientById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
         Mockito.when(obridgeClientService.getProfileById(Mockito.any())).thenReturn(new ClientProfile());
-        Mockito.when(speedmentClientService.getClientAddress(Mockito.any())).thenReturn(createAddressList());
         Mockito.when(speedmentClientService.getAlerts(Mockito.any())).thenReturn(Collections.emptyList());
 
         Client result = sut.clientProfile("01");
@@ -69,24 +68,10 @@ public class ClientProfileTest {
         client1.setBirthDate("1961-04-17");
         client1.setCustodyLocation("TEST1");
         client1.setCommunityLocation("TEST1");
-
+        client1.setAddress("TEST");
+        client1.setCaseManager("TEST");
 
         return Collections.singletonList(client1);
-
-    }
-
-    private List<Address> createAddressList() {
-
-        Address address1 = new Address();
-        address1.setAddressLine1Txt("1234 Street st");
-        address1.setCityCd("TEST1");
-        address1.setPostalCodeTxt("V0H 1V0");
-        Address address2 = new Address();
-        address2.setAddressLine1Txt("1235 Street st");
-        address2.setCityCd("TEST2");
-        address2.setPostalCodeTxt("V0H 2V0");
-
-        return Arrays.asList(address1, address2);
 
     }
 

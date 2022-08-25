@@ -9,6 +9,9 @@ public class Client {
     private String birthDate;
     private String custodyLocation;
     private String communityLocation;
+    private String caseManager;
+    private String address;
+
 
     public String getClientNo() {
         return clientNo;
@@ -66,4 +69,19 @@ public class Client {
         this.communityLocation = communityLocation;
     }
 
+    public String getCaseManager() {
+        return caseManager;
+    }
+
+    public void setCaseManager(String caseManager) {
+        this.caseManager = caseManager;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

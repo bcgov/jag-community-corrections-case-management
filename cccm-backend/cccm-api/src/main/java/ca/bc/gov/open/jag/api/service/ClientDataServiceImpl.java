@@ -12,7 +12,6 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.QueryParam;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +68,7 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         if (result.isPresent()) {
 
-            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getClientAddress(csNumberPadded), speedmentClientService.getAlerts(dbClientId), dbClientId);
+            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getAlerts(dbClientId), dbClientId);
 
         } else {
 
@@ -95,7 +94,7 @@ public class ClientDataServiceImpl implements ClientDataService {
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.data.Client> clients) {
 
         return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), speedmentClientService.getClientAddress(client1.getClientNo()), Collections.emptyList(), null))
+                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), Collections.emptyList(), null))
                 .collect(Collectors.toList());
 
     }
