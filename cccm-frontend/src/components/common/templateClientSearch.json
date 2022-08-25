@@ -152,11 +152,11 @@
                                                             "tableView": true,
                                                             "dataSrc": "url",
                                                             "data": {
-                                                                "url": "http://localhost:8080/lookup/genders",
+                                                                "url": "${cccm_api_endpoint}/lookup/genders",
                                                                 "headers": [
                                                                     {
                                                                         "key": "Authorization",
-                                                                        "value": "Bearer "
+                                                                        "value": "Bearer ${authToken}"
                                                                     }
                                                                 ]
                                                             },
