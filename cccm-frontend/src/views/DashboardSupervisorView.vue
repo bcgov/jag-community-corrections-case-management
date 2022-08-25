@@ -1,129 +1,130 @@
 <template>
-  <div data-app>
-    <v-card>
-      <div class="row">
-        <div class="col-sm-6">
-          <h4>My Dashboard</h4>
-        </div>
+  <div data-app class="p-4">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>My Dashboard</h1>
       </div>
-      <div class="row">
-        <div class="col-sm-2">
+    </div>
+    <v-card>
+      <div class="row justify-content-between">
+        <div class="col-sm-2 m-3">
+          <strong>Location</strong>
           <v-select
             :key="key_location"
             item-text="text"
             item-value="value"
             v-model="selectedLocation"
             :items="locationTypes"
-            label="Location"
+            label=""
             v-on:change="applyLocationFilter"
             outlined
           >
           </v-select>
         </div>
-        <div class="col-sm-8"></div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 mr-3 align-self-end pb-4">
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label=""
+            label="Search"
             single-line
             hide-details
           ></v-text-field>
         </div>
       </div>
-      <v-data-table
-        :key="key_results"
-        :headers="headers"
-        :search="search"
-        :items="filteredOfficerList"
-        item-key="poID"
-        :single-expand="singleExpand"
-        :expanded.sync="expanded"
-        no-results-text="No results found"
-        show-expand
-        class="elevation-1"
-        hide-default-footer
-        :page.sync="page"
-        :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
+      <div class="dashboard-v-card">
+        <v-data-table
+            :key="key_results"
+            :headers="headers"
+            :search="search"
+            :items="filteredOfficerList"
+            item-key="poID"
+            :single-expand="singleExpand"
+            :expanded.sync="expanded"
+            no-results-text="No results found"
+            show-expand
+            class="elevation-1"
+            hide-default-footer
+            :page.sync="page"
+            :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
         >
-        <!--Added the Total row-->
-        <template slot="body.append">
-          <tr class="pink--text">
-            <th></th>
-            <th class="title">Total</th>
-            <th class="title">{{ sumField('numActive') }}</th>
-            <th class="title">{{ sumField('numAdminClosed') }}</th>
-            <th class="title">{{ sumField('numBAL') }}</th>
-            <th class="title">{{ sumField('numHigh') }}</th>
-            <th class="title">{{ sumField('numMedium') }}</th>
-            <th class="title">{{ sumField('numLow') }}</th>
-            <th class="title">{{ sumField('numUnknown') }}</th>
-            <th class="title">{{ sumField('numOverdue') }}</th>
-            <th class="title">{{ sumField('numActiveReports') }}</th>
-          </tr>
-        </template>
-        <!--Customize the poName field, making it clickable-->
-        <template v-slot:item.poName="{ item }">
-          <a :href="`${baseURL}dashboardpo/${item.poID}`" target="_blank">{{item.poName}}</a>
-        </template>
-        <!--Customize the expanded item to show more-->
-        <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="1"></td>
-          <td :colspan="1">
-            <strong>PCM</strong>
-            <br />
-            {{ item.numPCM}}
-          </td>
-          <td :colspan="1">
-            <strong>SCM</strong>
-            <br />
-            {{ item.numSCM}}
-          </td>
-          <td :colspan="1">
-            <strong>SMO</strong>
-            <br />
-            {{ item.numSMO}}
-          </td>
-          <td :colspan="1">
-            <strong>Closed/Incomplete Report</strong>
-            <br />
-            {{ item.numClosedReport}}
-          </td>
-          <td :colspan="1">
-            <strong>Expiring 30 Days</strong>
-            <br />
-            {{ item.numExpiry30Days}}
-          </td>
-          <td :colspan="1">
-            <strong>Not Required</strong>
-            <br />
-            {{ item.numNotRquired}}
-          </td>
-          <td :colspan="1">
-            <strong>RNA's Due 7 days</strong>
-            <br />
-            {{ item.numDue7Days}}
-          </td>
-        </template>
-        <!--Customize the numHigh field -->
-        <template v-slot:item.numHigh="{ item }">
-          <span class="red">{{item.numHigh}}</span>
-        </template>
-        <!--Customize the numMedium field -->
-        <template v-slot:item.numMedium="{ item }">
-          <span class="yellow">{{item.numMedium}}</span>
-        </template>
-        <!--Customize the numLow field -->
-        <template v-slot:item.numLow="{ item }">
-          <span class="green">{{item.numLow}}</span>
-        </template>
-      </v-data-table>
-      <br/>
+          <!--Added the Total row-->
+          <template slot="body.append">
+            <tr class="pink--text">
+              <th></th>
+              <th class="title">Total</th>
+              <th class="title">{{ sumField('numActive') }}</th>
+              <th class="title">{{ sumField('numAdminClosed') }}</th>
+              <th class="title">{{ sumField('numBAL') }}</th>
+              <th class="title">{{ sumField('numHigh') }}</th>
+              <th class="title">{{ sumField('numMedium') }}</th>
+              <th class="title">{{ sumField('numLow') }}</th>
+              <th class="title">{{ sumField('numUnknown') }}</th>
+              <th class="title">{{ sumField('numOverdue') }}</th>
+              <th class="title">{{ sumField('numActiveReports') }}</th>
+            </tr>
+          </template>
+          <!--Customize the poName field, making it clickable-->
+          <template v-slot:item.poName="{ item }">
+            <a :href="`${baseURL}dashboardpo/${item.poID}`" target="_blank">{{item.poName}}</a>
+          </template>
+          <!--Customize the expanded item to show more-->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="1"></td>
+            <td :colspan="1">
+              <strong>PCM</strong>
+              <br />
+              {{ item.numPCM}}
+            </td>
+            <td :colspan="1">
+              <strong>SCM</strong>
+              <br />
+              {{ item.numSCM}}
+            </td>
+            <td :colspan="1">
+              <strong>SMO</strong>
+              <br />
+              {{ item.numSMO}}
+            </td>
+            <td :colspan="1">
+              <strong>Closed/Incomplete Report</strong>
+              <br />
+              {{ item.numClosedReport}}
+            </td>
+            <td :colspan="1">
+              <strong>Expiring 30 Days</strong>
+              <br />
+              {{ item.numExpiry30Days}}
+            </td>
+            <td :colspan="1">
+              <strong>Not Required</strong>
+              <br />
+              {{ item.numNotRquired}}
+            </td>
+            <td :colspan="1">
+              <strong>RNA's Due 7 days</strong>
+              <br />
+              {{ item.numDue7Days}}
+            </td>
+          </template>
+          <!--Customize the numHigh field -->
+          <template v-slot:item.numHigh="{ item }">
+            <div class="w-100 h-100 dashboard-background-color-red">{{item.numHigh}}</div>
+          </template>
+          <!--Customize the numMedium field -->
+          <template v-slot:item.numMedium="{ item }">
+            <div class="w-100 h-100 dashboard-background-color-yellow">{{item.numMedium}}</div>
+          </template>
+          <!--Customize the numLow field -->
+          <template v-slot:item.numLow="{ item }">
+            <div class="w-100 h-100 dashboard-background-color-green">{{item.numLow}}</div>
+          </template>
+        </v-data-table>
+      </div>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pt-2">
-        <v-row>
-          <v-col cols="2" sm="2">
+      <div v-if="!loading" class="text-center p-3 pt-2">
+        <v-row class="justify-content-between">
+          <v-col cols="1" sm="1" class="pl-3 pr-5">
             <v-select
               solo
               :items="items"
@@ -169,9 +170,9 @@ export default {
         { text: 'Active/Admin', value: 'numActive' },
         { text: 'Admin Closed', value: 'numAdminClosed' },
         { text: 'BAL', value: 'numBAL' },
-        { text: 'High', value: 'numHigh' },
-        { text: 'Medium', value: 'numMedium' },
-        { text: 'Low', value: 'numLow' },
+        { text: 'High', value: 'numHigh', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Medium', value: 'numMedium', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Low', value: 'numLow', cellClass: 'p-0 m-0 text-center' },
         { text: 'Unknown', value: 'numUnknown' },
         { text: 'Overdue RNA\'s', value: 'numOverdue' },
         { text: 'Active Reports', value: 'numActiveReports' },
