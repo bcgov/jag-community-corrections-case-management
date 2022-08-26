@@ -21,7 +21,10 @@ setupInterceptors();
 // When keycloak token expired, cleanup the cached info
 const store = useStore();
 Vue.$keycloak.onTokenExpired = function() { 
+  // Clear the cached location info
   store.clearCachedLocation();
+  // Logout
+  Vue.$keycloak.logout({ redirectUri: window.location.origin  + import.meta.env.BASE_URL });
 }
 
 Vue.$keycloak
