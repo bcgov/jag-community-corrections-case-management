@@ -40,7 +40,7 @@ export default {
     logout () {
       // clear cached location info
       this.mainStore.clearCachedLocation();
-      Vue.$keycloak.logout({ redirectUri: window.location.origin });
+      Vue.$keycloak.logout({ redirectUri: window.location.origin + import.meta.env.BASE_URL });
     }
   },
   computed: {
