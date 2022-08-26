@@ -58,7 +58,7 @@ export default {
     parentNavMoveToNext() {
       let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
       let childNavPos = '0';
-      this.showHideWrappter(parentNavPos, childNavPos);
+      this.showHideWrapper(parentNavPos, childNavPos);
 
       // Move the position to the top by simulating an anchor click
       let hrefVal = '#' + parentNavPos + childNavPos;
@@ -108,10 +108,10 @@ export default {
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        this.showHideWrappter(e.target.hash.substr(1, 1), '0');
+        this.showHideWrapper(e.target.hash.substr(1, 1), '0');
       }
     },
-    showHideWrappter(posParentNav, posChildNav) {
+    showHideWrapper(posParentNav, posChildNav) {
       this.currentSectionParent = posParentNav; 
       this.currentSectionChild = posChildNav;
 
