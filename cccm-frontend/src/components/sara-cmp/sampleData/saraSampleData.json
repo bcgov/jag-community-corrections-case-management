@@ -1,0 +1,1626 @@
+{
+    "display": "form",
+	"components": [
+		{
+			"input": false,
+			"tableView": false,
+			"title": "Data Section",
+			"key": "section_data",
+			"type": "well",
+			"collapsible": false,
+			"components": [
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "High",
+										"value": "H"
+									},
+									{
+										"label": "barely",
+										"value": "b"
+									},
+									{
+										"label": "Sometimes",
+										"value": "S"
+									},
+									{
+										"label": "Medium XXX",
+										"value": "M"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Overall Rating",
+							"type": "select",
+							"key": 4934
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Wide",
+										"value": "ww"
+									},
+									{
+										"label": "High",
+										"value": "H"
+									},
+									{
+										"label": "Low",
+										"value": "L"
+									},
+									{
+										"label": "Medium/Moderate",
+										"value": "M"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Needs Assessment Ratings",
+							"type": "select",
+							"key": 4935
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Maybe",
+										"value": "X"
+									},
+									{
+										"label": "bbbb",
+										"value": "bbb"
+									},
+									{
+										"label": "Low",
+										"value": "L"
+									},
+									{
+										"label": "Medium",
+										"value": "M"
+									},
+									{
+										"label": "High",
+										"value": "H"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Risk  Assessment - Criminal History Rating",
+							"type": "select",
+							"key": 4933
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "aaa",
+										"value": "a"
+									},
+									{
+										"label": "Sometimes",
+										"value": "S"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "tttttttttttttttttt",
+							"type": "select",
+							"key": 4936
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "With rating information",
+							"type": "textfield",
+							"key": 4937
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "with rating info",
+							"type": "textfield",
+							"key": 4932
+						}
+					],
+					"title": "Rating Information",
+					"type": "panel",
+					"key": "ratingInfo",
+					"collapsible": false,
+					"custom_subNavOnOff": "on"
+				},
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Pattern of stable and supportive relationships",
+										"value": "AA"
+									},
+									{
+										"label": "No recent difficulties",
+										"value": "bb"
+									},
+									{
+										"label": "Occasional instability in relationships",
+										"value": "C"
+									},
+									{
+										"label": "Very unstable pattern of relationships",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Family Relationships",
+							"type": "select",
+							"key": 4903
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Pattern of satisfactory living arrrangements",
+										"value": "A"
+									},
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Occasional changes in residence or temporarily situated",
+										"value": "C"
+									},
+									{
+										"label": "Frequent changes in residence, or no permanent address",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Living Arrangement",
+							"type": "select",
+							"key": 4905
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Pattern of non-criminal and/or positive associations",
+										"value": "A"
+									},
+									{
+										"label": "Mostly non-criminal and/or positive associations",
+										"value": "B"
+									},
+									{
+										"label": "Some criminal and/or negative associations",
+										"value": "C"
+									},
+									{
+										"label": "Mostly criminal and/or negative associations",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Companions/Significant Others",
+							"type": "select",
+							"key": 4906
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Level of skills causing minor interference",
+										"value": "C"
+									},
+									{
+										"label": "Level of skills causing serious interference",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Academic/Vocational Skill",
+							"type": "select",
+							"key": 4907
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "With Raging INformaition",
+							"type": "textfield",
+							"key": 4915
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Every TIme",
+										"value": "e"
+									},
+									{
+										"label": "Pattern of effective managment",
+										"value": "A"
+									},
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Situational or minor difficulties",
+										"value": "C"
+									},
+									{
+										"label": "Severe difficulties",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Financial Management",
+							"type": "select",
+							"key": 4910
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Behavioural/emotional problems that indicate some need for assistance",
+										"value": "C"
+									},
+									{
+										"label": "Severe behavioural/emotional problems that indicate significant need for assistance",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Behavioural/Emotional Stability",
+							"type": "select",
+							"key": 4911
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No recent usage or difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Some usage causing moderate adjustment problems",
+										"value": "C"
+									},
+									{
+										"label": "Frequent or uncontrolled usage causing serious adjustment problems",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Substance Abuse",
+							"type": "select",
+							"key": 4912
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Actively involved and responding consistently well to assistance",
+										"value": "A"
+									},
+									{
+										"label": "Recognizes problem areas but not receptive to assistance",
+										"value": "C"
+									},
+									{
+										"label": "Unable to recognize problem areas and not receptive to assistance",
+										"value": "D"
+									},
+									{
+										"label": "Motivated to change, receptive to assistance",
+										"value": "B"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Attitude",
+							"type": "select",
+							"key": 4913
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Parent(s) having some difficulty with supervision and behaviour control",
+										"value": "C"
+									},
+									{
+										"label": "Parent(s) having major difficulty with supervision and behaviour control",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Effectiveness of Youth's Parent(s)",
+							"type": "select",
+							"key": 4904
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No recent difficulties",
+										"value": "B"
+									},
+									{
+										"label": "Level/nature of involvement causing minor problems",
+										"value": "C"
+									},
+									{
+										"label": "Level/nature of involvement causing serious problems",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Youth's Educational Involvement",
+							"type": "select",
+							"key": 4908
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "Needs Remarks",
+							"type": "textfield",
+							"key": 4914
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Stable pattern of employment",
+										"value": "A"
+									},
+									{
+										"label": "No recent difficulties",
+										"value": "bb"
+									},
+									{
+										"label": "Employment situation causing minor adjustment problems",
+										"value": "C"
+									},
+									{
+										"label": "Employment situation causing major adjustment problems",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Employment Pattern",
+							"type": "select",
+							"key": 4909
+						}
+					],
+					"title": "Needs Assessment dd",
+					"type": "panel",
+					"key": "needassessment",
+					"collapsible": false,
+					"custom_subNavOnOff": "on"
+				},
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "None",
+										"value": "A"
+									},
+									{
+										"label": "One",
+										"value": "B"
+									},
+									{
+										"label": "Two",
+										"value": "C"
+									},
+									{
+										"label": "Three or more",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "# of Current Convictions",
+							"type": "select",
+							"key": 4916
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "None",
+										"value": "A"
+									},
+									{
+										"label": "One - Three",
+										"value": "B"
+									},
+									{
+										"label": "Four - Six",
+										"value": "C"
+									},
+									{
+										"label": "Seven or More",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "# of Prior Convictions",
+							"type": "select",
+							"key": 4917
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "None",
+										"value": "A"
+									},
+									{
+										"label": "One",
+										"value": "B"
+									},
+									{
+										"label": "Two",
+										"value": "C"
+									},
+									{
+										"label": "Three or More",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "# of Prior Probation/Parole Periods",
+							"type": "select",
+							"key": 4918
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "None",
+										"value": "A"
+									},
+									{
+										"label": "One",
+										"value": "B"
+									},
+									{
+										"label": "Two",
+										"value": "C"
+									},
+									{
+										"label": "Three or More",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "# of Prior Failures to Comply",
+							"type": "select",
+							"key": 4925
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "8",
+										"value": "8"
+									},
+									{
+										"label": "80",
+										"value": "80"
+									},
+									{
+										"label": "81",
+										"value": "81"
+									},
+									{
+										"label": "82",
+										"value": "82"
+									},
+									{
+										"label": "83",
+										"value": "83"
+									},
+									{
+										"label": "84",
+										"value": "84"
+									},
+									{
+										"label": "85",
+										"value": "85"
+									},
+									{
+										"label": "86",
+										"value": "86"
+									},
+									{
+										"label": "87",
+										"value": "87"
+									},
+									{
+										"label": "88",
+										"value": "88"
+									},
+									{
+										"label": "89",
+										"value": "89"
+									},
+									{
+										"label": "9",
+										"value": "9"
+									},
+									{
+										"label": "90",
+										"value": "90"
+									},
+									{
+										"label": "91",
+										"value": "91"
+									},
+									{
+										"label": "92",
+										"value": "92"
+									},
+									{
+										"label": "93",
+										"value": "93"
+									},
+									{
+										"label": "94",
+										"value": "94"
+									},
+									{
+										"label": "95",
+										"value": "95"
+									},
+									{
+										"label": "96",
+										"value": "96"
+									},
+									{
+										"label": "97",
+										"value": "97"
+									},
+									{
+										"label": "98",
+										"value": "98"
+									},
+									{
+										"label": "99",
+										"value": "99"
+									},
+									{
+										"label": "1",
+										"value": "1"
+									},
+									{
+										"label": "10",
+										"value": "10"
+									},
+									{
+										"label": "100",
+										"value": "100"
+									},
+									{
+										"label": "101",
+										"value": "101"
+									},
+									{
+										"label": "102",
+										"value": "102"
+									},
+									{
+										"label": "103",
+										"value": "103"
+									},
+									{
+										"label": "104",
+										"value": "104"
+									},
+									{
+										"label": "105",
+										"value": "105"
+									},
+									{
+										"label": "106",
+										"value": "106"
+									},
+									{
+										"label": "107",
+										"value": "107"
+									},
+									{
+										"label": "108",
+										"value": "108"
+									},
+									{
+										"label": "109",
+										"value": "109"
+									},
+									{
+										"label": "11",
+										"value": "11"
+									},
+									{
+										"label": "110",
+										"value": "110"
+									},
+									{
+										"label": "111",
+										"value": "111"
+									},
+									{
+										"label": "112",
+										"value": "112"
+									},
+									{
+										"label": "113",
+										"value": "113"
+									},
+									{
+										"label": "114",
+										"value": "114"
+									},
+									{
+										"label": "115",
+										"value": "115"
+									},
+									{
+										"label": "116",
+										"value": "116"
+									},
+									{
+										"label": "117",
+										"value": "117"
+									},
+									{
+										"label": "118",
+										"value": "118"
+									},
+									{
+										"label": "119",
+										"value": "119"
+									},
+									{
+										"label": "12",
+										"value": "12"
+									},
+									{
+										"label": "120",
+										"value": "120"
+									},
+									{
+										"label": "13",
+										"value": "13"
+									},
+									{
+										"label": "14",
+										"value": "14"
+									},
+									{
+										"label": "15",
+										"value": "15"
+									},
+									{
+										"label": "16",
+										"value": "16"
+									},
+									{
+										"label": "17",
+										"value": "17"
+									},
+									{
+										"label": "18",
+										"value": "18"
+									},
+									{
+										"label": "19",
+										"value": "19"
+									},
+									{
+										"label": "2",
+										"value": "2"
+									},
+									{
+										"label": "20",
+										"value": "20"
+									},
+									{
+										"label": "21",
+										"value": "21"
+									},
+									{
+										"label": "22",
+										"value": "22"
+									},
+									{
+										"label": "23",
+										"value": "23"
+									},
+									{
+										"label": "24",
+										"value": "24"
+									},
+									{
+										"label": "25",
+										"value": "25"
+									},
+									{
+										"label": "26",
+										"value": "26"
+									},
+									{
+										"label": "27",
+										"value": "27"
+									},
+									{
+										"label": "28",
+										"value": "28"
+									},
+									{
+										"label": "29",
+										"value": "29"
+									},
+									{
+										"label": "3",
+										"value": "3"
+									},
+									{
+										"label": "30",
+										"value": "30"
+									},
+									{
+										"label": "31",
+										"value": "31"
+									},
+									{
+										"label": "32",
+										"value": "32"
+									},
+									{
+										"label": "33",
+										"value": "33"
+									},
+									{
+										"label": "34",
+										"value": "34"
+									},
+									{
+										"label": "35",
+										"value": "35"
+									},
+									{
+										"label": "36",
+										"value": "36"
+									},
+									{
+										"label": "37",
+										"value": "37"
+									},
+									{
+										"label": "38",
+										"value": "38"
+									},
+									{
+										"label": "39",
+										"value": "39"
+									},
+									{
+										"label": "4",
+										"value": "4"
+									},
+									{
+										"label": "40",
+										"value": "40"
+									},
+									{
+										"label": "41",
+										"value": "41"
+									},
+									{
+										"label": "42",
+										"value": "42"
+									},
+									{
+										"label": "43",
+										"value": "43"
+									},
+									{
+										"label": "44",
+										"value": "44"
+									},
+									{
+										"label": "45",
+										"value": "45"
+									},
+									{
+										"label": "46",
+										"value": "46"
+									},
+									{
+										"label": "47",
+										"value": "47"
+									},
+									{
+										"label": "48",
+										"value": "48"
+									},
+									{
+										"label": "49",
+										"value": "49"
+									},
+									{
+										"label": "5",
+										"value": "5"
+									},
+									{
+										"label": "50",
+										"value": "50"
+									},
+									{
+										"label": "51",
+										"value": "51"
+									},
+									{
+										"label": "52",
+										"value": "52"
+									},
+									{
+										"label": "53",
+										"value": "53"
+									},
+									{
+										"label": "54",
+										"value": "54"
+									},
+									{
+										"label": "55",
+										"value": "55"
+									},
+									{
+										"label": "56",
+										"value": "56"
+									},
+									{
+										"label": "57",
+										"value": "57"
+									},
+									{
+										"label": "58",
+										"value": "58"
+									},
+									{
+										"label": "59",
+										"value": "59"
+									},
+									{
+										"label": "6",
+										"value": "6"
+									},
+									{
+										"label": "60",
+										"value": "60"
+									},
+									{
+										"label": "61",
+										"value": "61"
+									},
+									{
+										"label": "62",
+										"value": "62"
+									},
+									{
+										"label": "63",
+										"value": "63"
+									},
+									{
+										"label": "64",
+										"value": "64"
+									},
+									{
+										"label": "65",
+										"value": "65"
+									},
+									{
+										"label": "66",
+										"value": "66"
+									},
+									{
+										"label": "67",
+										"value": "67"
+									},
+									{
+										"label": "68",
+										"value": "68"
+									},
+									{
+										"label": "69",
+										"value": "69"
+									},
+									{
+										"label": "7",
+										"value": "7"
+									},
+									{
+										"label": "70",
+										"value": "70"
+									},
+									{
+										"label": "71",
+										"value": "71"
+									},
+									{
+										"label": "72",
+										"value": "72"
+									},
+									{
+										"label": "73",
+										"value": "73"
+									},
+									{
+										"label": "74",
+										"value": "74"
+									},
+									{
+										"label": "75",
+										"value": "75"
+									},
+									{
+										"label": "76",
+										"value": "76"
+									},
+									{
+										"label": "77",
+										"value": "77"
+									},
+									{
+										"label": "78",
+										"value": "78"
+									},
+									{
+										"label": "79",
+										"value": "79"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Age at First Conviction",
+							"type": "select",
+							"key": 4919
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No",
+										"value": "A"
+									},
+									{
+										"label": "Yes",
+										"value": "B"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Ever Imprisoned After a Conviction",
+							"type": "select",
+							"key": 4920
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No",
+										"value": "A"
+									},
+									{
+										"label": "Yes",
+										"value": "B"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Seriousness of Instit. Escape History",
+							"type": "select",
+							"key": 4921
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No",
+										"value": "A"
+									},
+									{
+										"label": "Yes",
+										"value": "B"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "History of Weapon Use",
+							"type": "select",
+							"key": 4922
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "None",
+										"value": "A"
+									},
+									{
+										"label": "Low",
+										"value": "B"
+									},
+									{
+										"label": "Medium",
+										"value": "C"
+									},
+									{
+										"label": "High",
+										"value": "D"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Frequency/Severity of Violence in History",
+							"type": "select",
+							"key": 4923
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "Risks Remarks",
+							"type": "textfield",
+							"key": 4924
+						}
+					],
+					"title": "Risk  Assessment - Criminal History",
+					"type": "panel",
+					"key": "riskassessment",
+					"collapsible": false,
+					"custom_subNavOnOff": "on"
+				},
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No",
+										"value": "N"
+									},
+									{
+										"label": "Yes",
+										"value": "Y"
+									},
+									{
+										"label": "Sometimes",
+										"value": "S"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Sex Offender?",
+							"type": "select",
+							"key": 4926
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Maybe",
+										"value": "M"
+									},
+									{
+										"label": "No",
+										"value": "N"
+									},
+									{
+										"label": "Yes",
+										"value": "Y"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Violent Offender?",
+							"type": "select",
+							"key": 4927
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "No",
+										"value": "N"
+									},
+									{
+										"label": "Yes",
+										"value": "Y"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Mentally Disordered?",
+							"type": "select",
+							"key": 4928
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "Sometimes",
+										"value": "S"
+									},
+									{
+										"label": "Maybe",
+										"value": "M"
+									},
+									{
+										"label": "No",
+										"value": "N"
+									},
+									{
+										"label": "Yes",
+										"value": "Y"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "Domestic Violence?",
+							"type": "select",
+							"key": 4929
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "Add. Assessmts indicated or Other Factors?",
+							"type": "textfield",
+							"key": 4930
+						},
+						{
+							"input": true,
+							"widget": {
+								"mode": "single",
+								"enableTime": false,
+								"format": "dd-MM-YYYY",
+								"type": "calendar",
+								"locale": "en"
+							},
+							"labelPosition": "left-left",
+							"tableView": false,
+							"datePicker": {
+								"disableWeekDays": false,
+								"disableWeekends": false
+							},
+							"label": "q 777",
+							"type": "datetime",
+							"key": 4931
+						}
+					],
+					"title": "Special Factors",
+					"type": "panel",
+					"key": "specialfactors",
+					"collapsible": false
+				},
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": {
+								"mode": "single",
+								"enableTime": false,
+								"format": "dd-MM-YYYY",
+								"type": "calendar",
+								"locale": "en"
+							},
+							"labelPosition": "left-left",
+							"tableView": false,
+							"datePicker": {
+								"disableWeekDays": false,
+								"disableWeekends": false
+							},
+							"label": "999",
+							"type": "datetime",
+							"key": 4889
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "888",
+							"type": "number",
+							"inputFormat": "plain",
+							"key": 4891
+						},
+						{
+							"input": true,
+							"widget": {
+								"mode": "single",
+								"enableTime": false,
+								"format": "dd-MM-YYYY",
+								"type": "calendar",
+								"locale": "en"
+							},
+							"labelPosition": "left-left",
+							"tableView": false,
+							"datePicker": {
+								"disableWeekDays": false,
+								"disableWeekends": false
+							},
+							"label": "sadfasdf",
+							"type": "datetime",
+							"key": 4892
+						},
+						{
+							"input": true,
+							"widget": {
+								"mode": "single",
+								"enableTime": false,
+								"format": "dd-MM-YYYY",
+								"type": "calendar",
+								"locale": "en"
+							},
+							"labelPosition": "left-left",
+							"tableView": false,
+							"datePicker": {
+								"disableWeekDays": false,
+								"disableWeekends": false
+							},
+							"label": "test 1234",
+							"type": "datetime",
+							"key": 4894
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "five",
+							"type": "textfield",
+							"key": 4893
+						},
+						{
+							"input": true,
+							"widget": {
+								"mode": "single",
+								"enableTime": false,
+								"format": "dd-MM-YYYY",
+								"type": "calendar",
+								"locale": "en"
+							},
+							"labelPosition": "left-left",
+							"tableView": false,
+							"datePicker": {
+								"disableWeekDays": false,
+								"disableWeekends": false
+							},
+							"label": "on number 6",
+							"type": "datetime",
+							"key": 4890
+						}
+					],
+					"label": "asdf",
+					"title": "asdjklfasdfkljdfsa",
+					"type": "panel",
+					"key": "asdjklfasdfkljdfsa",
+					"collapsible": false
+				},
+				{
+					"input": false,
+					"components": [
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "One",
+										"value": "1"
+									},
+									{
+										"label": "Two",
+										"value": "2"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "q7-1",
+							"type": "select",
+							"key": 4898
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "qq",
+							"type": "number",
+							"inputFormat": "plain",
+							"key": 4900
+						},
+						{
+							"input": true,
+							"labelPosition": "left-left",
+							"label": "q7-2",
+							"type": "textfield",
+							"key": 4899
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "aaa",
+										"value": "aa"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "iiiii",
+							"type": "select",
+							"key": 4895
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "aaa",
+										"value": "a"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "111",
+							"type": "select",
+							"key": 4896
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "88888",
+										"value": "88"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "222",
+							"type": "select",
+							"key": 4901
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "aaaa",
+										"value": "a"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "iiii",
+							"type": "select",
+							"key": 4897
+						},
+						{
+							"input": true,
+							"widget": "choicesjs",
+							"data": {
+								"values": [
+									{
+										"label": "aaaa",
+										"value": "a"
+									}
+								]
+							},
+							"labelPosition": "left-left",
+							"placeholder": "Select value",
+							"label": "kkkkk",
+							"type": "select",
+							"key": 4902
+						}
+					],
+					"title": "Number seven",
+					"type": "panel",
+					"key": "numberseven",
+					"collapsible": false
+				}
+			]
+		},
+		{
+			"input": false,
+			"tableView": false,
+			"title": "Right panel",
+			"key": "section_rightpanel",
+			"type": "well",
+			"collapsible": false,
+			"components": [
+				{
+					"title": "${panelTitle}",
+					"collapsible": false,
+					"key": "${panelKey}",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "div",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "${content}",
+						"refreshOnChange": false,
+						"key": "${contentKey}",
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "${panelTitle}",
+					"collapsible": false,
+					"key": "${panelKey}",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "div",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "${content}",
+						"refreshOnChange": false,
+						"key": "${contentKey}",
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				} 
+			]
+		}
+	]
+}

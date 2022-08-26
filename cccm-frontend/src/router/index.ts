@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CrnaCmpView from '../views/CrnaCmpView.vue'
+import SaraCmpView from '../views/SaraCmpView.vue'
 import ClientSearchView from '../views/ClientSearchView.vue'
 import ClientProfileView from '../components/common/FormioClientProfile.vue'
 import Unauthorized from '../views/Unauthorized.vue'
@@ -60,6 +61,14 @@ const router = new VueRouter({
       path: '/crnacmp/:formID',
       name: 'crnacmp',
       component: CrnaCmpView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/saracmp/:formID',
+      name: 'saracmp',
+      component: SaraCmpView,
       meta: {
         isAuthenticated: true
       }
