@@ -150,21 +150,26 @@
                                                             "label": "Gender",
                                                             "widget": "choicesjs",
                                                             "tableView": true,
+                                                            "dataSrc": "url",
                                                             "data": {
-                                                                "values": [
+                                                                "url": "${cccm_api_endpoint}/lookup/genders",
+                                                                "headers": [
                                                                     {
-                                                                        "label": "Male",
-                                                                        "value": "m"
-                                                                    },
-                                                                    {
-                                                                        "label": "Female",
-                                                                        "value": "f"
+                                                                        "key": "Authorization",
+                                                                        "value": "Bearer ${authToken}"
                                                                     }
                                                                 ]
                                                             },
                                                             "key": "gender",
                                                             "type": "select",
-                                                            "input": true
+                                                            "input": true,
+                                                            "persistent": false,
+                                                            "lazyLoad": false,
+                                                            "disableLimit": true,
+                                                            "dataType": "auto",
+                                                            "valueProperty": "key",
+                                                            "template": "<span>{{ item.value }}</span>",
+                                                            "selectValues": "items"
                                                         }
                                                     ],
                                                     "size": "md",

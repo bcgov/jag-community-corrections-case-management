@@ -104,6 +104,7 @@ import {Component, Vue} from 'vue-property-decorator';
 import {Form} from 'vue-formio';
 import {clientSearch, photoSearch} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
+import updateToken from '@/middleware/update-token';
 
 export default {
   name: 'FormioClientSearch',
@@ -155,10 +156,16 @@ export default {
         this.handlePhotoSearch(item.clientID);
       }
     },
-    buildForm() {
+    async buildForm() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
-
+      
+      tmpJSONStr = tmpJSONStr.replaceAll('${cccm_api_endpoint}', config.VUE_APP_CCCM_API_ENDPOINT);
+      //Generate the oauth token to authenticate the API call
+      const token = await updateToken();
+      if (token) {
+        tmpJSONStr = tmpJSONStr.replaceAll('${authToken}', token);
+      }
       // build crnacmpType DDL
       let tmpJSON = JSON.parse(tmpJSONStr);
            
