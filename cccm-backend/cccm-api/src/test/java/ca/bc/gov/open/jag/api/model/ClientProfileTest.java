@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.model;
 
+import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
@@ -43,6 +44,15 @@ public class ClientProfileTest {
         sut.seteServicesStatus("TEST");
         sut.setBiometricStatus("TEST");
         sut.seteReporting("TEST");
+        sut.setPossibleParoleDt("TEST");
+        sut.setProbableDischargeDt("TEST");
+        sut.setFinalWarrantExpiryDt("TEST");
+        sut.setClient(new Client());
+        sut.setOffense("TEST");
+        sut.setNextCourtDate("TEST");
+        sut.setIaClassification("TEST");
+        sut.setCustody("TEST");
+
 
         Assertions.assertEquals("TEST", sut.getSecondaryManager());
         Assertions.assertEquals("TEST", sut.getStatus());
@@ -66,6 +76,14 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.geteServicesStatus());
         Assertions.assertEquals("TEST", sut.getBiometricStatus());
         Assertions.assertEquals("TEST", sut.geteReporting());
+        Assertions.assertEquals("TEST", sut.getPossibleParoleDt());
+        Assertions.assertEquals("TEST", sut.getFinalWarrantExpiryDt());
+        Assertions.assertEquals("TEST", sut.getProbableDischargeDt());
+        Assertions.assertNotNull(sut.getClient());
+        Assertions.assertEquals("TEST", sut.getOffense());
+        Assertions.assertEquals("TEST", sut.getCustody());
+        Assertions.assertEquals("TEST", sut.getIaClassification());
+        Assertions.assertEquals("TEST", sut.getNextCourtDate());
 
     }
 
