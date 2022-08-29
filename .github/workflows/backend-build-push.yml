@@ -39,15 +39,15 @@ jobs:
         run: |  
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
-      - name: Vulnerability Scan Backend
-        uses: Azure/container-scan@v0
-        continue-on-error: true
-        with:
-          image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      #- name: Vulnerability Scan Backend
+      #  uses: Azure/container-scan@v0
+      #  continue-on-error: true
+      #  with:
+      #    image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           
-      - name: Docker Push Version
-        run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      #- name: Docker Push Version
+      #  run: |  
+      #    docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
       - name: GitOps Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
