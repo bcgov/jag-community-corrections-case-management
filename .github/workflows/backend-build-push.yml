@@ -2,9 +2,9 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'cccm-backend/**'
+    branches: [image-trigger]
+    #paths:
+    #  - 'cccm-backend/**'
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
@@ -48,3 +48,11 @@ jobs:
       - name: Docker Push Version
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+
+      - name: GitOps Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.GIT_OPS_KEY }}
+          repository: username/tenant-gitops-${{ secrets.LICENSE_PLATE }}
+          event-type: image-tag
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
