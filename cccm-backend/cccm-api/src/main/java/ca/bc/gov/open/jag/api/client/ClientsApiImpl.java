@@ -33,7 +33,7 @@ public class ClientsApiImpl implements ClientsApi {
 
         logger.info(username);
 
-        return clientDataService.clientProfile(clientNum);
+        return clientDataService.clientProfile(clientNum, username);
 
     }
 

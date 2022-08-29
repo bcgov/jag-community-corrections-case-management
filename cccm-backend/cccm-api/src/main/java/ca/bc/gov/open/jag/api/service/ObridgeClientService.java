@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 @RegisterRestClient
@@ -42,8 +43,8 @@ public interface ObridgeClientService {
     List<Photo> getPhotosById(@PathParam("clientId") BigDecimal clientId);
 
     @GET
-    @Path("/client/{clientId}/information")
-    ClientProfile getProfileById(@PathParam("clientId") BigDecimal clientId);
+    @Path("/client/clientProfile")
+    ClientProfile getProfileById(@QueryParam("csNumber") String csNumber, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/lookup/identifierTypes")
@@ -56,5 +57,9 @@ public interface ObridgeClientService {
     @GET
     @Path("/lookup/genderTypes")
     List<CodeTable> getGenderTypes();
+
+    @GET
+    @Path("/location")
+    Map getLocation();
 
 }

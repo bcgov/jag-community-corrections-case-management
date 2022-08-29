@@ -11,7 +11,7 @@ public interface ClientDataService {
 
     List<Client> clientSearch(ClientSearch clientSearch);
 
-    Client clientProfile(String clientNum);
+    Client clientProfile(String clientNum, String user);
 
     Photo clientPhoto(BigDecimal clientId);
 

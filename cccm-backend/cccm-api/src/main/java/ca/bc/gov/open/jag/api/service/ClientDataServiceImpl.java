@@ -15,8 +15,11 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @ApplicationScoped
 public class ClientDataServiceImpl implements ClientDataService {
@@ -58,23 +61,17 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public Client clientProfile(String clientNum) {
+    public Client clientProfile(String clientNum, String user) {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
         BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
 
-        Optional<ca.bc.gov.open.jag.api.model.data.Client> result = obridgeClientService.getClientById("ID", "CSNO", csNumberPadded).stream().findFirst();
+        Map location = obridgeClientService.getLocation();
 
-        if (result.isPresent()) {
+        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
 
-            return clientMapper.toApiClient(result.get(), obridgeClientService.getProfileById(dbClientId), speedmentClientService.getAlerts(dbClientId), dbClientId);
-
-        } else {
-
-            throw new CCCMException("Client not found", CCCMErrorCode.RECORDNOTFOUND);
-
-        }
+        return clientMapper.toApiClient(result.getClient(), result, speedmentClientService.getAlerts(dbClientId), dbClientId);
 
     }
 
