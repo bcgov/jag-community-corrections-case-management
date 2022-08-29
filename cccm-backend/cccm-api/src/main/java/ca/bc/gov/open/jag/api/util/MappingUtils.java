@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.api.util;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Designation;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Warrant;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -51,25 +50,6 @@ public class MappingUtils {
         }
 
         return inDate.toLocalDate().isAfter(LocalDate.now());
-
-    }
-
-    public static List<Warrant> stringToWarrantList(String warrants) {
-
-        if (StringUtils.isBlank(warrants)) {
-            return Collections.emptyList();
-        }
-
-        String[] warrantList = warrants.split(",").clone();
-
-        List<Warrant> outList = new ArrayList<>();
-        for (String warrant : warrantList) {
-            Warrant warrant1 = new Warrant();
-            warrant1.setType(warrant);
-            outList.add(warrant1);
-        }
-
-        return outList;
 
     }
 

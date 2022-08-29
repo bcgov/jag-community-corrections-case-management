@@ -8,7 +8,12 @@ import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
+import io.quarkus.test.security.SecurityAttribute;
 import io.quarkus.test.security.TestSecurity;
+import io.quarkus.test.security.oidc.OidcSecurity;
+import io.quarkus.test.security.oidc.TokenIntrospection;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,21 +36,10 @@ public class GetClientTest {
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        Mockito.when(clientDataService.clientProfile(Mockito.any())).thenReturn(createClient());
+        Mockito.when(clientDataService.clientProfile(Mockito.any(), Mockito.any())).thenReturn(createClient());
         Client result = sut.getClient("01");
 
         Assertions.assertEquals("01", result.getClientNum());
-
-    }
-
-    @Test
-    @TestSecurity(user = "userOidc", roles = "client-search")
-    @DisplayName("404: client not found")
-    public void testGetClientsNotFoundEndpoint() {
-
-        Mockito.when(clientDataService.clientProfile(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
-
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClient("01"));
 
     }
 

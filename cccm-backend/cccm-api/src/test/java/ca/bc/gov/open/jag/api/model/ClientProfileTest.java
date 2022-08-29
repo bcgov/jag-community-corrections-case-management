@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @QuarkusTest
 public class ClientProfileTest {
@@ -20,14 +21,11 @@ public class ClientProfileTest {
 
         ClientProfile sut = new ClientProfile();
 
-        sut.setCommunityLocation("TEST");
-        sut.setCaseManager("TEST");
         sut.setSecondaryManager("TEST");
         sut.setStatus("TEST");
         sut.setSupervisionLevel("TEST");
         sut.setOrders("TEST");
         sut.setFinalOrderExpiryDt(Date.valueOf(testDate));
-        sut.setCustodyLocation("TEST");
         sut.setReleaseReason("TEST");
         sut.setInstitutionstatus("TEST");
         sut.setClientinoutyn("TEST");
@@ -39,21 +37,18 @@ public class ClientProfileTest {
         sut.setPopDesignation("TEST");
         sut.setIcayraSecurity("TEST");
         sut.setIcayraSecurityStatus("TEST");
-        sut.setWarrants("TEST");
+        sut.setWarrants(new ArrayList<>());
         sut.setFederalParolOffice("TEST");
         sut.setIsBiometricEnrolled("TEST");
         sut.seteServicesStatus("TEST");
         sut.setBiometricStatus("TEST");
         sut.seteReporting("TEST");
 
-        Assertions.assertEquals("TEST", sut.getCommunityLocation());
-        Assertions.assertEquals("TEST", sut.getCaseManager());
         Assertions.assertEquals("TEST", sut.getSecondaryManager());
         Assertions.assertEquals("TEST", sut.getStatus());
         Assertions.assertEquals("TEST", sut.getSupervisionLevel());
         Assertions.assertEquals("TEST", sut.getOrders());
         Assertions.assertEquals(Date.valueOf(testDate), sut.getFinalOrderExpiryDt());
-        Assertions.assertEquals("TEST", sut.getCustodyLocation());
         Assertions.assertEquals("TEST", sut.getReleaseReason());
         Assertions.assertEquals("TEST", sut.getInstitutionstatus());
         Assertions.assertEquals("TEST", sut.getClientinoutyn());
@@ -65,7 +60,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getPopDesignation());
         Assertions.assertEquals("TEST", sut.getIcayraSecurity());
         Assertions.assertEquals("TEST", sut.getIcayraSecurityStatus());
-        Assertions.assertEquals("TEST", sut.getWarrants());
+        Assertions.assertEquals(0, sut.getWarrants().size());
         Assertions.assertEquals("TEST", sut.getFederalParolOffice());
         Assertions.assertEquals("TEST", sut.getIsBiometricEnrolled());
         Assertions.assertEquals("TEST", sut.geteServicesStatus());

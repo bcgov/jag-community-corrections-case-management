@@ -1,17 +1,18 @@
 package ca.bc.gov.open.jag.api.model.data;
 
 import java.util.Date;
+import java.util.List;
 
 public class ClientProfile {
+    private Client client;
 
-    private String communityLocation;
-    private String caseManager;
+    private String offense;
+    private String nextCourtDate;
     private String secondaryManager;
     private String status;
     private String supervisionLevel;
     private String orders;
     private Date finalOrderExpiryDt;
-    private String custodyLocation;
     private String releaseReason;
     private String institutionstatus;
     private String clientinoutyn;
@@ -23,28 +24,45 @@ public class ClientProfile {
     private String popDesignation;
     private String icayraSecurity;
     private String icayraSecurityStatus;
-    private String warrants;
     private String federalParolOffice;
+    private String iaClassification;
+    private String custody;
+    private String possibleParoleDt;
+    private String probableDischargeDt;
+
+    public String getPossibleParoleDt() {
+        return possibleParoleDt;
+    }
+
+    public void setPossibleParoleDt(String possibleParoleDt) {
+        this.possibleParoleDt = possibleParoleDt;
+    }
+
+    public String getProbableDischargeDt() {
+        return probableDischargeDt;
+    }
+
+    public void setProbableDischargeDt(String probableDischargeDt) {
+        this.probableDischargeDt = probableDischargeDt;
+    }
+
+    public String getFinalWarrantExpiryDt() {
+        return finalWarrantExpiryDt;
+    }
+
+    public void setFinalWarrantExpiryDt(String finalWarrantExpiryDt) {
+        this.finalWarrantExpiryDt = finalWarrantExpiryDt;
+    }
+
+    private String finalWarrantExpiryDt;
+    private List<Warrant> warrants;
+
     private String isBiometricEnrolled;
     private String eServicesStatus;
     private String biometricStatus;
     private String eReporting;
 
-    public String getCommunityLocation() {
-        return communityLocation;
-    }
 
-    public void setCommunityLocation(String communityLocation) {
-        this.communityLocation = communityLocation;
-    }
-
-    public String getCaseManager() {
-        return caseManager;
-    }
-
-    public void setCaseManager(String caseManager) {
-        this.caseManager = caseManager;
-    }
 
     public String getSecondaryManager() {
         return secondaryManager;
@@ -84,14 +102,6 @@ public class ClientProfile {
 
     public void setFinalOrderExpiryDt(Date finalOrderExpiryDt) {
         this.finalOrderExpiryDt = finalOrderExpiryDt;
-    }
-
-    public String getCustodyLocation() {
-        return custodyLocation;
-    }
-
-    public void setCustodyLocation(String custodyLocation) {
-        this.custodyLocation = custodyLocation;
     }
 
     public String getReleaseReason() {
@@ -182,11 +192,11 @@ public class ClientProfile {
         this.icayraSecurityStatus = icayraSecurityStatus;
     }
 
-    public String getWarrants() {
+    public List<Warrant> getWarrants() {
         return warrants;
     }
 
-    public void setWarrants(String warrants) {
+    public void setWarrants(List<Warrant> warrants) {
         this.warrants = warrants;
     }
 
@@ -230,4 +240,43 @@ public class ClientProfile {
         this.eReporting = eReporting;
     }
 
+    public String getOffense() {
+        return offense;
+    }
+
+    public void setOffense(String offense) {
+        this.offense = offense;
+    }
+
+    public String getNextCourtDate() {
+        return nextCourtDate;
+    }
+
+    public void setNextCourtDate(String nextCourtDate) {
+        this.nextCourtDate = nextCourtDate;
+    }
+
+    public String getIaClassification() {
+        return iaClassification;
+    }
+
+    public void setIaClassification(String iaClassification) {
+        this.iaClassification = iaClassification;
+    }
+
+    public String getCustody() {
+        return custody;
+    }
+
+    public void setCustody(String custody) {
+        this.custody = custody;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }
