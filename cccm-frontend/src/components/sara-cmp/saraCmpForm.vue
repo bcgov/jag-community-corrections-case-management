@@ -8,7 +8,7 @@
                 <h1>SARA Form</h1>
               </div>
               <div class="menuR2">
-                <SaraCmpFormNavigation :key="componentKey" :dataModel="data_formEntries" @parentNavClicked="handleNavChildCallback" :parentNavMoveToNext="parentNavMoveToNext"/>
+                <SaraCmpFormNavigation :key="componentKey" :dataModel="formJSONFormData" @parentNavClicked="handleNavChildCallback" :parentNavMoveToNext="parentNavMoveToNext"/>
               </div>
             </div>
             <div class="mainContent">
@@ -18,7 +18,7 @@
           <div class="column R">
             <div class="R-Sticky">
               <br/>
-              <saraCmpFormRightPanel :key="componentKey" :dataModel="data_rightPanel"/>
+              <saraCmpFormRightPanel :key="componentKey" :dataModel="data_rightPanel" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@ import {getFormDetails} from "@/components/form.api";
 import SaraCmpFormDataEntry from "@/components/sara-cmp/formSections/saraCmpFormDataEntry.vue";
 import SaraCmpFormNavigation from "@/components/sara-cmp/formSections/saraCmpFormNavigation.vue";
 import SaraCmpFormRightPanel from "@/components/sara-cmp/formSections/saraCmpFormRightPanel.vue";
-
+import FormioButtonGroup from "@/components/common/FormioButtonGroup.vue";
 import sampleFormData from './sampleData/saraSampleData.json';
 
 export default {
@@ -43,6 +43,7 @@ export default {
     SaraCmpFormDataEntry,
     SaraCmpFormNavigation,
     SaraCmpFormRightPanel,
+    FormioButtonGroup,
   },
   data() {
     return {
@@ -55,7 +56,8 @@ export default {
       formJSONFormData: sampleFormData,
       componentKey: 0,
       data_rightPanel: {"display": "form"},
-      data_formEntries: {"display": "form"}
+      data_formEntries: {"display": "form"},
+      data_buttonGroup: {},
     }
   },
   mounted(){
@@ -95,18 +97,19 @@ export default {
         return obj.key === 'section_data';
       });
       this.data_formEntries = formdata[0];
-      console.log("this.data_formEntries: ", this.data_formEntries);
+      //console.log("this.data_formEntries: ", this.data_formEntries);
 
       this.data_rightPanel.components = this.formJSONFormData.components.filter(obj => {
         return obj.key === 'section_rightpanel';
       });
-      console.log("this.data_rightPanel: ", this.data_rightPanel);
+      //console.log("this.data_rightPanel: ", this.data_rightPanel);
 
       this.totalNumParentNav = this.data_formEntries.components.length - 1;
-      console.log("totalNumParentNav: ", this.totalNumParentNav);
+      //console.log("totalNumParentNav: ", this.totalNumParentNav);
       this.componentKey++;
     },
     handleSaveContinue(continueToNextSection) {
+      console.log('Save continue.')
       // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         this.parentNavMoveToNext++;

@@ -3,8 +3,8 @@
     <div class="divTableBody">
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
-	        <span v-for="(header, index) in dataModel.components" :key="index">
-            <a v-if="index < dataModel.components.length - 1"
+	        <span v-for="(header, index) in data_formEntries.components" :key="index">
+            <a v-if="index < data_formEntries.components.length - 1"
               :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="divTableRowL2 divTableRowNav">
-        <span v-for="(header, indexp) in dataModel.components" :key="indexp">
-          <div v-if="indexp < dataModel.components.length - 1" 
+        <span v-for="(header, indexp) in data_formEntries.components" :key="indexp">
+          <div v-if="indexp < data_formEntries.components.length - 1" 
               :key="indexp"
               :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
               <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
@@ -61,7 +61,10 @@ export default {
       indexZero: '0',
       timeoutDelay: 1000,
       initLoad: true,
-    }
+
+      data_formEntries: {"display": "form"},
+      data_rightPanel: {},
+   }
   },
   watch: {
     parentNavMoveToNext() {
@@ -79,6 +82,8 @@ export default {
     }
   },
   mounted() {
+    this.private_loadData();
+
     setTimeout(() => {
       this.observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -103,15 +108,12 @@ export default {
               }
             }
           }
-          
         })
       });
-
       let className = '[class*="' + this.CUSTOM_QUESTION_PREFIX + '"]';
       document.querySelectorAll(className).forEach((section) => {
         this.observer.observe(section);
       });
-      
     }, this.timeoutDelay);
   },
   destroyed(){
@@ -121,6 +123,19 @@ export default {
     }
   },
   methods: {
+    private_loadData() {
+      const formdata = this.dataModel.components.filter(obj => {
+        return obj.key === 'section_data';
+      });
+      this.data_formEntries = formdata[0];
+      //console.log("this.data_formEntries: ", this.data_formEntries);
+
+      const rightPanelData = this.dataModel.components.filter(obj => {
+        return obj.key === 'section_rightpanel';
+      });
+      this.data_rightPanel = rightPanelData[0];
+      //console.log("this.data_rightPanel: ", this.data_rightPanel);
+    },
     // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
@@ -146,28 +161,29 @@ export default {
     },
     showHideRightsidePanels() {
       // show all panels
-      if (this.dataModel.rightPanel != null) {
-        for (let i = 0; i < this.dataModel.rightPanel.length; i++) {
+      if (this.data_rightPanel != null && this.data_rightPanel.components != null) {
+        for (let i = 0; i < this.data_rightPanel.components.length; i++) {
           //console.log(this.dataModel.rightPanel[i].panelKey);
-          let className = '[class*="' + this.dataModel.rightPanel[i].panelKey + '"]';
+          let className = '[class*="' + this.data_rightPanel.components[i].key + '"]';
           let thePanel = document.querySelector(className);
-          if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
-            thePanel.parentNode.parentNode.setAttribute('style', 'display:block');
+          //console.log("className: ", className, thePanel);
+          if (thePanel != null) {
+            thePanel.setAttribute('style', 'display:block');
           }
-
         }
       }
       
       // hide the panel
-      if (this.dataModel.components != null && this.dataModel.components.length > 0) {
-        let sideCardsPanelHiddenList = this.dataModel.components[this.currentSectionParent].sideCardPanelHiddenList;
+      if (this.data_formEntries.components != null && this.data_formEntries.components.length > 0) {
+        let sideCardsPanelHiddenList = this.data_formEntries.components[this.currentSectionParent].sideCardPanelHiddenList;
+        //console.log("sideCardsPanelHiddenList: ", sideCardsPanelHiddenList);
         if (sideCardsPanelHiddenList != null) {
           for (let i = 0; i < sideCardsPanelHiddenList.length; i++) {
             //console.log('formio-component-' + sideCardsPanelHiddenList[i]);
             let className = '[class*="' + sideCardsPanelHiddenList[i] + '"]';
             let thePanel = document.querySelector(className);
-            if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {
-              thePanel.parentNode.parentNode.setAttribute('style', 'display:none');
+            if (thePanel != null) {
+              thePanel.setAttribute('style', 'display:none');
             }
           }
         }
@@ -175,9 +191,9 @@ export default {
     },
     showHideSections() {
       // show questions
-      if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
-        //console.log("panel is not null: ",  this.dataModel.components.length);
-        for (let i = 0; i < this.dataModel.components.length - 1; i++) {
+      if (this.data_formEntries.components != null && this.data_formEntries.components.length >= 1) {
+        //console.log("panel is not null: ",  this.data_formEntries.components.length);
+        for (let i = 0; i < this.data_formEntries.components.length - 1; i++) {
           let className = '[class*="' + this.CUSTOM_SECTION_PREFIX + i + '0"]';
           let thePanel = document.querySelector(className);
 
