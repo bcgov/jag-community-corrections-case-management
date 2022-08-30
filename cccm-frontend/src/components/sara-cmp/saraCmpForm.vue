@@ -87,6 +87,24 @@ export default {
         console.log("totalNumParentNav: ", this.totalNumParentNav);
         this.componentKey++;
       }
+
+      // To be removed
+      console.log("Form payload: ", response);
+      //this.formJSONFormData = response;
+      const formdata = this.formJSONFormData.components.filter(obj => {
+        return obj.key === 'section_data';
+      });
+      this.data_formEntries = formdata[0];
+      console.log("this.data_formEntries: ", this.data_formEntries);
+
+      this.data_rightPanel.components = this.formJSONFormData.components.filter(obj => {
+        return obj.key === 'section_rightpanel';
+      });
+      console.log("this.data_rightPanel: ", this.data_rightPanel);
+
+      this.totalNumParentNav = this.data_formEntries.components.length - 1;
+      console.log("totalNumParentNav: ", this.totalNumParentNav);
+      this.componentKey++;
     },
     handleSaveContinue(continueToNextSection) {
       // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section

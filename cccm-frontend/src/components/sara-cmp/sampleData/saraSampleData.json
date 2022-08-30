@@ -2325,16 +2325,16 @@
 							"components": [
 							  {
 								"customClass": "text-left pl-4",
-								"label": "${label_btn_save}",
+								"label": "Save and Continue",
 								"action": "event",
 								"showValidations": false,
 								"disableOnInvalid": true,
 								"tableView": true,
-								"key": "${key_btn_save}",
+								"key": "button_save",
 								"type": "button",
 								"input": false,
-								"event": "${evt_btn_save}",
-								"theme": "${theme_save}"
+								"event": "evt_save",
+								"theme": "primary"
 							  }
 							],
 							"width": 6,
@@ -2348,16 +2348,16 @@
 							"components": [
 							  {
 								"customClass": "text-right mr-2",
-								"label": "${label_btn_other}",
+								"label": "Cancel Form",
 								"action": "event",
 								"showValidations": false,
 								"disableOnInvalid": true,
 								"tableView": true,
-								"key": "${key_btn_other}",
+								"key": "button_cancel",
 								"type": "button",
 								"input": false,
-								"event": "${evt_btn_other}",
-								"theme": "${theme_other}"
+								"event": "evt_cancel",
+								"theme": "danger"
 							  }
 							],
 							"width": 6,

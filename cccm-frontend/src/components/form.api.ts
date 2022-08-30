@@ -29,9 +29,9 @@ export function getLocationInfo() {
 }
 
 // function to fetch the form details
-export function getFormDetails(formId: number) {
+export async function getFormDetails(formId: number) {
     try {
-        const data = axiosClient.get(`/forms/${formId}`);
+        const { data } = await axiosClient.get(`/forms/${formId}`);
         return [null, data];
     }catch (error) {
         return [error];
