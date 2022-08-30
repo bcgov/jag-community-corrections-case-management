@@ -52,7 +52,7 @@ jobs:
       - name: GitOps Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
         with:
-          token: ${{ secrets.GIT_OPS_KEY }}
+          token: ${{ secrets.GIT_OPS_TOKEN }}
           repository: username/tenant-gitops-${{ secrets.LICENSE_PLATE }}
           event-type: image-tag
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
