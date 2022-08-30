@@ -8,17 +8,17 @@
                 <h1>SARA Form</h1>
               </div>
               <div class="menuR2">
-                <SaraCmpFormNavigation @parentNavClicked="handleNavChildCallback" :dataModel="data_formEntries" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey"/>
+                <SaraCmpFormNavigation :key="componentKey" :dataModel="data_formEntries" @parentNavClicked="handleNavChildCallback" :parentNavMoveToNext="parentNavMoveToNext"/>
               </div>
             </div>
             <div class="mainContent">
-              <SaraCmpFormDataEntry :dataModel="data_formEntries" :key="componentKey" :notifySavingData="notifySavingData" />   
+              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" />   
             </div>
           </div>
           <div class="column R">
             <div class="R-Sticky">
               <br/>
-              <saraCmpFormRightPanel :dataModel="data_rightPanel" :key="componentKey"/>
+              <saraCmpFormRightPanel :key="componentKey" :dataModel="data_rightPanel"/>
             </div>
           </div>
         </div>
@@ -70,6 +70,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
+        console.log("Form payload: ", response);
         //this.formJSONFormData = response;
         const formdata = this.formJSONFormData.components.filter(obj => {
           return obj.key === 'section_data';
@@ -80,11 +81,11 @@ export default {
         this.data_rightPanel.components = this.formJSONFormData.components.filter(obj => {
           return obj.key === 'section_rightpanel';
         });
-        //console.log("this.data_rightPanel: ", this.data_rightPanel);
+        console.log("this.data_rightPanel: ", this.data_rightPanel);
 
-        this.totalNumParentNav = this.data_formEntries.components.length;
+        this.totalNumParentNav = this.data_formEntries.components.length - 1;
         console.log("totalNumParentNav: ", this.totalNumParentNav);
-        this.componentKey += 1;
+        this.componentKey++;
       }
     },
     handleSaveContinue(continueToNextSection) {

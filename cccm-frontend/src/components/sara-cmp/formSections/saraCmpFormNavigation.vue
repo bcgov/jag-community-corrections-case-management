@@ -3,8 +3,8 @@
     <div class="divTableBody">
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
-	        <span>
-            <a v-for="(header, index) in dataModel.components"
+	        <span v-for="(header, index) in dataModel.components" :key="index">
+            <a v-if="index < dataModel.components.length - 1"
               :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
@@ -15,18 +15,22 @@
         </div>
       </div>
       <div class="divTableRowL2 divTableRowNav">
-        <div v-for="(header, indexp) in dataModel.components" :key="indexp"
-            :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
-            {{ currentSectionParent }} {{ currentSectionChild }}
-            <span v-if="header.custom_subNavOnOff != null && header.custom_subNavOnOff == 'on'">
-              <a v-for="(headerc, indexc) in header.components" 
-                :key="headerc.key" 
-                :href="`#${indexp}${indexc}`"
-                :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']">
-                {{ headerc.label }}
-              </a>
-            </span>
-        </div>
+        <span v-for="(header, indexp) in dataModel.components" :key="indexp">
+          <div v-if="indexp < dataModel.components.length - 1" 
+              :key="indexp"
+              :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
+              <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
+              <span v-if="header.custom_subNavOnOff != null && header.custom_subNavOnOff == 'on'">
+                <a v-for="(headerc, indexc) in header.components" 
+                  :key="headerc.key" 
+                  :href="`#${indexp}${indexc}`"
+                  :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
+                  @click="setCurrentSectionParentChild">
+                  {{ headerc.label }}
+                </a>
+              </span>
+          </div>
+        </span>
       </div>
     </div>
   </div>
@@ -48,10 +52,15 @@ export default {
   },
   data() {
     return {
+      //const
+      CUSTOM_SECTION_PREFIX: 'custom_section_',
+      CUSTOM_QUESTION_PREFIX: 'custom_question_',
       observer : null,
       currentSectionChild : '0',
       currentSectionParent : '0',
       indexZero: '0',
+      timeoutDelay: 1000,
+      initLoad: true,
     }
   },
   watch: {
@@ -74,28 +83,36 @@ export default {
       this.observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           //console.log("Intersection ratio: ", entry.intersectionRatio);
-          if (entry &&
-              entry.isIntersecting &&
-              entry.intersectionRatio > 0) {
-            let tmpID = entry.target.getAttribute('id');
-            if (tmpID) {
-              this.currentSectionParent = tmpID.substr(0, 1);
-              this.currentSectionChild = tmpID.substr(1);
-
-              // show/hide sideCards panels
-              this.showHideRightsidePanels();
-
-              // show/hide questions
-              this.showHideQuestions();
+          if (this.initLoad) {
+            this.timeoutDelay = 2500;
+            this.showHideWrapper(0, 0);
+            this.initLoad = false;
+          } else {
+            if (entry &&
+                entry.isIntersecting &&
+                entry.intersectionRatio > 0) {
+              //console.log("Entry: ", entry);
+              let tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
+              let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 3);
+              //console.log("tmpID on mounted: ", tmpID);
+              if (tmpID) {
+                this.currentSectionParent = tmpID.substr(0, 1);
+                this.currentSectionChild = tmpID.substr(1);
+                
+                this.showHideWrapper(this.currentSectionParent, this.currentSectionChild);
+              }
             }
           }
+          
         })
-      }
-      );
-      document.querySelectorAll('div.formio_anchor_class').forEach((section) => {
+      });
+
+      let className = '[class*="' + this.CUSTOM_QUESTION_PREFIX + '"]';
+      document.querySelectorAll(className).forEach((section) => {
         this.observer.observe(section);
       });
-    }, 1000);
+      
+    }, this.timeoutDelay);
   },
   destroyed(){
     if (this.observer != null) {
@@ -104,11 +121,12 @@ export default {
     }
   },
   methods: {
-    // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
+    // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        this.showHideWrapper(e.target.hash.substr(1, 1), '0');
+        console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
+        this.showHideWrapper(e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
       }
     },
     showHideWrapper(posParentNav, posChildNav) {
@@ -124,7 +142,7 @@ export default {
       this.showHideRightsidePanels();
 
       // show/hide questions
-      this.showHideQuestions();
+      this.showHideSections();
     },
     showHideRightsidePanels() {
       // show all panels
@@ -155,23 +173,32 @@ export default {
         }
       }
     },
-    showHideQuestions() {
+    showHideSections() {
       // show questions
-      if (this.dataModel.components != null) {
-        for (let i = 0; i < this.dataModel.components.length; i++) {
-          let thePanel = document.getElementById(i);
+      if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
+        //console.log("panel is not null: ",  this.dataModel.components.length);
+        for (let i = 0; i < this.dataModel.components.length - 1; i++) {
+          let className = '[class*="' + this.CUSTOM_SECTION_PREFIX + i + '0"]';
+          let thePanel = document.querySelector(className);
+
           if (thePanel != null) {
-            //console.log(this.currentSectionParent, i);
+            // console.log(this.currentSectionParent, i, thePanel);
             if (this.currentSectionParent == i) {
               thePanel.setAttribute('style', 'display:block');
+              if (this.currentSectionChild != 0) {
+                let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + i + this.currentSectionChild + '"]';
+                let theQuestionPanel = document.querySelector(questionClassName);
+                if (theQuestionPanel != null) {
+                  theQuestionPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+              }
             } else {
               thePanel.setAttribute('style', 'display:none');
             }
           } 
         }
-      }
+      } 
     }
-
   }
 }
 </script>
