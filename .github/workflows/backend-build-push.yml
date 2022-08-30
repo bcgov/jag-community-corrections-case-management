@@ -53,6 +53,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GIT_OPS_TOKEN }}
-          repository: ${{ secrets.GIT_OPS_USERNAME }}/tenant-gitops-${{ secrets.LICENSE_PLATE }}
+          repository: ${{ secrets.GIT_OPS_USERNAME }}/${{ secrets.GIT_OPS_REPO }}
           event-type: image-tag
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
