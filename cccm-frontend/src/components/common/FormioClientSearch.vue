@@ -14,13 +14,15 @@
       <v-card-title>
         Results
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label=""
-          single-line
-          hide-details
-        ></v-text-field>
+        <div class="w-25">
+          <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label=""
+              single-line
+              hide-details
+          ></v-text-field>
+        </div>
       </v-card-title>
       <v-data-table
         :key="key_clientsearchresult"
@@ -535,9 +537,14 @@ export default {
 
 <style>
 .wild-search-text {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
   color: #154c79;
   font-size: 0.5em;
-  text-align: center;
+
 }
 .primary {
   background-color: #1867c0 !important;
