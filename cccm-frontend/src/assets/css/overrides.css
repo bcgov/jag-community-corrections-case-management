@@ -17,8 +17,39 @@
     column-gap: 100px;
 
 }
+
+.container .v-card__title {
+    font-weight:bold;
+    font-size: 35px;
+}
+
+.v-data-table-header {
+    background-color: #38598A;
+}
+
+.v-data-table__wrapper {
+    background-color: #fff!important;
+}
+
+.v-data-table__wrapper th {
+    color:#fff!important;
+    padding: 20px!important;
+}
+
+.v-data-table__wrapper a {
+    color: #38598A!important;
+}
+
+img[alt="Client photo"] {
+    padding:10px 0;
+}
+
 .col-form-label {
     font-weight: bold!important;
+}
+
+.tippy-content {
+    background-color: #38598A;
 }
 
 
