@@ -10,12 +10,13 @@
             "components": [
                 {
                     "label": "Columns",
+                    "customClass": "mb-4",
                     "columns": [
                         {
                             "components": [
                                 {
                                     "label": "HTML",
-                                    "className": "sectionTitleClass",
+                                    "className": "sectionTitleClass font-weight-bold",
                                     "attrs": [
                                         {
                                             "attr": "",
@@ -40,7 +41,7 @@
                         {
                             "components": [
                                 {
-                                    "legend": "Create a \"wildcard\" search",
+                                    "legend": "How to create a \"wildcard\" search",
                                     "tooltip": "To expand your search, use the wildcard character '%' to represent any letter in your search. \n For example, ",
                                     "customClass": "wild-search-text",
                                     "key": "fieldSet",
