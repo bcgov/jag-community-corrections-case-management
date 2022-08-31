@@ -2090,239 +2090,48 @@
 					"collapsible": false
 				},
 				{
-					"input": false,
-					"components": [
-						{
-							"input": true,
-							"widget": {
-								"mode": "single",
-								"enableTime": false,
-								"format": "dd-MM-YYYY",
-								"type": "calendar",
-								"locale": "en"
-							},
-							"labelPosition": "left-left",
-							"tableView": false,
-							"datePicker": {
-								"disableWeekDays": false,
-								"disableWeekends": false
-							},
-							"label": "999",
-							"type": "datetime",
-							"key": 4889
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "888",
-							"type": "number",
-							"inputFormat": "plain",
-							"key": 4891
-						},
-						{
-							"input": true,
-							"widget": {
-								"mode": "single",
-								"enableTime": false,
-								"format": "dd-MM-YYYY",
-								"type": "calendar",
-								"locale": "en"
-							},
-							"labelPosition": "left-left",
-							"tableView": false,
-							"datePicker": {
-								"disableWeekDays": false,
-								"disableWeekends": false
-							},
-							"label": "sadfasdf",
-							"type": "datetime",
-							"key": 4892
-						},
-						{
-							"input": true,
-							"widget": {
-								"mode": "single",
-								"enableTime": false,
-								"format": "dd-MM-YYYY",
-								"type": "calendar",
-								"locale": "en"
-							},
-							"labelPosition": "left-left",
-							"tableView": false,
-							"datePicker": {
-								"disableWeekDays": false,
-								"disableWeekends": false
-							},
-							"label": "test 1234",
-							"type": "datetime",
-							"key": 4894
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "five",
-							"type": "textfield",
-							"key": 4893
-						},
-						{
-							"input": true,
-							"widget": {
-								"mode": "single",
-								"enableTime": false,
-								"format": "dd-MM-YYYY",
-								"type": "calendar",
-								"locale": "en"
-							},
-							"labelPosition": "left-left",
-							"tableView": false,
-							"datePicker": {
-								"disableWeekDays": false,
-								"disableWeekends": false
-							},
-							"label": "on number 6",
-							"type": "datetime",
-							"key": 4890
-						}
-					],
-					"label": "asdf",
-					"title": "asdjklfasdfkljdfsa",
-					"type": "panel",
-					"key": "asdjklfasdfkljdfsa",
+					"label": "Summary",
+					"title": "Summary",
+					"key": "key_summary",
+					"type": "well",
 					"customClass": "custom_section_40",
 					"sideCardPanelHiddenList": [],
-					"collapsible": false
-				},
-				{
 					"input": false,
+					"tableView": false,
 					"components": [
 						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "One",
-										"value": "1"
-									},
-									{
-										"label": "Two",
-										"value": "2"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "q7-1",
-							"type": "select",
-							"key": 4898
+							"label": "HTML",
+							"className": "crna-sectionTitleClass",
+							"tag": "h2",
+							"attrs": [
+								{
+									"attr": "",
+									"value": ""
+								}
+							],
+							"content": "Summary",
+							"refreshOnChange": false,
+							"key": "section_summary",
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
 						},
 						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "qq",
-							"type": "number",
-							"inputFormat": "plain",
-							"key": 4900
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "q7-2",
-							"type": "textfield",
-							"key": 4899
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "aaa",
-										"value": "aa"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "iiiii",
-							"type": "select",
-							"key": 4895
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "aaa",
-										"value": "a"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "111",
-							"type": "select",
-							"key": 4896
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "88888",
-										"value": "88"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "222",
-							"type": "select",
-							"key": 4901
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "aaaa",
-										"value": "a"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "iiii",
-							"type": "select",
-							"key": 4897
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "aaaa",
-										"value": "a"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "kkkkk",
-							"type": "select",
-							"key": 4902
+							"label": "HTML",
+							"attrs": [
+								{
+									"attr": "",
+									"value": ""
+								}
+							],
+							"content": "",
+							"refreshOnChange": false,
+							"key": "subsection_summary",
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
 						}
-					],
-					"title": "Number seven",
-					"type": "panel",
-					"key": "numberseven",
-					"customClass": "custom_section_50",
-					"sideCardPanelHiddenList": [],
-					"collapsible": false
+					]
 				},
 				{
 					"label": "Columns",

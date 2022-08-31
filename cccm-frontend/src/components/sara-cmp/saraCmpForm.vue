@@ -34,7 +34,6 @@ import {getFormDetails} from "@/components/form.api";
 import SaraCmpFormDataEntry from "@/components/sara-cmp/formSections/saraCmpFormDataEntry.vue";
 import SaraCmpFormNavigation from "@/components/sara-cmp/formSections/saraCmpFormNavigation.vue";
 import SaraCmpFormRightPanel from "@/components/sara-cmp/formSections/saraCmpFormRightPanel.vue";
-import FormioButtonGroup from "@/components/common/FormioButtonGroup.vue";
 import sampleFormData from './sampleData/saraSampleData.json';
 
 export default {
@@ -43,7 +42,6 @@ export default {
     SaraCmpFormDataEntry,
     SaraCmpFormNavigation,
     SaraCmpFormRightPanel,
-    FormioButtonGroup,
   },
   data() {
     return {
