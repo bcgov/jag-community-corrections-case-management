@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
