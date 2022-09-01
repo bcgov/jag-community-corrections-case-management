@@ -15,6 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+          persist-credentials: true
 
       - name: Cluster Login
         uses: redhat-developer/openshift-actions@v1.1
@@ -49,10 +52,17 @@ jobs:
       #  run: |  
       #    docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
+      #- name: GitOps Repository Dispatch
+      #  uses: peter-evans/repository-dispatch@v2
+      #  with:
+      #    token: ${{ secrets.GIT_OPS_TOKEN }} 
+      #    repository: bcgov-c/tenant-gitops-${{ secrets.LICENSE_PLATE }}
+      #    event-type: image-tag
+      #    client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
       - name: GitOps Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
+        uses: webfactory/ssh-agent@v0.5.4
         with:
-          token: ${{ secrets.GIT_OPS_TOKEN }}
-          repository: bcgov-c/tenant-gitops-${{ secrets.LICENSE_PLATE }}
-          event-type: image-tag
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+            ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+        run: |
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
