@@ -63,3 +63,7 @@ jobs:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
           #cmd: |
           #  git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+
+      - name: CLONE Version
+        run: | 
+        git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
