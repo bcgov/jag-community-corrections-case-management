@@ -62,15 +62,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
 
-      - name: Get and store current image name
-        run: |
-          IMAGE_NAME=$(oc get deployment cccm-api -o jsonpath='{.spec.template.spec.containers[0].image}')
-          echo "::set-output name=IMAGE_NAME::$IMAGE_NAME"
-        id: image_name
-
-      - name: Echo image name before deploy
-        run: |
-          echo ${{ steps.image_name.outputs.IMAGE_NAME }}
+      #- name: Get and store current image name
+      #  run: |
+      #    IMAGE_NAME=$(oc get deployment cccm-api -o jsonpath='{.spec.template.spec.containers[0].image}')
+      #    echo "::set-output name=IMAGE_NAME::$IMAGE_NAME"
+      #  id: image_name
+#
+      #- name: Echo image name before deploy
+      #  run: |
+      #    echo ${{ steps.image_name.outputs.IMAGE_NAME }}
 
       - name: CLONE Version
         run: | 
