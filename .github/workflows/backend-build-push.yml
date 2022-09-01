@@ -66,4 +66,4 @@ jobs:
 
       - name: CLONE Version
         run: | 
-        git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
