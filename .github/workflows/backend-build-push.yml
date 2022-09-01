@@ -61,5 +61,5 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-          cmd: |
-            git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          #cmd: |
+          #  git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
