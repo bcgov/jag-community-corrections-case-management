@@ -57,7 +57,7 @@ jobs:
       #    event-type: image-tag
       #    client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
 
-      - name: GitOps Repository Dispatch
+      - name: Git Clone Repo
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
