@@ -78,9 +78,10 @@ jobs:
         run: | 
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
           cd tenant-gitops-abb712/cccm/overlays/dev
-        #  kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-        #  git status 
-        #  git diff
+          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git status 
+          git diff
+          cat kustomization.yaml
         # git add kustomization.yaml 
         # git commit -m "Updated image sha"
         # git push origin main
