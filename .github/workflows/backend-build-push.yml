@@ -53,6 +53,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.GIT_OPS_TOKEN }}
-          repository: ${{ secrets.GIT_OPS_USERNAME }}/bcgov-c/tenant-gitops-${{ secrets.LICENSE_PLATE }}
+          repository: ${{ secrets.GIT_OPS_USERNAME }}/https://api.github.com/repos/bcgov-c/tenant-gitops-abb712
           event-type: image-tag
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
