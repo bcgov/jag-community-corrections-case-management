@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
       
-      - name: Docker Tag Version
+      - name: Docker Build Image
         run: |            
           docker-compose build backend
           
