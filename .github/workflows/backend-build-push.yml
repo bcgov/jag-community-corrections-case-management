@@ -31,13 +31,15 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
       
-      #- name: Docker Build Image
-      #  run: |            
-      #    docker-compose build backend
-      #    
-      #- name: Docker Tag Version
-      #  run: |  
-      #    docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      - name: Docker Build Image
+        run: |            
+          docker-compose build backend
+          docker images --no-trunc --quiet cccm-api
+          
+      - name: Docker Tag Version
+        run: |  
+          docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          docker images --no-trunc --quiet cccm-api
 
       #- name: Vulnerability Scan Backend
       #  uses: Azure/container-scan@v0
@@ -62,22 +64,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
 
-      #- name: Get and store current image name
-      #  run: |
-      #    IMAGE_NAME=$(oc get deployment cccm-api -o jsonpath='{.spec.template.spec.containers[0].image}')
-      #    echo "::set-output name=IMAGE_NAME::$IMAGE_NAME"
-      #  id: image_name
-#
-      #- name: Echo image name before deploy
-      #  run: |
-      #    echo ${{ steps.image_name.outputs.IMAGE_NAME }}
-
       - name: CLONE Version
         run: | 
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          ls -lstra
-         # cd cccm/overlays/dev
-         # kustomize edit set image cccm-api-image=${{ steps.image_name.outputs.IMAGE_NAME }}
-         # git add kustomization.yaml 
-         # git commit -m "Updated image sha"
-         # git push origin main
+          cd tenant-gitops-abb712/cccm/overlays/dev
+        #  kustomize edit set image cccm-api-image=
+        #  git status 
+        #  git diff
+        # git add kustomization.yaml 
+        # git commit -m "Updated image sha"
+        # git push origin main
