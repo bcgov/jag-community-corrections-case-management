@@ -31,13 +31,13 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
       
-      - name: Docker Build Image
-        run: |            
-          docker-compose build backend
-          
-      - name: Docker Tag Version
-        run: |  
-          docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      #- name: Docker Build Image
+      #  run: |            
+      #    docker-compose build backend
+      #    
+      #- name: Docker Tag Version
+      #  run: |  
+      #    docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
       #- name: Vulnerability Scan Backend
       #  uses: Azure/container-scan@v0
