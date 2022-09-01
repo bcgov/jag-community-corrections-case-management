@@ -45,7 +45,7 @@ jobs:
         run: | 
           IMAGE_SHA=$(docker images --no-trunc --quiet cccm-api)
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-          id: image_sha
+        id: image_sha
       
       - name: Echo image name before deploy
         run: |
