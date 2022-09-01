@@ -40,6 +40,16 @@ jobs:
         run: |  
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           docker images --no-trunc --quiet cccm-api
+      
+      - name: Docker Set SHA
+        run: | 
+          IMAGE_SHA=$(docker images --no-trunc --quiet cccm-api)
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+          id: image_sha
+      
+      - name: Echo image name before deploy
+        run: |
+          echo ${{ steps.image_sha.outputs.IMAGE_SHA }}
 
       #- name: Vulnerability Scan Backend
       #  uses: Azure/container-scan@v0
@@ -68,7 +78,7 @@ jobs:
         run: | 
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
           cd tenant-gitops-abb712/cccm/overlays/dev
-        #  kustomize edit set image cccm-api-image=
+        #  kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
         #  git status 
         #  git diff
         # git add kustomization.yaml 
