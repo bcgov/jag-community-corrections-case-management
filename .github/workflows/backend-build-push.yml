@@ -15,9 +15,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          ssh-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-          persist-credentials: true
 
       - name: Cluster Login
         uses: redhat-developer/openshift-actions@v1.1
