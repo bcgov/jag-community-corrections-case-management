@@ -23,6 +23,7 @@ jobs:
           parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
           cmd: |
             'version'
+            'oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }'''
 
       - name: Login to Openshift Docker Registry
         uses: docker/login-action@v1
@@ -56,7 +57,7 @@ jobs:
       
       - name: Get and store current image sha
         run: |
-          IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name')
+          IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
         id: image_sha
 
