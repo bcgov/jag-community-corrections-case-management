@@ -2561,6 +2561,7 @@ fieldset:disabled a.btn {
   color: #fff!important;
   background-color: #38598A;
   border-color: #2A4D82;
+  border-radius: 4px;
 }
 
 .btn-primary:hover {
