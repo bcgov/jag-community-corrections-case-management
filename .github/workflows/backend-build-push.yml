@@ -54,7 +54,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
       
-      - name: Get and store current image name
+      - name: Get and store current image sha
         run: |
           IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name')
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
