@@ -9,7 +9,7 @@
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
               @click="setCurrentSectionParentChild">
-              {{ header.title }}
+              {{ header.label }}
             </a>
           </span>
         </div>

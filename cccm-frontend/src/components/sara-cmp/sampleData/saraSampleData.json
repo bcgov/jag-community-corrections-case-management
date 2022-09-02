@@ -10,10 +10,33 @@
 			"collapsible": false,
 			"components": [
 				{
+					"label": "Criminal History",
+					"key": "S0",
+					"type": "well",
 					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_00",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
 					"components": [
 						{
-							"label": "Family Relationships",
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Criminal History",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"content": "Dynamic Factors",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Past Assault of Family Members",
 							"key": "S0Q0",
 							"type": "well",
 							"customClass": "custom_question_00",
@@ -21,30 +44,25 @@
 							"tableView": false,
 							"components": [
 								{
-									"label": "Family Relationships",
+									"label": "Past Assault of Family Members",
 									"optionsLabelPosition": "right",
 									"inline": false,
 									"tableView": false,
 									"values": [
 										{
-											"label": "Pattern of stable and supportive relationships",
-											"value": "P",
-											"shortcut": "P"
+											"label": "A. No known actual, attempted or threatened assault",
+											"value": "A",
+											"shortcut": "A"
 										},
 										{
-											"label": "No current difficulties",
-											"value": "N",
-											"shortcut": "N"
+											"label": "B. Threat of assault",
+											"value": "B",
+											"shortcut": "B"
 										},
 										{
-											"label": "Occasional Instability in relationships",
-											"value": "O",
-											"shortcut": "O"
-										},
-										{
-											"label": "Very unstable pattern of relationships",
-											"value": "V",
-											"shortcut": "V"
+											"label": "C. Actual or attempted assault",
+											"value": "C",
+											"shortcut": "C"
 										}
 									],
 									"key": "S0Q00",
@@ -61,117 +79,11 @@
 									"key": "S0Q01",
 									"type": "textarea",
 									"input": true
-								},
-								{
-									"label": "Intervention needed",
-									"tableView": false,
-									"key": "S0Q02",
-									"type": "checkbox",
-									"input": true
-								},
-								{
-									"type": "datagrid",
-									"key": "S0Q03",
-									"label": "",
-									"reorder": false,
-									"addAnotherPosition": "bottom",
-									"layoutFixed": false,
-									"enableRowGroups": false,
-									"initEmpty": false,
-									"tableView": false,
-									"conditional": {
-										"show": true,
-										"when": "S0Q02",
-										"eq": true
-									},
-									"input": true,
-									"components": [
-										{
-											"collapsible": false,
-											"key": "panel_itv_00",
-											"type": "well",
-											"label": "",
-											"input": false,
-											"tableView": false,
-											"components": [
-												{
-													"label": "Columns",
-													"columns": [
-														{
-															"components": [
-																{
-																	"label": "Select Intervention Type",
-																	"widget": "choicesjs",
-																	"tableView": true,
-																	"key": "S0Q030",
-																	"type": "select",
-																	"input": true,
-																	"data": {
-																		"values": [
-																			{
-																				"value": "type1",
-																				"label": "Intervention type 1"
-																			},
-																			{
-																				"value": "other",
-																				"label": "Other"
-																			}
-																		]
-																	}
-																}
-															],
-															"width": 6,
-															"offset": 0,
-															"push": 0,
-															"pull": 0,
-															"size": "md",
-															"currentWidth": 6
-														},
-														{
-															"components": [
-																{
-																	"label": "Specify",
-																	"tableView": true,
-																	"key": "S0Q031",
-																	"conditional": {
-																		"show": true,
-																		"when": "S0Q030",
-																		"eq": "other"
-																	},
-																	"type": "textfield",
-																	"input": true
-																}
-															],
-															"width": 6,
-															"offset": 0,
-															"push": 0,
-															"pull": 0,
-															"size": "md",
-															"currentWidth": 6
-														}
-													],
-													"key": "columns",
-													"type": "columns",
-													"input": false,
-													"tableView": false
-												},
-												{
-													"label": "Description",
-													"autoExpand": false,
-													"tableView": true,
-													"placeholder": "Please enter here",
-													"key": "S0Q032",
-													"type": "textarea",
-													"input": true
-												}
-											]
-										}
-									]
 								}
 							]
 						},
 						{
-							"label": "Living Arrangements",
+							"label": "Past Assault of Strangers or Acquaintances",
 							"key": "S0Q1",
 							"type": "well",
 							"customClass": "custom_question_01",
@@ -179,26 +91,25 @@
 							"tableView": false,
 							"components": [
 								{
-									"label": "Living Arrangements",
+									"label": "Past Assault of Strangers or Acquaintances",
 									"optionsLabelPosition": "right",
 									"inline": false,
 									"tableView": false,
 									"values": [
 										{
-											"label": "Wide",
-											"value": "ww"
+											"label": "A. No known actual, attempted or threatened assault",
+											"value": "A",
+											"shortcut": "A"
 										},
 										{
-											"label": "High",
-											"value": "H"
+											"label": "B. Threat of assault",
+											"value": "B",
+											"shortcut": "B"
 										},
 										{
-											"label": "Low",
-											"value": "L"
-										},
-										{
-											"label": "Medium/Moderate",
-											"value": "M"
+											"label": "C. Actual or attempted assault",
+											"value": "C",
+											"shortcut": "C"
 										}
 									],
 									"key": "S0Q10",
@@ -215,127 +126,11 @@
 									"key": "S0Q11",
 									"type": "textarea",
 									"input": true
-								},
-								{
-									"label": "Intervention needed",
-									"tableView": false,
-									"key": "S0Q12",
-									"type": "checkbox",
-									"input": true
-								},
-								{
-									"type": "datagrid",
-									"key": "S0Q13",
-									"label": "",
-									"reorder": false,
-									"addAnotherPosition": "bottom",
-									"layoutFixed": false,
-									"enableRowGroups": false,
-									"initEmpty": false,
-									"tableView": false,
-									"conditional": {
-										"show": true,
-										"when": "S0Q12",
-										"eq": true
-									},
-									"input": true,
-									"components": [
-										{
-											"collapsible": false,
-											"key": "panel_itv",
-											"type": "well",
-											"label": "",
-											"input": false,
-											"tableView": false,
-											"components": [
-												{
-													"label": "Columns",
-													"columns": [
-														{
-															"components": [
-																{
-																	"label": "Select Intervention Type",
-																	"widget": "choicesjs",
-																	"tableView": true,
-																	"key": "S0Q130",
-																	"type": "select",
-																	"input": true,
-																	"data": {
-																		"values": [
-																			{
-																				"value": "type1",
-																				"label": "Intervention type 1"
-																			},
-																			{
-																				"value": "other",
-																				"label": "Other"
-																			}
-																		]
-																	}
-																}
-															],
-															"width": 6,
-															"offset": 0,
-															"push": 0,
-															"pull": 0,
-															"size": "md",
-															"currentWidth": 6
-														},
-														{
-															"components": [
-																{
-																	"label": "Specify",
-																	"tableView": true,
-																	"key": "S0Q131",
-																	"conditional": {
-																		"show": true,
-																		"when": "S0Q130",
-																		"eq": "other"
-																	},
-																	"type": "textfield",
-																	"input": true
-																}
-															],
-															"width": 6,
-															"offset": 0,
-															"push": 0,
-															"pull": 0,
-															"size": "md",
-															"currentWidth": 6
-														}
-													],
-													"key": "columns",
-													"type": "columns",
-													"input": false,
-													"tableView": false
-												},
-												{
-													"label": "Description",
-													"autoExpand": false,
-													"tableView": true,
-													"placeholder": "Please enter here",
-													"key": "S0Q132",
-													"type": "textarea",
-													"input": true
-												}
-											]
-										}
-									]
-								},
-								{
-									"label": "",
-									"tableView": true,
-									"hidden": true,
-									"clearOnHide": false,
-									"key": "key_questionLabel",
-									"defaultValue": "Living Arrangements",
-									"type": "textfield",
-									"input": true
 								}
 							]
 						},
 						{
-							"label": "Companions/Significant Others",
+							"label": "Past Violation of Conditional Release",
 							"key": "S0Q2",
 							"type": "well",
 							"customClass": "custom_question_02",
@@ -343,30 +138,25 @@
 							"tableView": false,
 							"components": [
 								{
-									"label": "Companions/Significant Others",
+									"label": "Past Violation of Conditional Release",
 									"optionsLabelPosition": "right",
 									"inline": false,
 									"tableView": false,
 									"values": [
 										{
-											"label": "Pattern of non-criminal and/or positive associations",
-											"value": "p",
-											"shortcut": "P"
+											"label": "A. No history of violation",
+											"value": "A",
+											"shortcut": "A"
 										},
 										{
-											"label": "Mostly non-criminal and/or positive associations",
-											"value": "mp",
-											"shortcut": "mp"
+											"label": "B. Violation but no arrest",
+											"value": "B",
+											"shortcut": "B"
 										},
 										{
-											"label": "Some criminal and/or negative associations",
-											"value": "s",
-											"shortcut": "s"
-										},
-										{
-											"label": "Mostly criminal and/or negative associations",
-											"value": "mn",
-											"shortcut": "mn"
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
 										}
 									],
 									"key": "S0Q20",
@@ -383,18 +173,113 @@
 									"key": "S0Q21",
 									"type": "textarea",
 									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S0Q3",
+							"type": "well",
+							"customClass": "custom_question_03",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S0Q30",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Psychosocial Adjustment",
+					"key": "S1",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_10",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Psychosocial Adjustment",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"content": "Dynamic Factors",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Recent Relationship Problems (past year)",
+							"key": "S1Q0",
+							"type": "well",
+							"customClass": "custom_question_10",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Relationship Problems (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No change in status or minimal conflict",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Moderate conflict",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Separation or extreme conflict",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q01",
+									"type": "textarea",
+									"input": true
 								},
 								{
 									"label": "Intervention needed",
 									"tableView": false,
-									"key": "S0Q22",
+									"key": "S1Q02",
 									"type": "checkbox",
-									"input": true,
-									"defaultValue": false
+									"input": true
 								},
 								{
 									"type": "datagrid",
-									"key": "S0Q23",
+									"key": "S1Q03",
 									"label": "",
 									"reorder": false,
 									"addAnotherPosition": "bottom",
@@ -404,14 +289,14 @@
 									"tableView": false,
 									"conditional": {
 										"show": true,
-										"when": "S0Q22",
+										"when": "S1Q02",
 										"eq": true
 									},
 									"input": true,
 									"components": [
 										{
 											"collapsible": false,
-											"key": "panel_itv",
+											"key": "panel_itv_10",
 											"type": "well",
 											"label": "",
 											"input": false,
@@ -426,7 +311,7 @@
 																	"label": "Select Intervention Type",
 																	"widget": "choicesjs",
 																	"tableView": true,
-																	"key": "S0Q230",
+																	"key": "S1Q030",
 																	"type": "select",
 																	"input": true,
 																	"data": {
@@ -455,10 +340,10 @@
 																{
 																	"label": "Specify",
 																	"tableView": true,
-																	"key": "S0Q231",
+																	"key": "S1Q031",
 																	"conditional": {
 																		"show": true,
-																		"when": "S0Q230",
+																		"when": "S1Q030",
 																		"eq": "other"
 																	},
 																	"type": "textfield",
@@ -483,7 +368,7 @@
 													"autoExpand": false,
 													"tableView": true,
 													"placeholder": "Please enter here",
-													"key": "S0Q232",
+													"key": "S1Q032",
 													"type": "textarea",
 													"input": true
 												}
@@ -494,41 +379,343 @@
 							]
 						},
 						{
-							"label": "Academic/Vocational Skills",
-							"key": "S0Q3",
-							"customClass": "custom_question_03",
+							"label": "Recent Employment Problems (past year)",
+							"key": "S1Q1",
 							"type": "well",
+							"customClass": "custom_question_11",
 							"input": false,
 							"tableView": false,
 							"components": [
 								{
-									"label": "Academic/Vocational Skills",
+									"label": "Recent Employment Problems (past year)",
 									"optionsLabelPosition": "right",
 									"inline": false,
 									"tableView": false,
 									"values": [
 										{
-											"label": "Not Applicable",
-											"value": "na",
-											"shortcut": "na"
+											"label": "A. Currently employed; stable work history",
+											"value": "A",
+											"shortcut": "A"
 										},
 										{
-											"label": "No current difficulties",
-											"value": "n",
-											"shortcut": "n"
+											"label": "B. Unemployed, stable work history; or employed, unstable work history",
+											"value": "B",
+											"shortcut": "B"
 										},
 										{
-											"label": "Level of skills causing minor interference",
-											"value": "lm",
-											"shortcut": "lm"
-										},
-										{
-											"label": "Level of skills causing serious interference",
-											"value": "ls",
-											"shortcut": "ls"
+											"label": "C. Unemployed unstable work history",
+											"value": "C",
+											"shortcut": "C"
 										}
 									],
-									"key": "S0Q30",
+									"key": "S1Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q11",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q12",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q13",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q12",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q130",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q131",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q130",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q132",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Victim of and/or Witness to Family Violence (Childhood)",
+							"key": "S1Q2",
+							"type": "well",
+							"customClass": "custom_question_12",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Victim of and/or Witness to Family Violence (Childhood)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reports of a victim or witness",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Victim/witness of infrequent or less serious violence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Victim/witness of frequent or serious violence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q21",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q22",
+									"type": "checkbox",
+									"input": true,
+									"defaultValue": false
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q23",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q22",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q230",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q231",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q230",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q232",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Recent Substance Abuse (past year)",
+							"key": "S1Q3",
+							"customClass": "custom_question_13",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Substance Abuse (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of abuse/dependence",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious abuse/dependence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Serious abuse/dependence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q30",
 									"type": "radio",
 									"input": true,
 									"defaultValue": "na"
@@ -540,20 +727,20 @@
 									"tooltip": "",
 									"autoExpand": true,
 									"tableView": true,
-									"key": "S0Q31",
+									"key": "S1Q31",
 									"type": "textarea",
 									"input": true
 								},
 								{
 									"label": "Intervention needed",
 									"tableView": false,
-									"key": "S0Q32",
+									"key": "S1Q32",
 									"type": "checkbox",
 									"input": true
 								},
 								{
 									"type": "datagrid",
-									"key": "S0Q33",
+									"key": "S1Q33",
 									"label": "",
 									"reorder": false,
 									"addAnotherPosition": "bottom",
@@ -563,7 +750,7 @@
 									"tableView": false,
 									"conditional": {
 										"show": true,
-										"when": "S0Q32",
+										"when": "S1Q32",
 										"eq": true
 									},
 									"input": true,
@@ -585,7 +772,7 @@
 																	"label": "Select Intervention Type",
 																	"widget": "choicesjs",
 																	"tableView": true,
-																	"key": "S0Q330",
+																	"key": "S1Q330",
 																	"type": "select",
 																	"input": true,
 																	"data": {
@@ -614,10 +801,10 @@
 																{
 																	"label": "Specify",
 																	"tableView": true,
-																	"key": "S0Q331",
+																	"key": "S1Q331",
 																	"conditional": {
 																		"show": true,
-																		"when": "S0Q330",
+																		"when": "S1Q330",
 																		"eq": "other"
 																	},
 																	"type": "textfield",
@@ -642,7 +829,7 @@
 													"autoExpand": false,
 													"tableView": true,
 													"placeholder": "Please enter here",
-													"key": "S0Q332",
+													"key": "S1Q332",
 													"type": "textarea",
 													"input": true
 												}
@@ -653,42 +840,37 @@
 							]
 						},
 						{
-							"label": "Behavioural/Emotional Stability Factors",
-							"key": "S0Q4",
+							"label": "Recent Suicidal or Homicidal Ideation/Intent (past year)",
+							"key": "S1Q4",
 							"sideCardPanelHiddenList": [],
-							"customClass": "custom_question_04",
+							"customClass": "custom_question_14",
 							"type": "well",
 							"input": false,
 							"tableView": false,
 							"components": [
 								{
-									"label": "Behavioural/Emotional Stability Factors",
+									"label": "Recent Suicidal or Homicidal Ideation/Intent (past year)",
 									"optionsLabelPosition": "right",
 									"inline": false,
 									"tableView": false,
 									"values": [
 										{
-											"label": "Not Applicable",
-											"value": "na",
-											"shortcut": "na"
+											"label": "A. No known or assessed",
+											"value": "A",
+											"shortcut": "A"
 										},
 										{
-											"label": "No current difficulties",
-											"value": "n",
-											"shortcut": "n"
+											"label": "B. Less serious",
+											"value": "B",
+											"shortcut": "B"
 										},
 										{
-											"label": "Behavioural/emotional problems that indicate some need for assistance",
-											"value": "b",
-											"shortcut": "b"
-										},
-										{
-											"label": "Severe behavioural/emotional problems that indicate significant need for assistance",
-											"value": "s",
-											"shortcut": "s"
+											"label": "C. Serious",
+											"value": "C",
+											"shortcut": "C"
 										}
 									],
-									"key": "S0Q40",
+									"key": "S1Q40",
 									"type": "radio",
 									"input": true
 								},
@@ -699,20 +881,20 @@
 									"tooltip": "",
 									"autoExpand": true,
 									"tableView": true,
-									"key": "S0Q41",
+									"key": "S1Q41",
 									"type": "textarea",
 									"input": true
 								},
 								{
 									"label": "Intervention needed",
 									"tableView": false,
-									"key": "S0Q42",
+									"key": "S1Q42",
 									"type": "checkbox",
 									"input": true
 								},
 								{
 									"type": "datagrid",
-									"key": "S0Q43",
+									"key": "S1Q43",
 									"label": "",
 									"reorder": false,
 									"addAnotherPosition": "bottom",
@@ -722,7 +904,7 @@
 									"tableView": false,
 									"conditional": {
 										"show": true,
-										"when": "S0Q42",
+										"when": "S1Q42",
 										"eq": true
 									},
 									"input": true,
@@ -744,7 +926,7 @@
 																	"label": "Select Intervention Type",
 																	"widget": "choicesjs",
 																	"tableView": true,
-																	"key": "S0Q430",
+																	"key": "S1Q430",
 																	"type": "select",
 																	"input": true,
 																	"data": {
@@ -773,10 +955,10 @@
 																{
 																	"label": "Specify",
 																	"tableView": true,
-																	"key": "S0Q431",
+																	"key": "S1Q431",
 																	"conditional": {
 																		"show": true,
-																		"when": "S0Q430",
+																		"when": "S1Q430",
 																		"eq": "other"
 																	},
 																	"type": "textfield",
@@ -801,7 +983,7 @@
 													"autoExpand": false,
 													"tableView": true,
 													"placeholder": "Please enter here",
-													"key": "S0Q432",
+													"key": "S1Q432",
 													"type": "textarea",
 													"input": true
 												}
@@ -810,1222 +992,1163 @@
 									]
 								}
 							]
-						}
-					],
-					"title": "Rating Information",
-					"type": "panel",
-					"key": "S0",
-					"customClass": "custom_section_00",
-					"collapsible": false,
-					"sideCardPanelHiddenList": [],
-					"custom_subNavOnOff": "on"
-				},
-				{
-					"input": false,
-					"components": [
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Pattern of stable and supportive relationships",
-										"value": "AA"
-									},
-									{
-										"label": "No recent difficulties",
-										"value": "bb"
-									},
-									{
-										"label": "Occasional instability in relationships",
-										"value": "C"
-									},
-									{
-										"label": "Very unstable pattern of relationships",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Family Relationships",
-							"type": "select",
-							"key": "S1Q00"
 						},
 						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Pattern of satisfactory living arrrangements",
-										"value": "A"
-									},
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Occasional changes in residence or temporarily situated",
-										"value": "C"
-									},
-									{
-										"label": "Frequent changes in residence, or no permanent address",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Living Arrangement",
-							"type": "select",
-							"key": "S1Q1"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Pattern of non-criminal and/or positive associations",
-										"value": "A"
-									},
-									{
-										"label": "Mostly non-criminal and/or positive associations",
-										"value": "B"
-									},
-									{
-										"label": "Some criminal and/or negative associations",
-										"value": "C"
-									},
-									{
-										"label": "Mostly criminal and/or negative associations",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Companions/Significant Others",
-							"type": "select",
-							"key": "S1Q2"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Level of skills causing minor interference",
-										"value": "C"
-									},
-									{
-										"label": "Level of skills causing serious interference",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Academic/Vocational Skill",
-							"type": "select",
-							"key": "S1Q3"
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "With Raging INformaition",
-							"type": "textfield",
-							"key": "S1Q4"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Every TIme",
-										"value": "e"
-									},
-									{
-										"label": "Pattern of effective managment",
-										"value": "A"
-									},
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Situational or minor difficulties",
-										"value": "C"
-									},
-									{
-										"label": "Severe difficulties",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Financial Management",
-							"type": "select",
-							"key": "S1Q5"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Behavioural/emotional problems that indicate some need for assistance",
-										"value": "C"
-									},
-									{
-										"label": "Severe behavioural/emotional problems that indicate significant need for assistance",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Behavioural/Emotional Stability",
-							"type": "select",
-							"key": "S1Q6"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No recent usage or difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Some usage causing moderate adjustment problems",
-										"value": "C"
-									},
-									{
-										"label": "Frequent or uncontrolled usage causing serious adjustment problems",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Substance Abuse",
-							"type": "select",
-							"key": "S1Q7"
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Actively involved and responding consistently well to assistance",
-										"value": "A"
-									},
-									{
-										"label": "Recognizes problem areas but not receptive to assistance",
-										"value": "C"
-									},
-									{
-										"label": "Unable to recognize problem areas and not receptive to assistance",
-										"value": "D"
-									},
-									{
-										"label": "Motivated to change, receptive to assistance",
-										"value": "B"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Attitude",
-							"type": "select",
-							"key": 4913
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Parent(s) having some difficulty with supervision and behaviour control",
-										"value": "C"
-									},
-									{
-										"label": "Parent(s) having major difficulty with supervision and behaviour control",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Effectiveness of Youth's Parent(s)",
-							"type": "select",
-							"key": 4904
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No recent difficulties",
-										"value": "B"
-									},
-									{
-										"label": "Level/nature of involvement causing minor problems",
-										"value": "C"
-									},
-									{
-										"label": "Level/nature of involvement causing serious problems",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Youth's Educational Involvement",
-							"type": "select",
-							"key": 4908
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "Needs Remarks",
-							"type": "textfield",
-							"key": 4914
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Stable pattern of employment",
-										"value": "A"
-									},
-									{
-										"label": "No recent difficulties",
-										"value": "bb"
-									},
-									{
-										"label": "Employment situation causing minor adjustment problems",
-										"value": "C"
-									},
-									{
-										"label": "Employment situation causing major adjustment problems",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Employment Pattern",
-							"type": "select",
-							"key": 4909
-						}
-					],
-					"title": "Needs Assessment dd",
-					"type": "panel",
-					"key": "needassessment",
-					"customClass": "custom_section_10",
-					"collapsible": false,
-					"sideCardPanelHiddenList": [],
-					"custom_subNavOnOff": "on"
-				},
-				{
-					"input": false,
-					"components": [
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "None",
-										"value": "A"
-									},
-									{
-										"label": "One",
-										"value": "B"
-									},
-									{
-										"label": "Two",
-										"value": "C"
-									},
-									{
-										"label": "Three or more",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "# of Current Convictions",
-							"type": "select",
-							"key": 4916
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "None",
-										"value": "A"
-									},
-									{
-										"label": "One - Three",
-										"value": "B"
-									},
-									{
-										"label": "Four - Six",
-										"value": "C"
-									},
-									{
-										"label": "Seven or More",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "# of Prior Convictions",
-							"type": "select",
-							"key": 4917
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "None",
-										"value": "A"
-									},
-									{
-										"label": "One",
-										"value": "B"
-									},
-									{
-										"label": "Two",
-										"value": "C"
-									},
-									{
-										"label": "Three or More",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "# of Prior Probation/Parole Periods",
-							"type": "select",
-							"key": 4918
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "None",
-										"value": "A"
-									},
-									{
-										"label": "One",
-										"value": "B"
-									},
-									{
-										"label": "Two",
-										"value": "C"
-									},
-									{
-										"label": "Three or More",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "# of Prior Failures to Comply",
-							"type": "select",
-							"key": 4925
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "8",
-										"value": "8"
-									},
-									{
-										"label": "80",
-										"value": "80"
-									},
-									{
-										"label": "81",
-										"value": "81"
-									},
-									{
-										"label": "82",
-										"value": "82"
-									},
-									{
-										"label": "83",
-										"value": "83"
-									},
-									{
-										"label": "84",
-										"value": "84"
-									},
-									{
-										"label": "85",
-										"value": "85"
-									},
-									{
-										"label": "86",
-										"value": "86"
-									},
-									{
-										"label": "87",
-										"value": "87"
-									},
-									{
-										"label": "88",
-										"value": "88"
-									},
-									{
-										"label": "89",
-										"value": "89"
-									},
-									{
-										"label": "9",
-										"value": "9"
-									},
-									{
-										"label": "90",
-										"value": "90"
-									},
-									{
-										"label": "91",
-										"value": "91"
-									},
-									{
-										"label": "92",
-										"value": "92"
-									},
-									{
-										"label": "93",
-										"value": "93"
-									},
-									{
-										"label": "94",
-										"value": "94"
-									},
-									{
-										"label": "95",
-										"value": "95"
-									},
-									{
-										"label": "96",
-										"value": "96"
-									},
-									{
-										"label": "97",
-										"value": "97"
-									},
-									{
-										"label": "98",
-										"value": "98"
-									},
-									{
-										"label": "99",
-										"value": "99"
-									},
-									{
-										"label": "1",
-										"value": "1"
-									},
-									{
-										"label": "10",
-										"value": "10"
-									},
-									{
-										"label": "100",
-										"value": "100"
-									},
-									{
-										"label": "101",
-										"value": "101"
-									},
-									{
-										"label": "102",
-										"value": "102"
-									},
-									{
-										"label": "103",
-										"value": "103"
-									},
-									{
-										"label": "104",
-										"value": "104"
-									},
-									{
-										"label": "105",
-										"value": "105"
-									},
-									{
-										"label": "106",
-										"value": "106"
-									},
-									{
-										"label": "107",
-										"value": "107"
-									},
-									{
-										"label": "108",
-										"value": "108"
-									},
-									{
-										"label": "109",
-										"value": "109"
-									},
-									{
-										"label": "11",
-										"value": "11"
-									},
-									{
-										"label": "110",
-										"value": "110"
-									},
-									{
-										"label": "111",
-										"value": "111"
-									},
-									{
-										"label": "112",
-										"value": "112"
-									},
-									{
-										"label": "113",
-										"value": "113"
-									},
-									{
-										"label": "114",
-										"value": "114"
-									},
-									{
-										"label": "115",
-										"value": "115"
-									},
-									{
-										"label": "116",
-										"value": "116"
-									},
-									{
-										"label": "117",
-										"value": "117"
-									},
-									{
-										"label": "118",
-										"value": "118"
-									},
-									{
-										"label": "119",
-										"value": "119"
-									},
-									{
-										"label": "12",
-										"value": "12"
-									},
-									{
-										"label": "120",
-										"value": "120"
-									},
-									{
-										"label": "13",
-										"value": "13"
-									},
-									{
-										"label": "14",
-										"value": "14"
-									},
-									{
-										"label": "15",
-										"value": "15"
-									},
-									{
-										"label": "16",
-										"value": "16"
-									},
-									{
-										"label": "17",
-										"value": "17"
-									},
-									{
-										"label": "18",
-										"value": "18"
-									},
-									{
-										"label": "19",
-										"value": "19"
-									},
-									{
-										"label": "2",
-										"value": "2"
-									},
-									{
-										"label": "20",
-										"value": "20"
-									},
-									{
-										"label": "21",
-										"value": "21"
-									},
-									{
-										"label": "22",
-										"value": "22"
-									},
-									{
-										"label": "23",
-										"value": "23"
-									},
-									{
-										"label": "24",
-										"value": "24"
-									},
-									{
-										"label": "25",
-										"value": "25"
-									},
-									{
-										"label": "26",
-										"value": "26"
-									},
-									{
-										"label": "27",
-										"value": "27"
-									},
-									{
-										"label": "28",
-										"value": "28"
-									},
-									{
-										"label": "29",
-										"value": "29"
-									},
-									{
-										"label": "3",
-										"value": "3"
-									},
-									{
-										"label": "30",
-										"value": "30"
-									},
-									{
-										"label": "31",
-										"value": "31"
-									},
-									{
-										"label": "32",
-										"value": "32"
-									},
-									{
-										"label": "33",
-										"value": "33"
-									},
-									{
-										"label": "34",
-										"value": "34"
-									},
-									{
-										"label": "35",
-										"value": "35"
-									},
-									{
-										"label": "36",
-										"value": "36"
-									},
-									{
-										"label": "37",
-										"value": "37"
-									},
-									{
-										"label": "38",
-										"value": "38"
-									},
-									{
-										"label": "39",
-										"value": "39"
-									},
-									{
-										"label": "4",
-										"value": "4"
-									},
-									{
-										"label": "40",
-										"value": "40"
-									},
-									{
-										"label": "41",
-										"value": "41"
-									},
-									{
-										"label": "42",
-										"value": "42"
-									},
-									{
-										"label": "43",
-										"value": "43"
-									},
-									{
-										"label": "44",
-										"value": "44"
-									},
-									{
-										"label": "45",
-										"value": "45"
-									},
-									{
-										"label": "46",
-										"value": "46"
-									},
-									{
-										"label": "47",
-										"value": "47"
-									},
-									{
-										"label": "48",
-										"value": "48"
-									},
-									{
-										"label": "49",
-										"value": "49"
-									},
-									{
-										"label": "5",
-										"value": "5"
-									},
-									{
-										"label": "50",
-										"value": "50"
-									},
-									{
-										"label": "51",
-										"value": "51"
-									},
-									{
-										"label": "52",
-										"value": "52"
-									},
-									{
-										"label": "53",
-										"value": "53"
-									},
-									{
-										"label": "54",
-										"value": "54"
-									},
-									{
-										"label": "55",
-										"value": "55"
-									},
-									{
-										"label": "56",
-										"value": "56"
-									},
-									{
-										"label": "57",
-										"value": "57"
-									},
-									{
-										"label": "58",
-										"value": "58"
-									},
-									{
-										"label": "59",
-										"value": "59"
-									},
-									{
-										"label": "6",
-										"value": "6"
-									},
-									{
-										"label": "60",
-										"value": "60"
-									},
-									{
-										"label": "61",
-										"value": "61"
-									},
-									{
-										"label": "62",
-										"value": "62"
-									},
-									{
-										"label": "63",
-										"value": "63"
-									},
-									{
-										"label": "64",
-										"value": "64"
-									},
-									{
-										"label": "65",
-										"value": "65"
-									},
-									{
-										"label": "66",
-										"value": "66"
-									},
-									{
-										"label": "67",
-										"value": "67"
-									},
-									{
-										"label": "68",
-										"value": "68"
-									},
-									{
-										"label": "69",
-										"value": "69"
-									},
-									{
-										"label": "7",
-										"value": "7"
-									},
-									{
-										"label": "70",
-										"value": "70"
-									},
-									{
-										"label": "71",
-										"value": "71"
-									},
-									{
-										"label": "72",
-										"value": "72"
-									},
-									{
-										"label": "73",
-										"value": "73"
-									},
-									{
-										"label": "74",
-										"value": "74"
-									},
-									{
-										"label": "75",
-										"value": "75"
-									},
-									{
-										"label": "76",
-										"value": "76"
-									},
-									{
-										"label": "77",
-										"value": "77"
-									},
-									{
-										"label": "78",
-										"value": "78"
-									},
-									{
-										"label": "79",
-										"value": "79"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Age at First Conviction",
-							"type": "select",
-							"key": 4919
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No",
-										"value": "A"
-									},
-									{
-										"label": "Yes",
-										"value": "B"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Ever Imprisoned After a Conviction",
-							"type": "select",
-							"key": 4920
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No",
-										"value": "A"
-									},
-									{
-										"label": "Yes",
-										"value": "B"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Seriousness of Instit. Escape History",
-							"type": "select",
-							"key": 4921
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No",
-										"value": "A"
-									},
-									{
-										"label": "Yes",
-										"value": "B"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "History of Weapon Use",
-							"type": "select",
-							"key": 4922
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "None",
-										"value": "A"
-									},
-									{
-										"label": "Low",
-										"value": "B"
-									},
-									{
-										"label": "Medium",
-										"value": "C"
-									},
-									{
-										"label": "High",
-										"value": "D"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Frequency/Severity of Violence in History",
-							"type": "select",
-							"key": 4923
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "Risks Remarks",
-							"type": "textfield",
-							"key": 4924
-						}
-					],
-					"title": "Risk  Assessment - Criminal History",
-					"type": "panel",
-					"key": "riskassessment",
-					"customClass": "custom_section_20",
-					"collapsible": false,
-					"sideCardPanelHiddenList": [],
-					"custom_subNavOnOff": "on"
-				},
-				{
-					"input": false,
-					"components": [
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No",
-										"value": "N"
-									},
-									{
-										"label": "Yes",
-										"value": "Y"
-									},
-									{
-										"label": "Sometimes",
-										"value": "S"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Sex Offender?",
-							"type": "select",
-							"key": 4926
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Maybe",
-										"value": "M"
-									},
-									{
-										"label": "No",
-										"value": "N"
-									},
-									{
-										"label": "Yes",
-										"value": "Y"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Violent Offender?",
-							"type": "select",
-							"key": 4927
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "No",
-										"value": "N"
-									},
-									{
-										"label": "Yes",
-										"value": "Y"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Mentally Disordered?",
-							"type": "select",
-							"key": 4928
-						},
-						{
-							"input": true,
-							"widget": "choicesjs",
-							"data": {
-								"values": [
-									{
-										"label": "Sometimes",
-										"value": "S"
-									},
-									{
-										"label": "Maybe",
-										"value": "M"
-									},
-									{
-										"label": "No",
-										"value": "N"
-									},
-									{
-										"label": "Yes",
-										"value": "Y"
-									}
-								]
-							},
-							"labelPosition": "left-left",
-							"placeholder": "Select value",
-							"label": "Domestic Violence?",
-							"type": "select",
-							"key": 4929
-						},
-						{
-							"input": true,
-							"labelPosition": "left-left",
-							"label": "Add. Assessmts indicated or Other Factors?",
-							"type": "textfield",
-							"key": 4930
-						},
-						{
-							"input": true,
-							"widget": {
-								"mode": "single",
-								"enableTime": false,
-								"format": "dd-MM-YYYY",
-								"type": "calendar",
-								"locale": "en"
-							},
-							"labelPosition": "left-left",
+							"label": "Personality Disorder with Anger, Impulsivity, or Behavioural Instability",
+							"key": "S1Q5",
+							"sideCardPanelHiddenList": [],
+							"customClass": "custom_question_15",
+							"type": "well",
+							"input": false,
 							"tableView": false,
-							"datePicker": {
-								"disableWeekDays": false,
-								"disableWeekends": false
-							},
-							"label": "q 777",
-							"type": "datetime",
-							"key": 4931
+							"components": [
+								{
+									"label": "Personality Disorder with Anger, Impulsivity, or Behavioural Instability",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No known or assessed personality disorder with anger, impulsivity, instability",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious problems with anger, impulsivity, instability",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Serious problems with anger, impulsivity, instability",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q51",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q52",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q53",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q52",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q530",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q531",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q530",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q532",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S1Q6",
+							"sideCardPanelHiddenList": [],
+							"customClass": "custom_question_16",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q60",
+									"type": "textarea",
+									"validate": {
+										"maxLength": 250
+									},
+									"input": true
+								}
+							]
 						}
-					],
-					"title": "Special Factors",
-					"type": "panel",
-					"key": "specialfactors",
+					]
+				},
+				{
+					"label": "Spousal Assault History",
+					"key": "S2",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_20",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Spousal Assault History",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Past Physical Assault",
+							"key": "S2Q0",
+							"type": "well",
+							"customClass": "custom_question_20",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Physical Assault",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of past actual or attempted assaults",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Attempted assault",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Past assault",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Sexual Assault/Sexual jealousy",
+							"key": "S2Q1",
+							"type": "well",
+							"customClass": "custom_question_21",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Sexual Assault/Sexual jealousy",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of past actual or attempted sexual assaults or no history of serious jealousy",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Attempted sexual assault or serious jealousy",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Sexual assault, or physical assault with serious jealousy",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Use of Weapons/Credible Threats of Harm",
+							"key": "S2Q2",
+							"type": "well",
+							"customClass": "custom_question_22",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Use of Weapons/Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or serious credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Escalation of Frequency or Severity of Assault (past year)",
+							"key": "S2Q3",
+							"type": "well",
+							"customClass": "custom_question_23",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Escalation of Frequency or Severity of Assault (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No apparent increase in frequency/severity",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Possible increase in frequency/severity",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Definite increase in frequency/severity",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past violation of 'no contact' orders (civil or criminal)",
+							"key": "S2Q4",
+							"type": "well",
+							"customClass": "custom_question_24",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past violation of 'no contact' orders (civil or criminal)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reported past violation, or has never had such an order",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Violation, but no arrest",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q40",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q41",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Extreme Minimization/Denial of Spousal Assault History",
+							"key": "S2Q5",
+							"type": "well",
+							"customClass": "custom_question_25",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Extreme Minimization/Denial of Spousal Assault History",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No discrepancy between self-report and documentation",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Moderate minimisation or denial of assaults",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Extreme minimisation or denial of assaults",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q51",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Attitudes that Support or Condone Spousal Assault",
+							"key": "S2Q6",
+							"type": "well",
+							"customClass": "custom_question_26",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Attitudes that Support or Condone Spousal Assault",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of attitudes",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Implicit endorsement of attitudes",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Explicit endorsement of attitudes",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q60",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q61",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S2Q7",
+							"type": "well",
+							"customClass": "custom_question_27",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q70",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Current Alleged Offence",
+					"key": "S3",
+					"type": "well",
+					"input": false,
+					"tableView": false,
 					"customClass": "custom_section_30",
 					"sideCardPanelHiddenList": [],
-					"collapsible": false
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Current Alleged Offence",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Severe and/or Sexual Violence",
+							"key": "S3Q0",
+							"type": "well",
+							"customClass": "custom_question_30",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Severe and/or Sexual Violence",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No physical or sexual violence",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious violence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Severe and/or sexual violence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Use of Weapons and/or Credible Threats of Harm",
+							"key": "S3Q1",
+							"type": "well",
+							"customClass": "custom_question_31",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Use of Weapons and/or Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Use of Weapons/Credible Threats of Harm",
+							"key": "S3Q2",
+							"type": "well",
+							"customClass": "custom_question_32",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Use of Weapons/Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or serious credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Violation of 'no contact' Orders (civil or criminal)",
+							"key": "S3Q3",
+							"type": "well",
+							"customClass": "custom_question_33",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Violation of 'no contact' Orders (civil or criminal)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reported violation, or has never had such an order",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Violation but no arrest",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S3Q4",
+							"type": "well",
+							"customClass": "custom_question_34",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q40",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Other Considerations",
+					"key": "S4",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_40",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Other Considerations",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Other Emotional Crisis?",
+							"key": "S4Q0",
+							"type": "well",
+							"customClass": "custom_question_40",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Other Emotional Crisis?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "History of Torturing or Disfiguring Intimate Partners?",
+							"key": "S4Q1",
+							"type": "well",
+							"customClass": "custom_question_41",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "History of Torturing or Disfiguring Intimate Partners?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Sexual Sadism?",
+							"key": "S4Q2",
+							"type": "well",
+							"customClass": "custom_question_42",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Sexual Sadism?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Easy Access to Firearms?",
+							"key": "S4Q3",
+							"type": "well",
+							"customClass": "custom_question_43",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Easy Access to Firearms?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Stalking",
+							"key": "S4Q4",
+							"type": "well",
+							"customClass": "custom_question_44",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Stalking",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q40",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q41",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Recent Loss of Social Support Network?",
+							"key": "S4Q5",
+							"type": "well",
+							"customClass": "custom_question_45",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Loss of Social Support Network?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q51",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Other Considerations",
+							"key": "S4Q6",
+							"type": "well",
+							"customClass": "custom_question_46",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Other Considerations",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q60",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Overall Rating",
+					"key": "S5",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_50",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Overall Rating",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "SARA Overall Rating",
+							"key": "S5Q0",
+							"type": "well",
+							"customClass": "custom_question_50",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "SARA Overall Rating",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "Low",
+											"value": "Low",
+											"shortcut": "L"
+										},
+										{
+											"label": "Medium",
+											"value": "Medium",
+											"shortcut": "M"
+										},
+										{
+											"label": "High",
+											"value": "High",
+											"shortcut": "H"
+										}
+									],
+									"key": "S5Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments or Rationale for Rating",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S5Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
 				},
 				{
 					"label": "Summary",
-					"title": "Summary",
 					"key": "key_summary",
 					"type": "well",
-					"customClass": "custom_section_40",
-					"sideCardPanelHiddenList": [],
 					"input": false,
 					"tableView": false,
+					"customClass": "custom_section_60",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
 					"components": [
 						{
 							"label": "HTML",
 							"className": "crna-sectionTitleClass",
 							"tag": "h2",
-							"attrs": [
-								{
-									"attr": "",
-									"value": ""
-								}
-							],
 							"content": "Summary",
 							"refreshOnChange": false,
 							"key": "section_summary",
@@ -2035,7 +2158,7 @@
 						},
 						{
 							"label": "HTML",
-							"content": "Rating Information",
+							"content": "Psychosocial Adjustment",
 							"className": "crna-subSectionTitleClass",
 							"refreshOnChange": false,
 							"key": "html",
@@ -2427,7 +2550,7 @@
 						},
 						{
 							"label": "HTML",
-							"content": "Needs Assessment dd",
+							"content": "Criminal History",
 							"className": "crna-subSectionTitleClass",
 							"refreshOnChange": false,
 							"key": "html",
@@ -2919,33 +3042,6 @@
 					]
 				},
 				{
-					"title": "Supervision Level Matrix",
-					"collapsible": false,
-					"key": "key_supervisionLevelMatrix",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-					  {
-						"label": "HTML",
-						"tag": "div",
-						"attrs": [
-							{
-								"attr": "",
-								"value": ""
-							}
-						],
-						"content": "<table><tr><th>Rist/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
-						"refreshOnChange": false,
-						"key": "key_supervisionLevelMatrix_content",
-						"type": "htmlelement",
-						"input": false,
-						"tableView": false
-					  }
-					]
-				},
-				{
 					"title": "Source Contacted",
 					"collapsible": false,
 					"key": "key_sourceContacted",
@@ -3064,7 +3160,7 @@
 			"S3Q0": "P",
 			"S4Q0": "P",
 			"key_radioButton_04": "P",
-			"key_comments": "Comments for family relationships",
+			"key_comments": "Comments for Recent Relationship Problems (past year)",
 			"key_checkbox": true,
 			"summary_S0Q0": [
 				{
