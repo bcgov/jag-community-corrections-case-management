@@ -2,6 +2,7 @@ name: Build & Push Backend Image
 
 on:
   push:
+    branches: [main]
     paths:
       - 'cccm-backend/**'
   workflow_dispatch:

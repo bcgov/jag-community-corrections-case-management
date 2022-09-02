@@ -2,7 +2,7 @@ name: Build & Push Frontend Image
 
 on:
   push:
-    branches: [main]
+    branches: [image-trigger]
     paths:
       - 'cccm-frontend/**'
   workflow_dispatch:
