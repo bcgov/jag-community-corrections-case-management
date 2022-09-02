@@ -37,15 +37,7 @@ jobs:
           
       - name: Docker Tag Version
         run: |
-          docker images --format "{{.Digest}}" cccm-api
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-          docker images --format "{{.Digest}}" ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-      
-      - name: Docker Set SHA
-        run: | 
-          IMAGE_SHA=$(docker images --format "{{.Digest}}" cccm-api)
-          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-        id: image_sha
 
       #- name: Vulnerability Scan Backend
       #  uses: Azure/container-scan@v0
@@ -61,6 +53,20 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      - name: Cluster Login
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name'
+      
+      - name: Get and store current image name
+        run: |
+          IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name')
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+        id: image_sha
 
       - name: Git Clone Repo
         run: |
