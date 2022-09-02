@@ -34,7 +34,6 @@ jobs:
       - name: Docker Build Image
         run: |            
           docker-compose build backend
-          docker images --no-trunc --quiet cccm-api
           
       - name: Docker Tag Version
         run: |  
@@ -46,10 +45,6 @@ jobs:
           IMAGE_SHA=$(docker images --no-trunc --quiet cccm-api)
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
         id: image_sha
-      
-      - name: Echo image name before deploy
-        run: |
-          echo ${{ steps.image_sha.outputs.IMAGE_SHA }}
 
       #- name: Vulnerability Scan Backend
       #  uses: Azure/container-scan@v0
@@ -61,20 +56,12 @@ jobs:
       #  run: |  
       #    docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
-      #- name: GitOps Repository Dispatch
-      #  uses: peter-evans/repository-dispatch@v2
-      #  with:
-      #    token: ${{ secrets.GIT_OPS_TOKEN }} 
-      #    repository: bcgov-c/tenant-gitops-${{ secrets.LICENSE_PLATE }}
-      #    event-type: image-tag
-      #    client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
-
-      - name: Git Clone Repo
+      - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
 
-      - name: CLONE Version
+      - name: Git Clone Repo
         run: | 
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
           cd tenant-gitops-abb712/cccm/overlays/dev
@@ -82,6 +69,6 @@ jobs:
           git status 
           git diff
           cat kustomization.yaml
-        # git add kustomization.yaml 
-        # git commit -m "Updated image sha"
-        # git push origin main
+          git add kustomization.yaml 
+          git commit -m "Updated image sha"
+          git push origin main git@github.com:bcgov-c/tenant-gitops-abb712.git
