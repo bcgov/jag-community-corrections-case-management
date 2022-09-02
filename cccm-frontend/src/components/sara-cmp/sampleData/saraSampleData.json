@@ -1146,7 +1146,7 @@
 					"key": "needassessment",
 					"customClass": "custom_section_10",
 					"collapsible": false,
-					"sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+					"sideCardPanelHiddenList": [],
 					"custom_subNavOnOff": "on"
 				},
 				{
@@ -1866,7 +1866,7 @@
 					"key": "riskassessment",
 					"customClass": "custom_section_20",
 					"collapsible": false,
-					"sideCardPanelHiddenList": ["key_supervisionLevelMatrix"],
+					"sideCardPanelHiddenList": [],
 					"custom_subNavOnOff": "on"
 				},
 				{
@@ -2003,7 +2003,7 @@
 					"type": "panel",
 					"key": "specialfactors",
 					"customClass": "custom_section_30",
-					"sideCardPanelHiddenList": ["key_legend"],
+					"sideCardPanelHiddenList": [],
 					"collapsible": false
 				},
 				{
