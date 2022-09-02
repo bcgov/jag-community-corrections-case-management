@@ -12,7 +12,7 @@
               </div>
             </div>
             <div class="mainContent">
-              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" />   
+              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" :initData="formJSONFormData.initData" :dataMap="formJSONFormData.dataMap"/>   
             </div>
           </div>
           <div class="column R">
@@ -56,6 +56,8 @@ export default {
       data_rightPanel: {"display": "form"},
       data_formEntries: {"display": "form"},
       data_buttonGroup: {},
+      initData: {},
+      dataMap: {}
     }
   },
   mounted(){
@@ -70,26 +72,14 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Form payload: ", response);
-        //this.formJSONFormData = response;
-        const formdata = this.formJSONFormData.components.filter(obj => {
-          return obj.key === 'section_data';
-        });
-        this.data_formEntries = formdata[0];
-        console.log("this.data_formEntries: ", this.data_formEntries);
-
-        this.data_rightPanel.components = this.formJSONFormData.components.filter(obj => {
-          return obj.key === 'section_rightpanel';
-        });
-        console.log("this.data_rightPanel: ", this.data_rightPanel);
-
-        this.totalNumParentNav = this.data_formEntries.components.length - 1;
-        console.log("totalNumParentNav: ", this.totalNumParentNav);
-        this.componentKey++;
+        this.private_process_formData(response);
       }
 
       // To be removed
-      console.log("Form payload: ", response);
+      this.private_process_formData(response);
+    },
+    private_process_formData(response) {
+      //console.log("Form payload: ", response);
       //this.formJSONFormData = response;
       const formdata = this.formJSONFormData.components.filter(obj => {
         return obj.key === 'section_data';

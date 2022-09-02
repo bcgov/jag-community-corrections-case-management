@@ -140,7 +140,7 @@ export default {
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
+        //console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
         this.showHideWrapper(e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
       }
     },
