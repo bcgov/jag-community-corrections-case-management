@@ -39,35 +39,36 @@ jobs:
         run: |  
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           docker images --no-trunc --quiet cccm-api
+          docker manifest inspect cccm-api
       
-      - name: Docker Set SHA
-        run: | 
-          IMAGE_SHA=$(docker images --no-trunc --quiet cccm-api)
-          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-        id: image_sha
-
-      - name: Vulnerability Scan Backend
-        uses: Azure/container-scan@v0
-        continue-on-error: true
-        with:
-          image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-         
-      - name: Docker Push Version
-        run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-
-      - name: Set GitOps SSH Key
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-
-      - name: Git Clone Repo
-        run: |
-          git config --global user.name "Github Action"
-          git config --global user.email "github@action.com"
-          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/dev
-          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml 
-          git commit -m "Updated image sha from Github Action" 
-          git push
+      #- name: Docker Set SHA
+      #  run: | 
+      #    IMAGE_SHA=$(docker images --no-trunc --quiet cccm-api)
+      #    echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+      #  id: image_sha
+#
+      #- name: Vulnerability Scan Backend
+      #  uses: Azure/container-scan@v0
+      #  continue-on-error: true
+      #  with:
+      #    image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+      #   
+      #- name: Docker Push Version
+      #  run: |  
+      #    docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+#
+      #- name: Set GitOps SSH Key
+      #  uses: webfactory/ssh-agent@v0.5.4
+      #  with:
+      #    ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+#
+      #- name: Git Clone Repo
+      #  run: |
+      #    git config --global user.name "Github Action"
+      #    git config --global user.email "github@action.com"
+      #    git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+      #    cd tenant-gitops-abb712/cccm/overlays/dev
+      #    kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+      #    git add kustomization.yaml 
+      #    git commit -m "Updated image sha from Github Action" 
+      #    git push
