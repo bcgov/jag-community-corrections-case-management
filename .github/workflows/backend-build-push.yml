@@ -38,10 +38,8 @@ jobs:
       - name: Docker Tag Version
         run: |
           docker images --no-trunc --quiet cccm-api
-        # docker manifest inspect cccm-api
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           docker images --no-trunc --quiet ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-        # docker manifest inspect ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
       
       #- name: Docker Set SHA
       #  run: | 
