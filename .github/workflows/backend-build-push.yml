@@ -23,7 +23,7 @@ jobs:
           parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
           cmd: |
             'version'
-            'oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }''
+            'describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }''
 
       - name: Login to Openshift Docker Registry
         uses: docker/login-action@v1
