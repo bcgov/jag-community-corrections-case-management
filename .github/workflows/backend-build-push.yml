@@ -64,6 +64,9 @@ jobs:
       - name: Git Clone Repo
         run: | 
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          git init
+          git config user.name "Github Action"
+          git config user.email "github@action.com"
           cd tenant-gitops-abb712/cccm/overlays/dev
           kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
           git status 
