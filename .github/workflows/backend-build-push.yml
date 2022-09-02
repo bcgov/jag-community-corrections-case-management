@@ -53,14 +53,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-
-      - name: Cluster Login
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
-          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
-          cmd: |
-            oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name'
       
       - name: Get and store current image name
         run: |
