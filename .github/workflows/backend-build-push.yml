@@ -53,13 +53,17 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-      
+
+      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
+      # at a later step
       - name: Get and Store Current Image SHA
         run: |
           IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
         id: image_sha
 
+      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
+      # synced with what is live in openshift
       - name: Git Clone Repo
         run: |
           git config --global user.name "Github Action - CCCM Repo Backend Build/Push"
