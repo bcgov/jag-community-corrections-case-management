@@ -537,14 +537,18 @@ export default {
 
 <style>
 .wild-search-text {
+
+  color: #154c79;
+  font-size: 0.5em;
+
+}
+
+legend[ref="header"]{
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
   gap: 20px;
-  color: #154c79;
-  font-size: 0.5em;
-
 }
 .primary {
   background-color: #1867c0 !important;
