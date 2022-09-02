@@ -182,9 +182,20 @@ p[ref="html"]{
 .dashboard-v-card .v-data-table-header th[role="columnheader"] {
 
 }
-.dashboard-v-card .v-data-table-header th, i{
+.dashboard-v-card .v-data-table-header th, i.mdi-arrow-up{
     color:#fff!important;
 }
+
+.dashboard-v-card .v-data-table__wrapper table td{
+    padding:0!important;
+}
+
+.dashboard-v-card .v-data-table__wrapper table td>div{
+    border-bottom: 5px solid white;
+    border-right: 5px solid white;
+}
+
+
 
 .dashboard-table-header-ul ul {
     list-style:  none;

@@ -1,103 +1,121 @@
 <template>
-  <div data-app>
+  <div data-app class="p-4">
+    <div class="row justify-content-between mb-2">
+      <div class="col-sm-6">
+        <h1 class="font-weight-bold">RNA List</h1>
+      </div>
+      <div class="col-sm-3 text-right pr-4">
+        <section class="row">
+          <div class="col-sm-4" >
+            <strong>Name:</strong>
+            <p>Smith, John</p>
+          </div>
+          <div class="col-sm-4" >
+            <strong>CS#</strong>
+            <p>123456780</p>
+          </div>
+          <div class="col-sm-4" >
+            <strong>Date of Birth</strong>
+            <p>1989-02-01</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
     <v-card>
-      <v-row>
-        <v-col class="d-flex align-right" cols="6" sm="5" >
-          <v-card-title>RNA List</v-card-title>
-        </v-col>
-        <v-col class="d-flex align-right" cols="6" sm="2" >
-          <v-card-text>Name: Smith, John</v-card-text>
-        </v-col>
-        <v-col class="d-flex align-right" cols="6" sm="2" >
-          <v-card-text>CS#: 123456780</v-card-text>
-        </v-col>
-        <v-col class="d-flex align-right" cols="6" sm="3" >
-          <v-card-text>Date of Birth: 1989-02-01</v-card-text>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col class="d-flex align-left" cols="6" sm="2" >
-          <v-select
-            item-text="text"
-            item-value="value"
-            v-model="selectedFormTypes"
-            :items="formTypes"
-            label="Filter RNA Form"
-            v-on:change="applyFormTypeFilter"
-            outlined
-          >
-          </v-select>
-        </v-col>
-        <v-col class="d-flex align-left" cols="6" sm="6" >
+      <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+        <div class="col-sm-2" >
+          <div class="mt-2 ml-3">
+            <label><strong>Filter RNA Form</strong></label>
+            <v-select
+              item-text="text"
+              item-value="value"
+              v-model="selectedFormTypes"
+              :items="formTypes"
+              label=""
+              v-on:change="applyFormTypeFilter"
+              outlined
+            >
+            </v-select>
+          </div>
+        </div>
+        <div class="col-sm-3" >
+          <label<strong>Supervision Periods</strong></label>
           <v-radio-group
-            label="Supervision Periods"
+            dark="true"
+            label=""
             v-model="selectedSupervisionPeriods"
             row
             v-on:change="applyPeriodFilter"
           >
             <v-radio
+              off-icon="mdi-radiobox-blank"
+              on-icon="mdi-radiobox-marked"
               label="All Supervision Periods"
-              value="false"
+              value="true"
             ></v-radio>
             <v-radio
+              off-icon="mdi-radiobox-blank"
+              on-icon="mdi-radiobox-marked"
               label="Current Supervision Period"
               value="true"
             ></v-radio>
           </v-radio-group>
-        </v-col>
-        <v-col class="d-flex align-left" cols="6" sm="2" ></v-col>
-        <v-col class="d-flex align-right" cols="6" sm="2" >
-          <button @click="formCreate()">New RNA</button>
-        </v-col>
-      </v-row>
-      <v-data-table
-        :key="key_rnalistSearchResult"
-        :headers="headers"
-        :formTypes="formTypes"
-        :items="filteredRNAList"
-        item-key="formID"
-        no-results-text="No results found"
-        hide-default-footer
-        :page.sync="page"
-        :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
+        </div>
+        <div class="col-sm-3" ></div>
+        <div class="col-sm-3 text-right pr-4">
+          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">New RNA</button>
+        </div>
+      </section>
+      <div class="dashboard-v-card text-center">
+        <v-data-table
+            :key="key_rnalistSearchResult"
+            :headers="headers"
+            :formTypes="formTypes"
+            :items="filteredRNAList"
+            item-key="formID"
+            no-results-text="No results found"
+            hide-default-footer
+            :page.sync="page"
+            :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
         >
-        <!--Customize the formStatus field -->
-        <template v-slot:item.formStatus="{ item }">
-          <span :class="getFormStatusColor[item.formStatus]">{{item.formStatus}}</span>
-        </template>
-        <!--Customize the supervision rating field -->
-        <template v-slot:item.supervisionRating="{ item }">
-          <span :class="getRatingColor[item.supervisionRating]">{{item.supervisionRating}}</span>
-        </template>
-        <!--Customize the CRNA rating field -->
-        <template v-slot:item.crnaRating="{ item }">
-          <span :class="getRatingColor[item.crnaRating]">{{item.crnaRating}}</span>
-        </template>
-        <!--Customize the SARA rating field -->
-        <template v-slot:item.saraRating="{ item }">
-          <span :class="getRatingColor[item.saraRating]">{{item.saraRating}}</span>
-        </template>
-        <!--Customize the action field -->
-        <template v-slot:item.action="{ item }">
-          <a href="#" @click="formView(item.formID)" title="View form">
-            <i class="fa fa-eye"></i>
-          </a>
-          &nbsp;&nbsp;
-          <a href="#" @click="formClone(item.formID)" title="Copy form">
-            <i class="fas fa-copy"></i>
-          </a>
-          &nbsp;&nbsp;
-          <a href="#" @click="formPrint(item.formID)" title="Print form">
-            <i class="fas fa-print"></i>
-          </a>
-        </template>
-      </v-data-table>
-      <br/>
+          <!--Customize the formStatus field -->
+          <template v-slot:item.formStatus="{ item }">
+            <div :class="`w-100 h-100 ${getFormStatusColor[item.formStatus]}`">{{item.formStatus}}</div>
+          </template>
+          <!--Customize the supervision rating field -->
+          <template v-slot:item.supervisionRating="{ item }">
+            <div :class="`w-100 h-100 text-center ${getRatingColor[item.supervisionRating]}`">{{item.supervisionRating}}</div>
+          </template>
+          <!--Customize the CRNA rating field -->
+          <template v-slot:item.crnaRating="{ item }">
+            <div :class="`w-100 h-100 text-center ${getRatingColor[item.crnaRating]}`">{{item.crnaRating}}</div>
+          </template>
+          <!--Customize the SARA rating field -->
+          <template v-slot:item.saraRating="{ item }">
+            <div :class="`w-100 h-100 text-center ${getRatingColor[item.saraRating]}`">{{item.saraRating}}</div>
+          </template>
+          <!--Customize the action field -->
+          <template v-slot:item.action="{ item }">
+            <a href="#" @click="formView(item.formID)" title="View form">
+              <i class="fa fa-eye"></i>
+            </a>
+            &nbsp;&nbsp;
+            <a href="#" @click="formClone(item.formID)" title="Copy form">
+              <i class="fas fa-copy"></i>
+            </a>
+            &nbsp;&nbsp;
+            <a href="#" @click="formPrint(item.formID)" title="Print form">
+              <i class="fas fa-print"></i>
+            </a>
+          </template>
+        </v-data-table>
+      </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center pt-2">
-        <v-row>
-          <v-col cols="2" sm="2">
+        <div class="row justify-content-between pl-3 pr-3">
+          <div class="col-sm-1">
             <v-select
               solo
               :items="items"
@@ -106,11 +124,11 @@
               item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"
             ></v-select>
-          </v-col>
-          <v-col cols="10" sm="10">
+          </div>
+          <div class="col-sm-10">
             <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </v-col>
-        </v-row>
+          </div>
+        </div>
       </div>
     </v-card>
     <br/><br/>
@@ -319,16 +337,16 @@ export default {
   computed: {
     getFormStatusColor() {
       let colorClass = {};
-      colorClass[this.const_formstatus_incomplete]='yellow';
-      colorClass[this.const_formstatus_complete]='green';
-      colorClass[this.const_formstatus_overdue]='red';
+      colorClass[this.const_formstatus_incomplete]='dashboard-background-color-yellow';
+      colorClass[this.const_formstatus_complete]='dashboard-background-color-green';
+      colorClass[this.const_formstatus_overdue]='dashboard-background-color-red';
       return colorClass;
     },
     getRatingColor() {
       let colorClass = {};
-      colorClass[this.const_rating_low]='green';
-      colorClass[this.const_rating_medium]='yellow';
-      colorClass[this.const_rating_high]='red';
+      colorClass[this.const_rating_low]='dashboard-background-color-green';
+      colorClass[this.const_rating_medium]='dashboard-background-color-yellow';
+      colorClass[this.const_rating_high]='dashboard-background-color-red';
       return colorClass;
     }
   }
