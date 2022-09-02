@@ -2,9 +2,8 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [image-trigger]
-    #paths:
-    #  - 'cccm-backend/**'
+    paths:
+      - 'cccm-backend/**'
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
@@ -54,7 +53,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
       
-      - name: Get and store current image sha
+      - name: Get and Store Current Image SHA
         run: |
           IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
           echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
@@ -68,5 +67,5 @@ jobs:
           cd tenant-gitops-abb712/cccm/overlays/dev
           kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
           git add kustomization.yaml 
-          git commit -m "Updated image sha from Github Action" 
+          git commit -m "Updated cccm-api image sha in Kustomization file from CCCM Github Action" 
           git push
