@@ -5,7 +5,7 @@
           <div class="column L">
             <div class="menu-Sticky">
               <div class="menuR1">
-                <h1>SARA Form</h1>
+                <Form :key="componentKey" :form="data_formInfo" />
               </div>
               <div class="menuR2">
                 <SaraCmpFormNavigation :key="componentKey" :dataModel="formJSONFormData" @parentNavClicked="handleNavChildCallback" :parentNavMoveToNext="parentNavMoveToNext"/>
@@ -29,6 +29,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
+import { Form } from 'vue-formio';
 import {getFormDetails} from "@/components/form.api";
 
 import SaraCmpFormDataEntry from "@/components/sara-cmp/formSections/saraCmpFormDataEntry.vue";
@@ -39,6 +40,7 @@ import sampleFormData from './sampleData/saraSampleData.json';
 export default {
   name: 'crnaForm',
   components: {
+    Form,
     SaraCmpFormDataEntry,
     SaraCmpFormNavigation,
     SaraCmpFormRightPanel,
@@ -55,6 +57,7 @@ export default {
       componentKey: 0,
       data_rightPanel: {"display": "form"},
       data_formEntries: {"display": "form"},
+      data_formInfo: {"display": "form"},
       data_buttonGroup: {},
       initData: {},
       dataMap: {}
@@ -81,6 +84,11 @@ export default {
     private_process_formData(response) {
       //console.log("Form payload: ", response);
       //this.formJSONFormData = response;
+      const formInfo = this.formJSONFormData.components.filter(obj => {
+        return obj.key === 'section_formInfo';
+      });
+      this.data_formInfo = formInfo[0];
+
       const formdata = this.formJSONFormData.components.filter(obj => {
         return obj.key === 'section_data';
       });
