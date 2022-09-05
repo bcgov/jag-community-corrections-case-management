@@ -30,8 +30,8 @@
             "label": "",
             "input": "true",
             "templates": {
-              "header": "\n<div class=\"row\"> \n  {% util.eachComponent(components, function(component) { %}  \n    <div class=\"col-sm-2\">\n      <strong>{{ component.label }}</strong> \n    </div> \n  {% }) %} \n <div class=\"col-sm-3\">\n <strong>Actions</strong>\n</div> \n</div>",
-              "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-2\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-2\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+              "header": "\n<div class=\"row justify-content-between\"> \n  {% util.eachComponent(components, function(component) { %}  \n    <div class=\"col-sm-2\">\n      <strong>{{ component.label }}</strong> \n    </div> \n  {% }) %} \n <div class=\"col-sm-3\">\n <strong>Actions</strong>\n</div> \n</div>",
+              "row": "\n<div class=\"row justify-content-around\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-2\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-2 text-left\"> \n    <div class=\"btn-group\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
               "footer": ""
             },
             "disableAddingRemovingRows": true,
