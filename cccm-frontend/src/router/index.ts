@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import CrnaCmpView from '../views/CrnaCmpView.vue'
 import SaraCmpView from '../views/SaraCmpView.vue'
 import ClientSearchView from '../views/ClientSearchView.vue'
-import ClientProfileView from '../components/common/FormioClientProfile.vue'
+import ClientRecordView from '../components/crna-cmp/formSections/crnaCmpClientRecord.vue'
 import Unauthorized from '../views/Unauthorized.vue'
 import RNAListView from '../views/RNAList.vue'
 import DashboardPOView from '../views/DashboardPOView.vue'
@@ -50,9 +50,9 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientProfile/:clientID/:csNumber',
-      name: 'clientprofile',
-      component: ClientProfileView,
+      path: '/clientrecord/:clientID/:csNumber',
+      name: 'clientrecord',
+      component: ClientRecordView,
       meta: {
         isAuthenticated: true
       }

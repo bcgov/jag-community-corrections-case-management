@@ -4,23 +4,6 @@
       <div class="col-sm-6">
         <h1 class="font-weight-bold">RNA List</h1>
       </div>
-      <div class="col-sm-3 text-right pr-4">
-        <section class="row">
-          <div class="col-sm-4" >
-            <strong>Name:</strong>
-            <p>Smith, John</p>
-          </div>
-          <div class="col-sm-4" >
-            <strong>CS#</strong>
-            <p>123456780</p>
-          </div>
-          <div class="col-sm-4" >
-            <strong>Date of Birth</strong>
-            <p>1989-02-01</p>
-          </div>
-        </section>
-
-      </div>
     </div>
     <v-card>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
