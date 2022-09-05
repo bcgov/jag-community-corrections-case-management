@@ -67,7 +67,7 @@ export default {
         tmpJSON.components[2].components[0].columns[1].components[0].values = this.radioValue;
       } else {
         // remove the radio button component
-       // tmpJSON.components[2].components[0].columns[1].components = [];
+       tmpJSON.components[2].components[0].columns[1].components = [];
       }
 
       // remove the comment component
