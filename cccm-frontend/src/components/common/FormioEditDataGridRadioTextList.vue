@@ -52,8 +52,6 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplateP.key_comments);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataTemplateP.key_radioButton);
 
-      console.log(label)
-
       let tmpJSON = JSON.parse(tmpJSONStr);
 
       if (this.dataTemplate.show_header === null || !this.dataTemplate.show_header) {
