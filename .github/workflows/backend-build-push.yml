@@ -31,12 +31,12 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
       
-      - name: Docker Tag Version
+      - name: Docker Build Image
         run: |            
           docker-compose build backend
           
       - name: Docker Tag Version
-        run: |  
+        run: |
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
       - name: Vulnerability Scan Backend
@@ -44,7 +44,33 @@ jobs:
         continue-on-error: true
         with:
           image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-          
+         
       - name: Docker Push Version
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
+      # at a later step
+      - name: Get and Store Current Image SHA
+        run: |
+          IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+        id: image_sha
+
+      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
+      # synced with what is live in openshift
+      - name: Git Clone Repo
+        run: |
+          git config --global user.name "Github Action - CCCM Repo Backend Build/Push"
+          git config --global user.email "cccm-backend@githubaction.com"
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          cd tenant-gitops-abb712/cccm/overlays/dev
+          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml 
+          git commit -m "Updated cccm-api image sha in Kustomization file from CCCM Github Action" 
+          git push
