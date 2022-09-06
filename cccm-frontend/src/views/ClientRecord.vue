@@ -5,19 +5,19 @@
         <div class="col-sm-6">
           <h1 class="font-weight-bold">Client Record</h1>
         </div>
-        <div class="col-sm-3 text-right pr-4">
+        <div :key="theKey" class="col-sm-3 text-right pr-4">
           <section class="row">
             <div class="col-sm-4" >
-              <strong>Name:</strong>
-              <p>Smith, John</p>
+              <strong>Name</strong>
+              <p>{{initData.fullName}}</p>
             </div>
             <div class="col-sm-4" >
               <strong>CS#</strong>
-              <p>123456780</p>
+              <p>{{initData.csNumber}}</p>
             </div>
             <div class="col-sm-4" >
               <strong>Date of Birth</strong>
-              <p>1989-02-01</p>
+              <p>{{initData.birthDate}}</p>
             </div>
           </section>
         </div>
@@ -45,7 +45,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import FormioClientProfile from "@/components/common/FormioClientProfile.vue";
-import RNAListView from '@/views/RNAList.vue'
+import RNAListView from '@/views/RNAList.vue';
+import {clientProfileSearch} from "@/components/form.api";
 
 export default {
   name: "FormioClientRecord",
@@ -60,6 +61,8 @@ export default {
           { tab: 'Intervention Summary', content: 'is' },
           
         ],
+      initData: {},
+      theKey: 0
     }
   },
   components: {
@@ -67,8 +70,98 @@ export default {
     RNAListView,
   },
   mounted() {
-    let clientID= this.$route.params.clientID;
-    let csNumber= this.$route.params.csNumber;
+    this.clientProfileSearchAPI();
+  },
+  methods: {
+    async clientProfileSearchAPI() {
+      const [error, response] = await clientProfileSearch(this.$route.params.csNumber);
+      //this.initData = response.data;
+      this.initData = {};
+      this.initData = 
+        {
+            "id": "1",
+            "fullName": "Ross, Bob",
+            "csNumber": "123456780",
+            "clientAge": 44,
+            "datePhotoTaken": "2022-10-10",
+            "photo": "abc",
+            "profileClosed": false,
+            "communityAlerts": [
+              {
+                "date": "2022-01-02",
+                "details": "Client threatened staff"
+              },
+              {
+                "date": "2022-03-02",
+                "details": "Client brought knife to meeting"
+              },
+              {
+                "date": "2022-04-02",
+                "details": "Client attacked staff"
+              }
+            ],
+            "outstandingWarrants": [
+              {
+                "date": "2022-01-02",
+                "details": "Client threatened staff"
+              },
+              {
+                "date": "2022-03-02",
+                "details": "Client brought knife to meeting"
+              },
+              {
+                "date": "2022-04-02",
+                "details": "Client attacked staff"
+              }
+            ],
+            "designation": "GEN, IPV, SMO",
+            "supervisionLevel": "High",
+            "birthDate": "1979-12-03",
+            "communityLocation": "Victoria",
+            "communityStatus": "Active",
+            "primaryCaseManager": "Smith, Bob",
+            "secondaryCaseManagers": "Doe, Jane",
+            "orders": "None",
+            "nextConditionDueDate": "2022-03-04",
+            "orderEffectiveDate": "2022-03-04",
+            "finalOrderExpiryDate": "2022-03-05",
+            "institution": "0543- Sunshine Coast Health Centre",
+            "probDischargeDate": "2022-04-03",
+            "institutionStatus": "Inactive",
+            "custodyType": "Warrant of commital",
+            "inOutCustody": "In (parole)",
+            "paroleDate": "2022-03-04",
+            "internalLocation": "0543 - Sunshine Coast Health Centre",
+            "outLocation": "0543 - Sunshine Coast Health Centre",
+            "federalParoleOffice": "0101 - Victoria Corrections",
+            "outReason": "Sentence ended",
+            "finalWarrantExpDate": "2022-05-04",
+            "biometric": "No",
+            "eReporting": "No",
+            "biometricStatus": "Inactive",
+            "eServices": "No",
+            "fullAddress": "123 Hello St, Victoria BC", 
+            "addressType": "Work",
+            "expired": "No",
+            "recordSealed": "Yes",
+            "gender": "Male",
+            "currentName": "Bob Ross",
+            "location": "VICTORIA",
+            "pcm": "Gillis, Mike",
+            "address": [
+                {
+                    "street": "123 Hello St",
+                    "city": "Victoria",
+                    "postalCode": "123 abc"
+                }
+            ]
+        };
+
+      if (error) {
+        console.error(error);
+      }
+      this.theKey++;
+    }
   }
 }
 </script>
