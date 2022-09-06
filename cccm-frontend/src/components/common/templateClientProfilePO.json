@@ -256,7 +256,7 @@
                                                                         "value": "list-style-type:none;"
                                                                     }
                                                                 ],
-                                                                "content": "The client doesn't have any Outstanding Warrants",
+                                                                "content": "The client doesn't have any outstanding warrants",
                                                                 "refreshOnChange": true,
                                                                 "key": "html",
                                                                 "type": "htmlelement",
