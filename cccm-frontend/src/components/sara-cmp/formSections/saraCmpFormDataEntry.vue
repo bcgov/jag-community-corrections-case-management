@@ -4,6 +4,8 @@
       v-on:editGridSaveRow="handleEditGridSaveRowEvent"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent" 
+      @evt_save="handleSave" 
+      @evt_cancel="handleCancelForm"
     />
   </div>
 </template>
@@ -18,17 +20,35 @@ export default {
   props: {
     dataModel: {},
     initData: {},
-    dataMap: {}
+    dataMap: {},
+    saveBtnLabel: ''
   },
   components: {
     Form
   },
   data() {
     return {
+      CONST_KEY_SAVE_BTN: 'button_save',
       pageKey: 0,
     }
   },
+  watch: {
+    saveBtnLabel() {
+      this.private_updateSaveBtnLabel();
+    }
+  },
   methods: {
+    private_updateSaveBtnLabel() {
+      let className = '[class*="' + this.CONST_KEY_SAVE_BTN + '"]';
+      let thePanel = document.querySelector(className);
+      if (thePanel != null) {
+        let typeName = '[type=button]';
+        let theBtn = thePanel.querySelector(typeName);
+        if (theBtn != null && theBtn.childNodes != null && theBtn.childNodes[0] != null) {
+          theBtn.childNodes[0].nodeValue = this.saveBtnLabel;
+        }
+      }
+    },
     handleEditGridSaveRowEvent(event) {
       if (event != null && event.row != null) {
         console.log("datagrid radio text list event data: ", this.initData.data, 
@@ -79,6 +99,20 @@ export default {
         console.log("AutoSave blur triggered: ", event);
         this.triggerAutoSave = false;
         
+      }
+    },
+    handleSave(evt) {
+      //console.log("save evt: ", evt);
+      // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
+      if (evt != null) {
+        this.$emit('saveContinueClicked', true);
+      } 
+    },
+    handleCancelForm(evt) {
+      //console.log("cancel evt: ", evt);
+      // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
+      if (evt != null) {
+        this.$emit('cancelFormClicked');
       }
     }
   }

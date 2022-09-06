@@ -12,7 +12,9 @@
               </div>
             </div>
             <div class="mainContent">
-              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" :initData="formJSONFormData.initData" :dataMap="formJSONFormData.dataMap"/>   
+              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" :initData="formJSONFormData.initData" 
+                  :dataMap="formJSONFormData.dataMap" :saveBtnLabel="btnSaveContinueText"
+                  @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>   
             </div>
           </div>
           <div class="column R">
@@ -105,7 +107,6 @@ export default {
       this.componentKey++;
     },
     handleSaveContinue(continueToNextSection) {
-      console.log('Save continue.')
       // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         this.parentNavMoveToNext++;
