@@ -1,0 +1,6489 @@
+{
+    "display": "form",
+	"components": [
+		{
+            "label": "form_info",
+            "key": "section_formInfo",
+            "type": "well",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "HTML",
+                    "tag": "h1",
+                    "content": "SARA (SARA-CMP)",
+                    "refreshOnChange": false,
+                    "key": "html",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false,
+                    "customClass": "crna-formio-h1"
+                },
+                {
+                    "label": "Columns",
+                    "columns": [
+                        {
+                            "components": [
+                                {
+                                    "label": "Columns",
+                                    "customClass": "crna-formio-metadata-section",
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "HTML",
+                                                    "tag": "div",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Created Date: </Strong>2022-02-01</div><div><Strong>Created By: </Strong>Doe, Jane</div>",
+                                                    "refreshOnChange": false,
+                                                    "key": "html1",
+                                                    "type": "htmlelement",
+                                                    "input": false,
+                                                    "tableView": false
+                                                }
+                                            ],
+                                            "width": 4,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 4
+                                        },
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "HTML",
+                                                    "tag": "div",
+                                                    "attrs": [
+                                                        {
+                                                            "attr": "",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>2022-04-01</div><div><Strong>Completed Date: </Strong>2022-06-01</div>",
+                                                    "refreshOnChange": false,
+                                                    "key": "html1",
+                                                    "type": "htmlelement",
+                                                    "input": false,
+                                                    "tableView": false
+                                                }
+                                            ],
+                                            "width": 4,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 4
+                                        },
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "SARA-CMP Type",
+                                                    "customClass": "mt-2",
+                                                    "widget": "choicesjs",
+                                                    "tableView": true,
+                                                    "data": {
+                                                        "values": [
+                                                            {
+                                                                "label": "",
+                                                                "value": ""
+                                                            }
+                                                        ]
+                                                    },
+                                                    "key": "key_crnaCmpType",
+                                                    "type": "select",
+                                                    "input": true
+                                                }
+                                            ],
+                                            "size": "md",
+                                            "width": 4,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "currentWidth": 4
+                                        }
+                                    ],
+                                    "key": "columns1",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                }
+                            ],
+                            "width": 10,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md",
+                            "currentWidth": 10
+                        },
+                        {
+                            "components": [
+                                {
+                                    "label": "HTML",
+                                    "tag": "div",
+                                    "className": "custom_wrap",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "Incomplete",
+                                    "refreshOnChange": false,
+                                    "key": "key_formStatus",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                }
+                            ],
+                            "width": 2,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md",
+                            "currentWidth": 2
+                        }
+                    ],
+                    "key": "columns",
+                    "type": "columns",
+                    "input": false,
+                    "tableView": false
+                }
+            ]
+        },
+		{
+			"input": false,
+			"tableView": false,
+			"title": "Data Section",
+			"key": "section_data",
+			"type": "well",
+			"collapsible": false,
+			"components": [
+				{
+					"label": "Criminal History",
+					"key": "S0",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_00",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Criminal History",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"content": "Dynamic Factors",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Past Assault of Family Members",
+							"key": "S0Q0",
+							"type": "well",
+							"customClass": "custom_question_00",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Assault of Family Members",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No known actual, attempted or threatened assault",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threat of assault",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Actual or attempted assault",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S0Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S0Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Assault of Strangers or Acquaintances",
+							"key": "S0Q1",
+							"type": "well",
+							"customClass": "custom_question_01",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Assault of Strangers or Acquaintances",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No known actual, attempted or threatened assault",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threat of assault",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Actual or attempted assault",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S0Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S0Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Violation of Conditional Release",
+							"key": "S0Q2",
+							"type": "well",
+							"customClass": "custom_question_02",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Violation of Conditional Release",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No history of violation",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Violation but no arrest",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S0Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S0Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S0Q3",
+							"type": "well",
+							"customClass": "custom_question_03",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S0Q30",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Psychosocial Adjustment",
+					"key": "S1",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_10",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Psychosocial Adjustment",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"content": "Dynamic Factors",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Recent Relationship Problems (past year)",
+							"key": "S1Q0",
+							"type": "well",
+							"customClass": "custom_question_10",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Relationship Problems (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No change in status or minimal conflict",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Moderate conflict",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Separation or extreme conflict",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q01",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q02",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q03",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q02",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv_10",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q030",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q031",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q030",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q032",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Recent Employment Problems (past year)",
+							"key": "S1Q1",
+							"type": "well",
+							"customClass": "custom_question_11",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Employment Problems (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. Currently employed; stable work history",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Unemployed, stable work history; or employed, unstable work history",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Unemployed unstable work history",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q11",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q12",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q13",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q12",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q130",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q131",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q130",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q132",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Victim of and/or Witness to Family Violence (Childhood)",
+							"key": "S1Q2",
+							"type": "well",
+							"customClass": "custom_question_12",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Victim of and/or Witness to Family Violence (Childhood)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reports of a victim or witness",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Victim/witness of infrequent or less serious violence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Victim/witness of frequent or serious violence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q21",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q22",
+									"type": "checkbox",
+									"input": true,
+									"defaultValue": false
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q23",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q22",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q230",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q231",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q230",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q232",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Recent Substance Abuse (past year)",
+							"key": "S1Q3",
+							"customClass": "custom_question_13",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Substance Abuse (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of abuse/dependence",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious abuse/dependence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Serious abuse/dependence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q30",
+									"type": "radio",
+									"input": true,
+									"defaultValue": "na"
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q31",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q32",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q33",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q32",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q330",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q331",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q330",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q332",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Recent Suicidal or Homicidal Ideation/Intent (past year)",
+							"key": "S1Q4",
+							"sideCardPanelHiddenList": [],
+							"customClass": "custom_question_14",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Suicidal or Homicidal Ideation/Intent (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No known or assessed",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Serious",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q40",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q41",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q42",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q43",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q42",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q430",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q431",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q430",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q432",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Personality Disorder with Anger, Impulsivity, or Behavioural Instability",
+							"key": "S1Q5",
+							"sideCardPanelHiddenList": [],
+							"customClass": "custom_question_15",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Personality Disorder with Anger, Impulsivity, or Behavioural Instability",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No known or assessed personality disorder with anger, impulsivity, instability",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious problems with anger, impulsivity, instability",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Serious problems with anger, impulsivity, instability",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S1Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q51",
+									"type": "textarea",
+									"input": true
+								},
+								{
+									"label": "Intervention needed",
+									"tableView": false,
+									"key": "S1Q52",
+									"type": "checkbox",
+									"input": true
+								},
+								{
+									"type": "datagrid",
+									"key": "S1Q53",
+									"label": "",
+									"reorder": false,
+									"addAnotherPosition": "bottom",
+									"layoutFixed": false,
+									"enableRowGroups": false,
+									"initEmpty": false,
+									"tableView": false,
+									"conditional": {
+										"show": true,
+										"when": "S1Q52",
+										"eq": true
+									},
+									"input": true,
+									"components": [
+										{
+											"collapsible": false,
+											"key": "panel_itv",
+											"type": "well",
+											"label": "",
+											"input": false,
+											"tableView": false,
+											"components": [
+												{
+													"label": "Columns",
+													"columns": [
+														{
+															"components": [
+																{
+																	"label": "Select Intervention Type",
+																	"widget": "choicesjs",
+																	"tableView": true,
+																	"key": "S1Q530",
+																	"type": "select",
+																	"input": true,
+																	"data": {
+																		"values": [
+																			{
+																				"value": "type1",
+																				"label": "Intervention type 1"
+																			},
+																			{
+																				"value": "other",
+																				"label": "Other"
+																			}
+																		]
+																	}
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														},
+														{
+															"components": [
+																{
+																	"label": "Specify",
+																	"tableView": true,
+																	"key": "S1Q531",
+																	"conditional": {
+																		"show": true,
+																		"when": "S1Q530",
+																		"eq": "other"
+																	},
+																	"type": "textfield",
+																	"input": true
+																}
+															],
+															"width": 6,
+															"offset": 0,
+															"push": 0,
+															"pull": 0,
+															"size": "md",
+															"currentWidth": 6
+														}
+													],
+													"key": "columns",
+													"type": "columns",
+													"input": false,
+													"tableView": false
+												},
+												{
+													"label": "Description",
+													"autoExpand": false,
+													"tableView": true,
+													"placeholder": "Please enter here",
+													"key": "S1Q532",
+													"type": "textarea",
+													"input": true
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S1Q6",
+							"sideCardPanelHiddenList": [],
+							"customClass": "custom_question_16",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S1Q60",
+									"type": "textarea",
+									"validate": {
+										"maxLength": 250
+									},
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Spousal Assault History",
+					"key": "S2",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_20",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Spousal Assault History",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Past Physical Assault",
+							"key": "S2Q0",
+							"type": "well",
+							"customClass": "custom_question_20",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Physical Assault",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of past actual or attempted assaults",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Attempted assault",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Past assault",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Sexual Assault/Sexual jealousy",
+							"key": "S2Q1",
+							"type": "well",
+							"customClass": "custom_question_21",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Sexual Assault/Sexual jealousy",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of past actual or attempted sexual assaults or no history of serious jealousy",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Attempted sexual assault or serious jealousy",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Sexual assault, or physical assault with serious jealousy",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Use of Weapons/Credible Threats of Harm",
+							"key": "S2Q2",
+							"type": "well",
+							"customClass": "custom_question_22",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Use of Weapons/Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or serious credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Escalation of Frequency or Severity of Assault (past year)",
+							"key": "S2Q3",
+							"type": "well",
+							"customClass": "custom_question_23",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Escalation of Frequency or Severity of Assault (past year)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No apparent increase in frequency/severity",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Possible increase in frequency/severity",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Definite increase in frequency/severity",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past violation of 'no contact' orders (civil or criminal)",
+							"key": "S2Q4",
+							"type": "well",
+							"customClass": "custom_question_24",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past violation of 'no contact' orders (civil or criminal)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reported past violation, or has never had such an order",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Violation, but no arrest",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q40",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q41",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Extreme Minimization/Denial of Spousal Assault History",
+							"key": "S2Q5",
+							"type": "well",
+							"customClass": "custom_question_25",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Extreme Minimization/Denial of Spousal Assault History",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No discrepancy between self-report and documentation",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Moderate minimisation or denial of assaults",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Extreme minimisation or denial of assaults",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q51",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Attitudes that Support or Condone Spousal Assault",
+							"key": "S2Q6",
+							"type": "well",
+							"customClass": "custom_question_26",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Attitudes that Support or Condone Spousal Assault",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of attitudes",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Implicit endorsement of attitudes",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Explicit endorsement of attitudes",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S2Q60",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q61",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S2Q7",
+							"type": "well",
+							"customClass": "custom_question_27",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S2Q70",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Current Alleged Offence",
+					"key": "S3",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_30",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Current Alleged Offence",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Severe and/or Sexual Violence",
+							"key": "S3Q0",
+							"type": "well",
+							"customClass": "custom_question_30",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Severe and/or Sexual Violence",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No physical or sexual violence",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Less serious violence",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Severe and/or sexual violence",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Use of Weapons and/or Credible Threats of Harm",
+							"key": "S3Q1",
+							"type": "well",
+							"customClass": "custom_question_31",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Use of Weapons and/or Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Past Use of Weapons/Credible Threats of Harm",
+							"key": "S3Q2",
+							"type": "well",
+							"customClass": "custom_question_32",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Past Use of Weapons/Credible Threats of Harm",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No evidence of weapons or threats",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Threatened use of weapon or serious credible threats of harm",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Use of weapon or credible threats of death",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Violation of 'no contact' Orders (civil or criminal)",
+							"key": "S3Q3",
+							"type": "well",
+							"customClass": "custom_question_33",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Violation of 'no contact' Orders (civil or criminal)",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "A. No reported violation, or has never had such an order",
+											"value": "A",
+											"shortcut": "A"
+										},
+										{
+											"label": "B. Violation but no arrest",
+											"value": "B",
+											"shortcut": "B"
+										},
+										{
+											"label": "C. Arrested for violation",
+											"value": "C",
+											"shortcut": "C"
+										}
+									],
+									"key": "S3Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Additional Comments",
+							"key": "S3Q4",
+							"type": "well",
+							"customClass": "custom_question_34",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Additional Comments",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S3Q40",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Other Considerations",
+					"key": "S4",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_40",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "on",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Other Considerations",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "Other Emotional Crisis?",
+							"key": "S4Q0",
+							"type": "well",
+							"customClass": "custom_question_40",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Other Emotional Crisis?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "History of Torturing or Disfiguring Intimate Partners?",
+							"key": "S4Q1",
+							"type": "well",
+							"customClass": "custom_question_41",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "History of Torturing or Disfiguring Intimate Partners?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q10",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q11",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Sexual Sadism?",
+							"key": "S4Q2",
+							"type": "well",
+							"customClass": "custom_question_42",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Sexual Sadism?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q20",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q21",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Easy Access to Firearms?",
+							"key": "S4Q3",
+							"type": "well",
+							"customClass": "custom_question_43",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Easy Access to Firearms?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q30",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q31",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Stalking",
+							"key": "S4Q4",
+							"type": "well",
+							"customClass": "custom_question_44",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Stalking",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q40",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q41",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Recent Loss of Social Support Network?",
+							"key": "S4Q5",
+							"type": "well",
+							"customClass": "custom_question_45",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Recent Loss of Social Support Network?",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "No",
+											"value": "No",
+											"shortcut": "N"
+										},
+										{
+											"label": "Yes",
+											"value": "Yes",
+											"shortcut": "Y"
+										}
+									],
+									"key": "S4Q50",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q51",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						},
+						{
+							"label": "Other Considerations",
+							"key": "S4Q6",
+							"type": "well",
+							"customClass": "custom_question_46",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "Other Considerations",
+									"placeholder": "Please add any additional comments if necessary",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S4Q60",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Overall Rating",
+					"key": "S5",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_50",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
+					"components": [
+						{
+							"className": "sectionTitleClass",
+							"tag": "h2",
+							"content": "Overall Rating",
+							"refreshOnChange": false,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "SARA Overall Rating",
+							"key": "S5Q0",
+							"type": "well",
+							"customClass": "custom_question_50",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "SARA Overall Rating",
+									"optionsLabelPosition": "right",
+									"inline": false,
+									"tableView": false,
+									"values": [
+										{
+											"label": "Low",
+											"value": "Low",
+											"shortcut": "L"
+										},
+										{
+											"label": "Medium",
+											"value": "Medium",
+											"shortcut": "M"
+										},
+										{
+											"label": "High",
+											"value": "High",
+											"shortcut": "H"
+										}
+									],
+									"key": "S5Q00",
+									"type": "radio",
+									"input": true
+								},
+								{
+									"label": "Comments or Rationale for Rating",
+									"placeholder": "Please enter here",
+									"description": "",
+									"tooltip": "",
+									"autoExpand": true,
+									"tableView": true,
+									"key": "S5Q01",
+									"type": "textarea",
+									"input": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Summary",
+					"key": "key_summary",
+					"type": "well",
+					"input": false,
+					"tableView": false,
+					"customClass": "custom_section_60",
+					"sideCardPanelHiddenList": [],
+					"custom_subNavOnOff": "off",
+					"components": [
+						{
+							"label": "HTML",
+							"className": "crna-sectionTitleClass",
+							"tag": "h2",
+							"content": "Summary",
+							"refreshOnChange": false,
+							"key": "section_summary",
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						},
+						{
+							"label": "",
+							"key": "summary_S0",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Criminal History",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S0Q0",
+									"label": "",
+									"input": true,
+									"templates": {
+										"header": "",
+										"row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  	"footer": ""
+									},
+									"disableAddingRemovingRows": true,
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No known actual, attempted or threatened assault",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Threat of assault",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Actual or attempted assault",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true,
+														"defaultValue": "a"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S0Q1",
+									"label": "",
+									"input": true,
+									"templates": {
+										"header": "",
+										"row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  	"footer": ""
+									},
+									"disableAddingRemovingRows": true,
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No known actual, attempted or threatened assault",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Threat of assault",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Actual or attempted assault",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true,
+														"defaultValue": "a"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S0Q2",
+									"label": "",
+									"input": true,
+									"templates": {
+										"header": "",
+										"row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  	"footer": ""
+									},
+									"disableAddingRemovingRows": true,
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No history of violation",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Violation but no arrest",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Arrested for violation",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true,
+														"defaultValue": "a"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S0Q3",
+									"label": "",
+									"input": true,
+									"templates": {
+										"header": "",
+										"row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+										"footer": ""
+									},
+									"disableAddingRemovingRows": true,
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textfield",
+															"hidden": true
+														}
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "",
+							"key": "summary_S1",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Psychosocial Adjustment",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q0",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No change in status or minimal conflict",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Moderate conflict",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Separation or extreme conflict",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q1",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. Currently employed; stable work history",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Unemployed, stable work history; or employed, unstable work history",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Unemployed unstable work history",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q2",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No reports of a victim or witness",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Victim/witness of infrequent or less serious violence",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Victim/witness of frequent or serious violence",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q3",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of abuse/dependence",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Less serious abuse/dependence",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Serious abuse/dependence",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q4",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No known or assessed",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Less serious",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Serious",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q5",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No known or assessed personality disorder with anger, impulsivity, instability",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Less serious problems with anger, impulsivity, instability",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Serious problems with anger, impulsivity, instability",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S1Q6",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"hidden": "true"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "",
+							"key": "summary_S2",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Spousal Assault History",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q0",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of past actual or attempted assaults",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Attempted assault",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Past assault",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q1",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of past actual or attempted sexual assaults or no history of serious jealousy",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Attempted sexual assault or serious jealousy",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Sexual assault, or physical assault with serious jealousy",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q2",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of weapons or threats",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Threatened use of weapon or serious credible threats of harm",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Use of weapon or credible threats of death",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q3",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No apparent increase in frequency/severity",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Possible increase in frequency/severity",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Definite increase in frequency/severity",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q4",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No reported past violation, or has never had such an order",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Violation, but no arrest",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Arrested for violation",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q5",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No discrepancy between self-report and documentation",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Moderate minimisation or denial of assaults",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Extreme minimisation or denial of assaults",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q6",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of attitudes",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Implicit endorsement of attitudes",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Explicit endorsement of attitudes",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S2Q7",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"hidden": "true"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "",
+							"key": "summary_S3",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Current Alleged Offence",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S3Q0",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No physical or sexual violence",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Less serious violence",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Severe and/or sexual violence",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S3Q1",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of weapons or threats",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Threatened use of weapon or credible threats of harm",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Use of weapon or credible threats of death",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S3Q2",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No evidence of weapons or threats",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Threatened use of weapon or serious credible threats of harm",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Use of weapon or credible threats of death",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S3Q3",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "A. No reported violation, or has never had such an order",
+																"value": "A",
+																"shortcut": "A"
+															},
+															{
+																"label": "B. Violation but no arrest",
+																"value": "B",
+																"shortcut": "B"
+															},
+															{
+																"label": "C. Arrested for violation",
+																"value": "C",
+																"shortcut": "C"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S3Q4",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"hidden": "true"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "",
+							"key": "summary_S4",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Other Considerations",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q0",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q1",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q2",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q3",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q4",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q5",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "No",
+																"value": "No",
+																"shortcut": "N"
+															},
+															{
+																"label": "Yes",
+																"value": "Yes",
+																"shortcut": "Y"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S4Q6",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"hidden": "true"
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						},
+						{
+							"label": "",
+							"key": "summary_S5",
+							"type": "well",
+							"input": false,
+							"tableView": false,
+							"components": [
+								{
+									"label": "HTML",
+									"content": "Overall Rating",
+									"className": "crna-subSectionTitleClass",
+									"refreshOnChange": false,
+									"key": "html",
+									"type": "htmlelement",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"label": "Columns",
+									"customClass": "editgrid-header",
+									"columns": [
+									  {
+										"components": [
+											{
+											"type": "textfield",
+											"label": "Question",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Answer",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"size": "md",
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Comment",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  },
+									  {
+										"components": [
+										  {
+											"type": "textfield",
+											"label": "Actions",
+											"tableView": true,
+											"input": true,
+											"disabled": true,
+											"defaultValue": "",
+											"customClass": "hide-input"
+										  }
+										],
+										"size": "md",
+										"offset": 0,
+										"push": 0,
+										"pull": 0,
+										"currentWidth": 3,
+										"width": 3
+									  }
+									],
+									"key": "columns",
+									"type": "columns",
+									"input": false,
+									"tableView": false
+								},
+								{
+									"type": "editgrid",
+									"key": "summary_S5Q0",
+									"label": "",
+									"input": true,
+									"disableAddingRemovingRows": true,
+									"templates": {
+									  "header": "",
+									  "row": "\n<div class=\"row\"> \n  {%util.eachComponent(components, function(component) { %} \n    <div class=\"col-sm-3\">\n      {{ row[component.key] }}\n    </div> \n  {% }) %} \n  <div class=\"col-sm-3\"> \n    <div class=\"btn-group pull-right\"> \n      <div class=\"btn btn-default btn-sm editRow\"><i class=\"fa fa-edit\"></i></div> \n       \n    </div>  \n  </div> \n</div>",
+									  "footer": ""
+									},
+									"components": [
+										{
+											"label": "Columns",
+											"columns": [
+												{
+												  "components": [
+													{
+														"type": "textfield",
+														"label": "",
+														"tableView": true,
+														"key": "questionLabel",
+														"input": true,
+														"disabled": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+													{
+														"type": "radio",
+														"label": "",
+														"key": "radio",
+														"optionsLabelPosition": "right",
+														"inline": false,
+														"tableView": false,
+														"values": [
+															{
+																"label": "Low",
+																"value": "Low",
+																"shortcut": "L"
+															},
+															{
+																"label": "Medium",
+																"value": "Medium",
+																"shortcut": "M"
+															},
+															{
+																"label": "High",
+																"value": "High",
+																"shortcut": "H"
+															}
+														],
+														"input": true
+													}
+												  ],
+												  "width": 4,
+												  "offset": 0,
+												  "push": 0,
+												  "pull": 0,
+												  "size": "md",
+												  "currentWidth": 4
+												},
+												{
+												  "components": [
+														{
+															"type": "textarea",
+															"label": "",
+															"tableView": true,
+															"key": "comments",
+															"input": true
+														}	
+													],
+													"width": 4,
+													"offset": 0,
+													"push": 0,
+													"pull": 0,
+													"size": "md",
+													"currentWidth": 4
+												}
+											],
+											"key": "columns",
+											"type": "columns",
+											"input": false,
+											"tableView": false
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"label": "Columns",
+					"customClass": "d-flex justify-content-between p-1",
+					"columns": [
+						{
+							"components": [
+							  {
+								"customClass": "text-left pl-4",
+								"label": "Save and Continue",
+								"action": "event",
+								"showValidations": false,
+								"disableOnInvalid": true,
+								"tableView": true,
+								"key": "button_save",
+								"type": "button",
+								"input": false,
+								"event": "evt_save",
+								"theme": "primary"
+							  }
+							],
+							"width": 6,
+							"offset": 0,
+							"push": 0,
+							"pull": 0,
+							"size": "md",
+							"currentWidth": 6
+						},
+						{
+							"components": [
+							  {
+								"customClass": "text-right mr-2",
+								"label": "Cancel Form",
+								"action": "event",
+								"showValidations": false,
+								"disableOnInvalid": true,
+								"tableView": true,
+								"key": "button_cancel",
+								"type": "button",
+								"input": false,
+								"event": "evt_cancel",
+								"theme": "danger"
+							  }
+							],
+							"width": 6,
+							"offset": 0,
+							"push": 0,
+							"pull": 0,
+							"size": "md",
+							"currentWidth": 6
+						}
+					],
+					"key": "key_buttonGroup",
+					"type": "columns",
+					"input": false,
+					"tableView": false
+				}
+			]
+		},
+		{
+			"input": false,
+			"tableView": false,
+			"title": "Right panel",
+			"key": "section_rightpanel",
+			"type": "well",
+			"collapsible": false,
+			"components": [
+				{
+					"label": "Columns",
+					"customClass": "d-flex justify-content-between p-1",
+					"columns": [
+						{
+							"components": [
+							  {
+								"customClass": "text-left pl-4",
+								"label": "Save as Draft",
+								"action": "event",
+								"showValidations": false,
+								"disableOnInvalid": true,
+								"tableView": true,
+								"key": "button_saveDraft",
+								"type": "button",
+								"input": false,
+								"event": "evt_saveDraft",
+								"theme": "primary"
+							  }
+							],
+							"width": 6,
+							"offset": 0,
+							"push": 0,
+							"pull": 0,
+							"size": "md",
+							"currentWidth": 6
+						},
+						{
+							"components": [
+							  {
+								"customClass": "text-right mr-2",
+								"label": "Print Form",
+								"action": "event",
+								"showValidations": false,
+								"disableOnInvalid": true,
+								"tableView": true,
+								"key": "button_cancel",
+								"type": "button",
+								"input": false,
+								"event": "evt_print",
+								"theme": "primary"
+							  }
+							],
+							"width": 6,
+							"offset": 0,
+							"push": 0,
+							"pull": 0,
+							"size": "md",
+							"currentWidth": 6
+						}
+					],
+					"key": "key_buttonGroup",
+					"type": "columns",
+					"input": false,
+					"tableView": false
+				},
+				{
+					"title": "Client Details",
+					"collapsible": false,
+					"key": "key_clientDetails",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "ul",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "<li>Name: Smith, John</li><li>CS#: 12345</li><li>Gender: M</li> <li>Date of Birth: 1982-03-02</li> <li>Location: Vancouver, BC</li> <li>Final Order Exp. Date: 2021-02-03</li> ",
+						"refreshOnChange": false,
+						"key": "key_clientDetails_content",
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "Legend",
+					"collapsible": false,
+					"key": "key_legend",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "ol",
+						"attrs": [
+							{
+								"attr": "type",
+								"value": "A"
+							}
+						],
+						"content": "<li>Factor seen as an asset</li> <li>No immediate need for improvement</li> <li>Some need for improvement</li> <li>Considerable need for improvement</li> ",
+						"refreshOnChange": false,
+						"key": "key_legend_content",
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "Source Contacted",
+					"collapsible": false,
+					"key": "key_sourceContacted",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "div",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "{{data.key_sourceContacted_content}}",
+						"refreshOnChange": true,
+						"key": "key_sourceContacted",
+						"type": "htmlelement",
+						"input": true,
+						"tableView": false
+					  },
+					  {
+						"label": "",
+						"tableView": true,
+						"clearOnHide": false,
+						"key": "key_sourceContacted_content",
+						"type": "textfield",
+						"input": true,
+						"defaultValue": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
+					  },
+					  {
+						"label": "Add Source",
+						"action": "event",
+						"showValidations": false,
+						"disableOnInvalid": true,
+						"tableView": true,
+						"key": "add_source",
+						"type": "button",
+						"input": true,
+						"event": "evt_changeButtonLabel"
+					  }
+					]
+				}  
+			]
+		}
+	],
+	"dataMap": {
+		"S0Q00": ["summary_S0Q0.radio"],
+		"S0Q01": ["summary_S0Q0.comments"],
+		"summary_S0Q0.radio": "S0Q00",
+		"summary_S0Q0.comments": "S0Q01",
+		"S0Q10": ["summary_S0Q1.radio"],
+		"S0Q11": ["summary_S0Q1.comments"],
+		"summary_S0Q1.radio": "S0Q10",
+		"summary_S0Q1.comments": "S0Q11",
+		"S0Q20": ["summary_S0Q2.radio"],
+		"S0Q21": ["summary_S0Q2.comments"],
+		"summary_S0Q2.radio": "S0Q20",
+		"summary_S0Q2.comments": "S0Q21",
+		"S0Q30": ["summary_S0Q3.comments"],
+		"summary_S0Q3.comments": "S0Q30",
+		
+		"S1Q00": ["summary_S1Q0.radio"],
+		"S1Q01": ["summary_S1Q0.comments"],
+		"summary_S1Q0.radio": "S1Q00",
+		"summary_S1Q0.comments": "S1Q01",
+		"S1Q10": ["summary_S1Q1.radio"],
+		"S1Q11": ["summary_S1Q1.comments"],
+		"summary_S1Q1.radio": "S1Q10",
+		"summary_S1Q1.comments": "S1Q11",
+		"S1Q20": ["summary_S1Q2.radio"],
+		"S1Q21": ["summary_S1Q2.comments"],
+		"summary_S1Q2.radio": "S1Q20",
+		"summary_S1Q2.comments": "S1Q21",
+		"S1Q30": ["summary_S1Q3.radio"],
+		"S1Q31": ["summary_S1Q3.comments"],
+		"summary_S1Q3.radio": "S1Q30",
+		"summary_S1Q3.comments": "S1Q31",
+		"S1Q40": ["summary_S1Q4.radio"],
+		"S1Q41": ["summary_S1Q4.comments"],
+		"summary_S1Q4.radio": "S1Q40",
+		"summary_S1Q4.comments": "S1Q41",
+		"S1Q50": ["summary_S1Q5.radio"],
+		"S1Q51": ["summary_S1Q5.comments"],
+		"summary_S1Q5.radio": "S1Q50",
+		"summary_S1Q5.comments": "S1Q51",
+		"S1Q60": ["summary_S1Q6.comments"],
+		"summary_S1Q6.comments": "S1Q60",
+
+		"S2Q00": ["summary_S2Q0.radio"],
+		"S2Q01": ["summary_S2Q0.comments"],
+		"summary_S2Q0.radio": "S2Q00",
+		"summary_S2Q0.comments": "S2Q01",
+		"S2Q10": ["summary_S2Q1.radio"],
+		"S2Q11": ["summary_S2Q1.comments"],
+		"summary_S2Q1.radio": "S2Q10",
+		"summary_S2Q1.comments": "S2Q11",
+		"S2Q20": ["summary_S2Q2.radio"],
+		"S2Q21": ["summary_S2Q2.comments"],
+		"summary_S2Q2.radio": "S2Q20",
+		"summary_S2Q2.comments": "S2Q21",
+		"S2Q30": ["summary_S2Q3.radio"],
+		"S2Q31": ["summary_S2Q3.comments"],
+		"summary_S2Q3.radio": "S2Q30",
+		"summary_S2Q3.comments": "S2Q31",
+		"S2Q40": ["summary_S2Q4.radio"],
+		"S2Q41": ["summary_S2Q4.comments"],
+		"summary_S2Q4.radio": "S2Q40",
+		"summary_S2Q4.comments": "S2Q41",
+		"S2Q50": ["summary_S2Q5.radio"],
+		"S2Q51": ["summary_S2Q5.comments"],
+		"summary_S2Q5.radio": "S2Q50",
+		"summary_S2Q5.comments": "S2Q51",
+		"S2Q60": ["summary_S2Q6.radio"],
+		"S2Q61": ["summary_S2Q6.comments"],
+		"summary_S2Q6.radio": "S2Q60",
+		"summary_S2Q6.comments": "S2Q61",
+		"S2Q70": ["summary_S2Q7.comments"],
+		"summary_S2Q7.comments": "S2Q70",
+
+		"S3Q00": ["summary_S3Q0.radio"],
+		"S3Q01": ["summary_S3Q0.comments"],
+		"summary_S3Q0.radio": "S3Q00",
+		"summary_S3Q0.comments": "S3Q01",
+		"S3Q10": ["summary_S3Q1.radio"],
+		"S3Q11": ["summary_S3Q1.comments"],
+		"summary_S3Q1.radio": "S3Q10",
+		"summary_S3Q1.comments": "S3Q11",
+		"S3Q20": ["summary_S3Q2.radio"],
+		"S3Q21": ["summary_S3Q2.comments"],
+		"summary_S3Q2.radio": "S3Q20",
+		"summary_S3Q2.comments": "S3Q21",
+		"S3Q30": ["summary_S3Q3.radio"],
+		"S3Q31": ["summary_S3Q3.comments"],
+		"summary_S3Q3.radio": "S3Q30",
+		"summary_S3Q3.comments": "S3Q31",
+		"S3Q40": ["summary_S3Q4.comments"],
+		"summary_S3Q4.comments": "S3Q40",
+
+		"S4Q00": ["summary_S4Q0.radio"],
+		"S4Q01": ["summary_S4Q0.comments"],
+		"summary_S4Q0.radio": "S4Q00",
+		"summary_S4Q0.comments": "S4Q01",
+		"S4Q10": ["summary_S4Q1.radio"],
+		"S4Q11": ["summary_S4Q1.comments"],
+		"summary_S4Q1.radio": "S4Q10",
+		"summary_S4Q1.comments": "S4Q11",
+		"S4Q20": ["summary_S4Q2.radio"],
+		"S4Q21": ["summary_S4Q2.comments"],
+		"summary_S4Q2.radio": "S4Q20",
+		"summary_S4Q2.comments": "S4Q21",
+		"S4Q30": ["summary_S4Q3.radio"],
+		"S4Q31": ["summary_S4Q3.comments"],
+		"summary_S4Q3.radio": "S4Q30",
+		"summary_S4Q3.comments": "S4Q31",
+		"S4Q40": ["summary_S4Q4.radio"],
+		"S4Q41": ["summary_S4Q4.comments"],
+		"summary_S4Q4.radio": "S4Q40",
+		"summary_S4Q4.comments": "S4Q41",
+		"S4Q50": ["summary_S4Q5.radio"],
+		"S4Q51": ["summary_S4Q5.comments"],
+		"summary_S4Q5.radio": "S4Q50",
+		"summary_S4Q5.comments": "S4Q51",
+		"S4Q60": ["summary_S4Q6.comments"],
+		"summary_S4Q6.comments": "S4Q60",
+		
+		"S5Q00": ["summary_S5Q0.radio"],
+		"S5Q01": ["summary_S5Q0.comments"],
+		"summary_S5Q0.radio": "S5Q00",
+		"summary_S5Q0.comments": "S5Q01"
+		
+	},
+	"initData": {
+		"data": {
+			"S0Q00": "A",
+			"S0Q01": "Sample comment for S0Q0",
+			"S0Q10": "B",
+			"S0Q11": "Sample comment for S0Q1",
+			"S0Q20": "C",
+			"S0Q21": "Sample comment for S0Q2",
+			"S0Q30": "Sample comment for S0Q3",
+			"S1Q00": "A",
+			"S1Q01": "Sample comment for S1Q0",
+			"S1Q02": true,
+			"S1Q03": [
+				{
+					"S1Q030": "type1",
+					"S1Q031": "",
+					"S1Q032": "some comments for type 1"
+				}
+			],
+			"S1Q10": "B",
+			"S1Q11": "Sample comment for S1Q1",
+			"S1Q12": true,
+			"S1Q13": [
+				{
+					"S1Q130": "type1",
+					"S1Q131": "",
+					"S1Q132": "some comments for type 1"
+				}
+			],
+			"S1Q20": "C",
+			"S1Q21": "Sample comment for S1Q2",
+			"S1Q22": true,
+			"S1Q23": [
+				{
+					"S1Q230": "type1",
+					"S1Q231": "",
+					"S1Q232": "some comments for type 1"
+				}
+			],
+			"S1Q30": "C",
+			"S1Q31": "Sample comment for S1Q3",
+			"S1Q32": true,
+			"S1Q33": [
+				{
+					"S1Q330": "type1",
+					"S1Q331": "",
+					"S1Q332": "some comments for type 1"
+				}
+			],
+			"S1Q40": "C",
+			"S1Q41": "Sample comment for S1Q4",
+			"S1Q42": false,
+			"S1Q50": "C",
+			"S1Q51": "Sample comment for S1Q5",
+			"S1Q52": false,
+			"S1Q60": "Sample addition notes for S1Q6",
+
+			"S2Q00": "A",
+			"S2Q01": "Sample comment for S2Q0",
+			"S2Q10": "B",
+			"S2Q11": "Sample comment for S2Q1",
+			"S2Q20": "C",
+			"S2Q21": "Sample comment for S2Q2",
+			"S2Q30": "C",
+			"S2Q31": "Sample comment for S2Q3",
+			"S2Q40": "A",
+			"S2Q41": "Sample comment for S2Q4",
+			"S2Q50": "B",
+			"S2Q51": "Sample comment for S2Q5",
+			"S2Q60": "C",
+			"S2Q61": "Sample comment for S2Q6",
+			"S2Q70": "Sample comment for S2Q7",
+
+			"S3Q00": "A",
+			"S3Q01": "Sample comment for S3Q0",
+			"S3Q10": "B",
+			"S3Q11": "Sample comment for S3Q1",
+			"S3Q20": "C",
+			"S3Q21": "Sample comment for S3Q2",
+			"S3Q30": "C",
+			"S3Q31": "Sample comment for S3Q3",
+			"S3Q40": "Sample comment for S3Q4",
+
+			"S4Q00": "No",
+			"S4Q01": "Sample comment for S4Q0",
+			"S4Q10": "No",
+			"S4Q11": "Sample comment for S4Q1",
+			"S4Q20": "Yes",
+			"S4Q21": "Sample comment for S4Q2",
+			"S4Q30": "Yes",
+			"S4Q31": "Sample comment for S4Q3",
+			"S4Q40": "No",
+			"S4Q41": "Sample comment for S4Q4",
+			"S4Q50": "No",
+			"S4Q51": "Sample comment for S4Q5",
+			"S4Q60": "Sample comment for S4Q6",
+			
+			"S5Q00": "Low",
+			"S5Q01": "Sample comment for S5Q0",
+
+			"summary_S0Q0": [
+				{
+					"questionLabel": "Past Assault of Family Members",
+					"radio": "A",
+					"comments": "Sample comment for S0Q0"
+				}
+			],
+			"summary_S0Q1": [
+				{
+					"questionLabel": "Past Assault of Strangers or Acquaintances",
+					"radio": "B",
+					"comments": "Sample comment for S0Q1"
+				}
+			],
+			"summary_S0Q2": [
+				{
+					"questionLabel": "Past Violation of Conditional Release",
+					"radio": "C",
+					"comments": "Sample comment for S0Q2"
+				}
+			],
+			"summary_S0Q3": [
+				{
+					"questionLabel": "Additional Comments",
+					"comments": "Sample comment for S0Q3"
+				}
+			],
+
+			"summary_S1Q0": [
+				{
+					"questionLabel": "Recent Relationship Problems (past year)",
+					"radio": "A",
+					"comments": "Sample comment for S1Q0"
+				}
+			],
+			"summary_S1Q1": [
+				{
+					"questionLabel": "Recent Employment Problems (past year)",
+					"radio": "B",
+					"comments": "Sample comment for S1Q1"
+				}
+			],
+			"summary_S1Q2": [
+				{
+					"questionLabel": "Victim of and/or Witness to Family Violence (Childhood)",
+					"radio": "C",
+					"comments": "Sample comment for S1Q2"
+				}
+			],
+			"summary_S1Q3": [
+				{
+					"questionLabel": "Recent Substance Abuse (past year)",
+					"radio": "C",
+					"comments": "Sample comment for S1Q3"
+				}
+			],
+			"summary_S1Q4": [
+				{
+					"questionLabel": "Recent Suicidal or Homicidal Ideation/Intent (past year)",
+					"radio": "C",
+					"comments": "Sample comment for S1Q4"
+				}
+			],
+			"summary_S1Q5": [
+				{
+					"questionLabel": "Personality Disorder with Anger, Impulsivity, or Behavioural Instability",
+					"radio": "C",
+					"comments": "Sample comment for S1Q5"
+				}
+			],
+			"summary_S1Q6": [
+				{
+					"questionLabel": "Additional Comments",
+					"comments": "Sample comment for S1Q6"
+				}
+			],
+
+			"summary_S2Q0": [
+				{
+					"questionLabel": "Past Physical Assault",
+					"radio": "A",
+					"comments": "Sample comment for S2Q0"
+				}
+			],
+			"summary_S2Q1": [
+				{
+					"questionLabel": "Past Physical Assault",
+					"radio": "B",
+					"comments": "Sample comment for S2Q1"
+				}
+			],
+			"summary_S2Q2": [
+				{
+					"questionLabel": "Past Use of Weapons/Credible Threats of Harm",
+					"radio": "C",
+					"comments": "Sample comment for S2Q2"
+				}
+			],
+			"summary_S2Q3": [
+				{
+					"questionLabel": "Past Escalation of Frequency or Severity of Assault (past year)",
+					"radio": "C",
+					"comments": "Sample comment for S2Q3"
+				}
+			],
+			"summary_S2Q4": [
+				{
+					"questionLabel": "Past violation of 'no contact' orders (civil or criminal)",
+					"radio": "C",
+					"comments": "Sample comment for S2Q4"
+				}
+			],
+			"summary_S2Q5": [
+				{
+					"questionLabel": "Extreme Minimization/Denial of Spousal Assault History",
+					"radio": "C",
+					"comments": "Sample comment for S2Q5"
+				}
+			],
+			"summary_S2Q6": [
+				{
+					"questionLabel": "Attitudes that Support or Condone Spousal Assault",
+					"radio": "C",
+					"comments": "Sample comment for S2Q6"
+				}
+			],
+			"summary_S2Q7": [
+				{
+					"questionLabel": "Additional Comments",
+					"comments": "Sample comment for S2Q7"
+				}
+			],
+
+			"summary_S3Q0": [
+				{
+					"questionLabel": "Severe and/or Sexual Violence",
+					"radio": "A",
+					"comments": "Sample comment for S3Q0"
+				}
+			],
+			"summary_S3Q1": [
+				{
+					"questionLabel": "Use of Weapons and/or Credible Threats of Harm",
+					"radio": "B",
+					"comments": "Sample comment for S3Q1"
+				}
+			],
+			"summary_S3Q2": [
+				{
+					"questionLabel": "Past Use of Weapons/Credible Threats of Harm",
+					"radio": "C",
+					"comments": "Sample comment for S3Q2"
+				}
+			],
+			"summary_S3Q3": [
+				{
+					"questionLabel": "Violation of 'no contact' Orders (civil or criminal)",
+					"radio": "C",
+					"comments": "Sample comment for S3Q3"
+				}
+			],
+			"summary_S3Q4": [
+				{
+					"questionLabel": "Additional Comments",
+					"comments": "Sample comment for S3Q4"
+				}
+			],
+
+			"summary_S4Q0": [
+				{
+					"questionLabel": "Other Emotional Crisis?",
+					"radio": "No",
+					"comments": "Sample comment for S4Q0"
+				}
+			],
+			"summary_S4Q1": [
+				{
+					"questionLabel": "History of Torturing or Disfiguring Intimate Partners?",
+					"radio": "No",
+					"comments": "Sample comment for S4Q1"
+				}
+			],
+			"summary_S4Q2": [
+				{
+					"questionLabel": "Sexual Sadism?",
+					"radio": "No",
+					"comments": "Sample comment for S4Q2"
+				}
+			],
+			"summary_S4Q3": [
+				{
+					"questionLabel": "Easy Access to Firearms?",
+					"radio": "Yes",
+					"comments": "Sample comment for S4Q3"
+				}
+			],
+			"summary_S4Q4": [
+				{
+					"questionLabel": "Stalking",
+					"radio": "Yes",
+					"comments": "Sample comment for S4Q4"
+				}
+			],
+			"summary_S4Q5": [
+				{
+					"questionLabel": "Recent Loss of Social Support Network?",
+					"radio": "Yes",
+					"comments": "Sample comment for S4Q5"
+				}
+			],
+			"summary_S4Q6": [
+				{
+					"questionLabel": "Other Considerations",
+					"comments": "Sample comment for S4Q6"
+				}
+			],
+
+			"summary_S5Q0": [
+				{
+					"questionLabel": "SARA Overall Rating",
+					"radio": "Low",
+					"comments": "Sample comment for S5Q0"
+				}
+			]
+		}
+	}
+}

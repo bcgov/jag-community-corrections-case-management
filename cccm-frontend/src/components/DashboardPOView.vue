@@ -18,7 +18,7 @@
                 <th colspan="3"> Designation Total </th>
               </tr>
               <tr>
-                <th scope="col">GEN:</th>
+                <th scope="col">GEN</th>
                 <th scope="col">SMO</th>
                 <th scope="col">IPV</th>
               </tr>
@@ -63,7 +63,7 @@
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
             <div class="w-100 h-100">
-              <a :href="`${baseURL}clientprofile/${item.clientID}/${item.csNumber}`">{{item.clientName}}</a>
+              <a :href="`${baseURL}clientrecord/${item.clientID}/${item.csNumber}`">{{item.clientName}}</a>
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
@@ -460,7 +460,7 @@ export default {
             caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
           }
         } else {
-          caVal = "<li>The client doesn't have any Community Alerts</li>"
+          caVal = "<li>The client doesn't have any community alerts</li>"
         }
         dataContent.communityAlerts = caVal;
         
