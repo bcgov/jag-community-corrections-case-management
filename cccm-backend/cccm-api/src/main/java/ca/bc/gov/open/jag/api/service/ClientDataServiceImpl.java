@@ -117,7 +117,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     private List<Client> addressSearch(ClientSearch clientSearch) {
         //TODO: when procedure is expose this can be implemented
         throw new NotImplementedException();
-
     }
 
 }
