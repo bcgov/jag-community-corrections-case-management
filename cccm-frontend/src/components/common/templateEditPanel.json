@@ -3,6 +3,7 @@
   "components": [
     {
         "title": "${panelTitle}",
+        "customClass": "bg-blue",
         "collapsible": false,
         "key": "${panelKey}",
         "type": "panel",

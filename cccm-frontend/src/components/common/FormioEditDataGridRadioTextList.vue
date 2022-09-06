@@ -42,15 +42,15 @@ export default {
       let label = this.editgridLabel;
       if (this.dataTemplate.show_label === null || !this.dataTemplate.show_label) {
         label = "";
-      } 
-      console.log(label)
+      }
+
+
       tmpJSONStr = tmpJSONStr.replaceAll('${className_label}', label ? this.dataTemplateP.className_label : "");
       tmpJSONStr = tmpJSONStr.replaceAll('${label_editgrid}', label);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_questionLabel}', this.dataTemplateP.key_questionLabel);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_editgrid}', this.dataTemplateP.key);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_comments}', this.dataTemplateP.key_comments);
       tmpJSONStr = tmpJSONStr.replaceAll('${key_radioButton}', this.dataTemplateP.key_radioButton);
-
 
       let tmpJSON = JSON.parse(tmpJSONStr);
 
@@ -67,15 +67,14 @@ export default {
         tmpJSON.components[2].components[0].columns[1].components[0].values = this.radioValue;
       } else {
         // remove the radio button component
-        tmpJSON.components[2].components[0].columns[1].components = [];
+       tmpJSON.components[2].components[0].columns[1].components = [];
       }
 
       // remove the comment component
       if (!this.dataTemplate.show_comments) {
-        tmpJSON.components[2].components[0].columns[2].components = [];
+       tmpJSON.components[2].components[0].columns[2].components = [];
       }      
 
-      
       this.formJSON = tmpJSON;
     },
     handleEditGridSaveRowEvent(event) {

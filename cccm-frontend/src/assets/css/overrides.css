@@ -1,3 +1,6 @@
+.bg-blue {
+    background-color: #38598A;
+}
 .bg-light {
     background-color: #fff!important;
 }
@@ -80,6 +83,33 @@ img[alt="Client photo"] {
 }
 
 /*CRNA FORM STYLES - TODO: Move to own file*/
+
+.card-body .crna-sectionTitleClass {
+    margin-left:-8px;
+}
+
+.crna-right-sticky-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.crna-right-panel-button-container {
+    display:flex;
+    align-items:center;
+    width:100%;
+    flex:42%;
+    justify-self:center;
+}
+.crna-right-panel-button-container>div{
+    width:100%
+}
+
+.crna-right-panel-details {
+    flex:100%;
+
+}
+
 .crna-formio-h1 {
     margin-top: 80px;
 }
@@ -141,7 +171,7 @@ img[alt="Client photo"] {
     padding:0;
 }
 
-p[ref="html"]{
+p[ref="html"]:not(.crna-subSectionTitleClass){
     padding:0!important;
     margin:0!important;
     min-height:0px!important;
