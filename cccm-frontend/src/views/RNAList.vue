@@ -25,7 +25,6 @@
         <div class="col-sm-3" >
           <label<strong>Supervision Periods</strong></label>
           <v-radio-group
-            dark="true"
             label=""
             v-model="selectedSupervisionPeriods"
             row
@@ -35,7 +34,7 @@
               off-icon="mdi-radiobox-blank"
               on-icon="mdi-radiobox-marked"
               label="All Supervision Periods"
-              value="true"
+              value="false"
             ></v-radio>
             <v-radio
               off-icon="mdi-radiobox-blank"

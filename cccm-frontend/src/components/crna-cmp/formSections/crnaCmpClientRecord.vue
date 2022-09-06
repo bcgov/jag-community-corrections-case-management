@@ -27,12 +27,10 @@
       v-model="tab"
       fixed-tabs
       color="deep-purple accent-4"
-      
     >
       <v-tab v-for="item in items" :key="item.tab">
         {{ item.tab }}
       </v-tab>
-      
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in items" :key="item.tab">
