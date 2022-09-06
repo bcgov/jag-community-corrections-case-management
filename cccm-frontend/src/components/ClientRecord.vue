@@ -23,11 +23,7 @@
         </div>
       </div>
     </section>
-    <v-tabs
-      v-model="tab"
-      fixed-tabs
-      color="deep-purple accent-4"
-    >
+    <v-tabs v-model="tab" fixed-tabs color="deep-purple accent-4">
       <v-tab v-for="item in items" :key="item.tab">
         {{ item.tab }}
       </v-tab>
@@ -45,7 +41,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import FormioClientProfile from "@/components/common/FormioClientProfile.vue";
-import RNAListView from '@/views/RNAList.vue';
+import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
 
 export default {

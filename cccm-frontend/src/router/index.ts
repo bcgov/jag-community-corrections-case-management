@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../components/HomeView.vue'
 import CrnaCmpView from '../components/crna-cmp/crnaCmpForm.vue'
 import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
 import ClientSearchView from '../components/common/FormioClientSearch.vue'
-import ClientRecordView from '../views/ClientRecord.vue'
-import Unauthorized from '../views/Unauthorized.vue'
-import RNAListView from '../views/RNAList.vue'
-import DashboardPOView from '../views/DashboardPOView.vue'
-import DashboardSupervisorView from '../views/DashboardSupervisorView.vue'
+import ClientRecordView from '../components/ClientRecord.vue'
+import Unauthorized from '../components/Unauthorized.vue'
+import DashboardPOView from '../components/DashboardPOView.vue'
+import DashboardSupervisorView from '../components/DashboardSupervisorView.vue'
 import {useStore} from "@/stores/store";
 
 Vue.use(VueRouter)
@@ -69,14 +68,6 @@ const router = new VueRouter({
       path: '/saracmp/:formID',
       name: 'saracmp',
       component: SaraCmpView,
-      meta: {
-        isAuthenticated: true
-      }
-    },
-    {
-      path: '/rnalist',
-      name: 'rnalist',
-      component: RNAListView,
       meta: {
         isAuthenticated: true
       }
