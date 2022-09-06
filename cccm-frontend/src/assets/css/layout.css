@@ -69,10 +69,11 @@ div.R-Sticky {
 	top: 0;
 	padding-bottom:20px;
 }
+
 .mainContent {
 	height: fit-content;
 	margin: 0 20px;
-	padding: 0 28px;
+	padding: 0px 28px 100px 28px;
 	overflow-y: auto;
 	background-color: #fff;
 	border: 1px solid #ccc;

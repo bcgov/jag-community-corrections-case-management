@@ -19,10 +19,16 @@
           </div>
           <div class="column R">
             <div class="R-Sticky">
-              <br/>
-              <!--Save draft button group-->
-              <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
-              <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
+              <section class="crna-right-sticky-panel">
+                <div class="crna-right-panel-button-container">
+                  <!--Save draft button group-->
+                  <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
+                </div>
+                <div class="crna-right-panel-details">
+                  <CrnaCmpFormRightPanel :dataModel="formJSONFormData" :key="componentKey"/>
+                </div>
+              </section>
+
             </div>
           </div>
         </div>
@@ -124,7 +130,6 @@ export default {
   font-size: 20px;
   font-weight: bold;
   color: #fcba19;
-  text-decoration: underline;
   -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
   text-decoration-color: rgb(255, 208, 0);
 }
@@ -132,13 +137,14 @@ export default {
 .subSectionChildTitleClass {
   font-size: 15px;
   font-weight: bold;
-  
+  border-bottom: 1px solid #ccc;
 }
 
 .crna-subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 1px!important;
+  padding-top: 20px!important;
 }
 
 .crna-subSectionTitleClass:nth-child(1):after {

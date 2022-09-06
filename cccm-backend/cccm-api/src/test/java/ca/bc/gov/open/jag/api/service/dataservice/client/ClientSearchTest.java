@@ -8,6 +8,8 @@ import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
+import jdk.jshell.spi.ExecutionControl;
+import org.apache.commons.lang3.NotImplementedException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -77,6 +79,15 @@ public class ClientSearchTest {
         Assertions.assertEquals(2, result.size());
 
     }
+
+    @Test
+    @DisplayName("Error: Address search should throw not implemented")
+    public void testAddressGetClients() {
+
+        Assertions.assertThrows(NotImplementedException.class, () -> sut.clientSearch(new ClientSearch(null, true,null,null,null,null,"ADDRESS",null, null, null, null, null)));
+
+    }
+
 
     private List<Client> createClientList() {
 
