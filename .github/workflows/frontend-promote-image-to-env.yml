@@ -48,6 +48,32 @@ jobs:
       - name: Docker Push Version Test
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+      
+      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
+      # at a later step
+      - name: Get and Store Current Image SHA
+        run: |
+          IMAGE_SHA=$(oc describe istag/cccm-web:test -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+        id: image_sha
+
+      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
+      # synced with what is live in openshift
+      - name: Git Clone Repo
+        run: |
+          git config --global user.name "Github Action - CCCM Repo Frontend Promote Dev Image to Test"
+          git config --global user.email "cccm-frontend@githubaction.com"
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          cd tenant-gitops-abb712/cccm/overlays/test
+          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml 
+          git commit -m "Updated cccm-web image sha in Kustomization file from CCCM Github Action" 
+          git push
 
   run-prod:
     runs-on: ubuntu-latest
@@ -83,5 +109,31 @@ jobs:
       - name: Docker Push Version Prod
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+      
+      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
+      # at a later step
+      - name: Get and Store Current Image SHA
+        run: |
+          IMAGE_SHA=$(oc describe istag/cccm-web:prod -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+        id: image_sha
+
+      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
+      # synced with what is live in openshift
+      - name: Git Clone Repo
+        run: |
+          git config --global user.name "Github Action - CCCM Repo Frontend Promote Test Image to Prod"
+          git config --global user.email "cccm-frontend@githubaction.com"
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          cd tenant-gitops-abb712/cccm/overlays/prod
+          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml 
+          git commit -m "Updated cccm-web image sha in Kustomization file from CCCM Github Action" 
+          git push
 
       
