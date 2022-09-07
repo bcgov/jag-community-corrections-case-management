@@ -20,7 +20,7 @@ export default {
     handleSaveDraft(evt) {
       // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === 'evt_saveDraft') {
-        this.$emit('saveContinueClicked', false);
+        this.$emit('saveDraftClicked');
       } 
     },
     handlePrint(evt) {

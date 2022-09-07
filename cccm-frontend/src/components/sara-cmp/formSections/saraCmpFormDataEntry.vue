@@ -14,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import { objectToString } from '@vue/shared';
+import {updateForm} from "@/components/form.api";
 
 export default {
   name: 'saraCmpForm',
@@ -21,7 +22,8 @@ export default {
     dataModel: {},
     initData: {},
     dataMap: {},
-    saveBtnLabel: ''
+    saveBtnLabel: '',
+    notifySaveDraft: 0,
   },
   components: {
     Form
@@ -30,23 +32,44 @@ export default {
     return {
       CONST_KEY_SAVE_BTN: 'button_save',
       pageKey: 0,
+      saveDraft: false,
     }
   },
   watch: {
     saveBtnLabel() {
       this.private_updateSaveBtnLabel();
+    },
+    notifySaveDraft() {
+      let btn = this.private_getSaveBtn();
+      if (btn != null) { 
+        //console.log("Simulate the btn click: ", btn);
+        this.saveDraft = true;
+        btn.click(); 
+      }
     }
   },
   methods: {
-    private_updateSaveBtnLabel() {
+    async updateForm(formData) {
+      let formId= this.$route.params.formID;
+      const [error, response] = await updateForm(formData);
+      if (error) {
+        console.error("Form update failed: ", error);
+      }
+    },
+    private_getSaveBtn() {
+      let theBtn = null;
       let className = '[class*="' + this.CONST_KEY_SAVE_BTN + '"]';
       let thePanel = document.querySelector(className);
       if (thePanel != null) {
         let typeName = '[type=button]';
-        let theBtn = thePanel.querySelector(typeName);
-        if (theBtn != null && theBtn.childNodes != null && theBtn.childNodes[0] != null) {
-          theBtn.childNodes[0].nodeValue = this.saveBtnLabel;
-        }
+        theBtn = thePanel.querySelector(typeName);
+      }
+      return theBtn;
+    },
+    private_updateSaveBtnLabel() {
+      let theBtn = this.private_getSaveBtn();
+      if (theBtn != null && theBtn.childNodes != null && theBtn.childNodes[0] != null) {
+        theBtn.childNodes[0].nodeValue = this.saveBtnLabel;
       }
     },
     handleEditGridSaveRowEvent(event) {
@@ -103,9 +126,14 @@ export default {
     },
     handleSave(evt) {
       //console.log("save evt: ", evt);
-      // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (evt != null) {
-        this.$emit('saveContinueClicked', true);
+      if (evt != null && evt.data != null) {
+        if (this.saveDraft) {
+          this.updateForm(evt.data);
+          this.saveDraft = false;
+        } else {
+          // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
+          this.$emit('saveContinueClicked', evt.data);
+        }
       } 
     },
     handleCancelForm(evt) {

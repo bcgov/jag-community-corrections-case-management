@@ -12,15 +12,15 @@
               </div>
             </div>
             <div class="mainContent">
-              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :notifySavingData="notifySavingData" :initData="formJSONFormData.initData" 
-                  :dataMap="formJSONFormData.dataMap" :saveBtnLabel="btnSaveContinueText"
+              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :initData="formJSONFormData.initData" 
+                  :dataMap="formJSONFormData.dataMap" :saveBtnLabel="btnSaveContinueText" :notifySaveDraft="notifySaveDraft"
                   @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>   
             </div>
           </div>
           <div class="column R">
             <div class="R-Sticky">
               <br/>
-              <saraCmpFormRightPanel :key="componentKey" :dataModel="data_rightPanel" @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm"/>
+              <saraCmpFormRightPanel :key="componentKey" :dataModel="data_rightPanel" @saveDraftClicked="handleSaveDraft" @printFormClicked="handlePrintForm"/>
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import {getFormDetails} from "@/components/form.api";
+import {getFormDetails, updateForm} from "@/components/form.api";
 
 import SaraCmpFormDataEntry from "@/components/sara-cmp/formSections/saraCmpFormDataEntry.vue";
 import SaraCmpFormNavigation from "@/components/sara-cmp/formSections/saraCmpFormNavigation.vue";
@@ -49,9 +49,8 @@ export default {
   },
   data() {
     return {
-      message: "",
+      notifySaveDraft: 0,
       parentNavMoveToNext: 1,
-      notifySavingData: 1,
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
@@ -71,17 +70,22 @@ export default {
   methods: {
     async getFormData() {
       let formId= this.$route.params.formID;
-      //console.log("CRNA formDetails: ", formId);
-      
       const [error, response] = await getFormDetails(formId);
       if (error) {
-        console.error(error);
+        console.error("Get formDetail failed: ", error);
       } else {
         this.private_process_formData(response);
       }
 
       // To be removed
       this.private_process_formData(response);
+    },
+    async updateForm(formData) {
+      let formId= this.$route.params.formID;
+      const [error, response] = await updateForm(formData);
+      if (error) {
+        console.error("Form update failed: ", error);
+      }
     },
     private_process_formData(response) {
       //console.log("Form payload: ", response);
@@ -106,13 +110,19 @@ export default {
       //console.log("totalNumParentNav: ", this.totalNumParentNav);
       this.componentKey++;
     },
-    handleSaveContinue(continueToNextSection) {
-      // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
-      if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
+    handleSaveContinue(formData) {
+      //console.log("formData: ", formData);
+      // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
+      if (this.parentNavCurLocation < this.totalNumParentNav - 1) {
         this.parentNavMoveToNext++;
       }
-      // have to make sure the value is different to notify child components to gather the data
-      this.notifySavingData++;
+      if (formData != null) {
+        this.updateForm(formData);
+      }
+    },
+    handleSaveDraft() {
+      console.log("handleSaveDraft: ");
+      this.notifySaveDraft++;
     },
     handlePrintForm() {
       console.log('Print Form.')
