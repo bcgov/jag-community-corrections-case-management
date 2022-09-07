@@ -33,6 +33,8 @@ export default {
       CONST_KEY_SAVE_BTN: 'button_save',
       pageKey: 0,
       saveDraft: false,
+      latestKey: '',
+      latestValue: ''
     }
   },
   watch: {
@@ -103,8 +105,14 @@ export default {
       if (   event.changed 
           && ( event.changed.component.type === "textfield"
             || event.changed.component.type === "textarea")) {
-        console.log("handleChangeEvent: ", event, event.changed.component.key);      
-        this.triggerAutoSave = true;
+        //console.log("textfield or textarea changed: ", event);
+        // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
+        if (event.changed.instance != null && event.changed.instance.path != null 
+          && event.changed.instance.path.indexOf('.') === -1) {
+          this.latestKey = event.changed.component.key;
+          this.latestValue = event.changed.value;    
+          this.triggerAutoSave = true;
+        }
       }
 
       // Trigger auto save
@@ -113,15 +121,22 @@ export default {
             || event.changed.component.type === "checkbox"
             || event.changed.component.type === "select")
           ) {
-            console.log("AutoSave triggered: ", event, event.changed.component.key);
-            
+        //console.log("radio, checkbox or select changed: ", event);
+        // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
+        if (event.changed.instance != null && event.changed.instance.path != null 
+          && event.changed.instance.path.indexOf('.') === -1) {
+          this.private_updateMappedData(event.changed.component.key, event.changed.value);
+          // Refresh the view
+          this.pageKey++;
+        }
       }
     },
     handleBlurEvent(event) {
       if (this.triggerAutoSave) {
-        console.log("AutoSave blur triggered: ", event);
         this.triggerAutoSave = false;
-        
+        this.private_updateMappedData(this.latestKey, this.latestValue);
+        // Refresh the view
+        this.pageKey++;
       }
     },
     handleSave(evt) {
@@ -141,6 +156,26 @@ export default {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
       if (evt != null) {
         this.$emit('cancelFormClicked');
+      }
+    },
+    private_updateMappedData(theKey, newValue) {
+      let dataKeyObj = this.dataMap[theKey];
+      // sample dataKeyObj: ["summary_S0Q0.radio"]
+      if (dataKeyObj != null) {
+        for (let i = 0; i < dataKeyObj.length; i++) {
+          let dataKey = dataKeyObj[i];
+          if (dataKey != null) {
+            //console.log("dataKey: ", dataKey);
+            // sample dataKey: "summary_S0Q0.radio"
+            let dataKeySplit = dataKey.split(".");
+            if (dataKeySplit != null && dataKeySplit.length == 2) {
+              let sectionID = dataKeySplit[0];
+              let questionID = dataKeySplit[1];
+              //console.log("dataKey value: ", this.initData.data[sectionID][0][questionID]);
+              this.initData.data[sectionID][0][questionID] = newValue;
+            }
+          }
+        }
       }
     }
   }
