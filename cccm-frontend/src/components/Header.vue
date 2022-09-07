@@ -18,7 +18,10 @@
       <span class="headerNav textShadow">
         <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
         <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> |
-        <!-- <a href="/clientprofile" class="headerA">Client Profile</a> | -->
+        <a :href="`${baseURL}clientrecord/clientID/csnum`" class="headerA">Client Record</a> |
+        <a :href="`${baseURL}crnacmp/1`" class="headerA">CRNA CMP Form</a> |
+        <a :href="`${baseURL}saracmp/1`" class="headerA">SARA CMP Form</a> |
+        <a :href="`${baseURL}rnalist`" class="headerA">RNA List</a> |
       </span>
     </div>
   </div>
