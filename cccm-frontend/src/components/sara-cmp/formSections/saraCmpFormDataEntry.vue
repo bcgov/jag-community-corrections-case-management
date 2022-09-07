@@ -30,6 +30,7 @@ export default {
   },
   data() {
     return {
+      CONST_EDITGRID: 'editgrid',
       CONST_KEY_SAVE_BTN: 'button_save',
       pageKey: 0,
       saveDraft: false,
@@ -107,8 +108,8 @@ export default {
             || event.changed.component.type === "textarea")) {
         //console.log("textfield or textarea changed: ", event);
         // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
-        if (event.changed.instance != null && event.changed.instance.path != null 
-          && event.changed.instance.path.indexOf('.') === -1) {
+        if (!this.private_isPartOfEditgrid(event.changed.instance)) {
+          //console.log("not part of editgrid");
           this.latestKey = event.changed.component.key;
           this.latestValue = event.changed.value;    
           this.triggerAutoSave = true;
@@ -123,8 +124,8 @@ export default {
           ) {
         //console.log("radio, checkbox or select changed: ", event);
         // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
-        if (event.changed.instance != null && event.changed.instance.path != null 
-          && event.changed.instance.path.indexOf('.') === -1) {
+        if (!this.private_isPartOfEditgrid(event.changed.instance)) {
+          //console.log("radio not part of editgrid");
           this.private_updateMappedData(event.changed.component.key, event.changed.value);
           // Refresh the view
           this.pageKey++;
@@ -156,6 +157,14 @@ export default {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
       if (evt != null) {
         this.$emit('cancelFormClicked');
+      }
+    },
+    private_isPartOfEditgrid(theInstance) {
+      if (theInstance != null 
+          && theInstance.parent != null 
+          && theInstance.parent.parent != null 
+          && theInstance.parent.parent.type === this.CONST_EDITGRID) {
+        return true;
       }
     },
     private_updateMappedData(theKey, newValue) {
