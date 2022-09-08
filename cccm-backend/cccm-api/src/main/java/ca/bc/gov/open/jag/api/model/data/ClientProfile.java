@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ClientProfile {
     private Client client;
-
     private String offense;
     private String nextCourtDate;
     private String secondaryManager;
@@ -29,6 +28,13 @@ public class ClientProfile {
     private String custody;
     private String possibleParoleDt;
     private String probableDischargeDt;
+    private String finalWarrantExpiryDt;
+    private List<Warrant> warrants;
+    private List<Alert> alerts;
+    private String isBiometricEnrolled;
+    private String eServicesStatus;
+    private String biometricStatus;
+    private String eReporting;
 
     public String getPossibleParoleDt() {
         return possibleParoleDt;
@@ -53,16 +59,6 @@ public class ClientProfile {
     public void setFinalWarrantExpiryDt(String finalWarrantExpiryDt) {
         this.finalWarrantExpiryDt = finalWarrantExpiryDt;
     }
-
-    private String finalWarrantExpiryDt;
-    private List<Warrant> warrants;
-
-    private String isBiometricEnrolled;
-    private String eServicesStatus;
-    private String biometricStatus;
-    private String eReporting;
-
-
 
     public String getSecondaryManager() {
         return secondaryManager;
@@ -279,4 +275,13 @@ public class ClientProfile {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
+    }
+
 }

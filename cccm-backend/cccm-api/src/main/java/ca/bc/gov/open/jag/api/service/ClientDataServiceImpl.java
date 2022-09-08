@@ -1,11 +1,11 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.api.client.ClientsApiImpl;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
+import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import org.apache.commons.lang3.NotImplementedException;
@@ -16,7 +16,6 @@ import org.jboss.logmanager.Level;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -43,54 +42,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
 
-        if (StringUtils.isBlank( clientSearch.getAddress()) ) {
-            logger.log(Level.DEBUG, "Standard Client Search");
-            return standardSearch(clientSearch);
-        } else {
-            logger.log(Level.DEBUG, "Address Client Search");
-            return addressSearch(clientSearch);
-        }
-
-    }
-
-    @Override
-    public Client clientProfile(String clientNum, String user) {
-
-        final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
-
-        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
-
-        Map location = obridgeClientService.getLocation();
-
-        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
-
-        return clientMapper.toApiClient(result.getClient(), result, speedmentClientService.getAlerts(dbClientId), dbClientId);
-
-    }
-
-    @Override
-    public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(BigDecimal clientId) {
-
-        List<Photo> photos = obridgeClientService.getPhotosById(clientId);
-
-        if (!photos.isEmpty()) {
-            return clientMapper.toPhoto("", photos.stream().findFirst().get().getImage());
-        } else {
-            throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
-        }
-
-    }
-
-    private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.data.Client> clients) {
-
-        return clients.stream()
-                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), Collections.emptyList(), null))
-                .collect(Collectors.toList());
-
-    }
-
-    private List<Client> standardSearch(ClientSearch clientSearch) {
-
         String searchType;
         //This is based on the current stored procedure
         if (Boolean.TRUE.equals(clientSearch.getSoundex())) {
@@ -114,9 +65,54 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     }
 
-    private List<Client> addressSearch(ClientSearch clientSearch) {
-        //TODO: when procedure is expose this can be implemented
-        throw new NotImplementedException();
+    @Override
+    public List<Client> clientAddressSearch(ClientAddressSearch clientAddressSearch) {
+
+        return createClientResult(obridgeClientService.getClientAddressSearch(
+                clientAddressSearch.getAddressType(),
+                clientAddressSearch.getAddress(),
+                clientAddressSearch.getCity(),
+                clientAddressSearch.getProvince(),
+                clientAddressSearch.getPostalCode(),
+                clientAddressSearch.getExpired()
+        ));
+
+    }
+
+    @Override
+    public Client clientProfile(String clientNum, String user) {
+
+        final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
+
+        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
+
+        Map location = obridgeClientService.getLocation();
+
+        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
+
+        return clientMapper.toApiClient(result.getClient(), result, dbClientId);
+
+    }
+
+    @Override
+    public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(String clientNum) {
+
+        List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
+
+        if (!photos.isEmpty()) {
+            return clientMapper.toPhoto("", photos.stream().findFirst().get().getImage());
+        } else {
+            throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
+        }
+
+    }
+
+    private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.data.Client> clients) {
+
+        return clients.stream()
+                .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), null))
+                .collect(Collectors.toList());
+
     }
 
 }

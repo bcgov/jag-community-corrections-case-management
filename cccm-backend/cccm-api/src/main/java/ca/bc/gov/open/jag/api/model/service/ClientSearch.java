@@ -8,21 +8,19 @@ public class ClientSearch {
     private  Integer birthYear;
     private  Integer age;
     private Integer range;
-    private  String address;
     private  String location;
     private  String gender;
     private  String identifier;
     private String identifierType;
     private String officer;
 
-    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, String address, String location, String gender, String identifier, String identifierType, String officer) {
+    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, String location, String gender, String identifier, String identifierType, String officer) {
         this.lastName = lastName;
         this.soundex = soundex;
         this.givenName = givenName;
         this.birthYear = birthYear;
         this.age = age;
         this.range = range;
-        this.address = address;
         this.location = location;
         this.gender = gender;
         this.identifier = identifier;
@@ -44,10 +42,6 @@ public class ClientSearch {
 
     public Integer getAge() {
         return age;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public String getLocation() {

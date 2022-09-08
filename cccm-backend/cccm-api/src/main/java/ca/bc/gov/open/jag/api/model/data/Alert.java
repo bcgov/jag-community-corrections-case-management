@@ -1,25 +1,15 @@
 package ca.bc.gov.open.jag.api.model.data;
 
-import java.util.Date;
-
 public class Alert {
 
-    private String commentTxt;
-    private Date effectiveDt;
+    private String description;
 
-    public String getCommentTxt() {
-        return commentTxt;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCommentTxt(String commentTxt) {
-        this.commentTxt = commentTxt;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Date getEffectiveDt() {
-        return effectiveDt;
-    }
-
-    public void setEffectiveDt(Date effectiveDt) {
-        this.effectiveDt = effectiveDt;
-    }
 }

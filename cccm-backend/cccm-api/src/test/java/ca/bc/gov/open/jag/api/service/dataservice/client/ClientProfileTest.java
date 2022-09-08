@@ -52,7 +52,6 @@ public class ClientProfileTest {
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
         Mockito.when(obridgeClientService.getLocation()).thenReturn(map);
-        Mockito.when(speedmentClientService.getAlerts(Mockito.any())).thenReturn(Collections.emptyList());
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Client result = sut.clientProfile("01", "test@idir");

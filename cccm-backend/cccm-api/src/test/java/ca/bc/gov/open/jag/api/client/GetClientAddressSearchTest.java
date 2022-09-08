@@ -13,13 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
 @QuarkusTest
-@Transactional
-public class GetClientsTest {
+public class GetClientAddressSearchTest {
 
     @Inject
     ClientsApiImpl sut;
@@ -27,16 +25,18 @@ public class GetClientsTest {
     @InjectMock
     ClientDataService clientDataService;
 
+
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        Mockito.when(clientDataService.clientSearch(Mockito.any())).thenReturn(createClientList());
+        Mockito.when(clientDataService.clientAddressSearch(Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients(null, null,null,null,null,null,null, null, null, null, null);
+        List<Client> result = sut.searchClientAddress(null, null,null,null,null,null);
 
         Assertions.assertEquals(2, result.size());
+
         Assertions.assertEquals("01", result.get(0).getClientNum());
         Assertions.assertEquals("TEST1, TESTER", result.get(0).getClientName());
         Assertions.assertEquals("M", result.get(0).getGender());
@@ -56,7 +56,7 @@ public class GetClientsTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClients(null,null,null,null,null,null,null, null,null, null, null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClientAddress(null,null,null,null,null,null));
 
     }
 
@@ -64,7 +64,7 @@ public class GetClientsTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClients(null,null,null,null,null,null,null, null, null, null, null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClientAddress(null,null,null,null,null,null));
 
     }
 
