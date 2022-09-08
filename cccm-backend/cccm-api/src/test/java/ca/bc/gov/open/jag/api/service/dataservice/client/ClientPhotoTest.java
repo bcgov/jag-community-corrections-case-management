@@ -45,7 +45,7 @@ public class ClientPhotoTest {
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto(BigDecimal.ONE);
+        ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto("1");
 
         Assertions.assertArrayEquals(image, result.getImage());
 
@@ -58,7 +58,7 @@ public class ClientPhotoTest {
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
         Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto("1"));
 
     }
 

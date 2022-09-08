@@ -1,7 +1,5 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.api.model.data.Address;
-import ca.bc.gov.open.jag.api.model.data.Alert;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Form;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
@@ -18,16 +16,8 @@ import java.util.List;
 public interface SpeedmentClientService {
 
     @GET
-    @Path("/CMS/getClientAddress")
-    List<Address> getClientAddress(@QueryParam("clientNo") String clientNo);
-
-    @GET
     @Path("/CMS/getClientId")
     BigDecimal getClientId(@QueryParam("clientNo") String clientNo);
-
-    @GET
-    @Path("/CMS/getAlertsByClient")
-    List<Alert> getAlerts(@QueryParam("clientId") BigDecimal clientId);
 
     @GET
     @Path("/CMS/getFormsByClient")

@@ -23,7 +23,7 @@ public interface ClientMapper {
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")
     @Mapping(target = "outstandingWarrants", source = "clientProfile.warrants")
     @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress()))")
-    @Mapping(target = "communityAlerts", source="alerts")
+    @Mapping(target = "communityAlerts", source="clientProfile.alerts")
     @Mapping(target = "designations", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.createDesignations(clientProfile.getIaStatus(),clientProfile.getPopDesignation(),clientProfile.getIcayraSecurity(),clientProfile.getIcayraSecurityStatus()))")
     //Community Information
     @Mapping(target = "communityInformation.communityLocation", source = "client.communityLocation")
@@ -53,10 +53,9 @@ public interface ClientMapper {
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")
     @Mapping(target = "biometric.eServices", source = "clientProfile.eServicesStatus")
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
-    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, List<ca.bc.gov.open.jag.api.model.data.Alert> alerts, BigDecimal clientId);
+    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, BigDecimal clientId);
 
-    @Mapping(target = "comment", source = "commentTxt")
-    @Mapping(target = "date", source = "effectiveDt")
+    @Mapping(target = "comment", source = "description")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
     @Mapping(target = "image", source = "photo")

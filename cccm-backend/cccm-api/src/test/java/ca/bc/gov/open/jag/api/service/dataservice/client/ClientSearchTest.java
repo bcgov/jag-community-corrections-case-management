@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.service.dataservice.client;
 
-import ca.bc.gov.open.jag.api.model.data.Address;
 import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
@@ -8,8 +7,6 @@ import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
-import jdk.jshell.spi.ExecutionControl;
-import org.apache.commons.lang3.NotImplementedException;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,16 +27,12 @@ public class ClientSearchTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: exact search should return clients")
     public void testExactGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,null,null, null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,null,null, null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -50,7 +43,7 @@ public class ClientSearchTest {
     public void testPartialGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,null,null, null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,null,null, null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -62,7 +55,7 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch(null, null,null,null,null,null,null,null, null, "TEST", "TEST", null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch( null,null,null,null,null,null,null, null, "TEST", "TEST", null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -74,20 +67,11 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
     }
-
-    @Test
-    @DisplayName("Error: Address search should throw not implemented")
-    public void testAddressGetClients() {
-
-        Assertions.assertThrows(NotImplementedException.class, () -> sut.clientSearch(new ClientSearch(null, true,null,null,null,null,"ADDRESS",null, null, null, null, null)));
-
-    }
-
 
     private List<Client> createClientList() {
 
@@ -116,22 +100,5 @@ public class ClientSearchTest {
         return Arrays.asList(client1, client2);
 
     }
-
-    private List<Address> createAddressList() {
-
-        Address address1 = new Address();
-        address1.setAddressLine1Txt("1234 Street st");
-        address1.setCityCd("TEST1");
-        address1.setPostalCodeTxt("V0H 1V0");
-        Address address2 = new Address();
-        address2.setAddressLine1Txt("1235 Street st");
-        address2.setCityCd("TEST2");
-        address2.setPostalCodeTxt("V0H 2V0");
-
-        return Arrays.asList(address1, address2);
-
-    }
-
-
 
 }
