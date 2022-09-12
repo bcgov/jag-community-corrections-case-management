@@ -35,7 +35,6 @@
 }
 
 .v-data-table__wrapper th {
-    color:#fff!important;
     padding: 20px!important;
 }
 
@@ -185,6 +184,19 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
 }
 
 /* Dashboard Styles - TODO split to own file */
+
+.v-data-table__wrapper {
+    border: 1px solid #ccc;
+}
+.v-data-table>.v-data-table__wrapper tbody tr.v-data-table__expanded__content {
+    box-shadow: none !important;
+    border-top: 1px solid #ccc!important;
+    border-bottom: 1px solid #eee!important;
+}
+
+button.v-pagination__item {
+    background-color:#38598A!important;
+}
 .designation-totals {
     position: absolute;
     bottom: 20px;
@@ -200,6 +212,9 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     width: 100px;
 }
 
+.dashboard-v-card {
+    padding: 20px;
+}
 .dashboard-v-card .v-data-table-header {
     background-color: #38598A;
 }
@@ -215,12 +230,10 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     padding:0!important;
 }
 
+/* Dashboard cells */
 .dashboard-v-card .v-data-table__wrapper table td>div{
-    border-bottom: 5px solid white;
-    border-right: 5px solid white;
+
 }
-
-
 
 .dashboard-table-header-ul ul {
     list-style:  none;
@@ -264,6 +277,10 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     background-color: #C6E8C5;
 }
 
+.v-data-table__wrapper .pink--text {
+    background-color:#eee;
+}
+
 /* CLIENT PROFILE STYLES -- TODO move to own file */
 .profile-grid {
     padding: 20px;
@@ -275,8 +292,7 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     table-layout: fixed!important;
 }
 .profile-grid table tr td, table {
-   border: 20px solid #F9FAFB;
-
+   /*border: 20px solid #F9FAFB;*/
 }
 .profile-grid table>tbody>tr>td {
     height:100%!important;
