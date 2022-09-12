@@ -46,10 +46,6 @@ paths:
           schema:
             type: integer
         - in: query
-          name: address
-          schema:
-            type: string
-        - in: query
           name: location
           schema:
             type: string
@@ -82,16 +78,57 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: clients
-  /clients/{clientId}/photo:
+  /clients/addressSearch:
+    get:
+      operationId: SearchClientAddress
+      parameters:
+        - in: query
+          name: addressType
+          schema:
+            type: string
+        - in: query
+          name: address
+          schema:
+            type: string
+        - in: query
+          name: city
+          schema:
+            type: string
+        - in: query
+          name: province
+          schema:
+            type: string
+        - in: query
+          name: postalCode
+          schema:
+            type: string
+        - in: query
+          name: expired
+          schema:
+            type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientList'
+          description: get clients
+      summary: search for clients by address
+      tags:
+        - clients
+      x-accepts: application/json
+      x-tags:
+        - tag: clients
+  /clients/{clientNum}/photo:
     get:
       operationId: GetClientPhoto
       parameters:
         - explode: false
           in: path
-          name: clientId
+          name: clientNum
           required: true
           schema:
-            type: number
+            type: string
           style: simple
       responses:
         "200":

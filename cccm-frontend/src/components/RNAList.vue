@@ -80,7 +80,7 @@
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
-            <a href="#" @click="formView(item.formID)" title="View form">
+            <a href="#" @click="formView(item.formID, item.formType)" title="View form">
               <i class="fa fa-eye"></i>
             </a>
             &nbsp;&nbsp;
@@ -291,12 +291,21 @@ export default {
         console.error(error);
       }       
     }, 
-    formView(formID) {
+    formView(formID, formType) {
       console.log("formView", formID);
-      this.$router.push({
-        name: 'crnacmp',
-        params: {formID: formID}
-      });
+      if (formType === 'SARA CMP') {
+        this.$router.push({
+          name: 'saracmp',
+          params: {formID: formID}
+        });
+      } else if (formType === 'CRNA CMP') {
+        this.$router.push({
+          name: 'crnacmp',
+          params: {formID: formID}
+        });
+      } else {
+        console.error("Form type not supported");
+      }
     },
     async formClone(formID) {
       console.log("formClone", formID);

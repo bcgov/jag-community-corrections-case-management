@@ -19,11 +19,9 @@ public class AlertTest {
         LocalDate testDate = LocalDate.now();
 
         Alert sut = new Alert();
-        sut.setCommentTxt("TEST");
-        sut.setEffectiveDt(Date.valueOf(testDate));
+        sut.setDescription("TEST");
 
-        Assertions.assertEquals("TEST", sut.getCommentTxt());
-        Assertions.assertEquals(Date.valueOf(testDate), sut.getEffectiveDt());
+        Assertions.assertEquals("TEST", sut.getDescription());
 
     }
 

@@ -37,7 +37,7 @@ public class GetClientPhotoTest {
 
         Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(mockResult);
 
-        Photo result = sut.getClientPhoto(BigDecimal.ONE);
+        Photo result = sut.getClientPhoto("1");
 
         Assertions.assertEquals(mockResult.getImage(), result.getImage());
 
@@ -51,7 +51,7 @@ public class GetClientPhotoTest {
 
         Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(BigDecimal.ONE));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto("1"));
 
     }
 

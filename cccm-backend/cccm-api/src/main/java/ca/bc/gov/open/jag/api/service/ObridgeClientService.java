@@ -28,6 +28,12 @@ public interface ObridgeClientService {
                                  @QueryParam("identifierText") String identifierText);
 
     @GET
+    @Path("/clientAddressSearch")
+    List<Client> getClientAddressSearch(@QueryParam("addressType") String addressType, @QueryParam("address") String address,
+                                 @QueryParam("city") String city, @QueryParam("province") String province,
+                                 @QueryParam("postalCode") String postalCode, @QueryParam("expired") Boolean expired);
+
+    @GET
     @Path("/clientSearch")
     //Lastname search only
     List<Client> getClientSearch(@QueryParam("searchType") String searchType, @QueryParam("surname") String surname);
@@ -39,8 +45,8 @@ public interface ObridgeClientService {
                                @QueryParam("identifierText") String identifierText);
 
     @GET
-    @Path("/client/{clientId}/photo")
-    List<Photo> getPhotosById(@PathParam("clientId") BigDecimal clientId);
+    @Path("/client/{clientNum}/photo")
+    List<Photo> getPhotosById(@PathParam("clientNum") String clientNum);
 
     @GET
     @Path("/client/clientProfile")
