@@ -27,19 +27,15 @@ public class FormSearchTest {
     @Inject
     FormDataService sut;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: form search without a type")
     public void testFormSearch() throws CCCMException {
 
-        Mockito.when(speedmentClientService.getFormsByClient(Mockito.any())).thenReturn(createFormList());
 
         FormSearchList result = sut.formSearch("01", true, null);
-
-        Assertions.assertEquals(1, result.getItems().size());
+        //Temporary removal unitl functionality moved to obridge
+        Assertions.assertEquals(0, result.getItems().size());
+        /**
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getAssessmentStatus());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getCompletedBy());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getCreatedLocation());
@@ -48,7 +44,7 @@ public class FormSearchTest {
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getSaraRating());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getStatus());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getSupervisionRating());
-        Assertions.assertEquals(TEST_DATE.toString(), result.getItems().get(0).getUpdateDate());
+        Assertions.assertEquals(TEST_DATE.toString(), result.getItems().get(0).getUpdateDate());**/
 
     }
 
@@ -56,13 +52,11 @@ public class FormSearchTest {
     @DisplayName("Success: form search with a type")
     public void testFormSearchWithType() throws CCCMException {
 
-        Mockito.when(speedmentClientService.getFormsByClient(Mockito.any(), Mockito.any())).thenReturn(createFormList());
-
         FormSearchList result = sut.formSearch("01", true, "01");
 
-        Assertions.assertEquals(1, result.getItems().size());
-
-        Assertions.assertEquals(1, result.getItems().size());
+        Assertions.assertEquals(0, result.getItems().size());
+        //Temporary removal unitl functionality moved to obridge
+        /**Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getAssessmentStatus());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getCompletedBy());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getCreatedLocation());
@@ -71,7 +65,7 @@ public class FormSearchTest {
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getSaraRating());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getStatus());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getSupervisionRating());
-        Assertions.assertEquals(TEST_DATE.toString(), result.getItems().get(0).getUpdateDate());
+        Assertions.assertEquals(TEST_DATE.toString(), result.getItems().get(0).getUpdateDate());**/
 
     }
 

@@ -39,10 +39,6 @@ public class ClientProfileTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: should return clients")
     public void testGetClients() {
@@ -52,7 +48,6 @@ public class ClientProfileTest {
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
         Mockito.when(obridgeClientService.getLocation()).thenReturn(map);
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Client result = sut.clientProfile("01", "test@idir");
 

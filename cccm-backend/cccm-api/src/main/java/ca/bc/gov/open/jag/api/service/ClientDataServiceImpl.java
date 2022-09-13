@@ -33,10 +33,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     ObridgeClientService obridgeClientService;
 
     @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @Inject
     ClientMapper clientMapper;
 
     @Override
@@ -84,13 +80,11 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
-        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
-
         Map location = obridgeClientService.getLocation();
 
         ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
 
-        return clientMapper.toApiClient(result.getClient(), result, dbClientId);
+        return clientMapper.toApiClient(result.getClient(), result, null);
 
     }
 
