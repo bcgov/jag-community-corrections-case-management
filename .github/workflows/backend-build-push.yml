@@ -60,7 +60,7 @@ jobs:
         with:
           image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
          
-      - name: Docker Push Version Gold and GoldDR
+      - name: Docker Push Version to Gold and GoldDR
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
           docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
