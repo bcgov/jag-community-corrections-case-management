@@ -74,6 +74,20 @@
             <br />
             {{ item.pcm }}
           </td>
+          <td :colspan="2">
+            <strong>Other Aliases</strong>
+            <br />
+            {{ item.otherAliases }}
+          </td>
+          <td :colspan="2">
+            <strong>Other Addresses</strong>
+            <br />
+            <ul>
+              <li v-for="el in item.address" v-if="!el.primary">
+                {{ el.street + ", " + el.city + "(" + el.type + ")" }}
+              </li>
+            </ul>
+          </td>
         </template>
       </v-data-table>
       <br/>
@@ -248,8 +262,6 @@ export default {
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Work",
                 "expired": "No",
                 "csNumber": "123456780",
                 "recordSealed": "Yes",
@@ -263,17 +275,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Work",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 20010101,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Home",
                 "expired": "No",
                 "csNumber": "123456781",
                 "recordSealed": "Yes",
@@ -287,17 +314,25 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 20010103,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Work",
                 "expired": "No",
                 "csNumber": "123456782",
                 "recordSealed": "Yes",
@@ -311,7 +346,23 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
                 ]
             },
@@ -320,8 +371,6 @@ export default {
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Home",
                 "expired": "No",
                 "csNumber": "123456783",
                 "recordSealed": "Yes",
@@ -335,17 +384,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 10048392,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Work",
                 "expired": "No",
                 "csNumber": "123456784",
                 "recordSealed": "Yes",
@@ -359,17 +423,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 28398322,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Home",
                 "expired": "No",
                 "csNumber": "123456785",
                 "recordSealed": "Yes",
@@ -383,17 +462,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 38440221,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Work",
                 "expired": "No",
                 "csNumber": "123456786",
                 "recordSealed": "Yes",
@@ -407,17 +501,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 43502022,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Home",
                 "expired": "No",
                 "csNumber": "123456787",
                 "recordSealed": "Yes",
@@ -431,17 +540,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 430493242,
                 "fullName": "Ross, Bob",
                 "clientAge": 44,
                 "birthDate": "1979-12-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Work",
                 "expired": "No",
                 "csNumber": "123456788",
                 "recordSealed": "Yes",
@@ -455,17 +579,32 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             },
             {
                 "clientID": 1324233555,
                 "fullName": "Smith, Sam",
                 "clientAge": 40,
                 "birthDate": "1983-02-03",
-                "fullAddress": "123 Hello St, Victoria BC", 
-                "addressType": "Home",
                 "expired": "No",
                 "csNumber": "123456789",
                 "recordSealed": "Yes",
@@ -479,9 +618,26 @@ export default {
                     {
                         "street": "123 Hello St",
                         "city": "Victoria",
-                        "postalCode": "123 abc"
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
                     }
-                ]
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
             }
           ];
 
@@ -501,6 +657,25 @@ export default {
           // };
           
           el.currentNameIndicator = currentNameIndicator;
+
+          // Might remove if backend returned fullAddress and addressType
+          // <ul>
+          //   <li>C++</li>
+          //   <li>Java</li>
+          //   <li>C</li>
+          // </ul>
+          if (el.address != null) {
+            for (let i = 0; i < el.address.length; i++) {
+              if (el.address[i].primary){
+                el.fullAddress = el.address[i].street + ", " + el.address[i].city;
+                el.addressType = el.address[i].type;
+                break;
+              } 
+            }
+          } else {
+            el.fullAddress = "";
+            el.addressType = "";
+          }
           return el;
         });
           
