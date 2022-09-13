@@ -81,7 +81,7 @@ jobs:
         id: image_sha
 
       # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
-      # synced with what is live in openshift
+      # synced with what is live in openshift in gold and golddr
       - name: Git Clone Repo
         run: |
           git config --global user.name "Github Action - CCCM Repo Backend Build/Push"
