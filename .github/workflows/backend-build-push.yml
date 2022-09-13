@@ -2,7 +2,7 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [image-promoting]
+    branches: [golddrpush]
     #paths:
     #  - 'cccm-backend/**'
   workflow_dispatch:
