@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: Testing
-    #if: ${{ github.event.inputs.environment == 'test' }}
+    if: ${{ github.event.inputs.environment == 'test' }}
     steps:
       - uses: actions/checkout@v2
 

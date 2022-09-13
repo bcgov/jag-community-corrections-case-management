@@ -2,9 +2,9 @@ name: Build & Push Backend Image
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'cccm-backend/**'
+    branches: [image-promoting]
+    #paths:
+    #  - 'cccm-backend/**'
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cluster Login
+      - name: Cluster Login Gold
         uses: redhat-developer/openshift-actions@v1.1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
@@ -24,18 +24,33 @@ jobs:
           cmd: |
             'version'
 
-      - name: Login to Openshift Docker Registry
+      - name: Cluster Login GoldDR
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL_GOLDDR }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }}"}'
+          cmd: |
+            'version'
+
+      - name: Login to Openshift Docker Registry Gold
         uses: docker/login-action@v1
         with:
           registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
       
+      - name: Login to Openshift Docker Registry GoldDR
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }}  
+
       - name: Docker Build Image
         run: |            
           docker-compose build backend
           
-      - name: Docker Tag Version
+      - name: Docker Tag Version Gold
         run: |
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
@@ -45,9 +60,12 @@ jobs:
         with:
           image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
          
-      - name: Docker Push Version
+      - name: Docker Push Version Gold and GoldDR
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+
 
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -69,7 +87,9 @@ jobs:
           git config --global user.name "Github Action - CCCM Repo Backend Build/Push"
           git config --global user.email "cccm-backend@githubaction.com"
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/dev
+          cd tenant-gitops-abb712/cccm/overlays/gold/dev
+          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          cd tenant-gitops-abb712/cccm/overlays/golddr/dev
           kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
           git add kustomization.yaml 
           git commit -m "Updated cccm-api image sha in Kustomization file from CCCM Github Action" 
