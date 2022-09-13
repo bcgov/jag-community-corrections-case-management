@@ -37,23 +37,57 @@
                             "push": 0,
                             "pull": 0,
                             "size": "md"
+                        }
+                    ],
+                    "key": "columns9",
+                    "type": "columns",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Columns",
+                    "customClass": "mb-4",
+                    "columns": [
+                        {
+                            "components": [
+                                {
+                                    "label": "Limit search to current active location",
+                                    "tableView": false,
+                                    "key": "limitedToCurrentActiveLocation",
+                                    "type": "checkbox",
+                                    "input": true,
+                                    "defaultValue": false
+                                }
+                            ],
+                            "width": 9,
+                            "currentWidth": 9,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md"
                         },
                         {
                             "components": [
                                 {
-                                    "legend": "How to create a \"wildcard\" search",
-                                    "tooltip": "To expand your search, use the wildcard character '%' to represent any letter in your search. \n For example, ",
-                                    "customClass": "wild-search-text",
-                                    "key": "fieldSet",
-                                    "type": "fieldset",
-                                    "label": "Field Set",
+                                    "label": "HTML",
+                                    "tag": "i",
+                                    "className": "fa fa-exclamation-circle",
+                                    "attrs": [
+                                        {
+                                            "attr": "title",
+                                            "value": "To expand your search, use the wildcard character '%' to \n represent any letter in your search. \n\n For example, typing 'MIC%' would return all names \n starting with MIC or typing '%MIC%' would return a \n name where 'MIC' is contained anywhere in the name."
+                                        }
+                                    ],
+                                    "content": "&nbsp;&nbsp;How to create a 'wildcard' search",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
                                     "input": false,
-                                    "tableView": false,
-                                    "components": []
+                                    "tableView": false
                                 }
                             ],
-                            "width": 4,
-                            "currentWidth": 4,
+                            "width": 3,
+                            "currentWidth": 3,
                             "offset": 0,
                             "push": 0,
                             "pull": 0,
@@ -66,505 +100,528 @@
                     "tableView": false
                 },
                 {
-                    "label": "Limit search to current active location",
-                    "tableView": false,
-                    "key": "limitedToCurrentActiveLocation",
-                    "type": "checkbox",
-                    "input": true,
-                    "defaultValue": false
-                },
-                {
-                    "label": "Columns",
-                    "columns": [
+                    "label": "Tabs",
+                    "components": [
                         {
+                            "label": "General Info",
+                            "key": "key_gi",
                             "components": [
                                 {
-                                    "key": "personalInformation",
-                                    "type": "well",
-                                    "label": "Panel",
-                                    "input": false,
-                                    "tableView": false,
-                                    "components": [
+                                    "label": "Columns",
+                                    "columns": [
                                         {
-                                            "label": "HTML",
-                                            "className": "subSectionTitleClass",
-                                            "attrs": [
+                                            "components": [
                                                 {
-                                                    "attr": "",
-                                                    "value": ""
-                                                }
-                                            ],
-                                            "content": "Personal Information",
-                                            "refreshOnChange": false,
-                                            "key": "html",
-                                            "type": "htmlelement",
-                                            "input": false,
-                                            "tableView": false
-                                        },
-                                        {
-                                            "label": "Columns",
-                                            "columns": [
-                                                {
+                                                    "key": "personalInformation",
+                                                    "type": "well",
+                                                    "label": "Panel",
+                                                    "input": false,
+                                                    "tableView": false,
                                                     "components": [
                                                         {
-                                                            "label": "Last Name",
-                                                            "tableView": true,
-                                                            "key": "lastName",
-                                                            "type": "textfield",
-                                                            "input": true
+                                                            "label": "HTML",
+                                                            "className": "subSectionTitleClass",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "Personal Information",
+                                                            "refreshOnChange": false,
+                                                            "key": "html",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
                                                         },
                                                         {
-                                                            "label": "Soundex",
-                                                            "tableView": true,
-                                                            "key": "lastNameSoundex",
-                                                            "type": "checkbox",
-                                                            "input": true
+                                                            "label": "Columns",
+                                                            "columns": [
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Last Name",
+                                                                            "tableView": true,
+                                                                            "key": "lastName",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        },
+                                                                        {
+                                                                            "label": "Soundex",
+                                                                            "tableView": true,
+                                                                            "key": "lastNameSoundex",
+                                                                            "type": "checkbox",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 5,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 5
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Given Name 1 or 2",
+                                                                            "tableView": true,
+                                                                            "key": "givenName1Or2",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 5,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 5
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Gender",
+                                                                            "widget": "choicesjs",
+                                                                            "tableView": true,
+                                                                            "dataSrc": "url",
+                                                                            "data": {
+                                                                                "url": "${cccm_api_endpoint}/lookup/genders",
+                                                                                "headers": [
+                                                                                    {
+                                                                                        "key": "Authorization",
+                                                                                        "value": "Bearer ${authToken}"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "key": "gender",
+                                                                            "type": "select",
+                                                                            "input": true,
+                                                                            "persistent": false,
+                                                                            "lazyLoad": false,
+                                                                            "disableLimit": true,
+                                                                            "dataType": "auto",
+                                                                            "valueProperty": "key",
+                                                                            "template": "<span>{{ item.value }}</span>",
+                                                                            "selectValues": "items"
+                                                                        }
+                                                                    ],
+                                                                    "size": "md",
+                                                                    "width": 2,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "currentWidth": 2
+                                                                }
+                                                            ],
+                                                            "key": "columns1",
+                                                            "type": "columns",
+                                                            "input": false,
+                                                            "tableView": false
                                                         }
-                                                    ],
-                                                    "width": 5,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 5
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Given Name 1 or 2",
-                                                            "tableView": true,
-                                                            "key": "givenName1Or2",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 5,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 5
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Gender",
-                                                            "widget": "choicesjs",
-                                                            "tableView": true,
-                                                            "dataSrc": "url",
-                                                            "data": {
-                                                                "url": "${cccm_api_endpoint}/lookup/genders",
-                                                                "headers": [
-                                                                    {
-                                                                        "key": "Authorization",
-                                                                        "value": "Bearer ${authToken}"
-                                                                    }
-                                                                ]
-                                                            },
-                                                            "key": "gender",
-                                                            "type": "select",
-                                                            "input": true,
-                                                            "persistent": false,
-                                                            "lazyLoad": false,
-                                                            "disableLimit": true,
-                                                            "dataType": "auto",
-                                                            "valueProperty": "key",
-                                                            "template": "<span>{{ item.value }}</span>",
-                                                            "selectValues": "items"
-                                                        }
-                                                    ],
-                                                    "size": "md",
-                                                    "width": 2,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "currentWidth": 2
+                                                    ]
                                                 }
                                             ],
-                                            "key": "columns1",
-                                            "type": "columns",
-                                            "input": false,
-                                            "tableView": false
+                                            "width": 8,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 8
+                                        },
+                                        {
+                                            "components": [
+                                                {
+                                                    "key": "birthday",
+                                                    "type": "well",
+                                                    "label": "Panel",
+                                                    "input": false,
+                                                    "tableView": false,
+                                                    "components": [
+                                                        {
+                                                            "label": "HTML",
+                                                            "className": "subSectionTitleClass",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "Date of Birth (DOB)",
+                                                            "refreshOnChange": false,
+                                                            "key": "html",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Columns",
+                                                            "columns": [
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "DOB year",
+                                                                            "tableView": true,
+                                                                            "key": "dobYear",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 4
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Age",
+                                                                            "tableView": true,
+                                                                            "key": "age",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 4
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Range (+/- years)",
+                                                                            "tableView": true,
+                                                                            "key": "rangeYears",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "size": "md",
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "currentWidth": 4
+                                                                }
+                                                            ],
+                                                            "key": "columns2",
+                                                            "type": "columns",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "width": 3,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 3
                                         }
-                                    ]
+                                    ],
+                                    "key": "columns",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false,
+                                    "customClass": "client-search-columns"
+                                },
+                                {
+                                    "label": "Columns",
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "key": "idInformation",
+                                                    "type": "well",
+                                                    "label": "Panel",
+                                                    "input": false,
+                                                    "tableView": false,
+                                                    "components": [
+                                                        {
+                                                            "label": "HTML",
+                                                            "className": "subSectionTitleClass",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "ID Information",
+                                                            "refreshOnChange": false,
+                                                            "key": "html",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Columns",
+                                                            "columns": [
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "ID Type",
+                                                                            "widget": "choicesjs",
+                                                                            "tableView": true,
+                                                                            "data": {
+                                                                                "values": [
+                                                                                    {
+                                                                                        "label": "CS Number",
+                                                                                        "value": "cn"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "key": "idType",
+                                                                            "type": "select",
+                                                                            "input": true,
+                                                                            "defaultValue": "cn"
+                                                                        }
+                                                                    ],
+                                                                    "width": 6,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 6
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "ID Number",
+                                                                            "tableView": true,
+                                                                            "key": "idNumber",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 6,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 6
+                                                                }
+                                                            ],
+                                                            "key": "columns4",
+                                                            "type": "columns",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "width": 3,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 3
+                                        }
+                                    ],
+                                    "key": "columns3",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false,
+                                    "customClass": "client-search-columns"
                                 }
-                            ],
-                            "width": 8,
-                            "offset": 0,
-                            "push": 0,
-                            "pull": 0,
-                            "size": "md",
-                            "currentWidth": 8
+                            ]
                         },
                         {
+                            "label": "Address Info",
+                            "key": "key_ai",
                             "components": [
                                 {
-                                    "key": "birthday",
-                                    "type": "well",
-                                    "label": "Panel",
+                                    "label": "Columns",
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "key": "location",
+                                                    "type": "well",
+                                                    "label": "Panel",
+                                                    "input": false,
+                                                    "tableView": false,
+                                                    "components": [
+                                                        {
+                                                            "label": "HTML",
+                                                            "className": "subSectionTitleClass",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "Location",
+                                                            "refreshOnChange": false,
+                                                            "key": "html",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Columns",
+                                                            "customClass": "formio-location-input-container",
+                                                            "columns": [
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "customClass": "formio-label",
+                                                                            "label": "Address Type",
+                                                                            "widget": "choicesjs",
+                                                                            "tableView": true,
+                                                                            "data": {
+                                                                                "values": [
+                                                                                    {
+                                                                                        "label": "All",
+                                                                                        "value": "all"
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "key": "addressType",
+                                                                            "type": "select",
+                                                                            "input": true,
+                                                                            "defaultValue": "all"
+                                                                        }
+                                                                    ],
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 4
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Address",
+                                                                            "tableView": true,
+                                                                            "key": "address",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 4
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Include expired addresses",
+                                                                            "tableView": false,
+                                                                            "key": "includeExpiredAddresses",
+                                                                            "type": "checkbox",
+                                                                            "input": true,
+                                                                            "defaultValue": false,
+                                                                            "customClass": "formio-checkbox-container"
+                                                                        }
+                                                                    ],
+                                                                    "size": "md",
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "currentWidth": 4
+                                                                }
+                                                            ],
+                                                            "key": "columns5",
+                                                            "type": "columns",
+                                                            "input": false,
+                                                            "tableView": false
+                
+                                                        },
+                                                        {
+                                                            "label": "Columns",
+                                                            "columns": [
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "City",
+                                                                            "tableView": true,
+                                                                            "key": "city",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 4,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 4
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Province",
+                                                                            "tableView": true,
+                                                                            "key": "province",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "width": 2,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "size": "md",
+                                                                    "currentWidth": 2
+                                                                },
+                                                                {
+                                                                    "components": [
+                                                                        {
+                                                                            "label": "Postal Code",
+                                                                            "tableView": true,
+                                                                            "key": "postalCode",
+                                                                            "type": "textfield",
+                                                                            "input": true
+                                                                        }
+                                                                    ],
+                                                                    "size": "md",
+                                                                    "width": 2,
+                                                                    "offset": 0,
+                                                                    "push": 0,
+                                                                    "pull": 0,
+                                                                    "currentWidth": 2
+                                                                }
+                                                            ],
+                                                            "key": "columns6",
+                                                            "type": "columns",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "width": 8,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 8
+                                        }
+                                    ],
+                                    "key": "columns3",
+                                    "type": "columns",
                                     "input": false,
                                     "tableView": false,
-                                    "components": [
-                                        {
-                                            "label": "HTML",
-                                            "className": "subSectionTitleClass",
-                                            "attrs": [
-                                                {
-                                                    "attr": "",
-                                                    "value": ""
-                                                }
-                                            ],
-                                            "content": "Date of Birth (DOB)",
-                                            "refreshOnChange": false,
-                                            "key": "html",
-                                            "type": "htmlelement",
-                                            "input": false,
-                                            "tableView": false
-                                        },
-                                        {
-                                            "label": "Columns",
-                                            "columns": [
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "DOB year",
-                                                            "tableView": true,
-                                                            "key": "dobYear",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 4
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Age",
-                                                            "tableView": true,
-                                                            "key": "age",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 4
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Range (+/- years)",
-                                                            "tableView": true,
-                                                            "key": "rangeYears",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "size": "md",
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "currentWidth": 4
-                                                }
-                                            ],
-                                            "key": "columns2",
-                                            "type": "columns",
-                                            "input": false,
-                                            "tableView": false
-                                        }
-                                    ]
+                                    "customClass": "client-search-columns"
                                 }
-                            ],
-                            "width": 3,
-                            "offset": 0,
-                            "push": 0,
-                            "pull": 0,
-                            "size": "md",
-                            "currentWidth": 3
+                            ]
                         }
                     ],
-                    "key": "columns",
-                    "type": "columns",
+                    "key": "tabs",
+                    "type": "tabs",
                     "input": false,
-                    "tableView": false,
-                    "customClass": "client-search-columns"
-                },
-                {
-                    "label": "Columns",
-                    "columns": [
-                        {
-                            "components": [
-                                {
-                                    "key": "location",
-                                    "type": "well",
-                                    "label": "Panel",
-                                    "input": false,
-                                    "tableView": false,
-                                    "components": [
-                                        {
-                                            "label": "HTML",
-                                            "className": "subSectionTitleClass",
-                                            "attrs": [
-                                                {
-                                                    "attr": "",
-                                                    "value": ""
-                                                }
-                                            ],
-                                            "content": "Location",
-                                            "refreshOnChange": false,
-                                            "key": "html",
-                                            "type": "htmlelement",
-                                            "input": false,
-                                            "tableView": false
-                                        },
-                                        {
-                                            "label": "Columns",
-                                            "customClass": "formio-location-input-container",
-                                            "columns": [
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "customClass": "formio-label",
-                                                            "label": "Address Type",
-                                                            "widget": "choicesjs",
-                                                            "tableView": true,
-                                                            "data": {
-                                                                "values": [
-                                                                    {
-                                                                        "label": "All",
-                                                                        "value": "all"
-                                                                    }
-                                                                ]
-                                                            },
-                                                            "key": "addressType",
-                                                            "type": "select",
-                                                            "input": true,
-                                                            "defaultValue": "all"
-                                                        }
-                                                    ],
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 4
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Address",
-                                                            "tableView": true,
-                                                            "key": "address",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 4
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Include expired addresses",
-                                                            "tableView": false,
-                                                            "key": "includeExpiredAddresses",
-                                                            "type": "checkbox",
-                                                            "input": true,
-                                                            "defaultValue": false,
-                                                            "customClass": "formio-checkbox-container"
-                                                        }
-                                                    ],
-                                                    "size": "md",
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "currentWidth": 4
-                                                }
-                                            ],
-                                            "key": "columns5",
-                                            "type": "columns",
-                                            "input": false,
-                                            "tableView": false
-
-                                        },
-                                        {
-                                            "label": "Columns",
-                                            "columns": [
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "City",
-                                                            "tableView": true,
-                                                            "key": "city",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 4,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 4
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Province",
-                                                            "tableView": true,
-                                                            "key": "province",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 2,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 2
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "Postal Code",
-                                                            "tableView": true,
-                                                            "key": "postalCode",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "size": "md",
-                                                    "width": 2,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "currentWidth": 2
-                                                }
-                                            ],
-                                            "key": "columns6",
-                                            "type": "columns",
-                                            "input": false,
-                                            "tableView": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "width": 8,
-                            "offset": 0,
-                            "push": 0,
-                            "pull": 0,
-                            "size": "md",
-                            "currentWidth": 8
-                        },
-                        {
-                            "components": [
-                                {
-                                    "key": "idInformation",
-                                    "type": "well",
-                                    "label": "Panel",
-                                    "input": false,
-                                    "tableView": false,
-                                    "components": [
-                                        {
-                                            "label": "HTML",
-                                            "className": "subSectionTitleClass",
-                                            "attrs": [
-                                                {
-                                                    "attr": "",
-                                                    "value": ""
-                                                }
-                                            ],
-                                            "content": "ID Information",
-                                            "refreshOnChange": false,
-                                            "key": "html",
-                                            "type": "htmlelement",
-                                            "input": false,
-                                            "tableView": false
-                                        },
-                                        {
-                                            "label": "Columns",
-                                            "columns": [
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "ID Type",
-                                                            "widget": "choicesjs",
-                                                            "tableView": true,
-                                                            "data": {
-                                                                "values": [
-                                                                    {
-                                                                        "label": "CS Number",
-                                                                        "value": "cn"
-                                                                    }
-                                                                ]
-                                                            },
-                                                            "key": "idType",
-                                                            "type": "select",
-                                                            "input": true,
-                                                            "defaultValue": "cn"
-                                                        }
-                                                    ],
-                                                    "width": 6,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 6
-                                                },
-                                                {
-                                                    "components": [
-                                                        {
-                                                            "label": "ID Number",
-                                                            "tableView": true,
-                                                            "key": "idNumber",
-                                                            "type": "textfield",
-                                                            "input": true
-                                                        }
-                                                    ],
-                                                    "width": 6,
-                                                    "offset": 0,
-                                                    "push": 0,
-                                                    "pull": 0,
-                                                    "size": "md",
-                                                    "currentWidth": 6
-                                                }
-                                            ],
-                                            "key": "columns4",
-                                            "type": "columns",
-                                            "input": false,
-                                            "tableView": false
-                                        }
-                                    ]
-                                }
-                            ],
-                            "width": 3,
-                            "offset": 0,
-                            "push": 0,
-                            "pull": 0,
-                            "size": "md",
-                            "currentWidth": 3
-                        }
-                    ],
-                    "key": "columns3",
-                    "type": "columns",
-                    "input": false,
-                    "tableView": false,
-                    "customClass": "client-search-columns"
+                    "tableView": false
                 },
                 {
                     "label": "Columns",
