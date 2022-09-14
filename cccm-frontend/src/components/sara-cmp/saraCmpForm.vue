@@ -12,9 +12,9 @@
               </div>
             </div>
             <div class="mainContent">
-              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :initData="formJSONFormData.initData" 
+              <SaraCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :initData="formJSONFormData.initData"
                   :dataMap="formJSONFormData.dataMap" :saveBtnLabel="btnSaveContinueText" :notifySaveDraft="notifySaveDraft"
-                  @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>   
+                  @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>
             </div>
           </div>
           <div class="column R">
@@ -33,6 +33,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import {getFormDetails, updateForm} from "@/components/form.api";
+import {getFormSummaries} from "@/components/form.api";
 
 import SaraCmpFormDataEntry from "@/components/sara-cmp/formSections/saraCmpFormDataEntry.vue";
 import SaraCmpFormNavigation from "@/components/sara-cmp/formSections/saraCmpFormNavigation.vue";
@@ -68,7 +69,16 @@ export default {
     this.getFormData()
   },
   methods: {
+
+
+
     async getFormData() {
+        debugger;
+      const [summaryError, summaries] = await getFormSummaries('SARA', true);
+
+
+      console.log("Got summaries %o", summaries);
+
       let formId= this.$route.params.formID;
       const [error, response] = await getFormDetails(formId);
       if (error) {

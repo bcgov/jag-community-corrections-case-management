@@ -17,6 +17,11 @@ tags:
   - description: Endpoints for users
     name: users
 paths:
+
+  #-------------------------------------------------------------------------------------
+  #        CLIENTS
+  #-------------------------------------------------------------------------------------
+
   /clients:
     get:
       operationId: SearchClients
@@ -159,6 +164,11 @@ paths:
           description: get a client
       tags:
         - clients
+
+  #-------------------------------------------------------------------------------------
+  #        DASHBOARD
+  #-------------------------------------------------------------------------------------
+
   /dashboards/supervisor:
     get:
       operationId: GetSupervisorDashboard
@@ -180,6 +190,91 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: dashboards
+
+
+  #-------------------------------------------------------------------------------------
+  #        CLIENT FORMS
+  #-------------------------------------------------------------------------------------
+
+  /forms/client:
+    post:
+      tags:
+        - client-form-controller
+      summary: createNewForm
+      operationId: createNewFormUsingPOST
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        '201':
+          description: Created
+          content: {}
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+          content: {}
+        '404':
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+
+  /forms/client/json/{clientNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: getFormAsJSON
+      operationId: getFormAsJSONUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+        - name: includeOptionValues
+          in: query
+          description: includeOptionValues
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+          content: {}
+        '404':
+          description: Not Found
+          content: {}
+
+  #-------------------------------------------------------------------------------------
+  #        FORMS
+  #-------------------------------------------------------------------------------------
+
   /forms:
     get:
       operationId: GetForms
@@ -196,81 +291,9 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
-    post:
-      operationId: Add Form
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: Form was added
-      summary: Add
-      tags:
-        - forms
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-    put:
-      operationId: Update Form
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FormDetails'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: Form was updated
-      summary: Update
-      tags:
-        - forms
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-  /forms/formSearch:
-    get:
-      operationId: GetFormSearch
-      parameters:
-        - in: query
-          name: clientNum
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: formTypeCd
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: currentPeriod
-          required: true
-          schema:
-            type: boolean
-            default: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormSearchList'
-          description: get all forms
-      summary: get all forms
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
+
+
+
   /forms/{formId}:
     delete:
       operationId: DeleteForm
@@ -301,6 +324,11 @@ paths:
           schema:
             type: number
           style: simple
+        - in: query
+          name: includeAnswers
+          required: false
+          schema:
+            type: boolean
       responses:
         "200":
           content:
@@ -316,6 +344,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+
   /forms/{formId}/question:
     post:
       operationId: AddQuestionAnswer
@@ -373,6 +402,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+
   /forms/{formType}:
     get:
       operationId: GetFormByType
@@ -399,6 +429,80 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+
+  /forms/summaries:
+    get:
+      operationId: GetFormSummaries
+      parameters:
+        - in: query
+          name: module
+          required: true
+          schema:
+            type: string
+          style: simple
+        - in: query
+          name: latestOnly
+          required: false
+          schema:
+            type: boolean
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/FormSummary'
+          description: get summary details for the form type
+      summary: Get forms for a client
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+
+  /forms/client/{clientNum}:
+    get:
+      operationId: GetClientForms
+      parameters:
+        - explode: false
+          in: path
+          name: clientNum
+          required: true
+          schema:
+            type: string
+          style: simple
+        - in: query
+          name: formTypeCd
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: currentPeriod
+          required: true
+          schema:
+            type: boolean
+            default: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormSearchList'
+          description: Get forms for a client
+      summary: Get forms for a client
+      tags:
+        - forms
+        - client
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+
+  #-------------------------------------------------------------------------------------
+  #        LOOKUPS
+  #-------------------------------------------------------------------------------------
   /lookup/formtypes:
     get:
       operationId: GetFormTypes
@@ -497,6 +601,21 @@ paths:
         - tag: users
 components:
   schemas:
+    FormSummary:
+      description: Form Summary
+      properties:
+        id:
+          type: number
+        module:
+          type: string
+        description:
+          type: string
+        effectiveDate:
+          format: date
+          type: string
+        expiryDate:
+          format: date
+          type: string
     FormDetails:
       description: Client
       properties:
@@ -1045,3 +1164,15 @@ components:
           type: number
         formAnswer:
           type: string
+    CreateFormInput:
+      title: CreateFormInput
+      type: object
+      properties:
+        clientNumber:
+          type: string
+        createdByUserId:
+          type: number
+        formTypeId:
+          type: number
+        locationId:
+          type: number

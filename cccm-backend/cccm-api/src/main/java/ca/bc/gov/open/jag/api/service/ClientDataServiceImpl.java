@@ -3,11 +3,15 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
+import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,6 +19,7 @@ import org.jboss.logmanager.Level;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +29,10 @@ import java.util.stream.Collectors;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @ApplicationScoped
+@Slf4j
 public class ClientDataServiceImpl implements ClientDataService {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(ClientDataServiceImpl.class));
+    public static final String LOCATION = "location";
 
     @Inject
     @RestClient
@@ -38,6 +44,9 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Inject
     ClientMapper clientMapper;
+
+    @Inject
+    FormMapper formMapper;
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
@@ -115,4 +124,23 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     }
 
+    @Override
+    public FormSearchList clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
+        return formMapper.toFormSearchList("",obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd));
+    }
+
+    @Override
+    public BigDecimal addClientForm(CreateFormInput createFormInput) {
+
+        // todo - how do we get the userid and location id?
+        createFormInput.setCreatedByUserId(BigDecimal.TEN);
+        createFormInput.setLocationId(BigDecimal.TEN);
+        return obridgeClientService.createForm(createFormInput);
+    }
+
+    @Override
+    public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
+        log.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
+        return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
+    }
 }

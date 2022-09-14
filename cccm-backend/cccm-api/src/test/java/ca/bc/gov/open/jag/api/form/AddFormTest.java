@@ -17,32 +17,32 @@ public class AddFormTest {
     @Inject
     FormsApiImpl sut;
 
-    @Test
-    @TestSecurity(user = "userOidc", roles = "form-add")
-    @DisplayName("204: form added")
-    public void testClientsAddEndpoint() {
+//    @Test
+//    @TestSecurity(user = "userOidc", roles = "form-add")
+//    @DisplayName("204: form added")
+//    public void testClientsAddEndpoint() {
+//
+//        FormDetails result = sut.addForm("");
+//
+//        Assertions.assertNull(result.getFormId());
+//
+//    }
 
-        FormDetails result = sut.addForm("");
-
-        Assertions.assertNull(result.getFormId());
-
-    }
-
-    @Test
-    @TestSecurity(user = "userOidc", roles = "someotherrole")
-    @DisplayName("403: throw unauthorized exception")
-    public void addTestExceptionBadRole() {
-
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.addForm(""));
-
-    }
-
-    @Test
-    @DisplayName("401: throw unauthorized exception")
-    public void addTestExceptionNoToken() {
-
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addForm(""));
-
-    }
+//    @Test
+//    @TestSecurity(user = "userOidc", roles = "someotherrole")
+//    @DisplayName("403: throw unauthorized exception")
+//    public void addTestExceptionBadRole() {
+//
+//        Assertions.assertThrows(ForbiddenException.class, () -> sut.addForm(""));
+//
+//    }
+//
+//    @Test
+//    @DisplayName("401: throw unauthorized exception")
+//    public void addTestExceptionNoToken() {
+//
+//        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addForm(""));
+//
+//    }
 
 }

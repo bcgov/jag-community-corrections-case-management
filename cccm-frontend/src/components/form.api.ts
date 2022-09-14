@@ -28,10 +28,37 @@ export function getLocationInfo() {
     }
 }
 
+
+/**
+ * Get the available forms for a client (CRNA/SARA) etc
+ * @param clientNum
+ * @param formTypeCd
+ * @param currentPeriod
+ *
+ */
+export async function getClientForms(clientNum: String,  currentPeriod: boolean, formTypeCd: String) {
+    try{
+        const { data } = await axiosClient.get(`/forms/client/${clientNum}`,{
+            params: {
+                formTypeCd: formTypeCd,
+                currentPeriod: currentPeriod,
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+
 // function to fetch the form details
-export async function getFormDetails(formId: number) {
+export async function getFormDetails(clientNum: String, formId: number) {
     try {
-        const { data } = await axiosClient.get(`/forms/${formId}`);
+        const { data } = await axiosClient.get(`/forms/client/json/${clientNum}/${formId}`, {
+            params: {
+                includeOptionValues: true
+            }
+        });
         return [null, data];
     }catch (error) {
         return [error];
@@ -41,7 +68,7 @@ export async function getFormDetails(formId: number) {
 // function to clone form
 export async function cloneForm(formId: number) {
     try {
-        const { data } = await axiosClient.post(`/forms/${formId}`);
+        const { data } = await axiosClient.post(`/forms/client/clone/${formId}`);
         return [null, data];
     }catch (error) {
         return [error];
@@ -52,7 +79,7 @@ export async function cloneForm(formId: number) {
 export async function updateForm(formData: object) {
     try{
         console.log("Update form payload", formData);
-        const { data } = await axiosClient.put('/forms', formData);
+        const { data } = await axiosClient.put('/forms/client', formData);
         return [null, data];
     } catch (error) {
         return [error];
@@ -62,16 +89,16 @@ export async function updateForm(formData: object) {
 // function to create form
 export async function createForm(formData: object) {
     try{
-        console.log("Create form payload", formData);
-        const { data } = await axiosClient.post('/forms', formData);
+        const { data } = await axiosClient.post('/forms/client', formData);
         return [null, data];
     } catch (error) {
+        console.error("Error creating form %o", error);
         return [error];
     }
 }
 
 // function to search client which is used by PO client search and client search
-export async function clientSearch(address: String, age: number, birthYear: number, clientNum: String, 
+export async function clientSearch(address: String, age: number, birthYear: number, clientNum: String,
     gender: String, location: String, name: String, officer: String, soundex: boolean) {
     try{
         //console.log("ClientSearch payload");
@@ -141,6 +168,22 @@ export async function formSearch(clientNum: String, formType: String, supervisio
                     clientNum: clientNum,
                     formTypeCd: formType,
                     currentPeriod: supervisionPeriod
+                }
+            });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to get form id for latest form
+export async function getFormSummaries( formType: String, latestOnly: boolean) {
+    try{
+        console.log("getFormSummaries, formType: {}, latestOnly: {}", formType, latestOnly);
+        const { data } = await axiosClient.get('/forms/summaries', {
+                params: {
+                    module: formType,
+                    latestOnly: latestOnly
                 }
             });
         return [null, data];

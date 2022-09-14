@@ -7,8 +7,8 @@ import ca.bc.gov.open.jag.api.model.data.Form;
 import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,9 +24,13 @@ public class FormDataServiceImpl implements FormDataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
 
+//    @Inject
+//    @RestClient
+//    SpeedmentClientService speedmentClientService;
+
     @Inject
     @RestClient
-    SpeedmentClientService speedmentClientService;
+    ObridgeClientService obridgeClientService;
 
     @Inject
     FormMapper formMapper;
@@ -70,13 +74,24 @@ public class FormDataServiceImpl implements FormDataService {
 
         List<Form> forms;
 
-        if (StringUtils.isBlank(formTypeCd)) {
-            forms = speedmentClientService.getFormsByClient(clientNum);
-        } else {
-            forms = speedmentClientService.getFormsByClient(clientNum, formTypeCd);
-        }
-
+        forms = obridgeClientService.getClientForms(clientNum,currentPeriod, formTypeCd);
         return formMapper.toFormSearchList("", forms);
 
+    }
+
+    @Override
+    public FormDetails getForm(BigDecimal formId, boolean includeAnswers) {
+        return obridgeClientService.getForm(formId, includeAnswers);
+    }
+
+    /**
+     * Get form summaries from obridge service
+     * @param module the module name e.g CRNA, SARA, etc..
+     * @param latestOnly only get the latest incarnation of a form
+     * @return {@link List<FormSummary>}
+     */
+    @Override
+    public List<FormSummary> getFormSummaries(String module, boolean latestOnly) {
+        return obridgeClientService.getFormSummaries(module, latestOnly);
     }
 }

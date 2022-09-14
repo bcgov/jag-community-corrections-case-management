@@ -8,16 +8,24 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-brands-svg-icons": "^6.1.2",
+    "@fortawesome/free-regular-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/vue-fontawesome": "^2.0.8",
     "@vue/composition-api": "^1.4.6",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.0",
+    "chart.js": "^3.9.0",
     "keycloak-js": "^18.0.1",
     "pinia": "^2.0.19",
     "url": "^0.11.0",
     "vue": "^2.6.14",
     "vue-formio": "^4.0.8",
+    "vue-multiselect": "^2.1.6",
     "vue-router": "^3.5.3",
-    "vuetify": "^2.6.0"
+    "vuetify": "^2.6.0",
+    "formiojs": "^4.14.8"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",

@@ -1,10 +1,10 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ClientDataService {
@@ -17,4 +17,9 @@ public interface ClientDataService {
 
     Photo clientPhoto(String clientNum);
 
+    FormSearchList clientFormSearch(String clientNum,  boolean currentPeriod,String formTypeCd);
+
+    BigDecimal addClientForm(CreateFormInput createFormInput);
+
+    String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
 }

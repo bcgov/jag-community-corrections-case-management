@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+import TrendAnalysisView from '../components/trendanalysis/TrendAnalysisView.vue'
 import HomeView from '../components/HomeView.vue'
 import CrnaCmpView from '../components/crna-cmp/crnaCmpForm.vue'
 import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
@@ -68,6 +70,14 @@ const router = new VueRouter({
       path: '/saracmp/:formID',
       name: 'saracmp',
       component: SaraCmpView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/trendanalysis',
+      name: 'trendanalysis',
+      component: TrendAnalysisView,
       meta: {
         isAuthenticated: true
       }

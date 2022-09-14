@@ -16,7 +16,8 @@
                                 {
                                     "label": "HTML",
                                     "tag": "img",
-                                    "attrs": [
+                                  "customClass": "justify-content-around  mt-3 mb-3",
+                                  "attrs": [
                                         {
                                             "attr": "src",
                                             "value": "{{data.photo}}"
@@ -27,11 +28,7 @@
                                         },
                                         {
                                             "attr": "width",
-                                            "value": "250"
-                                        },
-                                        {
-                                            "attr": "height",
-                                            "value": "300"
+                                            "value": "90%"
                                         }
                                     ],
                                     "content": "",
@@ -64,7 +61,8 @@
                             "push": 0,
                             "pull": 0,
                             "size": "md",
-                            "currentWidth": 2
+
+                          "currentWidth": 2
                         },
                         {
                             "components": [
@@ -579,7 +577,8 @@
                     ],
                     "key": "columns",
                     "type": "columns",
-                    "input": false,
+
+                  "input": false,
                     "tableView": false
                 }
             ]

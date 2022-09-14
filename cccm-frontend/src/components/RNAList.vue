@@ -119,7 +119,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {formSearch, cloneForm, createForm} from "@/components/form.api";
+import {formSearch, cloneForm, createForm, getFormSummaries} from "@/components/form.api";
 
 export default {
   name: 'RNAList',
@@ -197,11 +197,17 @@ export default {
       this.key_rnalistSearchResult++;
     },
     async createFormAPI() {
-      const [error, response] = await createForm(this.formData);
+
+      // get latest form version
+      const [err,formInfo] = await getFormSummaries('CRNA',true);
+      this.formData.clientNumber = "00142091";
+      this.formData.formTypeId = formInfo[0].id;
+
+      const [error, formId] = await createForm(this.formData);
       if (error) {
         console.error(error);
-      } 
-      //newCreatedFormId = response.formID;
+      }
+      return formId;
     },
     async formCloneAPI(formID) {
       const [error, response] = await cloneForm(formID);
@@ -315,13 +321,12 @@ export default {
     formPrint(formID) {
       console.log("formPrint", formID);
     },
-    formCreate() {
-      console.log("formCreate", this.formData);
-      this.createFormAPI();
-      console.log("newCreatedFormID: ", this.newCreatedFormId);
+    async formCreate() {
+      const newFormId = await this.createFormAPI();
+      debugger;
       this.$router.push({
         name: 'crnacmp',
-        params: {formID: this.newCreatedFormId}
+        params: {formID: newFormId}
       });
     }
   },
