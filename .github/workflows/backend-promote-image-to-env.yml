@@ -45,10 +45,12 @@ jobs:
         run: |  
           docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test
           
-      - name: Docker Push Version Test
+      - name: Docker Push Version Test to Gold and GoldDR
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test
-      
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test
+
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -69,9 +71,12 @@ jobs:
           git config --global user.name "Github Action - CCCM Repo Backend Promote Dev Image to Test"
           git config --global user.email "cccm-backend@githubaction.com"
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/test
+          cd tenant-gitops-abb712/cccm/overlays/gold/test
           kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml 
+          git add kustomization.yaml
+          cd ../../golddr/test
+          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml
           git commit -m "Updated cccm-api image sha in Kustomization file from CCCM Github Action" 
           git push
 
@@ -106,9 +111,12 @@ jobs:
         run: |  
           docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:test ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod
           
-      - name: Docker Push Version Prod
+      - name: Docker Push Version Prod to Gold and GoldDR
         run: |  
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:prod
+
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -129,9 +137,12 @@ jobs:
           git config --global user.name "Github Action - CCCM Repo Backend Promote Test Image to Prod"
           git config --global user.email "cccm-backend@githubaction.com"
           git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/prod
+          cd tenant-gitops-abb712/cccm/overlays/gold/prod
           kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml 
+          git add kustomization.yaml
+          cd ../../golddr/prod
+          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml
           git commit -m "Updated cccm-api image sha in Kustomization file from CCCM Github Action" 
           git push
 
