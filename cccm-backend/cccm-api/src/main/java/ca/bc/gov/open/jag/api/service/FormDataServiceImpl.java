@@ -15,6 +15,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,10 +24,6 @@ import java.util.logging.Logger;
 public class FormDataServiceImpl implements FormDataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
 
     @Inject
     FormMapper formMapper;
@@ -71,9 +68,9 @@ public class FormDataServiceImpl implements FormDataService {
         List<Form> forms;
 
         if (StringUtils.isBlank(formTypeCd)) {
-            forms = speedmentClientService.getFormsByClient(clientNum);
+            forms = Collections.emptyList();
         } else {
-            forms = speedmentClientService.getFormsByClient(clientNum, formTypeCd);
+            forms = Collections.emptyList();
         }
 
         return formMapper.toFormSearchList("", forms);

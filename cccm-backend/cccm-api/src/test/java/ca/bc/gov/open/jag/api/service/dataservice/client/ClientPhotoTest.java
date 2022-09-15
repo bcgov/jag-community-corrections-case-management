@@ -28,10 +28,6 @@ public class ClientPhotoTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: should return photo")
     public void testGetClientPhoto() {
@@ -43,7 +39,6 @@ public class ClientPhotoTest {
         List<Photo> photos = Collections.singletonList(mockResult);
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto("1");
 
@@ -56,7 +51,6 @@ public class ClientPhotoTest {
     public void testGetClientPhotoNotFound() {
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto("1"));
 
