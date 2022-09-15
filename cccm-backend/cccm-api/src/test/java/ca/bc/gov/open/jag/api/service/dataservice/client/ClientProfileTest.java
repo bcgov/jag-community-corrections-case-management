@@ -1,9 +1,9 @@
 package ca.bc.gov.open.jag.api.service.dataservice.client;
 
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +31,10 @@ public class ClientProfileTest {
     private static final String COMMUNITY_LOCATION = "Community Location";
     private static final String ADDRESS = "Address";
     private static final String CASE_MANAGER = "Case Manager";
+    private static final BigDecimal TEST_ID = BigDecimal.ONE;
+    private static final String TEST_CD = "CODE";
+    private static final String TEST_VALUE = "VALUE";
+
     @Inject
     ClientDataService sut;
 
@@ -43,11 +46,13 @@ public class ClientProfileTest {
     @DisplayName("Success: should return clients")
     public void testGetClients() {
 
-        Map map = new HashMap();
-        map.put("locationId", Double.valueOf(1));
+        Location locationMock = new Location();
+        locationMock.setId(TEST_ID);
+        locationMock.setAlternateCd(TEST_CD);
+        locationMock.setDsc(TEST_VALUE);
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
-        Mockito.when(obridgeClientService.getLocation()).thenReturn(map);
+        Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
 
         Client result = sut.clientProfile("01", "test@idir");
 

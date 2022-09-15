@@ -495,6 +495,38 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/locations:
+    get:
+      operationId: GetUserLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get users locations
+      summary: get users locations
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
+  /user/id:
+    get:
+      operationId: GetUserId
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: get users id
+      summary: get users id
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
 components:
   schemas:
     FormDetails:

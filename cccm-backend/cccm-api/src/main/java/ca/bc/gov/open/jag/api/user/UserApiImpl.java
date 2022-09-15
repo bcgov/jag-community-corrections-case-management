@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.user;
 import ca.bc.gov.open.jag.api.service.UserDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 
@@ -31,6 +32,18 @@ public class UserApiImpl implements UserApi {
 
         return userDataService.getDefaultLocation(username);
 
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public String getUserId() {
+        return userDataService.getOracleId(username);
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getUserLocations() {
+        return userDataService.getLocations(username);
     }
 
 }

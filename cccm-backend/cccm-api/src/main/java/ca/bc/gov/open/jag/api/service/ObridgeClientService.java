@@ -1,9 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.api.model.data.Client;
-import ca.bc.gov.open.jag.api.model.data.ClientProfile;
-import ca.bc.gov.open.jag.api.model.data.CodeTable;
-import ca.bc.gov.open.jag.api.model.data.Photo;
+import ca.bc.gov.open.jag.api.model.data.*;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -65,7 +62,15 @@ public interface ObridgeClientService {
     List<CodeTable> getGenderTypes();
 
     @GET
-    @Path("/location")
-    Map getLocation();
+    @Path("/user/location")
+    Location getLocation(@QueryParam("oracleId") String oracleId);
+
+    @GET
+    @Path("/user/locations")
+    List<Location> getLocations(@QueryParam("oracleId") String oracleId);
+
+    @GET
+    @Path("/user/oracleId")
+    String getOracleId(@QueryParam("idirId") String idirId);
 
 }
