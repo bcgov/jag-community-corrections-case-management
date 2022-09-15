@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.model.data;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 
 public class Location {
 
@@ -11,10 +10,6 @@ public class Location {
 
     public BigDecimal getId() {
         return id;
-    }
-
-    public String getAlternateCd() {
-        return alternateCd;
     }
 
     public String getDsc() {
