@@ -35,7 +35,7 @@
                                             "value": "300"
                                         }
                                     ],
-                                    "customClass": "shadow-sm bg-white rounded text-center p-4 mt-4",
+                                    "customClass": "shadow bg-white rounded text-center p-4 mt-4",
                                     "content": "",
                                     "refreshOnChange": true,
                                     "key": "html3",
@@ -47,7 +47,7 @@
                                     "label": "HTML",
                                     "tag": "div",
                                     "className": "profilePhoto ",
-                                    "customClass": "shadow-sm bg-white pb-4",
+                                    "customClass": "shadow bg-white pb-4",
                                     "attrs": [
                                         {
                                             "attr": "",
@@ -71,7 +71,7 @@
                                         }
                                     ],
                                     "content": "<br><Strong>Name: </Strong>{{data.fullName}}",
-                                    "customClass": "shadow-sm bg-white text-left pl-3 align-items-start",
+                                    "customClass": "shadow bg-white text-left pl-3 align-items-start",
                                     "refreshOnChange": true,
                                     "key": "html4",
                                     "type": "htmlelement",
@@ -133,7 +133,7 @@
                                             "currentWidth": 6
                                         }
                                     ],
-                                    "customClass": "m-0 p-0 pb-1 bg-white shadow-sm profile-photo-section",
+                                    "customClass": "m-0 p-0 pb-1 bg-white shadow profile-photo-section",
                                     "key": "columns2",
                                     "type": "columns",
                                     "input": false,
@@ -173,7 +173,7 @@
                                                         "components": [
                                                             {
                                                                 "label": "Columns",
-                                                                "customClass": "mt-3",
+                                                                "customClass": "",
                                                                 "columns": [
                                                                     {
                                                                         "components": [
