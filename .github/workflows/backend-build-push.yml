@@ -1,4 +1,4 @@
-name: Build & Push Backend Image
+name: Build & Push Backend Image to Gold and GoldDR cluster
 
 on:
   push:

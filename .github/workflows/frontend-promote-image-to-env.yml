@@ -1,7 +1,7 @@
 #This workflow requires an input and based on that input pulls the appropriate image and tags it with the next environments name
 #This workflow will also likely change as we get more of our environment set up
 
-name: Promote the frontend image to test or prod
+name: Promote the frontend image to test or prod on Gold and GoldDR cluster
 
 on:
   workflow_dispatch:
