@@ -1,11 +1,11 @@
 <template>
   <div>
-    <section class="mb-3">
+    <section class="mb-3 mt-3 pr-4 pl-4">
       <div class="row justify-content-between mb-2">
         <div class="col-sm-6">
           <h1 class="font-weight-bold">Client Record</h1>
         </div>
-        <div :key="theKey" class="col-sm-3 text-right pr-4">
+        <div :key="theKey" class="col-sm-4 text-right pr-4">
           <section class="row">
             <div class="col-sm-4" >
               <strong>Name</strong>
@@ -23,18 +23,21 @@
         </div>
       </div>
     </section>
-    <v-tabs v-model="tab" fixed-tabs color="deep-purple accent-4">
-      <v-tab v-for="item in items" :key="item.tab">
-        {{ item.tab }}
-      </v-tab>
-    </v-tabs>
-    <v-tabs-items v-model="tab">
-      <v-tab-item v-for="item in items" :key="item.tab">
-        <FormioClientProfile v-if="item.content === 'cp'" :csNumber="$route.params.csNumber" :clientID="$route.params.clientID"></FormioClientProfile>
-        <RNAListView v-if="item.content === 'rl'" :clientNum="$route.params.clientID"></RNAListView>
-        <span v-else> {{item.content}}</span>
-      </v-tab-item>
-    </v-tabs-items>
+    <section class="pr-4 pl-4">
+      <v-tabs v-model="tab" fixed-tabs color="deep-purple accent-4">
+        <v-tab v-for="item in items" :key="item.tab">
+          {{ item.tab }}
+        </v-tab>
+      </v-tabs>
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in items" :key="item.tab">
+          <FormioClientProfile v-if="item.content === 'cp'" :csNumber="$route.params.csNumber" :clientID="$route.params.clientID"></FormioClientProfile>
+          <RNAListView v-if="item.content === 'rl'" :clientNum="$route.params.clientID"></RNAListView>
+          <span v-else> {{item.content}}</span>
+        </v-tab-item>
+      </v-tabs-items>
+    </section>
+
   </div>
 </template>
 

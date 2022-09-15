@@ -2,7 +2,7 @@
   <div class="p-4">
     <section class="mb-3">
       <v-row :key="theKey" class="row">
-        <div class="sectionTitleClass mr-4 col-3">Community Profile</div>
+        <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
         <div :class="['bg-shallow-warning mr-3 mt-3 col-3 align-items-start', showWarrantDetails ? 'h-100' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
           <p><span class="fas fa-exclamation-triangle mr-2 "/>Client has {{getNumOfWarrants}} Outstanding Warrants</p>
           <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', 'flex-grow-1']">
