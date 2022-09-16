@@ -33,7 +33,7 @@ public class GetClientAddressSearchTest {
 
         Mockito.when(clientDataService.clientAddressSearch(Mockito.any())).thenReturn(createClientList());
 
-        List<Client> result = sut.searchClientAddress(null, null,null,null,null,null);
+        List<Client> result = sut.searchClientAddress(null, null,null,null,null,null, null);
 
         Assertions.assertEquals(2, result.size());
 
@@ -56,7 +56,7 @@ public class GetClientAddressSearchTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClientAddress(null,null,null,null,null,null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.searchClientAddress(null,null,null,null,null,null, null));
 
     }
 
@@ -64,7 +64,7 @@ public class GetClientAddressSearchTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClientAddress(null,null,null,null,null,null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.searchClientAddress(null,null,null,null,null,null, null));
 
     }
 

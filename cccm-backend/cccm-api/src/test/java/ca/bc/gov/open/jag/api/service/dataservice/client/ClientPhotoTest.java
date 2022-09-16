@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,10 +26,6 @@ public class ClientPhotoTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: should return photo")
     public void testGetClientPhoto() {
@@ -43,7 +37,6 @@ public class ClientPhotoTest {
         List<Photo> photos = Collections.singletonList(mockResult);
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto("1");
 
@@ -56,7 +49,6 @@ public class ClientPhotoTest {
     public void testGetClientPhotoNotFound() {
 
         Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto("1"));
 

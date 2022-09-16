@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -32,7 +31,7 @@ public class ClientSearchTest {
     public void testExactGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,true,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -43,7 +42,7 @@ public class ClientSearchTest {
     public void testPartialGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,true,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -55,7 +54,7 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch( null,null,null,null,null,null,null, null, "TEST", "TEST", null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch( null,null,null,null,null,null,true, null, "TEST", "TEST"));
 
         Assertions.assertEquals(2, result.size());
 
@@ -67,7 +66,7 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 

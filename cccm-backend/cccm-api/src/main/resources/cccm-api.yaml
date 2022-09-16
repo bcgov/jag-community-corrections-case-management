@@ -46,9 +46,9 @@ paths:
           schema:
             type: integer
         - in: query
-          name: location
+          name: limitToLocation
           schema:
-            type: string
+            type: boolean
         - in: query
           name: gender
           schema:
@@ -59,10 +59,6 @@ paths:
             type: string
         - in: query
           name: identifier
-          schema:
-            type: string
-        - in: query
-          name: officer
           schema:
             type: string
       responses:
@@ -104,6 +100,10 @@ paths:
             type: string
         - in: query
           name: expired
+          schema:
+            type: boolean
+        - in: query
+          name: limitToLocation
           schema:
             type: boolean
       responses:
@@ -495,6 +495,38 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/locations:
+    get:
+      operationId: GetUserLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get users locations
+      summary: get users locations
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
+  /user/id:
+    get:
+      operationId: GetUserId
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: get users id
+      summary: get users id
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
 components:
   schemas:
     FormDetails:
@@ -791,6 +823,8 @@ components:
           type: string
         supervisionLevel:
           type: string
+        sealed:
+          type: string
         photoDate:
           type: string
         dueNext:
@@ -938,6 +972,10 @@ components:
       properties:
         fullAddress:
           type: string
+        type:
+          type: string
+        primary:
+          type: boolean
     Program:
       type: object
       properties:
