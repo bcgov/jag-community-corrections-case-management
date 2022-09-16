@@ -12,6 +12,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -21,7 +22,7 @@ import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class FormsApiImpl implements FormsApi {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
