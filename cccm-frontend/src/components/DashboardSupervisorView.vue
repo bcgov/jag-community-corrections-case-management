@@ -1,8 +1,8 @@
 <template>
   <div data-app class="p-4">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>My Dashboard</h1>
+    <div class="row mb-4">
+      <div class="col-sm-6 mb-2">
+        <h1 class="font-weight-bold">My Dashboard</h1>
       </div>
     </div>
     <v-card>
@@ -42,7 +42,7 @@
             :expanded.sync="expanded"
             no-results-text="No results found"
             show-expand
-            class="elevation-1"
+            class="elevation-1 text-center"
             hide-default-footer
             :page.sync="page"
             :items-per-page="itemsPerPage"
@@ -52,7 +52,7 @@
           <template slot="body.append">
             <tr class="pink--text">
               <th></th>
-              <th class="title">Total</th>
+              <th class="title text-left p-0">Total</th>
               <th class="title">{{ sumField('numActive') }}</th>
               <th class="title">{{ sumField('numAdminClosed') }}</th>
               <th class="title">{{ sumField('numBAL') }}</th>
@@ -66,7 +66,9 @@
           </template>
           <!--Customize the poName field, making it clickable-->
           <template v-slot:item.poName="{ item }">
-            <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
+            <td class="text-left">
+              <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
+            </td>
           </template>
           <!--Customize the expanded item to show more-->
           <template v-slot:expanded-item="{ headers, item }">
@@ -109,22 +111,37 @@
           </template>
           <!--Customize the numHigh field -->
           <template v-slot:item.numHigh="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-red">{{item.numHigh}}</div>
+            <div class="
+              w-100 h-100
+              d-flex
+              align-items-center
+              justify-content-center
+              dashboard-background-color-red">{{item.numHigh}}</div>
           </template>
           <!--Customize the numMedium field -->
           <template v-slot:item.numMedium="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-yellow">{{item.numMedium}}</div>
+            <div class="
+            w-100 h-100
+            d-flex
+            align-items-center
+            justify-content-center
+            dashboard-background-color-yellow">{{item.numMedium}}</div>
           </template>
           <!--Customize the numLow field -->
           <template v-slot:item.numLow="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-green">{{item.numLow}}</div>
+            <div class="
+            w-100 h-100
+            d-flex
+            align-items-center
+            justify-content-center
+            dashboard-background-color-green">{{item.numLow}}</div>
           </template>
         </v-data-table>
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center p-3 pt-2">
         <v-row class="justify-content-between">
-          <v-col cols="1" sm="1" class="pl-3 pr-5">
+          <v-col cols="1" sm="1" class="pl-3 pr-2">
             <v-select
               solo
               :items="items"
