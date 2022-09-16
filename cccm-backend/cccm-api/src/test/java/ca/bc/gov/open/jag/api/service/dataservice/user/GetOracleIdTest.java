@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,15 +14,12 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
 
 @QuarkusTest
-public class GetDefaultLocationTest {
+public class GetOracleIdTest {
 
     private static final BigDecimal TEST_ID = BigDecimal.ONE;
-    private static final String TEST_CD = "CODE";
-    private static final String TEST_VALUE = "VALUE";
+
 
     @Inject
     UserDataService sut;
@@ -33,20 +29,14 @@ public class GetDefaultLocationTest {
     ObridgeClientService obridgeClientService;
 
     @Test
-    @DisplayName("Success: should return form types")
-    public void testGetFormTypes() {
+    @DisplayName("Success: should return ID")
+    public void testOracleId() {
 
-        Location locationMock = new Location();
-        locationMock.setId(TEST_ID);
-        locationMock.setAlternateCd(TEST_CD);
-        locationMock.setDsc(TEST_VALUE);
         Mockito.when(obridgeClientService.getOracleId(Mockito.any())).thenReturn(TEST_ID.toPlainString());
-        Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
 
-        Code result = sut.getDefaultLocation("test@idir");
+        String result = sut.getOracleId("test@idir");
 
-        Assertions.assertEquals(TEST_ID.toPlainString(), result.getKey());
-        Assertions.assertEquals(TEST_VALUE, result.getValue());
+        Assertions.assertEquals(TEST_ID.toPlainString(), result);
 
     }
 

@@ -1,11 +1,8 @@
 package ca.bc.gov.open.jag.api.service.dataservice.client;
 
-import ca.bc.gov.open.jag.api.model.data.Address;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
-import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;

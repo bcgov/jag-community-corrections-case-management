@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
@@ -80,9 +81,9 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
-        Map location = obridgeClientService.getLocation();
+        Location location = obridgeClientService.getLocation(stripUserName(user));
 
-        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
+        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), location.getId());
 
         return clientMapper.toApiClient(result.getClient(), result, null);
 
