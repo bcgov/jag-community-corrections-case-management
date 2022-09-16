@@ -47,7 +47,7 @@
                                     "label": "HTML",
                                     "tag": "div",
                                     "className": "profilePhoto ",
-                                    "customClass": "shadow bg-white pb-4",
+                                    "customClass": "shadow bg-white pb-2",
                                     "attrs": [
                                         {
                                             "attr": "",

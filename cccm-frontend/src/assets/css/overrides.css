@@ -43,6 +43,8 @@
 }
 
 img[alt="Client photo"] {
+    padding: 20px;
+    border: 1px solid #ccc;
 }
 
 .col-form-label {
@@ -282,19 +284,18 @@ button.v-pagination__item {
 
 /* CLIENT PROFILE STYLES -- TODO move to own file */
 .profile-grid {
-    margin-top: -15px;
+    margin-top: -35px;
     margin-left:-30px;
 
 }
 .profile-grid table {
     table-layout: fixed!important;
     border-collapse: separate;
-    border-spacing: 20px!important;
+    border-spacing: 30px!important;
 
 }
 .profile-grid table tr td, table {
-   /*border: 20px solid #F9FAFB;*/
-    border-spacing: 10px!important;
+
 }
 .profile-grid table>tbody>tr {
 
@@ -302,13 +303,12 @@ button.v-pagination__item {
 .profile-grid table>tbody>tr>td {
     height:100%!important;
     background-color: white;
-    /*border: 1px solid black;*/
     box-shadow: 0 0.1rem .5rem rgba(0, 0, 0, 0.15) !important;
 
 }
 
 .profile-photo-section {
-    padding-bottom:20px!important;
+    padding-bottom:0px!important;
 }
 
 ul[role="tablist"] {
@@ -318,6 +318,8 @@ ul[role="tablist"] {
 .bg-profile-table {
     background-color:white;
 }
+
+
 .bg-shallow-warning {
     height:50px;
     overflow: visible;

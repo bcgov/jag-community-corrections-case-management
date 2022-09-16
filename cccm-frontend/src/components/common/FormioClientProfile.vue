@@ -4,19 +4,33 @@
       <v-row :key="theKey" class="row">
         <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
         <div :class="['bg-shallow-warning mr-3 mt-3 col-3 align-items-start', showWarrantDetails ? 'h-100' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
-          <p><span class="fas fa-exclamation-triangle mr-2 "/>Client has {{getNumOfWarrants}} Outstanding Warrants</p>
+          <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
+            <span class="fas fa-exclamation-triangle mt-1"/>
+            <h5 class="font-weight-bold">Client has {{getNumOfWarrants}} Outstanding Warrants</h5>
+            <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
+              <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
+              <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
+            </span>
+          </div>
           <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', 'flex-grow-1']">
             <div v-for="(item, index) in getWarrantDetails" :key="index">
               {{item.date}}{{item.details}}
             </div>
           </div>
         </div>
-        <div class="bg-shallow-critical mr-3 center mr-3 mt-3 col-2" v-if="isProfileClosed">
-          Profile is closed <br/>
-          Client has been released
+        <div class="bg-shallow-critical text-left mr-3 mt-3 pt-0 col-2 d-flex flex-column" v-if="isProfileClosed">
+          <p class="p-0 m-0">Profile is closed</p>
+          <p class="p-0 m-0   small">Client has been released.</p>
         </div>
         <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
-          <p><span class="fas fa-exclamation-triangle mr-4 "/>Client has {{getNumOfAlerts}} Community Alerts</p>
+          <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
+            <span class="fas fa-exclamation-triangle mt-1"/>
+            <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
+            <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
+              <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
+              <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
+            </span>
+          </div>
           <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
             <div v-for="(item, index) in getAlertDetails" :key="index">
               {{item.date}}{{item.details}}
@@ -27,7 +41,7 @@
     </section>
     <Form :form="formJSON" :submission="initData"/>
   </div>
-  
+
 </template>
 
 <script lang="ts">
@@ -96,14 +110,14 @@ export default {
 
       if (errorPhoto) {
         console.error(errorPhoto);
-      } 
-      
+      }
+
       // Client profile search.
       //let csNumber= this.$route.params.csNumber;
       const [error, response] = await clientProfileSearch(this.csNumber);
       //this.initData = response.data;
       this.initData = {"data": {}};
-      this.initData.data = 
+      this.initData.data =
         {
             "id": "1",
             "fullName": "Ross, Bob",
@@ -166,7 +180,7 @@ export default {
             "eReporting": "No",
             "biometricStatus": "Inactive",
             "eServices": "No",
-            "fullAddress": "123 Hello St, Victoria BC", 
+            "fullAddress": "123 Hello St, Victoria BC",
             "addressType": "Work",
             "expired": "No",
             "recordSealed": "Yes",
@@ -182,12 +196,12 @@ export default {
                 }
             ]
         };
-      
+
       //Cache the photoData into this.initData object
       if (this.initData != null && this.initData.data != null) {
         this.initData.data.photo = "data:image/png;base64, " + sd;
       }
-      
+
       if (error) {
         console.error(error);
       }
