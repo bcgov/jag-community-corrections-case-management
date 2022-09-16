@@ -37,7 +37,7 @@ public class GetClientPhotoTest {
 
         Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(mockResult);
 
-        Photo result = sut.getClientPhoto("1");
+        Photo result = sut.getClientPhoto(null, "1");
 
         Assertions.assertEquals(mockResult.getImage(), result.getImage());
 
@@ -51,7 +51,7 @@ public class GetClientPhotoTest {
 
         Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto("1"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(null, "1"));
 
     }
 
@@ -60,7 +60,7 @@ public class GetClientPhotoTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClientPhoto(null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClientPhoto(null, null));
 
     }
 
@@ -68,7 +68,7 @@ public class GetClientPhotoTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClientPhoto(null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClientPhoto(null, null));
 
     }
 

@@ -28,7 +28,7 @@ public class UpdateQuestionAnswerTest {
         request.setFormQuestionId(BigDecimal.ONE);
         request.setFormAnswerId(BigDecimal.ONE);
 
-        FormQuestionAnswer result = sut.updateQuestionAnswer(BigDecimal.ONE, request);
+        FormQuestionAnswer result = sut.updateQuestionAnswer(BigDecimal.ONE,null, request);
 
         Assertions.assertNull(result);
 
@@ -39,7 +39,7 @@ public class UpdateQuestionAnswerTest {
     @DisplayName("400: throw cccm exception")
     public void addTestExceptionBadRequestRole() {
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(CCCMException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE,null, new FormQuestionAnswer()));
 
     }
 
@@ -48,7 +48,7 @@ public class UpdateQuestionAnswerTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE, null,new FormQuestionAnswer()));
 
     }
 
@@ -56,7 +56,7 @@ public class UpdateQuestionAnswerTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateQuestionAnswer(BigDecimal.ONE,null, new FormQuestionAnswer()));
 
     }
 

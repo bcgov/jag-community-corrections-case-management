@@ -37,7 +37,7 @@ public class GetClientTest {
     public void testGetClientsEndpoint() {
 
         Mockito.when(clientDataService.clientProfile(Mockito.any(), Mockito.any())).thenReturn(createClient());
-        Client result = sut.getClient("01");
+        Client result = sut.getClient(null, "01");
 
         Assertions.assertEquals("01", result.getClientNum());
 
@@ -48,7 +48,7 @@ public class GetClientTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient("01"));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(null,"01"));
 
     }
 
@@ -56,7 +56,7 @@ public class GetClientTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient("01"));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(null,"01"));
 
     }
 
