@@ -21,6 +21,7 @@ public class ClientAddressSearchTest {
                 TEST_STRING,
                 TEST_STRING,
                 TEST_STRING,
+                true,
                 true
         );
 
@@ -30,6 +31,7 @@ public class ClientAddressSearchTest {
         Assertions.assertEquals(TEST_STRING, sut.getPostalCode());
         Assertions.assertEquals(TEST_STRING, sut.getProvince());
         Assertions.assertTrue(sut.getExpired());
+        Assertions.assertTrue(sut.getLocation());
 
     }
 

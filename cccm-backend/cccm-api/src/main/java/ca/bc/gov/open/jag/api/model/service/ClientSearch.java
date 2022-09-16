@@ -8,13 +8,12 @@ public class ClientSearch {
     private  Integer birthYear;
     private  Integer age;
     private Integer range;
-    private  String location;
+    private  Boolean location;
     private  String gender;
     private  String identifier;
     private String identifierType;
-    private String officer;
 
-    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, String location, String gender, String identifier, String identifierType, String officer) {
+    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean location, String gender, String identifier, String identifierType) {
         this.lastName = lastName;
         this.soundex = soundex;
         this.givenName = givenName;
@@ -25,7 +24,6 @@ public class ClientSearch {
         this.gender = gender;
         this.identifier = identifier;
         this.identifierType = identifierType;
-        this.officer = officer;
     }
 
     public String getLastName() {
@@ -44,7 +42,7 @@ public class ClientSearch {
         return age;
     }
 
-    public String getLocation() {
+    public Boolean getLocation() {
         return location;
     }
 
@@ -55,8 +53,6 @@ public class ClientSearch {
     public String getIdentifier() {
         return identifier;
     }
-
-    public String getOfficer() { return this.officer; }
 
     public String getGivenName() {
         return givenName;

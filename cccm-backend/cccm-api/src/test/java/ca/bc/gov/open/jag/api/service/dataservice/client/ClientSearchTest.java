@@ -31,7 +31,7 @@ public class ClientSearchTest {
     public void testExactGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", null,null,1,1,1,true,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -42,7 +42,7 @@ public class ClientSearchTest {
     public void testPartialGetClients() {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST%", null,null,null,null,null,true,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 
@@ -54,7 +54,7 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch( null,null,null,null,null,null,null, null, "TEST", "TEST", null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch( null,null,null,null,null,null,true, null, "TEST", "TEST"));
 
         Assertions.assertEquals(2, result.size());
 
@@ -66,7 +66,7 @@ public class ClientSearchTest {
 
         Mockito.when(obridgeClientService.getClientSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null, null));
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.clientSearch(new ClientSearch("TEST", true,null,null,null,null,null,null, null, null));
 
         Assertions.assertEquals(2, result.size());
 

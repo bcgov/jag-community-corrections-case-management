@@ -31,7 +31,7 @@ public class ClientAddressSearchTest {
     public void testExactGetClients() {
 
         Mockito.when(obridgeClientService.getClientAddressSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<Client> result = sut.clientAddressSearch(new ClientAddressSearch("TEST", "TEST","TEST","TEST","TEST",true));
+        List<Client> result = sut.clientAddressSearch(new ClientAddressSearch("TEST", "TEST","TEST","TEST","TEST",true, true));
 
         Assertions.assertEquals(2, result.size());
 
