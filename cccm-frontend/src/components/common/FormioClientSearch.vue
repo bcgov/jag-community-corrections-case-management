@@ -43,7 +43,7 @@
         >
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.fullName="{ item }">
-          <a @click="selectClient(item.csNumber)">{{item.fullName}}</a>
+          <a :href="`${baseURL}clientrecord/${item.csNumber}`" @click="selectClient(item.csNumber)">{{item.fullName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
