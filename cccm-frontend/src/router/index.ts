@@ -50,7 +50,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:clientID/:csNumber',
+      path: '/clientrecord/:csNumber',
       name: 'clientrecord',
       component: ClientRecordView,
       meta: {
@@ -94,7 +94,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // Fetch the default location
   const store = useStore();
-  store.getLocation();
+  store.getUserDefaultLocation();
   //console.log("In router, store: ", store.locationCD, store.locationDescription);
   
   if (to.meta.isAuthenticated) {

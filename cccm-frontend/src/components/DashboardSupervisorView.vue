@@ -165,7 +165,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {officerSearch} from "@/components/form.api";
+import {dashboardSupervisorSearch} from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
@@ -216,7 +216,7 @@ export default {
       this.key_results++;
       this.key_location++;
 
-      this.officerSearchAPI(this.$route.params.supervisorID);
+      this.dashboardSupervisorSearch(this.$route.params.supervisorID);
     },
     sumField(key) {
       // sum data in give key (property)
@@ -228,8 +228,8 @@ export default {
       });
       this.key_results++;
     },
-    async officerSearchAPI(supervisorID) {
-      const [error, response] = await officerSearch(supervisorID);
+    async dashboardSupervisorSearch(supervisorID) {
+      const [error, response] = await dashboardSupervisorSearch(supervisorID);
       this.loading = false;
       this.officerList =   
         [

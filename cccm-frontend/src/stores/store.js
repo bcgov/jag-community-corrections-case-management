@@ -1,28 +1,37 @@
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
-import { getLocationInfo } from "@/components/form.api";
+import { getUserDefaultLocation } from "@/components/form.api";
 
 export const useStore = defineStore('main', { 
     // state
     state: () =>({
         locationCD: useLocalStorage('locationCD', ''),
         locationDescription: useLocalStorage('locationDescription', ''),
-        // locationCD: 'notset',
-        // locationDescription: 'notset',
+        //csNumber: useLocalStorage('csNumber', ''),
     }),
 
     // actions
     actions: {
+        clearCachedInfo() {
+            //console.info("Clear cached Information.");
+            this.locationCD = '';
+            this.locationDescription = '';
+            //this.csNumber = '';
+        },
         clearCachedLocation() {
             //console.info("Clear cached location.");
             this.locationCD = '';
             this.locationDescription = '';
         },
-        getLocation() {
-            //console.info("Attempt to fetch getLocation.");
+        // clearCachedUserInfo() {
+        //     //console.info("Clear cached user Info.");
+        //     this.csNumber = '';
+        // },
+        getUserDefaultLocation() {
+            //console.info("Attempt to fetch getUserDefaultLocation.");
             if (this.locationCD == '') {
                 console.info("Fetching location ...");
-                const [error, response] = getLocationInfo();
+                const [error, response] = getUserDefaultLocation();
                 if (error) {
                     console.error(error);
                 } else {
@@ -36,7 +45,10 @@ export const useStore = defineStore('main', {
                 this.locationDescription = "Victoria Probation Office";
                 this.locationCD = "victoria";
             }
-        }
+        }, 
+        // setCSNumber(csNumber) {
+        //     this.csNumber = csNumber;
+        // }
     }
     // getters
 })
