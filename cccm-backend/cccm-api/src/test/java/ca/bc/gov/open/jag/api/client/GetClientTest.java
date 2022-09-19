@@ -25,6 +25,9 @@ import java.math.BigDecimal;
 @QuarkusTest
 public class GetClientTest {
 
+    private static final String CLIENT_NUM = "01";
+    private static final String X_LOCATION_ID = "123";
+
     @Inject
     ClientsApiImpl sut;
 
@@ -36,10 +39,10 @@ public class GetClientTest {
     @DisplayName("200: should return clients")
     public void testGetClientsEndpoint() {
 
-        Mockito.when(clientDataService.clientProfile(Mockito.any(), Mockito.any())).thenReturn(createClient());
-        Client result = sut.getClient(null, "01");
+        Mockito.when(clientDataService.clientProfile(Mockito.any(), Mockito.any(), Mockito.anyString())).thenReturn(createClient());
+        Client result = sut.getClient(X_LOCATION_ID, CLIENT_NUM);
 
-        Assertions.assertEquals("01", result.getClientNum());
+        Assertions.assertEquals(CLIENT_NUM, result.getClientNum());
 
     }
 
@@ -48,7 +51,7 @@ public class GetClientTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(null,"01"));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(null, CLIENT_NUM));
 
     }
 
@@ -56,7 +59,7 @@ public class GetClientTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(null,"01"));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(null,CLIENT_NUM));
 
     }
 
