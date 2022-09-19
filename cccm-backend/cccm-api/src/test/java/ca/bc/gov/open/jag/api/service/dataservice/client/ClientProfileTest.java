@@ -15,8 +15,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import static ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge;
 
@@ -34,6 +32,9 @@ public class ClientProfileTest {
     private static final BigDecimal TEST_ID = BigDecimal.ONE;
     private static final String TEST_CD = "CODE";
     private static final String TEST_VALUE = "VALUE";
+    private static final String CLIENT_NUM = "01";
+    private static final String TEST_IDIR = "test@idir";
+    private static final String LOCATION = "123";
 
     @Inject
     ClientDataService sut;
@@ -54,9 +55,9 @@ public class ClientProfileTest {
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
         Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
 
-        Client result = sut.clientProfile("01", "test@idir");
+        Client result = sut.clientProfile(CLIENT_NUM, TEST_IDIR, LOCATION);
 
-        Assertions.assertEquals("01", result.getClientNum());
+        Assertions.assertEquals(CLIENT_NUM, result.getClientNum());
         Assertions.assertEquals(TEST_NAME, result.getClientName());
         Assertions.assertEquals(calculateAge(BIRTH_DATE), result.getClientAge());
         Assertions.assertEquals(GENDER_CODE, result.getGender());

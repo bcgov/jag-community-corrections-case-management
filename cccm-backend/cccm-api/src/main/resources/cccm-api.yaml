@@ -21,6 +21,7 @@ paths:
     get:
       operationId: SearchClients
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: lastName
           schema:
@@ -78,6 +79,7 @@ paths:
     get:
       operationId: SearchClientAddress
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: addressType
           schema:
@@ -123,6 +125,7 @@ paths:
     get:
       operationId: GetClientPhoto
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -143,6 +146,7 @@ paths:
     get:
       operationId: GetClient
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -163,6 +167,7 @@ paths:
     get:
       operationId: GetSupervisorDashboard
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: userId
           schema:
@@ -183,6 +188,8 @@ paths:
   /forms:
     get:
       operationId: GetForms
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -198,6 +205,8 @@ paths:
         - tag: forms
     post:
       operationId: Add Form
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       requestBody:
         content:
           application/json:
@@ -219,6 +228,8 @@ paths:
         - tag: forms
     put:
       operationId: Update Form
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       requestBody:
         content:
           application/json:
@@ -242,6 +253,7 @@ paths:
     get:
       operationId: GetFormSearch
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: clientNum
           required: true
@@ -275,6 +287,7 @@ paths:
     delete:
       operationId: DeleteForm
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -294,6 +307,7 @@ paths:
     get:
       operationId: GetFormById
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -320,6 +334,7 @@ paths:
     post:
       operationId: AddQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -348,6 +363,7 @@ paths:
     put:
       operationId: UpdateQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -377,6 +393,7 @@ paths:
     get:
       operationId: GetFormByType
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formType
@@ -402,6 +419,8 @@ paths:
   /lookup/formtypes:
     get:
       operationId: GetFormTypes
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -418,6 +437,8 @@ paths:
   /lookup/locations:
     get:
       operationId: GetLocations
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -434,6 +455,8 @@ paths:
   /lookup/genders:
     get:
       operationId: GetGenders
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -450,6 +473,8 @@ paths:
   /lookup/identifiers:
     get:
       operationId: GetIdentifiers
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -466,6 +491,8 @@ paths:
   /lookup/address:
     get:
       operationId: GetAddress
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -528,6 +555,15 @@ paths:
       x-tags:
         - tag: users
 components:
+  parameters:
+    xLocationId:
+      name: X-Location-Id
+      in: header
+      schema:
+        type: string
+        format: string
+      required: false
+      description: The current selected location of the logged in user
   schemas:
     FormDetails:
       description: Client

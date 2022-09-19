@@ -13,7 +13,7 @@ public interface ClientDataService {
 
     List<Client> clientAddressSearch(ClientAddressSearch clientAddressSearch);
 
-    Client clientProfile(String clientNum, String user);
+    Client clientProfile(String clientNum, String user, String location);
 
     Photo clientPhoto(String clientNum);
 

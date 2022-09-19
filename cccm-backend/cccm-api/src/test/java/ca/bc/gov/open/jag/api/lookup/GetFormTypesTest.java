@@ -45,7 +45,7 @@ public class GetFormTypesTest {
 
         Mockito.when(codeTableService.getCodes(any())).thenReturn(formTypeList);
 
-        CodeList result = sut.getFormTypes();
+        CodeList result = sut.getFormTypes(null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
@@ -58,7 +58,7 @@ public class GetFormTypesTest {
     @DisplayName("403: throw unauthorized exception")
     public void getFormTypesTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormTypes());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormTypes(null));
 
     }
 
@@ -66,7 +66,7 @@ public class GetFormTypesTest {
     @DisplayName("401: throw unauthorized exception")
     public void getFormTypesTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormTypes());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormTypes(null));
 
     }
 

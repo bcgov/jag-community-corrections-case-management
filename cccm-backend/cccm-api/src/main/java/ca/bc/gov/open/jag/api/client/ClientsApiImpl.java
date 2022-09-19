@@ -29,17 +29,17 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public Client getClient(String clientNum) {
+    public Client getClient(String xLocationId, String clientNum) {
 
         logger.info(username);
 
-        return clientDataService.clientProfile(clientNum, username);
+        return clientDataService.clientProfile(clientNum, username, xLocationId);
 
     }
 
     @Override
     @RolesAllowed("client-search")
-    public Photo getClientPhoto(String clientNum) {
+    public Photo getClientPhoto(String xLocationId, String clientNum) {
 
         return clientDataService.clientPhoto(clientNum);
 
@@ -47,7 +47,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClients(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean currentLocation, String gender, String identifierType, String identifier) {
+    public List<Client> searchClients(String xLocationId, String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean currentLocation, String gender, String identifierType, String identifier) {
 
         logger.info("Client Search Request");
 
@@ -57,7 +57,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClientAddress(String addressType, String address, String city, String province, String postalCode, Boolean expired, Boolean currentLocation) {
+    public List<Client> searchClientAddress(String xLocationId, String addressType, String address, String city, String province, String postalCode, Boolean expired, Boolean currentLocation) {
 
         logger.info("Client Address Search Request");
 
