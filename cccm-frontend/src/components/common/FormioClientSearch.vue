@@ -3,7 +3,7 @@
     <div class="container">
       <section class="paper">
         <div class="pt-5">
-          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
+          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"/>
         </div>
       </section>
     </div>
@@ -118,7 +118,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {Form} from 'vue-formio';
-import {clientSearchByGeneralInfo, photoSearch} from "@/components/form.api";
+import {clientSearchByGeneralInfo, clientSearchByAddressInfo, photoSearch} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 import updateToken from '@/middleware/update-token';
 
@@ -167,7 +167,7 @@ export default {
   },
   methods: {
     selectClient(csNumber) {
-      console.log("view client [csNumber]: ", csNumber);
+      //console.log("view client [csNumber]: ", csNumber);
       this.$router.push({
         name: '${baseURL}clientrecord',
         params: {csNumber: csNumber}
@@ -194,67 +194,131 @@ export default {
            
       this.formJSON = tmpJSON;
     },
-    async handleClientSearch(evt) {
-      // Sample client search results:
-      //   [
-      //     {
-      //         "clientID": "1",
-      //         "firstName": "Bob",
-      //         "LastName": "Ross",
-      //         "gender": "Male",
-      //         "clientAge": 44,
-      //         "birthDate": "1975-02-03",
-      //         "addressType": "Work",
-      //         "expired": "No",
-      //         "csNumber": "123456789",
-      //         "recordSealed": "Yes",
-      //         "currentName": "Bob Ross",
-      //         "location": "VICTORIA",
-      //         "pcm": "Gillis, Mike",
-      //         "photoURL": "", 
-      //         "datePhotoTaken": "2022-03-02",
-      //         "address": [
-      //             {
-      //                 "street": "123 Hello St",
-      //                 "city": "Victoria",
-      //                 "postalCode": "123 abc"
-      //             }
-      //         ]
-      //     }
+    private_getLimitedToCurrentActiveLocation() {
+      let limitedToCurrentActiveLocation = false;
+        let checkbox = document.getElementsByName("data[limitedToCurrentActiveLocation]");
+        //console.log("checkbox: ", checkbox, checkbox[0], checkbox[0].checked);
+        if (checkbox != null &&  checkbox[0] != null) {
+          limitedToCurrentActiveLocation = checkbox[0].checked;
+        }
+        console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
+        return limitedToCurrentActiveLocation;
+    },
+    async handleClientSearch_byGeneralInfo(evt) {
+      // Sample payload:
+      // {
+      //   "lastName": "",
+      //   "lastNameSoundex": false,
+      //   "givenName1Or2": "",
+      //   "gender": "",
+      //   "dobYear": "",
+      //   "age": "",
+      //   "rangeYears": "",
+      //   "idType": "cn",
+      //   "idNumber": ""
+      // }
+      // Sample response
+      // [
+      //   {
+      //     "clientId": 0,
+      //     "clientNum": "string",
+      //     "clientName": "string",
+      //     "gender": "string",
+      //     "clientAge": 0,
+      //     "birthDate": "string",
+      //     "custodyLocation": "string",
+      //     "supervisionLevel": "string",
+      //     "sealed": "string",
+      //     "photoDate": "string",
+      //     "dueNext": "string",
+      //     "dueDate": "string",
+      //     "communityInformation": {
+      //       "communityLocation": "string",
+      //       "status": "string",
+      //       "caseManager": "string",
+      //       "secondaryManager": "string"
+      //     },
+      //     "orderInformation": {
+      //       "orders": "string",
+      //       "effectiveDate": "string",
+      //       "expiryDate": "string",
+      //       "dueDate": "string"
+      //     },
+      //     "courtInformation": {
+      //       "court": "string",
+      //       "effectiveDate": "string",
+      //       "expiryDate": "string",
+      //       "dueDate": "string"
+      //     },
+      //     "generalInformation": {
+      //       "institution": "string",
+      //       "status": "string",
+      //       "custody": "string",
+      //       "dischargeDate": "string",
+      //       "type": "string",
+      //       "paroleDate": "string"
+      //     },
+      //     "locationInformation": {
+      //       "internalLocation": "string",
+      //       "federalParole": "string",
+      //       "outLocation": "string",
+      //       "outReason": "string",
+      //       "warrantExpiryDate": "string"
+      //     },
+      //     "biometric": {
+      //       "type": "string",
+      //       "status": "string",
+      //       "eServices": "string",
+      //       "eReporting": "string"
+      //     },
+      //     "address": [
+      //       {
+      //         "fullAddress": "string",
+      //         "type": "string",
+      //         "primary": true
+      //       }
+      //     ],
+      //     "designations": [
+      //       {
+      //         "type": "string",
+      //         "rating": "string"
+      //       }
+      //     ],
+      //     "outstandingWarrants": [
+      //       {
+      //         "type": "string",
+      //         "date": "string",
+      //         "courtFile": "string"
+      //       }
+      //     ],
+      //     "communityAlerts": [
+      //       {
+      //         "comment": "string",
+      //         "date": "string"
+      //       }
+      //     ],
+      //     "programs": [
+      //       {
+      //         "name": "string",
+      //         "status": "string",
+      //         "referredDate": "string",
+      //         "startDate": "string",
+      //         "outcome": "string"
+      //       }
+      //     ],
+      //     "alias": [
+      //       {
+      //         "fullName": "string"
+      //       }
+      //     ]
+      //   }
       // ]
       if (evt.data != null) {
-        //console.log("payload: ", evt.data);
-        // Sample payload:
-        // {
-        //     "limitedToCurrentActiveLocation": false,
-        //     "lastName": "",
-        //     "lastNameSoundex": false,
-        //     "givenName1Or2": "",
-        //     "gender": "",
-        //     "dobYear": "",
-        //     "age": "",
-        //     "rangeYears": "",
-        //     "addressType": "all",
-        //     "address": "",
-        //     "includeExpiredAddresses": false,
-        //     "city": "",
-        //     "province": "",
-        //     "postalCode": "",
-        //     "idType": "cn",
-        //     "idNumber": ""
-        // }
-        let address = evt.data.address;
-        let age = evt.data.age;
-        let birthYear = evt.data.dobYear;
-        let clientNum = evt.data.idNumber;
-        let gender = evt.data.gender;
-        let location = evt.data.city;
-        let name = evt.data.lastName;
-        let officer = "";
-        let soundex = evt.data.lastNameSoundex;
-        
-        const [error, response] = await clientSearchByGeneralInfo(address, age, birthYear, clientNum,
-            gender, location, name, officer, soundex);
+        //console.log("Search by general info: ", evt, evt.data);
+        let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
+        const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
+            evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
+            limitedToCurrentActiveLocation, evt.data.rangeYears, evt.data.lastNameSoundex);
         // this.totalClients = response.length;
         // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
         // if (this.totalClients % this.itemsPerPage != 0) {
@@ -691,6 +755,446 @@ export default {
         }
       }
     },
+    async handleClientSearch_byAddressInfo(evt) {
+      if (evt.data != null) {
+        // Sample payload:
+        // {
+        //   "addressType": "all",
+        //   "address": "",
+        //   "includeExpiredAddresses": false,
+        //   "city": "",
+        //   "province": "",
+        //   "postalCode": ""
+        // }
+        //console.log("Search by address info: ", evt.data);
+        let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
+        const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
+            evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
+        // this.totalClients = response.length;
+        // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
+        // if (this.totalClients % this.itemsPerPage != 0) {
+        //   this.pageCount++;
+        // };
+        this.key_clientsearchresult++;
+        this.loading = false;
+        this.clients =   
+          [
+            {
+                "clientID": 10010101,
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "expired": "No",
+                "csNumber": "123456780",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg",
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Work",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 20010101,
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "expired": "No",
+                "csNumber": "123456781",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 20010103,
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "expired": "No",
+                "csNumber": "123456782",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ]
+            },
+            {
+                "clientID": 100153101,
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "expired": "No",
+                "csNumber": "123456783",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 10048392,
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "expired": "No",
+                "csNumber": "123456784",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 28398322,
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "expired": "No",
+                "csNumber": "123456785",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 38440221,
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "expired": "No",
+                "csNumber": "123456786",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 43502022,
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "expired": "No",
+                "csNumber": "123456787",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 430493242,
+                "fullName": "Ross, Bob",
+                "clientAge": 44,
+                "birthDate": "1979-12-03",
+                "expired": "No",
+                "csNumber": "123456788",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Bob Ross",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            },
+            {
+                "clientID": 1324233555,
+                "fullName": "Smith, Sam",
+                "clientAge": 40,
+                "birthDate": "1983-02-03",
+                "expired": "No",
+                "csNumber": "123456789",
+                "recordSealed": "Yes",
+                "gender": "Male",
+                "currentName": "Sam Smith",
+                "location": "VICTORIA",
+                "pcm": "Gillis, Mike",
+                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
+                "datePhotoTaken": "2022-03-02",
+                "address": [
+                    {
+                        "street": "123 Hello St",
+                        "city": "Victoria",
+                        "postalCode": "123 abc",
+                        "type": "Home",
+                        "primary": true
+                    },
+                    {
+                        "street": "234 Smith St",
+                        "city": "Surrey",
+                        "postalCode": "333 abc",
+                        "type": "Home",
+                        "primary": false
+                    },
+                    {
+                        "street": "342 Sea Pearl St",
+                        "city": "Vancouver",
+                        "postalCode": "442 abc",
+                        "type": "Work",
+                        "primary": false
+                    }
+                ],
+                "otherAliases": "Bob Smith, Roger Clements"
+            }
+          ];
+
+        // Might need to be removed if backend returns the currentNameIndicator
+        // populate currentNameIndicator fields
+        this.clients = this.clients.filter(el => {
+          let currentNameIndicator = "Yes";
+          el.currentNameIndicator = currentNameIndicator;
+
+          // Might remove if backend returned fullAddress and addressType
+          // <ul>
+          //   <li>C++</li>
+          //   <li>Java</li>
+          //   <li>C</li>
+          // </ul>
+          if (el.address != null) {
+            for (let i = 0; i < el.address.length; i++) {
+              if (el.address[i].primary){
+                el.fullAddress = el.address[i].street + ", " + el.address[i].city;
+                el.addressType = el.address[i].type;
+                break;
+              } 
+            }
+          } else {
+            el.fullAddress = "";
+            el.addressType = "";
+          }
+          return el;
+        });
+          
+        if (error) {
+          console.error(error);
+        }
+      }
+    },
     async handlePhotoSearch(csNumber) {
       console.log("Photo search for csNumber: ", csNumber);
       const [error, response] = await photoSearch(csNumber);
@@ -725,22 +1229,22 @@ export default {
 </script>
 
 <style>
-.wild-search-text {
+  .wild-search-text {
 
-  color: #154c79;
-  font-size: 0.5em;
+    color: #154c79;
+    font-size: 0.5em;
 
-}
+  }
 
-legend[ref="header"]{
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.primary {
-  background-color: #1867c0 !important;
-  border-color: #1867c0 !important;
-}
+  legend[ref="header"]{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .primary {
+    background-color: #1867c0 !important;
+    border-color: #1867c0 !important;
+  }
 </style>

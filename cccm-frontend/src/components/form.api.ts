@@ -96,9 +96,18 @@ export async function createForm(formData: object) {
 // function to search client based on general info 
 export async function clientSearchByGeneralInfo(age: number, birthYear: number, gender: String, 
     givenName: String, identifier: String, identifierType: String, lastName: String,
-    limitTolocation: boolean, range: number, soundex: boolean) {
+    limitToLocation: boolean, range: number, soundex: boolean) {
     try{
-        //console.log("ClientSearch payload");
+        console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
+                "birthYear: " + birthYear + "; " +
+                "gender: " + gender + "; " +
+                "givenName: " + givenName + "; " +
+                "identifier: " + identifier + "; " +
+                "identifierType: " + identifierType + "; " +
+                "lastName: " + lastName + "; " +
+                "limitToLocation: " + limitToLocation + "; " +
+                "range: " + range + "; " +
+                "soundex: " + soundex);
         const { data } = await axiosClient.get('/clients', {
             params: {
                 age: age,
@@ -108,7 +117,7 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
                 identifier: identifier,
                 identifierType: identifierType,
                 lastName: lastName,
-                limitTolocation: limitTolocation,
+                limitToLocation: limitToLocation,
                 range: range,
                 soundex: soundex
             }
@@ -123,7 +132,13 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
 export async function clientSearchByAddressInfo(address: String, addressType: String, city: String, 
     expired: boolean, limitToLocation: boolean, postalCode: String, province: String) {
     try{
-        //console.log("ClientSearch payload");
+        console.log("ClientSearch by addressInfo: " + "address: " + address + "; " +
+                "addressType: " + addressType + "; " +
+                "city: " + city + "; " +
+                "expired: " + expired + "; " +
+                "limitToLocation: " + limitToLocation + "; " +
+                "postalCode: " + postalCode + "; " +
+                "province: " + province);
         const { data } = await axiosClient.get('/clients/addressSearch', {
             params: {
                 address: address,
