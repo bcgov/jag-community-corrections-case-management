@@ -76,13 +76,11 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public Client clientProfile(String clientNum, String user) {
+    public Client clientProfile(String clientNum, String user, String location) {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
-        Location location = obridgeClientService.getLocation(stripUserName(user));
-
-        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), location.getId());
+        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), new BigDecimal(location));
 
         return clientMapper.toApiClient(result.getClient(), result, null);
 
