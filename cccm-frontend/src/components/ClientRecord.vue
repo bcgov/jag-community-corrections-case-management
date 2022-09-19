@@ -98,14 +98,13 @@ export default {
       items: [
           { tab: 'Community Profile', content: 'cp' },
           { tab: 'Trend Analysis', content: 'ta' },
-          { tab: 'RNA List', content: 'rl' },
-          { tab: 'Intervention Summary', content: 'is' },
-          
+          { tab: 'RNA List', content: 'rl' }
         ],
       initData: {"data": {}},
       formJSON: templateClientProfile,
       showWarrantDetails: false,
       showAlertDetails: false,
+      csNumber: null,
     }
   },
   components: {
@@ -113,6 +112,7 @@ export default {
     RNAListView,
   },
   mounted() {
+    this.csNumber = this.$route.params.csNumber;
     this.clientProfileSearchAPI();
   },
   methods: {

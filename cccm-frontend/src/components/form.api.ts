@@ -94,9 +94,9 @@ export async function createForm(formData: object) {
 }
 
 // function to search client based on general info 
-export async function clientSearchByGeneralInfo(age: number, birthYear: number, gender: String, 
+export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String, 
     givenName: String, identifier: String, identifierType: String, lastName: String,
-    limitToLocation: boolean, range: number, soundex: boolean) {
+    limitToLocation: String, range: String, soundex: String) {
     try{
         console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
                 "birthYear: " + birthYear + "; " +
@@ -108,20 +108,34 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
                 "limitToLocation: " + limitToLocation + "; " +
                 "range: " + range + "; " +
                 "soundex: " + soundex);
-        const { data } = await axiosClient.get('/clients', {
-            params: {
-                age: age,
-                birthYear: birthYear,
-                gender: gender,
-                givenName: givenName,
-                identifier: identifier,
-                identifierType: identifierType,
-                lastName: lastName,
-                limitToLocation: limitToLocation,
-                range: range,
-                soundex: soundex
-            }
-        });
+        // Build url
+        let url = "/clients?";
+        url += age == '' ? '' : "age=" + age;
+        url += birthYear == '' ? '' : "&birthYear=" + birthYear;
+        url += gender == '' ? '' : "&gender=" + gender;
+        url += givenName == '' ? '' : "&givenName=" + givenName;
+        url += identifier == '' ? '' : "&identifier=" + identifier;
+        url += identifierType == '' ? '' : "&identifierType=" + identifierType;
+        url += lastName == '' ? '' : "&lastName=" + lastName;
+        url += limitToLocation == '' ? '' : "&limitToLocation=" + limitToLocation;
+        url += range == '' ? '' : "&range=" + range;
+        url += soundex == null ? '' : "&soundex=" + soundex;
+        // const { data } = await axiosClient.get('/clients', {
+        //     params: {
+        //         age: age,
+        //         birthYear: birthYear,
+        //         gender: gender,
+        //         givenName: givenName,
+        //         identifier: identifier,
+        //         identifierType: identifierType,
+        //         lastName: lastName,
+        //         limitToLocation: limitToLocation,
+        //         range: range,
+        //         soundex: soundex
+        //     }
+        // });
+        console.log("url: ", url);
+        const { data } = await axiosClient.get(url);
         return [null, data];
     } catch (error) {
         return [error];
@@ -159,8 +173,12 @@ export async function clientSearchByAddressInfo(address: String, addressType: St
 // Supervisor dashboard search
 export async function dashboardSupervisorSearch(supervisorID: String) {
     try{
-        //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get(`/dashboard/supervisor/${supervisorID}`);
+        console.log("Officer search by supervisorID: ", supervisorID);
+        const { data } = await axiosClient.get('/dashboards/supervisor', {
+            params: {
+                userId: supervisorID
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];
@@ -171,7 +189,11 @@ export async function dashboardSupervisorSearch(supervisorID: String) {
 export async function dashboardPOSearch(poID: String) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get(`/dashboard/supervisor/${poID}`);
+        const { data } = await axiosClient.get('/dashboards/po', {
+            params: {
+                userId: poID
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];

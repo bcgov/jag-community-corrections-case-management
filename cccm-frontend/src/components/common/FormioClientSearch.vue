@@ -318,7 +318,7 @@ export default {
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
-            limitedToCurrentActiveLocation, evt.data.rangeYears, evt.data.lastNameSoundex);
+            limitedToCurrentActiveLocation.toString(), evt.data.rangeYears, evt.data.lastNameSoundex);
         // this.totalClients = response.length;
         // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
         // if (this.totalClients % this.itemsPerPage != 0) {

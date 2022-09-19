@@ -2,7 +2,7 @@
   <div data-app class="p-4">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>My Dashboard</h1>
+        <h1>{{getUserName}}'s clients</h1>
       </div>
       <div class="col-sm-4"></div>
       <div class="col-sm-2 text-right">
@@ -518,6 +518,9 @@ export default {
         alertWarrant[el.csNumber] = warrant;
       }
       return alertWarrant;
+    },
+    getUserName() {
+        return Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
     }
   }
 }
