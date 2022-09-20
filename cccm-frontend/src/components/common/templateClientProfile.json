@@ -54,7 +54,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<p class='font-italic'>Photo Taken: {{data.datePhotoTaken}}</p>",
+                                    "content": "<p class='font-italic'>Photo Taken: {{data.photoDate}}</p>",
                                     "refreshOnChange": true,
                                     "key": "html3",
                                     "type": "htmlelement",
@@ -70,7 +70,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<br><Strong>Name: </Strong>{{data.fullName}}",
+                                    "content": "<br><Strong>Name: </Strong>{{data.clientName}}",
                                     "customClass": "shadow bg-white text-left pl-3 align-items-start",
                                     "refreshOnChange": true,
                                     "key": "html4",
@@ -117,7 +117,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.csNumber}}</div><br><div><Strong>Designation</Strong><br/>{{data.designation}}</div>",
+                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.clientNum}}</div><br><div><Strong>Designation</Strong><br/>{{data.designations}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html6",
                                                     "type": "htmlelement",
@@ -185,7 +185,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Active Location:</Strong><br/>{{data.communityLocation}}</div><br><div><Strong>Primary Case Manager:</Strong><br/>{{data.primaryCaseManager}}</div>",
+                                                                                "content": "<div><Strong>Active Location:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</div><br><div><Strong>Primary Case Manager:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.caseManager}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -210,7 +210,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Status:</Strong><br/>{{data.communityStatus}}</div><br><div><Strong>Secondary Case Managers</Strong><br/>{{data.secondaryCaseManagers}}</div>",
+                                                                                "content": "<div><Strong>Status:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.status}}</div><br><div><Strong>Secondary Case Managers</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.secondaryManager}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -265,7 +265,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Orders</Strong><br/>{{data.orders}}</div><br><div><Strong>Next Condition Due Date</Strong><br/>{{data.nextConditionDueDate}}</div>",
+                                                                                                "content": "<div><Strong>Orders</Strong><br/>{{data.orderInformation == null ? '' : data.orderInformation.orders}}</div><br><div><Strong>Next Condition Due Date</Strong><br/>{{data.orderInformation == null ? '' : data.orderInformation.dueDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -290,7 +290,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Order Effective Date</Strong><br/>{{data.orderEffectiveDate}}</div>",
+                                                                                                "content": "<div><Strong>Order Effective Date</Strong><br/>{{data.orderInformation == null ? '' : data.orderInformation.effectiveDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -315,7 +315,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Final Order Expiry Date</Strong><br/>{{data.finalOrderExpiryDate}}</div>",
+                                                                                                "content": "<div><Strong>Final Order Expiry Date</Strong><br/>{{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -336,13 +336,6 @@
                                                                                 "input": false,
                                                                                 "tableView": false
                                                                             }
-                                                                        ]
-                                                                    },
-                                                                    {
-                                                                        "label": "Court Information",
-                                                                        "key": "tab_ci",
-                                                                        "components": [
-                                                                            
                                                                         ]
                                                                     }
                                                                 ],
@@ -387,7 +380,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Institution</Strong><br/>{{data.institution}}</div><br><div><Strong>Prob. Discharge/RTC Date</Strong><br/>{{data.probDischargeDate}}</div>",
+                                                                                                "content": "<div><Strong>Institution</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.institution}}</div><br><div><Strong>Prob. Discharge/RTC Date</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -412,7 +405,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.institutionStatus}}</div><br><div><Strong>Type of Custody</Strong>{{data.custodyType}}</div>",
+                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.status}}</div><br><div><Strong>Type of Custody</Strong>{{data.generalInformation == null ? '' : data.generalInformation.custody}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -437,7 +430,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>In/out Custody</Strong><br/>{{data.inOutCustody}}</div><br><div><Strong>Possible Parole Date</Strong><br/>{{data.paroleDate}}</div>",
+                                                                                                "content": "<div><Strong>In/out Custody</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.type}}</div><br><div><Strong>Possible Parole Date</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -477,7 +470,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Internal Location</Strong><br/>{{data.internalLocation}}</div><br><div><Strong>Out Location</Strong><br/>{{data.outLocation}}</div>",
+                                                                                                "content": "<div><Strong>Internal Location</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.internalLocation}}</div><br><div><Strong>Out Location</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.outLocation}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html5",
                                                                                                 "type": "htmlelement",
@@ -502,7 +495,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Federal Parole Office</Strong><br/>{{data.federalParoleOffice}}</div><div><Strong>Out Reason</Strong><br/>{{data.outReason}}</div>",
+                                                                                                "content": "<div><Strong>Federal Parole Office</Strong><br/>{{data.locationInformation == null ? '': data.locationInformation.federalParole}}</div><div><Strong>Out Reason</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.outReason}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -527,7 +520,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Final Warrant Exp. Date</Strong><br/>{{data.finalWarrantExpDate}}</div>",
+                                                                                                "content": "<div><Strong>Final Warrant Exp. Date</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.warrantExpiryDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -584,7 +577,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Biometric</Strong><br/>{{data.biometric}}</div><br><div><Strong>eReporting</Strong><br/>{{data.eReporting}}</div>",
+                                                                                "content": "<div><Strong>Biometric</Strong><br/>{{data.biometric == null ? '' : data.biometric.type}}</div><br><div><Strong>eReporting</Strong><br/>{{data.biometric == null ? '' : data.biometric.eReporting}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -609,7 +602,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.biometricStatus}}</div>",
+                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.biometric == null ? '' : data.biometric.status}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -634,7 +627,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>eServices</Strong><br/>{{data.eServices}}</div>",
+                                                                                "content": "<div><Strong>eServices</Strong><br/>{{data.biometric == null ? '' : data.biometric.eServices}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",

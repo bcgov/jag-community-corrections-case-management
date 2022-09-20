@@ -9,11 +9,11 @@
           <section class="row">
             <div class="col-sm-4" >
               <strong>Name</strong>
-              <p>{{initData.data.fullName}}</p>
+              <p>{{initData.data.clientName}}</p>
             </div>
             <div class="col-sm-4" >
               <strong>CS#</strong>
-              <p>{{initData.data.csNumber}}</p>
+              <p>{{initData.data.clientNum}}</p>
             </div>
             <div class="col-sm-4" >
               <strong>Date of Birth</strong>
@@ -46,7 +46,7 @@
                   </div>
                   <div id="id_warrantDetails" :class="[showWarrantDetails ? 'show' : 'hide', 'flex-grow-1']">
                     <div v-for="(item, index) in getWarrantDetails" :key="index">
-                      {{item.date}}{{item.details}}
+                      {{item.date}}&nbsp;&nbsp;{{item.courtFile}}
                     </div>
                   </div>
                 </div>
@@ -65,7 +65,7 @@
                   </div>
                   <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
                     <div v-for="(item, index) in getAlertDetails" :key="index">
-                      {{item.date}}{{item.details}}
+                      {{item.date}}&nbsp;&nbsp;{{item.comment}}
                     </div>
                   </div>
                 </div>
@@ -155,83 +155,209 @@ export default {
       //this.initData = response.data;
       this.initData = {"data": {}};
       this.initData.data =
+      // {
+      //   "clientId": 0,
+      //   "clientNum": "string",
+      //   "clientName": "string",
+      //   "gender": "string",
+      //   "clientAge": 0,
+      //   "birthDate": "string",
+      //   "custodyLocation": "string",
+      //   "supervisionLevel": "string",
+      //   "sealed": "string",
+      //   "photoDate": "string",
+      //   "dueNext": "string",
+      //   "dueDate": "string",
+      //   "communityInformation": {
+      //     "communityLocation": "string",
+      //     "status": "string",
+      //     "caseManager": "string",
+      //     "secondaryManager": "string"
+      //   },
+      //   "orderInformation": {
+      //     "orders": "string",
+      //     "effectiveDate": "string",
+      //     "expiryDate": "string",
+      //     "dueDate": "string"
+      //   },
+      //   "courtInformation": {
+      //     "court": "string",
+      //     "effectiveDate": "string",
+      //     "expiryDate": "string",
+      //     "dueDate": "string"
+      //   },
+      //   "generalInformation": {
+      //     "institution": "string",
+      //     "status": "string",
+      //     "custody": "string",
+      //     "dischargeDate": "string",
+      //     "type": "string",
+      //     "paroleDate": "string"
+      //   },
+      //   "locationInformation": {
+      //     "internalLocation": "string",
+      //     "federalParole": "string",
+      //     "outLocation": "string",
+      //     "outReason": "string",
+      //     "warrantExpiryDate": "string"
+      //   },
+      //   "biometric": {
+      //     "type": "string",
+      //     "status": "string",
+      //     "eServices": "string",
+      //     "eReporting": "string"
+      //   },
+      //   "address": [
+      //     {
+      //       "fullAddress": "string",
+      //       "type": "string",
+      //       "primary": true
+      //     }
+      //   ],
+      //   "designations": [
+      //     {
+      //       "type": "string",
+      //       "rating": "string"
+      //     }
+      //   ],
+      //   "outstandingWarrants": [
+      //     {
+      //       "type": "string",
+      //       "date": "string",
+      //       "courtFile": "string"
+      //     }
+      //   ],
+      //   "communityAlerts": [
+      //     {
+      //       "comment": "string",
+      //       "date": "string"
+      //     }
+      //   ],
+      //   "programs": [
+      //     {
+      //       "name": "string",
+      //       "status": "string",
+      //       "referredDate": "string",
+      //       "startDate": "string",
+      //       "outcome": "string"
+      //     }
+      //   ],
+      //   "alias": [
+      //     {
+      //       "fullName": "string"
+      //     }
+      //   ]
+      // },
+
+
         {
-            "id": "1",
-            "fullName": "Ross, Bob",
-            "csNumber": "123456780",
+            "clientId": "1",
+            "clientName": "Ross, Bob",
+            "clientNum": "123456780",
             "clientAge": 44,
-            "datePhotoTaken": "2022-10-10",
-            "photo": "abc",
+            "photoDate": "2022-10-10",
             "profileClosed": false,
             "communityAlerts": [
               {
                 "date": "2022-01-02",
-                "details": "Client threatened staff"
+                "comment": "Client threatened staff"
               },
               {
                 "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
+                "comment": "Client brought knife to meeting"
               },
               {
                 "date": "2022-04-02",
-                "details": "Client attacked staff"
+                "comment": "Client attacked staff"
               }
             ],
             "outstandingWarrants": [
               {
+                "type": "string",
                 "date": "2022-01-02",
-                "details": "Client threatened staff"
+                "courtFile": "Client threatened staff"
               },
               {
+                "type": "string",
                 "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
+                "courtFile": "Client brought knife to meeting"
               },
               {
+                "type": "string",
                 "date": "2022-04-02",
-                "details": "Client attacked staff"
+                "courtFile": "Client attacked staff"
               }
             ],
-            "designation": "GEN, IPV, SMO",
             "supervisionLevel": "High",
             "birthDate": "1979-12-03",
-            "communityLocation": "Victoria",
-            "communityStatus": "Active",
-            "primaryCaseManager": "Smith, Bob",
-            "secondaryCaseManagers": "Doe, Jane",
-            "orders": "None",
-            "nextConditionDueDate": "2022-03-04",
-            "orderEffectiveDate": "2022-03-04",
-            "finalOrderExpiryDate": "2022-03-05",
-            "institution": "0543- Sunshine Coast Health Centre",
-            "probDischargeDate": "2022-04-03",
-            "institutionStatus": "Inactive",
-            "custodyType": "Warrant of commital",
-            "inOutCustody": "In (parole)",
-            "paroleDate": "2022-03-04",
-            "internalLocation": "0543 - Sunshine Coast Health Centre",
-            "outLocation": "0543 - Sunshine Coast Health Centre",
-            "federalParoleOffice": "0101 - Victoria Corrections",
-            "outReason": "Sentence ended",
-            "finalWarrantExpDate": "2022-05-04",
-            "biometric": "No",
-            "eReporting": "No",
-            "biometricStatus": "Inactive",
-            "eServices": "No",
-            "fullAddress": "123 Hello St, Victoria BC",
-            "addressType": "Work",
+            "communityInformation": {
+              "communityLocation": "Victoria",
+              "status": "Active",
+              "caseManager": "Smith, Bob",
+              "secondaryManager": "Doe, Jane"
+            },
+            "orderInformation": {
+              "orders": "None",
+              "effectiveDate": "2022-03-04",
+              "expiryDate": "2022-03-05",
+              "dueDate": "2022-03-04"
+            },
+            "generalInformation": {
+              "institution": "0543- Sunshine Coast Health Centre",
+              "status": "Inactive",
+              "custody": "Warrant of commital",
+              "dischargeDate": "2022-04-03",
+              "type": "In (parole)",
+              "paroleDate": "2022-03-04"
+            },
+            "locationInformation": {
+              "internalLocation": "0543 - Sunshine Coast Health Centre",
+              "outLocation": "0543 - Sunshine Coast Health Centre",
+              "federalParole": "0101 - Victoria Corrections",
+              "outReason": "Sentence ended",
+              "warrantExpiryDate": "2022-05-04"
+            },
+            "biometric": {
+              "type": "No",
+              "status": "Inactive",
+              "eServices": "No",
+              "eReporting": "No"
+            },
+            "address": [
+              {
+                "fullAddress": "123 Hello St, Victoria BC, 123 abc",
+                "type": "Work",
+                "primary": true
+              }
+            ],
+            "designations": [
+              {
+                "type": "GEN",
+                "rating": "low"
+              },
+              {
+                "type": "IPV",
+                "rating": "high"
+              },
+              {
+                "type": "SMO",
+                "rating": "high"
+              }
+            ],
+            "programs": [
+              {
+                "name": "string",
+                "status": "string",
+                "referredDate": "string",
+                "startDate": "string",
+                "outcome": "string"
+              }
+            ],
             "expired": "No",
-            "recordSealed": "Yes",
+            "sealed": "Yes",
             "gender": "Male",
             "currentName": "Bob Ross",
-            "location": "VICTORIA",
-            "pcm": "Gillis, Mike",
-            "address": [
-                {
-                    "street": "123 Hello St",
-                    "city": "Victoria",
-                    "postalCode": "123 abc"
-                }
-            ]
+            "location": "VICTORIA"
         };
 
       //Cache the photoData into this.initData object
@@ -239,95 +365,7 @@ export default {
         this.initData.data.photo = "data:image/png;base64, " + sd;
       }
       this.theKey++;
-    },
-    // async clientProfileSearchAPI() {
-    //   const [error, response] = await clientProfileSearch(this.$route.params.csNumber);
-    //   //this.initData = response.data;
-    //   this.initData.data = 
-    //     {
-    //         "id": "1",
-    //         "fullName": "Ross, Bob",
-    //         "csNumber": "123456780",
-    //         "clientAge": 44,
-    //         "datePhotoTaken": "2022-10-10",
-    //         "photo": "abc",
-    //         "profileClosed": false,
-    //         "communityAlerts": [
-    //           {
-    //             "date": "2022-01-02",
-    //             "details": "Client threatened staff"
-    //           },
-    //           {
-    //             "date": "2022-03-02",
-    //             "details": "Client brought knife to meeting"
-    //           },
-    //           {
-    //             "date": "2022-04-02",
-    //             "details": "Client attacked staff"
-    //           }
-    //         ],
-    //         "outstandingWarrants": [
-    //           {
-    //             "date": "2022-01-02",
-    //             "details": "Client threatened staff"
-    //           },
-    //           {
-    //             "date": "2022-03-02",
-    //             "details": "Client brought knife to meeting"
-    //           },
-    //           {
-    //             "date": "2022-04-02",
-    //             "details": "Client attacked staff"
-    //           }
-    //         ],
-    //         "designation": "GEN, IPV, SMO",
-    //         "supervisionLevel": "High",
-    //         "birthDate": "1979-12-03",
-    //         "communityLocation": "Victoria",
-    //         "communityStatus": "Active",
-    //         "primaryCaseManager": "Smith, Bob",
-    //         "secondaryCaseManagers": "Doe, Jane",
-    //         "orders": "None",
-    //         "nextConditionDueDate": "2022-03-04",
-    //         "orderEffectiveDate": "2022-03-04",
-    //         "finalOrderExpiryDate": "2022-03-05",
-    //         "institution": "0543- Sunshine Coast Health Centre",
-    //         "probDischargeDate": "2022-04-03",
-    //         "institutionStatus": "Inactive",
-    //         "custodyType": "Warrant of commital",
-    //         "inOutCustody": "In (parole)",
-    //         "paroleDate": "2022-03-04",
-    //         "internalLocation": "0543 - Sunshine Coast Health Centre",
-    //         "outLocation": "0543 - Sunshine Coast Health Centre",
-    //         "federalParoleOffice": "0101 - Victoria Corrections",
-    //         "outReason": "Sentence ended",
-    //         "finalWarrantExpDate": "2022-05-04",
-    //         "biometric": "No",
-    //         "eReporting": "No",
-    //         "biometricStatus": "Inactive",
-    //         "eServices": "No",
-    //         "fullAddress": "123 Hello St, Victoria BC", 
-    //         "addressType": "Work",
-    //         "expired": "No",
-    //         "recordSealed": "Yes",
-    //         "gender": "Male",
-    //         "currentName": "Bob Ross",
-    //         "location": "VICTORIA",
-    //         "pcm": "Gillis, Mike",
-    //         "address": [
-    //             {
-    //                 "street": "123 Hello St",
-    //                 "city": "Victoria",
-    //                 "postalCode": "123 abc"
-    //             }
-    //         ]
-    //     };
-
-    //   if (error) {
-    //     console.error(error);
-    //   }
-    //   this.theKey++;
-    // }
+    }
   },
   computed: {
     getNumOfWarrants() {
