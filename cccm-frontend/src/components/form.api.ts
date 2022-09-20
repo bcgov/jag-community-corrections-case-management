@@ -1,3 +1,4 @@
+import { identifier } from '@babel/types';
 import axios from 'axios';
 //import { config } from 'process';
 
@@ -7,10 +8,10 @@ const axiosClient = axios.create({
 });
 
 // function to async fetch the location info
-export async function async_getLocationInfo() {
+export async function async_getUserDefaultLocation() {
     try {
         //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
-        const { data } = await axiosClient.get('/locations');
+        const { data } = await axiosClient.get('/user/location');
         return [null, data];
     }catch (error) {
         return [error];
@@ -18,10 +19,32 @@ export async function async_getLocationInfo() {
 }
 
 // function to sync fetch the location info
-export function getLocationInfo() {
+export function getUserDefaultLocation() {
     try {
         //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
-        const data = axiosClient.get('/locations');
+        const data = axiosClient.get('/user/location');
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to async fetch the locations info
+export async function async_getUserLocations() {
+    try {
+        //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
+        const { data } = await axiosClient.get('/user/locations');
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to sync fetch the locations info
+export function getUserLocations() {
+    try {
+        //console.log("VUE_APP_CCCM_API_ENDPOINT: ", config.VUE_APP_CCCM_API_ENDPOINT);
+        const data = axiosClient.get('/user/locations');
         return [null, data];
     }catch (error) {
         return [error];
@@ -70,22 +93,75 @@ export async function createForm(formData: object) {
     }
 }
 
-// function to search client which is used by PO client search and client search
-export async function clientSearch(address: String, age: number, birthYear: number, clientNum: String, 
-    gender: String, location: String, name: String, officer: String, soundex: boolean) {
+// function to search client based on general info 
+export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String, 
+    givenName: String, identifier: String, identifierType: String, lastName: String,
+    limitToLocation: String, range: String, soundex: String) {
     try{
-        //console.log("ClientSearch payload");
-        const { data } = await axiosClient.get('/clients', {
+        console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
+                "birthYear: " + birthYear + "; " +
+                "gender: " + gender + "; " +
+                "givenName: " + givenName + "; " +
+                "identifier: " + identifier + "; " +
+                "identifierType: " + identifierType + "; " +
+                "lastName: " + lastName + "; " +
+                "limitToLocation: " + limitToLocation + "; " +
+                "range: " + range + "; " +
+                "soundex: " + soundex);
+        // Build url
+        let url = "/clients?";
+        url += age == '' ? '' : "age=" + age;
+        url += birthYear == '' ? '' : "&birthYear=" + birthYear;
+        url += gender == '' ? '' : "&gender=" + gender;
+        url += givenName == '' ? '' : "&givenName=" + givenName;
+        url += identifier == '' ? '' : "&identifier=" + identifier;
+        url += identifierType == '' ? '' : "&identifierType=" + identifierType;
+        url += lastName == '' ? '' : "&lastName=" + lastName;
+        url += limitToLocation == '' ? '' : "&limitToLocation=" + limitToLocation;
+        url += range == '' ? '' : "&range=" + range;
+        url += soundex == null ? '' : "&soundex=" + soundex;
+        // const { data } = await axiosClient.get('/clients', {
+        //     params: {
+        //         age: age,
+        //         birthYear: birthYear,
+        //         gender: gender,
+        //         givenName: givenName,
+        //         identifier: identifier,
+        //         identifierType: identifierType,
+        //         lastName: lastName,
+        //         limitToLocation: limitToLocation,
+        //         range: range,
+        //         soundex: soundex
+        //     }
+        // });
+        console.log("url: ", url);
+        const { data } = await axiosClient.get(url);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to search client based on address info 
+export async function clientSearchByAddressInfo(address: String, addressType: String, city: String, 
+    expired: boolean, limitToLocation: boolean, postalCode: String, province: String) {
+    try{
+        console.log("ClientSearch by addressInfo: " + "address: " + address + "; " +
+                "addressType: " + addressType + "; " +
+                "city: " + city + "; " +
+                "expired: " + expired + "; " +
+                "limitToLocation: " + limitToLocation + "; " +
+                "postalCode: " + postalCode + "; " +
+                "province: " + province);
+        const { data } = await axiosClient.get('/clients/addressSearch', {
             params: {
                 address: address,
-                age: age,
-                birthYear: birthYear,
-                clientNum: clientNum,
-                gender: gender,
-                location: location,
-                name: name,
-                officer: officer,
-                soundex: soundex
+                addressType: addressType,
+                city: city,
+                expired: expired,
+                limitToLocation: limitToLocation,
+                postalCode: postalCode,
+                province: province
             }
         });
         return [null, data];
@@ -94,11 +170,30 @@ export async function clientSearch(address: String, age: number, birthYear: numb
     }
 }
 
-// Officer search used by supervisor dashboard
-export async function officerSearch(supervisorID: String) {
+// Supervisor dashboard search
+export async function dashboardSupervisorSearch(supervisorID: String) {
+    try{
+        console.log("Officer search by supervisorID: ", supervisorID);
+        const { data } = await axiosClient.get('/dashboards/supervisor', {
+            params: {
+                userId: supervisorID
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// PO dashboard search
+export async function dashboardPOSearch(poID: String) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get(`/dashboard/supervisor/${supervisorID}`);
+        const { data } = await axiosClient.get('/dashboards/po', {
+            params: {
+                userId: poID
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];
@@ -106,10 +201,10 @@ export async function officerSearch(supervisorID: String) {
 }
 
 // function to get client photo
-export async function photoSearch(clientID: String) {
+export async function photoSearch(clientNum: String) {
     try{
         //console.log("Photo search by clientID: ", clientID);
-        const { data } = await axiosClient.get(`/clients/${clientID}/photo`);
+        const { data } = await axiosClient.get(`/clients/${clientNum}/photo`);
         return [null, data];
     } catch (error) {
         return [error];
