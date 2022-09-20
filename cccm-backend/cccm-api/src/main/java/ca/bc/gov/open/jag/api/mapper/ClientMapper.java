@@ -9,13 +9,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Mapper(componentModel = "cdi")
 public interface ClientMapper {
 
     @Mapping(target = "clientNum", source = "client.clientNo")
     @Mapping(target = "clientName", source = "client.clientName")
+    @Mapping(target = "currentName", source = "client.currentName")
+    @Mapping(target = "currentNameYn", source = "client.currentNameYn")
     @Mapping(target = "gender", source = "client.genderCode")
     @Mapping(target = "birthDate", source = "client.birthDate")
     @Mapping(target = "clientAge", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge(client.getBirthDate()))")
@@ -58,8 +59,9 @@ public interface ClientMapper {
     @Mapping(target = "comment", source = "description")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
-    @Mapping(target = "image", source = "photo")
-    Photo toPhoto(String dummy, byte[] photo);
+    @Mapping(target = "image", source = "image")
+    @Mapping(target = "photoTakenDate", source = "photoTakenDate")
+    Photo toPhoto(ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "courtFile", source = "courtFileNumber")
     @Mapping(target = "date", source = "issuedDate")

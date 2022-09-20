@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 @QuarkusTest
 public class PhotoTest {
 
+    private static final String PHOTO_TAKEN_DATE = "TEST";
+
     @Test
     @DisplayName("Test Photo Model")
     public void testModel() {
@@ -17,7 +19,10 @@ public class PhotoTest {
         byte[] test = "GARBAGE".getBytes();
 
         sut.setImage(test);
+        sut.setPhotoTakenDate(PHOTO_TAKEN_DATE);
+
         Assertions.assertEquals(test, sut.getImage());
+        Assertions.assertEquals(PHOTO_TAKEN_DATE, sut.getPhotoTakenDate());
 
     }
 

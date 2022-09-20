@@ -21,7 +21,7 @@ public class GetSupervisorDashboardTest {
     @DisplayName("200: should return photo")
     public void testGetSupervisorDashboardEndpoint() {
 
-        Assertions.assertNull(sut.getSupervisorDashboard("TEST"));
+        Assertions.assertNull(sut.getSupervisorDashboard(null, "TEST"));
 
 
     }
@@ -31,7 +31,7 @@ public class GetSupervisorDashboardTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboard("TEST"));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboard(null,"TEST"));
 
     }
 
@@ -39,7 +39,7 @@ public class GetSupervisorDashboardTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboard("TEST"));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboard(null,"TEST"));
 
     }
 

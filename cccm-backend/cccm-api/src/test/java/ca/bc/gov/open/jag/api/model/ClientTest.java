@@ -9,27 +9,32 @@ import org.junit.jupiter.api.Test;
 @QuarkusTest
 public class ClientTest {
 
+    private static final String CLIENT_NO = "01";
+    private static final String TEST_STRING = "TEST";
+
     @Test
     @DisplayName("Test Client Model")
     public void testClientModel() {
 
         Client sut = new Client();
 
-        sut.setClientNo("01");
-        sut.setClientName("TEST");
-        sut.setCurrentNameYn("TEST");
-        sut.setGenderCode("TEST");
-        sut.setBirthDate("TEST");
-        sut.setCustodyLocation("TEST");
-        sut.setCommunityLocation("TEST");
+        sut.setClientNo(CLIENT_NO);
+        sut.setClientName(TEST_STRING);
+        sut.setCurrentName(TEST_STRING);
+        sut.setCurrentNameYn(TEST_STRING);
+        sut.setGenderCode(TEST_STRING);
+        sut.setBirthDate(TEST_STRING);
+        sut.setCustodyLocation(TEST_STRING);
+        sut.setCommunityLocation(TEST_STRING);
 
-        Assertions.assertEquals("01", sut.getClientNo());
-        Assertions.assertEquals("TEST", sut.getClientName());
-        Assertions.assertEquals("TEST", sut.getCurrentNameYn());
-        Assertions.assertEquals("TEST", sut.getGenderCode());
-        Assertions.assertEquals("TEST", sut.getBirthDate());
-        Assertions.assertEquals("TEST", sut.getCustodyLocation());
-        Assertions.assertEquals("TEST", sut.getCommunityLocation());
+        Assertions.assertEquals(CLIENT_NO, sut.getClientNo());
+        Assertions.assertEquals(TEST_STRING, sut.getClientName());
+        Assertions.assertEquals(TEST_STRING, sut.getCurrentName());
+        Assertions.assertEquals(TEST_STRING, sut.getCurrentNameYn());
+        Assertions.assertEquals(TEST_STRING, sut.getGenderCode());
+        Assertions.assertEquals(TEST_STRING, sut.getBirthDate());
+        Assertions.assertEquals(TEST_STRING, sut.getCustodyLocation());
+        Assertions.assertEquals(TEST_STRING, sut.getCommunityLocation());
 
     }
 

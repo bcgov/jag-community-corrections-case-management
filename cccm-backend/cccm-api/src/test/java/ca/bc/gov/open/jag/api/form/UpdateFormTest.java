@@ -27,7 +27,7 @@ public class UpdateFormTest {
     @DisplayName("200: should be updated")
     public void testUpdateFormEndpoint() {
 
-        FormDetails result = sut.updateForm(createTestForm());
+        FormDetails result = sut.updateForm(null, createTestForm());
 
         Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
         Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
@@ -43,7 +43,7 @@ public class UpdateFormTest {
     @DisplayName("403: throw unauthorized exception")
     public void updateTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateForm(null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateForm(null,null));
 
     }
 
@@ -51,7 +51,7 @@ public class UpdateFormTest {
     @DisplayName("401: throw unauthorized exception")
     public void updateTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateForm(null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateForm(null,null));
 
     }
 

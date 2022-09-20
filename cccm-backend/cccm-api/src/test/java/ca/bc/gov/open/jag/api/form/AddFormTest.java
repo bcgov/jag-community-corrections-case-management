@@ -22,7 +22,7 @@ public class AddFormTest {
     @DisplayName("204: form added")
     public void testClientsAddEndpoint() {
 
-        FormDetails result = sut.addForm("");
+        FormDetails result = sut.addForm(null, "");
 
         Assertions.assertNull(result.getFormId());
 
@@ -33,7 +33,7 @@ public class AddFormTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.addForm(""));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.addForm(null,""));
 
     }
 
@@ -41,7 +41,7 @@ public class AddFormTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addForm(""));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addForm(null,""));
 
     }
 

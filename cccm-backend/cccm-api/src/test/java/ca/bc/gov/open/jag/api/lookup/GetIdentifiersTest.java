@@ -44,7 +44,7 @@ public class GetIdentifiersTest {
 
         Mockito.when(codeTableService.getCodes(any())).thenReturn(identifierList);
 
-        CodeList result = sut.getIdentifiers();
+        CodeList result = sut.getIdentifiers(null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
@@ -57,7 +57,7 @@ public class GetIdentifiersTest {
     @DisplayName("403: throw unauthorized exception")
     public void getIdentifierTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getIdentifiers());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getIdentifiers(null));
 
     }
 
@@ -65,7 +65,7 @@ public class GetIdentifiersTest {
     @DisplayName("401: throw unauthorized exception")
     public void getIdentifierTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getIdentifiers());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getIdentifiers(null));
 
     }
 

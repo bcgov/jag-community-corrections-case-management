@@ -44,7 +44,7 @@ public class GetGendersTest {
 
         Mockito.when(codeTableService.getCodes(any())).thenReturn(genderList);
 
-        CodeList result = sut.getGenders();
+        CodeList result = sut.getGenders(null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
@@ -57,7 +57,7 @@ public class GetGendersTest {
     @DisplayName("403: throw unauthorized exception")
     public void getGendersTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getGenders());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getGenders(null));
 
     }
 
@@ -65,7 +65,7 @@ public class GetGendersTest {
     @DisplayName("401: throw unauthorized exception")
     public void getGendersTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getGenders());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getGenders(null));
 
     }
 
