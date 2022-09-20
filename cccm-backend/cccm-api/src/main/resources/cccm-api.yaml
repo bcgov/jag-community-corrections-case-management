@@ -849,6 +849,10 @@ components:
           type: string
         clientName:
           type: string
+        currentName:
+          type: string
+        currentNameYn:
+          type: string
         gender:
           type: string
         clientAge:
@@ -1011,6 +1015,8 @@ components:
         type:
           type: string
         primary:
+          type: boolean
+        expired:
           type: boolean
     Program:
       type: object

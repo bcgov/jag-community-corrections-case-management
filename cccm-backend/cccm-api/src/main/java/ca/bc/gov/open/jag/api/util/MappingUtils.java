@@ -85,6 +85,8 @@ public class MappingUtils {
 
         Address address1 = new Address();
         address1.setFullAddress(address);
+        address1.setPrimary(true);
+        address1.setExpired(false);
         return Collections.singletonList(address1);
 
     }
