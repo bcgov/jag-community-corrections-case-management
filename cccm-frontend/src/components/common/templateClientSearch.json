@@ -151,6 +151,11 @@
                                                                                     "tableView": true,
                                                                                     "key": "lastName",
                                                                                     "type": "textfield",
+                                                                                    "validateOn": "blur",
+                                                                                    "validate": {
+                                                                                        "required": true,
+                                                                                        "customMessage": "lastName cannot be left blank"
+                                                                                    },
                                                                                     "input": true
                                                                                 },
                                                                                 {
@@ -460,11 +465,11 @@
                                                                         {
                                                                             "label": "Clear All",
                                                                             "action": "reset",
-                                                                            "showValidations": false,
                                                                             "theme": "secondary",
                                                                             "tableView": false,
                                                                             "key": "clearAll",
                                                                             "type": "button",
+                                                                            "showValidations": false,
                                                                             "input": false,
                                                                             "customClass": "formio-clear-all-container"
                                                                         }
@@ -481,7 +486,8 @@
                                                                         {
                                                                             "label": "Search",
                                                                             "action": "event",
-                                                                            "showValidations": false,
+                                                                            "showValidations": true,
+                                                                            "disableOnInvalid": true,
                                                                             "tableView": false,
                                                                             "key": "search",
                                                                             "type": "button",
