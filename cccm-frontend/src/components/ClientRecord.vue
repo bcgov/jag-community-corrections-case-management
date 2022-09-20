@@ -165,7 +165,6 @@ export default {
       //   "custodyLocation": "string",
       //   "supervisionLevel": "string",
       //   "sealed": "string",
-      //   "photoDate": "string",
       //   "dueNext": "string",
       //   "dueDate": "string",
       //   "communityInformation": {
@@ -255,7 +254,6 @@ export default {
             "clientName": "Ross, Bob",
             "clientNum": "123456780",
             "clientAge": 44,
-            "photoDate": "2022-10-10",
             "profileClosed": false,
             "communityAlerts": [
               {
@@ -363,6 +361,8 @@ export default {
       //Cache the photoData into this.initData object
       if (this.initData != null && this.initData.data != null) {
         this.initData.data.photo = "data:image/png;base64, " + sd;
+        //this.initData.data.photoDate = responsePhoto.photoTakenDate;
+        this.initData.data.photoDate = "2022-03-04";
       }
       this.theKey++;
     }

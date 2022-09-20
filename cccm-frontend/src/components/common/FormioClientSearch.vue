@@ -72,7 +72,7 @@
           <td :colspan="1">
             <strong>PCM</strong>
             <br />
-            {{ item.pcm }}
+            {{ item.communityInformation.caseManager }}
           </td>
           <td :colspan="2">
             <strong>Other Aliases</strong>
@@ -225,8 +225,12 @@ export default {
             "currentName": "Bob Ross",
             "custodyLocation": "VICTORIA",
             "supervisionLevel": "string",
-            "pcm": "Gillis, Mike",
-            "photoDate": "2022-03-02",
+            "communityInformation": {
+              "communityLocation": "Victoria",
+              "status": "Active",
+              "caseManager": "Smith, Bob",
+              "secondaryManager": "Doe, Jane"
+            },
             "address": [
                 {
                     "fullAddress": "1234 Victoria str, Victoria BC",
@@ -301,102 +305,6 @@ export default {
       //   "idType": "cn",
       //   "idNumber": ""
       // }
-      // Sample response
-      // [
-      //   {
-      //     "clientId": 0,
-      //     "clientNum": "string",
-      //     "clientName": "string",
-      //     "gender": "string",
-      //     "clientAge": 0,
-      //     "birthDate": "string",
-      //     "custodyLocation": "string",
-      //     "supervisionLevel": "string",
-      //     "sealed": "string",
-      //     "photoDate": "string",
-      //     "dueNext": "string",
-      //     "dueDate": "string",
-      //     "communityInformation": {
-      //       "communityLocation": "string",
-      //       "status": "string",
-      //       "caseManager": "string",
-      //       "secondaryManager": "string"
-      //     },
-      //     "orderInformation": {
-      //       "orders": "string",
-      //       "effectiveDate": "string",
-      //       "expiryDate": "string",
-      //       "dueDate": "string"
-      //     },
-      //     "courtInformation": {
-      //       "court": "string",
-      //       "effectiveDate": "string",
-      //       "expiryDate": "string",
-      //       "dueDate": "string"
-      //     },
-      //     "generalInformation": {
-      //       "institution": "string",
-      //       "status": "string",
-      //       "custody": "string",
-      //       "dischargeDate": "string",
-      //       "type": "string",
-      //       "paroleDate": "string"
-      //     },
-      //     "locationInformation": {
-      //       "internalLocation": "string",
-      //       "federalParole": "string",
-      //       "outLocation": "string",
-      //       "outReason": "string",
-      //       "warrantExpiryDate": "string"
-      //     },
-      //     "biometric": {
-      //       "type": "string",
-      //       "status": "string",
-      //       "eServices": "string",
-      //       "eReporting": "string"
-      //     },
-      //     "address": [
-      //       {
-      //         "fullAddress": "string",
-      //         "type": "string",
-      //         "primary": true
-      //       }
-      //     ],
-      //     "designations": [
-      //       {
-      //         "type": "string",
-      //         "rating": "string"
-      //       }
-      //     ],
-      //     "outstandingWarrants": [
-      //       {
-      //         "type": "string",
-      //         "date": "string",
-      //         "courtFile": "string"
-      //       }
-      //     ],
-      //     "communityAlerts": [
-      //       {
-      //         "comment": "string",
-      //         "date": "string"
-      //       }
-      //     ],
-      //     "programs": [
-      //       {
-      //         "name": "string",
-      //         "status": "string",
-      //         "referredDate": "string",
-      //         "startDate": "string",
-      //         "outcome": "string"
-      //       }
-      //     ],
-      //     "alias": [
-      //       {
-      //         "fullName": "string"
-      //       }
-      //     ]
-      //   }
-      // ]
       if (evt.data != null) {
         //console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
@@ -445,6 +353,9 @@ export default {
           if (el.clientNum == clientNum) {
             el.photoData = "data:image/png;base64, " + sd;
             el.clientNum = " " + el.clientNum; // force the expanded row to refresh
+            //el.photoDate = response.photoTakenDate;
+            //To be removed
+            el.photoDate = "2021-09-02";
             break;
           }
         }
