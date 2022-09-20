@@ -59,8 +59,9 @@ public interface ClientMapper {
     @Mapping(target = "comment", source = "description")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
-    @Mapping(target = "image", source = "photo")
-    Photo toPhoto(String dummy, byte[] photo);
+    @Mapping(target = "image", source = "image")
+    @Mapping(target = "photoTakenDate", source = "photoTakenDate")
+    Photo toPhoto(ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "courtFile", source = "courtFileNumber")
     @Mapping(target = "date", source = "issuedDate")

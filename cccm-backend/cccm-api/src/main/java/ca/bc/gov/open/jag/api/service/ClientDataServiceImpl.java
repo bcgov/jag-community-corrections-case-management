@@ -92,7 +92,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
 
         if (!photos.isEmpty()) {
-            return clientMapper.toPhoto("", photos.stream().findFirst().get().getImage());
+            return clientMapper.toPhoto(photos.stream().findFirst().get());
         } else {
             throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
         }
