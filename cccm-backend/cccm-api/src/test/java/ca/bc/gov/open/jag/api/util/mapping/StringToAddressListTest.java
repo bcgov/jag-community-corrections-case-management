@@ -20,6 +20,8 @@ public class StringToAddressListTest {
         List<Address> result = MappingUtils.stringToAddressList("Test");
 
         Assertions.assertEquals(1, result.size());
+        Assertions.assertTrue(result.get(0).getPrimary());
+        Assertions.assertFalse(result.get(0).getExpired());
         Assertions.assertEquals("Test", result.get(0).getFullAddress());
 
     }

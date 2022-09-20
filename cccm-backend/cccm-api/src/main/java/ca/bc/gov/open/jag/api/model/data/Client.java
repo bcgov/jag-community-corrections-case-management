@@ -4,6 +4,7 @@ public class Client {
 
     private String clientNo;
     private String clientName;
+    private String currentName;
     private String currentNameYn;
     private String genderCode;
     private String birthDate;
@@ -84,4 +85,13 @@ public class Client {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getCurrentName() {
+        return currentName;
+    }
+
+    public void setCurrentName(String currentName) {
+        this.currentName = currentName;
+    }
+
 }
