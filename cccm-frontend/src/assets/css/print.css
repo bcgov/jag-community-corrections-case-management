@@ -1,0 +1,190 @@
+@media print {
+    body {
+        background-color: transparent;
+    }
+
+    body * > {
+        box-shadow: none;
+        background-color: transparent;
+    }
+    .header {
+        visibility: hidden;
+    }
+
+    .footer {
+        position:relative;
+        bottom: 0;
+        background-color: transparent;
+        color:transparent;
+        border: none;
+        z-index:0;
+    }
+
+    .footer:first-of-type:after {
+        display:flex;
+        align-items:center;
+        justify-content: center;
+        width:100%;
+        border-top: 1px solid #ccc;
+        content: url("https://langley.bigbrothersbigsisters.ca/wp-content/uploads/sites/145/2017/10/BC-Ministry-of-Justice.png");
+    }
+
+    .footer ul li a {
+        border:none;
+    }
+
+    .footer ul {
+        list-style: none;
+    }
+    svg {
+        display:none!important;
+    }
+    ::-webkit-input-placeholder { /* WebKit browsers */
+        color: transparent!important;
+    }
+    :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: transparent;
+    }
+    ::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: transparent;
+    }
+    :-ms-input-placeholder { /* Internet Explorer 10+ */
+        color: transparent;
+    }
+
+    button {
+        display:none!important;
+    }
+
+    .table-bordered {
+        border: none!important;
+    }
+    .table-bordered th, .table-bordered td  {
+        border: none!important;
+    }
+    textarea {
+
+    }
+
+    input[type='radio']:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #ccc;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: none;
+        box-shadow: none;
+    }
+
+    input[type='radio']:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #000;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: none;
+        box-shadow: none;
+    }
+
+    .formio_anchor_class {
+        margin-top:-20px;
+    }
+    .crna-cmp-form .R {
+        display:none;
+    }
+    .crna-cmp-form .L {
+        width:100%;
+        box-shadow: none;
+    }
+
+    .crna-cmp-form .crna-formio-metadata-section {
+        background-color: transparent;
+        width:80%;
+    }
+
+    .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
+        margin-top:40px;
+        font-size:18px;
+    }
+
+    .crna-cmp-form .menu-Sticky {
+        background-color: transparent;
+        position: relative;
+        top:0;
+        margin-top:-200px;
+    }
+    .crna-cmp-form .menu-Sticky .menuR2 {
+        display:none;
+    }
+
+    .crna-formio-h1 {
+        padding: 0;
+    }
+    .crna-formio-h1>h1 {
+        display: inline-block;
+        width: calc(100% - 50px);
+        text-align:right;
+        margin:0;
+        margin-top: 30px;
+        padding-left:350px;
+        padding-bottom:75px;
+        font-size: 38px;
+    }
+
+    .crna-formio-h1>h1:after {
+        display:block;
+        width:100%;
+        float:none;
+    }
+
+    .crna-formio-h1:after {
+        display:block;
+        width:100%;
+        height:40px;
+        border-bottom: 1px solid #ccc;
+        content:""
+    }
+    .crna-formio-h1:before {
+        display: inline-block;
+        float:left;
+        width:25px;
+        height:200px;
+        content: url("https://langley.bigbrothersbigsisters.ca/wp-content/uploads/sites/145/2017/10/BC-Ministry-of-Justice.png");
+    }
+
+    .crna-cmp-form  .dropdown  {
+        border: none;
+    }
+
+    .crna-cmp-form .mainContent {
+        border: none;
+        padding: 0;
+    }
+
+    .editgrid-header {
+        background-color: #545454;
+    }
+
+    div>.formio_anchor_class:not(:first-of-type) {
+        page-break-after: always;
+    }
+    .crna-subSectionTitleClass:after {
+        content: "";
+        height: 0px;
+        width: 50px;
+        display: block;
+        border: 1px solid #ccc!important;
+        margin-bottom: 20px;
+    }
+
+}
