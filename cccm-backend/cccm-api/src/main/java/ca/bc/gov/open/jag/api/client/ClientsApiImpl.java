@@ -10,12 +10,12 @@ import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class ClientsApiImpl implements ClientsApi {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiImpl.class));
@@ -29,17 +29,17 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public Client getClient(String clientNum) {
+    public Client getClient(String xLocationId, String clientNum) {
 
         logger.info(username);
 
-        return clientDataService.clientProfile(clientNum, username);
+        return clientDataService.clientProfile(clientNum, username, xLocationId);
 
     }
 
     @Override
     @RolesAllowed("client-search")
-    public Photo getClientPhoto(String clientNum) {
+    public Photo getClientPhoto(String xLocationId, String clientNum) {
 
         return clientDataService.clientPhoto(clientNum);
 
@@ -47,21 +47,21 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClients(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, String location, String gender, String identifierType, String identifier, String officer) {
+    public List<Client> searchClients(String xLocationId, String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean currentLocation, String gender, String identifierType, String identifier) {
 
         logger.info("Client Search Request");
 
-        return clientDataService.clientSearch(new ClientSearch(lastName, soundex, givenName, birthYear, age, range, location, gender, identifierType, identifier, officer));
+        return clientDataService.clientSearch(new ClientSearch(lastName, soundex, givenName, birthYear, age, range, currentLocation, gender, identifierType, identifier));
 
     }
 
     @Override
     @RolesAllowed("client-search")
-    public List<Client> searchClientAddress(String addressType, String address, String city, String province, String postalCode, Boolean expired) {
+    public List<Client> searchClientAddress(String xLocationId, String addressType, String address, String city, String province, String postalCode, Boolean expired, Boolean currentLocation) {
 
         logger.info("Client Address Search Request");
 
-        return clientDataService.clientAddressSearch(new ClientAddressSearch(addressType, address, city, province, postalCode, expired));
+        return clientDataService.clientAddressSearch(new ClientAddressSearch(addressType, address, city, province, postalCode, expired, currentLocation));
 
     }
 }

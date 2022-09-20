@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 @QuarkusTest
-public class GetDefaultLocationTest {
+public class GetLocationsTest {
 
     private static final BigDecimal TEST_ID = BigDecimal.ONE;
     private static final String TEST_CD = "CODE";
@@ -32,22 +32,29 @@ public class GetDefaultLocationTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
+
+
     @Test
-    @DisplayName("Success: should return form types")
-    public void testGetFormTypes() {
+    @DisplayName("Success: should return location")
+    public void testGetLocations() {
 
         Location locationMock = new Location();
         locationMock.setId(TEST_ID);
         locationMock.setAlternateCd(TEST_CD);
         locationMock.setDsc(TEST_VALUE);
+
+        List<Location> locationListMock = Collections.singletonList(locationMock);
+
         Mockito.when(obridgeClientService.getOracleId(Mockito.any())).thenReturn(TEST_ID.toPlainString());
-        Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
+        Mockito.when(obridgeClientService.getLocations(Mockito.any())).thenReturn(locationListMock);
 
-        Code result = sut.getDefaultLocation("test@idir");
+        CodeList result = sut.getLocations("test@idir");
 
-        Assertions.assertEquals(TEST_ID.toPlainString(), result.getKey());
-        Assertions.assertEquals(TEST_VALUE, result.getValue());
+        Assertions.assertEquals(1, result.getItems().size());
+        Assertions.assertEquals(TEST_ID.toPlainString(), result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
+
 
 }

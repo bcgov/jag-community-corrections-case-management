@@ -77,15 +77,6 @@ const router = new VueRouter({
       path: '/',
       name: 'unauthorized',
       component: Unauthorized
-    },
-    // throw away
-    {
-      path: '/rnalist',
-      name: 'rnalist',
-      component: RNAList,
-      meta: {
-        isAuthenticated: true
-      }
     }
   ]
 })

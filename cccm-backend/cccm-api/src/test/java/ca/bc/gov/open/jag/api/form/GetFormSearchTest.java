@@ -37,7 +37,7 @@ public class GetFormSearchTest {
 
         Mockito.when(formDataService.formSearch(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createFormList());
 
-        FormSearchList result = sut.getFormSearch("01", true, null);
+        FormSearchList result = sut.getFormSearch("01", true, null,null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getAssessmentStatus());
@@ -57,7 +57,7 @@ public class GetFormSearchTest {
     @DisplayName("403: throw unauthorized exception")
     public void getTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormSearch("01", true, null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormSearch("01", true, null,null));
 
     }
 
@@ -65,7 +65,7 @@ public class GetFormSearchTest {
     @DisplayName("401: throw unauthorized exception")
     public void getTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormSearch("01", true, null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormSearch("01", true, null,null));
 
     }
 

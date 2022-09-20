@@ -28,7 +28,7 @@ public class GetFormByIdTest {
     @DisplayName("200: should return form")
     public void testGetClientEndpoint() throws CCCMException {
 
-        FormDetails result = sut.getFormById(BigDecimal.ONE);
+        FormDetails result = sut.getFormById(BigDecimal.ONE, null);
 
         Assertions.assertNull(result.getFormId());
         Assertions.assertEquals(TEST_COMPLETED_DATE, result.getCompletedDate());
@@ -45,7 +45,7 @@ public class GetFormByIdTest {
     @DisplayName("403: throw unauthorized exception")
     public void getByIdTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormById(BigDecimal.ONE));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormById(BigDecimal.ONE, null));
 
     }
 
@@ -53,7 +53,7 @@ public class GetFormByIdTest {
     @DisplayName("401: throw unauthorized exception")
     public void getByIdTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormById(BigDecimal.ONE));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormById(BigDecimal.ONE, null));
 
     }
 

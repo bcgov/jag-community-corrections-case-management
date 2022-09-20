@@ -8,14 +8,16 @@ public class ClientAddressSearch {
     private String province;
     private String postalCode;
     private Boolean expired;
+    private Boolean location;
 
-    public ClientAddressSearch(String addressType, String address, String city, String province, String postalCode, Boolean expired) {
+    public ClientAddressSearch(String addressType, String address, String city, String province, String postalCode, Boolean expired, Boolean location) {
         this.addressType = addressType;
         this.address = address;
         this.city = city;
         this.province = province;
         this.postalCode = postalCode;
         this.expired = expired;
+        this.location = location;
     }
 
     public String getAddressType() {
@@ -40,6 +42,10 @@ public class ClientAddressSearch {
 
     public Boolean getExpired() {
         return expired;
+    }
+
+    public Boolean getLocation() {
+        return location;
     }
 
 }

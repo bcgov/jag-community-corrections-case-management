@@ -28,7 +28,7 @@ public class GetFormByTypeTest {
     @DisplayName("200: should return form")
     public void testGetFormEndpoint() throws CCCMException {
 
-        FormDetails result = sut.getFormByType(FORM_TYPE);
+        FormDetails result = sut.getFormByType(null, FORM_TYPE);
 
         Assertions.assertNull(result.getFormId());
         Assertions.assertEquals(TEST_COMPLETED_DATE, result.getCompletedDate());
@@ -44,7 +44,7 @@ public class GetFormByTypeTest {
     @DisplayName("403: throw unauthorized exception")
     public void getByTypeTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormByType(FORM_TYPE));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getFormByType(null, FORM_TYPE));
 
     }
 
@@ -52,7 +52,7 @@ public class GetFormByTypeTest {
     @DisplayName("401: throw unauthorized exception")
     public void getByTypeTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormByType(FORM_TYPE));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getFormByType(null, FORM_TYPE));
 
     }
 

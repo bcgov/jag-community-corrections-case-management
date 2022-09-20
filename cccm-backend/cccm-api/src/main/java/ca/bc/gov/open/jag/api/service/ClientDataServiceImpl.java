@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
@@ -17,7 +18,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -31,10 +31,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Inject
     @RestClient
     ObridgeClientService obridgeClientService;
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
 
     @Inject
     ClientMapper clientMapper;
@@ -80,17 +76,13 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public Client clientProfile(String clientNum, String user) {
+    public Client clientProfile(String clientNum, String user, String location) {
 
         final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
 
-        BigDecimal  dbClientId = speedmentClientService.getClientId(csNumberPadded);
+        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), new BigDecimal(location));
 
-        Map location = obridgeClientService.getLocation();
-
-        ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), BigDecimal.valueOf((Double) location.get("locationId")));
-
-        return clientMapper.toApiClient(result.getClient(), result, dbClientId);
+        return clientMapper.toApiClient(result.getClient(), result, null);
 
     }
 

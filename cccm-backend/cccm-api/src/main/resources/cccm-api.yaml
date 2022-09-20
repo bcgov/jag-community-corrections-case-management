@@ -21,6 +21,7 @@ paths:
     get:
       operationId: SearchClients
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: lastName
           schema:
@@ -46,9 +47,9 @@ paths:
           schema:
             type: integer
         - in: query
-          name: location
+          name: limitToLocation
           schema:
-            type: string
+            type: boolean
         - in: query
           name: gender
           schema:
@@ -59,10 +60,6 @@ paths:
             type: string
         - in: query
           name: identifier
-          schema:
-            type: string
-        - in: query
-          name: officer
           schema:
             type: string
       responses:
@@ -82,6 +79,7 @@ paths:
     get:
       operationId: SearchClientAddress
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: addressType
           schema:
@@ -106,6 +104,10 @@ paths:
           name: expired
           schema:
             type: boolean
+        - in: query
+          name: limitToLocation
+          schema:
+            type: boolean
       responses:
         "200":
           content:
@@ -123,6 +125,7 @@ paths:
     get:
       operationId: GetClientPhoto
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -143,6 +146,7 @@ paths:
     get:
       operationId: GetClient
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -163,6 +167,7 @@ paths:
     get:
       operationId: GetSupervisorDashboard
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: userId
           schema:
@@ -183,6 +188,8 @@ paths:
   /forms:
     get:
       operationId: GetForms
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -198,6 +205,8 @@ paths:
         - tag: forms
     post:
       operationId: Add Form
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       requestBody:
         content:
           application/json:
@@ -219,6 +228,8 @@ paths:
         - tag: forms
     put:
       operationId: Update Form
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       requestBody:
         content:
           application/json:
@@ -242,6 +253,7 @@ paths:
     get:
       operationId: GetFormSearch
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: clientNum
           required: true
@@ -275,6 +287,7 @@ paths:
     delete:
       operationId: DeleteForm
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -294,6 +307,7 @@ paths:
     get:
       operationId: GetFormById
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -320,6 +334,7 @@ paths:
     post:
       operationId: AddQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -348,6 +363,7 @@ paths:
     put:
       operationId: UpdateQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -377,6 +393,7 @@ paths:
     get:
       operationId: GetFormByType
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formType
@@ -402,6 +419,8 @@ paths:
   /lookup/formtypes:
     get:
       operationId: GetFormTypes
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -418,6 +437,8 @@ paths:
   /lookup/locations:
     get:
       operationId: GetLocations
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -434,6 +455,8 @@ paths:
   /lookup/genders:
     get:
       operationId: GetGenders
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -450,6 +473,8 @@ paths:
   /lookup/identifiers:
     get:
       operationId: GetIdentifiers
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -466,6 +491,8 @@ paths:
   /lookup/address:
     get:
       operationId: GetAddress
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -495,7 +522,48 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/locations:
+    get:
+      operationId: GetUserLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get users locations
+      summary: get users locations
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
+  /user/id:
+    get:
+      operationId: GetUserId
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: get users id
+      summary: get users id
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
 components:
+  parameters:
+    xLocationId:
+      name: X-Location-Id
+      in: header
+      schema:
+        type: string
+        format: string
+      required: false
+      description: The current selected location of the logged in user
   schemas:
     FormDetails:
       description: Client
@@ -791,6 +859,8 @@ components:
           type: string
         supervisionLevel:
           type: string
+        sealed:
+          type: string
         photoDate:
           type: string
         dueNext:
@@ -938,6 +1008,10 @@ components:
       properties:
         fullAddress:
           type: string
+        type:
+          type: string
+        primary:
+          type: boolean
     Program:
       type: object
       properties:

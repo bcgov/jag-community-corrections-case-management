@@ -9,14 +9,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
 public class CodeTableServiceImpl implements CodeTableService {
-
-    @Inject
-    @RestClient
-    SpeedmentClientService speedmentClientService;
 
     @Inject
     @RestClient
@@ -32,10 +29,10 @@ public class CodeTableServiceImpl implements CodeTableService {
 
         switch (type) {
             case FORM_TYPE:
-                codes = speedmentClientService.getFormTypes();
+                codes = Collections.emptyList();
                 break;
             case LOCATION_TYPE:
-                codes = speedmentClientService.getLocation();
+                codes = Collections.emptyList();
                 break;
             case GENDER_TYPE:
                 codes = obridgeClientService.getGenderTypes();
