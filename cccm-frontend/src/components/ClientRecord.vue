@@ -93,6 +93,7 @@ export default {
   name: "FormioClientRecord",
   data() {
     return {
+      CONST_DESIGNATION_LOW: 'low',
       theKey: 0,
       tab: null,
       items: [
@@ -358,13 +359,31 @@ export default {
             "location": "VICTORIA"
         };
 
-      //Cache the photoData into this.initData object
       if (this.initData != null && this.initData.data != null) {
+        //Cache the photoData into this.initData object
         this.initData.data.photo = "data:image/png;base64, " + sd;
         //this.initData.data.photoDate = responsePhoto.photoTakenDate;
         this.initData.data.photoDate = "2022-03-04";
+
+        // Build the designations value
+        if (this.initData.data.designations != null) {
+          let designationsVal = "";
+          for (let i = 0; i < this.initData.data.designations.length; i++) {
+            let colorClass = this.getDesignationColor(this.initData.data.designations[i].rating);
+            let theVal = "<span class='" + colorClass + "'>" + this.initData.data.designations[i].type + "</span></br>";
+            designationsVal += theVal;
+          }
+          this.initData.data.designationsVal = designationsVal;
+        }
       }
+
       this.theKey++;
+    },
+    getDesignationColor(rating) {
+      if (rating == null || rating == '' || rating.toLowerCase() == this.CONST_DESIGNATION_LOW) {
+        return "";
+      }
+      return "critical";
     }
   },
   computed: {
