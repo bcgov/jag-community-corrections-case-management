@@ -1,7 +1,7 @@
 <template>
   <div data-app>
     <v-btn
-      id="id_modal"
+      id="id_modal_deleteForm"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
@@ -178,7 +178,7 @@ export default {
     },
     handleCancelForm() {
       console.log("Cancel Form");
-      let modal = document.getElementById("id_modal");
+      let modal = document.getElementById("id_modal_deleteForm");
       if (modal != null) {
         modal.click();
       }
