@@ -50,7 +50,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:csNumber',
+      path: '/clientrecord/:csNumber/:tabIndex',
       name: 'clientrecord',
       component: ClientRecordView,
       meta: {
@@ -58,7 +58,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/crnacmp/:formID',
+      path: '/crnacmp/:formID/:csNumber',
       name: 'crnacmp',
       component: CrnaCmpView,
       meta: {
@@ -66,7 +66,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/saracmp/:formID',
+      path: '/saracmp/:formID/:csNumber',
       name: 'saracmp',
       component: SaraCmpView,
       meta: {

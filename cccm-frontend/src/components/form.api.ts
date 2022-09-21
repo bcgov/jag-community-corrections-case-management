@@ -82,6 +82,11 @@ export async function updateForm(formData: object) {
     }
 }
 
+// function to delete form
+export async function deleteForm(formId: number) {
+
+}
+
 // function to create form
 export async function createForm(formData: object) {
     try{

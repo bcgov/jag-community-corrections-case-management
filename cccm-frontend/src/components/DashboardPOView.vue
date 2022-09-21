@@ -63,7 +63,7 @@
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
             <div class="w-100 h-100">
-              <a :href="`${baseURL}clientrecord/${item.csNumber}`" @click="selectClient(item.csNumber)">{{item.clientName}}</a>
+              <a :href="`${baseURL}clientrecord/${item.csNumber}/tab-cp`" @click="selectClient(item.csNumber)">{{item.clientName}}</a>
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
@@ -177,13 +177,16 @@ export default {
       console.log("view client [csNumber]: ", csNumber);
       this.$router.push({
         name: '${baseURL}clientrecord',
-        params: {csNumber: csNumber}
+        params: {
+          csNumber: csNumber,
+          tabIndex: 'tab-cp'
+        }
       });
     },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
-      if (this.initDataArray != null && this.initDataArray[item.clientID] != null 
-        && this.initDataArray[item.clientID].data != null && this.initDataArray[item.clientID].data.photo != null) {
+      if (this.initDataArray != null && this.initDataArray[item.csNumber] != null 
+        && this.initDataArray[item.csNumber].data != null && this.initDataArray[item.csNumber].data.photo != null) {
         return;
       }
       this.handlePhotoSearch(item.csNumber);
@@ -424,8 +427,8 @@ export default {
       }
 
       //Cache the photoData into this.initDataArray object
-      if (this.initDataArray != null && this.initDataArray[clientID] != null && this.initDataArray[clientID].data != null) {
-        this.initDataArray[clientID].data.photo = "data:image/png;base64, " + sd;
+      if (this.initDataArray != null && this.initDataArray[csNumber] != null && this.initDataArray[csNumber].data != null) {
+        this.initDataArray[csNumber].data.photo = "data:image/png;base64, " + sd;
       }
       //console.log("this.initDataArray: ", clientID, this.initDataArray);
       

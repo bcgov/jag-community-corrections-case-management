@@ -234,7 +234,7 @@ export default {
       this.loading = false;
       if (error) {
         console.error(error);
-      } else {
+      } //else {
         console.log("Supervisor dashboard search: ", response);
         //this.officerList = response.data;
         this.officerList =   
@@ -326,7 +326,7 @@ export default {
           ];
         // apply location filter
         this.applyLocationFilter(this.selectedLocation.value);
-      }
+      //}
     }
   },
   computed: {

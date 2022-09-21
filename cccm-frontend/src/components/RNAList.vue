@@ -296,12 +296,18 @@ export default {
       if (formType === 'SARA CMP') {
         this.$router.push({
           name: 'saracmp',
-          params: {formID: formID}
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
         });
       } else if (formType === 'CRNA CMP') {
         this.$router.push({
           name: 'crnacmp',
-          params: {formID: formID}
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
         });
       } else {
         console.error("Form type not supported");
@@ -321,7 +327,10 @@ export default {
       console.log("newCreatedFormID: ", this.newCreatedFormId);
       this.$router.push({
         name: 'crnacmp',
-        params: {formID: this.newCreatedFormId}
+        params: {
+          formID: this.newCreatedFormId,
+          csNumber: this.clientNum
+        }
       });
     }
   },

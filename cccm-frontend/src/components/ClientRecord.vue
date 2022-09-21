@@ -24,14 +24,14 @@
       </div>
     </section>
     <section class="pr-4 pl-4">
-      <v-tabs v-model="tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.tab">
+      <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
+        <v-tab v-for="item in items" :key="item.tab" :href="'#tab-' + item.id"> 
           {{ item.tab }}
         </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="tab">
-        <v-tab-item v-for="item in items" :key="item.tab">
-          <div v-if="item.content === 'cp'" class="p-4">
+      <v-tabs-items v-model="current_tab">
+        <v-tab-item v-for="item in items" :key="item.tab" :id="'tab-' + item.id">
+          <div v-if="item.id === 'cp'" class="p-4">
             <section class="mb-3">
               <v-row :key="theKey" class="row">
                 <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
@@ -73,7 +73,7 @@
             </section>
             <Form :form="formJSON" :submission="initData"/>
           </div>
-          <RNAListView v-if="item.content === 'rl'" :clientNum="$route.params.csNumber"></RNAListView>
+          <RNAListView v-if="item.id === 'rl'" :clientNum="$route.params.csNumber"></RNAListView>
           <span v-else> </span>
         </v-tab-item>
       </v-tabs-items>
@@ -95,11 +95,11 @@ export default {
     return {
       CONST_DESIGNATION_LOW: 'low',
       theKey: 0,
-      tab: null,
+      current_tab: 'tab-cp',
       items: [
-          { tab: 'Community Profile', content: 'cp' },
-          { tab: 'Trend Analysis', content: 'ta' },
-          { tab: 'RNA List', content: 'rl' }
+          { tab: 'Community Profile', id: 'cp' },
+          { tab: 'Trend Analysis', id: 'ta' },
+          { tab: 'RNA List', id: 'rl' }
         ],
       initData: {"data": {}},
       formJSON: templateClientProfile,
@@ -114,6 +114,7 @@ export default {
   },
   mounted() {
     this.csNumber = this.$route.params.csNumber;
+    this.current_tab = this.$route.params.tabIndex;
     this.clientProfileSearchAPI();
   },
   methods: {

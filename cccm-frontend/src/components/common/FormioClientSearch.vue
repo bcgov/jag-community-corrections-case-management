@@ -43,7 +43,7 @@
         >
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
-          <a :href="`${baseURL}clientrecord/${item.clientNum}`" @click="selectClient(item.clientNum)">{{item.clientName}}</a>
+          <a :href="`${baseURL}clientrecord/${item.clientNum}/tab-cp`" @click="selectClient(item.clientNum)">{{item.clientName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
@@ -170,7 +170,10 @@ export default {
       //console.log("view client [clientNum]: ", clientNum);
       this.$router.push({
         name: '${baseURL}clientrecord',
-        params: {clientNum: clientNum}
+        params: {
+          clientNum: clientNum,
+          tabIndex: 'tab-cp'
+        }
       });
     },
     expandRow ({ item, value }) {
