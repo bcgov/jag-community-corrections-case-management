@@ -4,17 +4,15 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
-import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import org.apache.commons.lang3.NotImplementedException;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Name;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logmanager.Level;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -98,6 +96,16 @@ public class ClientDataServiceImpl implements ClientDataService {
             throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
         }
 
+    }
+
+    @Override
+    public List<Address> clientAddress(String clientNum, String user, String location) {
+        return null;
+    }
+
+    @Override
+    public List<Name> clientNames(String clientNum, String user, String location) {
+        return null;
     }
 
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.data.Client> clients) {

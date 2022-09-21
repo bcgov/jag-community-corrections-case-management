@@ -163,6 +163,48 @@ paths:
           description: get a client
       tags:
         - clients
+  /clients/{clientNum}/address:
+    get:
+      operationId: GetClientAddress
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - explode: false
+          in: path
+          name: clientNum
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: get client adress's
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressList'
+      tags:
+        - clients
+  /clients/{clientNum}/names:
+    get:
+      operationId: GetClientNames
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - explode: false
+          in: path
+          name: clientNum
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: get client names
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamesList'
+      tags:
+        - clients
   /dashboards/supervisor:
     get:
       operationId: GetSupervisorDashboard
@@ -903,15 +945,21 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Program"
-        alias:
-          type: array
-          items:
-            $ref: "#/components/schemas/Alias"
-    Alias:
+    Name:
       type: object
       properties:
+        primary:
+          type: boolean
         fullName:
           type: string
+    NamesList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Name"
+    AddressList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Address"
     CommunityInformation:
       type: object
       properties:

@@ -4,7 +4,9 @@ import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Name;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
@@ -64,4 +66,25 @@ public class ClientsApiImpl implements ClientsApi {
         return clientDataService.clientAddressSearch(new ClientAddressSearch(addressType, address, city, province, postalCode, expired, currentLocation));
 
     }
+
+    @Override
+    @RolesAllowed("client-search")
+    public List<Address> getClientAddress(String clientNum, String xLocationId) {
+
+        logger.info("Client Address Request");
+
+        return clientDataService.clientAddress(clientNum, username, xLocationId);
+
+    }
+
+    @Override
+    @RolesAllowed("client-search")
+    public List<Name> getClientNames(String clientNum, String xLocationId) {
+
+        logger.info("Client Names Request");
+
+        return clientDataService.clientNames(clientNum, username, xLocationId);
+
+    }
+
 }

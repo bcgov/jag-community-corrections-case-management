@@ -47,6 +47,14 @@ public interface ObridgeClientService {
     List<Photo> getPhotosById(@PathParam("clientNum") String clientNum);
 
     @GET
+    @Path("/client/address")
+    List<Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+
+    @GET
+    @Path("/client/address")
+    List<?> getNamesById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+
+    @GET
     @Path("/client/clientProfile")
     ClientProfile getProfileById(@QueryParam("csNumber") String csNumber, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
