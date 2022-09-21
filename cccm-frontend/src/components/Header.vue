@@ -15,10 +15,11 @@
         <div class="col-sm-6 m-7">
           <strong>Select a new location</strong>
           <v-select
-              item-text="text"
-              item-value="value"
+              item-text="value"
+              item-value="key"
               v-model="selectedLocation"
               :items="locationTypes"
+              v-on:change="applyLocationFilter"
               label=""
               outlined
           >
@@ -79,10 +80,15 @@ export default {
     return {
       baseURL: import.meta.env.BASE_URL,
       dialog: false,
-      selectedLocation: {text: "", value: ""},
-      locationTypes: [{text: "Victoria Probation Office", value: "victoria"}, {text: "Vancouver", value: "vancouver"}, {text: "Nanaimo", value: "nanaimo"}],
-      
+      selectedLocation: {key: "", value: ""},
+      locationTypes: [],
     }
+  },
+  mounted() {
+    this.selectedLocation.key = this.mainStore.locationCD;
+    this.selectedLocation.value = this.mainStore.locationDescription;
+    this.locationTypes = this.mainStore.locations;
+    console.log("selectedLocation, locationTypes: ", this.selectedLocation, this.locationTypes);
   },
   methods: {
     handleShowModal() {
@@ -92,9 +98,15 @@ export default {
         modal.click();
       }
     },
+    applyLocationFilter(locationType) {
+      console.log("Selected locationType: ", locationType);
+    },
     setCurrentActiveLocation() {
       this.dialog = false;
-      console.log("Select a new current active location");
+      console.log("Selected new current active location: ", this.selectedLocation.key, this.selectedLocation.value);
+      //this.mainStore.clearCachedLocation();
+      //this.mainStore.locationCD = this.selectedLocation.key;
+      //this.mainStore.locationDescription = this.selectedLocation.value;
     },
     logout () {
       // clear cached location info

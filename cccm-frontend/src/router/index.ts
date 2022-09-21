@@ -95,6 +95,8 @@ router.beforeEach((to, from, next) => {
   // Fetch the default location
   const store = useStore();
   store.getUserDefaultLocation();
+  store.getUserLocations();
+  
   //console.log("In router, store: ", store.locationCD, store.locationDescription);
   
   if (to.meta.isAuthenticated) {
