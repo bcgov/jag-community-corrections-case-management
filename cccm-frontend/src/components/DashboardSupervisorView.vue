@@ -327,7 +327,7 @@ export default {
             }
           ];
         // apply location filter
-        this.applyLocationFilter(this.selectedLocation.value);
+        this.applyLocationFilter(this.selectedLocation.key);
       //}
     }
   },

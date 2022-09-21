@@ -19,7 +19,6 @@
               item-value="key"
               v-model="selectedLocation"
               :items="locationTypes"
-              v-on:change="applyLocationFilter"
               label=""
               outlined
           >
@@ -88,7 +87,7 @@ export default {
     this.selectedLocation.key = this.mainStore.locationCD;
     this.selectedLocation.value = this.mainStore.locationDescription;
     this.locationTypes = this.mainStore.locations;
-    console.log("selectedLocation, locationTypes: ", this.selectedLocation, this.locationTypes);
+    //console.log("selectedLocation, locationTypes: ", this.selectedLocation, this.locationTypes);
   },
   methods: {
     handleShowModal() {
@@ -98,19 +97,29 @@ export default {
         modal.click();
       }
     },
-    applyLocationFilter(locationType) {
-      console.log("Selected locationType: ", locationType);
-    },
     setCurrentActiveLocation() {
+      // Stop the dialog
       this.dialog = false;
-      console.log("Selected new current active location: ", this.selectedLocation.key, this.selectedLocation.value);
-      //this.mainStore.clearCachedLocation();
-      //this.mainStore.locationCD = this.selectedLocation.key;
-      //this.mainStore.locationDescription = this.selectedLocation.value;
+
+      // Push the newly selected location into store
+      if (this.locationTypes != null) {
+        for (let i = 0; i < this.locationTypes.length; i++) {
+          //console.log("this.locationTypes[i].key: ", this.locationTypes[i].key);
+          if (this.locationTypes[i].key == this.selectedLocation) {
+            //console.log("reset stored location info");
+            // Store the newly selected location into store
+            this.mainStore.locationCD = this.locationTypes[i].key;
+            this.mainStore.locationDescription = this.locationTypes[i].value;
+            break;
+          }
+        }
+      }
+      //console.log("Store info: ", this.mainStore.locationCD, this.mainStore.locationDescription, this.mainStore.locations);
     },
     logout () {
       // clear cached location info
       this.mainStore.clearCachedLocation();
+      this.mainStore.clearCachedUserLocations();
       Vue.$keycloak.logout({ redirectUri: window.location.origin + import.meta.env.BASE_URL });
     }
   },
