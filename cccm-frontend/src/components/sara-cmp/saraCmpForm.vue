@@ -10,17 +10,17 @@
         persistent
         max-width="550"
       >
-        <v-card>
-          <v-card-title class="text-h5">
-            Delete Form?
-          </v-card-title>
-          <v-card-text>
-            All information you have entered will be deleted. <br><br>
-            You will be returned back to the Client Record's RNA list
-          </v-card-text>
-          <v-card-actions>
+      <v-card>
+        <v-card-title class="text-h5">
+          Delete Form?
+        </v-card-title>
+        <v-card-text>
+          All information you have entered will be deleted. <br><br>
+          You will be returned back to the Client Record's RNA list
+        </v-card-text>
+        <v-card-actions>
             <v-btn
-              color="red darken-1"
+              color="#f81e41"
               dark
               @click="handleDeleteFormBtnClick"
             >
@@ -28,14 +28,13 @@
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
-              class="ma-2"
               @click="dialog = false"
             >
               No, I want to continue
             </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div class="main">
       <div class="wrap">
         <div class="mainRow">

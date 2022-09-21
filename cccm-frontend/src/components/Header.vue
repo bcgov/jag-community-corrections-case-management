@@ -9,11 +9,11 @@
     <v-dialog
         v-model="dialog"
         persistent
-        max-width="550"
+        max-width="450"
     >
       <v-card>
         <div class="col-sm-6 m-7">
-          <strong>Select a new location</strong>
+          <strong>Select a new office</strong>
           <v-select
               item-text="value"
               item-value="key"
@@ -34,7 +34,6 @@
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
-            class="ma-2"
             @click="dialog = false"
           >
             Cancel
