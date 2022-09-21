@@ -1,24 +1,69 @@
 <template>
-  <!--Header section-->
-  <div class="header">
-    <div class="header-section">
-      <div class="header-img">
-        <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
+  <div data-app>
+    <!--Model section for user select a new CAL (current active location)-->
+    <v-btn
+      id="id_modal"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="550"
+    >
+      <v-card>
+        <div class="col-sm-6 m-7">
+          <strong>Select a new location</strong>
+          <v-select
+              item-text="text"
+              item-value="value"
+              v-model="selectedLocation"
+              :items="locationTypes"
+              label=""
+              outlined
+          >
+          </v-select>
+        </div>
+        <v-card-actions>
+          <v-btn
+            color="green darken-1"
+            dark
+            @click="setCurrentActiveLocation"
+          >
+            Select
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            class="ma-2"
+            @click="dialog = false"
+          >
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!--Header section-->
+    <div class="header">
+      <div class="header-section">
+        <div class="header-img">
+          <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
+        </div>
+        <span class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a>
+      </span>
+        <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
+          <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
+          <a @click="logout">
+            <span>Logout</span>
+          </a>
+        </span>
       </div>
-      <span class="headerText textShadow">BC Corrections - {{ mainStore.locationDescription }}
-    </span>
-      <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
-        <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
-        <a @click="logout">
-          <span>Logout</span>
-        </a>
-      </span>
-    </div>
-    <div class="headerNavContainer">
-      <span class="headerNav textShadow">
-        <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
-        <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> 
-      </span>
+      <div class="headerNavContainer">
+        <span class="headerNav textShadow">
+          <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
+          <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> 
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -33,9 +78,24 @@ export default {
   data() {
     return {
       baseURL: import.meta.env.BASE_URL,
+      dialog: false,
+      selectedLocation: {text: "", value: ""},
+      locationTypes: [{text: "Victoria Probation Office", value: "victoria"}, {text: "Vancouver", value: "vancouver"}, {text: "Nanaimo", value: "nanaimo"}],
+      
     }
   },
   methods: {
+    handleShowModal() {
+      console.log("Show modal");
+      let modal = document.getElementById("id_modal");
+      if (modal != null) {
+        modal.click();
+      }
+    },
+    setCurrentActiveLocation() {
+      this.dialog = false;
+      console.log("Select a new current active location");
+    },
     logout () {
       // clear cached location info
       this.mainStore.clearCachedLocation();
