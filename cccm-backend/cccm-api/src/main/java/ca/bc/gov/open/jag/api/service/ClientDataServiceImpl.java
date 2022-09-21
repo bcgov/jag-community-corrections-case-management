@@ -15,6 +15,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.logmanager.Level;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
-@ApplicationScoped
+@RequestScoped
 public class ClientDataServiceImpl implements ClientDataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(ClientDataServiceImpl.class));
