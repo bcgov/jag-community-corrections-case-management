@@ -26,7 +26,7 @@
         justify-content: center;
         width:100%;
         border-top: 1px solid #ccc;
-        content: url("https://langley.bigbrothersbigsisters.ca/wp-content/uploads/sites/145/2017/10/BC-Ministry-of-Justice.png");
+        content: url("/src/assets/css/images/justice.png");
     }
 
     .footer ul li a {
