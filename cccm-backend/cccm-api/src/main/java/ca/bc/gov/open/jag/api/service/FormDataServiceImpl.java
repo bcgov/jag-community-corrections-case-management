@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class FormDataServiceImpl implements FormDataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
