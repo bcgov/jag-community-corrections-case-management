@@ -26,7 +26,7 @@
         </div>
         <v-card-actions>
           <v-btn
-            color="green darken-1"
+            color="primary"
             dark
             @click="setCurrentActiveLocation"
           >
@@ -87,7 +87,6 @@ export default {
     this.selectedLocation.key = this.mainStore.locationCD;
     this.selectedLocation.value = this.mainStore.locationDescription;
     this.locationTypes = this.mainStore.locations;
-    //console.log("selectedLocation, locationTypes: ", this.selectedLocation, this.locationTypes);
   },
   methods: {
     handleShowModal() {
@@ -104,9 +103,7 @@ export default {
       // Push the newly selected location into store
       if (this.locationTypes != null) {
         for (let i = 0; i < this.locationTypes.length; i++) {
-          //console.log("this.locationTypes[i].key: ", this.locationTypes[i].key);
           if (this.locationTypes[i].key == this.selectedLocation) {
-            //console.log("reset stored location info");
             // Store the newly selected location into store
             this.mainStore.locationCD = this.locationTypes[i].key;
             this.mainStore.locationDescription = this.locationTypes[i].value;
@@ -114,7 +111,6 @@ export default {
           }
         }
       }
-      //console.log("Store info: ", this.mainStore.locationCD, this.mainStore.locationDescription, this.mainStore.locations);
     },
     logout () {
       // clear cached location info
