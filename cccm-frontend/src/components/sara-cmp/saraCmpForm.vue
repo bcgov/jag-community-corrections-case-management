@@ -166,6 +166,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
   padding-bottom: 1px!important;
+  margin-top:5px!important;
 }
 
 .crna-subSectionTitleClass:nth-child(1):after {
