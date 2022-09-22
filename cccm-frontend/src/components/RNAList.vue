@@ -271,7 +271,6 @@ export default {
         if (response != null && response.items != null) {
             this.formTypes = response.items;
         }
-          //console.info("Location fetched: ", response.items);
       }
       // to be removed
       this.formTypes = [
@@ -409,8 +408,13 @@ export default {
       this.createFormAPI();
       //Redirect User to the newly created form
       console.log("newCreatedFormID: ", this.newCreatedFormId);
+
+      let nextView = "crnacmp";
+      if (this.selectedFormTypeValue.includes("sara")) {
+        nextView = "saracmp";
+      }
       this.$router.push({
-        name: 'crnacmp',
+        name: nextView,
         params: {
           formID: this.newCreatedFormId,
           csNumber: this.clientNum
