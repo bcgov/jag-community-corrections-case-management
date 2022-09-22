@@ -17,6 +17,7 @@ public interface ClientMapper {
     @Mapping(target = "currentNameYn", source = "client.currentNameYn")
     @Mapping(target = "gender", source = "client.genderCode")
     @Mapping(target = "birthDate", source = "client.birthDate")
+    @Mapping(target = "sealed", source = "client.sealed")
     @Mapping(target = "clientAge", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge(client.getBirthDate()))")
     @Mapping(target = "custodyLocation", source = "client.custodyLocation")
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")

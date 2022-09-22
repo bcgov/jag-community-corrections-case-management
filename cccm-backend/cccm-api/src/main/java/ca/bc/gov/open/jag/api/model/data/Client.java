@@ -13,6 +13,7 @@ public class Client {
     private String caseManager;
     private String address;
     private String alias;
+    private String sealed;
 
     public String getClientNo() {
         return clientNo;
@@ -101,4 +102,13 @@ public class Client {
     public void setAlias(String alias) {
         this.alias = alias;
     }
+
+    public String getSealed() {
+        return sealed;
+    }
+
+    public void setSealed(String sealed) {
+        this.sealed = sealed;
+    }
+    
 }
