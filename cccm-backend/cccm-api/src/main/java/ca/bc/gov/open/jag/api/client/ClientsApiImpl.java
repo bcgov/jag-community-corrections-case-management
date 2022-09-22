@@ -79,11 +79,11 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<Name> getClientNames(String clientNum, String xLocationId) {
+    public Client getClientDetails(String clientNum, String xLocationId) {
 
         logger.info("Client Names Request");
 
-        return clientDataService.clientNames(clientNum, username, xLocationId);
+        return clientDataService.clientDetails(clientNum, username, xLocationId);
 
     }
 

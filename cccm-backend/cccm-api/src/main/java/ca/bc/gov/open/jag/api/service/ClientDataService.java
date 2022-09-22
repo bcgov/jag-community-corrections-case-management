@@ -21,6 +21,6 @@ public interface ClientDataService {
 
     List<Address> clientAddress(String clientNum, String user, String location);
 
-    List<Name> clientNames(String clientNum, String user, String location);
+    Client clientDetails(String clientNum, String user, String location);
 
 }

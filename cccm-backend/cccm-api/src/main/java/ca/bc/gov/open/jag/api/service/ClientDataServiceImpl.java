@@ -100,12 +100,21 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public List<Address> clientAddress(String clientNum, String user, String location) {
-        return null;
+
+        return clientMapper.toAddressList(obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location)));
+
     }
 
     @Override
-    public List<Name> clientNames(String clientNum, String user, String location) {
-        return null;
+    public Client clientDetails(String clientNum, String user, String location) {
+
+        logger.info("Get Client Data");
+        ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(clientNum, user, new BigDecimal(location));
+        logger.info("Get Address Data");
+        List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location));
+
+        return clientMapper.toClientDetails(client, address);
+
     }
 
     private List<Client> createClientResult(List<ca.bc.gov.open.jag.api.model.data.Client> clients) {

@@ -184,9 +184,9 @@ paths:
                 $ref: '#/components/schemas/AddressList'
       tags:
         - clients
-  /clients/{clientNum}/names:
+  /clients/{clientNum}/details:
     get:
-      operationId: GetClientNames
+      operationId: GetClientDetails
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - explode: false
@@ -198,11 +198,11 @@ paths:
           style: simple
       responses:
         "200":
-          description: get client names
+          description: get client details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NamesList'
+                $ref: '#/components/schemas/Client'
       tags:
         - clients
   /dashboards/supervisor:
@@ -907,7 +907,7 @@ components:
           type: string
         sealed:
           type: string
-        photoDate:
+        alias:
           type: string
         dueNext:
           type: string
@@ -945,17 +945,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Program"
-    Name:
-      type: object
-      properties:
-        primary:
-          type: boolean
-        fullName:
-          type: string
-    NamesList:
-      type: array
-      items:
-        $ref: "#/components/schemas/Name"
     AddressList:
       type: array
       items:
