@@ -12,7 +12,7 @@ public class Client {
     private String communityLocation;
     private String caseManager;
     private String address;
-
+    private String alias;
 
     public String getClientNo() {
         return clientNo;
@@ -94,4 +94,11 @@ public class Client {
         this.currentName = currentName;
     }
 
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 }

@@ -1,32 +1,27 @@
 package ca.bc.gov.open.jag.api.client;
 
-import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
-import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
-import io.quarkus.test.security.SecurityAttribute;
 import io.quarkus.test.security.TestSecurity;
-import io.quarkus.test.security.oidc.OidcSecurity;
-import io.quarkus.test.security.oidc.TokenIntrospection;
-import org.eclipse.microprofile.jwt.Claim;
-import org.eclipse.microprofile.jwt.Claims;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 
 @QuarkusTest
-public class GetClientTest {
+public class GetClientDetailsTest {
 
     private static final String CLIENT_NUM = "01";
     private static final String X_LOCATION_ID = "123";
+    private static final String CURRENT_NAME = "TEST1, TESTER";
+    private static final String GENDER = "M";
+    private static final String CUSTODY_LOCATION = "TEST1";
 
     @Inject
     ClientsApiImpl sut;
@@ -36,13 +31,13 @@ public class GetClientTest {
 
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
-    @DisplayName("200: should return clients")
-    public void testGetClientsEndpoint() {
+    @DisplayName("200: should return client details")
+    public void testGetClientDetailsEndpoint() {
 
-        Mockito.when(clientDataService.clientProfile(Mockito.any(), Mockito.any(), Mockito.anyString())).thenReturn(createClient());
-        Client result = sut.getClient(X_LOCATION_ID, CLIENT_NUM);
+        Mockito.when(clientDataService.clientDetails(Mockito.any(), Mockito.any(), Mockito.anyString())).thenReturn(createClient());
+        Client result = sut.getClientDetails(X_LOCATION_ID, CLIENT_NUM);
 
-        Assertions.assertEquals(CLIENT_NUM, result.getClientNum());
+        Assertions.assertEquals(CURRENT_NAME, result.getCurrentName());
 
     }
 
@@ -51,7 +46,7 @@ public class GetClientTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClient(null, CLIENT_NUM));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getClientDetails(null, CLIENT_NUM));
 
     }
 
@@ -59,19 +54,17 @@ public class GetClientTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClient(null,CLIENT_NUM));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getClientDetails(null,CLIENT_NUM));
 
     }
 
     private Client createClient() {
 
         Client client = new Client();
-        client.setClientNum("01");
-        client.setClientId(BigDecimal.ONE);
-        client.setClientName("TEST1, TESTER");
-        client.setGender("M");
-        client.setBirthDate("1961-04-17");
-        client.setCustodyLocation("TEST1");
+        client.setClientNum(CLIENT_NUM);
+        client.setCurrentName(CURRENT_NAME);
+        client.setGender(GENDER);
+        client.setCustodyLocation(CUSTODY_LOCATION);
 
         return client;
 

@@ -17,6 +17,7 @@ import java.util.List;
 @RegisterRestClient
 public interface ObridgeClientService {
 
+    //TODO: user and location should be moved to the header for all obridge requests
     @GET
     @Path("/clientSearch")
     List<Client> getClientSearch(@QueryParam("searchType") String searchType, @QueryParam("surname") String surname,
@@ -45,6 +46,14 @@ public interface ObridgeClientService {
     @GET
     @Path("/client/{clientNum}/photo")
     List<Photo> getPhotosById(@PathParam("clientNum") String clientNum);
+
+    @GET
+    @Path("/client/address")
+    List<Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+
+    @GET
+    @Path("/client/{clientNum}/details")
+    Client getDetailsById(@PathParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/clientProfile")

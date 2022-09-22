@@ -4,17 +4,14 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
-import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logmanager.Level;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -97,6 +94,25 @@ public class ClientDataServiceImpl implements ClientDataService {
         } else {
             throw new CCCMException("Photo not found", CCCMErrorCode.RECORDNOTFOUND);
         }
+
+    }
+
+    @Override
+    public List<Address> clientAddress(String clientNum, String user, String location) {
+
+        return clientMapper.toAddressList(obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location)));
+
+    }
+
+    @Override
+    public Client clientDetails(String clientNum, String user, String location) {
+
+        logger.info("Get Client Data");
+        ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(clientNum, user, new BigDecimal(location));
+        logger.info("Get Address Data");
+        List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location));
+
+        return clientMapper.toClientDetails(client, address);
 
     }
 

@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 
@@ -16,5 +17,9 @@ public interface ClientDataService {
     Client clientProfile(String clientNum, String user, String location);
 
     Photo clientPhoto(String clientNum);
+
+    List<Address> clientAddress(String clientNum, String user, String location);
+
+    Client clientDetails(String clientNum, String user, String location);
 
 }
