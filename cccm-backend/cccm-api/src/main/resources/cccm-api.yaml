@@ -160,7 +160,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Client'
-          description: get a client
+          description: get a client profile (For client profile and PO Dashboard)
       tags:
         - clients
   /clients/{clientNum}/address:
@@ -198,7 +198,7 @@ paths:
           style: simple
       responses:
         "200":
-          description: get client details
+          description: get client limited details (For search screens)
           content:
             application/json:
               schema:
@@ -891,8 +891,6 @@ components:
           type: string
         clientName:
           type: string
-        currentName:
-          type: string
         currentNameYn:
           type: string
         gender:
@@ -923,6 +921,8 @@ components:
           $ref: "#/components/schemas/GeneralInformation"
         locationInformation:
           $ref: "#/components/schemas/LocationInformation"
+        photo:
+          $ref: "#/components/schemas/Photo"
         biometric:
           $ref: "#/components/schemas/Biometric"
         address:
