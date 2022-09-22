@@ -23,6 +23,7 @@ public interface ClientMapper {
     @Mapping(target = "outstandingWarrants", source = "clientProfile.warrants")
     @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress()))")
     @Mapping(target = "communityAlerts", source="clientProfile.alerts")
+    @Mapping(target = "photo", source="photo")
     @Mapping(target = "designations", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.createDesignations(clientProfile.getIaStatus(),clientProfile.getPopDesignation(),clientProfile.getIcayraSecurity(),clientProfile.getIcayraSecurityStatus()))")
     //Community Information
     @Mapping(target = "communityInformation.communityLocation", source = "client.communityLocation")
@@ -52,15 +53,16 @@ public interface ClientMapper {
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")
     @Mapping(target = "biometric.eServices", source = "clientProfile.eServicesStatus")
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
-    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, BigDecimal clientId);
+    Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "clientName", source = "client.currentName")
     @Mapping(target = "gender", source = "client.genderCode")
     @Mapping(target = "alias", source = "client.alias")
     @Mapping(target = "address", source="address")
+    @Mapping(target = "photo", source="photo")
     @Mapping(target = "communityInformation.communityLocation", source = "client.communityLocation")
     @Mapping(target = "communityInformation.caseManager", source = "client.caseManager")
-    Client toClientDetails(ca.bc.gov.open.jag.api.model.data.Client client, List<ca.bc.gov.open.jag.api.model.data.Address> address);
+    Client toClientDetails(ca.bc.gov.open.jag.api.model.data.Client client, List<ca.bc.gov.open.jag.api.model.data.Address> address, ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "comment", source = "description")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
