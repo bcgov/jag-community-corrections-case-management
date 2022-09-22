@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Name;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 
 import java.util.List;

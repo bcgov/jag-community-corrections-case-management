@@ -6,7 +6,6 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.ClientsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Name;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
