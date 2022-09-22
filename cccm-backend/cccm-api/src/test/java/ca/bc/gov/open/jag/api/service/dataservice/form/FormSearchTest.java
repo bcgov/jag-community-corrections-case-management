@@ -37,7 +37,7 @@ public class FormSearchTest {
 
         Mockito.when(speedmentClientService.getFormsByClient(Mockito.any())).thenReturn(createFormList());
 
-        FormSearchList result = sut.formSearch("01", true, null);
+        FormSearchList result = sut.getForm("01", true, null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_STRING, result.getItems().get(0).getAssessmentStatus());

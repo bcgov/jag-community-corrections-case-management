@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.data.Form;
 import ca.bc.gov.open.jag.api.model.service.FormRequest;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
@@ -69,15 +70,7 @@ public class FormDataServiceImpl implements FormDataService {
 
     }
 
-    @Override
-    public FormSearchList formSearch(String clientNum, Boolean currentPeriod, String formTypeCd) {
 
-        List<Form> forms;
-
-        forms = obridgeClientService.getClientForms(clientNum,currentPeriod, formTypeCd);
-        return formMapper.toFormSearchList("", forms);
-
-    }
 
     @Override
     public FormDetails getForm(BigDecimal formId, boolean includeAnswers) {
@@ -93,5 +86,10 @@ public class FormDataServiceImpl implements FormDataService {
     @Override
     public List<FormSummary> getFormSummaries(String module, boolean latestOnly) {
         return obridgeClientService.getFormSummaries(module, latestOnly);
+    }
+
+    @Override
+    public String getFormDecorator(String identifier) {
+        return obridgeClientService.getFormDecorator(identifier);
     }
 }

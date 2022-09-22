@@ -2,11 +2,13 @@ package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.api.service.CodeTableService;
 import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -67,4 +69,15 @@ public class LookupApiImpl implements LookupApi {
 
     }
 
+    @Override
+//    @RolesAllowed("data-view")
+    public CodeList getInterventionTypesUsingGET() {
+        return codeTableService.getCodes(CodeTableType.INTERVENTION_TYPE);
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getResponsivityTypesUsingGET() {
+        return codeTableService.getCodes(CodeTableType.RESPONSIVITY_TYPE);
+    }
 }

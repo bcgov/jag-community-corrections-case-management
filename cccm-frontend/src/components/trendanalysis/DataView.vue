@@ -20,7 +20,7 @@
 
 <script>
 
-// import { mapState } from 'vuex';
+import {mapState, mapStores} from "pinia/dist/pinia";
 
 export default {
   name: "DataView",

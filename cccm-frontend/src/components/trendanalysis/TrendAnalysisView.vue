@@ -32,10 +32,7 @@ export default {
       formDescription: null,
       formFields: [],
       formNames: [],
-      factors: [{id: 1, name: 'Family relationships'}, {id: 2, name: 'Financial situation'}, {
-        id: 3,
-        name: 'Personal relationships'
-      }, {id: 4, name: 'Home situation'}, {id: 5, name: 'Living Arrangements'}],
+      factors: [],
       options: [],
       form: null,
       formTypes: [],

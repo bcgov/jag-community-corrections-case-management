@@ -8,22 +8,16 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logmanager.Level;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
@@ -125,8 +119,8 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public FormSearchList clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
-        return formMapper.toFormSearchList("",obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd));
+    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
+        return obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
     }
 
     @Override
@@ -142,5 +136,53 @@ public class ClientDataServiceImpl implements ClientDataService {
     public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
         log.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
         return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
+    }
+
+    @Override
+    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues) {
+        log.debug("Saving client form answers {}", clientFormId);
+        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, loadLatestValues);
+
+    }
+
+    @Override
+    public String getClientFormAnswers(String clientNumber,BigDecimal clientFormId) {
+        log.debug("Getting form answers {}", clientFormId);
+        return obridgeClientService.getClientFormAnswers(clientNumber,clientFormId);
+    }
+
+    @Override
+    public String getClientFormAnswersForSection(String clientNumber, BigDecimal clientFormId, int sectionSequence) {
+        return obridgeClientService.getClientFormAnswersForSection(clientNumber,clientFormId, sectionSequence);
+    }
+
+    @Override
+    public String getClientFormAnswersForSectionAndQuestion(String clientNumber, BigDecimal clientFormId, int sectionSequence, int questionSequence) {
+        return obridgeClientService.getClientFormAnswersForSectionAndQuestion(clientNumber,clientFormId, sectionSequence, questionSequence);
+    }
+
+    @Override
+    public List<LabelValuePair> getClientFormFactors(String reportType, String csNumber) {
+        return obridgeClientService.getClientFormFactors(reportType, csNumber);
+    }
+
+    @Override
+    public ChartDataSet getClientChartData(String reportType, String csNumber) {
+        return obridgeClientService.getClientChartData(reportType, csNumber);
+    }
+
+    @Override
+    public List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientResponsivities(csNumber,searchInput);
+    }
+
+    @Override
+    public List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientInterventions(csNumber, searchInput);
+    }
+
+    @Override
+    public List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientComments(csNumber, searchInput);
     }
 }

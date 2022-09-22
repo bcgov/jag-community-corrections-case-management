@@ -37,6 +37,7 @@ export function getLocationInfo() {
  *
  */
 export async function getClientForms(clientNum: String,  currentPeriod: boolean, formTypeCd: String) {
+    debugger;
     try{
         const { data } = await axiosClient.get(`/forms/client/${clientNum}`,{
             params: {
@@ -76,10 +77,41 @@ export async function cloneForm(formId: number) {
 }
 
 // function to update form data
-export async function updateForm(formData: object) {
+export async function updateForm( csNumber: number,clientFormId: number, formData: object) {
     try{
         console.log("Update form payload", formData);
-        const { data } = await axiosClient.put('/forms/client', formData);
+        const { data } = await axiosClient.put('/forms/client/answers/' + csNumber + '/' + clientFormId, formData);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// get form data for an entire section
+export async function loadFormDataForSectionSeq(csNumber: number, clientFormId: number, sectionSeq: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId + '/' + sectionSeq);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// get form data for a single question
+export async function loadFormDataForSectionAndQuestion(csNumber: number, clientFormId: number, sectionSeq: number, questionSeq: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId + '/' + sectionSeq + '/' + questionSeq);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+
+// get form data (all data returned)
+export async function loadFormData(csNumber: number, clientFormId: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId);
         return [null, data];
     } catch (error) {
         return [error];
@@ -163,9 +195,8 @@ export async function clientProfileSearch(clientNum: String) {
 export async function formSearch(clientNum: String, formType: String, supervisionPeriod: boolean) {
     try{
         console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, supervisionPeriod);
-        const { data } = await axiosClient.get('/forms/formSearch', {
+        const { data } = await axiosClient.get('/forms/client/search/' + clientNum, {
                 params: {
-                    clientNum: clientNum,
                     formTypeCd: formType,
                     currentPeriod: supervisionPeriod
                 }
@@ -188,6 +219,31 @@ export async function getFormSummaries( formType: String, latestOnly: boolean) {
             });
         return [null, data];
     } catch (error) {
+        return [error];
+    }
+}
+
+
+//-------------------------------------
+// Trend analysis
+//-------------------------------------
+export async function getClientFormFactors( clientNumber:number, reportType: string) {
+    try {
+        const { data} = await axiosClient.get('/trend/client/' + clientNumber + '/' + reportType + '/factors');
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+//-------------------------------------
+// Comments
+//-------------------------------------
+export async function getClientFormComments( clientNumber:number, payload: object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/comments/' + clientNumber, payload );
+        return [null,data];
+    }catch (error) {
         return [error];
     }
 }

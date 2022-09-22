@@ -31,7 +31,8 @@
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in items" :key="item.tab">
         <FormioClientProfile v-if="item.content === 'cp'" :csNumber="$route.params.csNumber" :clientID="$route.params.clientID"></FormioClientProfile>
-        <RNAListView v-if="item.content === 'rl'" :clientNum="$route.params.clientID"></RNAListView>
+        <RNAListView v-if="item.content === 'rl'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></RNAListView>
+        <TrendAnalysisView v-if="item.content === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
         <span v-else> {{item.content}}</span>
       </v-tab-item>
     </v-tabs-items>
@@ -43,6 +44,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import FormioClientProfile from "@/components/common/FormioClientProfile.vue";
 import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
+import TrendAnalysisView from "./trendanalysis/TrendAnalysisView.vue";
 
 export default {
   name: "FormioClientRecord",
@@ -64,7 +66,8 @@ export default {
   components: {
     FormioClientProfile,
     RNAListView,
-  },
+    TrendAnalysisView
+},
   mounted() {
     this.clientProfileSearchAPI();
   },
@@ -77,7 +80,7 @@ export default {
         {
             "id": "1",
             "fullName": "Ross, Bob",
-            "csNumber": "123456780",
+            "csNumber": "00142091",
             "clientAge": 44,
             "datePhotoTaken": "2022-10-10",
             "photo": "abc",

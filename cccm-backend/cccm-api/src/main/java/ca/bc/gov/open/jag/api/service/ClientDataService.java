@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 
+import javax.ws.rs.PathParam;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -17,9 +18,88 @@ public interface ClientDataService {
 
     Photo clientPhoto(String clientNum);
 
-    FormSearchList clientFormSearch(String clientNum,  boolean currentPeriod,String formTypeCd);
+    /**
+     * Save client form answers
+     * @param clientNumber
+     * @param clientFormId the form Id
+     * @param payload the JSON representation of the form data
+     * @param loadLatestAnswers set true to return latest answers - has performance overhead so only use if saving the whole form, not a single question
+     *
+     * @return {@link String} JSON value of answers if loadLatest is requested
+     */
+    String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean loadLatestAnswers);
+
+    /**
+     * Get client form answers
+     * @param clientNumber
+     * @param clientFormId
+     * @return {@link String} JSON answer object
+     */
+    String getClientFormAnswers(String clientNumber, BigDecimal clientFormId);
+
+    List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd);
 
     BigDecimal addClientForm(CreateFormInput createFormInput);
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
+
+    /**
+     * Get all client form answers for a client form and section sequence (.e. S03 )
+     * @param clientNumber client csNumber
+     * @param clientFormId unique client form id
+     * @param sectionSequence 1-based
+     * @return JSON object for answers
+     */
+    String getClientFormAnswersForSection(String clientNumber, BigDecimal clientFormId, int sectionSequence);
+
+    /**
+     * Get single client form answer for form/section/sequence
+     * @param clientNumber client csNumber
+     * @param clientFormId unique client form id
+     * @param sectionSequence 1-based
+     * @param questionSequence 1-based
+     * @return JSON object for answers
+     */
+    String getClientFormAnswersForSectionAndQuestion(String clientNumber, BigDecimal clientFormId, int sectionSequence, int questionSequence);
+
+    /**
+     * Get possible form factors (sections) for a given report type and client
+     * @param reportType
+     * @param csNumber
+     * @return {@link <List<LabelValuePair>>}
+     */
+    List<LabelValuePair> getClientFormFactors( String reportType,  String csNumber);
+
+    /**
+     * Get chart data for a given report type and csNumber
+     * @param reportType
+     * @param csNumber
+     * @return {@link ChartDataSet}
+     */
+    ChartDataSet getClientChartData(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
+
+
+    /**
+     * As is says on the can - get responsivities (emotional/social response to some input - e.g an intervention plan)
+     * @param csNumber - client number
+     * @param searchInput {@link ClientSearchInput}
+     * @return {@link List<Responsivity>}
+     */
+    List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput);
+
+    /**
+     * Get interventions
+     * @param csNumber - client number
+     * @param searchInput {@link ClientSearchInput}
+     * @return {@link List<Intervention>}
+     */
+    List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput);
+
+    /**
+     * Get comments related to form questions
+     * @param csNumber - client number
+     * @param searchInput {@link ClientSearchInput}
+     * @return {@link List<Comment>}
+     */
+    List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput);
 }

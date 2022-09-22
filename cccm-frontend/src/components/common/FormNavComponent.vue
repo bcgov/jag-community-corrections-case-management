@@ -20,7 +20,7 @@
           <div v-for="(values, name, sectionIndex) in sectionQuestionMap" :key="sectionIndex"
               :class="[currentSectionParent == sectionIndex ? 'divTableCell' : 'hide', '']">
               <span>
-                <a v-for="(value, questionIndex) in values" 
+                <a v-for="(value, questionIndex) in values.questions" 
                   :key="questionIndex" 
                   :href="getSectionQuestionKey(sectionIndex,questionIndex)"
                   :class="[questionIndex == currentSectionChild ? 'active' : '', 'navHeaderA-L2']">
@@ -42,6 +42,7 @@
     name: 'FormNavComponent',
     props: {
       dataModel: {},
+  
       sectionQuestionMap: {
           type: Object
       },
@@ -54,8 +55,8 @@
     data() {
       return {
         observer : null,
-        currentSectionChild : '0',
-        currentSectionParent : '0',
+        currentSectionChild : 0,
+        currentSectionParent : 0,
         indexZero: '0',
       }
     },
@@ -64,17 +65,19 @@
           alert("section map change");
       },
       parentNavMoveToNext() {
-        let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
-        let childNavPos = '0';
-        this.showHideWrapper(parentNavPos, childNavPos);
-  
-        // Move the position to the top by simulating an anchor click
-        let hrefVal = '#' + parentNavPos + childNavPos;
-        let selector = 'a[href="' + hrefVal + '"]'
-        let theAnchor = document.querySelector(selector);
-        if (theAnchor != null) {
-          theAnchor.click();
-        }
+        console.log("Moving nav...%d",this.currentSectionParent);
+        let parentNavPos = this.currentSectionParent + 1;
+        this.currentSectionParent++;
+        let childNavPos = 0;
+    //    // this.showHideWrapper("S0" + parentNavPos + "Q01");
+        
+    //     // Move the position to the top by simulating an anchor click
+    //     let hrefVal = '#S0' + parentNavPos + "Q01";
+    //     let selector = 'a[href="' + hrefVal + '"]'
+    //     let theAnchor = document.querySelector(selector);
+    //     if (theAnchor != null) {
+    //       theAnchor.click();
+    //     }
       }
     },
     mounted() {
@@ -119,9 +122,8 @@
       // get section/question key ( numbers should be 1-based not zero)
       getSectionQuestionKey(sectionIndex: number, questionIndex: number) : string {
         return "#S" + String(sectionIndex + 1).padStart(2, '0') + "Q" + String(questionIndex + 1).padStart(2, '0');
-  
       },
-      // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
+      // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to 0
       setCurrentSectionParentChild(e : any) {
         if (e.target && e.target.hash) {
           // a sample of hash value: #00
@@ -132,7 +134,7 @@
       
         console.log("Nav to %s", sectionQuestionKey);
   
-        debugger;
+        
         this.currentSectionParent = Number.parseInt(sectionQuestionKey.substring(2,4))-1;
         this.currentSectionChild = Number.parseInt(sectionQuestionKey.substring(5,7))-1;
   
@@ -168,7 +170,6 @@
           let sideCardsPanelHiddenList = this.dataModel.data[this.currentSectionParent].sideCardPanelHiddenList;
           if (sideCardsPanelHiddenList != null) {
             for (let i = 0; i < sideCardsPanelHiddenList.length; i++) {
-              //console.log('formio-component-' + sideCardsPanelHiddenList[i]);
               let className = '[class*="' + sideCardsPanelHiddenList[i] + '"]';
               let thePanel = document.querySelector(className);
               if (thePanel != null && thePanel.parentNode != null && thePanel.parentNode.parentNode) {

@@ -14,9 +14,14 @@ public interface FormDataService {
 
     FormDetails formRequest(FormRequest formRequest) throws CCCMException;
 
-    FormSearchList formSearch(String clientNum, Boolean currentPeriod, String formTypeCd);
-
     FormDetails getForm(BigDecimal formId, boolean includeAnswers);
 
     List<FormSummary> getFormSummaries(String module, boolean latestOnly);
+
+    /**
+     * Get a form decorator block (e.g. intervention json)
+     * @param identifier e.g. intervention_panel
+     * @return JSON resource contents
+     */
+    String getFormDecorator(String identifier);
 }

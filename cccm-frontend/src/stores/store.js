@@ -28,7 +28,7 @@ export const useStore = defineStore('main', {
                     console.error(error);
                 } else {
                     if (response != null && response.items != null && response.items.length > 0) {
-                        debugger;
+                        
                         this.locationDescription = response.items[0].locationDescription;
                         this.locationCD = response.items[0].locationCd;
                         this.locationId = response.items[0].locationId;

@@ -1,35 +1,36 @@
 <template>
   <div class="container panel">
 
-    <div v-if="factors.length === 0" class="inactive-banner justify-content-center pt-5 text-center"><h1><b>No Factors Selected</b></h1><p/>
-      <p>Please select an item(s) from the "Factor View" dropdown menu</p></div>
-    <div class="chart mb-4" :class="[ factors.length > 0 ? 'chartActive' : 'chartInactive' ]">
-      <canvas id="justiceChart"  style="z-index: 1;"></canvas>
+    <div v-if="!factorsSelected" class="inactive-banner justify-content-center pt-5 text-center">
+      <h1><b>No Factors Selected</b></h1>
+      <p />
+      <p>Please select an item(s) from the "Factor View" dropdown menu</p>
     </div>
+    <div class="chart mb-4" :class="[ factorsSelected  ? 'chartActive' : 'chartInactive' ]">
+      <canvas id="justiceChart" style="z-index: 1;"></canvas>
+    </div>
+    {{ factors }}
+
   </div>
 </template>
 
 <script>
 
-import {Chart, registerables} from 'chart.js';
-// import {mapState} from "vuex";
+import { Chart, registerables } from 'chart.js';
 import axios from "axios";
-import {trendStore} from '@/stores/trendstore';
-import {mapState, mapStores} from "pinia/dist/pinia";
+import { trendStore } from '@/stores/trendstore';
+import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
 
 export default {
   name: "TrendChart",
   data() {
     return {
       chartData: [],
-      factors: [],
       factorsSelected: false
     }
   },
   computed: {
-    // note we are not passing an array, just one store after the other
-    // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapStores(trendStore)
+    ...mapStores(trendStore, ['factors', 'startDate', 'endDate'])
   },
   created() {
 
@@ -37,7 +38,9 @@ export default {
   mounted() {
     let ctx = document.getElementById('justiceChart');
 
-
+    this.trendStore.$subscribe((mutation, state) => {
+      console.log("Mutation %o %o", mutation, state);
+    });
 
     const linePlugin = {
       id: 'draw_vertical_lines',
@@ -48,7 +51,7 @@ export default {
         chartInstance.data.datasets.forEach(dataset => {
           if (dataset.verticalLines) {
             for (const [key, val] of Object.entries(dataset.verticalLines)) {
-              console.log("key val %o %o", key,val);
+              console.log("key val %o %o", key, val);
               const axisPoint = chartInstance.scales.x.getPixelForValue(chartInstance.data.labels[chartInstance.data.labels.length - 2]);
               let yAxis = chartInstance.scales.y;
               let ctx = chartInstance.ctx;
@@ -204,8 +207,8 @@ export default {
                   style += '; border-width: 2px';
                   const span = '<span style="' + style + '"></span>';
                   innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                  innerHtml += '<tr><td><a class="tooltip-link" id="comment-' + i + '" style="color:#000000" href="#/comments/' + tooltipModel.title[0]  + '">nn comment(s)</a></td></tr>';
-                  innerHtml += '<tr><td><a class="tooltip-link" id="intervention=' + i + '" style="cursor:pointer; color:#000000" href="#/interventions/' + tooltipModel.title[0]  + '">nn intervention(s)</a></td></tr>';
+                  innerHtml += '<tr><td><a class="tooltip-link" id="comment-' + i + '" style="color:#000000" href="#/comments/' + tooltipModel.title[0] + '">nn comment(s)</a></td></tr>';
+                  innerHtml += '<tr><td><a class="tooltip-link" id="intervention=' + i + '" style="cursor:pointer; color:#000000" href="#/interventions/' + tooltipModel.title[0] + '">nn intervention(s)</a></td></tr>';
 
                 });
                 innerHtml += '</tbody>';
@@ -287,12 +290,9 @@ export default {
 
   },
   watch: {
-    factors: {
-      handler: function (newValue, oldValue) {
-        console.log("Chart Factors updated %s %s", newValue, oldValue);
-        this.refreshChart();
-      },
-      deep: true,
+    factors(newValue) {
+        alert('factor change ' + newValue);
+        // this.refreshChart();
     },
     userEndDate: {
       handler: function (newValue, oldValue) {
@@ -340,15 +340,15 @@ export default {
       let chart = Chart.getChart("justiceChart");
       console.log('NewValue %o %o', newValue, ctx);
 
-      if ( !newValue) {
+      if (!newValue) {
 
-        chart.data.datasets.forEach( ds => {
+        chart.data.datasets.forEach(ds => {
           ds.hidden = false;
         });
       } else {
         // TODO Need to inject this from the incoming JSON as its chart type specific
         switch (newValue.id) {
-            // worsened
+          // worsened
           case 1: {
             chart.data.datasets.forEach(ds => {
               const lastTwo = ds.data.slice(-2);
@@ -365,7 +365,7 @@ export default {
             });
             break;
           }
-            // improved
+          // improved
           case 2: {
             chart.data.datasets.forEach(ds => {
               const lastTwo = ds.data.slice(-2);
@@ -416,30 +416,25 @@ export default {
 
     },
     refreshChart() {
-
-      let factors = this.factors.map(factor => {
-        return factor.name;
-      });
-      // let factors = this.factors.map(factor => {
-      //   return factor.name;
-      // });
-      // let factors = [{'1':'Family'}];
-      axios
-          .get('http://localhost:8888/client/form/crna', {
-            params: {
-              factors: String(factors),
-              period: this.period,
-              clientId: this.clientId,
-              startDate: this.userStartDate,
-              endDate: this.userEndDate,
-              advancedFilter: this.advancedFilter
-            },
-          })
-          .then((response) => {
-            console.log("Got response %o", this.form);
-            this.updateChart(response.data);
-          });
-
+      console.log("RefreshChart() called");
+      // if (this.factors) {
+      //   console.log("Factors %o", this.factors);
+      //   axios
+      //     .get('/forms/client/', {
+      //       params: {
+      //         factors: factors,
+      //         period: this.period,
+      //         clientId: this.clientId,
+      //         startDate: this.userStartDate,
+      //         endDate: this.userEndDate,
+      //         advancedFilter: this.advancedFilter
+      //       },
+      //     })
+      //     .then((response) => {
+      //       console.log("Got response %o", this.form);
+      //       this.updateChart(response.data);
+      //     });
+      // }
     },
 
     updateChart(responseData) {
@@ -467,7 +462,6 @@ export default {
 </script>
 
 <style scoped>
-
 .chart {
   width: 90%;
 }

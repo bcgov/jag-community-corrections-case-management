@@ -59,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/crnacmp/:formID',
+      path: '/clientrecord/:clientID/:csNumber/crnacmp/:formID',
       name: 'crnacmp',
       component: CrnaCmpView,
       meta: {
@@ -67,21 +67,14 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/saracmp/:formID',
+      path: '/clientrecord/:clientID/:csNumber/saracmp/:formID',
       name: 'saracmp',
       component: SaraCmpView,
       meta: {
         isAuthenticated: true
       }
     },
-    {
-      path: '/trendanalysis',
-      name: 'trendanalysis',
-      component: TrendAnalysisView,
-      meta: {
-        isAuthenticated: true
-      }
-    },
+
     {
       path: '/',
       name: 'unauthorized',

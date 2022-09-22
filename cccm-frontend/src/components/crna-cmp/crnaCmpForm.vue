@@ -7,19 +7,15 @@
             <div class="menuR1">
               <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey" />
             </div>
-            <div class="menuR2">
+            <div class="menuR2" v-if="!loading">
               <FormNavComponent :sectionQuestionMap="sectionQuestionMap" @parentNavClicked="handleNavChildCallback"
                 :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey" />
             </div>
-            <p/>
+            <p />
           </div>
-          <v-progress-circular
-      :size="100"
-      color="purple" v-if="loading"
-      indeterminate
-    ></v-progress-circular>
-          <div class="mainContent">
- 
+          <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          <div :class="loading ? 'hide' : 'mainContent'" class="mainContent">
+
             <!-- form gets rendered here -->
             <div id="formio" />
 
@@ -35,7 +31,7 @@
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
                 <!--Save draft button group-->
-                <FormioButton :dataModel="formJSONFormData.buttonGroupSavePrint"
+                <FormioButton v-if="!loading" :dataModel="formJSONFormData.buttonGroupSavePrint"
                   @saveContinueClicked="handleSaveContinue" @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
@@ -53,7 +49,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import { getFormDetails } from "@/components/form.api";
+import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq } from "@/components/form.api";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import FormNavComponent from "@/components/common/FormNavComponent.vue";
@@ -75,12 +71,16 @@ export default {
   },
   data() {
     return {
+      form: null,
+      loadingMsg: "Loading form...",
+      trackedData: {},
       loading: false,
       message: "",
       parentNavMoveToNext: 1,
       notifySavingData: 1,
-      totalNumParentNav: 1,
-      parentNavCurLocation: '0',
+      totalNumParentNav: 0,
+      parentNavCurLocationFromChild: 0,
+      parentNavCurLocation: 0,
       btnSaveContinueText: "Save and Continue",
       formJSONFormData: sampleFormData,
       componentKey: 0,
@@ -93,7 +93,9 @@ export default {
   methods: {
     async getFormData() {
       this.loading = true;
+      this.loadingMsg = "Loading form...";
       let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
       let vm = this;
       console.log("CRNA formDetails: ", formId);
       const [error, response] = await getFormDetails("00142091", formId);
@@ -101,57 +103,139 @@ export default {
         console.error(error);
       } else {
         console.log("Got form %o", response);
+        try {
 
-        await Formio.createForm(document.getElementById('formio'), response).then(form => {
-
-          form.on("change", function (e) {
-            console.log("Change event %o", e);
-            console.log(form.schema);
-            vm.formJSON = JSON.stringify(form.schema, null, 2);
-          });
-
-          form.components.filter((component) => component.hasOwnProperty('components')).forEach(sectionComponent => {
-            console.log("Section %s", sectionComponent.component.title);
-            let questions = [];
-
-            sectionComponent.components.forEach(question => {
-              if (question.path.indexOf("_") === -1) {
-                questions.push(question.component.label);
-              }
+          await Formio.createForm(document.getElementById('formio'), response).then(form => {
+            // Prevent the submission from going to the form.io server.
+            form.nosubmit = true;
+            vm.form = form;
+            form.on("change", function (e) {
+              console.log("Change event %o", e);
+              vm.trackedData[vm.parentNavCurLocation] = form.data;
+              console.log("--> DATA %o", vm.trackedData);
             });
-            debugger;
-            this.sectionQuestionMap[sectionComponent.component.title] = {};
-            this.sectionQuestionMap[sectionComponent.component.title].questions = questions;
 
+            // capture the submit
+            form.on('submit', function (submissionData) {
+              vm.submission = JSON.stringify(submissionData, null, 2);
+              form.emit('submitDone', submissionData);
+
+            });
+
+            form.on('error', function (errorData) {
+              errorData.forEach(error => {
+                console.error("Error in renderer %o", error);
+              })
+            });
+
+
+
+
+            form.components.filter((component) => component.hasOwnProperty('components')).forEach(sectionComponent => {
+              console.log("Section %s", sectionComponent.component.title);
+              let questions = [];
+
+              // track questions for section
+              sectionComponent.components.forEach(question => {
+                if (question.path.indexOf("_") === -1) {
+                  questions.push(question.component.label);
+                }
+              });
+
+              this.sectionQuestionMap[sectionComponent.component.title] = {};
+              this.sectionQuestionMap[sectionComponent.component.title].questions = questions;
+
+
+            });
+            console.log("Map %o", this.sectionQuestionMap);
+            this.componentKey += 1;
+
+
+
+          }).then(async () => {
+            console.log("Ready");
+            vm.loadingMsg = "Loading client form data...";
+            const [error, clientFormData] = await loadFormData(csNumber, formId);
+            if (error) {
+
+            } else {
+              vm.form.data = clientFormData.data;
+              for (const [key, value] of Object.entries(clientFormData.data)) {
+                let field = vm.form.getComponent(key);
+                if (field) {
+
+                  field.setValue(value);
+                  if (value === true) {
+                    field.updateValue(!value);
+                    field.updateValue(value);
+
+                  }
+                }
+              }
+            }
 
           });
-          console.log("Map %o", this.sectionQuestionMap);
-          this.totalNumParentNav = this.sectionQuestionMap.length;
-          this.componentKey += 1;
-        });
+        } catch (err) {
+          console.log("Failed to render form %o", err);
+        }
 
+
+
+
+
+        // hide other sections
+        this.hideSectionsExceptCurrent(0);
+
+
+        this.totalNumParentNav = Object.keys(this.sectionQuestionMap).length;
         this.loading = false;
-        console.log("Here %o",this.sectionQuestionMap );
-
-
       }
     },
 
-    handleSaveContinue(continueToNextSection) {
+    async handleSaveContinue(continueToNextSection) {
+
+      console.log("Saving data %o", this.form.data);
+      let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
+      const [error, response] = await updateForm(csNumber, formId, this.form.data);
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Saved form %o", response);
+      }
+
       // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
+        this.hideSectionsExceptCurrent(this.parentNavMoveToNext);
         this.parentNavMoveToNext++;
       }
+
       // have to make sure the value is different to notify child components to gather the data
       this.notifySavingData++;
     },
     handlePrintForm() {
       console.log('Print Form.')
     },
+    hideSectionsExceptCurrent(sectionIdx) {
+      // hide all non-selected sections
+      this.form.components.forEach(sectionComponent => {
+        let sectionNumber = Number.parseInt(sectionComponent.key.substr(1, 2)) - 1;
+        if (sectionNumber !== sectionIdx) {
+          sectionComponent.element.setAttribute('style', 'display:none');
+        } else {
+          sectionComponent.element.setAttribute('style', 'display:block');
+        }
+      });
+    },
     handleCancelForm() {
       console.log("Cancel Form");
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
+      console.log("Nav event %o", parentNavCurLocationFromChild);
+
+      // hide other sections
+      this.hideSectionsExceptCurrent(parentNavCurLocationFromChild);
+
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       if (parentNavCurLocationFromChild == this.totalNumParentNav - 1) {
         this.btnSaveContinueText = "Submit Form";

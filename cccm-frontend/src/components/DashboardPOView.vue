@@ -194,8 +194,8 @@ export default {
       this.clientList =   
         [
           {
-            "clientID": 21321312,
-            "csNumber": "123456780",
+            "clientID": 2551.0005,
+            "csNumber": "00142091",
             "clientName": "Arsenault, Sonja",
             "designation": ["GEN", "IPV", "SMO"],
             "inCustody": "Y", 
