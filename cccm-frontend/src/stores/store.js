@@ -7,7 +7,7 @@ export const useStore = defineStore('main', {
     state: () =>({
         locationCD: useLocalStorage('locationCD', ''),
         locationDescription: useLocalStorage('locationDescription', ''),
-        locations: []
+        locations: useLocalStorage('locations', []),
     }),
 
     // actions
