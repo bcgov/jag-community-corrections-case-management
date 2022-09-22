@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.user;
 
 import ca.bc.gov.open.jag.api.service.UserDataService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
