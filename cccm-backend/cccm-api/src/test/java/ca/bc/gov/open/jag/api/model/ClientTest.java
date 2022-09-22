@@ -27,6 +27,7 @@ public class ClientTest {
         sut.setCustodyLocation(TEST_STRING);
         sut.setCommunityLocation(TEST_STRING);
         sut.setAlias(TEST_STRING);
+        sut.setSealed(TEST_STRING);
 
         Assertions.assertEquals(CLIENT_NO, sut.getClientNo());
         Assertions.assertEquals(TEST_STRING, sut.getClientName());
@@ -37,6 +38,7 @@ public class ClientTest {
         Assertions.assertEquals(TEST_STRING, sut.getCustodyLocation());
         Assertions.assertEquals(TEST_STRING, sut.getCommunityLocation());
         Assertions.assertEquals(TEST_STRING, sut.getAlias());
+        Assertions.assertEquals(TEST_STRING, sut.getSealed());
 
     }
 

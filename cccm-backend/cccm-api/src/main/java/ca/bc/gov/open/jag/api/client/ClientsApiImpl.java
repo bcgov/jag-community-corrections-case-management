@@ -30,7 +30,7 @@ public class ClientsApiImpl implements ClientsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public Client getClient(String xLocationId, String clientNum) {
+    public Client getClient(String clientNum, String xLocationId) {
 
         logger.info(username);
 
@@ -38,9 +38,11 @@ public class ClientsApiImpl implements ClientsApi {
 
     }
 
+
+
     @Override
     @RolesAllowed("client-search")
-    public Photo getClientPhoto(String xLocationId, String clientNum) {
+    public Photo getClientPhoto(String clientNum, String xLocationId) {
 
         return clientDataService.clientPhoto(clientNum);
 

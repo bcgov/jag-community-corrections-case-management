@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Location;
+import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
@@ -15,6 +16,7 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.util.Collections;
 
 import static ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge;
 
@@ -35,6 +37,8 @@ public class ClientProfileTest {
     private static final String CLIENT_NUM = "01";
     private static final String TEST_IDIR = "test@idir";
     private static final String LOCATION = "123";
+    private static final String PHOTO_TAKEN_DATE = "TEST";
+    private static final byte[] BYTES = "blarg".getBytes();
 
     @Inject
     ClientDataService sut;
@@ -54,6 +58,7 @@ public class ClientProfileTest {
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
         Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
 
         Client result = sut.clientProfile(CLIENT_NUM, TEST_IDIR, LOCATION);
 
@@ -67,6 +72,8 @@ public class ClientProfileTest {
         Assertions.assertEquals(COMMUNITY_LOCATION, result.getCommunityInformation().getCommunityLocation());
         Assertions.assertEquals(ADDRESS, result.getAddress().get(0).getFullAddress());
         Assertions.assertEquals(CASE_MANAGER, result.getCommunityInformation().getCaseManager());
+        Assertions.assertEquals(PHOTO_TAKEN_DATE, result.getPhoto().getPhotoTakenDate());
+        Assertions.assertEquals(BYTES.length, result.getPhoto().getImage().length);
 
     }
 
@@ -92,6 +99,16 @@ public class ClientProfileTest {
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setClient(createClient());
         return clientProfile;
+    }
+
+    private ca.bc.gov.open.jag.api.model.data.Photo createPhoto() {
+
+        Photo photo = new Photo();
+        photo.setImage(BYTES);
+        photo.setPhotoTakenDate(PHOTO_TAKEN_DATE);
+
+        return photo;
+
     }
 
 }

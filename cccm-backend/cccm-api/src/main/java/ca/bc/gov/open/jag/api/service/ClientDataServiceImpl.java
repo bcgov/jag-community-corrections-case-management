@@ -76,18 +76,22 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Override
     public Client clientProfile(String clientNum, String user, String location) {
 
-        final String csNumberPadded = ("00000000" + clientNum).substring(clientNum.length());
+        final String csNumberPadded = padCsNum(clientNum);
+
+        Photo photo = getPhoto(csNumberPadded);
 
         ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), new BigDecimal(location));
 
-        return clientMapper.toApiClient(result.getClient(), result, null);
+        return clientMapper.toApiClient(result.getClient(), result, photo);
 
     }
 
     @Override
     public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(String clientNum) {
 
-        List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
+        final String csNumberPadded = padCsNum(clientNum);
+
+        List<Photo> photos = obridgeClientService.getPhotosById(csNumberPadded);
 
         if (!photos.isEmpty()) {
             return clientMapper.toPhoto(photos.stream().findFirst().get());
@@ -100,19 +104,25 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Override
     public List<Address> clientAddress(String clientNum, String user, String location) {
 
-        return clientMapper.toAddressList(obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location)));
+        final String csNumberPadded = padCsNum(clientNum);
+
+        return clientMapper.toAddressList(obridgeClientService.getAddressById(csNumberPadded, stripUserName(user), new BigDecimal(location)));
 
     }
 
     @Override
     public Client clientDetails(String clientNum, String user, String location) {
 
-        logger.info("Get Client Data");
-        ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(clientNum, user, new BigDecimal(location));
-        logger.info("Get Address Data");
-        List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(clientNum, user, new BigDecimal(location));
+        final String csNumberPadded = padCsNum(clientNum);
 
-        return clientMapper.toClientDetails(client, address);
+        logger.info("Get Client Data");
+        ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(csNumberPadded, stripUserName(user), new BigDecimal(location));
+        logger.info("Get Address Data");
+        List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(csNumberPadded, stripUserName(user), new BigDecimal(location));
+        logger.info("Get Photo Data");
+        Photo photo = getPhoto(csNumberPadded);
+
+        return clientMapper.toClientDetails(client, address, photo);
 
     }
 
@@ -122,6 +132,22 @@ public class ClientDataServiceImpl implements ClientDataService {
                 .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), null))
                 .collect(Collectors.toList());
 
+    }
+
+    private Photo getPhoto(String clientNum) {
+
+        List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
+
+        if (!photos.isEmpty()) {
+            return photos.stream().findFirst().get();
+        }
+
+        return null;
+
+    }
+
+    private String padCsNum(String clientNum) {
+        return ("00000000" + clientNum).substring(clientNum.length());
     }
 
 }
