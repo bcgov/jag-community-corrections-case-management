@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,8 +14,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
 
 @QuarkusTest
 public class GetDefaultLocationTest {

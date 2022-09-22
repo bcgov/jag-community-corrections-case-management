@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormQuestionAnswer;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;

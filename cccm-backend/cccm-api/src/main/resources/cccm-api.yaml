@@ -885,8 +885,6 @@ components:
     Client:
       type: object
       properties:
-        clientId:
-          type: number
         clientNum:
           type: string
         clientName:
