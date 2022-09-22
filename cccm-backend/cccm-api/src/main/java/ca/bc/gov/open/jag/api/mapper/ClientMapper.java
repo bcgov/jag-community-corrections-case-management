@@ -1,14 +1,12 @@
 package ca.bc.gov.open.jag.api.mapper;
 
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Alert;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Warrant;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Mapper(componentModel = "cdi")
 public interface ClientMapper {
@@ -56,6 +54,14 @@ public interface ClientMapper {
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
     Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, BigDecimal clientId);
 
+    @Mapping(target = "currentName", source = "client.currentName")
+    @Mapping(target = "gender", source = "client.genderCode")
+    @Mapping(target = "alias", source = "client.alias")
+    @Mapping(target = "address", source="address")
+    @Mapping(target = "communityInformation.communityLocation", source = "client.communityLocation")
+    @Mapping(target = "communityInformation.caseManager", source = "client.caseManager")
+    Client toClientDetails(ca.bc.gov.open.jag.api.model.data.Client client, List<ca.bc.gov.open.jag.api.model.data.Address> address);
+
     @Mapping(target = "comment", source = "description")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
@@ -67,5 +73,12 @@ public interface ClientMapper {
     @Mapping(target = "date", source = "issuedDate")
     @Mapping(target = "type", source = "charge")
     Warrant toWarrant(ca.bc.gov.open.jag.api.model.data.Warrant warrant);
+
+    List<Address> toAddressList(List<ca.bc.gov.open.jag.api.model.data.Address> address);
+
+    @Mapping(target = "fullAddress", source = "fullAddress")
+    @Mapping(target = "expired", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.isExpired(address.getExpiryDate()))")
+    @Mapping(target = "primary", defaultValue = "false")
+    Address toAddress(ca.bc.gov.open.jag.api.model.data.Address address);
 
 }
