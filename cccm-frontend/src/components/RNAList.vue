@@ -134,10 +134,6 @@
             <a href="#" @click="formClone(item.formID)" title="Copy form">
               <i class="fas fa-copy"></i>
             </a>
-            &nbsp;&nbsp;
-            <a href="#" @click="formPrint(item.formID)" title="Print form">
-              <i class="fas fa-print"></i>
-            </a>
           </template>
         </v-data-table>
       </div>
@@ -405,9 +401,6 @@ export default {
       console.log("formClone", formID);
       this.formCloneAPI(formID);
       this.formSearchAPI(this.clientNum, true);
-    },
-    formPrint(formID) {
-      console.log("formPrint", formID);
     },
     handleFormCreateBtnClick() {
       this.dialog = false;
