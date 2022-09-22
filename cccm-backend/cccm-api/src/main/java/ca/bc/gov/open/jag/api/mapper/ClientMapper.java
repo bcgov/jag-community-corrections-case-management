@@ -13,7 +13,6 @@ public interface ClientMapper {
 
     @Mapping(target = "clientNum", source = "client.clientNo")
     @Mapping(target = "clientName", source = "client.clientName")
-    @Mapping(target = "currentName", source = "client.currentName")
     @Mapping(target = "currentNameYn", source = "client.currentNameYn")
     @Mapping(target = "gender", source = "client.genderCode")
     @Mapping(target = "birthDate", source = "client.birthDate")
@@ -55,7 +54,7 @@ public interface ClientMapper {
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
     Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, BigDecimal clientId);
 
-    @Mapping(target = "currentName", source = "client.currentName")
+    @Mapping(target = "clientName", source = "client.currentName")
     @Mapping(target = "gender", source = "client.genderCode")
     @Mapping(target = "alias", source = "client.alias")
     @Mapping(target = "address", source="address")

@@ -37,7 +37,7 @@ public class GetClientDetailsTest {
         Mockito.when(clientDataService.clientDetails(Mockito.any(), Mockito.any(), Mockito.anyString())).thenReturn(createClient());
         Client result = sut.getClientDetails(X_LOCATION_ID, CLIENT_NUM);
 
-        Assertions.assertEquals(CURRENT_NAME, result.getCurrentName());
+        Assertions.assertEquals(CURRENT_NAME, result.getClientName());
 
     }
 
@@ -62,7 +62,7 @@ public class GetClientDetailsTest {
 
         Client client = new Client();
         client.setClientNum(CLIENT_NUM);
-        client.setCurrentName(CURRENT_NAME);
+        client.setClientName(CURRENT_NAME);
         client.setGender(GENDER);
         client.setCustodyLocation(CUSTODY_LOCATION);
 

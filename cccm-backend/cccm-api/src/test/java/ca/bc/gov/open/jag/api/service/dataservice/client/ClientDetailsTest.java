@@ -46,7 +46,7 @@ public class ClientDetailsTest {
 
         Client result = sut.clientDetails(CLIENT_NUM, TEST_IDIR, LOCATION);
 
-        Assertions.assertEquals(TEST_NAME, result.getCurrentName());
+        Assertions.assertEquals(TEST_NAME, result.getClientName());
         Assertions.assertEquals(GENDER_CODE, result.getGender());
         Assertions.assertEquals(TEST_VALUE, result.getAlias());
         Assertions.assertEquals(COMMUNITY_LOCATION, result.getCommunityInformation().getCommunityLocation());
