@@ -1,5 +1,52 @@
 <template>
   <div data-app class="p-4">
+    <!--Form creation modal dialog-->
+    <v-btn
+      id="id_modal_form_creation"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="550"
+      >
+      <v-card>
+        <div class="col-sm-6 m-7">
+          <strong>
+            Select Form Type
+          </strong>
+          <v-checkbox
+            v-model="selectedFormTypeValue"
+            :readonly="readonly"
+            label="CRNA-CMP"
+            value="crna"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormTypeValue"
+            label="SARA-CMP"
+            value="sara"
+          ></v-checkbox>
+        </div>
+        <v-card-actions>
+            <v-btn
+              color="primary"
+              dark
+              @click="handleFormCreateBtnClick"
+            >
+              Yes, continue
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              @click="dialog = false"
+            >
+              No, exit
+            </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!--RNA List-->
     <div class="row justify-content-between mb-2">
       <div class="col-sm-6">
         <h1 class="font-weight-bold">RNA List</h1>
@@ -11,8 +58,8 @@
           <div class="mt-2 ml-3">
             <label><strong>Filter RNA Form</strong></label>
             <v-select
-              item-text="text"
-              item-value="value"
+              item-text="value"
+              item-value="key"
               v-model="selectedFormTypes"
               :items="formTypes"
               label=""
@@ -46,7 +93,7 @@
         </div>
         <div class="col-sm-3" ></div>
         <div class="col-sm-3 text-right pr-4">
-          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">New RNA</button>
+          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">Create New RNA</button>
         </div>
       </section>
       <div class="dashboard-v-card text-center">
@@ -87,10 +134,6 @@
             <a href="#" @click="formClone(item.formID)" title="Copy form">
               <i class="fas fa-copy"></i>
             </a>
-            &nbsp;&nbsp;
-            <a href="#" @click="formPrint(item.formID)" title="Print form">
-              <i class="fas fa-print"></i>
-            </a>
           </template>
         </v-data-table>
       </div>
@@ -119,7 +162,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {formSearch, cloneForm, createForm} from "@/components/form.api";
+import {lookupFormTypes, formSearch, cloneForm, createForm} from "@/components/form.api";
 
 export default {
   name: 'RNAList',
@@ -127,11 +170,17 @@ export default {
     clientNum: {
       type: String,
       default: '',
+    },
+    IPVClient: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
     return {
       //Const
+      const_formtype_crna: "crna",
+      const_formtype_sara: "sara",
       const_formstatus_incomplete: "Incomplete",
       const_formstatus_complete: "Complete",
       const_formstatus_overdue: "Overdue",
@@ -160,20 +209,38 @@ export default {
       ],
       filteredRNAList: [],
       rnaList: [],
-      selectedFormTypes: {text: "ALL", value: ""},
-      formTypes: [{text: "ALL", value: ""},{text: "CRNA", value: "CRNA"},{text: "SARA", value: "SARA"}],
+      selectedFormTypes: {value: "ALL", key: ""},
+      formTypes: [],
       selectedSupervisionPeriods: "false",
       // form creation payload
       formData: {},
       // newly created formID
       newCreatedFormId: 0,
+      dialog: false,
+      readonly: true,
+      selectedFormTypeValue: [],
     }
   },
   mounted(){
+    this.initFormCreation();
+
+    this.lookupFormTypesAPI();
     //form search from the backend
     this.formSearchAPI(this.clientNum, false)
   },
   methods: {
+    initFormCreation() {
+      console.log("this.selectedFormTypeValue this.IPVClient: ", this.selectedFormTypeValue, this.IPVClient);
+      this.selectedFormTypeValue = [];
+
+      // added const_formtype_crna to this.selectedFormTypeValue
+      this.selectedFormTypeValue.push(this.const_formtype_crna);
+
+      // if it's IPVClient, add this.const_formtype_sara to this.selectedFormTypeValue
+      if (this.IPVClient) {
+        this.selectedFormTypeValue.push(this.const_formtype_sara);
+      }
+    },
     applyFormTypeFilter(ft) {
       this.private_applyFilter(ft, this.selectedSupervisionPeriods);
     },
@@ -182,7 +249,7 @@ export default {
     },
     private_applyFilter(formType, currentPeriod) {
       if (typeof formType == 'object') {
-        formType = formType.value;
+        formType = formType.key;
       }
       if (typeof currentPeriod == 'object') {
         currentPeriod = currentPeriod.value;
@@ -195,6 +262,22 @@ export default {
         }
       });
       this.key_rnalistSearchResult++;
+    },
+    async lookupFormTypesAPI() {
+      const [error, response] = await lookupFormTypes();
+      if (error) {
+        console.error(error);
+      } else {
+        if (response != null && response.items != null) {
+            this.formTypes = response.items;
+        }
+      }
+      // to be removed
+      this.formTypes = [
+        {value: "CRNA", key: "crna"}, 
+        {value: "SARA", key: "sara"}
+      ];
+      this.formTypes.unshift(this.selectedFormTypes);
     },
     async createFormAPI() {
       const [error, response] = await createForm(this.formData);
@@ -296,12 +379,18 @@ export default {
       if (formType === 'SARA CMP') {
         this.$router.push({
           name: 'saracmp',
-          params: {formID: formID}
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
         });
       } else if (formType === 'CRNA CMP') {
         this.$router.push({
           name: 'crnacmp',
-          params: {formID: formID}
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
         });
       } else {
         console.error("Form type not supported");
@@ -312,17 +401,32 @@ export default {
       this.formCloneAPI(formID);
       this.formSearchAPI(this.clientNum, true);
     },
-    formPrint(formID) {
-      console.log("formPrint", formID);
+    handleFormCreateBtnClick() {
+      this.dialog = false;
+      console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
+
+      this.createFormAPI();
+      //Redirect User to the newly created form
+      console.log("newCreatedFormID: ", this.newCreatedFormId);
+
+      let nextView = "crnacmp";
+      if (this.selectedFormTypeValue.includes("sara")) {
+        nextView = "saracmp";
+      }
+      this.$router.push({
+        name: nextView,
+        params: {
+          formID: this.newCreatedFormId,
+          csNumber: this.clientNum
+        }
+      });
     },
     formCreate() {
-      console.log("formCreate", this.formData);
-      this.createFormAPI();
-      console.log("newCreatedFormID: ", this.newCreatedFormId);
-      this.$router.push({
-        name: 'crnacmp',
-        params: {formID: this.newCreatedFormId}
-      });
+      console.log("Create form btn click");
+      let modal = document.getElementById("id_modal_form_creation");
+      if (modal != null) {
+        modal.click();
+      }
     }
   },
   computed: {

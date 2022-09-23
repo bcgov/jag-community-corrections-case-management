@@ -11,8 +11,8 @@
           <strong>Location</strong>
           <v-select
             :key="key_location"
-            item-text="text"
-            item-value="value"
+            item-text="value"
+            item-value="key"
             v-model="selectedLocation"
             :items="locationTypes"
             label=""
@@ -176,8 +176,8 @@ export default {
     return {
       key_results: 0,
       key_location: 0,
-      selectedLocation: {text: "", value: ""},
-      locationTypes: [{text: "Victoria Probation Office", value: "victoria"}, {text: "Vancouver", value: "vancouver"}, {text: "Nanaimo", value: "nanaimo"}],
+      selectedLocation: {},
+      locationTypes: [],
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
       page: 1,
@@ -206,14 +206,16 @@ export default {
     }
   },
   mounted(){
+    this.selectedLocation.key = this.mainStore.locationCD;
+    this.selectedLocation.value = this.mainStore.locationDescription;
+    this.locationTypes = this.mainStore.locations;
+
     //form search from the backend
-    //console.log("SDashboard this.locationCD: ", this.mainStore.locationCD, this.mainStore.locationDescription);
+    console.log("Get PO list: ", this.selectedLocation, this.locationTypes);
     this.getPOList();
   },
   methods: {
     async getPOList() {
-      this.selectedLocation.value = this.mainStore.locationCD;
-      this.selectedLocation.text = this.mainStore.locationDescription;
       this.key_results++;
       this.key_location++;
 
@@ -234,7 +236,7 @@ export default {
       this.loading = false;
       if (error) {
         console.error(error);
-      } else {
+      } //else {
         console.log("Supervisor dashboard search: ", response);
         //this.officerList = response.data;
         this.officerList =   
@@ -325,8 +327,8 @@ export default {
             }
           ];
         // apply location filter
-        this.applyLocationFilter(this.selectedLocation.value);
-      }
+        this.applyLocationFilter(this.selectedLocation.key);
+      //}
     }
   },
   computed: {

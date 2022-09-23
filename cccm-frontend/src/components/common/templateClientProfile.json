@@ -117,7 +117,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.clientNum}}</div><br><div><Strong>Designation</Strong><br/>{{data.designations}}</div>",
+                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.clientNum}}</div><br><div><Strong>Designation</Strong><br/>{{data.designationsVal}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html6",
                                                     "type": "htmlelement",

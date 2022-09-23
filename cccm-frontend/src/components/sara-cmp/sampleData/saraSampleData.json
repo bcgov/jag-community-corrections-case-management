@@ -5839,7 +5839,7 @@
 							"components": [
 							  {
 								"customClass": "text-right mr-2",
-								"label": "Cancel Form",
+								"label": "Delete Form",
 								"action": "event",
 								"showValidations": false,
 								"disableOnInvalid": true,
