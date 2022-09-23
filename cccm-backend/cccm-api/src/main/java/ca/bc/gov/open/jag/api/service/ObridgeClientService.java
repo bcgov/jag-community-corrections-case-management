@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import ca.bc.gov.open.jag.api.model.data.*;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
@@ -66,7 +67,7 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/client/address")
-    List<Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+    List<ca.bc.gov.open.jag.api.model.data.Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/{clientNum}/details")

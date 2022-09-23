@@ -93,15 +93,6 @@ public class FormsApiImpl implements FormsApi {
 
     }
 
-    @Override
-    @Transactional
-    @RolesAllowed("form-delete")
-    public void deleteForm(BigDecimal formId, String xLocationId) {
-
-        logger.warning("Form delete not implemented");
-
-        //TODO implement when ready
-    }
 
 
     @Override
@@ -114,20 +105,7 @@ public class FormsApiImpl implements FormsApi {
 
     }
 
-    @Override
-    @Transactional
-    @RolesAllowed("form-view")
-    public FormList getForms(String xLocationId) {
 
-        logger.info("Get forms request received");
-
-        FormList formList = new FormList();
-
-        formList.setItems(Collections.singletonList(formDataService.formRequest(new FormRequest(BigDecimal.ONE, null))));
-
-        return formList;
-
-    }
 
 //    @Override
 //    @Transactional
@@ -160,13 +138,6 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-view")
 
-    public FormDetails getFormById(BigDecimal formId, Boolean includeAnswers) {
-        return formDataService.getForm(formId, includeAnswers);
-    }
-
-    @Override
-    @RolesAllowed("form-view")
-
     public List<FormSummary> getFormSummaries(String module, Boolean latestOnly) {
         return formDataService.getFormSummaries(module, latestOnly);
     }
@@ -187,10 +158,11 @@ public class FormsApiImpl implements FormsApi {
 
 
     @Override
-    @RolesAllowed("form-view")
-    public List<Comment> getClientCommentsUsingPOST(String csNumber, ClientSearchInput searchInput) {
+    public List<Comment> getClientCommentsUsingPOST(String csNumber, ClientSearchInput searchInput, String xLocationId) {
         return clientDataService.getClientFormComments(csNumber, searchInput);
     }
+
+
 
     @Override
     @RolesAllowed("form-view")

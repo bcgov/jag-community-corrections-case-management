@@ -1,6 +1,5 @@
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
-import { getLocationInfo } from "@/components/form.api";
 
 export const trendStore = defineStore('trend', {
     // state

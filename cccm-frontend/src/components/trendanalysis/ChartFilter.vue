@@ -65,9 +65,7 @@
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
 
-      <!-- <VueMultiselect :multiple="false" v-model="filter.advancedFilter" :close-on-select="true" track-by="id"
-        label="name" @remove="removeAdvancedFilter" @select="changeAdvancedFilter" placeholder="Select display option"
-        :options="advancedFilterOptions" /> -->
+
 
     </div>
   </div>
@@ -75,7 +73,6 @@
 
 <script>
 
-import VueMultiselect from 'vue-multiselect'
 import { trendStore } from '@/stores/trendstore';
 import { mapStores,mapState,mapWritableState } from "pinia/dist/pinia";
 import { getClientForms, getClientFormFactors } from "@/components/form.api";
@@ -83,7 +80,7 @@ import { getClientForms, getClientFormFactors } from "@/components/form.api";
 
 export default {
   name: "ChartFilter",
-  components: { VueMultiselect },
+  components: {  },
   setup() {
     const store = trendStore()
     return {

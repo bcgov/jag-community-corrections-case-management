@@ -122,11 +122,11 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         final String csNumberPadded = padCsNum(clientNum);
 
-        logger.info("Get Client Data");
+        log.info("Get Client Data");
         ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(csNumberPadded, stripUserName(user), new BigDecimal(location));
-        logger.info("Get Address Data");
+        log.info("Get Address Data");
         List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(csNumberPadded, stripUserName(user), new BigDecimal(location));
-        logger.info("Get Photo Data");
+        log.info("Get Photo Data");
         Photo photo = getPhoto(csNumberPadded);
 
         return clientMapper.toClientDetails(client, address, photo);
