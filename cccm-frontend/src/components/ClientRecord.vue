@@ -73,7 +73,7 @@
             </section>
             <Form :form="formJSON" :submission="initData"/>
           </div>
-          <RNAListView v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient"></RNAListView>
+          <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient"></RNAListView>
           <span v-else> </span>
         </v-tab-item>
       </v-tabs-items>
@@ -267,7 +267,7 @@ export default {
         if (this.initData.data.designations != null) {
           let designationsVal = "";
           for (let i = 0; i < this.initData.data.designations.length; i++) {
-            if (this.initData.data.designations[i].type === this.CONST_DESIGNATION_IPV) {
+            if (this.initData.data.designations[i].type.toLowerCase() === this.CONST_DESIGNATION_IPV.toLowerCase()) {
               this.IPVClient = true;
             }
             // (Sep 21, 2022) BA decided to get ride the color scheme for the designation 
@@ -279,7 +279,6 @@ export default {
           this.initData.data.designationsVal = designationsVal;
         }
       }
-
       this.theKey++;
     },
     getDesignationColor(rating) {
