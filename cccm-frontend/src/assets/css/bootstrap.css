@@ -1912,7 +1912,7 @@ pre code {
 }
 
 .table-hover .table-dark:hover {
-  background-color: #b9bbbe;
+   background-color: #b9bbbe;
 }
 
 .table-hover .table-dark:hover > td,

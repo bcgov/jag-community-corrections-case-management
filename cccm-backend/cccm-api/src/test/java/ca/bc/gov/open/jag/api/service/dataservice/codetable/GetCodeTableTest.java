@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.lookup.CodeTableType;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.service.CodeTableService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -28,25 +27,19 @@ public class GetCodeTableTest {
 
     @InjectMock
     @RestClient
-    SpeedmentClientService speedmentClientService;
-
-    @InjectMock
-    @RestClient
     ObridgeClientService obridgeClientService;
 
     @Test
     @DisplayName("Success: should return form types")
     public void testGetFormTypes() {
 
-        CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
-
-        Mockito.when(speedmentClientService.getFormTypes()).thenReturn(Collections.singletonList(codeTable));
+        //CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
 
         CodeList result = sut.getCodes(CodeTableType.FORM_TYPE);
-
-        Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
+        //Temporary removal unitl functionality moved to obridge
+        Assertions.assertEquals(0, result.getItems().size());
+        //Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        //Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 
@@ -56,13 +49,12 @@ public class GetCodeTableTest {
 
         CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
 
-        Mockito.when(speedmentClientService.getLocation()).thenReturn(Collections.singletonList(codeTable));
-
         CodeList result = sut.getCodes(CodeTableType.LOCATION_TYPE);
+        //Temporary removal unitl functionality moved to obridge
+        Assertions.assertEquals(0, result.getItems().size());
+        //Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        //Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
-        Assertions.assertEquals(1, result.getItems().size());
-        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
-        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
 
     }
 

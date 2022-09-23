@@ -44,7 +44,7 @@ public class GetAddressTest {
 
         Mockito.when(codeTableService.getCodes(any())).thenReturn(addressList);
 
-        CodeList result = sut.getAddress();
+        CodeList result = sut.getAddress(null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
@@ -57,7 +57,7 @@ public class GetAddressTest {
     @DisplayName("403: throw unauthorized exception")
     public void getAddressTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getAddress());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getAddress(null));
 
     }
 
@@ -65,7 +65,7 @@ public class GetAddressTest {
     @DisplayName("401: throw unauthorized exception")
     public void getAddressTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getAddress());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getAddress(null));
 
     }
 

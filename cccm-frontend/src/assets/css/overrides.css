@@ -35,7 +35,6 @@
 }
 
 .v-data-table__wrapper th {
-    color:#fff!important;
     padding: 20px!important;
 }
 
@@ -44,7 +43,8 @@
 }
 
 img[alt="Client photo"] {
-    padding:10px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
 }
 
 label.col-form-label {
@@ -163,6 +163,7 @@ label.col-form-label {
     border-bottom: 1px solid #ccc;
 }
 .list-group-item {
+    padding: 0px!important;
     box-shadow: none;
     border-radius:0px!important;
 }
@@ -171,7 +172,7 @@ label.col-form-label {
     padding:0;
 }
 
-p[ref="html"]:not(.crna-subSectionTitleClass){
+p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass){
     padding:0!important;
     margin:0!important;
     min-height:0px!important;
@@ -190,6 +191,19 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
 }
 
 /* Dashboard Styles - TODO split to own file */
+
+.v-data-table__wrapper {
+    border: 1px solid #ccc;
+}
+.v-data-table>.v-data-table__wrapper tbody tr.v-data-table__expanded__content {
+    box-shadow: none !important;
+    border-top: 1px solid #ccc!important;
+    border-bottom: 1px solid #eee!important;
+}
+
+button.v-pagination__item {
+    background-color:#38598A!important;
+}
 .designation-totals {
     position: absolute;
     bottom: 20px;
@@ -205,6 +219,9 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     width: 100px;
 }
 
+.dashboard-v-card {
+    padding: 20px;
+}
 .dashboard-v-card .v-data-table-header {
     background-color: #38598A;
 }
@@ -220,12 +237,10 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     padding:0!important;
 }
 
+/* Dashboard cells */
 .dashboard-v-card .v-data-table__wrapper table td>div{
-    border-bottom: 5px solid white;
-    border-right: 5px solid white;
+
 }
-
-
 
 .dashboard-table-header-ul ul {
     list-style:  none;
@@ -269,24 +284,47 @@ p[ref="html"]:not(.crna-subSectionTitleClass){
     background-color: #C6E8C5;
 }
 
-/* CLIENT PROFILE STYLES -- TODO move to own file */
-.profile-grid {
-    padding: 20px;
-    margin-left:-30px;
-    margin-top: -15px;
+.v-data-table__wrapper .pink--text {
+    background-color:#eee;
 }
 
+/* CLIENT PROFILE STYLES -- TODO move to own file */
+.profile-grid {
+    margin-top: -35px;
+    margin-left:-30px;
+
+}
 .profile-grid table {
     table-layout: fixed!important;
+    border-collapse: separate;
+    border-spacing: 30px!important;
+
 }
 .profile-grid table tr td, table {
-   border: 20px solid #F9FAFB;
+
+}
+.profile-grid table>tbody>tr {
 
 }
 .profile-grid table>tbody>tr>td {
     height:100%!important;
     background-color: white;
+    box-shadow: 0 0.1rem .5rem rgba(0, 0, 0, 0.15) !important;
+
 }
+
+.profile-photo-section {
+    padding-bottom:0px!important;
+}
+
+ul[role="tablist"] {
+    margin-top:0px!important;
+}
+
+.bg-profile-table {
+    background-color:white;
+}
+
 
 .bg-shallow-warning {
     height:50px;

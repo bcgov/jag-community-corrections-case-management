@@ -3,6 +3,9 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 
 import javax.ws.rs.PathParam;
 import java.math.BigDecimal;
@@ -14,9 +17,13 @@ public interface ClientDataService {
 
     List<Client> clientAddressSearch(ClientAddressSearch clientAddressSearch);
 
-    Client clientProfile(String clientNum, String user);
+    Client clientProfile(String clientNum, String user, String location);
 
     Photo clientPhoto(String clientNum);
+
+    List<Address> clientAddress(String clientNum, String user, String location);
+
+    Client clientDetails(String clientNum, String user, String location);
 
     /**
      * Save client form answers

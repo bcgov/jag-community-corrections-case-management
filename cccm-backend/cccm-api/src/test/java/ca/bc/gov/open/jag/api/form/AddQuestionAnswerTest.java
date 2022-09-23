@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormQuestionAnswer;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
@@ -28,7 +27,7 @@ public class AddQuestionAnswerTest {
         FormQuestionAnswer request = new FormQuestionAnswer();
         request.setFormQuestionId(BigDecimal.ONE);
 
-        FormQuestionAnswer result = sut.addQuestionAnswer(BigDecimal.ONE, request);
+        FormQuestionAnswer result = sut.addQuestionAnswer(BigDecimal.ONE,null, request);
 
         Assertions.assertNull(result);
 
@@ -39,7 +38,7 @@ public class AddQuestionAnswerTest {
     @DisplayName("400: throw cccm exception")
     public void addTestExceptionBadRequestRole() {
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(CCCMException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE, null, new FormQuestionAnswer()));
 
     }
 
@@ -48,7 +47,7 @@ public class AddQuestionAnswerTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE,null, new FormQuestionAnswer()));
 
     }
 
@@ -56,7 +55,7 @@ public class AddQuestionAnswerTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE, new FormQuestionAnswer()));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.addQuestionAnswer(BigDecimal.ONE,null, new FormQuestionAnswer()));
 
     }
 

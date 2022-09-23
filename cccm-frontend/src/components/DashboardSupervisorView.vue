@@ -1,8 +1,8 @@
 <template>
   <div data-app class="p-4">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>My Dashboard</h1>
+    <div class="row mb-4">
+      <div class="col-sm-6 mb-2">
+        <h1 class="font-weight-bold">{{getUserName}}'s team</h1>
       </div>
     </div>
     <v-card>
@@ -42,7 +42,7 @@
             :expanded.sync="expanded"
             no-results-text="No results found"
             show-expand
-            class="elevation-1"
+            class="elevation-1 text-center"
             hide-default-footer
             :page.sync="page"
             :items-per-page="itemsPerPage"
@@ -52,7 +52,7 @@
           <template slot="body.append">
             <tr class="pink--text">
               <th></th>
-              <th class="title">Total</th>
+              <th class="title text-left p-0">Total</th>
               <th class="title">{{ sumField('numActive') }}</th>
               <th class="title">{{ sumField('numAdminClosed') }}</th>
               <th class="title">{{ sumField('numBAL') }}</th>
@@ -66,7 +66,9 @@
           </template>
           <!--Customize the poName field, making it clickable-->
           <template v-slot:item.poName="{ item }">
-            <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
+            <td class="text-left">
+              <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
+            </td>
           </template>
           <!--Customize the expanded item to show more-->
           <template v-slot:expanded-item="{ headers, item }">
@@ -109,22 +111,37 @@
           </template>
           <!--Customize the numHigh field -->
           <template v-slot:item.numHigh="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-red">{{item.numHigh}}</div>
+            <div class="
+              w-100 h-100
+              d-flex
+              align-items-center
+              justify-content-center
+              dashboard-background-color-red">{{item.numHigh}}</div>
           </template>
           <!--Customize the numMedium field -->
           <template v-slot:item.numMedium="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-yellow">{{item.numMedium}}</div>
+            <div class="
+            w-100 h-100
+            d-flex
+            align-items-center
+            justify-content-center
+            dashboard-background-color-yellow">{{item.numMedium}}</div>
           </template>
           <!--Customize the numLow field -->
           <template v-slot:item.numLow="{ item }">
-            <div class="w-100 h-100 dashboard-background-color-green">{{item.numLow}}</div>
+            <div class="
+            w-100 h-100
+            d-flex
+            align-items-center
+            justify-content-center
+            dashboard-background-color-green">{{item.numLow}}</div>
           </template>
         </v-data-table>
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center p-3 pt-2">
         <v-row class="justify-content-between">
-          <v-col cols="1" sm="1" class="pl-3 pr-5">
+          <v-col cols="1" sm="1" class="pl-3 pr-2">
             <v-select
               solo
               :items="items"
@@ -147,8 +164,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import {officerSearch} from "@/components/form.api";
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator';
+import {dashboardSupervisorSearch} from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
@@ -199,7 +217,7 @@ export default {
       this.key_results++;
       this.key_location++;
 
-      this.officerSearchAPI(this.$route.params.supervisorID);
+      this.dashboardSupervisorSearch(this.$route.params.supervisorID);
     },
     sumField(key) {
       // sum data in give key (property)
@@ -211,108 +229,113 @@ export default {
       });
       this.key_results++;
     },
-    async officerSearchAPI(supervisorID) {
-      const [error, response] = await officerSearch(supervisorID);
+    async dashboardSupervisorSearch(supervisorID) {
+      const [error, response] = await dashboardSupervisorSearch(supervisorID);
       this.loading = false;
-      this.officerList =   
-        [
-          {
-            "poID": "1233440",
-            "poName": "Arsenault, Sonja",
-            "numActive": 44,
-            "numAdminClosed": 8, 
-            "numBAL": 890,
-            "numHigh": 4,
-            "numMedium": 30,
-            "numLow": 10,
-            "numUnknown": 0,
-            "numOverdue": 3,
-            "numActiveReports": 13,
-            "numPCM": 203,
-            "numSCM": 0,
-            "numSMO": 7,
-            "numClosedReport": 2,
-            "numExpiry30Days": 4,
-            "numNotRquired": 1,
-            "numDue7Days": 3,
-            "locations": ["victoria", "vancouver"]
-          },
-          {
-            "poID": "1233441",
-            "poName": "Kovlachek, Maria",
-            "numActive": 56,
-            "numAdminClosed": 0, 
-            "numBAL": 700,
-            "numHigh": 5,
-            "numMedium": 30,
-            "numLow": 9,
-            "numUnknown": 0,
-            "numOverdue": 3,
-            "numActiveReports": 8,
-            "numPCM": 203,
-            "numSCM": 0,
-            "numSMO": 7,
-            "numClosedReport": 2,
-            "numExpiry30Days": 4,
-            "numNotRquired": 1,
-            "numDue7Days": 3,
-            "locations": ["victoria"]
-          },
-          {
-            "poID": "1233442",
-            "poName": "Shiau, Ann",
-            "numActive": 21,
-            "numAdminClosed": 2, 
-            "numBAL": 210,
-            "numHigh": 1,
-            "numMedium": 20,
-            "numLow": 4,
-            "numUnknown": 5,
-            "numOverdue": 1,
-            "numActiveReports": 14,
-            "numPCM": 203,
-            "numSCM": 0,
-            "numSMO": 7,
-            "numClosedReport": 2,
-            "numExpiry30Days": 4,
-            "numNotRquired": 1,
-            "numDue7Days": 3,
-            "locations": ["victoria", "vancouver", "nanaimo"]
-          },
-          {
-            "poID": "1233443",
-            "poName": "Tyler, Steven",
-            "numActive": 39,
-            "numAdminClosed": 2, 
-            "numBAL": 340,
-            "numHigh": 2,
-            "numMedium": 10,
-            "numLow": 7,
-            "numUnknown": 1,
-            "numOverdue": 2,
-            "numActiveReports": 30,
-            "numPCM": 203,
-            "numSCM": 0,
-            "numSMO": 7,
-            "numClosedReport": 2,
-            "numExpiry30Days": 4,
-            "numNotRquired": 1,
-            "numDue7Days": 3,
-            "locations": ["vancouver"]
-          }
-        ];
-      // apply location filter
-      this.applyLocationFilter(this.selectedLocation.value);
-      
       if (error) {
         console.error(error);
-      }       
+      } else {
+        console.log("Supervisor dashboard search: ", response);
+        //this.officerList = response.data;
+        this.officerList =   
+          [
+            {
+              "poID": "1233440",
+              "poName": "Arsenault, Sonja",
+              "numActive": 44,
+              "numAdminClosed": 8, 
+              "numBAL": 890,
+              "numHigh": 4,
+              "numMedium": 30,
+              "numLow": 10,
+              "numUnknown": 0,
+              "numOverdue": 3,
+              "numActiveReports": 13,
+              "numPCM": 203,
+              "numSCM": 0,
+              "numSMO": 7,
+              "numClosedReport": 2,
+              "numExpiry30Days": 4,
+              "numNotRquired": 1,
+              "numDue7Days": 3,
+              "locations": ["victoria", "vancouver"]
+            },
+            {
+              "poID": "1233441",
+              "poName": "Kovlachek, Maria",
+              "numActive": 56,
+              "numAdminClosed": 0, 
+              "numBAL": 700,
+              "numHigh": 5,
+              "numMedium": 30,
+              "numLow": 9,
+              "numUnknown": 0,
+              "numOverdue": 3,
+              "numActiveReports": 8,
+              "numPCM": 203,
+              "numSCM": 0,
+              "numSMO": 7,
+              "numClosedReport": 2,
+              "numExpiry30Days": 4,
+              "numNotRquired": 1,
+              "numDue7Days": 3,
+              "locations": ["victoria"]
+            },
+            {
+              "poID": "1233442",
+              "poName": "Shiau, Ann",
+              "numActive": 21,
+              "numAdminClosed": 2, 
+              "numBAL": 210,
+              "numHigh": 1,
+              "numMedium": 20,
+              "numLow": 4,
+              "numUnknown": 5,
+              "numOverdue": 1,
+              "numActiveReports": 14,
+              "numPCM": 203,
+              "numSCM": 0,
+              "numSMO": 7,
+              "numClosedReport": 2,
+              "numExpiry30Days": 4,
+              "numNotRquired": 1,
+              "numDue7Days": 3,
+              "locations": ["victoria", "vancouver", "nanaimo"]
+            },
+            {
+              "poID": "1233443",
+              "poName": "Tyler, Steven",
+              "numActive": 39,
+              "numAdminClosed": 2, 
+              "numBAL": 340,
+              "numHigh": 2,
+              "numMedium": 10,
+              "numLow": 7,
+              "numUnknown": 1,
+              "numOverdue": 2,
+              "numActiveReports": 30,
+              "numPCM": 203,
+              "numSCM": 0,
+              "numSMO": 7,
+              "numClosedReport": 2,
+              "numExpiry30Days": 4,
+              "numNotRquired": 1,
+              "numDue7Days": 3,
+              "locations": ["vancouver"]
+            }
+          ];
+        // apply location filter
+        this.applyLocationFilter(this.selectedLocation.value);
+      }
     }
   },
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapStores(useStore)
+    ...mapStores(useStore),
+    getUserName() {
+        return Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+    }
   }
 }
 </script>

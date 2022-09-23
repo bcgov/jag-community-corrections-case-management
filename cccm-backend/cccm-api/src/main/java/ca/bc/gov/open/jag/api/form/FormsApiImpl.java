@@ -9,7 +9,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
 import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class FormsApiImpl implements FormsApi {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
@@ -80,7 +80,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-update")
-    public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, @Valid FormQuestionAnswer formQuestionAnswer) {
+    public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, String xLocationId, @Valid FormQuestionAnswer formQuestionAnswer) {
 
         logger.info("Add question answer received");
 
@@ -96,7 +96,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-delete")
-    public void deleteForm(BigDecimal formId) {
+    public void deleteForm(BigDecimal formId, String xLocationId) {
 
         logger.warning("Form delete not implemented");
 
@@ -106,7 +106,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-view")
-    public FormDetails getFormByType(String formType) {
+    public FormDetails getFormByType(String xLocationId, String formType) {
 
         logger.info("Get form type request received");
 
@@ -117,7 +117,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public FormList getForms() {
+    public FormList getForms(String xLocationId) {
 
         logger.info("Get forms request received");
 
@@ -143,7 +143,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-update")
-    public FormQuestionAnswer updateQuestionAnswer(BigDecimal formId, @Valid FormQuestionAnswer formQuestionAnswer) {
+    public FormQuestionAnswer updateQuestionAnswer(BigDecimal formId, String xLocationId, @Valid FormQuestionAnswer formQuestionAnswer) {
 
         logger.info("Update question answer request received");
 

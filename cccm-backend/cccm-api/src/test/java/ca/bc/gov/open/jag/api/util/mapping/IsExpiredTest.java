@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @QuarkusTest
@@ -19,7 +18,7 @@ public class IsExpiredTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(1);
 
-        Boolean result = MappingUtils.isExpired(Date.valueOf(testDate));
+        Boolean result = MappingUtils.isExpired(testDate.toString());
 
         Assertions.assertFalse(result);
 
@@ -31,7 +30,7 @@ public class IsExpiredTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.plusDays(2);
 
-        Boolean result = MappingUtils.isExpired(Date.valueOf(testDate));
+        Boolean result = MappingUtils.isExpired(testDate.toString());
 
         Assertions.assertTrue(result);
     }

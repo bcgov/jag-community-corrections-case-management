@@ -1,9 +1,10 @@
 package ca.bc.gov.open.jag.api.service.dataservice.client;
 
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.Location;
+import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import ca.bc.gov.open.jag.api.service.SpeedmentClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -16,8 +17,6 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import static ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge;
 
@@ -32,6 +31,15 @@ public class ClientProfileTest {
     private static final String COMMUNITY_LOCATION = "Community Location";
     private static final String ADDRESS = "Address";
     private static final String CASE_MANAGER = "Case Manager";
+    private static final BigDecimal TEST_ID = BigDecimal.ONE;
+    private static final String TEST_CD = "CODE";
+    private static final String TEST_VALUE = "VALUE";
+    private static final String CLIENT_NUM = "01";
+    private static final String TEST_IDIR = "test@idir";
+    private static final String LOCATION = "123";
+    private static final String PHOTO_TAKEN_DATE = "TEST";
+    private static final byte[] BYTES = "blarg".getBytes();
+
     @Inject
     ClientDataService sut;
 
@@ -39,24 +47,22 @@ public class ClientProfileTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
-    @InjectMock
-    @RestClient
-    SpeedmentClientService speedmentClientService;
-
     @Test
     @DisplayName("Success: should return clients")
     public void testGetClients() {
 
-        Map map = new HashMap();
-        map.put("locationId", Double.valueOf(1));
+        Location locationMock = new Location();
+        locationMock.setId(TEST_ID);
+        locationMock.setAlternateCd(TEST_CD);
+        locationMock.setDsc(TEST_VALUE);
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
-        Mockito.when(obridgeClientService.getLocation()).thenReturn(map);
-        Mockito.when(speedmentClientService.getClientId(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
 
-        Client result = sut.clientProfile("01", "test@idir");
+        Client result = sut.clientProfile(CLIENT_NUM, TEST_IDIR, LOCATION);
 
-        Assertions.assertEquals("01", result.getClientNum());
+        Assertions.assertEquals(CLIENT_NUM, result.getClientNum());
         Assertions.assertEquals(TEST_NAME, result.getClientName());
         Assertions.assertEquals(calculateAge(BIRTH_DATE), result.getClientAge());
         Assertions.assertEquals(GENDER_CODE, result.getGender());
@@ -66,6 +72,8 @@ public class ClientProfileTest {
         Assertions.assertEquals(COMMUNITY_LOCATION, result.getCommunityInformation().getCommunityLocation());
         Assertions.assertEquals(ADDRESS, result.getAddress().get(0).getFullAddress());
         Assertions.assertEquals(CASE_MANAGER, result.getCommunityInformation().getCaseManager());
+        Assertions.assertEquals(PHOTO_TAKEN_DATE, result.getPhoto().getPhotoTakenDate());
+        Assertions.assertEquals(BYTES.length, result.getPhoto().getImage().length);
 
     }
 
@@ -91,6 +99,16 @@ public class ClientProfileTest {
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setClient(createClient());
         return clientProfile;
+    }
+
+    private ca.bc.gov.open.jag.api.model.data.Photo createPhoto() {
+
+        Photo photo = new Photo();
+        photo.setImage(BYTES);
+        photo.setPhotoTakenDate(PHOTO_TAKEN_DATE);
+
+        return photo;
+
     }
 
 }

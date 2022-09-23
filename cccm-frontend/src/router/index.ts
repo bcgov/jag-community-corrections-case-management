@@ -9,6 +9,7 @@ import ClientSearchView from '../components/common/FormioClientSearch.vue'
 import ClientRecordView from '../components/ClientRecord.vue'
 import Unauthorized from '../components/Unauthorized.vue'
 import DashboardPOView from '../components/DashboardPOView.vue'
+import RNAList from '../components/RNAList.vue'
 import DashboardSupervisorView from '../components/DashboardSupervisorView.vue'
 import {useStore} from "@/stores/store";
 
@@ -51,7 +52,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:clientID/:csNumber',
+      path: '/clientrecord/:csNumber',
       name: 'clientrecord',
       component: ClientRecordView,
       meta: {
@@ -96,7 +97,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // Fetch the default location
   const store = useStore();
-  store.getLocation();
+  store.getUserDefaultLocation();
   //console.log("In router, store: ", store.locationCD, store.locationDescription);
   
   if (to.meta.isAuthenticated) {

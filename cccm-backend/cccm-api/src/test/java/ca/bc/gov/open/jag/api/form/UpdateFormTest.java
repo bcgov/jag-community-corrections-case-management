@@ -22,38 +22,38 @@ public class UpdateFormTest {
     @Inject
     FormsApiImpl sut;
 
-//    @Test
-//    @TestSecurity(user = "userOidc", roles = "form-update")
-//    @DisplayName("200: should be updated")
-//    public void testUpdateFormEndpoint() {
-//
-//        FormDetails result = sut.updateForm(createTestForm());
-//
-//        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
-//        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
-//        Assertions.assertEquals(TEST_VALUE, result.getCreatedBy());
-//        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
-//        Assertions.assertEquals(TEST_VALUE, result.getFormType());
-//        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
-//
-//    }
+    @Test
+    @TestSecurity(user = "userOidc", roles = "form-update")
+    @DisplayName("200: should be updated")
+    public void testUpdateFormEndpoint() {
 
-//    @Test
-//    @TestSecurity(user = "userOidc", roles = "someotherrole")
-//    @DisplayName("403: throw unauthorized exception")
-//    public void updateTestExceptionBadRole() {
-//
-//        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateForm(null));
-//
-//    }
-//
-//    @Test
-//    @DisplayName("401: throw unauthorized exception")
-//    public void updateTestExceptionNoToken() {
-//
-//        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateForm(null));
-//
-//    }
+        FormDetails result = sut.updateForm(null, createTestForm());
+
+        Assertions.assertEquals(BigDecimal.ONE, result.getFormId());
+        Assertions.assertEquals(TEST_DATE, result.getCompletedDate());
+        Assertions.assertEquals(TEST_VALUE, result.getCreatedBy());
+        Assertions.assertEquals(TEST_DATE, result.getCreatedDate());
+        Assertions.assertEquals(TEST_VALUE, result.getFormType());
+        Assertions.assertEquals(TEST_DATE, result.getUpdateDate());
+
+    }
+
+    @Test
+    @TestSecurity(user = "userOidc", roles = "someotherrole")
+    @DisplayName("403: throw unauthorized exception")
+    public void updateTestExceptionBadRole() {
+
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.updateForm(null,null));
+
+    }
+
+    @Test
+    @DisplayName("401: throw unauthorized exception")
+    public void updateTestExceptionNoToken() {
+
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.updateForm(null,null));
+
+    }
 
     private FormDetails createTestForm() {
         FormDetails formDetails = new FormDetails();

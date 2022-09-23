@@ -23,7 +23,7 @@ public class GetFormsTest {
     @DisplayName("200: should return forms")
     public void testGetFormsEndpoint() throws CCCMException {
 
-        FormList result = sut.getForms();
+        FormList result = sut.getForms(null);
 
         Assertions.assertEquals(1, result.getItems().size());
 
@@ -34,7 +34,7 @@ public class GetFormsTest {
     @DisplayName("403: throw unauthorized exception")
     public void getTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getForms());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getForms(null));
 
     }
 
@@ -42,7 +42,7 @@ public class GetFormsTest {
     @DisplayName("401: throw unauthorized exception")
     public void getTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getForms());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getForms(null));
 
     }
 

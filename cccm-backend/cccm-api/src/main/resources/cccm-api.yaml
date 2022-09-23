@@ -26,6 +26,7 @@ paths:
     get:
       operationId: SearchClients
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: lastName
           schema:
@@ -51,9 +52,9 @@ paths:
           schema:
             type: integer
         - in: query
-          name: location
+          name: limitToLocation
           schema:
-            type: string
+            type: boolean
         - in: query
           name: gender
           schema:
@@ -64,10 +65,6 @@ paths:
             type: string
         - in: query
           name: identifier
-          schema:
-            type: string
-        - in: query
-          name: officer
           schema:
             type: string
       responses:
@@ -87,6 +84,7 @@ paths:
     get:
       operationId: SearchClientAddress
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: addressType
           schema:
@@ -111,6 +109,10 @@ paths:
           name: expired
           schema:
             type: boolean
+        - in: query
+          name: limitToLocation
+          schema:
+            type: boolean
       responses:
         "200":
           content:
@@ -128,6 +130,7 @@ paths:
     get:
       operationId: GetClientPhoto
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -148,6 +151,7 @@ paths:
     get:
       operationId: GetClient
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: clientNum
@@ -161,7 +165,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Client'
-          description: get a client
+          description: get a client profile (For client profile and PO Dashboard)
+      tags:
+        - clients
+  /clients/{clientNum}/address:
+    get:
+      operationId: GetClientAddress
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - explode: false
+          in: path
+          name: clientNum
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: get client adress's
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressList'
+      tags:
+        - clients
+  /clients/{clientNum}/details:
+    get:
+      operationId: GetClientDetails
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - explode: false
+          in: path
+          name: clientNum
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "200":
+          description: get client limited details (For search screens)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
       tags:
         - clients
 
@@ -173,6 +219,7 @@ paths:
     get:
       operationId: GetSupervisorDashboard
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: userId
           schema:
@@ -625,6 +672,7 @@ paths:
       summary: Get a list of client comments based on search params
       operationId: getClientCommentsUsingPOST
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: csNumber
           in: path
           description: csNumber
@@ -759,6 +807,7 @@ paths:
     delete:
       operationId: DeleteForm
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -778,6 +827,7 @@ paths:
     get:
       operationId: GetFormById
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -810,6 +860,7 @@ paths:
     post:
       operationId: AddQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -838,6 +889,7 @@ paths:
     put:
       operationId: UpdateQuestionAnswer
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formId
@@ -868,6 +920,7 @@ paths:
     get:
       operationId: GetFormByType
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - explode: false
           in: path
           name: formType
@@ -977,6 +1030,8 @@ paths:
   /lookup/formtypes:
     get:
       operationId: GetFormTypes
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -993,6 +1048,8 @@ paths:
   /lookup/locations:
     get:
       operationId: GetLocations
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -1009,6 +1066,8 @@ paths:
   /lookup/genders:
     get:
       operationId: GetGenders
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -1025,6 +1084,8 @@ paths:
   /lookup/identifiers:
     get:
       operationId: GetIdentifiers
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -1041,6 +1102,8 @@ paths:
   /lookup/address:
     get:
       operationId: GetAddress
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       responses:
         "200":
           content:
@@ -1070,7 +1133,48 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/locations:
+    get:
+      operationId: GetUserLocations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get users locations
+      summary: get users locations
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
+  /user/id:
+    get:
+      operationId: GetUserId
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: get users id
+      summary: get users id
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
 components:
+  parameters:
+    xLocationId:
+      name: X-Location-Id
+      in: header
+      schema:
+        type: string
+        format: string
+      required: false
+      description: The current selected location of the logged in user
   schemas:
     FormSummary:
       description: Form Summary
@@ -1365,11 +1469,11 @@ components:
     Client:
       type: object
       properties:
-        clientId:
-          type: number
         clientNum:
           type: string
         clientName:
+          type: string
+        currentNameYn:
           type: string
         gender:
           type: string
@@ -1381,7 +1485,9 @@ components:
           type: string
         supervisionLevel:
           type: string
-        photoDate:
+        sealed:
+          type: string
+        alias:
           type: string
         dueNext:
           type: string
@@ -1397,6 +1503,8 @@ components:
           $ref: "#/components/schemas/GeneralInformation"
         locationInformation:
           $ref: "#/components/schemas/LocationInformation"
+        photo:
+          $ref: "#/components/schemas/Photo"
         biometric:
           $ref: "#/components/schemas/Biometric"
         address:
@@ -1419,15 +1527,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Program"
-        alias:
-          type: array
-          items:
-            $ref: "#/components/schemas/Alias"
-    Alias:
-      type: object
-      properties:
-        fullName:
-          type: string
+    AddressList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Address"
     CommunityInformation:
       type: object
       properties:
@@ -1528,6 +1631,12 @@ components:
       properties:
         fullAddress:
           type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+        expired:
+          type: boolean
     Program:
       type: object
       properties:
@@ -1576,6 +1685,8 @@ components:
         image:
           type: string
           format: byte
+        photoTakenDate:
+          type: string
     ClientFormSummary:
       title: ClientFormSummary
       type: object

@@ -3,7 +3,7 @@
     <div class="container">
       <section class="paper">
         <div class="pt-5">
-          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent="handleClientSearch"/>
+          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"/>
         </div>
       </section>
     </div>
@@ -31,7 +31,7 @@
         :single-expand="singleExpand"
         :expanded.sync="expanded"
         @item-expanded="expandRow"
-        item-key="clientID"
+        item-key="clientId"
         no-results-text="No clients found"
         :search="search"
         show-expand
@@ -42,8 +42,8 @@
         @page-count="pageCount = $event"
         >
         <!--Customize the Name field, making it clickable-->
-        <template v-slot:item.fullName="{ item }">
-          <a :href="`${baseURL}clientrecord/${item.clientID}/${item.csNumber}`" >{{item.fullName}}</a>
+        <template v-slot:item.clientName="{ item }">
+          <a :href="`${baseURL}clientrecord/${item.clientNum}`" @click="selectClient(item.clientNum)">{{item.clientName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
@@ -51,7 +51,7 @@
           <td :colspan="1">
             <figure>
               <img :src="item.photoData" alt="Client photo" width="132" height="132" />
-              <figcaption>Photo Taken: {{item.datePhotoTaken}}</figcaption>
+              <figcaption>Photo Taken: {{item.photoDate}}</figcaption>
             </figure>
           </td>
           <td :colspan="1">
@@ -67,12 +67,12 @@
           <td :colspan="1">
             <strong>Location</strong>
             <br />
-            {{ item.location }}
+            {{ item.custodyLocation }}
           </td>
           <td :colspan="1">
             <strong>PCM</strong>
             <br />
-            {{ item.pcm }}
+            {{ item.communityInformation.caseManager }}
           </td>
           <td :colspan="2">
             <strong>Other Aliases</strong>
@@ -84,7 +84,7 @@
             <br />
             <ul>
               <li v-for="el in item.address" v-if="!el.primary">
-                {{ el.street + ", " + el.city + "(" + el.type + ")" }}
+                {{ el.fullAddress + "(" + el.type + ")" }}
               </li>
             </ul>
           </td>
@@ -118,7 +118,7 @@
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator';
 import {Form} from 'vue-formio';
-import {clientSearch, photoSearch} from "@/components/form.api";
+import {clientSearchByGeneralInfo, clientSearchByAddressInfo, photoSearch} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 import updateToken from '@/middleware/update-token';
 
@@ -145,15 +145,15 @@ export default {
           align: 'start',
           value: 'data-table-expand'
         },
-        { text: 'Name', align: 'start', sortable: true, value: 'fullName' },
+        { text: 'Name', align: 'start', sortable: true, value: 'clientName' },
         { text: 'Current Name?', value: 'currentNameIndicator' },
         { text: 'Age', value: 'clientAge' },
         { text: 'Date of Birth', value: 'birthDate' },
         { text: 'Address', value: 'fullAddress' },
         { text: 'Address Type', value: 'addressType' },
         { text: 'Expired?', value: 'expired' },
-        { text: 'CS#', value: 'csNumber' },
-        { text: 'Record Sealed?', value: 'recordSealed' },
+        { text: 'CS#', value: 'clientNum' },
+        { text: 'Record Sealed?', value: 'sealed' },
       ],
       clients: [],
       baseURL: import.meta.env.BASE_URL,
@@ -166,10 +166,17 @@ export default {
     this.buildForm()
   },
   methods: {
+    selectClient(clientNum) {
+      //console.log("view client [clientNum]: ", clientNum);
+      this.$router.push({
+        name: '${baseURL}clientrecord',
+        params: {clientNum: clientNum}
+      });
+    },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
       if (item.photoData == null) {
-        this.handlePhotoSearch(item.clientID);
+        this.handlePhotoSearch(item.clientNum);
       }
     },
     async buildForm() {
@@ -187,506 +194,147 @@ export default {
            
       this.formJSON = tmpJSON;
     },
-    async handleClientSearch(evt) {
-      // Sample client search results:
-      //   [
-      //     {
-      //         "clientID": "1",
-      //         "firstName": "Bob",
-      //         "LastName": "Ross",
-      //         "gender": "Male",
-      //         "clientAge": 44,
-      //         "birthDate": "1975-02-03",
-      //         "addressType": "Work",
-      //         "expired": "No",
-      //         "csNumber": "123456789",
-      //         "recordSealed": "Yes",
-      //         "currentName": "Bob Ross",
-      //         "location": "VICTORIA",
-      //         "pcm": "Gillis, Mike",
-      //         "photoURL": "", 
-      //         "datePhotoTaken": "2022-03-02",
-      //         "address": [
-      //             {
-      //                 "street": "123 Hello St",
-      //                 "city": "Victoria",
-      //                 "postalCode": "123 abc"
-      //             }
-      //         ]
-      //     }
-      // ]
-      if (evt.data != null) {
-        //console.log("payload: ", evt.data);
-        // Sample payload:
-        // {
-        //     "limitedToCurrentActiveLocation": false,
-        //     "lastName": "",
-        //     "lastNameSoundex": false,
-        //     "givenName1Or2": "",
-        //     "gender": "",
-        //     "dobYear": "",
-        //     "age": "",
-        //     "rangeYears": "",
-        //     "addressType": "all",
-        //     "address": "",
-        //     "includeExpiredAddresses": false,
-        //     "city": "",
-        //     "province": "",
-        //     "postalCode": "",
-        //     "idType": "cn",
-        //     "idNumber": ""
-        // }
-        let address = evt.data.address;
-        let age = evt.data.age;
-        let birthYear = evt.data.dobYear;
-        let clientNum = evt.data.idNumber;
-        let gender = evt.data.gender;
-        let location = evt.data.city;
-        let name = evt.data.lastName;
-        let officer = "";
-        let soundex = evt.data.lastNameSoundex;
-        
-        const [error, response] = await clientSearch(address, age, birthYear, clientNum,
-            gender, location, name, officer, soundex);
-        // this.totalClients = response.length;
-        // this.pageCount = Math.floor(this.totalClients / this.itemsPerPage);
-        // if (this.totalClients % this.itemsPerPage != 0) {
-        //   this.pageCount++;
-        // };
-        this.key_clientsearchresult++;
-        this.loading = false;
-        this.clients =   
-          [
-            {
-                "clientID": 10010101,
-                "fullName": "Ross, Bob",
-                "clientAge": 44,
-                "birthDate": "1979-12-03",
-                "expired": "No",
-                "csNumber": "123456780",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Bob Ross",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/lamp.jpg",
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Work",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
+    private_getLimitedToCurrentActiveLocation() {
+      let limitedToCurrentActiveLocation = false;
+      let checkbox = document.getElementsByName("data[limitedToCurrentActiveLocation]");
+      //console.log("checkbox: ", checkbox, checkbox[0], checkbox[0].checked);
+      if (checkbox != null &&  checkbox[0] != null) {
+        limitedToCurrentActiveLocation = checkbox[0].checked;
+      }
+      console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
+      return limitedToCurrentActiveLocation;
+    },
+    private_processSearchResults(error, response) {
+      if (error) {
+        console.error(error);
+      } else {
+        this.clients = response.data;
+      }
+      // To be removed.
+      this.clients =   
+        [
+          {
+            "clientId": 10010101,
+            "clientName": "Ross, Bob",
+            "clientAge": 44,
+            "birthDate": "1979-12-03",
+            "expired": "No",
+            "clientNum": "123456780",
+            "sealed": "Yes",
+            "gender": "Male",
+            "currentName": "Bob Ross",
+            "custodyLocation": "VICTORIA",
+            "supervisionLevel": "string",
+            "communityInformation": {
+              "communityLocation": "Victoria",
+              "status": "Active",
+              "caseManager": "Smith, Bob",
+              "secondaryManager": "Doe, Jane"
             },
-            {
-                "clientID": 20010101,
-                "fullName": "Smith, Sam",
-                "clientAge": 40,
-                "birthDate": "1983-02-03",
-                "expired": "No",
-                "csNumber": "123456781",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Sam Smith",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 20010103,
-                "fullName": "Ross, Bob",
-                "clientAge": 44,
-                "birthDate": "1979-12-03",
-                "expired": "No",
-                "csNumber": "123456782",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Bob Ross",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ]
-            },
-            {
-                "clientID": 100153101,
-                "fullName": "Smith, Sam",
-                "clientAge": 40,
-                "birthDate": "1983-02-03",
-                "expired": "No",
-                "csNumber": "123456783",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Sam Smith",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 10048392,
-                "fullName": "Ross, Bob",
-                "clientAge": 44,
-                "birthDate": "1979-12-03",
-                "expired": "No",
-                "csNumber": "123456784",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Bob Ross",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 28398322,
-                "fullName": "Smith, Sam",
-                "clientAge": 40,
-                "birthDate": "1983-02-03",
-                "expired": "No",
-                "csNumber": "123456785",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Sam Smith",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 38440221,
-                "fullName": "Ross, Bob",
-                "clientAge": 44,
-                "birthDate": "1979-12-03",
-                "expired": "No",
-                "csNumber": "123456786",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Bob Ross",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 43502022,
-                "fullName": "Smith, Sam",
-                "clientAge": 40,
-                "birthDate": "1983-02-03",
-                "expired": "No",
-                "csNumber": "123456787",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Sam Smith",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 430493242,
-                "fullName": "Ross, Bob",
-                "clientAge": 44,
-                "birthDate": "1979-12-03",
-                "expired": "No",
-                "csNumber": "123456788",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Bob Ross",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/lamp.jpg", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            },
-            {
-                "clientID": 1324233555,
-                "fullName": "Smith, Sam",
-                "clientAge": 40,
-                "birthDate": "1983-02-03",
-                "expired": "No",
-                "csNumber": "123456789",
-                "recordSealed": "Yes",
-                "gender": "Male",
-                "currentName": "Sam Smith",
-                "location": "VICTORIA",
-                "pcm": "Gillis, Mike",
-                "photoURL": "https://www.w3schools.com/images/stickman.gif", 
-                "datePhotoTaken": "2022-03-02",
-                "address": [
-                    {
-                        "street": "123 Hello St",
-                        "city": "Victoria",
-                        "postalCode": "123 abc",
-                        "type": "Home",
-                        "primary": true
-                    },
-                    {
-                        "street": "234 Smith St",
-                        "city": "Surrey",
-                        "postalCode": "333 abc",
-                        "type": "Home",
-                        "primary": false
-                    },
-                    {
-                        "street": "342 Sea Pearl St",
-                        "city": "Vancouver",
-                        "postalCode": "442 abc",
-                        "type": "Work",
-                        "primary": false
-                    }
-                ],
-                "otherAliases": "Bob Smith, Roger Clements"
-            }
-          ];
-
-        // Might need to be removed if backend returns the currentNameIndicator
-        // populate currentNameIndicator fields
-        this.clients = this.clients.filter(el => {
-          let currentNameIndicator = "Yes";
-          // console.log("fullName: ", el.fullName);
-          // console.log("currentName: ", el.currentName);
-          // let fnArray = el.fullName.trim().split(",");
-          // let cnArray = el.currentName.trim().split(" ");
-          // if ((fnArray == null || fnArray.length !== 2) && 
-          //     (cnArray == null || cnArray.length !== 2)) {
-          //   if (fnArray[0].trim() == cnArray[1].trim() && fnArray[1].trim() == cnArray[0].trim()) {
-          //     currentNameIndicator = "Yes";
-          //   }
-          // };
-          
-          el.currentNameIndicator = currentNameIndicator;
-
-          // Might remove if backend returned fullAddress and addressType
-          // <ul>
-          //   <li>C++</li>
-          //   <li>Java</li>
-          //   <li>C</li>
-          // </ul>
-          if (el.address != null) {
-            for (let i = 0; i < el.address.length; i++) {
-              if (el.address[i].primary){
-                el.fullAddress = el.address[i].street + ", " + el.address[i].city;
-                el.addressType = el.address[i].type;
-                break;
-              } 
-            }
-          } else {
-            el.fullAddress = "";
-            el.addressType = "";
+            "address": [
+                {
+                    "fullAddress": "1234 Victoria str, Victoria BC",
+                    "type": "Work",
+                    "primary": true
+                },
+                {
+                    "fullAddress": "2033 Smith Ave, Vancouver BC",
+                    "type": "Home",
+                    "primary": false
+                },
+                {
+                    "fullAddress": "2033 ABC str. Surrey BC",
+                    "type": "Work",
+                    "primary": false
+                }
+            ],
+            "alias": [
+              {
+                "fullName": "Bob Smith"
+              },
+              {
+                "fullName": "Roger Clements"
+              }
+            ]
           }
-          return el;
-        });
-          
-        if (error) {
-          console.error(error);
+        ];
+
+      // Might need to be removed if backend returns the currentNameIndicator
+      // populate currentNameIndicator fields
+      this.clients = this.clients.filter(el => {
+        let currentNameIndicator = "Yes";
+        el.currentNameIndicator = currentNameIndicator;
+
+        // Map primary address and primary addressType
+        if (el.address != null) {
+          for (let i = 0; i < el.address.length; i++) {
+            if (el.address[i].primary){
+              el.fullAddress = el.address[i].fullAddress;
+              el.addressType = el.address[i].type;
+              break;
+            } 
+          }
+        } else {
+          el.fullAddress = "";
+          el.addressType = "";
         }
+        // Map aliases
+        if (el.alias != null && el.alias.length > 0) {
+          el.otherAliases = el.alias[0].fullName;
+          for (let i = 1; i < el.alias.length; i++) {
+            el.otherAliases += ", " + el.alias[i].fullName;
+          }
+        } else {
+          el.otherAliases = "";
+        }
+        return el;
+      });
+      this.key_clientsearchresult++;
+      this.loading = false;
+    },
+    async handleClientSearch_byGeneralInfo(evt) {
+      // Sample payload:
+      // {
+      //   "lastName": "",
+      //   "lastNameSoundex": false,
+      //   "givenName1Or2": "",
+      //   "gender": "",
+      //   "dobYear": "",
+      //   "age": "",
+      //   "rangeYears": "",
+      //   "idType": "cn",
+      //   "idNumber": ""
+      // }
+      if (evt.data != null) {
+        //console.log("Search by general info: ", evt, evt.data);
+        let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
+        const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
+            evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
+            limitedToCurrentActiveLocation.toString(), evt.data.rangeYears, evt.data.lastNameSoundex);
+        this.private_processSearchResults(error, response);
       }
     },
-    async handlePhotoSearch(clientID) {
-      console.log("Photo search for clientID: ", clientID);
-      const [error, response] = await photoSearch(clientID);
+    async handleClientSearch_byAddressInfo(evt) {
+      if (evt.data != null) {
+        // Sample payload:
+        // {
+        //   "addressType": "all",
+        //   "address": "",
+        //   "includeExpiredAddresses": false,
+        //   "city": "",
+        //   "province": "",
+        //   "postalCode": ""
+        // }
+        //console.log("Search by address info: ", evt.data);
+        let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
+        const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
+            evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
+        this.private_processSearchResults(error, response);
+      }
+    },
+    async handlePhotoSearch(clientNum) {
+      console.log("Photo search for clientNum: ", clientNum);
+      const [error, response] = await photoSearch(clientNum);
 
       // To be deleted, sample data
       let photoArary = ["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",
@@ -702,9 +350,12 @@ export default {
       //Cache the photoData into this.clients object
       if (this.clients != null) {
         for (let el of this.clients) {
-          if (el.clientID == clientID) {
+          if (el.clientNum == clientNum) {
             el.photoData = "data:image/png;base64, " + sd;
-            el.csNumber = " " + el.csNumber; // force the expanded row to refresh
+            el.clientNum = " " + el.clientNum; // force the expanded row to refresh
+            //el.photoDate = response.photoTakenDate;
+            //To be removed
+            el.photoDate = "2021-09-02";
             break;
           }
         }
@@ -718,22 +369,22 @@ export default {
 </script>
 
 <style>
-.wild-search-text {
+  .wild-search-text {
 
-  color: #154c79;
-  font-size: 0.5em;
+    color: #154c79;
+    font-size: 0.5em;
 
-}
+  }
 
-legend[ref="header"]{
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-.primary {
-  background-color: #1867c0 !important;
-  border-color: #1867c0 !important;
-}
+  legend[ref="header"]{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .primary {
+    background-color: #1867c0 !important;
+    border-color: #1867c0 !important;
+  }
 </style>

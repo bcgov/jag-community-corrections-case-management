@@ -43,16 +43,6 @@ public class MappingUtils {
 
     }
 
-    public static Boolean isExpired(Date inDate) {
-
-        if (inDate == null) {
-            return false;
-        }
-
-        return inDate.toLocalDate().isAfter(LocalDate.now());
-
-    }
-
     public static List<Designation> createDesignations(String iaStatus, String popDesignation, String icayraSecurity, String icayraSecurityStatus) {
 
         List<Designation> designations = new ArrayList<>();
@@ -85,6 +75,8 @@ public class MappingUtils {
 
         Address address1 = new Address();
         address1.setFullAddress(address);
+        address1.setPrimary(true);
+        address1.setExpired(false);
         return Collections.singletonList(address1);
 
     }
@@ -94,4 +86,15 @@ public class MappingUtils {
         designation.setType(type);
         return designation;
     }
+
+    public static Boolean isExpired(String expiry) {
+        if (StringUtils.isBlank(expiry)) {
+            return false;
+        }
+
+        return Date.valueOf(expiry).toLocalDate().isAfter(LocalDate.now());
+
+    }
+
+
 }

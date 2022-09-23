@@ -22,7 +22,7 @@ public class DeleteFormTest {
     @DisplayName("200: no error")
     public void testDeleteEndpoint() {
 
-        Assertions.assertDoesNotThrow(() -> sut.deleteForm(BigDecimal.ONE));
+        Assertions.assertDoesNotThrow(() -> sut.deleteForm(BigDecimal.ONE, null));
 
     }
 
@@ -31,7 +31,7 @@ public class DeleteFormTest {
     @DisplayName("403: throw unauthorized exception")
     public void deleteTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.deleteForm(BigDecimal.ONE));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.deleteForm(BigDecimal.ONE, null));
 
     }
 
@@ -39,7 +39,7 @@ public class DeleteFormTest {
     @DisplayName("401: throw unauthorized exception")
     public void deleteTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.deleteForm(BigDecimal.ONE));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.deleteForm(BigDecimal.ONE, null));
 
     }
 

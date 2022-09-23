@@ -19,7 +19,7 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 
 @QuarkusTest
-public class GetLocationsTest {
+public class GetUserLocationsTest {
 
     private static final String TEST_CD = "CD";
     private static final String TEST_VALUE = "VALUE";
@@ -45,7 +45,7 @@ public class GetLocationsTest {
 
         Mockito.when(codeTableService.getCodes(any())).thenReturn(locationList);
 
-        CodeList result = sut.getLocations();
+        CodeList result = sut.getLocations(null);
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
@@ -58,7 +58,7 @@ public class GetLocationsTest {
     @DisplayName("403: throw unauthorized exception")
     public void getLocationsTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getLocations());
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getLocations(null));
 
     }
 
@@ -66,7 +66,7 @@ public class GetLocationsTest {
     @DisplayName("401: throw unauthorized exception")
     public void getLocationsTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getLocations());
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getLocations(null));
 
     }
 

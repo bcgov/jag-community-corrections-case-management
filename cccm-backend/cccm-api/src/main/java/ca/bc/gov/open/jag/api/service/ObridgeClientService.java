@@ -6,18 +6,26 @@ import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+import ca.bc.gov.open.jag.api.model.data.*;
+import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.*;
+import javax.enterprise.context.RequestScoped;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
-@ApplicationScoped
+@RequestScoped
+@RegisterClientHeaders
 @RegisterRestClient
 public interface ObridgeClientService {
 
+    //TODO: user and location should be moved to the header for all obridge requests
     @GET
     @Path("/clientSearch")
     List<Client> getClientSearch(@QueryParam("searchType") String searchType,
@@ -57,6 +65,14 @@ public interface ObridgeClientService {
     List<Photo> getPhotosById(@PathParam("clientNum") String clientNum);
 
     @GET
+    @Path("/client/address")
+    List<Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+
+    @GET
+    @Path("/client/{clientNum}/details")
+    Client getDetailsById(@PathParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+
+    @GET
     @Path("/client/clientProfile")
     ClientProfile getProfileById(@QueryParam("csNumber") String csNumber,
                                  @QueryParam("user") String user,
@@ -84,8 +100,16 @@ public interface ObridgeClientService {
     List<CodeTable> getResponsivityTypes();
 
     @GET
-    @Path("/location")
-    Map getLocation();
+    @Path("/user/location")
+    Location getLocation(@QueryParam("oracleId") String oracleId);
+
+    @GET
+    @Path("/user/locations")
+    List<Location> getLocations(@QueryParam("oracleId") String oracleId);
+
+    @GET
+    @Path("/user/oracleId")
+    String getOracleId(@QueryParam("idirId") String idirId);
 
     @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")

@@ -7,13 +7,13 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@ApplicationScoped
+@RequestScoped
 @Slf4j
 public class CodeTableServiceImpl implements CodeTableService {
 

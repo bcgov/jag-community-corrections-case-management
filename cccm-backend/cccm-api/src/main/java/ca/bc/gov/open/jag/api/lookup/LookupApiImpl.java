@@ -21,7 +21,7 @@ public class LookupApiImpl implements LookupApi {
 
     @Override
     @RolesAllowed("data-view")
-    public CodeList getAddress() {
+    public CodeList getAddress(String xLocationId) {
 
         logger.info("Get address types request received");
 
@@ -29,9 +29,10 @@ public class LookupApiImpl implements LookupApi {
 
     }
 
+
     @Override
     @RolesAllowed("data-view")
-    public CodeList getFormTypes() {
+    public CodeList getFormTypes(String xLocationId) {
 
         logger.info("Get form types request received");
 
@@ -41,7 +42,7 @@ public class LookupApiImpl implements LookupApi {
 
     @Override
     @RolesAllowed("data-view")
-    public CodeList getGenders() {
+    public CodeList getGenders(String xLocationId) {
 
         logger.info("Get gender types request received");
 
@@ -51,7 +52,7 @@ public class LookupApiImpl implements LookupApi {
 
     @Override
     @RolesAllowed("data-view")
-    public CodeList getIdentifiers() {
+    public CodeList getIdentifiers(String xLocationId) {
 
         logger.info("Get identifier request received");
 
@@ -61,7 +62,7 @@ public class LookupApiImpl implements LookupApi {
 
     @Override
     @RolesAllowed("data-view")
-    public CodeList getLocations() {
+    public CodeList getLocations(String xLocationId) {
 
         logger.info("Get location request received");
 

@@ -262,6 +262,7 @@ export default {
 }
 
 .subSectionChildTitleClass {
+  padding: 20px 0 5px 0!important;
   font-size: 15px;
   font-weight: bold;
   border-bottom: 1px solid #ccc;
