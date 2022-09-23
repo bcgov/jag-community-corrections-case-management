@@ -265,7 +265,7 @@ export default {
     async buildForm() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
-      console.log(this.CONST_CURRENT_YEAR, this.CONST_MAX_AGE, this.CONST_MIN_AGE);
+      //console.log(this.CONST_CURRENT_YEAR, this.CONST_MAX_AGE, this.CONST_MIN_AGE);
       tmpJSONStr = tmpJSONStr.replaceAll('${cccm_api_endpoint}', config.VUE_APP_CCCM_API_ENDPOINT);
       tmpJSONStr = tmpJSONStr.replaceAll('${min_dob_year}', this.CONST_CURRENT_YEAR - this.CONST_MAX_AGE);
       tmpJSONStr = tmpJSONStr.replaceAll('${max_dob_year}', this.CONST_CURRENT_YEAR);
