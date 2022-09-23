@@ -333,15 +333,10 @@ export default {
       // populate primary address info 
       this.clients = this.clients.filter(el => {
         // Map primary address and primary addressType
-        if (el.address != null) {
-          for (let i = 0; i < el.address.length; i++) {
-            if (el.address[i].primary){
-              el.fullAddress = el.address[i].fullAddress;
-              el.addressType = el.address[i].type;
-              el.expired = el.address[i].expired;
-              break;
-            } 
-          }
+        if (el.address != null && el.address.length == 1) {
+          el.fullAddress = el.address[0].fullAddress;
+          el.addressType = el.address[0].type;
+          el.expired = el.address[0].expired;
         } else {
           el.fullAddress = "";
           el.addressType = "";
