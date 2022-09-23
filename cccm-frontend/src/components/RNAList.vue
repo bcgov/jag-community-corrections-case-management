@@ -93,7 +93,7 @@
         </div>
         <div class="col-sm-3" ></div>
         <div class="col-sm-3 text-right pr-4">
-          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">Create RNA</button>
+          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">Create New RNA</button>
         </div>
       </section>
       <div class="dashboard-v-card text-center">
