@@ -32,6 +32,7 @@
       <div class="dashboard-v-card text-center">
         <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="filteredRNAList"
           item-key="formID" no-results-text="No results found" hide-default-footer :page.sync="page"
+          :loading="loading"   loading-text="Loading RNA List... Please wait"
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
@@ -251,23 +252,23 @@ export default {
       }
     },
     formView( formID, formType) {
+      debugger;
       console.log("formView %s %s", formID, formType);
       if (formType === 'SARA') {
         this.$router.push({
           name: 'saracmp',
           params: {
             formID: formID,
-            clientNum: this.clientNum,
-            clientID: this.clientID
+            csNumber: this.clientNum
           }
         });
+
       } else if (formType === 'CRNA') {
         this.$router.push({
           name: 'crnacmp',
           params: {
             formID: formID,
-            clientNum: this.clientNum,
-            clientID: this.clientID
+            csNumber: this.clientNum
           }
 
         });

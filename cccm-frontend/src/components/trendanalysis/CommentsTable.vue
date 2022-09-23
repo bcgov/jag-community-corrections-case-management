@@ -1,8 +1,12 @@
 <template>
-  <div class="client-comments col-10 justify-content-start">
-    {{ this.pointDateSelected }}
-    <div class="row">
-      <table class="table table-hover table-bordered comments-table">
+  <div data-app>
+    <div class="dashboard-v-card text-center">
+            <div class="comments-table justify-content-start ">
+        {{ this.pointDateSelected }}
+        <div class="row">
+          <v-data-table item-key="comment.id" class="elevation-1" loading :headers="headers" :items="comments"
+            :items-per-page="5" loading-text="Loading... Please wait"></v-data-table>
+          <!-- <table class="table table-hover table-bordered comments-table">
         <thead>
           <tr style="background-color: #0a58ca; color: white">
             <th>Date</th>
@@ -20,7 +24,9 @@
             <td style="text-align: justify">{{ comment.value }}</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,19 +49,32 @@ export default {
   },
   data() {
     return {
-      comments: []
+      comments: [],
+      headers: [
+        {
+          text: 'ID (Debug)',
+          align: 'start',
+          sortable: false,
+          value: 'id',
+        },
+        { text: 'Date', value: 'createdDate' },
+        { text: 'Factor', value: 'factor' },
+        { text: 'Rating', value: 'question' },
+
+        { text: 'Comment', value: 'value' }
+      ],
     }
   },
   methods: {
-    async getComments() {      
+    async getComments() {
       let csNumber = this.$route.params.csNumber;
       let filter = {
         factors: this.factors,
-            csNumber: csNumber,
-            startDate: this.startDate,
-            endDate: this.endDate
+        csNumber: csNumber,
+        startDate: this.startDate,
+        endDate: this.endDate
       };
-      const [error,data] = await getClientFormComments(csNumber, filter);
+      const [error, data] = await getClientFormComments(csNumber, filter);
       if (error) {
         console.error(error);
       } else {

@@ -73,7 +73,6 @@ export default {
     return {
       form: null,
       loadingMsg: "Loading form...",
-      trackedData: {},
       loading: false,
       message: "",
       parentNavMoveToNext: 1,
@@ -85,6 +84,7 @@ export default {
       formJSONFormData: sampleFormData,
       componentKey: 0,
       sectionQuestionMap: {},
+      autoSaveData: {},
     }
   },
   mounted() {
@@ -97,6 +97,7 @@ export default {
       let formId = this.$route.params.formID;
       let csNumber = this.$route.params.csNumber;
       let vm = this;
+      let autoSaveData = {};
       console.log("CRNA formDetails: ", formId);
       const [error, response] = await getFormDetails("00142091", formId);
       if (error) {
@@ -105,14 +106,98 @@ export default {
         console.log("Got form %o", response);
         try {
 
+
+
           await Formio.createForm(document.getElementById('formio'), response).then(form => {
+
+            // capture changes
+            let debounceChanges = vm.debounce((changeEvent) => vm.autoSave(), 1000);
+
             // Prevent the submission from going to the form.io server.
             form.nosubmit = true;
             vm.form = form;
-            form.on("change", function (e) {
-              console.log("Change event %o", e);
-              vm.trackedData[vm.parentNavCurLocation] = form.data;
-              console.log("--> DATA %o", vm.trackedData);
+            form.on("change", function (changeEvent) {
+              // key is the form S00Q00[_intv...]
+              let componentKey = changeEvent.changed.component.key;
+
+              console.log("Change event saving  %s %o", componentKey, changeEvent.changed.value);
+              // todo - all this sort of logic should be moved to a service/util function
+
+              if (componentKey.indexOf("intervention_checkbox") !== -1) {
+                // ignore intervention checkboxes
+              }
+              else if (componentKey.indexOf("intervention") !== -1) {
+                let questionKey = componentKey.substr(0, 6);
+                let gridKey = questionKey + "_intervention_datagrid";
+                let grid = vm.form.getComponent(gridKey);
+                // check that object has required values
+                console.log("Handling intervention %o %o", grid, vm.form.data[questionKey + "_intervention_datagrid"]);
+                let gridData = vm.form.data[questionKey + "_intervention_datagrid"];
+
+                // 
+
+                gridData.forEach((entry) => {
+                  
+                  let valid = true;
+                  console.log("Checking entry %o", entry);
+                  let desc = entry[questionKey + "_intervention_desc"];
+                  let specify = entry[questionKey + "_intervention_specify"];
+                  let type = entry[questionKey + "_intervention_type"];
+
+                  // check if we have what we need
+                  if (desc && (specify || type)) {
+
+                    // if sending an intervention we must also send the question/comment values too 
+                    // as interventions are actually tied to questions
+                    if (! vm.autoSaveData[questionKey]) {
+                      vm.autoSaveData[questionKey] = vm.form.data[questionKey];
+                      vm.autoSaveData[questionKey + "_COMMENT"] = vm.form.data[questionKey + "_COMMENT"];
+
+                    }
+
+                    // add new array for grid saving
+                    if (!vm.autoSaveData[gridKey]) {
+                      vm.autoSaveData[gridKey] = [];
+                    }
+
+                    // make sure we only have one entry for each type
+                    let current = vm.autoSaveData[gridKey].filter((existing) => existing.type === entry.type)[0];
+                    debugger;
+                    if (!current) {
+                      console.log("1 Adding intervention update %o", entry);
+                      vm.autoSaveData[gridKey].push(entry);
+                    } else {
+                      // replace current entry
+                    }
+                    console.log("2 Adding intervention update %o", vm.autoSaveData[gridKey]);
+
+                  }
+                });
+
+
+
+              } else if (componentKey.indexOf("_COMMENT") !== -1) {
+                // comments have to go with the question
+                let commentQuestion = componentKey.substr(0, 6);
+                if (vm.form.data[commentQuestion]) {
+                  vm.autoSaveData[commentQuestion] = vm.form.data[commentQuestion];
+                  vm.autoSaveData[componentKey] = changeEvent.changed.value;
+                }
+              } else {
+                let changedDate = {};
+                let commentKey = componentKey + "_COMMENT";
+                // if we send an answer with a blank comment it will be removed from the db as
+                // its no different to the user blanking the comment
+                if (vm.form.data[commentKey]) {
+                  vm.autoSaveData[commentKey] = vm.form.data[commentKey];
+                }
+                vm.autoSaveData[componentKey] = changeEvent.changed.value;
+              }
+
+              if (Object.keys(vm.autoSaveData).length > 0) {
+                debounceChanges(vm.autoSaveData);
+              }
+
             });
 
             // capture the submit
@@ -132,7 +217,6 @@ export default {
 
 
             form.components.filter((component) => component.hasOwnProperty('components')).forEach(sectionComponent => {
-              console.log("Section %s", sectionComponent.component.title);
               let questions = [];
 
               // track questions for section
@@ -191,6 +275,36 @@ export default {
         this.loading = false;
       }
     },
+    debounce(func, timeout = 300) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          func.apply(this, args);
+        }, timeout);
+      };
+    },
+    async autoSave() {
+
+
+      debugger;
+      console.log("Sending change for %o", this.autoSaveData);
+
+
+
+      let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
+
+      console.log("Saving %d %s %o", formId, csNumber, this.autoSaveData);
+      const [error, response] = await updateForm(csNumber, formId, this.autoSaveData);
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Saved form %o", response);
+      }
+
+    },
+
 
     async handleSaveContinue(continueToNextSection) {
 
@@ -262,7 +376,7 @@ export default {
 }
 
 .subSectionChildTitleClass {
-  padding: 20px 0 5px 0!important;
+  padding: 20px 0 5px 0 !important;
   font-size: 15px;
   font-weight: bold;
   border-bottom: 1px solid #ccc;
