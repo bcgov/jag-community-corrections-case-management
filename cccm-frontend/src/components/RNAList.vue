@@ -29,19 +29,19 @@
           ></v-checkbox>
         </div>
         <v-card-actions>
-            <v-btn
-              color="primary"
-              dark
-              @click="handleFormCreateBtnClick"
-            >
-              Yes, continue
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              @click="dialog = false"
-            >
-              No, exit
-            </v-btn>
+          <v-btn
+            @click="dialog = false"
+          >
+            No, Exit
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            dark
+            @click="handleFormCreateBtnClick"
+          >
+            Yes, Continue
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
