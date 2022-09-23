@@ -128,12 +128,6 @@
                                                                 {
                                                                     "label": "HTML",
                                                                     "className": "subSectionTitleClass",
-                                                                    "attrs": [
-                                                                        {
-                                                                            "attr": "",
-                                                                            "value": ""
-                                                                        }
-                                                                    ],
                                                                     "content": "Personal Information",
                                                                     "refreshOnChange": false,
                                                                     "key": "html",
@@ -253,12 +247,6 @@
                                                                 {
                                                                     "label": "HTML",
                                                                     "className": "subSectionTitleClass",
-                                                                    "attrs": [
-                                                                        {
-                                                                            "attr": "",
-                                                                            "value": ""
-                                                                        }
-                                                                    ],
                                                                     "content": "Date of Birth (DOB)",
                                                                     "refreshOnChange": false,
                                                                     "key": "html",
@@ -273,9 +261,20 @@
                                                                             "components": [
                                                                                 {
                                                                                     "label": "DOB year",
-                                                                                    "tableView": true,
+                                                                                    "mask": false,
+                                                                                    "tableView": false,
+                                                                                    "persistent": false,
+                                                                                    "delimiter": false,
+                                                                                    "requireDecimal": false,
+                                                                                    "inputFormat": "plain",
+                                                                                    "truncateMultipleSpaces": false,
+                                                                                    "clearOnHide": false,
+                                                                                    "validate": {
+                                                                                        "min": "${min_dob_year}",
+                                                                                        "max": "${max_dob_year}"
+                                                                                    },
                                                                                     "key": "dobYear",
-                                                                                    "type": "textfield",
+                                                                                    "type": "number",
                                                                                     "input": true
                                                                                 }
                                                                             ],
@@ -290,9 +289,18 @@
                                                                             "components": [
                                                                                 {
                                                                                     "label": "Age",
-                                                                                    "tableView": true,
+                                                                                    "mask": false,
+                                                                                    "tableView": false,
+                                                                                    "delimiter": false,
+                                                                                    "requireDecimal": false,
+                                                                                    "inputFormat": "plain",
+                                                                                    "truncateMultipleSpaces": false,
+                                                                                    "validate": {
+                                                                                        "min": "${min_age}",
+                                                                                        "max": "${max_age}"
+                                                                                    },
                                                                                     "key": "age",
-                                                                                    "type": "textfield",
+                                                                                    "type": "number",
                                                                                     "input": true
                                                                                 }
                                                                             ],
@@ -310,7 +318,8 @@
                                                                                     "tableView": true,
                                                                                     "key": "rangeYears",
                                                                                     "type": "textfield",
-                                                                                    "input": true
+                                                                                    "input": true,
+                                                                                    "defaultValue": "2"
                                                                                 }
                                                                             ],
                                                                             "size": "md",

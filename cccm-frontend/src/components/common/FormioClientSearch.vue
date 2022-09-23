@@ -3,8 +3,13 @@
     <div class="container">
       <section class="paper">
         <div class="pt-5">
-          <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"/>
-        </div>
+          <Form class="formio-container" 
+              :form="formJSON"
+              v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 
+              v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"
+              v-on:change="handleChangeEvent"
+            />
+            </div>
       </section>
     </div>
     
@@ -126,6 +131,9 @@ export default {
   name: 'FormioClientSearch',
   data() {
     return {
+      CONST_MIN_AGE: 10,
+      CONST_MAX_AGE: 100,
+      CONST_CURRENT_YEAR: new Date().getFullYear(),
       key_clientsearchresult: 0,
       formInfoTemplate: template,
       formJSON: {},
@@ -257,8 +265,13 @@ export default {
     async buildForm() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
-      
+      console.log(this.CONST_CURRENT_YEAR, this.CONST_MAX_AGE, this.CONST_MIN_AGE);
       tmpJSONStr = tmpJSONStr.replaceAll('${cccm_api_endpoint}', config.VUE_APP_CCCM_API_ENDPOINT);
+      tmpJSONStr = tmpJSONStr.replaceAll('${min_dob_year}', this.CONST_CURRENT_YEAR - this.CONST_MAX_AGE);
+      tmpJSONStr = tmpJSONStr.replaceAll('${max_dob_year}', this.CONST_CURRENT_YEAR);
+      tmpJSONStr = tmpJSONStr.replaceAll('${min_age}', this.CONST_MIN_AGE);
+      tmpJSONStr = tmpJSONStr.replaceAll('${max_age}', this.CONST_MAX_AGE);
+
       //Generate the oauth token to authenticate the API call
       const token = await updateToken();
       if (token) {
@@ -354,7 +367,7 @@ export default {
       //   "idNumber": ""
       // }
       if (evt.data != null) {
-        //console.log("Search by general info: ", evt, evt.data);
+        console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
@@ -379,6 +392,27 @@ export default {
             evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
         this.private_processSearchResults(error, response);
       }
+    },
+    handleChangeEvent(event) {
+      if (   event.changed 
+          && ( event.changed.component.key === "age"
+            || event.changed.component.key === "dobYear")) {
+        //console.log("textfield or textarea changed: ", event);
+        // if dobYear is updated, re-calculate and set the age
+        if (event.changed.component.key == "dobYear") {
+          let ele = document.getElementsByName("data[generalInfo][age]");
+          if (ele != null && ele.length == 1) {
+            ele[0].value = event.data.generalInfo.dobYear == null ? '' : this.CONST_CURRENT_YEAR - event.data.generalInfo.dobYear;
+          }
+        }
+        // if age is updated, re-calculate and set the dobYear
+        if (event.changed.component.key == "age") {
+          let ele = document.getElementsByName("data[generalInfo][dobYear]");
+          if (ele != null && ele.length == 1) {
+            ele[0].value = event.data.generalInfo.age == null? '' : this.CONST_CURRENT_YEAR - event.data.generalInfo.age;
+          }
+        }
+      }
     }
   }
 }
@@ -386,12 +420,9 @@ export default {
 
 <style>
   .wild-search-text {
-
     color: #154c79;
     font-size: 0.5em;
-
   }
-
   legend[ref="header"]{
     display: flex;
     flex-direction: row-reverse;
