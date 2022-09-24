@@ -35,6 +35,21 @@
             <section class="mb-3">
               <v-row :key="theKey" class="row">
                 <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
+                <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
+                  <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
+                    <span class="fas fa-exclamation-triangle mt-1"/>
+                    <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
+                    <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
+                      <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
+                      <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
+                    </span>
+                  </div>
+                  <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
+                    <div v-for="(item, index) in getAlertDetails" :key="index">
+                      {{item.date}}&nbsp;&nbsp;{{item.comment}}
+                    </div>
+                  </div>
+                </div>
                 <div :class="['bg-shallow-warning mr-3 mt-3 col-3 align-items-start', showWarrantDetails ? 'h-100' : 'center']" v-if="getNumOfWarrants !== 0" @click="showHideMoreWarrants">
                   <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
                     <span class="fas fa-exclamation-triangle mt-1"/>
@@ -53,21 +68,6 @@
                 <div class="bg-shallow-critical text-left mr-3 mt-3 pt-0 col-2 d-flex flex-column" v-if="isProfileClosed">
                   <p class="p-0 m-0">Profile is closed</p>
                   <p class="p-0 m-0   small">Client has been released.</p>
-                </div>
-                <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
-                  <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
-                    <span class="fas fa-exclamation-triangle mt-1"/>
-                    <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
-                    <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
-                      <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
-                      <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
-                    </span>
-                  </div>
-                  <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
-                    <div v-for="(item, index) in getAlertDetails" :key="index">
-                      {{item.date}}&nbsp;&nbsp;{{item.comment}}
-                    </div>
-                  </div>
                 </div>
               </v-row>
             </section>
