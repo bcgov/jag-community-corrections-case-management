@@ -1,8 +1,8 @@
 <template>
-  <div data-app>
+  <div data-app class="client-search">
     <div class="container">
-      <section class="paper">
-        <div class="pt-5">
+      <section class="paper p-0">
+        <div class="p-0">
           <Form class="formio-container" :form="formJSON" v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"/>
         </div>
       </section>
@@ -14,7 +14,7 @@
       <v-card-title>
         Results
         <v-spacer></v-spacer>
-        <div class="w-25">
+        <div class="w-25 p-4">
           <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
