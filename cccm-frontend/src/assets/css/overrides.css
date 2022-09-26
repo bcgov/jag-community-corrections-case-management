@@ -10,16 +10,72 @@
 }
 
 .container {
-    /*margin: 24px 10px!important;*/
     padding: 24px 50px!important;
     width:100%!important;
     max-width:100%!important;
 }
+/* CLIENT SEARCH todo: put in own file */
+
+
+.client-search .sectionTitleClass {
+    padding: 40px 20px 5px 20px!important;
+}
+
+.client-search .subSectionTitleClass {
+    text-decoration: none;
+}
+
+.formio-component-limitedToCurrentActiveLocation {
+    margin: -60px 24px 0 28px;
+}
+
+input[name="data[limitedToCurrentActiveLocation]"], input[name="data[addressInfo][includeExpiredAddresses]"] {
+    transform: scale(2);
+}
+
+input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addressInfo][includeExpiredAddresses]"] + span {
+    margin-left:10px;
+}
+
+.client-search .fa-exclamation-circle {
+    transform: scale(1.5);
+}
+
+.client-search .how-to-icon {
+    margin-top: -110px;
+    color: #013265;
+}
+.client-search .how-to-wildcard {
+    margin-top: -120px;
+    color: #013265;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+}
 
 .client-search-columns {
     column-gap: 100px;
-
 }
+
+
+div[ref="nested-generalInfo"]  {
+    padding: 20px;
+}
+
+.formio-component-lastNameSoundex {
+    display:inline-block;
+    width:100%;
+    text-align:right;
+}
+
+.formio-component-lastNameSoundex > .checkbox {
+   top: -70px;
+}
+
+button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:active, button[name="data[generalInfo]"]:focus {
+    background-color: #38598A!important;
+}
+
+/* END CLIENT SEARCH */
 
 .container .v-card__title {
     font-weight:bold;
@@ -36,6 +92,7 @@
 
 .v-data-table__wrapper th {
     padding: 20px!important;
+    color:#fff!important;
 }
 
 .v-data-table__wrapper a {
@@ -82,6 +139,7 @@ img[alt="Client photo"] {
     min-height:auto!important;
 }
 
+
 /*CRNA FORM STYLES - TODO: Move to own file*/
 
 .card-body .crna-sectionTitleClass {
@@ -120,13 +178,6 @@ img[alt="Client photo"] {
     background-color: rgba(224, 224, 224, .5);
 }
 
-/*.crna-subSectionTitleClass {*/
-/*    font-size: 20px;*/
-/*    font-weight: bold;*/
-/*    text-decoration: underline;*/
-/*    -webkit-text-decoration-color: rgb(255, 208, 0); !* Safari *!*/
-/*    text-decoration-color: rgb(255, 208, 0);*/
-/*}*/
 
 .divTable {
     z-index: 1;
@@ -167,7 +218,7 @@ img[alt="Client photo"] {
     padding:0;
 }
 
-p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass){
+p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):not(.sectionTitleClass){
     padding:0!important;
     margin:0!important;
     min-height:0px!important;

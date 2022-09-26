@@ -1,5 +1,5 @@
 <template>
-  <div data-app>
+  <div data-app class="client-search">
     <div class="container">
       <section class="paper">
         <div class="pt-5">
@@ -19,7 +19,7 @@
       <v-card-title>
         Results
         <v-spacer></v-spacer>
-        <div class="w-25">
+        <div class="w-25 p-4">
           <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
