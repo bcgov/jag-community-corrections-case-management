@@ -1,5 +1,6 @@
 import { identifier } from '@babel/types';
 import axios from 'axios';
+import { ScriptableLineSegmentContext } from 'chart.js';
 //import { config } from 'process';
 
 const axiosClient = axios.create({
@@ -60,7 +61,6 @@ export function getUserLocations() {
  *
  */
 export async function getClientForms(clientNum: String,  currentPeriod: boolean, formTypeCd: String) {
-    debugger;
     try{
         const { data } = await axiosClient.get(`/forms/client/${clientNum}`,{
             params: {
@@ -108,6 +108,21 @@ export async function updateForm( csNumber: number,clientFormId: number, formDat
     } catch (error) {
         return [error];
     }
+}
+
+// delete all interventions except the ones listed (backwards I know!)
+export async function deleteQuestionInterventionsExcept(csNumber: number,clientFormId: number, questionKey: string, remainingInterventionTypes: string[]) {
+try{
+    let formData = {
+        "questionKey": questionKey,
+        "action":"deleteExcept",
+        "typeList": remainingInterventionTypes
+    }
+    console.log("Updating interventions %o for %s", remainingInterventionTypes, questionKey);
+    return await axiosClient.put('/forms/client/answers/interventions/' + csNumber + '/' + clientFormId , formData);
+} catch (error) {
+    return [error];
+}
 }
 
 // get form data for an entire section

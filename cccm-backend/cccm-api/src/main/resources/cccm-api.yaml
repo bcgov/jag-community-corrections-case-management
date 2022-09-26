@@ -539,6 +539,49 @@ paths:
           description: Not Found
           content: {}
 
+  /forms/client/answers/interventions/{clientNumber}/{clientFormId}:
+    put:
+      tags:
+        - client-form-controller
+      summary: deleteInterventionsExcept
+      operationId: deleteInterventionsExceptUsingPUT
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: updatePayload
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content: {}
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: updatePayload
 
   #----------------------------------------------------------------------------------------
   #  TREND ANALYSIS

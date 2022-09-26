@@ -129,6 +129,12 @@ public interface ObridgeClientService {
                                      @RequestBody String payload,
                                      @QueryParam("loadLatestValues") boolean loadLatestValues);
 
+    @PUT
+    @Path("/forms/client/answers/interventions/{clientNumber}/{clientFormId}")
+    String updateClientFormInterventions(@PathParam("clientNumber") String clientNumber,
+                                 @PathParam("clientFormId") BigDecimal clientFormId,
+                                 @RequestBody String payload);
+
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}")
     String getClientFormAnswers(@PathParam("clientNumber") String clientNumber,
@@ -191,6 +197,7 @@ public interface ObridgeClientService {
     @Path("/forms/summaries")
     List<FormSummary> getFormSummaries(@QueryParam("module") String module,
                                        @QueryParam("latestOnly") boolean latestOnly);
+
 
 
 }

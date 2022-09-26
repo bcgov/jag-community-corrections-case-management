@@ -168,6 +168,14 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     }
 
+
+    @Override
+    public void deleteInterventionsExcept(String clientNumber, BigDecimal clientFormId, String payload) {
+        log.debug("Updating client form interventions {} {}", clientFormId, payload);
+        obridgeClientService.updateClientFormInterventions(clientNumber,clientFormId, payload);
+    }
+
+
     @Override
     public String getClientFormAnswers(String clientNumber,BigDecimal clientFormId) {
         log.debug("Getting form answers {}", clientFormId);

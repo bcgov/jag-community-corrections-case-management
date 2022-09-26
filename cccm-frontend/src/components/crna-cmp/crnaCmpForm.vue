@@ -49,7 +49,7 @@
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
-import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq } from "@/components/form.api";
+import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept } from "@/components/form.api";
 
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import FormNavComponent from "@/components/common/FormNavComponent.vue";
@@ -107,7 +107,9 @@ export default {
         try {
 
 
-
+          // ----------------------------------------------
+          // -------------- FORM RENDER -------------------
+          // ----------------------------------------------
           await Formio.createForm(document.getElementById('formio'), response).then(form => {
 
             // capture changes
@@ -116,7 +118,14 @@ export default {
             // Prevent the submission from going to the form.io server.
             form.nosubmit = true;
             vm.form = form;
+
+
+            // ----------------------------------------------
+            // -------------- CHANGE EVENT ------------------
+            // ----------------------------------------------
             form.on("change", function (changeEvent) {
+
+              debugger;
               // key is the form S00Q00[_intv...]
               let componentKey = changeEvent.changed.component.key;
 
@@ -127,53 +136,76 @@ export default {
                 // ignore intervention checkboxes
               }
               else if (componentKey.indexOf("intervention") !== -1) {
+
                 let questionKey = componentKey.substr(0, 6);
                 let gridKey = questionKey + "_intervention_datagrid";
+                let interventionTypeKey = questionKey + "_intervention_type";
                 let grid = vm.form.getComponent(gridKey);
                 // check that object has required values
                 console.log("Handling intervention %o %o", grid, vm.form.data[questionKey + "_intervention_datagrid"]);
                 let gridData = vm.form.data[questionKey + "_intervention_datagrid"];
 
-                // 
+                //
+                let changeGridDataEvent = changeEvent.changed;
+                debugger;
+                console.log("Changed %o from %o", changeGridDataEvent.value, vm.form.data[gridKey]);
 
-                gridData.forEach((entry) => {
-                  
-                  let valid = true;
-                  console.log("Checking entry %o", entry);
-                  let desc = entry[questionKey + "_intervention_desc"];
-                  let specify = entry[questionKey + "_intervention_specify"];
-                  let type = entry[questionKey + "_intervention_type"];
+                // grid was updated with a delete
+                if (changeGridDataEvent.flags.isReordered) {
+                  console.log("Delete event happened");
+                  // this is really ugly but the datagrid does not send delete events - just change event
+                  // and the form data is already updated on the delete - so we have to send the list of interventions
+                  // that are still present after a delete rather than sending a delete for whats removed 
+                  let remainingInterventionTypes = changeGridDataEvent.value.map(intervention => intervention[interventionTypeKey]);
+                  console.log("Types %o", remainingInterventionTypes);
 
-                  // check if we have what we need
-                  if (desc && (specify || type)) {
-
-                    // if sending an intervention we must also send the question/comment values too 
-                    // as interventions are actually tied to questions
-                    if (! vm.autoSaveData[questionKey]) {
-                      vm.autoSaveData[questionKey] = vm.form.data[questionKey];
-                      vm.autoSaveData[questionKey + "_COMMENT"] = vm.form.data[questionKey + "_COMMENT"];
-
-                    }
-
-                    // add new array for grid saving
-                    if (!vm.autoSaveData[gridKey]) {
-                      vm.autoSaveData[gridKey] = [];
-                    }
-
-                    // make sure we only have one entry for each type
-                    let current = vm.autoSaveData[gridKey].filter((existing) => existing.type === entry.type)[0];
-                    debugger;
-                    if (!current) {
-                      console.log("1 Adding intervention update %o", entry);
-                      vm.autoSaveData[gridKey].push(entry);
-                    } else {
-                      // replace current entry
-                    }
-                    console.log("2 Adding intervention update %o", vm.autoSaveData[gridKey]);
-
+                  let error = deleteQuestionInterventionsExcept(csNumber, formId, questionKey, remainingInterventionTypes);
+                  if (error) {
+                    console.error("Failed to update intervention list %o", error);
+                  } else {
+                    console.log("Interventions updated ok");
                   }
-                });
 
+                } else {
+
+
+                  gridData.forEach((entry) => {
+
+                    let valid = true;
+
+                    let desc = entry[questionKey + "_intervention_desc"];
+                    let specify = entry[questionKey + "_intervention_specify"];
+                    let type = entry[questionKey + "_intervention_type"];
+
+                    // check if we have what we need
+                    if (desc && (specify || type)) {
+
+                      // if sending an intervention we must also send the question/comment values too 
+                      // as interventions are actually tied to questions
+                      if (!vm.autoSaveData[questionKey]) {
+                        vm.autoSaveData[questionKey] = vm.form.data[questionKey];
+                        vm.autoSaveData[questionKey + "_COMMENT"] = vm.form.data[questionKey + "_COMMENT"];
+
+                      }
+
+                      // add new array for grid saving
+                      if (!vm.autoSaveData[gridKey]) {
+                        vm.autoSaveData[gridKey] = [];
+                      }
+
+                      // make sure we only have one entry for each type
+                      let current = vm.autoSaveData[gridKey].filter((existing) => existing.type === entry.type)[0];
+                      if (!current) {
+                        console.log("1 Adding intervention update %o", entry);
+                        vm.autoSaveData[gridKey].push(entry);
+                      } else {
+                        // replace current entry
+                      }
+                      console.log("2 Adding intervention update %o", vm.autoSaveData[gridKey]);
+
+                    }
+                  });
+                }
 
 
               } else if (componentKey.indexOf("_COMMENT") !== -1) {
@@ -200,6 +232,11 @@ export default {
 
             });
 
+
+
+            // ----------------------------------------------
+            // -------------- FORM SUBMIT -------------------
+            // ----------------------------------------------
             // capture the submit
             form.on('submit', function (submissionData) {
               vm.submission = JSON.stringify(submissionData, null, 2);
@@ -286,20 +323,14 @@ export default {
     },
     async autoSave() {
 
-
-      debugger;
-      console.log("Sending change for %o", this.autoSaveData);
-
-
-
       let formId = this.$route.params.formID;
       let csNumber = this.$route.params.csNumber;
 
-      console.log("Saving %d %s %o", formId, csNumber, this.autoSaveData);
       const [error, response] = await updateForm(csNumber, formId, this.autoSaveData);
       if (error) {
         console.error(error);
       } else {
+        // todo - save indicator?
         console.log("Saved form %o", response);
       }
 
@@ -308,7 +339,6 @@ export default {
 
     async handleSaveContinue(continueToNextSection) {
 
-      console.log("Saving data %o", this.form.data);
       let formId = this.$route.params.formID;
       let csNumber = this.$route.params.csNumber;
       const [error, response] = await updateForm(csNumber, formId, this.form.data);
@@ -344,8 +374,12 @@ export default {
     handleCancelForm() {
       console.log("Cancel Form");
     },
-    handleNavChildCallback(parentNavCurLocationFromChild) {
-      console.log("Nav event %o", parentNavCurLocationFromChild);
+    handleNavChildCallback(parentNavCurLocationFromChild, o) {
+      console.log("Nav event %o %o, o", parentNavCurLocationFromChild);
+
+      // get the section
+      let section = this.form.components[parentNavCurLocationFromChild];
+      console.log("Section %o", section);
 
       // hide other sections
       this.hideSectionsExceptCurrent(parentNavCurLocationFromChild);

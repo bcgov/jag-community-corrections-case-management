@@ -36,6 +36,15 @@ public interface ClientDataService {
      */
     String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean loadLatestAnswers);
 
+
+    /**
+     * Perform an update on interventions - basically deletions in a round-about sort of way
+     * @param clientNumber
+     * @param clientFormId
+     * @param payload
+     */
+    void deleteInterventionsExcept(String clientNumber, BigDecimal clientFormId, String payload);
+
     /**
      * Get client form answers
      * @param clientNumber

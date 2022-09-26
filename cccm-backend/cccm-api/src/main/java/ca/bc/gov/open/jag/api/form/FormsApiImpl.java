@@ -50,6 +50,14 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-update")
+
+    public void deleteInterventionsExceptUsingPUT(BigDecimal clientFormId, String clientNumber, String updatePayload) {
+        clientDataService.deleteInterventionsExcept(clientNumber,clientFormId, updatePayload);
+    }
+
+    @Override
+    @Transactional
     @RolesAllowed("form-add")
     public BigDecimal createNewFormUsingPOST(CreateFormInput createFormInput) {
        return clientDataService.addClientForm(createFormInput);

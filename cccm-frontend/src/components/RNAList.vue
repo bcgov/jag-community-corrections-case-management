@@ -164,7 +164,6 @@ export default {
       return (item.updatedDate) ? item.updatedDate : item.createdDate;
     },
     getRating(item, key) {
-      console.log("Item %o", item);
       if (item.ratings[key]) {
         return item.ratings[key];
       } else {
@@ -236,14 +235,11 @@ export default {
     },
     async formSearchAPI(clientNum, tobeRemoved_addOne) {
 
-      console.log('formSearchAPI(%s,%o)', clientNum, tobeRemoved_addOne);
       const [error, response] = await formSearch(clientNum, 'RNA', true);
       //this.initData = response.data;
       this.key_rnalistSearchResult++;
       this.loading = false;
-      console.log("Response %o", response);
       this.rnaList = response;
-
 
       this.private_applyFilter(this.selectedFormTypes, this.selectedSupervisionPeriods);
 
@@ -252,8 +248,6 @@ export default {
       }
     },
     formView( formID, formType) {
-      debugger;
-      console.log("formView %s %s", formID, formType);
       if (formType === 'SARA') {
         this.$router.push({
           name: 'saracmp',
