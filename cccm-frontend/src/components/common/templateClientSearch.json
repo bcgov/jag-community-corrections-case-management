@@ -128,12 +128,6 @@
                                                                 {
                                                                     "label": "HTML",
                                                                     "className": "subSectionTitleClass",
-                                                                    "attrs": [
-                                                                        {
-                                                                            "attr": "",
-                                                                            "value": ""
-                                                                        }
-                                                                    ],
                                                                     "content": "Personal Information",
                                                                     "refreshOnChange": false,
                                                                     "key": "html",
@@ -253,12 +247,6 @@
                                                                 {
                                                                     "label": "HTML",
                                                                     "className": "subSectionTitleClass",
-                                                                    "attrs": [
-                                                                        {
-                                                                            "attr": "",
-                                                                            "value": ""
-                                                                        }
-                                                                    ],
                                                                     "content": "Date of Birth (DOB)",
                                                                     "refreshOnChange": false,
                                                                     "key": "html",
@@ -273,9 +261,20 @@
                                                                             "components": [
                                                                                 {
                                                                                     "label": "DOB year",
-                                                                                    "tableView": true,
+                                                                                    "mask": false,
+                                                                                    "tableView": false,
+                                                                                    "persistent": false,
+                                                                                    "delimiter": false,
+                                                                                    "requireDecimal": false,
+                                                                                    "inputFormat": "plain",
+                                                                                    "truncateMultipleSpaces": false,
+                                                                                    "clearOnHide": false,
+                                                                                    "validate": {
+                                                                                        "min": "${min_dob_year}",
+                                                                                        "max": "${max_dob_year}"
+                                                                                    },
                                                                                     "key": "dobYear",
-                                                                                    "type": "textfield",
+                                                                                    "type": "number",
                                                                                     "input": true
                                                                                 }
                                                                             ],
@@ -290,9 +289,18 @@
                                                                             "components": [
                                                                                 {
                                                                                     "label": "Age",
-                                                                                    "tableView": true,
+                                                                                    "mask": false,
+                                                                                    "tableView": false,
+                                                                                    "delimiter": false,
+                                                                                    "requireDecimal": false,
+                                                                                    "inputFormat": "plain",
+                                                                                    "truncateMultipleSpaces": false,
+                                                                                    "validate": {
+                                                                                        "min": "${min_age}",
+                                                                                        "max": "${max_age}"
+                                                                                    },
                                                                                     "key": "age",
-                                                                                    "type": "textfield",
+                                                                                    "type": "number",
                                                                                     "input": true
                                                                                 }
                                                                             ],
@@ -310,7 +318,8 @@
                                                                                     "tableView": true,
                                                                                     "key": "rangeYears",
                                                                                     "type": "textfield",
-                                                                                    "input": true
+                                                                                    "input": true,
+                                                                                    "defaultValue": "2"
                                                                                 }
                                                                             ],
                                                                             "size": "md",
@@ -358,12 +367,6 @@
                                                                 {
                                                                     "label": "HTML",
                                                                     "className": "subSectionTitleClass",
-                                                                    "attrs": [
-                                                                        {
-                                                                            "attr": "",
-                                                                            "value": ""
-                                                                        }
-                                                                    ],
                                                                     "content": "ID Information",
                                                                     "refreshOnChange": false,
                                                                     "key": "html",
@@ -380,18 +383,26 @@
                                                                                     "label": "ID Type",
                                                                                     "widget": "choicesjs",
                                                                                     "tableView": true,
+                                                                                    "dataSrc": "url",
                                                                                     "data": {
-                                                                                        "values": [
+                                                                                        "url": "${cccm_api_endpoint}/lookup/identifiers",
+                                                                                        "headers": [
                                                                                             {
-                                                                                                "label": "CS Number",
-                                                                                                "value": "cn"
+                                                                                                "key": "Authorization",
+                                                                                                "value": "Bearer ${authToken}"
                                                                                             }
                                                                                         ]
                                                                                     },
                                                                                     "key": "idType",
                                                                                     "type": "select",
                                                                                     "input": true,
-                                                                                    "defaultValue": "cn"
+                                                                                    "persistent": false,
+                                                                                    "lazyLoad": false,
+                                                                                    "disableLimit": true,
+                                                                                    "dataType": "auto",
+                                                                                    "valueProperty": "key",
+                                                                                    "template": "<span>{{ item.value }}</span>",
+                                                                                    "selectValues": "items"
                                                                                 }
                                                                             ],
                                                                             "width": 6,
@@ -573,22 +584,29 @@
                                                                         {
                                                                             "components": [
                                                                                 {
-                                                                                    "customClass": "formio-label",
                                                                                     "label": "Address Type",
                                                                                     "widget": "choicesjs",
                                                                                     "tableView": true,
+                                                                                    "dataSrc": "url",
                                                                                     "data": {
-                                                                                        "values": [
+                                                                                        "url": "${cccm_api_endpoint}/lookup/address",
+                                                                                        "headers": [
                                                                                             {
-                                                                                                "label": "All",
-                                                                                                "value": "all"
+                                                                                                "key": "Authorization",
+                                                                                                "value": "Bearer ${authToken}"
                                                                                             }
                                                                                         ]
                                                                                     },
                                                                                     "key": "addressType",
                                                                                     "type": "select",
                                                                                     "input": true,
-                                                                                    "defaultValue": "all"
+                                                                                    "persistent": false,
+                                                                                    "lazyLoad": false,
+                                                                                    "disableLimit": true,
+                                                                                    "dataType": "auto",
+                                                                                    "valueProperty": "key",
+                                                                                    "template": "<span>{{ item.value }}</span>",
+                                                                                    "selectValues": "items"
                                                                                 }
                                                                             ],
                                                                             "width": 4,
