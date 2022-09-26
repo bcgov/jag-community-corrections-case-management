@@ -51,13 +51,13 @@ import sampleFormData from './sampleData/sampleFormData.json';
 
 export default {
   name: 'crnaForm',
-  // props: {
-  //   formId: {
-  //     type: Number,
-  //     requred: false,
-  //     default: 1
-  //   }
-  // },
+  props: {
+    formId: {
+      type: String,
+      required: true,
+      default: ''
+    }
+  },
   components: {
     CrnaCmpFormDataEntry,
     CrnaCmpFormNavigation,
@@ -78,14 +78,16 @@ export default {
     }
   },
   mounted(){
-    this.getFormData()
+    if (this.formId != '') {
+      this.formId = Number(this.formId);
+      this.getFormData()
+    }
   },
   methods: {
     async getFormData() {
-      let formId= this.$route.params.formID;
-      console.log("CRNA formDetails: ", formId);
+      console.log("Get CRNA formDetails by formId: ", this.formId);
       
-      const [error, response] = await getFormDetails(formId);
+      const [error, response] = await getFormDetails(this.formId);
       if (error) {
         console.error(error);
       } else {
