@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import TrendAnalysisView from '../components/trendanalysis/TrendAnalysisView.vue'
 import HomeView from '../components/HomeView.vue'
 import CrnaCmpView from '../components/CrnaCmp.vue'
 import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
