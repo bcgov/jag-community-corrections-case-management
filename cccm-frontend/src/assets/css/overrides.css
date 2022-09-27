@@ -238,6 +238,53 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
 
 /* Dashboard Styles - TODO split to own file */
 
+.dashboard-po th[role="columnheader"]{
+    text-align: center;
+}
+
+.dashboard-po-table .formio-component-fieldset {
+    padding: 20px 0;
+}
+
+.dashboard-po-table legend[ref="header"]  {
+    justify-content: left;
+}
+
+.dashboard-po-table div.fieldset-body:before  {
+    display:block;
+    margin: 10px 0 30px 0;
+    width: 50px;
+    height: 5px;
+    background-color:#FCC643;
+    content:""
+}
+
+.dashboard-po-table div.fieldset-body  {
+    margin-top: 10px!important;
+}
+
+.dashboard-po-table .community-alerts-ul {
+    margin-top: -24px;
+}
+
+.dashboard-po-table .community-alerts-ul ul {
+    padding:0;
+}
+
+.dashboard-po-table .community-alerts-ul li {
+    padding: 5px 0;
+}
+
+.dashboard-po-table .formio-component-editgrid .editgrid-listgroup .list-group-header {
+    background-color: #2A0808!important;
+    color: #fff;
+    font-weight: bold;
+}
+
+.dashboard-po-table .formio-component-editgrid .editgrid-listgroup  .list-group-item:not(:first-of-type) {
+    background-color: #E0E0E0!important;
+}
+
 .v-data-table__wrapper {
     border: 1px solid #ccc;
 }
@@ -254,13 +301,15 @@ button.v-pagination__item {
     position: absolute;
     bottom: 20px;
     background-color: #efefef;
-    text-align: center;
+    text-align: center!important;
 }
 
 .designation-totals th:first-of-type {
     text-align:left;
 }
-
+.designation-totals th[colspan="3"]{
+    border-bottom: 1px solid #fff;
+}
 .designation-totals th {
     width: 100px;
 }
@@ -270,6 +319,10 @@ button.v-pagination__item {
 }
 .dashboard-v-card .v-data-table-header {
     background-color: #38598A;
+}
+
+.v-data-table__expand-icon--active, .v-data-table__expand-icon {
+    margin-left: 10px!important;
 }
 
 .dashboard-v-card .v-data-table-header th[role="columnheader"] {

@@ -1,5 +1,5 @@
 <template>
-  <div data-app class="p-4">
+  <div data-app class="dashboard-po p-4">
     <div class="row mb-2">
       <div class="col-sm-6">
         <h1>{{getUserName}}'s clients</h1>
@@ -10,15 +10,15 @@
       </div>
     </div>
     <v-card class="p-3">
-      <div class="row">
+      <div class="row pl-4">
         <div class="col-sm-6">
           <table class="designation-totals">
             <thead>
               <tr>
-                <th colspan="3"> Designation Total </th>
+                <th class="pl-4" colspan="3"> Designation Total </th>
               </tr>
               <tr>
-                <th scope="col">GEN</th>
+                <th class="pl-4" scope="col">GEN</th>
                 <th scope="col">SMO</th>
                 <th scope="col">IPV</th>
               </tr>
@@ -34,7 +34,7 @@
         </div>
         <div class="col-sm-4"></div>
         <div class="col-sm-2">
-          <div class="dashboard-table-header-ul float-right">
+          <div class="dashboard-table-header-ul float-right pr-3 mr-3">
             <ul>
               <li>Due today or overdue</li>
               <li>Due within 1 to 14 days</li>
@@ -62,17 +62,45 @@
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
-            <div class="w-100 h-100">
+            <div class="w-100 h-100 d-flex align-items-center">
               <a :href="`${baseURL}clientrecord/${item.csNumber}/tab-cp`" @click="selectClient(item.csNumber)">{{item.clientName}}</a>
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
           <template v-slot:item.communityAlerts="{ item }">
-            <span>{{getAlerts[item.csNumber]}}</span>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getAlerts[item.csNumber]}}</div>
           </template>
           <!--Customize the warrant field, show the warrant count -->
           <template v-slot:item.outstandingWarrants="{ item }">
-            <span>{{getWarrants[item.csNumber]}}</span>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getWarrants[item.csNumber]}}</div>
+          </template>
+          <template v-slot:item.designation="{ item }">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designation.reduce((acc, d) => `${acc},${d}`) }}</div>
+          </template>
+          <template v-slot:item.inCustody="{ item }">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
+          </template>
+          <template v-slot:item.orderExpiryDate="{ item }">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.orderExpiryDate}}</div>
+          </template>
+          <template v-slot:item.supervisionRating="{ item }">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.supervisionRating}}</div>
+          </template>
+          <template v-slot:item.rnaCompleteDate="{ item }">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.rnaCompleteDate}}</div>
+          </template>
+          <!--Customize the formStatus field -->
+          <template v-slot:item.dueNext="{ item }">
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
+              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
+            </div>
+
+          </template>
+          <!--Customize the supervision rating field -->
+          <template v-slot:item.dueDate="{ item }">
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
+              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDate}}</div>
+            </div>
           </template>
           <!--Customize the expanded item to show photo and more-->
           <template v-slot:expanded-item="{ headers, item }">
@@ -81,25 +109,12 @@
               <Form :key="keyExpandRow" :form="formJSON" :submission="initDataArray[item.csNumber]"/>
             </td>
           </template>
-          <!--Customize the formStatus field -->
-          <template v-slot:item.dueNext="{ item }">
-            <div :class="`w-100 h-100 ${getColor(item.dueDate)}`">
-              <span :class="getColor(item.dueDate)">{{item.dueNext}}</span>
-            </div>
-
-          </template>
-          <!--Customize the supervision rating field -->
-          <template v-slot:item.dueDate="{ item }">
-            <div :class="`w-100 h-100 ${getColor(item.dueDate)}`">
-              <span :class="getColor(item.dueDate)">{{item.dueDate}}</span>
-            </div>
-          </template>
         </v-data-table>
       </div>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pt-2">
+      <div v-if="!loading" class="text-center pl-3 pr-3">
         <v-row>
-          <v-col cols="2" sm="2">
+          <v-col cols="1" sm="1" class="pr-4">
             <v-select
               solo
               :items="items"
@@ -109,7 +124,7 @@
               @input="itemsPerPage = parseInt($event, 10)"
             ></v-select>
           </v-col>
-          <v-col cols="10" sm="10">
+          <v-col cols="11" sm="11">
             <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
           </v-col>
         </v-row>
@@ -143,7 +158,7 @@ export default {
       loading: true,
       headers: [
         { text: 'Client Name', value: 'clientName' },
-        { text: 'Alert(s) (Y/N)', value: 'communityAlerts' },
+        { text: 'Alert(s) (Y/N)', value: 'communityAlerts'},
         { text: 'Outstanding Warrant (Y/N)', value: 'outstandingWarrants' },
         { text: 'Designation', value: 'designation' },
         { text: 'In Custody (Y/N)', value: 'inCustody' },
