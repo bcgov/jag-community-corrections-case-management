@@ -74,6 +74,7 @@
             <Form :form="formJSON" :submission="initData"/>
           </div>
           <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient"></RNAListView>
+          <TrendAnalysisView v-if="item.content === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
           <span v-else> </span>
         </v-tab-item>
       </v-tabs-items>
@@ -87,6 +88,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
+import TrendAnalysisView from "./trendanalysis/TrendAnalysisView.vue";
 import templateClientProfile from '@/components/common/templateClientProfile.json';
 
 export default {
@@ -113,7 +115,8 @@ export default {
   components: {
     Form,
     RNAListView,
-  },
+    TrendAnalysisView
+},
   mounted() {
     this.csNumber = this.$route.params.csNumber;
     this.current_tab = this.$route.params.tabIndex;

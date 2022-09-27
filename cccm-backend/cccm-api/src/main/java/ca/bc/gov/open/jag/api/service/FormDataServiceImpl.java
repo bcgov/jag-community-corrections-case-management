@@ -5,9 +5,12 @@ import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.data.Form;
 import ca.bc.gov.open.jag.api.model.service.FormRequest;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.RequestScoped;
@@ -23,6 +26,14 @@ import java.util.logging.Logger;
 public class FormDataServiceImpl implements FormDataService {
 
     private static final Logger logger = Logger.getLogger(String.valueOf(FormDataService.class));
+
+//    @Inject
+//    @RestClient
+//    SpeedmentClientService speedmentClientService;
+
+    @Inject
+    @RestClient
+    ObridgeClientService obridgeClientService;
 
     @Inject
     FormMapper formMapper;
@@ -61,18 +72,26 @@ public class FormDataServiceImpl implements FormDataService {
 
     }
 
+
+
     @Override
-    public FormSearchList formSearch(String clientNum, Boolean currentPeriod, String formTypeCd) {
+    public FormDetails getForm(BigDecimal formId, boolean includeAnswers) {
+        return obridgeClientService.getForm(formId, includeAnswers);
+    }
 
-        List<Form> forms;
+    /**
+     * Get form summaries from obridge service
+     * @param module the module name e.g CRNA, SARA, etc..
+     * @param latestOnly only get the latest incarnation of a form
+     * @return {@link List<FormSummary>}
+     */
+    @Override
+    public List<FormSummary> getFormSummaries(String module, boolean latestOnly) {
+        return obridgeClientService.getFormSummaries(module, latestOnly);
+    }
 
-        if (StringUtils.isBlank(formTypeCd)) {
-            forms = Collections.emptyList();
-        } else {
-            forms = Collections.emptyList();
-        }
-
-        return formMapper.toFormSearchList("", forms);
-
+    @Override
+    public String getFormDecorator(String identifier) {
+        return obridgeClientService.getFormDecorator(identifier);
     }
 }

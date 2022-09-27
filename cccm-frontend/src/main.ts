@@ -10,9 +10,19 @@ import vuetify from '@/plugins/vuetify'
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faBarChart, faComments, faWarning} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faBarChart, faComments, faWarning);
+
+
 Vue.use(VueCompositionAPI)
 Vue.use(authentication)
 Vue.use(PiniaVuePlugin)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 const pinia = createPinia()
 Vue.use(pinia)
 

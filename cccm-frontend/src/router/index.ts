@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import HomeView from '../components/HomeView.vue'
 import CrnaCmpView from '../components/CrnaCmp.vue'
 import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
@@ -58,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/crnacmp/:formID/:csNumber',
+      path: '/clientrecord/:csNumber/crnacmp/:formID',
       name: 'crnacmp',
       component: CrnaCmpView,
       meta: {
@@ -66,13 +67,14 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/saracmp/:formID/:csNumber',
+      path: '/clientrecord/:csNumber/saracmp/:formID',
       name: 'saracmp',
       component: SaraCmpView,
       meta: {
         isAuthenticated: true
       }
     },
+
     {
       path: '/',
       name: 'unauthorized',
