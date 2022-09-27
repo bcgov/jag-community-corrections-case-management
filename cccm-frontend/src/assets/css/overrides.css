@@ -187,9 +187,6 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass){
 
 /* Dashboard Styles - TODO split to own file */
 
-.dashboard-po-table .fuck {
-    display:none!important;
-}
 .dashboard-po th[role="columnheader"]{
     text-align: center;
 }
