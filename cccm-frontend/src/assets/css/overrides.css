@@ -257,6 +257,30 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
     border: 1px solid #ccc;
 }
 
+/* SARA CMP styles - Todo split to own file */
+
+.sara-cmp-form .divTableRowNav {
+    white-space: nowrap;
+}
+.sara-cmp-form .client-details {
+    margin-top: 130px;
+}
+
+.sara-cmp-form .card {
+    margin-bottom: 40px!important;
+}
+.sara-cmp-form .card-header {
+    background-color:#38598A!important;
+}
+
+.sara-cmp-form .formio-component-key_sourceContacted_content {
+    margin: 20px 0;
+}
+
+.sara-cmp-form .formio-component-key_buttonGroup {
+    height:150px;
+    align-items:center;
+}
 /* Dashboard Styles - TODO split to own file */
 
 .dashboard-po th[role="columnheader"]{
