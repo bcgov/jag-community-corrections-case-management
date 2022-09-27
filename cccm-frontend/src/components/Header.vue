@@ -26,18 +26,19 @@
         </div>
         <v-card-actions>
           <v-btn
+            @click="dialog = false"
+          >
+            Cancel
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
             color="primary"
             dark
             @click="setCurrentActiveLocation"
           >
             Select
           </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            @click="dialog = false"
-          >
-            Cancel
-          </v-btn>
+          
         </v-card-actions>
       </v-card>
     </v-dialog>

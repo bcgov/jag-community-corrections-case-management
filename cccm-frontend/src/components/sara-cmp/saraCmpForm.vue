@@ -12,26 +12,25 @@
       >
       <v-card>
         <v-card-title class="text-h5">
-          Delete Form?
+          Are you sure you want to delete this form?
         </v-card-title>
         <v-card-text>
-          All information you have entered will be deleted. <br><br>
-          You will be returned back to the Client Record's RNA list
+          This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
         </v-card-text>
         <v-card-actions>
-            <v-btn
-              color="#f81e41"
-              dark
-              @click="handleDeleteFormBtnClick"
-            >
-              Yes, delete this form
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              @click="dialog = false"
-            >
-              No, I want to continue
-            </v-btn>
+          <v-btn
+            @click="dialog = false"
+          >
+          No, I don't want to delete
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="#f81e41"
+            dark
+            @click="handleDeleteFormBtnClick"
+          >
+            Yes, delete this form
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

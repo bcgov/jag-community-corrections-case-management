@@ -1,3 +1,7 @@
+.v-btn {
+    text-transform: unset !important;
+}
+
 .bg-blue {
     background-color: #38598A;
 }

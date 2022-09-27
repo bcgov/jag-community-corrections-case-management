@@ -1,5 +1,39 @@
 <template>
   <div data-app>
+    <v-btn
+      id="id_modal_createSARAForm"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="550"
+      >
+      <v-card>
+        <v-card-title class="text-h5">
+          Are you sure you want to create SARA form?
+        </v-card-title>
+        <v-card-text>
+          <br><br>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            @click="dialog = false"
+          >
+          No, I don't want to create
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            dark
+            @click="handleCreateSARAFormBtnClick"
+          >
+            Yes, continue
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.tab" > 
@@ -38,9 +72,10 @@ export default {
       clientNum: '',
       current_tab: 'tab-cp',
       items: [
-          { tab: 'CRNA-CMP', id: 'cp' },
-          { tab: '', id: 'saraBtn' }
-        ],
+        { tab: 'CRNA-CMP', id: 'cp' },
+        { tab: '', id: 'saraBtn' }
+      ],
+      dialog: false,
     }
   },
   mounted(){
@@ -58,7 +93,7 @@ export default {
       } 
       newCreatedFormId = response.formID;
     },
-    createSARA() {
+    handleCreateSARAFormBtnClick() {
       this.createFormAPI();
       this.$router.push({
         name: 'saracmp',
@@ -67,6 +102,13 @@ export default {
           csNumber: this.clientNum
         }
       });
+    },
+    createSARA() {
+      console.log("Create SARA Form");
+      let modal = document.getElementById("id_modal_createSARAForm");
+      if (modal != null) {
+        modal.click();
+      }
     }
   },
   components: {
