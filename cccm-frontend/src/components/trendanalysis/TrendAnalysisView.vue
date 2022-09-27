@@ -12,7 +12,7 @@
 
 </template>
 
-<script>
+<script lang="ts">
 
 import CommentsTable from "./CommentsTable.vue";
 import ChartFilter from "./ChartFilter.vue";

@@ -62,13 +62,13 @@ import sampleFormData from './sampleData/sampleFormData.json';
 
 export default {
   name: 'crnaForm',
-  props: {
-    formId: {
-      type: String,
-      required: true,
-      default: ''
-    }
-  },
+  // props: {
+  //   formId: {
+  //     type: String,
+  //     required: true,
+  //     default: ''
+  //   }
+  // },
   components: {
     CrnaCmpFormDataEntry,
     FormNavComponent,
@@ -92,6 +92,7 @@ export default {
       componentKey: 0,
       sectionQuestionMap: {},
       autoSaveData: {},
+      formId: ''
     }
   },
   mounted(){
