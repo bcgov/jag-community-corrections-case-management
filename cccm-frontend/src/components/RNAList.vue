@@ -111,19 +111,19 @@
         >
           <!--Customize the formStatus field -->
           <template v-slot:item.formStatus="{ item }">
-            <div :class="`w-100 h-100 ${getFormStatusColor[item.formStatus]}`">{{item.formStatus}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.formStatus]}`">{{item.formStatus}}</div>
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
-            <div :class="`w-100 h-100 text-center ${getRatingColor[item.supervisionRating]}`">{{item.supervisionRating}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor[item.supervisionRating]}`">{{item.supervisionRating}}</div>
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 text-center ${getRatingColor[item.crnaRating]}`">{{item.crnaRating}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor[item.crnaRating]}`">{{item.crnaRating}}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 text-center ${getRatingColor[item.saraRating]}`">{{item.saraRating}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor[item.saraRating]}`">{{item.saraRating}}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
