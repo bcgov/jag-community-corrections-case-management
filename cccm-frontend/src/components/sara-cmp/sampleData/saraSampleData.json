@@ -5932,6 +5932,7 @@
 				},
 				{
 					"title": "Client Details",
+					"customClass": "client-details",
 					"collapsible": false,
 					"key": "key_clientDetails",
 					"type": "panel",
