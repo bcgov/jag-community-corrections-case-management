@@ -14,6 +14,18 @@
     width:100%!important;
     max-width:100%!important;
 }
+
+
+/* HEADER SECTION todo: put in own file */
+
+.headerText a {
+    color:#fff!important;
+}
+.headerText a:visited {
+    color:#fff!important;
+}
+
+
 /* CLIENT SEARCH todo: put in own file */
 
 
