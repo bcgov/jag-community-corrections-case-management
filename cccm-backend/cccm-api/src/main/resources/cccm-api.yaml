@@ -17,6 +17,11 @@ tags:
   - description: Endpoints for users
     name: users
 paths:
+
+  #-------------------------------------------------------------------------------------
+  #        CLIENTS
+  #-------------------------------------------------------------------------------------
+
   /clients:
     get:
       operationId: SearchClients
@@ -205,6 +210,11 @@ paths:
                 $ref: '#/components/schemas/Client'
       tags:
         - clients
+
+  #-------------------------------------------------------------------------------------
+  #        DASHBOARD
+  #-------------------------------------------------------------------------------------
+
   /dashboards/supervisor:
     get:
       operationId: GetSupervisorDashboard
@@ -227,151 +237,601 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: dashboards
-  /forms:
-    get:
-      operationId: GetForms
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormList'
-          description: get all forms
-      summary: get all forms
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
+
+
+  #-------------------------------------------------------------------------------------
+  #        CLIENT FORMS
+  #-------------------------------------------------------------------------------------
+
+  /forms/client:
     post:
-      operationId: Add Form
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - client-form-controller
+      summary: createNewForm
+      operationId: createNewFormUsingPOST
       requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        '201':
+          description: Created
+          content: {}
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+          content: {}
+        '404':
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+
+  /forms/client/search/{csNumber}:
+    get:
+      tags:
+        - client-form-controller
+      summary: Get client forms
+      operationId: clientFormSearchUsingGET
+      parameters:
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+        - name: currentPeriod
+          in: query
+          description: currentPeriod
+          required: true
+          schema:
+            type: boolean
+        - name: formTypeCd
+          in: query
+          description: formTypeCd
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientFormSummary'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+
+  /forms/client/json/{clientNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: getFormAsJSON
+      operationId: getFormAsJSONUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+        - name: includeOptionValues
+          in: query
+          description: includeOptionValues
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '401':
+          description: Unauthorized
+          content: {}
+        '403':
+          description: Forbidden
+          content: {}
+        '404':
+          description: Not Found
+          content: {}
+  /forms/client/answers/{clientNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: getClientFormAnswers
+      operationId: getClientFormAnswersUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+    put:
+      tags:
+        - client-form-controller
+      summary: saveClientFormAnswers
+      operationId: saveClientFormAnswersUsingPUT
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+        - name: loadLatestValues
+          in: query
+          description: loadLatestValues
+          required: true
+          schema:
+            type: boolean
+      requestBody:
+        description: answerPayload
         content:
           application/json:
             schema:
               type: string
+        required: true
       responses:
-        "201":
+        200:
+          description: OK
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: Form was added
-      summary: Add
+                type: string
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: answerPayload
+  /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}:
+    get:
       tags:
-        - forms
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-    put:
-      operationId: Update Form
+        - client-form-controller
+      summary: getClientFormAnswersForSection
+      operationId: getClientFormAnswersForSectionUsingGET
       parameters:
-        - $ref: "#/components/parameters/xLocationId"
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+        - name: sectionSequence
+          in: path
+          description: sectionSequence
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}:
+    get:
+      tags:
+        - client-form-controller
+      summary: getClientFormAnswersForSectionAndQuestion
+      operationId: getClientFormAnswersForSectionAndQuestionUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+        - name: questionSequence
+          in: path
+          description: questionSequence
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: sectionSequence
+          in: path
+          description: sectionSequence
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+
+  /forms/client/answers/interventions/{clientNumber}/{clientFormId}:
+    put:
+      tags:
+        - client-form-controller
+      summary: deleteInterventionsExcept
+      operationId: deleteInterventionsExceptUsingPUT
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
       requestBody:
+        description: updatePayload
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FormDetails'
+              type: string
+        required: true
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: Form was updated
-      summary: Update
-      tags:
-        - forms
-      x-contentType: application/json
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-  /forms/formSearch:
+        200:
+          description: OK
+          content: {}
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: updatePayload
+
+  #----------------------------------------------------------------------------------------
+  #  TREND ANALYSIS
+  #----------------------------------------------------------------------------------------
+
+  /trend/client/{csNumber}/{reportType}/data:
     get:
-      operationId: GetFormSearch
+      tags:
+        - client-form-trend-controller
+      summary: getChartData
+      operationId: getChartDataUsingGET
       parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - in: query
-          name: clientNum
+        - name: csNumber
+          in: path
+          description: csNumber
           required: true
           schema:
             type: string
-        - in: query
-          name: formTypeCd
-          required: false
+        - name: reportType
+          in: path
+          description: reportType
+          required: true
           schema:
             type: string
-        - in: query
-          name: currentPeriod
-          required: true
-          schema:
-            type: boolean
-            default: true
       responses:
-        "200":
+        200:
+          description: OK
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/FormSearchList'
-          description: get all forms
-      summary: get all forms
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-  /forms/{formId}:
-    delete:
-      operationId: DeleteForm
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - explode: false
-          in: path
-          name: formId
-          required: true
-          schema:
-            type: number
-          style: simple
-      responses:
-        "200":
-          description: form was deleted
-      summary: delete form by id
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
+                $ref: '#/components/schemas/ChartDataSet'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+  /trend/client/{csNumber}/{reportType}/factors:
     get:
-      operationId: GetFormById
+      tags:
+        - client-form-trend-controller
+      summary: getClientFormFactors
+      operationId: getClientFormFactorsUsingGET
       parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - explode: false
+        - name: csNumber
           in: path
-          name: formId
+          description: csNumber
           required: true
           schema:
-            type: number
-          style: simple
+            type: string
+        - name: reportType
+          in: path
+          description: reportType
+          required: true
+          schema:
+            type: string
       responses:
-        "200":
+        200:
+          description: OK
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: form found
-        "404":
-          description: form not found
-      summary: get a form by id
+                type: array
+                items:
+                  $ref: '#/components/schemas/LabelValuePair'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+
+  #-------------------------------------------------------------------------------------
+  #        INTERVENTIONS AND COMMENTS
+  #-------------------------------------------------------------------------------------
+
+  /forms/client/interventions/{csNumber}:
+    post:
       tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
+        - client-form-controller
+      summary: Get a list of client interventions
+      operationId: getClientInterventionsUsingPOST
+      parameters:
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSearchInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Intervention'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
+
+
+  /forms/client/comments/{csNumber}:
+    post:
+      tags:
+        - client-form-controller
+      summary: Get a list of client comments based on search params
+      operationId: getClientCommentsUsingPOST
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSearchInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
+
+  /forms/client/responsivities/{csNumber}:
+    post:
+      tags:
+        - client-form-controller
+      summary: Get a list of client responsivities based on search params
+      operationId: getClientResponsivitiesUsingPOST
+      parameters:
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSearchInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Responsivity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
+
+  #-------------------------------------------------------------------------------------
+  #        FORMS
+  #-------------------------------------------------------------------------------------
+
+
+  /forms/decorator/{identifier}:
+    get:
+      tags:
+        - form-controller
+      summary: Get a form decorator such as intervention panels
+      operationId: getDecoratorContentUsingGET
+      parameters:
+        - name: identifier
+          in: path
+          description: identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+
+
+
   /forms/{formId}/question:
     post:
       operationId: AddQuestionAnswer
@@ -431,6 +891,7 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+
   /forms/{formType}:
     get:
       operationId: GetFormByType
@@ -458,6 +919,90 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: forms
+
+  /forms/summaries:
+    get:
+      operationId: GetFormSummaries
+      parameters:
+        - in: query
+          name: module
+          required: true
+          schema:
+            type: string
+          style: simple
+        - in: query
+          name: latestOnly
+          required: false
+          schema:
+            type: boolean
+          style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/FormSummary'
+          description: get summary details for the form type
+      summary: Get forms for a client
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
+
+
+  #-------------------------------------------------------------------------------------
+  #        LOOKUPS
+  #-------------------------------------------------------------------------------------
+
+  /lookup/intervention-types:
+    get:
+      tags:
+        - lookup-controller
+      summary: getInterventionTypes
+      operationId: getInterventionTypesUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CodeList'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+  /lookup/responsivity-types:
+    get:
+      tags:
+        - lookup-controller
+      summary: getResponsivityTypes
+      operationId: getResponsivityTypesUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CodeList'
+        401:
+          description: Unauthorized
+          content: { }
+        403:
+          description: Forbidden
+          content: { }
+        404:
+          description: Not Found
+          content: { }
+
   /lookup/formtypes:
     get:
       operationId: GetFormTypes
@@ -607,6 +1152,21 @@ components:
       required: false
       description: The current selected location of the logged in user
   schemas:
+    FormSummary:
+      description: Form Summary
+      properties:
+        id:
+          type: number
+        module:
+          type: string
+        description:
+          type: string
+        effectiveDate:
+          format: date
+          type: string
+        expiryDate:
+          format: date
+          type: string
     FormDetails:
       description: Client
       properties:
@@ -1103,6 +1663,57 @@ components:
           format: byte
         photoTakenDate:
           type: string
+    ClientFormSummary:
+      title: ClientFormSummary
+      type: object
+      properties:
+        complete:
+          type: boolean
+        completedDate:
+          type: string
+          format: date
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        formTypeId:
+          type: number
+        id:
+          type: number
+        location:
+          type: string
+        module:
+          type: string
+        mostRecent:
+          type: boolean
+        ratings:
+          type: object
+          additionalProperties:
+            type: string
+        reassessment:
+          type: boolean
+        relatedFormTypeId:
+          type: number
+        responsivities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientFormAction'
+        riskNeedsAssessment:
+          type: boolean
+        status:
+          type: string
+        summary:
+          type: string
+        supervisionLevel:
+          type: string
+        supervisionRating:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date
     SupervisorDashboard:
       type: object
       properties:
@@ -1162,3 +1773,264 @@ components:
           type: number
         formAnswer:
           type: string
+    CreateFormInput:
+      title: CreateFormInput
+      type: object
+      properties:
+        clientNumber:
+          type: string
+        createdByUserId:
+          type: number
+        formTypeId:
+          type: number
+        locationId:
+          type: number
+    ClientFormAnswerInput:
+      title: ClientFormAnswerInput
+      type: object
+      properties:
+        answerInputList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerInput'
+        clientFormId:
+          type: number
+    AnswerInput:
+      title: AnswerInput
+      type: object
+      properties:
+        answerText:
+          type: string
+        comment:
+          type: string
+        description:
+          type: string
+        questionId:
+          type: number
+        sequence:
+          type: integer
+          format: int32
+
+    ClientFormAnswers:
+      title: ClientFormAnswers
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+        key:
+          type: string
+        clientFormId:
+          type: number
+        comment:
+          type: string
+        complete:
+          type: boolean
+        completedDate:
+          type: string
+          format: date
+        mostRecent:
+          type: boolean
+        sealed:
+          type: boolean
+
+    Answer:
+      title: Answer
+      type: object
+      properties:
+        comment:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        description:
+          type: string
+        id:
+          type: number
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intervention'
+        section:
+          type: integer
+          format: int32
+        sequence:
+          type: integer
+          format: int32
+        text:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date
+    Intervention:
+      title: Intervention
+      type: object
+      properties:
+        actionType:
+          type: string
+          enum:
+            - INTERVENTION
+            - RESPONSIVITY
+        comment:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        id:
+          type: number
+        type:
+          type: string
+        typeOverride:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date
+    ClientFormAction:
+      title: ClientFormAction
+      type: object
+      properties:
+        actionType:
+          type: string
+          enum:
+            - INTERVENTION
+            - RESPONSIVITY
+        comment:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        id:
+          type: number
+        type:
+          type: string
+        typeOverride:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date
+    LabelValuePair:
+      title: LabelValuePair
+      type: object
+      properties:
+        answerId:
+          type: number
+        label:
+          type: string
+        value:
+          type: string
+    ChartDataSet:
+      title: ChartDataSet
+      type: object
+      properties:
+        borderColor:
+          type: string
+        dataList:
+          type: array
+          items:
+            type: number
+            format: double
+        fill:
+          type: boolean
+        label:
+          type: string
+        lineTension:
+          type: number
+          format: double
+        pointBackgroundColor:
+          type: string
+        source:
+          type: string
+
+    ClientSearchInput:
+      title: ClientSearchInput
+      type: object
+      properties:
+        csNumber:
+          type: string
+        endDate:
+          type: string
+          format: date
+        factors:
+          type: array
+          items:
+            type: string
+        formModules:
+          type: array
+          items:
+            type: string
+        startDate:
+          type: string
+          format: date
+
+    Comment:
+      title: Comment
+      type: object
+      properties:
+        clientFormAnswerId:
+          type: number
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        factor:
+          type: string
+        id:
+          type: number
+        question:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date
+        value:
+          type: string
+        section:
+          type: string
+
+    Responsivity:
+      title: Responsivity
+      type: object
+      properties:
+        actionType:
+          type: string
+          enum:
+            - INTERVENTION
+            - RESPONSIVITY
+        comment:
+          type: string
+        createdBy:
+          type: string
+        createdDate:
+          type: string
+          format: date
+        id:
+          type: number
+        relatedAnswerId:
+          type: number
+        sequence:
+          type: integer
+          format: int32
+        type:
+          type: string
+        typeOverride:
+          type: string
+        updatedBy:
+          type: string
+        updatedDate:
+          type: string
+          format: date

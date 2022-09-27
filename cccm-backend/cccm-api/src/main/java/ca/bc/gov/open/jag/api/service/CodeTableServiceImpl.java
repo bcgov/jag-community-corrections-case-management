@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.lookup.CodeTableType;
 import ca.bc.gov.open.jag.api.mapper.CodeTableMapper;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.RequestScoped;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RequestScoped
+@Slf4j
 public class CodeTableServiceImpl implements CodeTableService {
 
     @Inject
@@ -43,6 +45,17 @@ public class CodeTableServiceImpl implements CodeTableService {
             case IDENTIFIER_TYPE:
                 codes = obridgeClientService.getIdentifierTypes();
                 break;
+
+            case INTERVENTION_TYPE:
+                codes = obridgeClientService.getInterventionTypes();
+                break;
+
+            case RESPONSIVITY_TYPE:
+                codes = obridgeClientService.getResponsivityTypes();
+                break;
+
+
+
         }
 
         return codeTableMapper.toCodeResult("dummyValue", codes);

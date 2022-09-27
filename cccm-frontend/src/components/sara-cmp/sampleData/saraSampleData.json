@@ -5882,6 +5882,7 @@
 							"components": [
 							  {
 								"customClass": "text-left pl-4",
+								"customClass": "text-left pl-4",
 								"label": "Save as Draft",
 								"action": "event",
 								"showValidations": false,

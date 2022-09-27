@@ -1,5 +1,6 @@
 import { identifier } from '@babel/types';
 import axios from 'axios';
+import { ScriptableLineSegmentContext } from 'chart.js';
 //import { config } from 'process';
 
 const axiosClient = axios.create({
@@ -51,10 +52,37 @@ export function getUserLocations() {
     }
 }
 
+
+/**
+ * Get the available forms for a client (CRNA/SARA) etc
+ * @param clientNum
+ * @param formTypeCd
+ * @param currentPeriod
+ *
+ */
+export async function getClientForms(clientNum: String,  currentPeriod: boolean, formTypeCd: String) {
+    try{
+        const { data } = await axiosClient.get(`/forms/client/${clientNum}`,{
+            params: {
+                formTypeCd: formTypeCd,
+                currentPeriod: currentPeriod,
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+
 // function to fetch the form details
-export async function getFormDetails(formId: number) {
+export async function getFormDetails(clientNum: String, formId: number) {
     try {
-        const { data } = await axiosClient.get(`/forms/${formId}`);
+        const { data } = await axiosClient.get(`/forms/client/json/${clientNum}/${formId}`, {
+            params: {
+                includeOptionValues: true
+            }
+        });
         return [null, data];
     }catch (error) {
         return [error];
@@ -64,7 +92,7 @@ export async function getFormDetails(formId: number) {
 // function to clone form
 export async function cloneForm(formId: number) {
     try {
-        const { data } = await axiosClient.post(`/forms/${formId}`);
+        const { data } = await axiosClient.post(`/forms/client/clone/${formId}`);
         return [null, data];
     }catch (error) {
         return [error];
@@ -72,10 +100,56 @@ export async function cloneForm(formId: number) {
 }
 
 // function to update form data
-export async function updateForm(formData: object) {
+export async function updateForm( csNumber: number,clientFormId: number, formData: object) {
     try{
         console.log("Update form payload", formData);
-        const { data } = await axiosClient.put('/forms', formData);
+        const { data } = await axiosClient.put('/forms/client/answers/' + csNumber + '/' + clientFormId, formData);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// delete all interventions except the ones listed (backwards I know!)
+export async function deleteQuestionInterventionsExcept(csNumber: number,clientFormId: number, questionKey: string, remainingInterventionTypes: string[]) {
+try{
+    let formData = {
+        "questionKey": questionKey,
+        "action":"deleteExcept",
+        "typeList": remainingInterventionTypes
+    }
+    console.log("Updating interventions %o for %s", remainingInterventionTypes, questionKey);
+    return await axiosClient.put('/forms/client/answers/interventions/' + csNumber + '/' + clientFormId , formData);
+} catch (error) {
+    return [error];
+}
+}
+
+// get form data for an entire section
+export async function loadFormDataForSectionSeq(csNumber: number, clientFormId: number, sectionSeq: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId + '/' + sectionSeq);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// get form data for a single question
+export async function loadFormDataForSectionAndQuestion(csNumber: number, clientFormId: number, sectionSeq: number, questionSeq: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId + '/' + sectionSeq + '/' + questionSeq);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+
+// get form data (all data returned)
+export async function loadFormData(csNumber: number, clientFormId: number) {
+    try {
+        const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId);
         return [null, data];
     } catch (error) {
         return [error];
@@ -90,16 +164,16 @@ export async function deleteForm(formId: number) {
 // function to create form
 export async function createForm(formData: object) {
     try{
-        console.log("Create form payload", formData);
-        const { data } = await axiosClient.post('/forms', formData);
+        const { data } = await axiosClient.post('/forms/client', formData);
         return [null, data];
     } catch (error) {
+        console.error("Error creating form %o", error);
         return [error];
     }
 }
 
-// function to search client based on general info 
-export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String, 
+// function to search client based on general info
+export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String,
     givenName: String, identifier: String, identifierType: String, lastName: String,
     limitToLocation: String, range: String, soundex: String) {
     try{
@@ -147,8 +221,8 @@ export async function clientSearchByGeneralInfo(age: String, birthYear: String, 
     }
 }
 
-// function to search client based on address info 
-export async function clientSearchByAddressInfo(address: String, addressType: String, city: String, 
+// function to search client based on address info
+export async function clientSearchByAddressInfo(address: String, addressType: String, city: String,
     expired: boolean, limitToLocation: boolean, postalCode: String, province: String) {
     try{
         console.log("ClientSearch by addressInfo: " + "address: " + address + "; " +
@@ -257,9 +331,8 @@ export async function clientProfileSearch(clientNum: String) {
 export async function formSearch(clientNum: String, formType: String, supervisionPeriod: boolean) {
     try{
         console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, supervisionPeriod);
-        const { data } = await axiosClient.get('/forms/formSearch', {
+        const { data } = await axiosClient.get('/forms/client/search/' + clientNum, {
                 params: {
-                    clientNum: clientNum,
                     formTypeCd: formType,
                     currentPeriod: supervisionPeriod
                 }
@@ -269,7 +342,6 @@ export async function formSearch(clientNum: String, formType: String, supervisio
         return [error];
     }
 }
-
 // function to search for form types
 export async function async_lookupFormTypes() {
     try {
@@ -285,6 +357,47 @@ export function lookupFormTypes() {
     try {
         const data = axiosClient.get('/lookup/formtypes');
         return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to get form id for latest form
+export async function getFormSummaries( formType: String, latestOnly: boolean) {
+    try{
+        console.log("getFormSummaries, formType: {}, latestOnly: {}", formType, latestOnly);
+        const { data } = await axiosClient.get('/forms/summaries', {
+                params: {
+                    module: formType,
+                    latestOnly: latestOnly
+                }
+            });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+
+//-------------------------------------
+// Trend analysis
+//-------------------------------------
+export async function getClientFormFactors( clientNumber:number, reportType: string) {
+    try {
+        const { data} = await axiosClient.get('/trend/client/' + clientNumber + '/' + reportType + '/factors');
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+//-------------------------------------
+// Comments
+//-------------------------------------
+export async function getClientFormComments( clientNumber:number, payload: object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/comments/' + clientNumber, payload );
+        return [null,data];
     }catch (error) {
         return [error];
     }
