@@ -1,5 +1,5 @@
 <template>
-  <div data-app class="p-4">
+  <div data-app class="p-4 dashboard-supervisor">
     <div class="row mb-4">
       <div class="col-sm-6 mb-2">
         <h1 class="font-weight-bold">{{getUserName}}'s team</h1>
@@ -50,7 +50,7 @@
         >
           <!--Added the Total row-->
           <template slot="body.append">
-            <tr class="pink--text">
+            <tr class="pink--text table-footer">
               <th></th>
               <th class="title text-left p-0">Total</th>
               <th class="title">{{ sumField('numActive') }}</th>
@@ -134,7 +134,7 @@
             d-flex
             align-items-center
             justify-content-center
-            dashboard-background-color-green">{{item.numLow}}</div>
+            dashboard-backgro und-color-green">{{item.numLow}}</div>
           </template>
         </v-data-table>
       </div>

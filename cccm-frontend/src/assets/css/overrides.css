@@ -289,6 +289,10 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
     background-color: #E0E0E0!important;
 }
 
+.dashboard-supervisor  .table-footer th {
+    color: #000!important;
+}
+
 .v-data-table__wrapper {
     border: 1px solid #ccc;
 }
