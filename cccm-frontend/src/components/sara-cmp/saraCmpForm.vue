@@ -1,5 +1,5 @@
 <template>
-  <div data-app>
+  <div data-app class="sara-cmp-form">
     <v-btn
       id="id_modal_deleteForm"
       v-show=false
