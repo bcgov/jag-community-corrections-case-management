@@ -5,9 +5,7 @@
         <h1>{{getUserName}}'s clients</h1>
       </div>
       <div class="col-sm-4"></div>
-      <div class="col-sm-2 text-right">
-        <button @click="print()" class="btn btn-primary btn-lg">Print Report <i class="bi bi-printer-fill ml-2"></i></button>
-      </div>
+      
     </div>
     <v-card class="p-3">
       <div class="row pl-4">
@@ -238,9 +236,6 @@ export default {
       }
       this.keyExpandRow++;
       // TO BE REMOVED END
-    },
-    print() {
-      console.log("Print client list");
     },
     async dashboardPOSearch(POID) {
       const [error, response] = await dashboardPOSearch(null, null, null, null,
