@@ -1,11 +1,8 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
 import javax.ws.rs.PathParam;
 import java.math.BigDecimal;

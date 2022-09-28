@@ -1,23 +1,15 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.Client;
-import ca.bc.gov.open.jag.api.model.data.ClientProfile;
-import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.Photo;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
-import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import ca.bc.gov.open.jag.api.model.data.*;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.*;
 import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import java.math.BigDecimal;
 import java.util.List;
 
