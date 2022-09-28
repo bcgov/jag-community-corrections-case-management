@@ -118,4 +118,13 @@ public interface ClientDataService {
      * @return {@link List<Comment>}
      */
     List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput);
+
+    /**
+     * Get summary information for a form
+     * @param clientNumber
+     * @param clientFormId
+     * @return Submitted answers for a form - server call to ensure latest data always displayed
+     * as is saved in the database
+     */
+    String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId);
 }

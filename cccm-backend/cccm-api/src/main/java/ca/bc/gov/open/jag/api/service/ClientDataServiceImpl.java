@@ -183,6 +183,11 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
+    public String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId) {
+        return obridgeClientService.getClientFormAnswersSummary(clientNumber, clientFormId);
+    }
+
+    @Override
     public String getClientFormAnswersForSection(String clientNumber, BigDecimal clientFormId, int sectionSequence) {
         return obridgeClientService.getClientFormAnswersForSection(clientNumber,clientFormId, sectionSequence);
     }
