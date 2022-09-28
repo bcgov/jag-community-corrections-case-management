@@ -15,7 +15,7 @@
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           <div :class="loading ? 'hide' : 'mainContent'">
-
+          <!-- <div class="'mainContent'"> -->
             <!-- form gets rendered here -->
             <div id="formio" />
 
@@ -62,13 +62,18 @@ import sampleFormData from './sampleData/sampleFormData.json';
 
 export default {
   name: 'crnaForm',
-  // props: {
-  //   formId: {
-  //     type: String,
-  //     required: true,
-  //     default: ''
-  //   }
-  // },
+  props: {
+    formId: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    csNumber: {
+      type: String,
+      required: true,
+      default: ''
+    }
+  },
   components: {
     CrnaCmpFormDataEntry,
     FormNavComponent,
@@ -92,44 +97,34 @@ export default {
       componentKey: 0,
       sectionQuestionMap: {},
       autoSaveData: {},
-      formId: ''
     }
   },
   mounted(){
-    if (this.formId != '') {
-      this.formId = Number(this.formId);
-      this.getFormData()
-    }
+    this.getFormData()
   },
   methods: {
     async getFormData() {
       this.loading = true;
       this.loadingMsg = "Loading form...";
-      let formId = this.$route.params.formID;
-      let csNumber = this.$route.params.csNumber;
       let vm = this;
       let autoSaveData = {};
-      console.log("CRNA formDetails: ", formId);
-      const [error, response] = await getFormDetails("00142091", formId);
+      
+      const [error, response] = await getFormDetails("00142091", this.formId);
       if (error) {
         console.error(error);
       } else {
         console.log("Got form %o", response);
         try {
-
-
           // ----------------------------------------------
           // -------------- FORM RENDER -------------------
           // ----------------------------------------------
           await Formio.createForm(document.getElementById('formio'), response).then(form => {
-
             // capture changes
             let debounceChanges = vm.debounce((changeEvent) => vm.autoSave(), 1000);
 
             // Prevent the submission from going to the form.io server.
             form.nosubmit = true;
             vm.form = form;
-
 
             // ----------------------------------------------
             // -------------- CHANGE EVENT ------------------
@@ -147,7 +142,6 @@ export default {
                 // ignore intervention checkboxes
               }
               else if (componentKey.indexOf("intervention") !== -1) {
-
                 let questionKey = componentKey.substr(0, 6);
                 let gridKey = questionKey + "_intervention_datagrid";
                 let interventionTypeKey = questionKey + "_intervention_type";
@@ -170,7 +164,7 @@ export default {
                   let remainingInterventionTypes = changeGridDataEvent.value.map(intervention => intervention[interventionTypeKey]);
                   console.log("Types %o", remainingInterventionTypes);
 
-                  let error = deleteQuestionInterventionsExcept(csNumber, formId, questionKey, remainingInterventionTypes);
+                  let error = deleteQuestionInterventionsExcept(this.csNumber, this.formId, questionKey, remainingInterventionTypes);
                   if (error) {
                     console.error("Failed to update intervention list %o", error);
                   } else {
@@ -287,7 +281,7 @@ export default {
           }).then(async () => {
             console.log("Ready");
             vm.loadingMsg = "Loading client form data...";
-            const [error, clientFormData] = await loadFormData(csNumber, formId);
+            const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
             if (error) {
 
             } else {
@@ -333,11 +327,7 @@ export default {
       };
     },
     async autoSave() {
-
-      let formId = this.$route.params.formID;
-      let csNumber = this.$route.params.csNumber;
-
-      const [error, response] = await updateForm(csNumber, formId, this.autoSaveData);
+      const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
       if (error) {
         console.error(error);
       } else {
@@ -345,13 +335,8 @@ export default {
         console.log("Saved form %o", response);
       }
     },
-
-
     async handleSaveContinue(continueToNextSection) {
-
-      let formId = this.$route.params.formID;
-      let csNumber = this.$route.params.csNumber;
-      const [error, response] = await updateForm(csNumber, formId, this.form.data);
+      const [error, response] = await updateForm(this.csNumber, this.formId, this.form.data);
       if (error) {
         console.error(error);
       } else {
@@ -383,6 +368,7 @@ export default {
     },
     handleCancelForm() {
       console.log("Cancel Form");
+      this.$emit('cancelFormClicked');
     },
     handleNavChildCallback(parentNavCurLocationFromChild, o) {
       console.log("Nav event %o %o, o", parentNavCurLocationFromChild);

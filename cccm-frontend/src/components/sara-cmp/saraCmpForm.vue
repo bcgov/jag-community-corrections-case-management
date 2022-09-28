@@ -1,5 +1,6 @@
 <template>
   <div data-app class="sara-cmp-form">
+    <!--Form delete modal dialog -->
     <v-btn
       id="id_modal_deleteForm"
       v-show=false
@@ -11,12 +12,29 @@
         max-width="550"
       >
       <v-card>
-        <v-card-title class="text-h5">
-          Are you sure you want to delete this form?
+        <div class="col-sm-12 m-7">
+          <v-card-title >
+            Select what you want to delete:
+          </v-card-title>
+          <v-checkbox
+            v-model="selectedFormTypeValue"
+            label="CRNA-CMP"
+            value="crna"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormTypeValue"
+            :readonly=true
+            label="SARA-CMP"
+            value="sara"
+          ></v-checkbox>
+          <v-card-title>
+          Are you sure you want to delete?
         </v-card-title>
         <v-card-text>
-          This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
+          The form(s) and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
         </v-card-text>
+        </div>
+        
         <v-card-actions>
           <v-btn
             @click="dialog = false"
@@ -29,7 +47,7 @@
             dark
             @click="handleDeleteFormBtnClick"
           >
-            Yes, delete this form
+            Yes, delete form(s)
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -103,25 +121,20 @@ export default {
       baseURL: import.meta.env.BASE_URL,
       clientNum: '',
       formId: '',
+      selectedFormTypeValue: [],
     }
   },
   mounted(){
     this.clientNum = this.$route.params.csNumber;
     this.formId= this.$route.params.formID;
     console.log("clientNum, formId, baseURL: ", this.clientNum, this.formId, this.baseURL);
+    this.selectedFormTypeValue.push("sara");
     this.getFormData();
   },
   methods: {
-
-
-
     async getFormData() {
-        debugger;
       const [summaryError, summaries] = await getFormSummaries('SARA', true);
-
-
       console.log("Got summaries %o", summaries);
-
       let formId= this.$route.params.formID;
       const [error, response] = await getFormDetails(formId);
       if (error) {

@@ -115,7 +115,7 @@
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
-            <a href="#" @click="formView(item.id, item.module)" title="View form">
+            <a href="#" @click="formView(item.id, item.module, item.relatedFormTypeId)" title="View form">
               <i class="fa fa-eye"></i>
             </a>
             &nbsp;&nbsp;
@@ -346,7 +346,7 @@ export default {
             "Supervision": null
           },
           "reassessment": false,
-          "relatedFormTypeId": null,
+          "relatedFormTypeId": 10000,
           "responsivities": [],
           "riskNeedsAssessment": false,
           "status": "Incomplete",
@@ -782,7 +782,7 @@ export default {
         console.error(error);
       }
     },
-    formView( formID, formType) {
+    formView( formID, formType, relatedFormTypeId) {
       if (formID != null) {
         formID = formID.toString();
       }
@@ -794,13 +794,17 @@ export default {
             csNumber: this.clientNum
           }
         });
-
       } else if (formType === 'CRNA') {
+        let linkedSara = false;
+        if (relatedFormTypeId != null) {
+          linkedSara = true;
+        }
         this.$router.push({
           name: 'crnacmp',
           params: {
             formID: formID,
-            csNumber: this.clientNum
+            csNumber: this.clientNum,
+            linkedSara: linkedSara
           }
         });
       } else {
@@ -819,18 +823,24 @@ export default {
       this.createFormAPI();
       //Redirect User to the newly created form
       console.log("newCreatedFormID: ", this.newCreatedFormId);
-
-      let nextView = "crnacmp";
       if (this.selectedFormTypeValue.includes("sara")) {
-        nextView = "saracmp";
+        this.$router.push({
+          name: "saracmp",
+          params: {
+            formID: this.newCreatedFormId,
+            csNumber: this.clientNum
+          }
+        });
+      } else {
+        this.$router.push({
+          name: "crnacmp",
+          params: {
+            formID: this.newCreatedFormId,
+            csNumber: this.clientNum,
+            linkedSara: false
+          }
+        });
       }
-      this.$router.push({
-        name: nextView,
-        params: {
-          formID: this.newCreatedFormId,
-          csNumber: this.clientNum
-        }
-      });
     },
     formCreate() {
       console.log("Create form btn click");

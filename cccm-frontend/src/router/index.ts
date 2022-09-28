@@ -59,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:csNumber/crnacmp/:formID',
+      path: '/clientrecord/:csNumber/crnacmp/:formID/:linkedSara',
       name: 'crnacmp',
       component: CrnaCmpView,
       meta: {
