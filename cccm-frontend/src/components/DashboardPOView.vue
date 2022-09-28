@@ -13,19 +13,19 @@
           <table class="designation-totals">
             <thead>
               <tr>
-                <th class="pl-4" colspan="3"> Designation Total </th>
+                <th class="pl-4" colspan="3"> Designation Totals </th>
               </tr>
               <tr>
                 <th class="pl-4" scope="col">GEN</th>
-                <th scope="col">SMO</th>
                 <th scope="col">IPV</th>
+                <th scope="col">SMO</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>{{ numOfGen }}</td>
-                <td>{{ numOfSMO }}</td>
                 <td>{{ numOfIPV }}</td>
+                <td>{{ numOfSMO }}</td>
               </tr>
             </tbody>
           </table>
@@ -73,7 +73,7 @@
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getWarrants[item.csNumber]}}</div>
           </template>
           <template v-slot:item.designation="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designation.reduce((acc, d) => `${acc},${d}`) }}</div>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designation.reduce((acc, d) => `${acc},&nbsp;${d}`) }}</div>
           </template>
           <template v-slot:item.inCustody="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
