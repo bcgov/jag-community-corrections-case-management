@@ -24,7 +24,6 @@ export const useStore = defineStore('main', {
         clearCachedLocation() {
             //console.info("Clear cached location.");
             this.locationCD = '';
-            this.locationId = -1;
             this.locationDescription = '';
         },
         getUserLocations() {

@@ -4,7 +4,6 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSearchList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
 
 import java.math.BigDecimal;
