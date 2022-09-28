@@ -176,7 +176,7 @@ export default {
     return {
       key_results: 0,
       key_location: 0,
-      selectedLocation: {},
+      selectedLocation: {value: "ALL", key: ""},
       locationTypes: [],
       // datatable variables
       items: ['1', '2', '5', '10', '15'],
@@ -209,6 +209,7 @@ export default {
     this.selectedLocation.key = this.mainStore.locationCD;
     this.selectedLocation.value = this.mainStore.locationDescription;
     this.locationTypes = this.mainStore.locations;
+    this.locationTypes.unshift({value: "ALL", key: ""});
 
     //form search from the backend
     console.log("Get PO list: ", this.selectedLocation, this.locationTypes);
@@ -226,7 +227,11 @@ export default {
       return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
+      console.log("locationType: ", locationType);
       this.filteredOfficerList = this.officerList.filter(el => {
+        if (locationType == '') {
+          return el.locations;
+        }
         return el.locations.includes(locationType.toLowerCase());
       });
       this.key_results++;
