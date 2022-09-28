@@ -2,8 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import HomeView from '../components/HomeView.vue'
-import CrnaCmpView from '../components/CrnaCmp.vue'
-import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
+import CmpFormView from '../components/CmpForm.vue'
 import ClientSearchView from '../components/common/FormioClientSearch.vue'
 import ClientRecordView from '../components/ClientRecord.vue'
 import Unauthorized from '../components/Unauthorized.vue'
@@ -59,22 +58,13 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:csNumber/crnacmp/:formID/:linkedSara',
-      name: 'crnacmp',
-      component: CrnaCmpView,
+      path: '/clientrecord/:csNumber/form/:formType/:formID/:linkedSara',
+      name: 'cmpform',
+      component: CmpFormView,
       meta: {
         isAuthenticated: true
       }
     },
-    {
-      path: '/clientrecord/:csNumber/saracmp/:formID',
-      name: 'saracmp',
-      component: SaraCmpView,
-      meta: {
-        isAuthenticated: true
-      }
-    },
-
     {
       path: '/',
       name: 'unauthorized',

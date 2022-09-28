@@ -57,7 +57,6 @@ import CrnaCmpFormRightPanel from "@/components/crna-cmp/formSections/crnaCmpFor
 import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
 import { Formio } from "formiojs";
-
 import sampleFormData from './sampleData/sampleFormData.json';
 
 export default {
