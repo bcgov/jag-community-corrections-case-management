@@ -69,7 +69,7 @@ public class LookupApiImpl implements LookupApi {
     }
 
     @Override
-//    @RolesAllowed("data-view")
+    @RolesAllowed("data-view")
     public CodeList getInterventionTypesUsingGET() {
         return codeTableService.getCodes(CodeTableType.INTERVENTION_TYPE);
     }
