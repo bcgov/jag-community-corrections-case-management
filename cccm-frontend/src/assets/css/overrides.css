@@ -216,6 +216,9 @@ label.col-form-label {
     width: 100%
 }
 
+.v-pagination__item {
+    color: #fff!important;
+}
 
 .v-style-data-table {
     border: 1px solid #bcbcbc;
