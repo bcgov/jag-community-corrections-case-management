@@ -265,6 +265,14 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
 .sara-cmp-form .divTableRowNav {
     white-space: nowrap;
 }
+.sara-cmp-form .menuR2 {
+    overflow: scroll!important;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.sara-cmp-form .menuR2::-webkit-scrollbar {
+    display: none;
+}
 .sara-cmp-form .client-details {
     margin-top: 130px;
 }
