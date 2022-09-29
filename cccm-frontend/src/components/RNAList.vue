@@ -795,7 +795,7 @@ export default {
         name: "cmpform",
         params: {
           formType: formType,
-          formID: this.newCreatedFormId,
+          formID: formID,
           csNumber: this.clientNum,
           linkedSara: linkedSara
         }
