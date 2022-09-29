@@ -68,4 +68,15 @@ public class LookupApiImpl implements LookupApi {
 
     }
 
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getInterventionTypesUsingGET() {
+        return codeTableService.getCodes(CodeTableType.INTERVENTION_TYPE);
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getResponsivityTypesUsingGET() {
+        return codeTableService.getCodes(CodeTableType.RESPONSIVITY_TYPE);
+    }
 }

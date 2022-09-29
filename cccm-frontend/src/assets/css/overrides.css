@@ -120,7 +120,8 @@ img[alt="Client photo"] {
     border: 1px solid #ccc;
 }
 
-.col-form-label {
+label.col-form-label {
+    padding-top: 25px;
     font-weight: bold!important;
 }
 
@@ -150,6 +151,10 @@ img[alt="Client photo"] {
 }
 .formio-action-buttons{
  }
+
+.test-green {
+    color: green;
+}
 
 .formio-form {
     min-height:auto!important;

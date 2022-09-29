@@ -2,29 +2,29 @@
   <div class="divTable">
     <div class="divTableBody">
       <div class="divTableRowL1 divTableRowNav">
+     
         <div class="divTableCell">
-	        <span>
-            <a v-for="(header, index) in dataModel.data"
-              :key="header.section" 
-              :href="`#${index}${indexZero}`"
-              :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
-              @click="setCurrentSectionParentChild">
-              {{ header.section }}
-            </a>
-          </span>
+              <span>
+                        <a v-for="(values, name, sectionIndex) in sectionQuestionMap"
+                          :key="sectionIndex"
+                          :href="getSectionKey(sectionIndex)"
+                          :class="[sectionIndex == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
+                          @click="setCurrentSectionParentChild">
+                            {{ name }} 
+                        </a>
+                      </span>
         </div>
       </div>
+
       <div class="divTableRowL2 divTableRowNav">
-        <div v-for="(header, indexp) in dataModel.data" :key="indexp"
-            :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
-           
-            <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
-            <span v-if="header.subNavOnOff == 'on'">
-              <a v-for="(headerc, indexc) in header.subsections" 
-                :key="headerc.questionLabel" 
-                :href="`#${indexp}${indexc}`"
-                :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']">
-                {{ headerc.questionLabel }}
+        <div v-for="(values, name, sectionIndex) in sectionQuestionMap" :key="sectionIndex"
+            :class="[currentSectionParent == sectionIndex ? 'divTableCell' : 'hide', '']">
+            <span>
+              <a v-for="(value, questionIndex) in values" 
+                :key="questionIndex" 
+                :href="getSectionQuestionKey(sectionIndex,questionIndex)"
+                :class="[questionIndex == currentSectionChild ? 'active' : '', 'navHeaderA-L2']">
+                {{ value }} 
               </a>
             </span>
 
@@ -42,6 +42,9 @@ export default {
   name: 'CrnaCmpFormNavigation',
   props: {
     dataModel: {},
+    sectionQuestionMap: {
+        type: Object
+    },
     // param passed from parent to indicate move to the next parentNav
     parentNavMoveToNext: {
       type: Number,
@@ -57,6 +60,7 @@ export default {
     }
   },
   watch: {
+
     parentNavMoveToNext() {
       let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
       let childNavPos = '0';
@@ -75,7 +79,7 @@ export default {
     setTimeout(() => {
       this.observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          //console.log("Intersection ratio: ", entry.intersectionRatio);
+          console.log("Intersection ratio: ", entry.intersectionRatio);
           if (entry &&
               entry.isIntersecting &&
               entry.intersectionRatio > 0) {
@@ -106,16 +110,27 @@ export default {
     }
   },
   methods: {
+    // get section/question key ( numbers should be 1-based not zero)
+    getSectionQuestionKey(sectionIndex: number, questionIndex: number) : string {
+      return "#S" + String(sectionIndex + 1).padStart(2, '0') + "Q" + String(questionIndex + 1).padStart(2, '0');
+    },
+
     // method corresponds to clicking on parent nav link, it alwasy set the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        this.showHideWrapper(e.target.hash.substr(1, 1), '0');
+        this.showHideWrapper(e.target.hash);
       }
     },
-    showHideWrapper(posParentNav, posChildNav) {
-      this.currentSectionParent = posParentNav; 
-      this.currentSectionChild = posChildNav;
+    showHideWrapper(sectionQuestionKey: string) {
+    
+      console.log("Nav to %s", sectionQuestionKey);
+
+
+      this.currentSectionParent = Number.parseInt(sectionQuestionKey.substring(1,2));
+      this.currentSectionChild = Number.parseInt(sectionQuestionKey.substring(3,2));
+
+      console.log("Section %d %d", this.currentSectionParent, this.currentSectionChild);
 
       //console.log("Local click:", this.currentSectionParent, this.currentSectionChild);
 

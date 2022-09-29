@@ -83,9 +83,6 @@ export default {
     this.clientNum = this.$route.params.csNumber;
   },
   methods: {
-    createSARA() {
-      console.log("create sara");
-    },
     async createFormAPI() {
       const [error, response] = await createForm(this.formId);
       if (error) {

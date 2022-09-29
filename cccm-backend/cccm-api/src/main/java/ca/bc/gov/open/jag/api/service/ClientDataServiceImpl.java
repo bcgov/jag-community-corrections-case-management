@@ -3,12 +3,13 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
+import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -16,15 +17,15 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @RequestScoped
+@Slf4j
 public class ClientDataServiceImpl implements ClientDataService {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(ClientDataServiceImpl.class));
+    public static final String LOCATION = "location";
 
     @Inject
     @RestClient
@@ -32,6 +33,9 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Inject
     ClientMapper clientMapper;
+
+    @Inject
+    FormMapper formMapper;
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
@@ -115,11 +119,11 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         final String csNumberPadded = padCsNum(clientNum);
 
-        logger.info("Get Client Data");
+        log.info("Get Client Data");
         ca.bc.gov.open.jag.api.model.data.Client client = obridgeClientService.getDetailsById(csNumberPadded, stripUserName(user), new BigDecimal(location));
-        logger.info("Get Address Data");
+        log.info("Get Address Data");
         List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(csNumberPadded, stripUserName(user), new BigDecimal(location));
-        logger.info("Get Photo Data");
+        log.info("Get Photo Data");
         Photo photo = getPhoto(csNumberPadded);
 
         return clientMapper.toClientDetails(client, address, photo);
@@ -132,6 +136,82 @@ public class ClientDataServiceImpl implements ClientDataService {
                 .map(client1 -> clientMapper.toApiClient(client1, new ClientProfile(), null))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
+        return obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
+    }
+
+    @Override
+    public BigDecimal addClientForm(CreateFormInput createFormInput) {
+
+        // todo - how do we get the userid and location id?
+        createFormInput.setCreatedByUserId(BigDecimal.TEN);
+        createFormInput.setLocationId(BigDecimal.TEN);
+        return obridgeClientService.createForm(createFormInput);
+    }
+
+    @Override
+    public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
+        log.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
+        return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
+    }
+
+    @Override
+    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues) {
+        log.debug("Saving client form answers {}", clientFormId);
+        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, loadLatestValues);
+
+    }
+
+
+    @Override
+    public void deleteInterventionsExcept(String clientNumber, BigDecimal clientFormId, String payload) {
+        log.debug("Updating client form interventions {} {}", clientFormId, payload);
+        obridgeClientService.updateClientFormInterventions(clientNumber,clientFormId, payload);
+    }
+
+
+    @Override
+    public String getClientFormAnswers(String clientNumber,BigDecimal clientFormId) {
+        log.debug("Getting form answers {}", clientFormId);
+        return obridgeClientService.getClientFormAnswers(clientNumber,clientFormId);
+    }
+
+    @Override
+    public String getClientFormAnswersForSection(String clientNumber, BigDecimal clientFormId, int sectionSequence) {
+        return obridgeClientService.getClientFormAnswersForSection(clientNumber,clientFormId, sectionSequence);
+    }
+
+    @Override
+    public String getClientFormAnswersForSectionAndQuestion(String clientNumber, BigDecimal clientFormId, int sectionSequence, int questionSequence) {
+        return obridgeClientService.getClientFormAnswersForSectionAndQuestion(clientNumber,clientFormId, sectionSequence, questionSequence);
+    }
+
+    @Override
+    public List<LabelValuePair> getClientFormFactors(String reportType, String csNumber) {
+        return obridgeClientService.getClientFormFactors(reportType, csNumber);
+    }
+
+    @Override
+    public ChartDataSet getClientChartData(String reportType, String csNumber) {
+        return obridgeClientService.getClientChartData(reportType, csNumber);
+    }
+
+    @Override
+    public List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientResponsivities(csNumber,searchInput);
+    }
+
+    @Override
+    public List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientInterventions(csNumber, searchInput);
+    }
+
+    @Override
+    public List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientComments(csNumber, searchInput);
     }
 
     private Photo getPhoto(String clientNum) {
