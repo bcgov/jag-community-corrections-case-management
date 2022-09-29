@@ -74,6 +74,16 @@ export async function getClientForms(clientNum: String,  currentPeriod: boolean,
     }
 }
 
+// get summary display of form
+export async function getFormSummary(clientNum: string, formId: number) {
+    try {
+        const { data } = await axiosClient.get(`/forms/client/summary/answers/${clientNum}/${formId}`);
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
 
 // function to fetch the form details
 export async function getFormDetails(clientNum: String, formId: number) {

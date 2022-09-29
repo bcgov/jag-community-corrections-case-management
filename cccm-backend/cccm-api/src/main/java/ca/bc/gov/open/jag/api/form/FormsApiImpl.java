@@ -86,6 +86,13 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
+    @RolesAllowed("form-view")
+    public String getClientFormAnswersSummaryJSONUsingGET(BigDecimal clientFormId, String clientNumber) {
+        return clientDataService.getClientFormAnswersSummary(clientNumber, clientFormId);
+    }
+
+    @Override
+    @Transactional
     @RolesAllowed("form-update")
     public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, String xLocationId, @Valid FormQuestionAnswer formQuestionAnswer) {
 

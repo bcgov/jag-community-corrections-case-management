@@ -116,7 +116,6 @@ export default {
 
 
     async getFormData() {
-        debugger;
       const [summaryError, summaries] = await getFormSummaries('SARA', true);
 
 
