@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import TrendAnalysisView from '../components/trendanalysis/TrendAnalysisView.vue'
 import HomeView from '../components/HomeView.vue'
-import CrnaCmpView from '../components/crna-cmp/crnaCmpForm.vue'
+import CrnaCmpView from '../components/CrnaCmp.vue'
 import SaraCmpView from '../components/sara-cmp/saraCmpForm.vue'
 import ClientSearchView from '../components/common/FormioClientSearch.vue'
 import ClientRecordView from '../components/ClientRecord.vue'
@@ -52,7 +51,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:csNumber',
+      path: '/clientrecord/:csNumber/:tabIndex',
       name: 'clientrecord',
       component: ClientRecordView,
       meta: {
@@ -98,6 +97,8 @@ router.beforeEach((to, from, next) => {
   // Fetch the default location
   const store = useStore();
   store.getUserDefaultLocation();
+  store.getUserLocations();
+  
   //console.log("In router, store: ", store.locationCD, store.locationDescription);
   
   if (to.meta.isAuthenticated) {

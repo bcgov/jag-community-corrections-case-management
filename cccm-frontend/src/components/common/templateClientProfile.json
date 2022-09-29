@@ -91,7 +91,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>Date of Birth</Strong><br/>{{data.birthDate}}</div><br><div><Strong>Supervision Level</Strong><br/>{{data.supervisionLevel}}</div>",
+                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.clientNum}}</div><br><div><Strong>Supervision Rating</Strong><br/>{{data.supervisionLevel}}</div>",
                                                     "customClass": "pl-1",
                                                     "refreshOnChange": true,
                                                     "key": "html5",
@@ -117,7 +117,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div><Strong>CS#</Strong><br/>{{data.clientNum}}</div><br><div><Strong>Designation</Strong><br/>{{data.designations}}</div>",
+                                                    "content": "<div><Strong>Date of Birth</Strong><br/>{{data.birthDate}}</div><br><Strong>Designation</Strong><br/>{{data.designationsVal}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html6",
                                                     "type": "htmlelement",
@@ -185,7 +185,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Active Location:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</div><br><div><Strong>Primary Case Manager:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.caseManager}}</div>",
+                                                                                "content": "<div><Strong>Active Location</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</div><br><div><Strong>Primary Case Manager</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.caseManager}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -210,7 +210,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Status:</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.status}}</div><br><div><Strong>Secondary Case Managers</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.secondaryManager}}</div>",
+                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.status}}</div><br><div><Strong>Secondary Case Managers</Strong><br/>{{data.communityInformation == null ? '' : data.communityInformation.secondaryManager}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -405,7 +405,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.status}}</div><br><div><Strong>Type of Custody</Strong>{{data.generalInformation == null ? '' : data.generalInformation.custody}}</div>",
+                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.status}}</div><br><div><Strong>Type of Custody</Strong><br>{{data.generalInformation == null ? '' : data.generalInformation.custody}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -495,7 +495,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Federal Parole Office</Strong><br/>{{data.locationInformation == null ? '': data.locationInformation.federalParole}}</div><div><Strong>Out Reason</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.outReason}}</div>",
+                                                                                                "content": "<div><Strong>Federal Parole Office</Strong><br/>{{data.locationInformation == null ? '': data.locationInformation.federalParole}}</div><br><div><Strong>Out Reason</Strong><br/>{{data.locationInformation == null ? '' : data.locationInformation.outReason}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",

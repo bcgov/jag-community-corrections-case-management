@@ -166,6 +166,11 @@ export async function loadFormData(csNumber: number, clientFormId: number) {
     }
 }
 
+// function to delete form
+export async function deleteForm(formId: number) {
+
+}
+
 // function to create form
 export async function createForm(formData: object) {
     try{
@@ -254,6 +259,39 @@ export async function clientSearchByAddressInfo(address: String, addressType: St
     }
 }
 
+// function to retrieve client details.
+export async function getClientDetail(clientNum: String) {
+    try{
+        console.log("Get client detail by clientNum: ", clientNum);
+        const { data } = await axiosClient.get(`/clients/${clientNum}/details`);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to retrieve client addresses.
+export async function getClientAddresses(clientNum: String) {
+    try{
+        console.log("Get client addresses by clientNum: ", clientNum);
+        const { data } = await axiosClient.get(`/clients/${clientNum}/address`);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// function to get client photo
+export async function photoSearch(clientNum: String) {
+    try{
+        //console.log("Photo search by clientID: ", clientID);
+        const { data } = await axiosClient.get(`/clients/${clientNum}/photo`);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
 // Supervisor dashboard search
 export async function dashboardSupervisorSearch(supervisorID: String) {
     try{
@@ -284,18 +322,6 @@ export async function dashboardPOSearch(poID: String) {
     }
 }
 
-// function to get client photo
-export async function photoSearch(clientNum: String) {
-    try{
-        //console.log("Photo search by clientID: ", clientID);
-        const { data } = await axiosClient.get(`/clients/${clientNum}/photo`);
-        return [null, data];
-    } catch (error) {
-        return [error];
-    }
-}
-
-
 // function to search client profile
 export async function clientProfileSearch(clientNum: String) {
     try{
@@ -323,6 +349,25 @@ export async function formSearch(clientNum: String, formType: String, supervisio
             });
         return [null, data];
     } catch (error) {
+        return [error];
+    }
+}
+// function to search for form types
+export async function async_lookupFormTypes() {
+    try {
+        const { data } = await axiosClient.get('/lookup/formtypes');
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+// function to search for form types
+export function lookupFormTypes() {
+    try {
+        const data = axiosClient.get('/lookup/formtypes');
+        return [null, data];
+    }catch (error) {
         return [error];
     }
 }

@@ -10,11 +10,13 @@
             "components": [
                 {
                     "label": "Columns",
+                    "customClass": "text-center",
                     "columns": [
                         {
                             "components": [
                                 {
                                     "label": "HTML",
+                                    "customClass": "mt-4",
                                     "tag": "img",
                                   "customClass": "justify-content-around  mt-3 mb-3",
                                   "attrs": [
@@ -68,6 +70,7 @@
                             "components": [
                                 {
                                     "label": "Table",
+                                    "customClass": "dashboard-po-table",
                                     "cellAlignment": "left",
                                     "key": "table",
                                     "type": "table",
@@ -192,6 +195,7 @@
                                                                         "components": [
                                                                             {
                                                                                 "label": "HTML",
+                                                                                "customClass": "community-alerts-ul",
                                                                                 "tag": "ul",
                                                                                 "attrs": [
                                                                                     {

@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main crna-cmp-form">
     <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert>
     <div class="wrap">
       <div class="mainRow">
@@ -17,7 +17,7 @@
             <p />
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
-          <div :class="loading ? 'hide' : 'mainContent'" class="mainContent">
+          <div :class="loading ? 'hide' : 'mainContent'">
 
             <!-- form gets rendered here -->
             <div id="formio" />
@@ -69,6 +69,13 @@ import FormSummary from '../FormSummary.vue';
 
 export default {
   name: 'crnaForm',
+  // props: {
+  //   formId: {
+  //     type: String,
+  //     required: true,
+  //     default: ''
+  //   }
+  // },
   components: {
     CrnaCmpFormDataEntry,
     FormNavComponent,
@@ -101,10 +108,14 @@ export default {
       showSummaryCounter: 0,
       sectionQuestionMap: {},
       autoSaveData: {},
+      formId: ''
     }
   },
-  mounted() {
-    this.getFormData();
+  mounted(){
+    if (this.formId != '') {
+      this.formId = Number(this.formId);
+      this.getFormData()
+    }
   },
   methods: {
 
@@ -362,7 +373,6 @@ export default {
       } finally {
         this.saving = false;
       }
-
     },
     navToSectionAndQuestion(section: number, question: number) {
       console.log("Navigating %d %d", section, question);

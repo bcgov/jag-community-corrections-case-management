@@ -1,7 +1,5 @@
 package ca.bc.gov.open.jag.api.model.data;
 
-import lombok.Data;
-
 public class Address {
 
     private String fullAddress;

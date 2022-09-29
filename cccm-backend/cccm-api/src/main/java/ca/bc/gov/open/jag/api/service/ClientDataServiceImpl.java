@@ -8,8 +8,6 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +17,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
@@ -221,6 +218,7 @@ public class ClientDataServiceImpl implements ClientDataService {
     public List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput) {
         return obridgeClientService.searchClientComments(csNumber, searchInput);
     }
+
     private Photo getPhoto(String clientNum) {
 
         List<Photo> photos = obridgeClientService.getPhotosById(clientNum);

@@ -1,3 +1,7 @@
+.v-btn {
+    text-transform: unset !important;
+}
+
 .bg-blue {
     background-color: #38598A;
 }
@@ -10,16 +14,84 @@
 }
 
 .container {
-    /*margin: 24px 10px!important;*/
     padding: 24px 50px!important;
     width:100%!important;
     max-width:100%!important;
 }
 
+
+/* HEADER SECTION todo: put in own file */
+
+.headerText a {
+    color:#fff!important;
+}
+.headerText a:visited {
+    color:#fff!important;
+}
+
+
+/* CLIENT SEARCH todo: put in own file */
+
+
+.client-search .sectionTitleClass {
+    padding: 40px 20px 5px 20px!important;
+}
+
+.client-search .subSectionTitleClass {
+    text-decoration: none;
+}
+
+.formio-component-limitedToCurrentActiveLocation {
+    margin: -60px 24px 0 28px;
+}
+
+input[name="data[limitedToCurrentActiveLocation]"], input[name="data[addressInfo][includeExpiredAddresses]"] {
+    transform: scale(2);
+}
+
+input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addressInfo][includeExpiredAddresses]"] + span {
+    margin-left:10px;
+}
+
+.client-search .fa-exclamation-circle {
+    transform: scale(1.5);
+}
+
+.client-search .how-to-icon {
+    margin-top: -110px;
+    color: #013265;
+}
+.client-search .how-to-wildcard {
+    margin-top: -120px;
+    color: #013265;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+}
+
 .client-search-columns {
     column-gap: 100px;
-
 }
+
+
+div[ref="nested-generalInfo"]  {
+    padding: 20px;
+}
+
+.formio-component-lastNameSoundex {
+    display:inline-block;
+    width:100%;
+    text-align:right;
+}
+
+.formio-component-lastNameSoundex > .checkbox {
+   top: -70px;
+}
+
+button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:active, button[name="data[generalInfo]"]:focus {
+    background-color: #38598A!important;
+}
+
+/* END CLIENT SEARCH */
 
 .container .v-card__title {
     font-weight:bold;
@@ -36,6 +108,7 @@
 
 .v-data-table__wrapper th {
     padding: 20px!important;
+    color:#fff!important;
 }
 
 .v-data-table__wrapper a {
@@ -87,6 +160,7 @@ label.col-form-label {
     min-height:auto!important;
 }
 
+
 /*CRNA FORM STYLES - TODO: Move to own file*/
 
 .card-body .crna-sectionTitleClass {
@@ -125,13 +199,6 @@ label.col-form-label {
     background-color: rgba(224, 224, 224, .5);
 }
 
-/*.crna-subSectionTitleClass {*/
-/*    font-size: 20px;*/
-/*    font-weight: bold;*/
-/*    text-decoration: underline;*/
-/*    -webkit-text-decoration-color: rgb(255, 208, 0); !* Safari *!*/
-/*    text-decoration-color: rgb(255, 208, 0);*/
-/*}*/
 
 .divTable {
     z-index: 1;
@@ -149,6 +216,9 @@ label.col-form-label {
     width: 100%
 }
 
+.v-pagination__item {
+    color: #fff!important;
+}
 
 .v-style-data-table {
     border: 1px solid #bcbcbc;
@@ -172,7 +242,7 @@ label.col-form-label {
     padding:0;
 }
 
-p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass){
+p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):not(.sectionTitleClass){
     padding:0!important;
     margin:0!important;
     min-height:0px!important;
@@ -190,7 +260,90 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass){
     border: 1px solid #ccc;
 }
 
+/* SARA CMP styles - Todo split to own file */
+
+.sara-cmp-form .divTableRowNav {
+    white-space: nowrap;
+}
+.sara-cmp-form .menuR2 {
+    overflow: scroll!important;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.sara-cmp-form .menuR2::-webkit-scrollbar {
+    display: none;
+}
+.sara-cmp-form .client-details {
+    margin-top: 130px;
+}
+
+.sara-cmp-form .card {
+    margin-bottom: 40px!important;
+}
+.sara-cmp-form .card-header {
+    background-color:#38598A!important;
+}
+
+.sara-cmp-form .formio-component-key_sourceContacted_content {
+    margin: 20px 0;
+}
+
+.sara-cmp-form .formio-component-key_buttonGroup {
+    height:150px;
+    align-items:center;
+}
 /* Dashboard Styles - TODO split to own file */
+
+.dashboard-po th[role="columnheader"]{
+    text-align: center;
+}
+
+.dashboard-po-table .formio-component-fieldset {
+    padding: 20px 0;
+}
+
+.dashboard-po-table legend[ref="header"]  {
+    justify-content: left;
+}
+
+.dashboard-po-table div.fieldset-body:before  {
+    display:block;
+    margin: 10px 0 30px 0;
+    width: 50px;
+    height: 5px;
+    background-color:#FCC643;
+    content:""
+}
+
+.dashboard-po-table div.fieldset-body  {
+    margin-top: 10px!important;
+}
+
+.dashboard-po-table .community-alerts-ul {
+    margin-top: -24px;
+}
+
+.dashboard-po-table .community-alerts-ul ul {
+    padding:0
+}
+
+.dashboard-po-table .community-alerts-ul li {
+    padding: 5px 0;
+}
+
+.dashboard-po-table .formio-component-editgrid .editgrid-listgroup .list-group-header {
+    background-color: #2A0808!important;
+    color: #fff;
+    font-weight: bold;
+}
+
+.dashboard-po-table .formio-component-editgrid .editgrid-listgroup  .list-group-item:not(:first-of-type) {
+    background-color: #E0E0E0!important;
+}
+
+.dashboard-supervisor  .table-footer th {
+    color: #000!important;
+}
 
 .v-data-table__wrapper {
     border: 1px solid #ccc;
@@ -208,13 +361,15 @@ button.v-pagination__item {
     position: absolute;
     bottom: 20px;
     background-color: #efefef;
-    text-align: center;
+    text-align: center!important;
 }
 
 .designation-totals th:first-of-type {
     text-align:left;
 }
-
+.designation-totals th[colspan="3"]{
+    border-bottom: 1px solid #fff;
+}
 .designation-totals th {
     width: 100px;
 }
@@ -224,6 +379,10 @@ button.v-pagination__item {
 }
 .dashboard-v-card .v-data-table-header {
     background-color: #38598A;
+}
+
+.v-data-table__expand-icon--active, .v-data-table__expand-icon {
+    margin-left: 10px!important;
 }
 
 .dashboard-v-card .v-data-table-header th[role="columnheader"] {
