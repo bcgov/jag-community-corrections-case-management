@@ -90,7 +90,7 @@
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
-            <div class="w-100 h-100">{{getAssessmentStatus(item.reassessment)}}</div>
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment)}}</div>
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
@@ -98,7 +98,7 @@
           </template>
           <!--Customize the date field field -->
           <template v-slot:item.updatedDate="{ item }">
-            <div class="w-100 h-100">{{ getUpdatedDate(item)}}</div>
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{ getUpdatedDate(item)}}</div>
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">

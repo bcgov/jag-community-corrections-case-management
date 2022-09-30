@@ -277,6 +277,42 @@ paths:
           content: {}
       x-codegen-request-body-name: createFormInput
 
+  /forms/client/summary/answers/{clientNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: Get summary form.io JSON for a client form
+      operationId: getClientFormAnswersSummaryJSONUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+
   /forms/client/search/{csNumber}:
     get:
       tags:

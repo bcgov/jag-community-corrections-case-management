@@ -216,6 +216,9 @@ label.col-form-label {
     width: 100%
 }
 
+.v-pagination__item {
+    color: #fff!important;
+}
 
 .v-style-data-table {
     border: 1px solid #bcbcbc;
@@ -261,6 +264,15 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
 
 .sara-cmp-form .divTableRowNav {
     white-space: nowrap;
+}
+
+.sara-cmp-form .menuR2 {
+    overflow: scroll!important;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.sara-cmp-form .menuR2::-webkit-scrollbar {
+    display: none;
 }
 .sara-cmp-form .client-details {
     margin-top: 130px;
@@ -313,7 +325,7 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
 }
 
 .dashboard-po-table .community-alerts-ul ul {
-    padding:0;
+    padding:0
 }
 
 .dashboard-po-table .community-alerts-ul li {

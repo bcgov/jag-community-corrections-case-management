@@ -1,5 +1,6 @@
 <template>
   <div class="main crna-cmp-form">
+    <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert>
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
@@ -8,8 +9,10 @@
               <CrnaCmpFormInfo :dataModelFormInfo="formJSONFormData" :key="componentKey" />
             </div>
             <div class="menuR2" v-if="!loading">
-              <FormNavComponent :sectionQuestionMap="sectionQuestionMap" @parentNavClicked="handleNavChildCallback"
-                :dataModel="formJSONFormData" :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey" />
+              <FormNavComponent :saveInProgress="saving" :sectionQuestionMap="sectionQuestionMap"
+                @parentNavClicked="handleNavChildCallback" :dataModel="formJSONFormData"
+                :currentSection="currentSection" :currentQuestion="currentQuestion"
+                :parentNavMoveToNext="parentNavMoveToNext" :key="componentKey" />
             </div>
             <p />
           </div>
@@ -18,6 +21,9 @@
           <!-- <div class="'mainContent'"> -->
             <!-- form gets rendered here -->
             <div id="formio" />
+
+            <FormSummary @viewSectionQuestion="navToSectionAndQuestion" v-if="displaySummary"
+              :showSummaryCounter="showSummaryCounter" />
 
             <!-- <CrnaCmpFormDataEntry :dataModel="formJSONFormData" :key="componentKey"
               :notifySavingData="notifySavingData"></CrnaCmpFormDataEntry> -->
@@ -58,6 +64,7 @@ import CrnaCmpFormInfo from "@/components/crna-cmp/formSections/crnaCmpFormInfo.
 import FormioButton from "@/components/common/FormioButtons.vue";
 import { Formio } from "formiojs";
 import sampleFormData from './sampleData/sampleFormData.json';
+import FormSummary from '../FormSummary.vue';
 
 export default {
   name: 'crnaForm',
@@ -79,6 +86,7 @@ export default {
     CrnaCmpFormRightPanel,
     CrnaCmpFormInfo,
     FormioButton,
+    FormSummary
   },
   data() {
     return {
@@ -86,14 +94,22 @@ export default {
       loadingMsg: "Loading form...",
       loading: false,
       message: "",
-      parentNavMoveToNext: 1,
+      displaySummary: false,
+      currentSection: 0,
+      currentQuestion: 0,
+      parentNavMoveToNext: 0,
+      dataChangeCount: 0,
       notifySavingData: 1,
       totalNumParentNav: 0,
       parentNavCurLocationFromChild: 0,
       parentNavCurLocation: 0,
-      btnSaveContinueText: "Save and Continue",
+      btnSaveContinueText: "Continue",
       formJSONFormData: sampleFormData,
       componentKey: 0,
+      errorOccurred: false,
+      saving: false,
+      errorText: '',
+      showSummaryCounter: 0,
       sectionQuestionMap: {},
       autoSaveData: {},
     }
@@ -102,15 +118,18 @@ export default {
     this.getFormData()
   },
   methods: {
+
     async getFormData() {
       this.loading = true;
       this.loadingMsg = "Loading form...";
       let vm = this;
+
       let autoSaveData = {};
       
       const [error, response] = await getFormDetails("00142091", this.formId);
       if (error) {
         console.error(error);
+
       } else {
         console.log("Got form %o", response);
         try {
@@ -129,8 +148,6 @@ export default {
             // -------------- CHANGE EVENT ------------------
             // ----------------------------------------------
             form.on("change", function (changeEvent) {
-
-              debugger;
               // key is the form S00Q00[_intv...]
               let componentKey = changeEvent.changed.component.key;
 
@@ -146,35 +163,36 @@ export default {
                 let interventionTypeKey = questionKey + "_intervention_type";
                 let grid = vm.form.getComponent(gridKey);
                 // check that object has required values
-                console.log("Handling intervention %o %o", grid, vm.form.data[questionKey + "_intervention_datagrid"]);
                 let gridData = vm.form.data[questionKey + "_intervention_datagrid"];
 
                 //
                 let changeGridDataEvent = changeEvent.changed;
-                debugger;
-                console.log("Changed %o from %o", changeGridDataEvent.value, vm.form.data[gridKey]);
 
                 // grid was updated with a delete
                 if (changeGridDataEvent.flags.isReordered) {
-                  console.log("Delete event happened");
+                  vm.saving = true;
+
                   // this is really ugly but the datagrid does not send delete events - just change event
                   // and the form data is already updated on the delete - so we have to send the list of interventions
                   // that are still present after a delete rather than sending a delete for whats removed 
                   let remainingInterventionTypes = changeGridDataEvent.value.map(intervention => intervention[interventionTypeKey]);
                   console.log("Types %o", remainingInterventionTypes);
+                  try {
+                    let error = deleteQuestionInterventionsExcept(csNumber, formId, questionKey, remainingInterventionTypes);
+                    if (error) {
+                      console.error("Failed to update intervention list %o", error);
+                    } 
+                  } catch (err) { 
+                    console.error("Failed to delete interventions %o", err);
+                  } finally {
+                    vm.saving = false;
 
-                  let error = deleteQuestionInterventionsExcept(this.csNumber, this.formId, questionKey, remainingInterventionTypes);
-                  if (error) {
-                    console.error("Failed to update intervention list %o", error);
-                  } else {
-                    console.log("Interventions updated ok");
                   }
 
                 } else {
 
 
                   gridData.forEach((entry) => {
-
                     let valid = true;
 
                     let desc = entry[questionKey + "_intervention_desc"];
@@ -196,16 +214,15 @@ export default {
                       if (!vm.autoSaveData[gridKey]) {
                         vm.autoSaveData[gridKey] = [];
                       }
-
                       // make sure we only have one entry for each type
-                      let current = vm.autoSaveData[gridKey].filter((existing) => existing.type === entry.type)[0];
+                      let current = vm.autoSaveData[gridKey].filter((existing) => existing[questionKey + "_intervention_type"] === type)[0];
                       if (!current) {
                         console.log("1 Adding intervention update %o", entry);
                         vm.autoSaveData[gridKey].push(entry);
                       } else {
                         // replace current entry
+                        console.log("Updating intervention %o", entry);
                       }
-                      console.log("2 Adding intervention update %o", vm.autoSaveData[gridKey]);
 
                     }
                   });
@@ -231,8 +248,12 @@ export default {
               }
 
               if (Object.keys(vm.autoSaveData).length > 0) {
+                vm.saving = true;
+
                 debounceChanges(vm.autoSaveData);
               }
+
+              vm.dataChangeCount++;
 
             });
 
@@ -253,8 +274,6 @@ export default {
                 console.error("Error in renderer %o", error);
               })
             });
-
-
 
 
             form.components.filter((component) => component.hasOwnProperty('components')).forEach(sectionComponent => {
@@ -282,7 +301,8 @@ export default {
             vm.loadingMsg = "Loading client form data...";
             const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
             if (error) {
-
+              vm.errorOccurred = true;
+              vm.errorText = "Failed to load form data: " + error;
             } else {
               vm.form.data = clientFormData.data;
               for (const [key, value] of Object.entries(clientFormData.data)) {
@@ -302,6 +322,8 @@ export default {
           });
         } catch (err) {
           console.log("Failed to render form %o", err);
+          vm.errorOccurred = true;
+          vm.errorText = "Failed to render form: " + err;
         }
 
 
@@ -326,21 +348,43 @@ export default {
       };
     },
     async autoSave() {
-      const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
-      if (error) {
-        console.error(error);
-      } else {
-        // todo - save indicator?
-        console.log("Saved form %o", response);
+      this.saving = true;
+
+      let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
+
+      try {
+        const [error, response] = await updateForm(csNumber, formId, this.autoSaveData);
+        if (error) {
+
+          console.error(error);
+          this.errorOccurred = true;
+          this.errorText = "Failed to save form: " + err;
+        } 
+      } catch (err) {
+        console.error("Saving failed %o", err);
+      } finally {
+        this.saving = false;
       }
     },
+    navToSectionAndQuestion(section: number, question: number) {
+      console.log("Navigating %d %d", section, question);
+      this.parentNavMoveToNext = section;
+      this.currentSection = section;
+      this.currentQuestion = question;
+      this.hideSectionsExceptCurrent(section);
+    },
+
     async handleSaveContinue(continueToNextSection) {
-      const [error, response] = await updateForm(this.csNumber, this.formId, this.form.data);
-      if (error) {
-        console.error(error);
-      } else {
-        console.log("Saved form %o", response);
-      }
+
+      let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
+      // const [error, response] = await updateForm(csNumber, formId, this.form.data);
+      // if (error) {
+      //   console.error(error);
+      // } else {
+      //   console.log("Saved form %o", response);
+      // }
 
       // if continueToNextSection is true and not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
@@ -355,13 +399,34 @@ export default {
       console.log('Print Form.')
     },
     hideSectionsExceptCurrent(sectionIdx) {
+      let formId = this.$route.params.formID;
+      let csNumber = this.$route.params.csNumber;
+      let vm = this;
+
       // hide all non-selected sections
       this.form.components.forEach(sectionComponent => {
+
+        vm.displaySummary = false;
+
+
         let sectionNumber = Number.parseInt(sectionComponent.key.substr(1, 2)) - 1;
         if (sectionNumber !== sectionIdx) {
           sectionComponent.element.setAttribute('style', 'display:none');
         } else {
           sectionComponent.element.setAttribute('style', 'display:block');
+
+          // see if this section is the summary section
+          if (sectionComponent.component && sectionComponent.component.properties) {
+            // is this a summary
+            if (sectionComponent.component.properties['summary']) {
+              sectionComponent.element.setAttribute('style', 'display:none');
+
+
+              vm.showSummaryCounter++;
+              console.log("Showing summary details %d", vm.showSummaryCounter);
+              vm.displaySummary = true;
+            }
+          }
         }
       });
     },
@@ -380,10 +445,10 @@ export default {
       this.hideSectionsExceptCurrent(parentNavCurLocationFromChild);
 
       this.parentNavCurLocation = parentNavCurLocationFromChild;
-      if (parentNavCurLocationFromChild == this.totalNumParentNav - 1) {
-        this.btnSaveContinueText = "Submit Form";
+      if (parentNavCurLocationFromChild == this.totalNumParentNav) {
+        this.btnSaveContinueText = "Complete";
       } else {
-        this.btnSaveContinueText = "Save and Continue";
+        this.btnSaveContinueText = "Continue";
       }
     }
   }
