@@ -138,6 +138,11 @@ public interface ObridgeClientService {
     String getClientFormAnswersSummary(@PathParam("clientNumber") String clientNumber,
                                 @PathParam("clientFormId") BigDecimal clientFormId);
 
+    @GET
+    @Path("forms/client/summary/{clientNumber}/{clientFormId}")
+    String getClientFormSummary(@PathParam("clientNumber") String clientNumber,
+                                       @PathParam("clientFormId") BigDecimal clientFormId);
+
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}")
@@ -177,9 +182,7 @@ public interface ObridgeClientService {
     @Path("/trend/client/{csNumber}/{reportType}/factors")
     List<LabelValuePair> getClientFormFactors(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
 
-    @GET
-    @Path("/trend/client/{csNumber}/{reportType}/data")
-    ChartDataSet getClientChartData(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
+
 
     @GET
     @Path("/forms/{formId}")
@@ -197,5 +200,15 @@ public interface ObridgeClientService {
                                        @QueryParam("latestOnly") boolean latestOnly);
 
 
+    @GET
+    @Path("/trend/types")
+    List<TrendAnalysisConfig> getTrendTypes();
 
+    @GET
+    @Path("/trend/{type}/factors")
+    List<LabelValuePair> getTrendFactors(@PathParam("type") String type);
+
+    @POST
+    @Path("/trend/client/data")
+    TrendFormData getClientTrendData(@RequestBody TrendFilterInput input);
 }

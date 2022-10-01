@@ -1,15 +1,14 @@
 <template>
   <div class="container panel">
 
-    <div v-if="!factorsSelected" class="inactive-banner justify-content-center pt-5 text-center">
+    <div v-if="!chartReady" class="inactive-banner justify-content-center pt-5 text-center">
       <h1><b>No Factors Selected</b></h1>
       <p />
       <p>Please select an item(s) from the "Factor View" dropdown menu</p>
     </div>
-    <div class="chart mb-4" :class="[ factorsSelected  ? 'chartActive' : 'chartInactive' ]">
+    <div class="chart mb-4" :class="[ chartReady  ? 'chartActive' : 'chartInactive' ]">
       <canvas id="justiceChart" style="z-index: 1;"></canvas>
     </div>
-    {{ factors }}
 
   </div>
 </template>
@@ -20,13 +19,26 @@ import { Chart, registerables } from 'chart.js';
 import axios from "axios";
 import { trendStore } from '@/stores/trendstore';
 import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
-
+import { getChartData } from "@/components/form.api";
 export default {
   name: "TrendChart",
   data() {
     return {
       chartData: [],
-      factorsSelected: false
+      chartReady: false,
+      inputFilter: {
+        clientNumber: null,
+        startDate: null,
+        endDate: null,
+        factors: [],
+        chartType: null,
+      }
+    }
+  },
+  setup() {
+    const store = trendStore()
+    return {
+      store,
     }
   },
   computed: {
@@ -35,11 +47,24 @@ export default {
   created() {
 
   },
+  beforeUnmount() {
+    debugger;
+    let tooltipEl = document.getElementById('chartjs-tooltip');
+    tooltipEl.remove();
+  },
+
   mounted() {
     let ctx = document.getElementById('justiceChart');
-
+    let csNumber = this.$route.params.csNumber;
+    this.inputFilter.clientNumber = csNumber;
     this.trendStore.$subscribe((mutation, state) => {
-      console.log("Mutation %o %o", mutation, state);
+      if (mutation.payload['factors']) {
+        this.inputFilter.factors = mutation.payload.factors;
+      }
+      if (mutation.payload['chartType']) {
+        this.inputFilter.chartType = mutation.payload.chartType;
+      }
+      this.refreshChart();
     });
 
     const linePlugin = {
@@ -114,6 +139,7 @@ export default {
       lineAtIndex: [2, 4, 8],
       options: {
         responsive: true,
+        spanGaps: false,
         datasets: {
           line: 5
         },
@@ -289,50 +315,51 @@ export default {
   updated() {
 
   },
-  watch: {
-    factors(newValue) {
-        alert('factor change ' + newValue);
-        // this.refreshChart();
-    },
-    userEndDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          this.refreshChart();
-        }
-      },
-    },
-    userStartDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("Start date updated %s %s", newValue, oldValue);
-          this.refreshChart();
-        }
-      },
-    },
-    filterEndDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("End date updated %s %s", newValue, oldValue);
-          this.refreshChart();
-        }
-      },
-    },
-    advancedFilter: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("Advanced filter updated %s %s", newValue, oldValue);
-          this.toggleSelected(newValue);
-        }
-      },
-    },
+  // watch: {
+  //   factors(newValue) {
+  //     console.log("FACTORS!!");
+  //       alert('factor change ' + newValue);
+  //       // this.refreshChart();
+  //   },
+  //   userEndDate: {
+  //     handler: function (newValue, oldValue) {
+  //       if (oldValue !== newValue) {
+  //         this.refreshChart();
+  //       }
+  //     },
+  //   },
+  //   userStartDate: {
+  //     handler: function (newValue, oldValue) {
+  //       if (oldValue !== newValue) {
+  //         console.log("Start date updated %s %s", newValue, oldValue);
+  //         this.refreshChart();
+  //       }
+  //     },
+  //   },
+  //   filterEndDate: {
+  //     handler: function (newValue, oldValue) {
+  //       if (oldValue !== newValue) {
+  //         console.log("End date updated %s %s", newValue, oldValue);
+  //         this.refreshChart();
+  //       }
+  //     },
+  //   },
+  //   advancedFilter: {
+  //     handler: function (newValue, oldValue) {
+  //       if (oldValue !== newValue) {
+  //         console.log("Advanced filter updated %s %s", newValue, oldValue);
+  //         this.toggleSelected(newValue);
+  //       }
+  //     },
+  //   },
 
-    period: {
-      handler: function (newValue, oldValue) {
-        console.log("Period updated!! %s %s", newValue, oldValue);
-        this.refreshChart();
-      },
-    }
-  },
+  //   period: {
+  //     handler: function (newValue, oldValue) {
+  //       console.log("Period updated!! %s %s", newValue, oldValue);
+  //       this.refreshChart();
+  //     },
+  //   }
+  // },
   methods: {
 
     toggleSelected(newValue) {
@@ -415,8 +442,20 @@ export default {
       chart.update();
 
     },
-    refreshChart() {
-      console.log("RefreshChart() called");
+    async refreshChart() {
+      this.chartReady = false;
+
+      if (this.inputFilter.factors.length > 0 && this.inputFilter.chartType && this.inputFilter.clientNumber) {
+        console.log("RefreshChart() called %o", this.inputFilter);
+
+        const [error, data] = await getChartData(this.inputFilter);
+        if (error) {
+          console.error(error);
+        } else {
+          console.log("Got chart data %o", data);
+          this.updateChart(data);
+        }
+      }
       // if (this.factors) {
       //   console.log("Factors %o", this.factors);
       //   axios
@@ -443,11 +482,10 @@ export default {
       console.log("ResponseData %o", responseData);
       let xSeries = responseData.dataLabels;
       // update start and end dates
-      this.$store.commit('updateStartAndEndDateLimits', [xSeries[0], xSeries[xSeries.length - 1]]);
-      this.$store.commit('updateStartAndEndDate', [xSeries[0], xSeries[xSeries.length - 1]]);
-      this.$store.commit('updateInterventionCount', responseData.interventionCount);
-      this.$store.commit('updateCommentCount', responseData.commentCount);
-      this.$store.commit('updateAdvancedFilterOptions', responseData.advancedFilterOptions);
+      // this.store.commit('updateStartAndEndDateLimits', [xSeries[0], xSeries[xSeries.length - 1]]);
+      // this.store.commit('updateStartAndEndDate', [xSeries[0], xSeries[xSeries.length - 1]]);
+      // this.store.commit('updateInterventionCount', responseData.interventionCount);
+      // this.store.commit('updateCommentCount', responseData.commentCount);
 
 
       const data = {
@@ -456,6 +494,7 @@ export default {
       };
       chart.data = data;
       chart.update();
+      this.chartReady = true;
     }
   }
 }

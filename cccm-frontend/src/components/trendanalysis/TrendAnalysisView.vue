@@ -25,6 +25,7 @@ import {formSearch} from "@/components/form.api";
 
 export default {
   name: "TrendAnalysisView",
+  
   data() {
     return {
       currentPath: window.location.hash,
@@ -58,7 +59,6 @@ export default {
   },
   mounted() {
     // dummy list of report types
-    formSearch()
 
 
   }, components: {
@@ -69,16 +69,7 @@ export default {
     ChartFilter,
   },
   methods: {
-    getSampleForm(formName) {
-      console.log("Getting form %s", formName);
-      axios
-          .get('http://localhost:8888/client/form/' + formName)
-          .then((response) => {
-            this.form = response.data;
-            this.getFormFields();
-          });
 
-    },
     changeFactors(factors) {
       console.log("Updating factors %o %o", factors);
       this.filter.factors = factors;

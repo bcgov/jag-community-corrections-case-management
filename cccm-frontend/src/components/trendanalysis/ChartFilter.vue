@@ -1,6 +1,6 @@
 <template>
   <div data-app class="row filters p-4">
-    <v-tabs v-model="reportTab" fixed-tabs color="deep-purple accent-4"  @change="chartTypeChangeHandler">
+    <v-tabs v-model="reportTab" fixed-tabs color="deep-purple accent-4" @change="chartTypeChangeHandler">
       <v-tab v-for="item in reportTypes" :key="item.tab">
         {{ item.tab }}
       </v-tab>
@@ -8,11 +8,11 @@
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Date Range</div>
       <div class="d-flex justify-content-evenly pb-3">
-        <input id="startDate"  v-model="filter.startDate" @change="changeStartDate"
-          class="form-control ms-3 me-3" type="date" />
+        <input id="startDate" v-model="filter.startDate" @change="changeStartDate" class="form-control ms-3 me-3"
+          type="date" />
         to
-        <input id="endDate"  v-model="filter.endDate" @change="changeEndDate"
-          class="form-control ms-3 me-3" type="date" />
+        <input id="endDate" v-model="filter.endDate" @change="changeEndDate" class="form-control ms-3 me-3"
+          type="date" />
       </div>
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
@@ -38,11 +38,11 @@
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
 
-      <v-select v-model="filter.factors"       item-text="label"
-          item-value="value" :items="factorOptions"  @blur="changeFactors()"
-        :menu-props="{ maxHeight: '400' }" label="Select" multiple hint="Select one or more factors" persistent-hint>
+      <v-select v-model="filter.factors" item-text="label" item-value="value" :items="factorOptions"
+        @blur="changeFactors()" :menu-props="{ maxHeight: '400' }" label="Select" multiple
+        hint="Select one or more factors" persistent-hint>
       </v-select>
-<!-- 
+      <!-- 
       <v-select v-model="filter.factors"       item-text="label"
           item-value="value" :items="factorOptions"  @close="changeFactors()" @remove="removeFactor"
         :menu-props="{ maxHeight: '400' }" label="Select" multiple hint="Select one or more factors" persistent-hint>
@@ -74,13 +74,13 @@
 <script>
 
 import { trendStore } from '@/stores/trendstore';
-import { mapStores,mapState,mapWritableState } from "pinia/dist/pinia";
-import { getClientForms, getClientFormFactors } from "@/components/form.api";
+import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
+import { getClientForms, getFormFactors, getTrendChartTypes } from "@/components/form.api";
 
 
 export default {
   name: "ChartFilter",
-  components: {  },
+  components: {},
   setup() {
     const store = trendStore()
     return {
@@ -90,21 +90,15 @@ export default {
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapState(trendStore,['factors','minStartDate','maxEndDate','advancedFilterOptions','startDate'])
+    ...mapState(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate'])
   },
   data() {
     return {
       expanded: null,
       factorOptions: [],
       reportTypes: [
-        { tab: 'SARA: Spousal Assualt History', content: 'sara-ah' },
-        { tab: 'SARA: Psychosocial Adjustment', content: 'sara-pa' },
-        { tab: 'CRNA: Overall Trends', content: 'crna-ot' },
-        { tab: 'CRNA: Supervision Rating Trends', content: 'crna-rt' },
-        { tab: 'Intervention Summary', content: 'is' },
-        { tab: 'Supversivion Rating', content: 'sr' },
       ],
-      reportTab:0,
+      reportTab: 0,
       filter: {
         factors: [],
         periods: 'allPeriods',
@@ -118,7 +112,10 @@ export default {
   },
   props: {},
   mounted() {
-    this.getFormFactors();
+    this.getChartTypes().then(() => {
+
+      this.getFormFactors();
+    });
 
   },
   updated() {
@@ -166,7 +163,9 @@ export default {
   },
   methods: {
     chartTypeChangeHandler() {
-        this.getFormFactors();
+
+      this.getFormFactors();
+
     },
     getMinStart() {
       return this.minStartDate;
@@ -177,10 +176,23 @@ export default {
     datesChanged() {
 
     },
+    async getChartTypes() {
+      const [error, data] = await getTrendChartTypes();
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Got chart types %o", data);
+        data.forEach(type => {
+          console.log("Add type %o", type);
+
+          this.reportTypes.push({ tab: type.description, content: type.type });
+        });
+      }
+    },
     async getFormFactors() {
-      let clientNumber = this.$route.params.csNumber;
-      let reportType = this.reportTypes[this.reportTab].content;
-      const [error, data] = await getClientFormFactors( clientNumber, reportType);
+      let chartType = this.reportTypes[this.reportTab].content;
+      this.store.$patch({ chartType: chartType })
+      const [error, data] = await getFormFactors(chartType);
       if (error) {
         console.error(error);
       } else {
@@ -212,7 +224,7 @@ export default {
       // eslint-disable-next-line no-debugger
       console.log("Filter updating factors %o", this.filter.factors);
       //  this.trendstore.commit('updateFactors', this.filter.factors);
-       this.store.$patch({ factors: this.filter.factors })
+      this.store.$patch({ factors: this.filter.factors })
 
     },
     changePeriods() {

@@ -56,6 +56,8 @@ public interface ClientDataService {
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
 
+    ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber);
+
     /**
      * Get all client form answers for a client form and section sequence (.e. S03 )
      * @param clientNumber client csNumber
@@ -83,13 +85,6 @@ public interface ClientDataService {
      */
     List<LabelValuePair> getClientFormFactors( String reportType,  String csNumber);
 
-    /**
-     * Get chart data for a given report type and csNumber
-     * @param reportType
-     * @param csNumber
-     * @return {@link ChartDataSet}
-     */
-    ChartDataSet getClientChartData(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
 
 
     /**

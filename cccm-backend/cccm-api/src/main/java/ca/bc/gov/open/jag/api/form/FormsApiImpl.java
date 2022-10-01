@@ -84,6 +84,14 @@ public class FormsApiImpl implements FormsApi {
         return clientDataService.clientFormSearch(csNumber, currentPeriod, formTypeCd);
     }
 
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public ClientFormSummary getClientFormSummaryUsingGET(BigDecimal clientFormId, String clientNumber) {
+        return clientDataService.getClientFormSummary(clientFormId, clientNumber);
+    }
+
     @Override
     @Transactional
     @RolesAllowed("form-view")

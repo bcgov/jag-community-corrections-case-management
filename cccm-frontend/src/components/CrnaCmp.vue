@@ -1,15 +1,7 @@
 <template>
   <div data-app>
-    <v-btn
-      id="id_modal_createSARAForm"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <v-dialog
-        v-model="dialog"
-        persistent
-        max-width="550"
-      >
+    <v-btn id="id_modal_createSARAForm" v-show=false @click.stop="dialog = true"></v-btn>
+    <v-dialog v-model="dialog" persistent max-width="550">
       <v-card>
         <v-card-title class="text-h5">
           Are you sure you want to create SARA form?
@@ -18,17 +10,11 @@
           <br><br>
         </v-card-text>
         <v-card-actions>
-          <v-btn
-            @click="dialog = false"
-          >
-          No, I don't want to create
+          <v-btn @click="dialog = false">
+            No, I don't want to create
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            dark
-            @click="handleCreateSARAFormBtnClick"
-          >
+          <v-btn color="primary" dark @click="handleCreateSARAFormBtnClick">
             Yes, continue
           </v-btn>
         </v-card-actions>
@@ -36,13 +22,10 @@
     </v-dialog>
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.tab" > 
+        <v-tab v-for="item in items" :key="item.tab">
           <span v-if="item.id === 'cp'">{{ item.tab }}</span>
           <div v-if="item.id === 'saraBtn'" class="p-4">
-            <v-btn
-              v-show=true
-              @click.stop="createSARA"
-            ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
+            <v-btn v-show=true @click.stop="createSARA"><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
         </v-tab>
       </v-tabs>
@@ -61,7 +44,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import CrnaCmpForm from "@/components/crna-cmp/crnaCmpForm.vue";
-import { createForm } from "@/components/form.api";
+import { getFormDetails, createForm, getFormSummaries } from "@/components/form.api";
 
 export default {
   name: 'CRNACMP',
@@ -71,6 +54,7 @@ export default {
       newCreatedFormId: 0,
       clientNum: '',
       current_tab: 'tab-cp',
+      formData: {},
       items: [
         { tab: 'CRNA-CMP', id: 'cp' },
         { tab: '', id: 'saraBtn' }
@@ -78,24 +62,29 @@ export default {
       dialog: false,
     }
   },
-  mounted(){
+  mounted() {
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
   },
   methods: {
     async createFormAPI() {
-      const [error, response] = await createForm(this.formId);
+      // get latest form version
+      const [err, formInfo] = await getFormSummaries('SARA', true);
+      this.formData.clientNumber = "00142091";
+      this.formData.formTypeId = formInfo[0].id;
+
+      const [error, formId] = await createForm(this.formData);
       if (error) {
         console.error(error);
-      } 
-      newCreatedFormId = response.formID;
+      }
+      return formId;
     },
-    handleCreateSARAFormBtnClick() {
-      this.createFormAPI();
+    async handleCreateSARAFormBtnClick() {
+     let newFormId =  await this.createFormAPI();
       this.$router.push({
         name: 'saracmp',
         params: {
-          formID: this.newCreatedFormId,
+          formID: newFormId,
           csNumber: this.clientNum
         }
       });

@@ -88,6 +88,7 @@ export async function getFormSummary(clientNum: string, formId: number) {
 // function to fetch the form details
 export async function getFormDetails(clientNum: String, formId: number) {
     try {
+        debugger;
         const { data } = await axiosClient.get(`/forms/client/json/${clientNum}/${formId}`, {
             params: {
                 includeOptionValues: true
@@ -307,6 +308,9 @@ export async function dashboardSupervisorSearch(supervisorID: String) {
     }
 }
 
+
+
+
 // PO dashboard search
 export async function dashboardPOSearch(poID: String) {
     try{
@@ -392,11 +396,32 @@ export async function getFormSummaries( formType: String, latestOnly: boolean) {
 //-------------------------------------
 // Trend analysis
 //-------------------------------------
-export async function getClientFormFactors( clientNumber:number, reportType: string) {
+export async function getFormFactors( reportType: string) {
     try {
-        const { data} = await axiosClient.get('/trend/client/' + clientNumber + '/' + reportType + '/factors');
+        const { data} = await axiosClient.get('/trend/' + reportType + '/factors');
         return [null,data];
     }catch (error) {
+        return [error];
+    }
+}
+
+export async function getChartData(payload: Object) {
+    try{
+        const { data } = await axiosClient.post('/trend/client/data', payload);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+/**
+ * Get available chart types
+ */
+ export async function getTrendChartTypes() {
+    try{
+        const { data } = await axiosClient.get('/trend/types');
+        return [null, data];
+    } catch (error) {
         return [error];
     }
 }

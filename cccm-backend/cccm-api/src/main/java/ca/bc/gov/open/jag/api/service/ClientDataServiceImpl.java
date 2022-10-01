@@ -158,6 +158,12 @@ public class ClientDataServiceImpl implements ClientDataService {
         return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
     }
 
+
+    @Override
+    public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber) {
+        return null;
+    }
+
     @Override
     public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues) {
         log.debug("Saving client form answers {}", clientFormId);
@@ -199,10 +205,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         return obridgeClientService.getClientFormFactors(reportType, csNumber);
     }
 
-    @Override
-    public ChartDataSet getClientChartData(String reportType, String csNumber) {
-        return obridgeClientService.getClientChartData(reportType, csNumber);
-    }
 
     @Override
     public List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput) {

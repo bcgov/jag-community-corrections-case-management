@@ -9,6 +9,7 @@ export const trendStore = defineStore('trend', {
         userStartDate: null,
         userEndDate: null,
         minStartDate: null,
+        chartType: null,
         maxEndDate: null,
         interventionCount: 0,
         commentCount: 0,
@@ -72,6 +73,9 @@ export const trendStore = defineStore('trend', {
         },
         updateInterventionCount(state, count) {
             state.interventionCount = count;
+        },
+        updateChartType(state, chartType) {
+            state.chartType = chartType;
         },
         updateAdvancedFilter(state, advancedFilter) {
             state.advancedFilter = advancedFilter;

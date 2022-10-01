@@ -397,6 +397,7 @@ paths:
         '404':
           description: Not Found
           content: {}
+
   /forms/client/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
@@ -483,6 +484,7 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: answerPayload
+
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}:
     get:
       tags:
@@ -525,6 +527,7 @@ paths:
         404:
           description: Not Found
           content: {}
+
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}:
     get:
       tags:
@@ -623,57 +626,41 @@ paths:
   #  TREND ANALYSIS
   #----------------------------------------------------------------------------------------
 
-  /trend/client/{csNumber}/{reportType}/data:
+
+  /trend/types:
     get:
       tags:
-        - client-form-trend-controller
-      summary: getChartData
-      operationId: getChartDataUsingGET
-      parameters:
-        - name: csNumber
-          in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
-        - name: reportType
-          in: path
-          description: reportType
-          required: true
-          schema:
-            type: string
+        - trend-controller
+      summary: getConfigOptions
+      operationId: getConfigOptionsUsingGET
       responses:
         200:
           description: OK
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/ChartDataSet'
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrendAnalysisConfig'
         401:
           description: Unauthorized
-          content: { }
+          content: {}
         403:
           description: Forbidden
-          content: { }
+          content: {}
         404:
           description: Not Found
-          content: { }
-  /trend/client/{csNumber}/{reportType}/factors:
+          content: {}
+  /trend/{type}/factors:
     get:
       tags:
-        - client-form-trend-controller
-      summary: getClientFormFactors
-      operationId: getClientFormFactorsUsingGET
+        - trend-controller
+      summary: getTrendFactors
+      operationId: getTrendFactorsUsingGET
       parameters:
-        - name: csNumber
+        - name: type
           in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
-        - name: reportType
-          in: path
-          description: reportType
+          description: type
           required: true
           schema:
             type: string
@@ -688,13 +675,47 @@ paths:
                   $ref: '#/components/schemas/LabelValuePair'
         401:
           description: Unauthorized
-          content: { }
+          content: {}
         403:
           description: Forbidden
-          content: { }
+          content: {}
         404:
           description: Not Found
-          content: { }
+          content: {}
+
+  /trend/client/data:
+    post:
+      tags:
+        - client-form-trend-controller
+      summary: getChartData
+      operationId: getChartDataUsingPOST
+      requestBody:
+        description: trendInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrendFilterInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/TrendFormData'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: trendInput
 
   #-------------------------------------------------------------------------------------
   #        INTERVENTIONS AND COMMENTS
@@ -787,6 +808,43 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: searchInput
+
+
+  /forms/client/summary/{clientNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: Get summary for a client form
+      operationId: getClientFormSummaryUsingGET
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNumber
+          in: path
+          description: clientNumber
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientFormSummary'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
 
   /forms/client/responsivities/{csNumber}:
     post:
@@ -1967,28 +2025,6 @@ components:
           type: string
         value:
           type: string
-    ChartDataSet:
-      title: ChartDataSet
-      type: object
-      properties:
-        borderColor:
-          type: string
-        dataList:
-          type: array
-          items:
-            type: number
-            format: double
-        fill:
-          type: boolean
-        label:
-          type: string
-        lineTension:
-          type: number
-          format: double
-        pointBackgroundColor:
-          type: string
-        source:
-          type: string
 
     ClientSearchInput:
       title: ClientSearchInput
@@ -2037,6 +2073,54 @@ components:
           type: string
         section:
           type: string
+    ChartDataSet:
+      title: ChartDataSet
+      type: object
+      properties:
+        borderColor:
+          type: string
+        data:
+          type: array
+          items:
+            type: number
+            format: double
+        fill:
+          type: boolean
+        label:
+          type: string
+        lineTension:
+          type: number
+          format: double
+        pointBackgroundColor:
+          type: string
+        source:
+          type: string
+
+    TrendFilterInput:
+      title: TrendFilterInput
+      type: object
+      properties:
+        chartType:
+          type: string
+        clientId:
+          type: number
+        clientNumber:
+          type: string
+        endDate:
+          type: string
+          format: date
+        factors:
+          type: array
+          items:
+            type: string
+        formModuleType:
+          type: string
+        formTypeId:
+          type: number
+        startDate:
+          type: string
+          format: date
+
 
     Responsivity:
       title: Responsivity
@@ -2070,3 +2154,47 @@ components:
         updatedDate:
           type: string
           format: date
+
+    FactorConfig:
+      title: FactorConfig
+      type: object
+      properties:
+        id:
+          type: number
+        keys:
+          type: array
+          items:
+            type: string
+
+    TrendFormData:
+      title: TrendFormData
+      type: object
+      properties:
+        dataLabels:
+          type: array
+          items:
+            type: string
+        datasets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChartDataSet'
+        formType:
+          type: string
+
+    TrendAnalysisConfig:
+      title: TrendAnalysisConfig
+      type: object
+      properties:
+        description:
+          type: string
+        factors:
+          $ref: '#/components/schemas/FactorConfig'
+        type:
+          type: string
+
+    View:
+      title: View
+      type: object
+      properties:
+        contentType:
+          type: string

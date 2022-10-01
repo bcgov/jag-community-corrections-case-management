@@ -65,7 +65,7 @@ import FormioButton from "@/components/common/FormioButtons.vue";
 import { Formio } from "formiojs";
 
 import sampleFormData from './sampleData/sampleFormData.json';
-import FormSummary from '../FormSummary.vue';
+import FormSummary from '../forms/FormSummary.vue';
 
 export default {
   name: 'crnaForm',
@@ -112,10 +112,12 @@ export default {
     }
   },
   mounted(){
+    this.formId = this.$route.params.formID;
+
     if (this.formId != '') {
       this.formId = Number(this.formId);
       this.getFormData()
-    }
+     }
   },
   methods: {
 
@@ -127,13 +129,11 @@ export default {
       let vm = this;
 
       let autoSaveData = {};
-      console.log("CRNA formDetails: ", formId);
       const [error, response] = await getFormDetails("00142091", formId);
       if (error) {
         console.error(error);
 
       } else {
-        console.log("Got form %o", response);
         try {
 
 
