@@ -1,39 +1,5 @@
 <template>
   <div data-app class="sara-cmp-form">
-    <v-btn
-      id="id_modal_deleteForm"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <v-dialog
-        v-model="dialog"
-        persistent
-        max-width="550"
-      >
-      <v-card>
-        <v-card-title class="text-h5">
-          Are you sure you want to delete this form?
-        </v-card-title>
-        <v-card-text>
-          This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            @click="dialog = false"
-          >
-          No, I don't want to delete
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="#f81e41"
-            dark
-            @click="handleDeleteFormBtnClick"
-          >
-            Yes, delete this form
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <div class="main">
       <div class="wrap">
         <div class="mainRow">
@@ -99,28 +65,23 @@ export default {
       data_buttonGroup: {},
       initData: {},
       dataMap: {},
-      dialog: false,
       baseURL: import.meta.env.BASE_URL,
       clientNum: '',
       formId: '',
+      selectedFormTypeValue: [],
     }
   },
   mounted(){
     this.clientNum = this.$route.params.csNumber;
     this.formId= this.$route.params.formID;
     console.log("clientNum, formId, baseURL: ", this.clientNum, this.formId, this.baseURL);
+    this.selectedFormTypeValue.push("sara");
     this.getFormData();
   },
   methods: {
-
-
-
     async getFormData() {
       const [summaryError, summaries] = await getFormSummaries('SARA', true);
-
-
       console.log("Got summaries %o", summaries);
-
       let formId= this.$route.params.formID;
       const [error, response] = await getFormDetails(formId);
       if (error) {
@@ -185,24 +146,7 @@ export default {
       console.log('Print Form.')
     },
     handleCancelForm() {
-      console.log("Cancel Form");
-      let modal = document.getElementById("id_modal_deleteForm");
-      if (modal != null) {
-        modal.click();
-      }
-    },
-    handleDeleteFormBtnClick() {
-      this.dialog = false;
-      //this.deleteForm();
-
-      //Redirect User back to clientRecord.RNAList
-      this.$router.push({
-        name: 'clientrecord',
-        params: {
-          clientNum: this.clientNum,
-          tabIndex: 'tab-rl'
-        }
-      });
+      this.$emit('cancelFormClicked');
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;

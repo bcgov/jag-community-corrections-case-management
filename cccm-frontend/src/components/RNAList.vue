@@ -115,7 +115,7 @@
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
-            <a href="#" @click="formView(item.id, item.module)" title="View form">
+            <a href="#" @click="formView(item.id, item.module, item.relatedFormTypeId)" title="View form">
               <i class="fa fa-eye"></i>
             </a>
             &nbsp;&nbsp;
@@ -303,7 +303,6 @@ export default {
       this.formTypes.unshift(this.selectedFormTypes);
     },
     async createFormAPI() {
-
       // get latest form version
       const [err, formInfo] = await getFormSummaries('CRNA', true);
       this.formData.clientNumber = "00142091";
@@ -346,7 +345,7 @@ export default {
             "Supervision": null
           },
           "reassessment": false,
-          "relatedFormTypeId": null,
+          "relatedFormTypeId": 10000,
           "responsivities": [],
           "riskNeedsAssessment": false,
           "status": "Incomplete",
@@ -782,30 +781,25 @@ export default {
         console.error(error);
       }
     },
-    formView( formID, formType) {
+    formView( formID, formType, relatedFormTypeId) {
       if (formID != null) {
         formID = formID.toString();
       }
-      if (formType === 'SARA') {
-        this.$router.push({
-          name: 'saracmp',
-          params: {
-            formID: formID,
-            csNumber: this.clientNum
-          }
-        });
-
-      } else if (formType === 'CRNA') {
-        this.$router.push({
-          name: 'crnacmp',
-          params: {
-            formID: formID,
-            csNumber: this.clientNum
-          }
-        });
-      } else {
-        console.error("Form type not supported");
+      let linkedSara = false;
+      if (formType === 'CRNA') {
+        if (relatedFormTypeId != null) {
+          linkedSara = true;
+        }
       }
+      this.$router.push({
+        name: "cmpform",
+        params: {
+          formType: formType,
+          formID: formID,
+          csNumber: this.clientNum,
+          linkedSara: linkedSara
+        }
+      });
     },
     async formClone(formID) {
       console.log("formClone", formID);
@@ -819,16 +813,17 @@ export default {
       this.createFormAPI();
       //Redirect User to the newly created form
       console.log("newCreatedFormID: ", this.newCreatedFormId);
-
-      let nextView = "crnacmp";
+      let formType = "CRNA";
       if (this.selectedFormTypeValue.includes("sara")) {
-        nextView = "saracmp";
+        formType = "SARA";
       }
       this.$router.push({
-        name: nextView,
+        name: "cmpform",
         params: {
+          formType: formType,
           formID: this.newCreatedFormId,
-          csNumber: this.clientNum
+          csNumber: this.clientNum,
+          linkedSara: false
         }
       });
     },

@@ -265,6 +265,7 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
 .sara-cmp-form .divTableRowNav {
     white-space: nowrap;
 }
+
 .sara-cmp-form .menuR2 {
     overflow: scroll!important;
     -ms-overflow-style: none;  /* IE and Edge */
