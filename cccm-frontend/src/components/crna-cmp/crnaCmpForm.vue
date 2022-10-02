@@ -1,5 +1,6 @@
 <template>
   <div class="main crna-cmp-form">
+    <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert>
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
@@ -217,6 +218,7 @@ export default {
       const [error, response] = await getFormDetails(this.csNumber, this.formId);
       if (error) {
         console.error(error);
+
       } else {
         this.loadingMsg = "Loading client form data...";
         this.data_formEntries = JSON.parse(response);
