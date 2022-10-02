@@ -10,7 +10,7 @@ import templateButtons from '@/components/common/templateButtons.json';
 export default {
   name: 'FormioButton',
   props: {
-    dataModel: {}
+    buttonType: ''
   },
   data() {
     return {
@@ -26,18 +26,60 @@ export default {
   },
   methods: {
     buildFormData() {
+      if (this.buttonType == "formButton") {
+        // set value for sidePanelSaveBtnGroupData
+        this.dataModel = [
+          {
+              "action": "event",
+              "event": "evt_save",
+              "key": "save_contine",
+              "label": "Save and Continue",
+              "toggledLabel": "Submit",
+              "theme": "primary"
+          },
+          {
+              "action": "event",
+              "event": "evt_cancel",
+              "key": "add_cancel",
+              "label": "Delete Form",
+              "theme": "danger"
+          }
+        ];
+      };
+
+      if (this.buttonType == "sideButton") {
+        // set value for sidePanelSaveBtnGroupData
+        this.dataModel = [
+          {
+              "action": "event",
+              "event": "evt_saveDraft",
+              "key": "add_saveDraft",
+              "label": "Save as Draft",
+              "theme": "primary"
+          },
+          {
+              "action": "event",
+              "event": "evt_print",
+              "key": "add_print",
+              "label": "Print Form",
+              "theme": "primary"
+          }
+        ];
+      }
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
 
-      tmpJSONStr = tmpJSONStr.replaceAll('${label_btn_save}', this.dataModel[0].label);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_btn_save}', this.dataModel[0].key);
-      tmpJSONStr = tmpJSONStr.replaceAll('${evt_btn_save}', this.dataModel[0].event);
-      tmpJSONStr = tmpJSONStr.replaceAll('${theme_save}', this.dataModel[0].theme);
+      if (this.dataModel != null && this.dataModel.length > 0) {
+        tmpJSONStr = tmpJSONStr.replaceAll('${label_btn_primary}', this.dataModel[0].label);
+        tmpJSONStr = tmpJSONStr.replaceAll('${key_btn_primary}', this.dataModel[0].key);
+        tmpJSONStr = tmpJSONStr.replaceAll('${evt_btn_primary}', this.dataModel[0].event);
+        tmpJSONStr = tmpJSONStr.replaceAll('${theme_primary}', this.dataModel[0].theme);
 
-      tmpJSONStr = tmpJSONStr.replaceAll('${label_btn_other}', this.dataModel[1].label);
-      tmpJSONStr = tmpJSONStr.replaceAll('${key_btn_other}', this.dataModel[1].key);
-      tmpJSONStr = tmpJSONStr.replaceAll('${evt_btn_other}', this.dataModel[1].event);
-      tmpJSONStr = tmpJSONStr.replaceAll('${theme_other}', this.dataModel[1].theme);
+        tmpJSONStr = tmpJSONStr.replaceAll('${label_btn_other}', this.dataModel[1].label);
+        tmpJSONStr = tmpJSONStr.replaceAll('${key_btn_other}', this.dataModel[1].key);
+        tmpJSONStr = tmpJSONStr.replaceAll('${evt_btn_other}', this.dataModel[1].event);
+        tmpJSONStr = tmpJSONStr.replaceAll('${theme_other}', this.dataModel[1].theme);
+      }
 
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);

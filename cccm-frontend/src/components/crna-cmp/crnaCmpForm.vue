@@ -1,57 +1,83 @@
 <template>
-    <div class="main">
-      <div class="wrap">
-        <div class="mainRow">
-          <div class="column L">
-            <div class="menu-Sticky">
-              <div class="menuR1">
-                <Form :key="componentKey" :form="data_formInfo" />
-              </div>
-              <div class="menuR2">
-                <CrnaCmpFormNavigation :key="componentKey" :dataModel="formJSONFormData" @parentNavClicked="handleNavChildCallback" :parentNavMoveToNext="parentNavMoveToNext"/>
-              </div>
+  <div class="main crna-cmp-form">
+    <div class="wrap">
+      <div class="mainRow">
+        <div class="column L">
+          <div class="menu-Sticky">
+            <div class="menuR1">
+              <FormioFormInfo :key="staticComponentKey" :dataModel="clientData" />
             </div>
-            <div class="mainContent">
-              <CrnaCmpFormDataEntry :key="componentKey" :dataModel="data_formEntries" :initData="initData" 
-                  :dataMap="formJSONFormData.dataMap" :saveBtnLabel="btnSaveContinueText" :notifySaveDraft="notifySaveDraft"
-                  @saveContinueClicked="handleSaveContinue" @cancelFormClicked="handleCancelForm"/>   
+            <div class="menuR2" v-if="!loading">
+              <CrnaCmpFormNavigation :key="componentKey" 
+                :dataModel="data_formEntries" 
+                :parentNavMoveToNext="parentNavMoveToNext"
+                @parentNavClicked="handleNavChildCallback"/>
             </div>
           </div>
-          <div class="column R">
-            <div class="R-Sticky">
-              <section class="crna-right-sticky-panel">
-                <div class="crna-right-panel-button-container">
-                  <Form :key="componentKey" :form="data_rightPanel_buttonGroup" @evt_saveDraft="handleSaveDraft" @evt_print="handlePrint" />
-                </div>
-                <div class="crna-right-panel-details">
-                  <Form :key="componentKey" :form="data_rightPanel" />
-                </div>
-              </section>
+          <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          <div :class="loading ? 'hide' : 'mainContent'">
+            <div class="mainContent">
+              <CrnaCmpFormDataEntry :key="componentKey" 
+                :dataModel="data_formEntries" 
+                :initData="formInitData" 
+                :saveBtnLabel="btnSaveContinueText" 
+                :notifySaveDraft="notifySaveDraft"
+                @saveContinueClicked="handleSaveContinue" 
+                @cancelFormClicked="handleCancelForm"/>   
+              
+              <FormioButton 
+                :buttonType="'formButton'"
+                @saveContinueClicked="handleSaveContinue"
+                @cancelFormClicked="handleCancelForm" />
             </div>
+          </div>  
+        </div>
+        <div class="column R">
+          <div class="R-Sticky">
+            <section class="crna-right-sticky-panel">
+              <div class="crna-right-panel-button-container">
+                <!--Save draft button group-->
+                <FormioButton v-if="!loading" 
+                  :buttonType="'sideButton'"
+                  @saveContinueClicked="handleSaveContinue" 
+                  @printFormClicked="handlePrintForm" />
+              </div>
+              <div class="crna-right-panel-details">
+                <FormioSidePanel :key="staticComponentKey" :dataModel="clientData" />
+              </div>
+            </section>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept } from "@/components/form.api";
+import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
 import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
 import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
-import sampleFormData from './sampleData/crnaSampleData.json';
+import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
+import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
+import FormioButton from "@/components/common/FormioButtons.vue";
 
 export default {
   name: 'crnaForm',
   components: {
     Form,
     CrnaCmpFormDataEntry,
-    CrnaCmpFormNavigation
+    CrnaCmpFormNavigation,
+    FormioSidePanel,
+    FormioFormInfo,
+    FormioButton
   },
   data() {
     return {
+      loadingMsg: "Loading form...",
+      loading: false,
       formId: -1,
       csNumber: '',
       notifySaveDraft: 0,
@@ -59,39 +85,152 @@ export default {
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
-      formJSONFormData: sampleFormData,
+      data_formEntries: {},
+      clientData: {},
+      formInitData: {},
+      dataMap: {},
       componentKey: 0,
-      data_rightPanel: {"display": "form"},
-      data_rightPanel_buttonGroup: {"display": "form"},
-      data_formEntries: {"display": "form"},
-      data_formInfo: {"display": "form"},
-      data_buttonGroup: {},
-      initData: {},
-      dataMap: {}
+      staticComponentKey: 0,
     }
   },
   mounted(){
     this.formId = this.$route.params.formID;
     this.csNumber = this.$route.params.csNumber;
+    this.clientProfileSearchAPI();
     this.getFormDetails();
   },
   methods: {
+    async clientProfileSearchAPI() {
+      // Client profile search.
+      const [error, response] = await clientProfileSearch(this.csNumber);
+      //this.clientData = response.data;
+      this.clientData = {};
+      this.clientData =
+        {
+          "clientId": "1",
+          "clientName": "Ross, Bob",
+          "clientNum": "123456780",
+          "clientAge": 44,
+          "profileClosed": false,
+          "communityAlerts": [
+            {
+              "date": "2022-01-02",
+              "comment": "Client threatened staff"
+            },
+            {
+              "date": "2022-03-02",
+              "comment": "Client brought knife to meeting"
+            },
+            {
+              "date": "2022-04-02",
+              "comment": "Client attacked staff"
+            }
+          ],
+          "outstandingWarrants": [
+            {
+              "type": "string",
+              "date": "2022-01-02",
+              "courtFile": "Client threatened staff"
+            },
+            {
+              "type": "string",
+              "date": "2022-03-02",
+              "courtFile": "Client brought knife to meeting"
+            },
+            {
+              "type": "string",
+              "date": "2022-04-02",
+              "courtFile": "Client attacked staff"
+            }
+          ],
+          "supervisionLevel": "High",
+          "birthDate": "1979-12-03",
+          "communityInformation": {
+            "communityLocation": "Victoria",
+            "status": "Active",
+            "caseManager": "Smith, Bob",
+            "secondaryManager": "Doe, Jane"
+          },
+          "orderInformation": {
+            "orders": "None",
+            "effectiveDate": "2022-03-04",
+            "expiryDate": "2022-03-05",
+            "dueDate": "2022-03-04"
+          },
+          "generalInformation": {
+            "institution": "0543- Sunshine Coast Health Centre",
+            "status": "Inactive",
+            "custody": "Warrant of commital",
+            "dischargeDate": "2022-04-03",
+            "type": "In (parole)",
+            "paroleDate": "2022-03-04"
+          },
+          "locationInformation": {
+            "internalLocation": "0543 - Sunshine Coast Health Centre",
+            "outLocation": "0543 - Sunshine Coast Health Centre",
+            "federalParole": "0101 - Victoria Corrections",
+            "outReason": "Sentence ended",
+            "warrantExpiryDate": "2022-05-04"
+          },
+          "biometric": {
+            "type": "No",
+            "status": "Inactive",
+            "eServices": "No",
+            "eReporting": "No"
+          },
+          "address": [
+            {
+              "fullAddress": "123 Hello St, Victoria BC, 123 abc",
+              "type": "Work",
+              "primary": true
+            }
+          ],
+          "designations": [
+            {
+              "type": "GEN",
+              "rating": "low"
+            },
+            {
+              "type": "SMO",
+              "rating": "high"
+            }
+          ],
+          "programs": [
+            {
+              "name": "string",
+              "status": "string",
+              "referredDate": "string",
+              "startDate": "string",
+              "outcome": "string"
+            }
+          ],
+          "sealed": "Yes",
+          "gender": "Male"
+      };
+      this.clientData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
+      this.staticComponentKey++;
+    },
     async getFormDetails() {
       // Load formio template
+      this.loading = true;
+      this.loadingMsg = "Loading form...";
       const [error, response] = await getFormDetails(this.csNumber, this.formId);
       if (error) {
         console.error(error);
       } else {
-        //this.private_process_formData(response);
-        this.data_formEntries = response;
+        this.loadingMsg = "Loading client form data...";
+        this.data_formEntries = JSON.parse(response);
+        
         // Load form data
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
         if (error) {
           console.error(error);
         } else {
-          this.initData = clientFormData;
+          this.formInitData = JSON.parse(clientFormData);
         }
       }
+      this.loading = false;
+      this.componentKey++;
     },
     async updateForm(formData) {
       let formId= this.$route.params.formID;
@@ -106,37 +245,10 @@ export default {
         this.notifySaveDraft++;
       }
     },
-    handlePrint(evt) {
+    handlePrintForm(evt) {
       if (evt != null && evt.type === 'evt_print' ) {
         console.log("handlePrint: ");
       } 
-    },
-    private_process_formData(response) {
-      //console.log("Form payload: ", response);
-      //this.formJSONFormData = response;
-      const formInfo = this.formJSONFormData.components.filter(obj => {
-        return obj.key === 'section_formInfo';
-      });
-      this.data_formInfo = formInfo[0];
-
-      const formdata = this.formJSONFormData.components.filter(obj => {
-        return obj.key === 'section_data';
-      });
-      this.data_formEntries = formdata[0];
-      //console.log("this.data_formEntries: ", this.data_formEntries);
-
-      this.data_rightPanel.components = this.formJSONFormData.components.filter(obj => {
-        return obj.key === 'section_rightpanel';
-      });
-      //console.log("this.data_rightPanel: ", this.data_rightPanel);
-
-      this.data_rightPanel_buttonGroup.components = this.formJSONFormData.components.filter(obj => {
-        return obj.key === 'buttonGroup_rightPanel';
-      });
-      
-      this.totalNumParentNav = this.data_formEntries.components.length - 1;
-      //console.log("totalNumParentNav: ", this.totalNumParentNav);
-      this.componentKey++;
     },
     handleSaveContinue(formData) {
       //console.log("formData: ", formData);
@@ -150,6 +262,7 @@ export default {
     },
     handleCancelForm() {
       console.log("Cancel Form");
+      this.$emit("cancelFormClicked");
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;

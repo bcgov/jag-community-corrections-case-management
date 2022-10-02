@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Form :key="pageKey" :form="dataModel" :submission="initData" 
+    <Form :key="pageKey" 
+      :form="dataModel" 
+      :submission="initData" 
       v-on:editGridSaveRow="handleEditGridSaveRowEvent"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent" 
@@ -21,7 +23,6 @@ export default {
   props: {
     dataModel: {},
     initData: {},
-    dataMap: {},
     saveBtnLabel: '',
     notifySaveDraft: 0,
   },
@@ -90,17 +91,17 @@ export default {
         //console.log("keys: ", keys);
 
         // look for the data key 
-        if (keys != null && keys.length > 0) {
-          for (let i = 0; i < keys.length; i++) {
-            let dataKey = this.dataMap[event.component.key + "." + keys[i]];
-            //console.log("dataKey index: ", event.component.key + "." + keys[i]);
-            // found the data key, update the initData
-            if (dataKey != null) {
-              //console.log("dataKey: ", dataKey);
-              this.initData.data[dataKey] = event.row[keys[i]];
-            }
-          }
-        }
+        // if (keys != null && keys.length > 0) {
+        //   for (let i = 0; i < keys.length; i++) {
+        //     let dataKey = this.dataMap[event.component.key + "." + keys[i]];
+        //     //console.log("dataKey index: ", event.component.key + "." + keys[i]);
+        //     // found the data key, update the initData
+        //     if (dataKey != null) {
+        //       //console.log("dataKey: ", dataKey);
+        //       this.initData.data[dataKey] = event.row[keys[i]];
+        //     }
+        //   }
+        // }
       }
       
     },
@@ -182,15 +183,15 @@ export default {
       if (theKey == null) {
         return false;
       }
-      let dataMapKeyObj = this.dataMap[theKey];
-      if (dataMapKeyObj != null) {
-        for (let i = 0; i < dataMapKeyObj.length; i++) {
-          let dataKey = dataMapKeyObj[i];
-          if (dataKey != null) {
-            return true;
-          }
-        }
-      }
+      // let dataMapKeyObj = this.dataMap[theKey];
+      // if (dataMapKeyObj != null) {
+      //   for (let i = 0; i < dataMapKeyObj.length; i++) {
+      //     let dataKey = dataMapKeyObj[i];
+      //     if (dataKey != null) {
+      //       return true;
+      //     }
+      //   }
+      // }
       return false;
     },
     private_isPartOfDatagrid(theInstance) {
@@ -246,38 +247,38 @@ export default {
 
                     // get the mapped key object
                     // sample dataMapKeyObj: ["summary_S3Q00", "S3Q00"]
-                    let dataMapKeyObj = this.dataMap[datagridKey];
-                    if (dataMapKeyObj != null) {
-                      for (let j = 0; j < dataMapKeyObj.length; j++) {
-                        //console.log("mapped datakey: ", dataMapKeyObj[j]);
-                        if (dataMapKeyObj[j] != null) {
-                          // "summary_S3Q00": [
-                          //   {
-                          //     "questionLabel": "Family Relationships",
-                          //     "interventionType": "type 1",
-                          //     "comments": "Sample comment for S0Q0",
-                          //     "interventionDescription": "some comments for S0Q0 type 1"
-                          //   },
-                          //   {
-                          //     "questionLabel": "Family Relationships",
-                          //     "interventionType": "S0Q0 type",
-                          //     "comments": "Sample comment for S0Q0",
-                          //     "interventionDescription": "some comments for S0Q0 type other"
-                          //   }
-                          // ]
-                          // Overwrite the interventionType value if interventionTypeOther is not empty
-                          //console.log("j, i, k, this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]: ", j, i, k, keys[k], this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]);
-                          if (this.initData.data[dataMapKeyObj[j]][i] == null) {
-                            this.initData.data[dataMapKeyObj[j]][i] = {};
-                          }
-                          if (keys[k] === this.CONST_INTERVENTIONTYPEOTHER && dataGridValue[i][keys[k]] != '') {
-                            this.initData.data[dataMapKeyObj[j]][i][this.CONST_INTERVENTIONTYPE]=dataGridValue[i][keys[k]];
-                          } else {
-                            this.initData.data[dataMapKeyObj[j]][i][keys[k]]=dataGridValue[i][keys[k]];
-                          }
-                        }
-                      }
-                    }
+                    // let dataMapKeyObj = this.dataMap[datagridKey];
+                    // if (dataMapKeyObj != null) {
+                    //   for (let j = 0; j < dataMapKeyObj.length; j++) {
+                    //     //console.log("mapped datakey: ", dataMapKeyObj[j]);
+                    //     if (dataMapKeyObj[j] != null) {
+                    //       // "summary_S3Q00": [
+                    //       //   {
+                    //       //     "questionLabel": "Family Relationships",
+                    //       //     "interventionType": "type 1",
+                    //       //     "comments": "Sample comment for S0Q0",
+                    //       //     "interventionDescription": "some comments for S0Q0 type 1"
+                    //       //   },
+                    //       //   {
+                    //       //     "questionLabel": "Family Relationships",
+                    //       //     "interventionType": "S0Q0 type",
+                    //       //     "comments": "Sample comment for S0Q0",
+                    //       //     "interventionDescription": "some comments for S0Q0 type other"
+                    //       //   }
+                    //       // ]
+                    //       // Overwrite the interventionType value if interventionTypeOther is not empty
+                    //       //console.log("j, i, k, this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]: ", j, i, k, keys[k], this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]);
+                    //       if (this.initData.data[dataMapKeyObj[j]][i] == null) {
+                    //         this.initData.data[dataMapKeyObj[j]][i] = {};
+                    //       }
+                    //       if (keys[k] === this.CONST_INTERVENTIONTYPEOTHER && dataGridValue[i][keys[k]] != '') {
+                    //         this.initData.data[dataMapKeyObj[j]][i][this.CONST_INTERVENTIONTYPE]=dataGridValue[i][keys[k]];
+                    //       } else {
+                    //         this.initData.data[dataMapKeyObj[j]][i][keys[k]]=dataGridValue[i][keys[k]];
+                    //       }
+                    //     }
+                    //   }
+                    // }
                   }
                 }
               }
@@ -286,24 +287,24 @@ export default {
             }
           }
         } else {
-          let dataMapKeyObj = this.dataMap[theKey];
-          // sample dataMapKeyObj: ["summary_S0Q0.radio"]
-          if (dataMapKeyObj != null) {
-            for (let i = 0; i < dataMapKeyObj.length; i++) {
-              let dataKey = dataMapKeyObj[i];
-              if (dataKey != null) {
-                //console.log("dataKey: ", dataKey);
-                // sample dataKey: "summary_S0Q0.radio"
-                let dataKeySplit = dataKey.split(".");
-                if (dataKeySplit != null && dataKeySplit.length == 2) {
-                  let sectionID = dataKeySplit[0];
-                  let questionID = dataKeySplit[1];
-                  //console.log("dataKey value: ", this.initData.data[sectionID][0][questionID]);
-                  this.initData.data[sectionID][0][questionID] = newValue;
-                }
-              }
-            }
-          }
+          // let dataMapKeyObj = this.dataMap[theKey];
+          // // sample dataMapKeyObj: ["summary_S0Q0.radio"]
+          // if (dataMapKeyObj != null) {
+          //   for (let i = 0; i < dataMapKeyObj.length; i++) {
+          //     let dataKey = dataMapKeyObj[i];
+          //     if (dataKey != null) {
+          //       //console.log("dataKey: ", dataKey);
+          //       // sample dataKey: "summary_S0Q0.radio"
+          //       let dataKeySplit = dataKey.split(".");
+          //       if (dataKeySplit != null && dataKeySplit.length == 2) {
+          //         let sectionID = dataKeySplit[0];
+          //         let questionID = dataKeySplit[1];
+          //         //console.log("dataKey value: ", this.initData.data[sectionID][0][questionID]);
+          //         this.initData.data[sectionID][0][questionID] = newValue;
+          //       }
+          //     }
+          //   }
+          // }
         }
       }
     }

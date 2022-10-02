@@ -205,7 +205,8 @@ export default {
                 let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + i + this.currentSectionChild + '"]';
                 let theQuestionPanel = document.querySelector(questionClassName);
                 if (theQuestionPanel != null) {
-                  theQuestionPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  //theQuestionPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  theQuestionPanel.scrollIntoView(false);
                 }
               }
             } else {

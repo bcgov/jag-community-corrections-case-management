@@ -1,0 +1,138 @@
+{
+  "display": "form",
+  "components": [
+    {
+			"input": false,
+			"tableView": false,
+			"title": "Right panel",
+			"key": "section_rightpanel",
+			"type": "well",
+			"collapsible": false,
+			"components": [
+				{
+					"title": "Client Details",
+					"collapsible": false,
+					"key": "key_clientDetails",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "ul",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "<li><Strong>Name:</Strong> ${name}</li><li><Strong>CS#:</Strong> ${csNumber}</li><li><Strong>Gender:</Strong> ${gender}</li> <li><Strong>Date of Birth:</Strong> ${dob}</li> <li><Strong>Location:</Strong> ${location}</li> <li><Strong>Final Order Exp. Date:</Strong> ${orderExpDate}</li> ",
+						"refreshOnChange": false,
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "Legend",
+					"collapsible": false,
+					"key": "key_legend",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "ol",
+						"attrs": [
+							{
+								"attr": "type",
+								"value": "A"
+							}
+						],
+						"content": "<li>Factor seen as an asset</li> <li>No immediate need for improvement</li> <li>Some need for improvement</li> <li>Considerable need for improvement</li> ",
+						"refreshOnChange": false,
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "Supervision Level Matrix",
+					"collapsible": false,
+					"key": "key_supervisionLevelMatrix",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "",
+						"tag": "div",
+						"content": "<table><tr><th>Rist/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
+						"refreshOnChange": false,
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					]
+				},
+				{
+					"title": "Source Contacted",
+					"collapsible": false,
+					"key": "key_sourceContacted",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "div",
+						"attrs": [
+							{
+								"attr": "",
+								"value": ""
+							}
+						],
+						"content": "{{data.key_sourceContacted_content}}",
+						"refreshOnChange": true,
+						"key": "key_sourceContacted",
+						"type": "htmlelement",
+						"input": true,
+						"tableView": false
+					  },
+					  {
+						"label": "",
+						"tableView": true,
+						"clearOnHide": false,
+						"key": "key_sourceContacted_content",
+						"type": "textfield",
+						"input": true,
+						"defaultValue": "CPIC, CORNET History, Client file, interview with mother, PSR RTCC's CSC records"
+					  },
+					  {
+						"label": "Add Source",
+						"action": "event",
+						"showValidations": false,
+						"disableOnInvalid": true,
+						"tableView": true,
+						"key": "add_source",
+						"type": "button",
+						"input": true,
+						"event": "evt_changeButtonLabel"
+					  }
+					]
+				}  
+			]
+		}
+  ]
+}

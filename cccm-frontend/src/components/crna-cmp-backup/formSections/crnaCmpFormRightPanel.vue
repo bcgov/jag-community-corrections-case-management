@@ -1,17 +1,12 @@
 <template>
   <div>
-    <div v-for="(header, indexp) in dataModel.rightPanel" 
-        :key="indexp">
-      <FormioPanel v-if="header.type === 'panel'" :dataModel="header" />
-      <FormioEditPanel v-if="header.type === 'editPanel'" :dataModel="header" />
-    </div>
+    <FormioSidePanel v-if="header.type === 'panel'" :dataModel="header" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import FormioPanel from "@/components/common/FormioPanel.vue";
-import FormioEditPanel from "@/components/common/FormioEditPanel.vue";
+import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 
 export default {
   name: 'CrnaCmpFormRightPanel',
@@ -19,7 +14,7 @@ export default {
     dataModel: {}
   },
   components: {
-    FormioPanel,
+    FormioSidePanel,
     FormioEditPanel,
   }
 }
