@@ -530,6 +530,40 @@ legend[ref="header"]{
     border: 0px;
     border-bottom: 5px solid #38598A;;
 }
+
+
+/* TREND ANALYSIS STYLES todo - write to own file */
+#trend-analysis-view {
+    margin-bottom: 100px;
+}
+#trend-analysis-view h1 {
+    padding: 20px 10px;
+}
+
+#trend-analysis-view .v-tab {
+    color: #C5C5C5!important;
+}
+
+#trend-analysis-view .v-tab--active {
+    color: #003366!important;
+    font-weight: bold;
+}
+
+#trend-analysis-view input[type="radio"] {
+    color: red;
+}
+
+#trend-analysis-view .btn-group button {
+    padding: 5px 20px;
+    text-align: center;
+}
+
+#trend-analysis-view .v-select__slot {
+    margin-top: -10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 @media only screen and (max-width: 600px) {
     .container {
         padding: 0px!important;
