@@ -143,7 +143,7 @@ export default {
       this.notifySaveDraft++;
     },
     handlePrintForm() {
-      console.log('Print Form.')
+      window.print()
     },
     handleCancelForm() {
       this.$emit('cancelFormClicked');

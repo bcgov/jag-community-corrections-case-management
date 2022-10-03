@@ -99,20 +99,24 @@
     .formio_anchor_class {
         margin-top:-20px;
     }
-    .crna-cmp-form .R {
+
+    .v-tabs {
+        display:none!important;
+    }
+
+    .crna-cmp-form .R, .sara-cmp-form .R {
         display:none;
     }
-    .crna-cmp-form .L {
+    .crna-cmp-form .L, .sara-cmp-form .L {
         width:100%;
         box-shadow: none;
     }
-
-    .crna-cmp-form .crna-formio-metadata-section {
+    .crna-cmp-form, .sara-cmp-form .crna-formio-metadata-section, .sara-cmp-form .crna-formio-metadata-section {
         background-color: transparent;
         width:80%;
     }
 
-    .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
+    .crna-cmp-form, .sara-cmp-form .formio-component-key_formStatus .custom_wrap {
         margin-top:40px;
         font-size:18px;
     }
@@ -123,8 +127,19 @@
         top:0;
         margin-top:-200px;
     }
-    .crna-cmp-form .menu-Sticky .menuR2 {
+
+    .sara-cmp-form .menu-Sticky {
+        background-color: transparent;
+        position: relative;
+        top:0;
+        margin-top:-120px;
+    }
+    .crna-cmp-form, .sara-cmp-form .menu-Sticky .menuR2 {
         display:none;
+    }
+
+    .sara-cmp-form .menu-Sticky {
+        background-color: transparent!important;
     }
 
     .crna-formio-h1 {
@@ -162,12 +177,12 @@
         content: url("https://langley.bigbrothersbigsisters.ca/wp-content/uploads/sites/145/2017/10/BC-Ministry-of-Justice.png");
     }
 
-    .crna-cmp-form  .dropdown  {
+    .crna-cmp-form, .sara-cmp-form  .dropdown  {
         border: none;
     }
 
-    .crna-cmp-form .mainContent {
-        border: none;
+    .crna-cmp-form, .sara-cmp-form .mainContent {
+        border: none!important;
         padding: 0;
     }
 

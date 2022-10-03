@@ -396,7 +396,7 @@ export default {
       this.notifySavingData++;
     },
     handlePrintForm() {
-      console.log('Print Form.')
+      window.print();
     },
     hideSectionsExceptCurrent(sectionIdx) {
       let formId = this.$route.params.formID;
