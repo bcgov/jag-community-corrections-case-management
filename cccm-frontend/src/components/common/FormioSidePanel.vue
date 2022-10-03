@@ -1,10 +1,11 @@
 <template>
-    <Form :form="formJSON"/>
+    <Form :form="formJSON" @evt_changeButtonLabel="changeButtonLabel"/>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
+import { updateForm } from "@/components/form.api";
 import templatePanel from '@/components/common/templateSidePanel.json';
 
 export default {
@@ -22,7 +23,10 @@ export default {
     Form
   },
   mounted(){
-    this.buildFormData()
+    this.buildFormData();
+    setTimeout(() => {
+      this.hideInputTextBox();
+    }, 500);
   },
   methods: {
     buildFormData() {
@@ -40,6 +44,68 @@ export default {
       //console.log("FormInfoDataEntry: ", tmpJSON);
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
+    },
+    hideInputTextBox() {
+      // get textbox instance
+        let tbName= "data[input_key_sourceContacted]";
+        let textBox = document.getElementsByName(tbName);
+        
+        // hide textbox
+        if (textBox != null &&  textBox[0] != null) {
+          textBox[0].setAttribute('style', 'display:none');
+        }
+    },
+    async changeButtonLabel(evt) {
+      if (evt != null && evt.type === "evt_changeButtonLabel" ) {
+        // get button instance
+        let btnName= "data[add_source]";
+        let theBtn = document.getElementsByName(btnName);
+
+        // get textbox instance
+        let tbName= "data[input_key_sourceContacted]";
+        let textBox = document.getElementsByName(tbName);
+        
+        // get html instance
+        let className = '[class*="key_sourceContacted"]';
+        let theHtmlParentDiv = document.querySelector(className);
+
+        if (theBtn != null && theBtn[0] != null) {
+          if (theBtn[0].innerText === "Add Source") {
+            // Update the label to 'Save'
+            theBtn[0].innerText = "Save";
+
+            // show textbox
+            if (textBox != null && textBox[0] != null) {
+              textBox[0].setAttribute('style', 'display:block');
+            }
+            
+            // hide html
+            if (theHtmlParentDiv != null) {
+              theHtmlParentDiv.setAttribute('style', 'display:none');
+            }
+          } else {
+            // Save button clicked, call API to save the data
+            //console.log("evt.data: ", evt.data);
+            const [error, response] = await updateForm(evt.data);
+            if (error) {
+              console.error("Save source contacted error", error);
+            } else {
+              console.log("Save source contacted success", response);
+            }
+            
+            theBtn[0].innerText = "Add Source"
+            // hide textbox
+            if (textBox != null &&  textBox[0] != null) {
+              textBox[0].setAttribute('style', 'display:none');
+            }
+            
+            // show html
+            if (theHtmlParentDiv != null) {
+              theHtmlParentDiv.setAttribute('style', 'display:block');
+            }
+          }
+        }
+      }
     }
   }
 }
