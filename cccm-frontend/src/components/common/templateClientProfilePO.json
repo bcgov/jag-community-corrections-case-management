@@ -103,7 +103,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Full Name: </Strong>{{data.fullName}}</div><br><div><Strong>Next Appointment: </Strong>{{data.nextAppointmentDate}}</div>",
+                                                                                "content": "<div><Strong>Name </Strong>{{data.fullName}}</div><br><div><Strong>Next Appointment </Strong>{{data.nextAppointmentDate}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -128,7 +128,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>CS Number: </Strong>{{data.csNumber}}</div><br><div><Strong>Order Effective Date: </Strong>{{data.orderEffectiveDate}}</div>",
+                                                                                "content": "<div><Strong>CS# </Strong>{{data.csNumber}}</div><br><div><Strong>Order Effective Date </Strong>{{data.orderEffectiveDate}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html6",
                                                                                 "type": "htmlelement",
@@ -153,7 +153,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>Date of Birth: </Strong>{{data.birthDate}}</div><br><div><Strong>Next Court Date: </Strong>{{data.nextCourtDate}}</div>",
+                                                                                "content": "<div><Strong>Date of Birth </Strong>{{data.birthDate}}</div><br><div><Strong>Next Court Date </Strong>{{data.nextCourtDate}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
@@ -542,7 +542,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>RNA Status: </Strong>{{data.rnaStatus}}</div>",
+                                                                                "content": "<div><Strong>RNA Status </Strong>{{data.rnaStatus}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
