@@ -23,9 +23,11 @@ public class AddressTest {
 
         sut.setExpiryDate(TEST);
         sut.setFullAddress(TEST);
+        sut.setPrimary(true);
 
         Assertions.assertEquals(TEST, sut.getExpiryDate());
         Assertions.assertEquals(TEST, sut.getFullAddress());
+        Assertions.assertTrue(sut.isPrimary());
 
     }
 
