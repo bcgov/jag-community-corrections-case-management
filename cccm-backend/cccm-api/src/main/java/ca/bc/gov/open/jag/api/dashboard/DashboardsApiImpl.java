@@ -37,7 +37,7 @@ public class DashboardsApiImpl implements DashboardsApi {
     @RolesAllowed("client-search")
     public List<PODashboard> getPODashboard(String xLocationId) {
 
-        return userDataService.getPODashboard(xLocationId, username);
+        return userDataService.getPODashboard(username, xLocationId);
 
     }
 
