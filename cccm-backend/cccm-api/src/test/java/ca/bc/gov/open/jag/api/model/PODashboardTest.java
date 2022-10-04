@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.api.model;
 
 import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.internal.common.assertion.Assertion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

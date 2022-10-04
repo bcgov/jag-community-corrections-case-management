@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.jboss.logmanager.Level;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -36,6 +37,8 @@ public class DashboardsApiImpl implements DashboardsApi {
     @Override
     @RolesAllowed("client-search")
     public List<PODashboard> getPODashboard(String xLocationId) {
+
+        logger.log(Level.DEBUG, "Dashboard request received");
 
         return userDataService.getPODashboard(username, xLocationId);
 
