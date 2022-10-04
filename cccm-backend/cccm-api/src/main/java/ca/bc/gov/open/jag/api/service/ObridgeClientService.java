@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.Client;
+import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
@@ -106,7 +107,7 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/user/dashboard/po")
-    String gePODashboard(@QueryParam("idirId") String idirId, @QueryParam("locationId") BigDecimal locationId);
+    List<PODashboard> getPODashboard(@QueryParam("idirId") String idirId, @QueryParam("locationId") BigDecimal locationId);
 
     @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
