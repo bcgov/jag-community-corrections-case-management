@@ -29,7 +29,7 @@ public class DashboardsApiImpl implements DashboardsApi {
     @Override
     @RolesAllowed("po-manage")
     public SupervisorDashboard getSupervisorDashboard(String xLocationId, String userId) {
-
+        logger.warning("This is not implemented");
         return null;
 
     }
