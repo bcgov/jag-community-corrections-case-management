@@ -6,7 +6,7 @@ public class PODashboard {
 
     private Integer activeDocuments;
     private Integer alerts;
-    private Integer popDesignations;
+    private String popDesignations;
     private String clientIn;
     private String supervisionLevel;
     private String MOED;
@@ -45,11 +45,11 @@ public class PODashboard {
         this.alerts = alerts;
     }
 
-    public Integer getPopDesignations() {
+    public String getPopDesignations() {
         return popDesignations;
     }
 
-    public void setPopDesignations(Integer popDesignations) {
+    public void setPopDesignations(String popDesignations) {
         this.popDesignations = popDesignations;
     }
 
