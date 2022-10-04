@@ -73,7 +73,7 @@
 <script>
 
 import { trendStore } from '@/stores/trendstore';
-import { mapStores,mapState,mapWritableState } from "pinia/dist/pinia";
+import { mapStores,mapState,mapWritableState } from "pinia";
 import { getClientForms, getClientFormFactors } from "@/components/form.api";
 
 
