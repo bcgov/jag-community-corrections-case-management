@@ -105,6 +105,10 @@ public interface ObridgeClientService {
     String getOracleId(@QueryParam("idirId") String idirId);
 
     @GET
+    @Path("/user/dashboard/po")
+    String gePODashboard(@QueryParam("idirId") String idirId, @QueryParam("locationId") BigDecimal locationId);
+
+    @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
     String getClientFormAsJSON(@PathParam("clientNumber") String clientNumber,
                                @PathParam("clientFormId") BigDecimal clientFormId,

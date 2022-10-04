@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.mapper.LocationMapper;
 import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.RequestScoped;
@@ -52,4 +53,8 @@ public class UserDataServiceImpl implements UserDataService {
         return obridgeClientService.getOracleId(stripUserName(user));
     }
 
+    @Override
+    public List<PODashboard> getPODashboard(String user, String location) {
+        return null;
+    }
 }
