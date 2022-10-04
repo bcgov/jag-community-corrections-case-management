@@ -2088,6 +2088,8 @@ components:
     PODashboard:
       type: object
       properties:
+        clientNum:
+          type: string
         clientName:
           type: string
         alerts:
