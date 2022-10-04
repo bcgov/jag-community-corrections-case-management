@@ -2,7 +2,7 @@ name: Build & Push Frontend Image to Gold and GoldDR cluster
 
 on:
   push:
-    branches: [feature/attemp-to-fix-__VUE_PROD_DEVTOOLS__issue]
+    branches: [main]
     paths:
       - 'cccm-frontend/**'
   workflow_dispatch:
