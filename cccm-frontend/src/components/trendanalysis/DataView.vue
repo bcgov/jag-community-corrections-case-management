@@ -20,7 +20,7 @@
 
 <script>
 
-import {mapState, mapStores} from "pinia/dist/pinia";
+import {mapState, mapStores} from "pinia";
 
 export default {
   name: "DataView",

@@ -237,6 +237,24 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: dashboards
+  /dashboards/po:
+    get:
+      operationId: GetPODashboard
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PODashboardList'
+          description: get get supervisor dahsboard
+      summary: get supervisor dashboard
+      tags:
+        - dashboards
+      x-accepts: application/json
+      x-tags:
+        - tag: dashboards
 
 
   #-------------------------------------------------------------------------------------
@@ -2154,6 +2172,36 @@ components:
         updatedDate:
           type: string
           format: date
+    PODashboard:
+      type: object
+      properties:
+        clientNum:
+          type: string
+        clientName:
+          type: string
+        alerts:
+          type: number
+        warrants:
+          type: number
+        designations:
+          type: string
+        inCustody:
+          type: string
+        orderExpiryDate:
+          type: string
+        supervisionRating:
+          type: string
+        rnaCompletedDate:
+          type: string
+        dueNext:
+          type: string
+        dueDate:
+          type: string
+    PODashboardList:
+      type: array
+      items:
+        $ref: '#/components/schemas/PODashboard'
+
 
     FactorConfig:
       title: FactorConfig

@@ -7,17 +7,17 @@
     </v-tabs>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Date Range</div>
-      <div class="d-flex justify-content-evenly pb-3">
-        <input id="startDate" v-model="filter.startDate" @change="changeStartDate" class="form-control ms-3 me-3"
-          type="date" />
-        to
-        <input id="endDate" v-model="filter.endDate" @change="changeEndDate" class="form-control ms-3 me-3"
-          type="date" />
+      <div class="d-flex justify-content-evenly align-items-center pb-3">
+        <input id="startDate"  v-model="filter.startDate" @change="changeStartDate"
+          class="form-control ms-3 me-3 mr-2" type="date" />
+        <small>to</small>
+        <input id="endDate"  v-model="filter.endDate" @change="changeEndDate"
+          class="form-control ms-3 me-3 ml-2" type="date" />
       </div>
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-start">
         <div class="form-check">
           <input class="form-check-input" type="radio" name="periodRadio" id="allPeriodsRadio" value="allPeriods"
             v-model="filter.periods" @change="changePeriods">
@@ -42,7 +42,7 @@
         @blur="changeFactors()" :menu-props="{ maxHeight: '400' }" label="Select" multiple
         hint="Select one or more factors" persistent-hint>
       </v-select>
-      <!-- 
+      <!--
       <v-select v-model="filter.factors"       item-text="label"
           item-value="value" :items="factorOptions"  @close="changeFactors()" @remove="removeFactor"
         :menu-props="{ maxHeight: '400' }" label="Select" multiple hint="Select one or more factors" persistent-hint>
