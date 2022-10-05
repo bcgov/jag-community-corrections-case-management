@@ -341,7 +341,7 @@ a.navHeaderA-L2:hover {
 }
 
 div.saveIndicator {
-  position: absolute;
+  position: fixed;
   right: 20px;
   top: 20px;
   margin: 5px;

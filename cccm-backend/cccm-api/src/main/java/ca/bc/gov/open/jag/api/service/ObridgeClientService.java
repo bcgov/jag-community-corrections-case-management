@@ -171,16 +171,16 @@ public interface ObridgeClientService {
 
 
     @POST
-    @Path("/forms/client/interventions/{csNumber}")
-    List<Intervention> searchClientInterventions(@PathParam("csNumber") String clientNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/interventions")
+    List<Intervention> searchClientInterventions( @RequestBody ClientSearchInput searchInput);
 
     @POST
-    @Path("/forms/client/comments/{csNumber}")
-    List<Comment> searchClientComments(@PathParam("csNumber") String clientNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/comments")
+    List<Comment> searchClientComments( @RequestBody ClientSearchInput searchInput);
 
     @POST
-    @Path("/forms/client/responsivities/{csNumber}")
-    List<Responsivity> searchClientResponsivities(@PathParam("csNumber") String csNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/responsivities")
+    List<Responsivity> searchClientResponsivities( @RequestBody ClientSearchInput searchInput);
 
 
     @GET

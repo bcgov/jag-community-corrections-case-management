@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import HomeView from '../components/HomeView.vue'
-import CmpFormView from '../components/CmpForm.vue'
+import FormRenderer from '../components/forms/FormRenderer.vue'
 import ClientSearchView from '../components/common/FormioClientSearch.vue'
 import ClientRecordView from '../components/ClientRecord.vue'
 import Unauthorized from '../components/Unauthorized.vue'
@@ -60,7 +60,7 @@ const router = new VueRouter({
     {
       path: '/clientrecord/:csNumber/form/:formType/:formID/:linkedSara',
       name: 'cmpform',
-      component: CmpFormView,
+      component: FormRenderer,
       meta: {
         isAuthenticated: true
       }

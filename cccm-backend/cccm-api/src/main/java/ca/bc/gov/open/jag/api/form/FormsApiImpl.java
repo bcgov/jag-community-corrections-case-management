@@ -180,21 +180,20 @@ public class FormsApiImpl implements FormsApi {
 
 
     @Override
-    public List<Comment> getClientCommentsUsingPOST(String csNumber, ClientSearchInput searchInput, String xLocationId) {
-        return clientDataService.getClientFormComments(csNumber, searchInput);
+    public List<Comment> searchClientCommentsUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormComments( searchInput);
     }
-
 
 
     @Override
     @RolesAllowed("form-view")
-    public List<Intervention> getClientInterventionsUsingPOST(String csNumber, ClientSearchInput searchInput) {
-        return clientDataService.getClientFormInterventions(csNumber, searchInput);
+    public List<Intervention> searchClientInterventionsUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormInterventions( searchInput);
     }
 
     @Override
     @RolesAllowed("form-view")
-    public List<Responsivity> getClientResponsivitiesUsingPOST(String csNumber, ClientSearchInput searchInput) {
-        return clientDataService.getClientFormResponsivities(csNumber, searchInput);
+    public List<Responsivity> searchClientResponsivitiesUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormResponsivities( searchInput);
     }
 }

@@ -40,13 +40,13 @@
           </div>
         </div>
         <div class="col-sm-3">
-          <label<strong>Supervision Periods</strong></label>
-            <v-radio-group label="" v-model="selectedSupervisionPeriods" row v-on:change="applyPeriodFilter">
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
-                value="false"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
-                value="true"></v-radio>
-            </v-radio-group>
+          <strong>Supervision Periods</strong>
+          <v-radio-group label="" v-model="currentPeriod" row v-on:change="changePeriods">
+            <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
+              value="all"></v-radio>
+            <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
+              value="current"></v-radio>
+          </v-radio-group>
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3 text-right pr-4">
@@ -54,7 +54,7 @@
         </div>
       </section>
       <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="filteredRNAList"
+        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
           item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page" :loading="loading"
           loading-text="Loading RNA List... Please wait" :items-per-page="itemsPerPage"
           @page-count="pageCount = $event">
@@ -157,6 +157,7 @@ export default {
       page: 1,
       pageCount: 1,
       itemsPerPage: 5,
+      currentPeriod: "all",
       totalClients: 0,
       loading: true,
       headers: [
@@ -284,7 +285,6 @@ export default {
       const [err, formInfo] = await getFormSummaries('CRNA', true);
       this.formData.clientNumber = "00142091";
       this.formData.formTypeId = formInfo[0].id;
-
       const [error, formId] = await createForm(this.formData);
       if (error) {
         console.error(error);
@@ -298,40 +298,55 @@ export default {
       }
     },
     async formSearchAPI(clientNum, tobeRemoved_addOne) {
+      this.loading = true;
+      try {
+        let period = (this.currentPeriod === 'current') ? true : false;
+        const [error, response] = await formSearch(clientNum, 'RNA', period);
+        //this.initData = response.data;
+        this.key_rnalistSearchResult++;
+        this.rnaList = response;
 
-      const [error, response] = await formSearch(clientNum, 'RNA', true);
-      //this.initData = response.data;
-      this.key_rnalistSearchResult++;
-      this.loading = false;
-      this.rnaList = response;
 
+        //apply filter
+        //   this.private_applyFilter(this.selectedFormTypes, this.selectedSupervisionPeriods);
 
-      //apply filter
-      this.private_applyFilter(this.selectedFormTypes, this.selectedSupervisionPeriods);
-
-      if (error) {
-        console.error(error);
+        if (error) {
+          console.error(error);
+        }
+      } finally {
+        this.loading = false;
       }
     },
-    formView( formID, formType, relatedFormTypeId) {
+    changePeriods() {
+      console.log("Filter updating periods %o", this.currentPeriod);
+      let period = (this.currentPeriod === 'current') ? true : false;
+      this.formSearchAPI(this.clientNum, period);
+
+    },
+    formView(formID, formType) {
       if (formID != null) {
         formID = formID.toString();
       }
-      let linkedSara = false;
-      if (formType === 'CRNA') {
-        if (relatedFormTypeId != null) {
-          linkedSara = true;
-        }
+      if (formType === 'SARA') {
+        this.$router.push({
+          name: 'saracmp',
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
+        });
+
+      } else if (formType === 'CRNA') {
+        this.$router.push({
+          name: 'crnacmp',
+          params: {
+            formID: formID,
+            csNumber: this.clientNum
+          }
+        });
+      } else {
+        console.error("Form type not supported");
       }
-      this.$router.push({
-        name: "cmpform",
-        params: {
-          formType: formType,
-          formID: formID,
-          csNumber: this.clientNum,
-          linkedSara: linkedSara
-        }
-      });
     },
     async formClone(formID) {
       console.log("formClone", formID);
@@ -340,24 +355,23 @@ export default {
     },
     handleFormCreateBtnClick() {
       this.dialog = false;
-      debugger;
       console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
 
-      this.createFormAPI();
+      this.createFormAPI().then((formId) => {
       //Redirect User to the newly created form
-      console.log("newCreatedFormID: ", this.newCreatedFormId);
-      let formType = "CRNA";
+        this.newCreatedFormId = formId;
+        let nextView = "crnacmp";
       if (this.selectedFormTypeValue.includes("sara")) {
-        formType = "SARA";
+          nextView = "saracmp";
       }
       this.$router.push({
-        name: "cmpform",
+          name: nextView,
         params: {
-          formType: formType,
           formID: this.newCreatedFormId,
-          csNumber: this.clientNum,
-          linkedSara: false
+            csNumber: this.clientNum,
+            linkedSara: false
         }
+        });
       });
 
     },

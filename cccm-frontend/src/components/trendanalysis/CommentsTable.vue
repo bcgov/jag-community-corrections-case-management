@@ -1,55 +1,48 @@
 <template>
-  <div data-app>
-    <div class="dashboard-v-card text-center">
-            <div class="comments-table justify-content-start ">
-        {{ this.pointDateSelected }}
-        <div class="row">
-          <v-data-table item-key="comment.id" class="elevation-1" loading :headers="headers" :items="comments"
-            :items-per-page="5" loading-text="Loading... Please wait"></v-data-table>
-          <!-- <table class="table table-hover table-bordered comments-table">
-        <thead>
-          <tr style="background-color: #0a58ca; color: white">
-            <th>Date</th>
-            <th>Factor</th>
-            <th>Rating</th>
-            <th>Comment</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr  v-for="comment in comments" v-bind:key="comment.id">
-            <td class="date">{{ comment.createdDate }}</td>
-            <td>{{ comment.factor }}</td>
-            <td>{{ comment.question }}</td>
-            <td style="text-align: justify">{{ comment.value }}</td>
-          </tr>
-        </tbody>
-      </table> -->
-        </div>
-      </div>
+  <div data-app class="row p-4">
+    <div class="justify-content-center mb-2 col-10">
+        <v-data-table item-key="comment.id" class="elevation-1" no-data-text="No comments found" :headers="headers" :items="comments"
+          :items-per-page="10" ></v-data-table>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
 import { mapState, mapStores } from "pinia";
 import { trendStore } from '../../stores/trendstore';
-import { getClientFormComments } from "@/components/form.api";
+import { searchClientFormComments } from "@/components/form.api";
 
 import axios from "axios";
 
 export default {
   name: "CommentsTable",
   computed: {
-    ...mapState(trendStore, ['factors', 'startDate', 'endDate']),
+    ...mapState(trendStore, ['factors', 'startDate', 'endDate', 'clientNumber', 'chartType'])
   },
   mounted() {
-    console.log("Showing comments...%o", this);
-    this.getComments();
+    console.log("Showing comments for %o", this.store.factors);
+    this.applyFilters();
+ 
+    this.store.$subscribe((mutation, state) => {
+      if (mutation.payload) {
+        console.log("Trend store changed - getting comments...%o %o", mutation, state);
+        this.applyFilters();
+
+      }
+
+    });
+  },
+  setup() {
+    const store = trendStore()
+    return {
+      store,
+    }
   },
   data() {
     return {
+    
       comments: [],
+      loaded: false,
       headers: [
         {
           text: 'ID (Debug)',
@@ -66,26 +59,40 @@ export default {
     }
   },
   methods: {
-    async getComments() {
-      let csNumber = this.$route.params.csNumber;
-      let filter = {
-        factors: this.factors,
-        csNumber: csNumber,
-        startDate: this.startDate,
-        endDate: this.endDate
-      };
-      const [error, data] = await getClientFormComments(csNumber, filter);
-      if (error) {
-        console.error(error);
-      } else {
-        console.log("Got comments %o", data);
-        this.comments = data;
-      }
+    async filterComments() {
+      // let csNumber = this.$route.params.csNumber;
+      // let filter = {
+      //   factors: this.store.factors,
+      //   csNumber: csNumber,
+      //   startDate: this.store.startDate,
+      //   endDate: this.store.endDate,
+      //   chartType: this.store.chartType,
+      //   currentPeriod: this.store.period === 'currentPeriod' ? true : false,
+      // };
+      // const [error, data] = await searchClientFormComments(filter);
+      // if (error) {
+      //   console.error(error);
+      // } else {
+      //   console.log("Got comments %o", data);
+      //   this.comments = data;
+      //   this.loaded = true;
+      // }
     },
     getRowClass(comment) {
       // eslint-disable-next-line no-debugger
       console.log("Checking row %o", comment);
       return (comment.date === this.pointDateSelected) ? "blue" : "";
+
+    },
+    async applyFilters() {
+      let filteredDatasets = this.store.data.datasets.filter( (dataset) => {
+        return this.store.factors.includes(dataset.source);
+      }  );
+
+    this.comments = [];
+    filteredDatasets.forEach( dataset => {
+      this.comments.push(...dataset.comments);
+    });
 
     }
   }

@@ -6,9 +6,14 @@
       <p />
       <p>Please select an item(s) from the "Factor View" dropdown menu</p>
     </div>
-    <div class="chart mb-4" :class="[ chartReady  ? 'chartActive' : 'chartInactive' ]">
-      <canvas id="justiceChart" style="z-index: 1;"></canvas>
-    </div>
+    <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading chart data...
+    </v-progress-linear>
+
+    <v-card class="chart-container">
+      <div class="chart mb-4 " :class="[ chartReady  ? 'chartActive' : 'chartInactive' ]">
+        <canvas id="justiceChart" style="z-index: 1;"></canvas>
+      </div>
+    </v-card>
 
   </div>
 </template>
@@ -26,13 +31,7 @@ export default {
     return {
       chartData: [],
       chartReady: false,
-      inputFilter: {
-        clientNumber: null,
-        startDate: null,
-        endDate: null,
-        factors: [],
-        chartType: null,
-      }
+      loading: false,
     }
   },
   setup() {
@@ -42,29 +41,35 @@ export default {
     }
   },
   computed: {
-    ...mapStores(trendStore, ['factors', 'startDate', 'endDate'])
+    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount'])
   },
   created() {
 
   },
   beforeUnmount() {
-    debugger;
     let tooltipEl = document.getElementById('chartjs-tooltip');
     tooltipEl.remove();
   },
 
   mounted() {
+    console.log("Chart mounted");
     let ctx = document.getElementById('justiceChart');
-    let csNumber = this.$route.params.csNumber;
-    this.inputFilter.clientNumber = csNumber;
+
     this.trendStore.$subscribe((mutation, state) => {
-      if (mutation.payload['factors']) {
-        this.inputFilter.factors = mutation.payload.factors;
+      let changed = false;
+      if (mutation.payload) {
+
+        if (mutation.payload.factors) {
+          console.log("Mutation of %o state %o", mutation, state);
+          this.applyFilters();
+        }
+
+        if (mutation.payload.period) {
+          this.applyFilters();
+        }
+
+
       }
-      if (mutation.payload['chartType']) {
-        this.inputFilter.chartType = mutation.payload.chartType;
-      }
-      this.refreshChart();
     });
 
     const linePlugin = {
@@ -307,59 +312,10 @@ export default {
       }
     });
 
-
-    this.refreshChart();
-
-  },
-
-  updated() {
+    this.applyFilters();
 
   },
-  // watch: {
-  //   factors(newValue) {
-  //     console.log("FACTORS!!");
-  //       alert('factor change ' + newValue);
-  //       // this.refreshChart();
-  //   },
-  //   userEndDate: {
-  //     handler: function (newValue, oldValue) {
-  //       if (oldValue !== newValue) {
-  //         this.refreshChart();
-  //       }
-  //     },
-  //   },
-  //   userStartDate: {
-  //     handler: function (newValue, oldValue) {
-  //       if (oldValue !== newValue) {
-  //         console.log("Start date updated %s %s", newValue, oldValue);
-  //         this.refreshChart();
-  //       }
-  //     },
-  //   },
-  //   filterEndDate: {
-  //     handler: function (newValue, oldValue) {
-  //       if (oldValue !== newValue) {
-  //         console.log("End date updated %s %s", newValue, oldValue);
-  //         this.refreshChart();
-  //       }
-  //     },
-  //   },
-  //   advancedFilter: {
-  //     handler: function (newValue, oldValue) {
-  //       if (oldValue !== newValue) {
-  //         console.log("Advanced filter updated %s %s", newValue, oldValue);
-  //         this.toggleSelected(newValue);
-  //       }
-  //     },
-  //   },
 
-  //   period: {
-  //     handler: function (newValue, oldValue) {
-  //       console.log("Period updated!! %s %s", newValue, oldValue);
-  //       this.refreshChart();
-  //     },
-  //   }
-  // },
   methods: {
 
     toggleSelected(newValue) {
@@ -442,57 +398,30 @@ export default {
       chart.update();
 
     },
-    async refreshChart() {
-      this.chartReady = false;
+    applyFilters() {
+      console.log("Applying filters %o", this.store.factors);
+      if (this.store.data.datasets) {
+        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+          return this.store.factors.includes(dataset.source);
+        });
 
-      if (this.inputFilter.factors.length > 0 && this.inputFilter.chartType && this.inputFilter.clientNumber) {
-        console.log("RefreshChart() called %o", this.inputFilter);
 
-        const [error, data] = await getChartData(this.inputFilter);
-        if (error) {
-          console.error(error);
-        } else {
-          console.log("Got chart data %o", data);
-          this.updateChart(data);
-        }
+        let labels = this.store.data.dataLabels;
+        console.log("Data %o", filteredDatasets);
+        this.updateChart(labels, filteredDatasets);
       }
-      // if (this.factors) {
-      //   console.log("Factors %o", this.factors);
-      //   axios
-      //     .get('/forms/client/', {
-      //       params: {
-      //         factors: factors,
-      //         period: this.period,
-      //         clientId: this.clientId,
-      //         startDate: this.userStartDate,
-      //         endDate: this.userEndDate,
-      //         advancedFilter: this.advancedFilter
-      //       },
-      //     })
-      //     .then((response) => {
-      //       console.log("Got response %o", this.form);
-      //       this.updateChart(response.data);
-      //     });
-      // }
+
     },
 
-    updateChart(responseData) {
+
+    updateChart(labels, data) {
       const chart = Chart.getChart("justiceChart");
 
-      console.log("ResponseData %o", responseData);
-      let xSeries = responseData.dataLabels;
-      // update start and end dates
-      // this.store.commit('updateStartAndEndDateLimits', [xSeries[0], xSeries[xSeries.length - 1]]);
-      // this.store.commit('updateStartAndEndDate', [xSeries[0], xSeries[xSeries.length - 1]]);
-      // this.store.commit('updateInterventionCount', responseData.interventionCount);
-      // this.store.commit('updateCommentCount', responseData.commentCount);
-
-
-      const data = {
-        labels: xSeries,
-        datasets: responseData.datasets
+      const chartData = {
+        labels: labels,
+        datasets: data
       };
-      chart.data = data;
+      chart.data = chartData;
       chart.update();
       this.chartReady = true;
     }
@@ -524,5 +453,10 @@ div.chartInactive {
 #chartjs-tooltip {
   border: 1px solid black;
   box-shadow: 5px 5px black;
+}
+
+
+.chart-container {
+  height: 100%;
 }
 </style>

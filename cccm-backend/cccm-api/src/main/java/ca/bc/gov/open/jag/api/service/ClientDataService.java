@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
-import javax.ws.rs.PathParam;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -89,27 +88,24 @@ public interface ClientDataService {
 
     /**
      * As is says on the can - get responsivities (emotional/social response to some input - e.g an intervention plan)
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Responsivity>}
      */
-    List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput);
+    List<Responsivity> searchClientFormResponsivities(ClientSearchInput searchInput);
 
     /**
      * Get interventions
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Intervention>}
      */
-    List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput);
+    List<Intervention> searchClientFormInterventions(ClientSearchInput searchInput);
 
     /**
      * Get comments related to form questions
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Comment>}
      */
-    List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput);
+    List<Comment> searchClientFormComments(ClientSearchInput searchInput);
 
     /**
      * Get summary information for a form

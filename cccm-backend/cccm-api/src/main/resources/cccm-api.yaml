@@ -736,22 +736,50 @@ paths:
       x-codegen-request-body-name: trendInput
 
   #-------------------------------------------------------------------------------------
-  #        INTERVENTIONS AND COMMENTS
+  #        INTERVENTIONS, RESPONSIVITIES AND COMMENTS
   #-------------------------------------------------------------------------------------
 
-  /forms/client/interventions/{csNumber}:
+  /forms/client/comments:
     post:
       tags:
         - client-form-controller
-      summary: Get a list of client interventions
-      operationId: getClientInterventionsUsingPOST
-      parameters:
-        - name: csNumber
-          in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
+      summary: Get a list of client comments based on search params
+      operationId: searchClientCommentsUsingPOST
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientSearchInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
+  /forms/client/interventions:
+    post:
+      tags:
+        - client-form-controller
+      summary: Get a list of client interventions based on search params
+      operationId: searchClientInterventionsUsingPOST
       requestBody:
         description: searchInput
         content:
@@ -782,21 +810,12 @@ paths:
           content: {}
       x-codegen-request-body-name: searchInput
 
-
-  /forms/client/comments/{csNumber}:
+  /forms/client/responsivities:
     post:
       tags:
         - client-form-controller
-      summary: Get a list of client comments based on search params
-      operationId: getClientCommentsUsingPOST
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - name: csNumber
-          in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
+      summary: Get a list of client responsivities based on search params
+      operationId: searchClientResponsivitiesUsingPOST
       requestBody:
         description: searchInput
         content:
@@ -812,7 +831,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Comment'
+                  $ref: '#/components/schemas/Responsivity'
         201:
           description: Created
           content: {}
@@ -864,48 +883,7 @@ paths:
           description: Not Found
           content: {}
 
-  /forms/client/responsivities/{csNumber}:
-    post:
-      tags:
-        - client-form-controller
-      summary: Get a list of client responsivities based on search params
-      operationId: getClientResponsivitiesUsingPOST
-      parameters:
-        - name: csNumber
-          in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: searchInput
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientSearchInput'
-        required: true
-      responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Responsivity'
-        201:
-          description: Created
-          content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
-      x-codegen-request-body-name: searchInput
+
 
   #-------------------------------------------------------------------------------------
   #        FORMS
@@ -2097,13 +2075,25 @@ components:
       properties:
         borderColor:
           type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
         data:
           type: array
           items:
             type: number
             format: double
+        events:
+          type: array
+          items:
+            type: string
         fill:
           type: boolean
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Intervention'
         label:
           type: string
         lineTension:
@@ -2124,6 +2114,8 @@ components:
           type: number
         clientNumber:
           type: string
+        currentPeriod:
+          type: boolean
         endDate:
           type: string
           format: date
@@ -2135,6 +2127,10 @@ components:
           type: string
         formTypeId:
           type: number
+        includeComments:
+          type: boolean
+        includeInterventions:
+          type: boolean
         startDate:
           type: string
           format: date
@@ -2218,6 +2214,11 @@ components:
       title: TrendFormData
       type: object
       properties:
+        counters:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
         dataLabels:
           type: array
           items:

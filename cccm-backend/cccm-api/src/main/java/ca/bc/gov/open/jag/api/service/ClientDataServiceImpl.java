@@ -207,18 +207,18 @@ public class ClientDataServiceImpl implements ClientDataService {
 
 
     @Override
-    public List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientResponsivities(csNumber,searchInput);
+    public List<Responsivity> searchClientFormResponsivities(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientResponsivities(searchInput);
     }
 
     @Override
-    public List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientInterventions(csNumber, searchInput);
+    public List<Intervention> searchClientFormInterventions(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientInterventions( searchInput);
     }
 
     @Override
-    public List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientComments(csNumber, searchInput);
+    public List<Comment> searchClientFormComments(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientComments( searchInput);
     }
 
     private Photo getPhoto(String clientNum) {

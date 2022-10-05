@@ -27,32 +27,42 @@
 <script>
 // import {mapState} from "vuex";
 import axios from "axios";
+import { mapState, mapStores } from "pinia/dist/pinia";
+import { trendStore } from '@/stores/trendstore';
 
 export default {
   name: "InterventionsTable",
 
-  // computed: mapState(['factors', 'startDate', 'endDate', 'period', 'chartFilters', 'clientId', 'interventionCount', 'pointDateSelected']),
+  computed: {
+    ...mapState(trendStore, ['factors', 'startDate', 'endDate', 'clientNumber', 'chartType'])
+  },
+  setup() {
+    const store = trendStore()
+    return {
+      store,
+    }
+  },
   mounted() {
     console.log("Showing interventions...%o", this);
     let factors = this.factors.map(factor => {
       return factor.name;
     });
-    axios
-        .get('http://localhost:8888/client/interventions/crna', {
-          params: {
-            factors: String(factors),
-            period: this.period,
-            clientId: this.clientId,
-            startDate: this.startDate,
-            endDate: this.endDate,
-            count: this.interventionCount,
-            advancedFilter: this.advancedFilter
-          },
-        })
-        .then((response) => {
-          console.log("Got response %o", response);
-          this.interventions = response.data;
-        });
+    // axios
+    //     .get('http://localhost:8888/client/interventions/crna', {
+    //       params: {
+    //         factors: String(factors),
+    //         period: this.period,
+    //         clientId: this.clientId,
+    //         startDate: this.startDate,
+    //         endDate: this.endDate,
+    //         count: this.interventionCount,
+    //         advancedFilter: this.advancedFilter
+    //       },
+    //     })
+    //     .then((response) => {
+    //       console.log("Got response %o", response);
+    //       this.interventions = response.data;
+    //     });
 
   },
   data() {

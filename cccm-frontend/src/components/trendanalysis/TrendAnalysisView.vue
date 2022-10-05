@@ -42,13 +42,7 @@ export default {
       showComments: true,
       viewType: 'graph',
       reportTypes: [],
-      filter: {
-        clientId: 0,
-        formName: null,
-        factors: [],
-        start: null,
-        end: null
-      }
+
     }
   },
   setup() {
@@ -59,8 +53,7 @@ export default {
   },
   mounted() {
     // dummy list of report types
-
-
+    let csNumber = this.$route.params.csNumber;
   }, components: {
     InterventionsTable,
     CommentsTable,
