@@ -30,7 +30,10 @@ public interface ObridgeClientService {
                                  @QueryParam("age") Integer age,
                                  @QueryParam("gender") String gender,
                                  @QueryParam("identifierType") String identifierType,
-                                 @QueryParam("identifierText") String identifierText);
+                                 @QueryParam("identifierText") String identifierText,
+                                 @QueryParam("user") String user,
+                                 @QueryParam("location") BigDecimal location
+    );
 
     @GET
     @Path("/clientAddressSearch")
@@ -39,7 +42,9 @@ public interface ObridgeClientService {
                                         @QueryParam("city") String city,
                                         @QueryParam("province") String province,
                                         @QueryParam("postalCode") String postalCode,
-                                        @QueryParam("expired") Boolean expired);
+                                        @QueryParam("expired") Boolean expired,
+                                        @QueryParam("user") String user,
+                                        @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/clientSearch")

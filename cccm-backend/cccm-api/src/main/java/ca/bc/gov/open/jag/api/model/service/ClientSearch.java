@@ -1,5 +1,7 @@
 package ca.bc.gov.open.jag.api.model.service;
 
+import java.math.BigDecimal;
+
 public class ClientSearch {
 
     private String lastName;
@@ -12,8 +14,10 @@ public class ClientSearch {
     private  String gender;
     private  String identifier;
     private String identifierType;
+    private String user;
+    private BigDecimal locationId;
 
-    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean location, String gender, String identifier, String identifierType) {
+    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean location, String gender, String identifier, String identifierType, String user, BigDecimal locationId) {
         this.lastName = lastName;
         this.soundex = soundex;
         this.givenName = givenName;
@@ -24,6 +28,8 @@ public class ClientSearch {
         this.gender = gender;
         this.identifier = identifier;
         this.identifierType = identifierType;
+        this.user = user;
+        this.locationId = locationId;
     }
 
     public String getLastName() {
@@ -66,4 +72,11 @@ public class ClientSearch {
         return identifierType;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public BigDecimal getLocationId() {
+        return locationId;
+    }
 }
