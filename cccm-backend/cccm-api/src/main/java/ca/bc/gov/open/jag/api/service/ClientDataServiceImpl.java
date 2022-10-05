@@ -51,7 +51,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         } else {
             searchType = "EXACT";
         }
-
         //Validation tbd
         return createClientResult(obridgeClientService.getClientSearch(searchType, clientSearch.getLastName(),
                 clientSearch.getGivenName(),
