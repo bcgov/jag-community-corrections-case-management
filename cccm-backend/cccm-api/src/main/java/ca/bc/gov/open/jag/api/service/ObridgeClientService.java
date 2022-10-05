@@ -55,20 +55,20 @@ public interface ObridgeClientService {
                                @QueryParam("identifierText") String identifierText);
 
     @GET
-    @Path("/client/{clientNum}/photo")
-    List<Photo> getPhotosById(@PathParam("clientNum") String clientNum);
+    @Path("/client/{clientNumber}/photo")
+    List<Photo> getPhotosById(@PathParam("clientNumber") String clientNum);
 
     @GET
     @Path("/client/address")
-    List<ca.bc.gov.open.jag.api.model.data.Address> getAddressById(@QueryParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+    List<ca.bc.gov.open.jag.api.model.data.Address> getAddressById(@QueryParam("clientNumber") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
-    @Path("/client/{clientNum}/details")
-    Client getDetailsById(@PathParam("clientNum") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+    @Path("/client/{clientNumber}/details")
+    Client getDetailsById(@PathParam("clientNumber") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/clientProfile")
-    ClientProfile getProfileById(@QueryParam("csNumber") String csNumber,
+    ClientProfile getProfileById(@QueryParam("clientNumber") String csNumber,
                                  @QueryParam("user") String user,
                                  @QueryParam("location") BigDecimal location);
 

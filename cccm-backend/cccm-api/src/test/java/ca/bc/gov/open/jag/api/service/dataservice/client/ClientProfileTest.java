@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.model.data.Photo;
+import ca.bc.gov.open.jag.api.model.data.Program;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
@@ -39,6 +40,12 @@ public class ClientProfileTest {
     private static final String LOCATION = "123";
     private static final String PHOTO_TAKEN_DATE = "TEST";
     private static final byte[] BYTES = "blarg".getBytes();
+    private static final String START_DATE = "STARTDATE";
+    private static final String REFERRAL_DATE = "REFERALDATE";
+    private static final String PROGRAM_NAME = "PROGRAMNAME";
+    private static final String TEST = "TEST";
+    private static final String OUTCOME = "OUTCOME";
+    private static final String STATUS = "STATUS";
 
     @Inject
     ClientDataService sut;
@@ -74,7 +81,13 @@ public class ClientProfileTest {
         Assertions.assertEquals(CASE_MANAGER, result.getCommunityInformation().getCaseManager());
         Assertions.assertEquals(PHOTO_TAKEN_DATE, result.getPhoto().getPhotoTakenDate());
         Assertions.assertEquals(BYTES.length, result.getPhoto().getImage().length);
-
+        //Program
+        Assertions.assertEquals(1, result.getPrograms().size());
+        Assertions.assertEquals(OUTCOME, result.getPrograms().get(0).getOutcome());
+        Assertions.assertEquals(STATUS, result.getPrograms().get(0).getStatus());
+        Assertions.assertEquals(PROGRAM_NAME, result.getPrograms().get(0).getName());
+        Assertions.assertEquals(START_DATE, result.getPrograms().get(0).getStartDate());
+        Assertions.assertEquals(REFERRAL_DATE, result.getPrograms().get(0).getReferredDate());
     }
 
 
@@ -98,6 +111,7 @@ public class ClientProfileTest {
     private ClientProfile createClientProfile() {
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setClient(createClient());
+        clientProfile.setPrograms(Collections.singletonList(createProgram()));
         return clientProfile;
     }
 
@@ -108,6 +122,30 @@ public class ClientProfileTest {
         photo.setPhotoTakenDate(PHOTO_TAKEN_DATE);
 
         return photo;
+
+    }
+
+    private Program createProgram() {
+
+        Program program = new Program();
+
+        program.setClientId(TEST_ID);
+        program.setEndDate(TEST);
+        program.setLocationDsc(TEST);
+        program.setLocationId(TEST_ID);
+        program.setLotyCd(TEST);
+        program.setOutcome(OUTCOME);
+        program.setOutcomeReason(TEST);
+        program.setProgramAttendanceId(TEST_ID);
+        program.setProgramName(PROGRAM_NAME);
+        program.setProgramSessionId(TEST_ID);
+        program.setProgramSessionStartDate(TEST);
+        program.setProgramTypeCd(TEST);
+        program.setReferralDate(REFERRAL_DATE);
+        program.setStartDate(START_DATE);
+        program.setStatus(STATUS);
+
+        return program;
 
     }
 
