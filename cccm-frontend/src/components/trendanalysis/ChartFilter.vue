@@ -57,7 +57,10 @@
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
-
+      <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions" 
+        @change="updateFilter()" :menu-props="{ maxHeight: '400' }" 
+        hint="Select a display filter" persistent-hint>
+      </v-select>
 
 
     </div>
@@ -96,9 +99,12 @@ export default {
       userStartDate: null,
       maxEndDate: null,
       minStartDate: null,
+      filterOptions: [],
       period: 'allPeriods',
+      chartType: null,
       selectedFactors: [],
       userEndDate: null,
+      selectedFilter: null,
       factorOptions: [],
       reportTypes: [
       ],
@@ -109,36 +115,52 @@ export default {
   props: {},
   mounted() {
     this.getChartTypes().then(() => {
+      let chartType = this.reportTypes[this.reportTab].content;
+      this.store.$patch({ chartType: chartType });
+
       this.getFormFactors();
+      this.getFilterOptions();
     });
 
     this.store.$subscribe(async (mutation, state) => {
-      console.log("Filters updated from chart data %o %o", mutation, state);
 
       // chart type or period changed
       if (mutation.payload) {
+        console.log("Filters updated from chart data %o %o", mutation, state);
+
         // chart change or period change reloads back-end data
-        if ((mutation.payload.chartType || mutation.payload.period)) {
-          this.userStartDate = null;
-          this.userEndDate = null;
-          await this.loadData();
+        if ( mutation.payload) {
+          if ( mutation.payload.chartType) {
+            console.log("Changing chart type");
+            this.userStartDate = null;
+            this.userEndDate = null;
+            await this.loadData();
+
+          }
+           else if ( mutation.payload.period && mutation.payload.period !== this.period ) {
+            console.log("Changing period");
+            await this.loadData();
+
+          }
         }
+      
 
 
-        if (mutation.payload.factors) {
+        if (mutation.payload.data || mutation.payload.factors ) {
+
           console.log("Updating counters for factors %o", mutation.payload.factors);
           let commentCount = 0;
           let interventionCount = 0;
           let filteredDatasets = this.store.data.datasets.filter((dataset) => {
             return this.store.factors.includes(dataset.source);
           });
-
           filteredDatasets.forEach(dataset => {
             console.log("Checking dataset %o", dataset);
             commentCount += dataset.comments.length;
+            interventionCount += dataset.interventions.length;
           });
 
-          this.store.$patch({ commentCount: commentCount });
+          this.store.$patch({ commentCount: commentCount, interventionCount: interventionCount });
 
         }
 
@@ -207,13 +229,23 @@ export default {
       }
     },
     chartTypeChangeHandler() {
-      let chartType = this.reportTypes[this.reportTab].content;
-      this.store.$patch({ chartType: chartType, factors: [] })
+      this.chartType = this.reportTypes[this.reportTab].content;
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+      this.selectedFactors = [];
+      this.userStartDate = null;
+      this.userEndDate = null;
+      this.store.$patch({ chartType: this.chartType, factors: [] })
       this.getFormFactors();
+
+    },
+    clearSelections() {
 
     },
     getMinStart() {
       return this.minStartDate;
+    },
+    updateFilter() {
+      console.log("Apply filter %o", this.selectedFilter);
     },
     changeStartDate() {
       console.log("Start date changed...");
@@ -235,14 +267,16 @@ export default {
         console.log("Got chart types %o", data);
         data.forEach(type => {
           console.log("Add type %o", type);
-
-          this.reportTypes.push({ tab: type.description, content: type.type });
+          debugger;
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
         });
       }
     },
+    async getFilterOptions() {
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+    },
     async getFormFactors() {
       let chartType = this.reportTypes[this.reportTab].content;
-      this.store.$patch({ chartType: chartType })
       const [error, data] = await getFormFactors(chartType);
       if (error) {
         console.error(error);
@@ -279,9 +313,12 @@ export default {
     },
     changePeriods() {
       console.log("Filter updating periods %o", this.period);
-      this.store.$patch({ period: this.period })
-      this.userStartDate = undefined;
-      this.userEndDate = undefined;
+      let chartType = this.reportTypes[this.reportTab].content;
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+      this.userStartDate = null;
+      this.userEndDate = null;
+      this.store.$patch({ chartType: chartType, period: this.period })
+      this.getFormFactors();
 
     },
     changeStartDate() {

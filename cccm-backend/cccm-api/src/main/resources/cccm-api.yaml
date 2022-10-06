@@ -1957,6 +1957,7 @@ components:
         updatedDate:
           type: string
           format: date
+
     Intervention:
       title: Intervention
       type: object
@@ -1970,11 +1971,18 @@ components:
           type: string
         createdBy:
           type: string
+        factor:
+          type: string
         createdDate:
           type: string
           format: date
         id:
           type: number
+        relatedAnswerId:
+          type: number
+        sequence:
+          type: integer
+          format: int32
         type:
           type: string
         typeOverride:
@@ -1984,6 +1992,7 @@ components:
         updatedDate:
           type: string
           format: date
+
     ClientFormAction:
       title: ClientFormAction
       type: object
@@ -2047,6 +2056,8 @@ components:
       title: Comment
       type: object
       properties:
+        answerValue:
+          type: string
         clientFormAnswerId:
           type: number
         createdBy:
@@ -2060,14 +2071,14 @@ components:
           type: number
         question:
           type: string
+        section:
+          type: string
         updatedBy:
           type: string
         updatedDate:
           type: string
           format: date
         value:
-          type: string
-        section:
           type: string
     ChartDataSet:
       title: ChartDataSet
@@ -2238,9 +2249,22 @@ components:
           type: string
         factors:
           $ref: '#/components/schemas/FactorConfig'
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Filters'
         type:
           type: string
-
+    Filters:
+      title: Filters
+      type: object
+      properties:
+        condition:
+          type: string
+        label:
+          type: string
+        value:
+          type: string
     View:
       title: View
       type: object

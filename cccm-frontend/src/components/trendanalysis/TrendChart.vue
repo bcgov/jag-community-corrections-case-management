@@ -1,6 +1,5 @@
 <template>
   <div class="container panel">
-
     <div v-if="!chartReady" class="inactive-banner justify-content-center pt-5 text-center">
       <h1><b>No Factors Selected</b></h1>
       <p />
@@ -41,7 +40,7 @@ export default {
     }
   },
   computed: {
-    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount'])
+    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount', 'factors'])
   },
   created() {
 
@@ -59,14 +58,12 @@ export default {
       let changed = false;
       if (mutation.payload) {
 
-        if (mutation.payload.factors) {
+        if (mutation.payload.factors || mutation.payload.period || mutation.payload.data) {
           console.log("Mutation of %o state %o", mutation, state);
+
           this.applyFilters();
         }
 
-        if (mutation.payload.period) {
-          this.applyFilters();
-        }
 
 
       }
@@ -399,16 +396,22 @@ export default {
 
     },
     applyFilters() {
+      debugger;
       console.log("Applying filters %o", this.store.factors);
-      if (this.store.data.datasets) {
-        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
-          return this.store.factors.includes(dataset.source);
-        });
+
+      if (this.store.factors.length === 0) {
+        this.chartReady = false;
+      } else {
+        if (this.store.data && this.store.data.datasets) {
+          let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+            return this.store.factors.includes(dataset.source);
+          });
 
 
-        let labels = this.store.data.dataLabels;
-        console.log("Data %o", filteredDatasets);
-        this.updateChart(labels, filteredDatasets);
+          let labels = this.store.data.dataLabels;
+          console.log("Data %o", filteredDatasets);
+          this.updateChart(labels, filteredDatasets);
+        }
       }
 
     },
@@ -416,14 +419,15 @@ export default {
 
     updateChart(labels, data) {
       const chart = Chart.getChart("justiceChart");
-
-      const chartData = {
-        labels: labels,
-        datasets: data
-      };
-      chart.data = chartData;
-      chart.update();
-      this.chartReady = true;
+      if (chart) {
+        const chartData = {
+          labels: labels,
+          datasets: data
+        };
+        chart.data = chartData;
+        chart.update();
+        this.chartReady = true;
+      }
     }
   }
 }

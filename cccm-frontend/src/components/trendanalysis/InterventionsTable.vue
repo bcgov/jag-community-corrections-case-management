@@ -1,25 +1,8 @@
 <template>
-  <div class="client-interventions col-8 justify-content-start">
-    <div class="row">
-      <table class="table table-hover table-bordered interventions-table">
-        <thead>
-        <tr style="background-color: #0a58ca; color: white">
-          <th>Date</th>
-          <th>Factor</th>
-          <th>Rating</th>
-          <th>Comment</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="intervention in interventions" v-bind:key="intervention.id">
-          <td class="date">{{ intervention.date }}</td>
-          <td>{{ intervention.factor }}</td>
-          <td>{{ intervention.intervention }}</td>
-          <td style="text-align: justify">{{ intervention.detail }}</td>
-        </tr>
-        </tbody>
-      </table>
+  <div data-app class="row p-4">
+    <div class="justify-content-center mb-2 col-10">
+      <v-data-table item-key="invervention.id" class="elevation-1" :headers="headers" :items="interventions"
+        :items-per-page="10"></v-data-table>
     </div>
   </div>
 </template>
@@ -44,31 +27,48 @@ export default {
   },
   mounted() {
     console.log("Showing interventions...%o", this);
-    let factors = this.factors.map(factor => {
-      return factor.name;
+    this.applyFilters();
+
+    this.store.$subscribe((mutation, state) => {
+      if (mutation.payload) {
+        console.log("Trend store changed - getting interventions...%o %o", mutation, state);
+        this.applyFilters();
+
+      }
+
     });
-    // axios
-    //     .get('http://localhost:8888/client/interventions/crna', {
-    //       params: {
-    //         factors: String(factors),
-    //         period: this.period,
-    //         clientId: this.clientId,
-    //         startDate: this.startDate,
-    //         endDate: this.endDate,
-    //         count: this.interventionCount,
-    //         advancedFilter: this.advancedFilter
-    //       },
-    //     })
-    //     .then((response) => {
-    //       console.log("Got response %o", response);
-    //       this.interventions = response.data;
-    //     });
+
 
   },
   data() {
     return {
-      interventions: []
+      interventions: [],
+      headers: [
+        {
+          text: 'ID (Debug)',
+          align: 'start',
+          sortable: false,
+          value: 'id',
+        },
+        { text: 'Entry Date', value: 'createdDate' },
+        { text: 'Factor', value: 'factor' },
+        { text: 'Intervention Type', value: 'type' },
+        { text: 'Description', value: 'comment' }
+      ],
     }
+  },
+  methods: {
+    async applyFilters() {
+      let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+        return this.store.factors.includes(dataset.source);
+      });
+
+      this.comments = [];
+      filteredDatasets.forEach(dataset => {
+        this.interventions.push(...dataset.interventions);
+      });
+
+    },
   },
   watch: {
     pointDateSelected: {

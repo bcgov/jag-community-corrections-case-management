@@ -1,16 +1,15 @@
 <template>
   <div data-app class="row p-4">
     <div class="justify-content-center mb-2 col-10">
-        <v-data-table item-key="comment.id" class="elevation-1" no-data-text="No comments found" :headers="headers" :items="comments"
-          :items-per-page="10" ></v-data-table>
+      <v-data-table item-key="comment.id" class="elevation-1" :headers="headers" :items="comments" :items-per-page="10">
+      </v-data-table>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
 import { mapState, mapStores } from "pinia";
 import { trendStore } from '../../stores/trendstore';
-import { searchClientFormComments } from "@/components/form.api";
 
 import axios from "axios";
 
@@ -22,7 +21,7 @@ export default {
   mounted() {
     console.log("Showing comments for %o", this.store.factors);
     this.applyFilters();
- 
+
     this.store.$subscribe((mutation, state) => {
       if (mutation.payload) {
         console.log("Trend store changed - getting comments...%o %o", mutation, state);
@@ -40,9 +39,7 @@ export default {
   },
   data() {
     return {
-    
       comments: [],
-      loaded: false,
       headers: [
         {
           text: 'ID (Debug)',
@@ -52,47 +49,28 @@ export default {
         },
         { text: 'Date', value: 'createdDate' },
         { text: 'Factor', value: 'factor' },
-        { text: 'Rating', value: 'question' },
-
+        { text: 'Rating', value: 'answerValue' },
         { text: 'Comment', value: 'value' }
       ],
     }
   },
   methods: {
-    async filterComments() {
-      // let csNumber = this.$route.params.csNumber;
-      // let filter = {
-      //   factors: this.store.factors,
-      //   csNumber: csNumber,
-      //   startDate: this.store.startDate,
-      //   endDate: this.store.endDate,
-      //   chartType: this.store.chartType,
-      //   currentPeriod: this.store.period === 'currentPeriod' ? true : false,
-      // };
-      // const [error, data] = await searchClientFormComments(filter);
-      // if (error) {
-      //   console.error(error);
-      // } else {
-      //   console.log("Got comments %o", data);
-      //   this.comments = data;
-      //   this.loaded = true;
-      // }
+    async applyFilters() {
+      let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+        return this.store.factors.includes(dataset.source);
+      });
+
+      this.comments = [];
+      filteredDatasets.forEach(dataset => {
+        this.comments.push(...dataset.comments);
+      });
+
     },
+
     getRowClass(comment) {
       // eslint-disable-next-line no-debugger
       console.log("Checking row %o", comment);
       return (comment.date === this.pointDateSelected) ? "blue" : "";
-
-    },
-    async applyFilters() {
-      let filteredDatasets = this.store.data.datasets.filter( (dataset) => {
-        return this.store.factors.includes(dataset.source);
-      }  );
-
-    this.comments = [];
-    filteredDatasets.forEach( dataset => {
-      this.comments.push(...dataset.comments);
-    });
 
     }
   }
