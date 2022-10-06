@@ -34,7 +34,7 @@ public class GetClientsTest {
 
         Mockito.when(clientDataService.clientSearch(Mockito.any())).thenReturn(createClientList());
 
-        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients(null,null, null,null,null,null,null,null, null, null, null);
+        List<ca.bc.gov.open.jag.cccm.api.openapi.model.Client> result = sut.searchClients("123",null, null,null,null,null,null,null, null, null, null);
 
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("01", result.get(0).getClientNum());

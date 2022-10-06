@@ -33,7 +33,7 @@ public class GetClientAddressSearchTest {
 
         Mockito.when(clientDataService.clientAddressSearch(Mockito.any())).thenReturn(createClientList());
 
-        List<Client> result = sut.searchClientAddress(null,null, null,null,null,null,null, null);
+        List<Client> result = sut.searchClientAddress("123",null, null,null,null,null,null, null);
 
         Assertions.assertEquals(2, result.size());
 

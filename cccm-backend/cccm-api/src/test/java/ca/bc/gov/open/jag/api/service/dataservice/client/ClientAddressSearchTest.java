@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,8 +31,8 @@ public class ClientAddressSearchTest {
     @DisplayName("Success: exact search should return clients")
     public void testExactGetClients() {
 
-        Mockito.when(obridgeClientService.getClientAddressSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
-        List<Client> result = sut.clientAddressSearch(new ClientAddressSearch("TEST", "TEST","TEST","TEST","TEST",true, true));
+        Mockito.when(obridgeClientService.getClientAddressSearch(Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientList());
+        List<Client> result = sut.clientAddressSearch(new ClientAddressSearch("TEST", "TEST","TEST","TEST","TEST",true, true, "TEST@idir", BigDecimal.ONE));
 
         Assertions.assertEquals(2, result.size());
 
