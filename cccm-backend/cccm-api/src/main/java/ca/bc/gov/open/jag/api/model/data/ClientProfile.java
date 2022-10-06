@@ -31,6 +31,7 @@ public class ClientProfile {
     private String finalWarrantExpiryDt;
     private List<Warrant> warrants;
     private List<Alert> alerts;
+    private List<Program> programs;
     private String isBiometricEnrolled;
     private String eServicesStatus;
     private String biometricStatus;
@@ -284,4 +285,11 @@ public class ClientProfile {
         this.alerts = alerts;
     }
 
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
+    }
 }

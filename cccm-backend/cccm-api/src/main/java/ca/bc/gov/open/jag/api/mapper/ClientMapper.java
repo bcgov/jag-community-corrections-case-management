@@ -20,6 +20,7 @@ public interface ClientMapper {
     @Mapping(target = "custodyLocation", source = "client.custodyLocation")
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")
     @Mapping(target = "outstandingWarrants", source = "clientProfile.warrants")
+    @Mapping(target = "programs", source = "clientProfile.programs")
     @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress()))")
     @Mapping(target = "communityAlerts", source="clientProfile.alerts")
     @Mapping(target = "photo", source="photo")
@@ -74,6 +75,13 @@ public interface ClientMapper {
     @Mapping(target = "date", source = "issuedDate")
     @Mapping(target = "type", source = "charge")
     Warrant toWarrant(ca.bc.gov.open.jag.api.model.data.Warrant warrant);
+
+    @Mapping(target = "name", source = "programName")
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "referredDate", source = "referralDate")
+    @Mapping(target = "startDate", source = "startDate")
+    @Mapping(target = "outcome", source = "outcome")
+    Program toProgram(ca.bc.gov.open.jag.api.model.data.Program program);
 
     List<Address> toAddressList(List<ca.bc.gov.open.jag.api.model.data.Address> address);
 
