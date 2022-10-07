@@ -231,11 +231,8 @@ export default {
       return this.minStartDate;
     },
     updateFilter() {
-      console.log("Apply filter %o", this.selectedFilter);
-
       // get the filter from the store
       let filter = this.reportTypes[this.reportTab].filters.filter(option => option.value === this.selectedFilter)[0];
-      console.log("Filter %o", filter);
 
       this.store.$patch({ advancedFilter: filter })
 
@@ -258,9 +255,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Got chart types %o", data);
         data.forEach(type => {
-          console.log("Add type %o", type);
           this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
         });
       }
@@ -274,7 +269,6 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Got factors %o", data);
         this.factorOptions = data;
       }
     },
@@ -284,23 +278,17 @@ export default {
       this.filter.advancedFilter = null;
     },
     changeAdvancedFilter(value) {
-      console.log("Changing advanced filter to %o %d", value);
       this.filter.advancedFilter = value;
     },
     removeFactor(factor) {
-      console.log("Removed %o %s", factor);
       let removedIdx = this.filter.factors.findIndex(filter => filter.id === factor.id);
       this.filter.factors.splice(removedIdx, 1);
-      console.log("Removed %o", removedIdx);
-
     },
     updateFactors() {
-      console.log("Filter update", this.selectedFactors);
       this.store.$patch({ factors: this.selectedFactors })
 
     },
     changePeriods() {
-      console.log("Filter updating periods %o", this.period);
       let chartType = this.reportTypes[this.reportTab].content;
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.userStartDate = null;
@@ -308,17 +296,8 @@ export default {
       this.store.$patch({ chartType: chartType, period: this.period })
       this.getFormFactors();
 
-    },
-    changeStartDate() {
-      console.log("Filter start date %o %o", this.filter.startDate);
-
-
-    },
-    changeEndDate() {
-      console.log("Filter end date %o", this.filter.endDate);
-
-
     }
+  
   }
 }
 </script>

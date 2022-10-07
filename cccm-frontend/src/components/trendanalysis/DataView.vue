@@ -40,14 +40,6 @@ export default {
   computed: {
     ...mapState(trendStore, ['factors', 'startDate', 'endDate','commentCount','interventionCount'])
   },
-  watch: {
-    commentCount(newValue) {
-      console.log("Count CHANGE!! %o",newValue);
-    },
-    filters(newValue, oldValue) {
-      console.log("FILTER CHANGE!! %o %o", newValue, oldValue);
-    }
-  },
   props: {
     selectedView: {
       type: String,
@@ -61,17 +53,13 @@ export default {
     },
     activate(button) {
       this.active = button;
-      console.log("Button %o", button);
       this.$emit('changeView',this.active);
     }
   },
   mounted() {
     this.active = this.selectedView;
-    console.log("Mounted comments...");
   },
-  updated() {
-    console.log("Data view updated");
-  }
+
 }
 </script>
 

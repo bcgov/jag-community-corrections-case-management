@@ -32,14 +32,11 @@ export default {
     ...mapState(trendStore, ['factors', 'startDate', 'endDate', 'clientNumber', 'chartType'])
   },
   mounted() {
-    console.log("Showing comments and interventions for %o", this.store.factors);
     this.applyFilters();
 
     this.store.$subscribe((mutation, state) => {
       if (mutation.payload) {
-        console.log("Trend store changed - getting comments...%o %o", mutation, state);
         this.applyFilters();
-
       }
 
     });
@@ -82,27 +79,12 @@ export default {
           let comments = dataset.comments;
           let interventions = dataset.interventions;
 
-
-          console.log("Interventions %o", interventions);
           comments.forEach(comment => {
             
-            comment.interventionTypes = [];
-            comment.interventionComments = [];
             comment.interventions = interventions.filter(intervention => intervention.relatedAnswerId === comment.id) || [];
             this.data.push(comment);
-            // see if we have interventions
-            // comment.interventionTypes.push(...interventions.filter(intervention => intervention.relatedAnswerId === comment.id);
-
-            let interventionTypes = interventions.filter(intervention => intervention.relatedAnswerId === comment.id).map(a => a.type);
-            let interventionComments = interventions.filter(intervention => intervention.relatedAnswerId === comment.id).map(a => a.comment);
-            comment.interventionTypes.push(...interventionTypes);
-            comment.interventionComments.push(...interventionComments);
-
-            console.log("Handling comment %o %o", interventionTypes, interventionComments);
-
-
+   
           });
-          console.log("Combined data %o ", this.data);
 
         });
 
@@ -111,7 +93,6 @@ export default {
 
     getRowClass(comment) {
       // eslint-disable-next-line no-debugger
-      console.log("Checking row %o", comment);
       return (comment.date === this.pointDateSelected) ? "blue" : "";
 
     }

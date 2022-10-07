@@ -51,7 +51,6 @@ export default {
   },
 
   mounted() {
-    console.log("Chart mounted");
     let ctx = document.getElementById('justiceChart');
 
     this.trendStore.$subscribe((mutation, state) => {
@@ -253,7 +252,6 @@ export default {
 
               tips.forEach(tip => {
                 tip.addEventListener('click', function handleClick(event) {
-                  console.log('tip clicked %o %o', event, event.target);
                   tip.setAttribute('style', 'font-weight: bold;');
                   tooltipEl.style.opacity = 0;
                 });
@@ -335,32 +333,24 @@ export default {
               break;
             }
             case 'improved': {
-              console.log("previous greater than last");
               if (lastTwo[1] > lastTwo[0]) {
                 ds.hidden = false;
-                console.log("Keeping %o", ds);
               } else {
                 ds.hidden = true;
-                console.log("Hiding %o", ds);
 
               }
               break;
             }
             case 'worsened': {
-              console.log("Checking last 2 entries for each dataset %o", lastTwo);
               if (lastTwo[1] < lastTwo[0]) {
                 ds.hidden = false;
-                console.log("Keeping %o", ds);
 
               } else {
                 ds.hidden = true;
-                console.log("Hiding %o", ds);
-
               }
               break;
             }
             case 'remained-c-d': {
-              console.log("Checking last 2 entries for each dataset %o", ds);
               if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
                 ds.hidden = null;
               } else {
@@ -370,7 +360,6 @@ export default {
               break;
             }
             case 'remained-a-b': {
-              console.log("Checking last 2 entries for each dataset %o", ds);
               if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
                 ds.hidden = null;
               } else {
@@ -391,88 +380,8 @@ export default {
       }
 
     },
-    toggleSelected(newValue) {
-      let ctx = document.getElementById('justiceChart');
-      let chart = Chart.getChart("justiceChart");
-      console.log('NewValue %o %o', newValue, ctx);
-
-      if (!newValue) {
-
-        chart.data.datasets.forEach(ds => {
-          ds.hidden = false;
-        });
-      } else {
-        // TODO Need to inject this from the incoming JSON as its chart type specific
-        switch (newValue.id) {
-          // worsened
-          case 1: {
-            chart.data.datasets.forEach(ds => {
-              const lastTwo = ds.data.slice(-2);
-              console.log("Checking last 2 entries for each dataset %o", lastTwo);
-              if (lastTwo[1] < lastTwo[0]) {
-                ds.hidden = false;
-                console.log("Keeping %o", ds);
-
-              } else {
-                ds.hidden = true;
-                console.log("Hiding %o", ds);
-
-              }
-            });
-            break;
-          }
-          // improved
-          case 2: {
-            chart.data.datasets.forEach(ds => {
-              const lastTwo = ds.data.slice(-2);
-              console.log("Checking last 2 entries for each dataset %o", lastTwo);
-              if (lastTwo[1] > lastTwo[0]) {
-                ds.hidden = false;
-                console.log("Keeping %o", ds);
-              } else {
-                ds.hidden = true;
-                console.log("Hiding %o", ds);
-
-              }
-            });
-            break;
-          }
-          case 3: {
-            chart.data.datasets.forEach(ds => {
-              console.log("Checking last 2 entries for each dataset %o", ds);
-              const lastTwo = ds.data.slice(-2);
-              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-
-              }
-            });
-            break;
-          }
-          case 4: {
-            chart.data.datasets.forEach(ds => {
-              console.log("Checking last 2 entries for each dataset %o", ds);
-              const lastTwo = ds.data.slice(-2);
-              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-
-              }
-            });
-            break;
-          }
-          default: {
-            // do nothing
-          }
-        }
-      }
-      chart.update();
-
-    },
+    
     applyFilters() {
-      console.log("Applying filters %o", this.store.factors);
 
       if (this.store.factors.length === 0) {
         this.chartReady = false;
