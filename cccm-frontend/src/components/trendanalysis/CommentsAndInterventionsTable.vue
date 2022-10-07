@@ -3,11 +3,11 @@
     <div class="justify-content-center mb-2 col-10">
       <v-data-table item-key="comment.id" class="elevation-1" :headers="headers" :items="data" :items-per-page="10">
         <template v-slot:item.interventions="{item}">
-          <table width="100%" height="100%" >
+          <table width="100%" height="100%">
             <tbody>
               <tr v-for="intervention in item.interventions">
-              <td class="text-start">{{intervention.type}}</td>
-              <td>{{intervention.comment}}</td>
+                <td class="text-start">{{intervention.type}}</td>
+                <td>{{intervention.comment}}</td>
               </tr>
             </tbody>
           </table>
@@ -35,7 +35,7 @@ export default {
     this.applyFilters();
 
     this.store.$subscribe((mutation, state) => {
-      if (mutation.payload) {
+      if (mutation.payload && mutation.payload.filteredData) {
         this.applyFilters();
       }
 
@@ -69,26 +69,25 @@ export default {
   },
   methods: {
     async applyFilters() {
-      if (this.store.data) {
-        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
-          return this.store.factors.includes(dataset.source);
-        });
+      this.data = [];
+      if (this.store.filteredData) {
+        this.store.filteredData.datasets.forEach(dataset => {
+          if (!dataset.hidden) {
+            let comments = dataset.comments;
+            let interventions = dataset.interventions;
 
-        this.data = [];
-        filteredDatasets.forEach(dataset => {
-          let comments = dataset.comments;
-          let interventions = dataset.interventions;
+            comments.forEach(comment => {
 
-          comments.forEach(comment => {
-            
-            comment.interventions = interventions.filter(intervention => intervention.relatedAnswerId === comment.id) || [];
-            this.data.push(comment);
-   
-          });
+              comment.interventions = interventions.filter(intervention => intervention.relatedAnswerId === comment.id) || [];
+              this.data.push(comment);
+
+            });
+          }
 
         });
-
       }
+
+
     },
 
     getRowClass(comment) {

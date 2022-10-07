@@ -12,6 +12,7 @@ export const trendStore = defineStore('trend', {
         userStartDate: null,
         userEndDate: null,
         data: null,
+        filteredData: null,
         minStartDate: null,
         maxEndDate: null,
         interventionCount: 0,

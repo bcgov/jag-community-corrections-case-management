@@ -5,7 +5,7 @@
       <p />
       <p>Please select an item(s) from the "Factor View" dropdown menu</p>
     </div>
-    <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading chart data...
+    <v-progress-linear v-if="loading" indeterminate height="20" color="primary">Loading chart data...
     </v-progress-linear>
 
     <v-card class="chart-container">
@@ -40,7 +40,7 @@ export default {
     }
   },
   computed: {
-    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount', 'factors', 'advancedFilter'])
+    ...mapStores(trendStore, ['data', 'startDate', 'endDate', 'commentCount', 'interventionCount', 'factors', 'advancedFilter', 'filteredData'])
   },
   created() {
 
@@ -52,23 +52,29 @@ export default {
 
   mounted() {
     let ctx = document.getElementById('justiceChart');
+    let vm = this;
+    if (this.store && this.store.filteredData) {
+      this.chartReady = true;
+      // run with timeout to give chart time to display and then render updates
+      setTimeout(function () {
+        vm.updateChart(vm.store.filteredData);
+      }, 500);
 
-    this.trendStore.$subscribe((mutation, state) => {
+
+    }
+
+    this.store.$subscribe((mutation, state) => {
       let changed = false;
-      if (mutation.payload) {
+      if (mutation.payload && mutation.payload.hasOwnProperty('filteredData')) {
+        if (mutation.payload.filteredData === null) {
+          this.chartReady = false;
+        } else {
+          this.chartReady = true;
 
-        if (mutation.payload.factors || mutation.payload.period || mutation.payload.data) {
-          console.log("Mutation of %o state %o", mutation, state);
-
-          this.applyFilters();
+          this.updateChart(mutation.payload.filteredData);
         }
-
-        if (mutation.payload.advancedFilter) {
-          console.log("Filter change ");
-          this.applyAdvancedFilter();
-        }
-
       }
+
     });
 
     const linePlugin = {
@@ -80,7 +86,6 @@ export default {
         chartInstance.data.datasets.forEach(dataset => {
           if (dataset.verticalLines) {
             for (const [key, val] of Object.entries(dataset.verticalLines)) {
-              console.log("key val %o %o", key, val);
               const axisPoint = chartInstance.scales.x.getPixelForValue(chartInstance.data.labels[chartInstance.data.labels.length - 2]);
               let yAxis = chartInstance.scales.y;
               let ctx = chartInstance.ctx;
@@ -181,7 +186,6 @@ export default {
             external: function (context) {
               // Tooltip Element
               let tooltipEl = document.getElementById('chartjs-tooltip');
-              console.log("Tooltip %o", tooltipEl);
 
               // Create element on first render
               if (!tooltipEl) {
@@ -198,7 +202,6 @@ export default {
 
               // Keep the tooltip visible
               const tooltipModel = context.tooltip;
-              console.log("Model %o", tooltipModel);
               if (tooltipModel.opacity === 0) {
                 tooltipEl.style.opacity = 1;
                 return;
@@ -230,7 +233,6 @@ export default {
 
 
                 bodyLines.forEach(function (body, i) {
-                  console.log("Tooltip %o", tooltipModel);
                   const colors = tooltipModel.labelColors[i];
                   let style = 'background:' + colors.backgroundColor;
                   style += '; border-color:' + colors.borderColor;
@@ -310,107 +312,23 @@ export default {
       }
     });
 
-    this.applyFilters();
 
   },
 
   methods: {
-    applyAdvancedFilter() {
-
-      let chart = Chart.getChart("justiceChart");
-      let filter = this.store.advancedFilter;
-
-      if (filter) {
-
-        chart.data.datasets.forEach(ds => {
-          ds.hidden = false;
-
-          const lastTwo = ds.data.slice(-2);
-
-          switch (filter.value) {
-            case '': {
-              ds.hidden = null;
-              break;
-            }
-            case 'improved': {
-              if (lastTwo[1] > lastTwo[0]) {
-                ds.hidden = false;
-              } else {
-                ds.hidden = true;
-
-              }
-              break;
-            }
-            case 'worsened': {
-              if (lastTwo[1] < lastTwo[0]) {
-                ds.hidden = false;
-
-              } else {
-                ds.hidden = true;
-              }
-              break;
-            }
-            case 'remained-c-d': {
-              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-              }
-
-              break;
-            }
-            case 'remained-a-b': {
-              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-
-              }
-
-              break;
-            }
-            default: {
-              console.log("Not handling %s", filter.condition);
-            }
-
-          }
-        });
-
-        chart.update();
-      }
-
-    },
-    
-    applyFilters() {
-
-      if (this.store.factors.length === 0) {
-        this.chartReady = false;
-      } else {
-        if (this.store.data && this.store.data.datasets) {
-          let filteredDatasets = this.store.data.datasets.filter((dataset) => {
-            return this.store.factors.includes(dataset.source);
-          });
 
 
-          let labels = this.store.data.dataLabels;
-          console.log("Data %o", filteredDatasets);
-          this.updateChart(labels, filteredDatasets);
+
+
+    updateChart(data) {
+      if (data) {
+
+        const chart = Chart.getChart("justiceChart");
+        if (chart) {
+
+          chart.data = data;
+          chart.update();
         }
-      }
-
-    },
-
-
-    updateChart(labels, data) {
-      const chart = Chart.getChart("justiceChart");
-      if (chart) {
-        const chartData = {
-          labels: labels,
-          datasets: data
-        };
-        chart.data = chartData;
-        chart.update();
-        this.chartReady = true;
       }
     }
   }

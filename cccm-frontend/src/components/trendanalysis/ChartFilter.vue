@@ -1,5 +1,5 @@
 <template>
-  <div data-app class="row filters p-4">
+  <div data-app class="row filters p-2">
     <v-tabs v-model="reportTab" fixed-tabs color="deep-purple accent-4" @change="chartTypeChangeHandler">
       <v-tab v-for="item in reportTypes" :key="item.tab">
         {{ item.tab }}
@@ -13,6 +13,9 @@
         <small>to</small>
         <input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
           class="form-control ms-3 me-3 ml-2" type="date" />
+
+        <v-btn class="ml-1" v-on:click="resetDates" tooltip="test"><a class="fas fa-undo-alt" /></v-btn>
+
       </div>
     </div>
     <div class="col-md-3 col-sm-1 divider-right">
@@ -34,10 +37,10 @@
         @blur="updateFactors()" :menu-props="{ maxHeight: '400' }" multiple hint="Select one or more factors"
         persistent-hint>
         <template v-slot:selection="{ item, index }">
-        <span v-if="index === 0">
-          <b class="ml-6" style="margin-left:8px">{{ selectedFactors.length  }}</b> factor(s) selected
-        </span>
-      </template>
+          <span v-if="index === 0">
+            <b class="ml-6" style="margin-left:8px">{{ selectedFactors.length }}</b> factor(s) selected
+          </span>
+        </template>
       </v-select>
 
     </div>
@@ -111,44 +114,25 @@ export default {
 
       // chart type or period changed
       if (mutation.payload) {
-        console.log("Filters updated from chart data %o %o", mutation, state);
 
         // chart change or period change reloads back-end data
-        if (mutation.payload) {
-          if (mutation.payload.chartType) {
-            console.log("Changing chart type");
-            this.userStartDate = null;
-            this.userEndDate = null;
-            this.selectedFilter = null;
-            await this.loadData();
+        if (mutation.payload.chartType) {
+          console.log("Changing chart type");
+          this.userStartDate = null;
+          this.userEndDate = null;
+          this.selectedFilter = null;
+          await this.loadData();
+        }
+        else if (mutation.payload.period && mutation.payload.period !== this.period) {
+          console.log("Changing period");
+          await this.loadData();
+        }
 
-          }
-          else if (mutation.payload.period && mutation.payload.period !== this.period) {
-            console.log("Changing period");
-            await this.loadData();
-
-          }
+        if (mutation.payload.factors || mutation.payload.period || mutation.payload.data || mutation.payload.startDate || mutation.payload.endDate || mutation.payload.advancedFilter) {
+          this.applyDateFilters();
         }
 
 
-
-        if (mutation.payload.data || mutation.payload.factors) {
-
-          console.log("Updating counters for factors %o", mutation.payload.factors);
-          let commentCount = 0;
-          let interventionCount = 0;
-          let filteredDatasets = this.store.data.datasets.filter((dataset) => {
-            return this.store.factors.includes(dataset.source);
-          });
-          filteredDatasets.forEach(dataset => {
-            console.log("Checking dataset %o", dataset);
-            commentCount += dataset.comments.length;
-            interventionCount += dataset.interventions.length;
-          });
-
-          this.store.$patch({ commentCount: commentCount, interventionCount: interventionCount });
-
-        }
 
       }
 
@@ -162,6 +146,12 @@ export default {
   },
 
   methods: {
+    resetDates() {
+      this.userStartDate = this.store.minStartDate;
+      this.userEndDate = this.store.maxEndDate;
+      this.store.$patch({ startDate: this.userStartDate, endDate: this.userEndDate });
+
+    },
     async loadData() {
       console.log("Getting data for %s", this.store.chartType);
       this.loading = true;
@@ -192,7 +182,7 @@ export default {
               this.maxEndDate = xSeries[xSeries.length - 1];
               this.minStartDate = xSeries[0];
               // patch the pinia store
-              this.store.$patch({ data: data, minStartDate: xSeries[0], maxEndDate: xSeries[xSeries.length - 1], interventionCount: 0, commentCount: 0 });
+              this.store.$patch({ data: data, minStartDate: xSeries[0], maxEndDate: xSeries[xSeries.length - 1], interventionCount: 0, commentCount: 0, startDate: this.minStartDate, endDate: this.maxEndDate });
               if (!this.userStartDate) {
                 this.userStartDate = this.minStartDate;
               }
@@ -220,7 +210,7 @@ export default {
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null });
+      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
 
     },
@@ -240,14 +230,83 @@ export default {
     },
     changeStartDate() {
       console.log("Start date changed...");
+      this.store.$patch({ startDate: this.userStartDate });
+
     },
     changeEndDate() {
       console.log("End date changed...");
+      this.store.$patch({ endDate: this.userEndDate });
     },
     getMaxEnd() {
       return this.maxEndDate;
     },
-    datesChanged() {
+    applyDateFilters() {
+      let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
+      let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
+      if (this.store.factors === null || this.store.factors.length === 0) {
+        return;
+      }
+      if (this.store.data && this.store.data.dataLabels && startDate && endDate) {
+        let labels = [];
+        let index = 0;
+        let startIndex = 0;
+        let endIndex = this.store.data.dataLabels.length - 1;
+        this.store.data.dataLabels.forEach(label => {
+          let seriesDate = new Date(label);
+          if (startDate != null && seriesDate < startDate) {
+            startIndex++;
+          }
+          if (endDate != null && endDate < seriesDate) {
+            endIndex--;
+          }
+          index++;
+        });
+
+        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+          return this.store.factors.includes(dataset.source);
+        });
+
+        filteredDatasets = this.applyAdvancedFilter(filteredDatasets);
+
+
+        let datasets = [];
+        filteredDatasets.forEach(ds => {
+          let data = [];
+          for (let i = startIndex; i <= endIndex; i++) {
+            data.push(ds.data[i]);
+          }
+          let copiedDs = JSON.parse(JSON.stringify(ds));
+
+          copiedDs.data = data;
+          datasets.push(copiedDs);
+
+        });
+        for (let i = startIndex; i <= endIndex; i++) {
+          labels.push(this.store.data.dataLabels[i]);
+        }
+
+        // this.applyFilters(labels, datasets);
+        let filtered = {
+          datasets: datasets,
+          labels: labels
+        }
+        let commentCount = 0;
+        let interventionCount = 0;
+        datasets.forEach(dataset => {
+          if ( !dataset.hidden) {
+          let filteredComments = dataset.comments.filter( comment => new Date(comment.createdDate) >= startDate && new Date(comment.createdDate) <= endDate);
+          let filteredInterventions = dataset.interventions.filter( intervention => new Date(intervention.createdDate) >= startDate && new Date(intervention.createdDate) <= endDate);
+          dataset.comments = filteredComments;
+          dataset.interventions = filteredInterventions;
+          commentCount += filteredComments.length;
+          interventionCount += filteredInterventions.length;
+          }
+        });
+
+
+        this.store.$patch({ filteredData: filtered, commentCount: commentCount, interventionCount: interventionCount });
+
+      }
 
     },
     async getChartTypes() {
@@ -272,7 +331,69 @@ export default {
         this.factorOptions = data;
       }
     },
+    applyAdvancedFilter(datasets) {
 
+      let filter = this.store.advancedFilter;
+
+      if (filter) {
+
+        datasets.forEach(ds => {
+          ds.hidden = false;
+
+          const lastTwo = ds.data.slice(-2);
+
+          switch (filter.value) {
+            case '': {
+              ds.hidden = null;
+              break;
+            }
+            case 'improved': {
+              if (lastTwo[1] > lastTwo[0]) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+
+              }
+              break;
+            }
+            case 'worsened': {
+              if (lastTwo[1] < lastTwo[0]) {
+                ds.hidden = false;
+
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-c-d': {
+              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+              }
+
+              break;
+            }
+            case 'remained-a-b': {
+              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+
+              }
+
+              break;
+            }
+            default: {
+              console.log("Not handling %s", filter.condition);
+            }
+
+          }
+        });
+
+      }
+      return datasets;
+    },
 
     removeAdvancedFilter() {
       this.filter.advancedFilter = null;
@@ -297,7 +418,7 @@ export default {
       this.getFormFactors();
 
     }
-  
+
   }
 }
 </script>
@@ -307,7 +428,6 @@ export default {
 <style scoped>
 .filters {
   background-color: #EEEEEE;
-  min-height: 80px;
 }
 
 .divider-right {
