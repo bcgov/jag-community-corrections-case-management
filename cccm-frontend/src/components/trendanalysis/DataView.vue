@@ -8,11 +8,14 @@
         ><v-btn @click="activate('graph')" :class="getActiveClass('graph')" >
           <i class="fas fa-chart-bar"> </i> <span class="ms-3 flex-0  ml-3">Graph</span>
           </v-btn>
-          <v-btn @click="activate('comments')"  :class="getActiveClass('comments')">
+          <!-- <v-btn @click="activate('comments')"  :class="getActiveClass('comments')">
             <i class="fas fa-comments"></i><span class="ms-3  ml-3">Comments ({{ commentCount }})</span>
           </v-btn>
           <v-btn  @click="activate('interventions')"  :class="getActiveClass('interventions')">
             <i class="fas fa-warning"></i> <span class="ms-3 ml-3">Interventions ({{ interventionCount }})</span>
+          </v-btn> -->
+          <v-btn  @click="activate('combined')"  :class="getActiveClass('combined')">
+            <i class="fas fa-comments"></i> <span class="ms-3 ml-3">Comments ({{ commentCount }}) & interventions ({{ interventionCount }})</span>
           </v-btn>
         </v-btn-toggle>
       </div>

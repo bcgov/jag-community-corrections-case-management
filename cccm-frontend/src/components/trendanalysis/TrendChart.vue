@@ -40,7 +40,7 @@ export default {
     }
   },
   computed: {
-    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount', 'factors'])
+    ...mapStores(trendStore, ['data', 'commentCount', 'interventionCount', 'factors', 'advancedFilter'])
   },
   created() {
 
@@ -64,7 +64,10 @@ export default {
           this.applyFilters();
         }
 
-
+        if (mutation.payload.advancedFilter) {
+          console.log("Filter change ");
+          this.applyAdvancedFilter();
+        }
 
       }
     });
@@ -314,7 +317,80 @@ export default {
   },
 
   methods: {
+    applyAdvancedFilter() {
 
+      let chart = Chart.getChart("justiceChart");
+      let filter = this.store.advancedFilter;
+
+      if (filter) {
+
+        chart.data.datasets.forEach(ds => {
+          ds.hidden = false;
+
+          const lastTwo = ds.data.slice(-2);
+
+          switch (filter.value) {
+            case '': {
+              ds.hidden = null;
+              break;
+            }
+            case 'improved': {
+              console.log("previous greater than last");
+              if (lastTwo[1] > lastTwo[0]) {
+                ds.hidden = false;
+                console.log("Keeping %o", ds);
+              } else {
+                ds.hidden = true;
+                console.log("Hiding %o", ds);
+
+              }
+              break;
+            }
+            case 'worsened': {
+              console.log("Checking last 2 entries for each dataset %o", lastTwo);
+              if (lastTwo[1] < lastTwo[0]) {
+                ds.hidden = false;
+                console.log("Keeping %o", ds);
+
+              } else {
+                ds.hidden = true;
+                console.log("Hiding %o", ds);
+
+              }
+              break;
+            }
+            case 'remained-c-d': {
+              console.log("Checking last 2 entries for each dataset %o", ds);
+              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+              }
+
+              break;
+            }
+            case 'remained-a-b': {
+              console.log("Checking last 2 entries for each dataset %o", ds);
+              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+
+              }
+
+              break;
+            }
+            default: {
+              console.log("Not handling %s", filter.condition);
+            }
+
+          }
+        });
+
+        chart.update();
+      }
+
+    },
     toggleSelected(newValue) {
       let ctx = document.getElementById('justiceChart');
       let chart = Chart.getChart("justiceChart");
@@ -396,7 +472,6 @@ export default {
 
     },
     applyFilters() {
-      debugger;
       console.log("Applying filters %o", this.store.factors);
 
       if (this.store.factors.length === 0) {

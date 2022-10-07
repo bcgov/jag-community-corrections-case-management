@@ -8,11 +8,14 @@
     <TrendChart class="mb-4" v-if="this.viewType === 'graph'"/>
     <InterventionsTable class="mb-4" v-if="this.viewType === 'interventions'"/>
     <CommentsTable class="mb-4" v-if="this.viewType === 'comments'"/>
+    <CommentsAndInterventionsTable class="mb-4" v-if="this.viewType === 'combined'"/>
+
   </div>
 
 </template>
 
 <script lang="ts">
+import CommentsAndInterventionsTable from "./CommentsAndInterventionsTable.vue";
 
 import CommentsTable from "./CommentsTable.vue";
 import ChartFilter from "./ChartFilter.vue";
@@ -22,6 +25,7 @@ import InterventionsTable from "./InterventionsTable.vue";
 import axios from "axios";
 import {trendStore} from "@/stores/trendstore";
 import {formSearch} from "@/components/form.api";
+import CommentsAndInterventionsTable from "./CommentsAndInterventionsTable.vue";
 
 export default {
   name: "TrendAnalysisView",
@@ -60,7 +64,8 @@ export default {
     TrendChart,
     DataView,
     ChartFilter,
-  },
+    CommentsAndInterventionsTable
+},
   methods: {
 
     changeFactors(factors) {

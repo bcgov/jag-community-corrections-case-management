@@ -8,20 +8,20 @@
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Date Range</div>
       <div class="d-flex justify-content-evenly align-items-center pb-3">
-        <input id="startDate" v-model="userStartDate" @change="changeStartDate" class="form-control ms-3 me-3 mr-2"
-          type="date" />
+        <input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
+          class="form-control ms-3 me-3 mr-2" type="date" />
         <small>to</small>
-        <input id="endDate" v-model="userEndDate" @change="changeEndDate" class="form-control ms-3 me-3 ml-2"
-          type="date" />
+        <input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
+          class="form-control ms-3 me-3 ml-2" type="date" />
       </div>
     </div>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
       <div class="d-flex justify-content-center">
         <v-radio-group label="" v-model="period" row v-on:change="changePeriods">
-          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
-            value="allPeriods"></v-radio>
-          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
+          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Periods" value="allPeriods">
+          </v-radio>
+          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Period"
             value="currentPeriod"></v-radio>
         </v-radio-group>
 
@@ -30,36 +30,21 @@
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
-
       <v-select v-model="selectedFactors" item-text="label" item-value="value" :items="factorOptions" chips
-        @blur="updateFactors()" :menu-props="{ maxHeight: '400' }"  multiple
-        hint="Select one or more factors" persistent-hint>
+        @blur="updateFactors()" :menu-props="{ maxHeight: '400' }" multiple hint="Select one or more factors"
+        persistent-hint>
+        <template v-slot:selection="{ item, index }">
+        <span v-if="index === 0">
+          <b class="ml-6" style="margin-left:8px">{{ selectedFactors.length  }}</b> factor(s) selected
+        </span>
+      </template>
       </v-select>
-      <!-- 
-      <v-select v-model="filter.factors"       item-text="label"
-          item-value="value" :items="factorOptions"  @close="changeFactors()" @remove="removeFactor"
-        :menu-props="{ maxHeight: '400' }" label="Select" multiple hint="Select one or more factors" persistent-hint>
-      </v-select> -->
-
-      <!-- <VueMultiselect
-          :multiple="true"
-          v-model="filter.factors"
-          :close-on-select="false"
-          @close="changeFactors()"
-          @remove="removeFactor"
-          track-by="id"
-          label="name"
-          :taggable="false"
-          placeholder="Select one or more factors"
-          :options="factors"/> -->
-
 
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
-      <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions" 
-        @change="updateFilter()" :menu-props="{ maxHeight: '400' }" 
-        hint="Select a display filter" persistent-hint>
+      <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions"
+        @change="updateFilter()" :menu-props="{ maxHeight: '400' }" hint="Select a display filter" persistent-hint>
       </v-select>
 
 
@@ -97,10 +82,10 @@ export default {
       expanded: null,
       loading: false,
       userStartDate: null,
-      maxEndDate: null,
-      minStartDate: null,
       filterOptions: [],
       period: 'allPeriods',
+      maxEndDate: null,
+      minStartDate: null,
       chartType: null,
       selectedFactors: [],
       userEndDate: null,
@@ -129,24 +114,25 @@ export default {
         console.log("Filters updated from chart data %o %o", mutation, state);
 
         // chart change or period change reloads back-end data
-        if ( mutation.payload) {
-          if ( mutation.payload.chartType) {
+        if (mutation.payload) {
+          if (mutation.payload.chartType) {
             console.log("Changing chart type");
             this.userStartDate = null;
             this.userEndDate = null;
+            this.selectedFilter = null;
             await this.loadData();
 
           }
-           else if ( mutation.payload.period && mutation.payload.period !== this.period ) {
+          else if (mutation.payload.period && mutation.payload.period !== this.period) {
             console.log("Changing period");
             await this.loadData();
 
           }
         }
-      
 
 
-        if (mutation.payload.data || mutation.payload.factors ) {
+
+        if (mutation.payload.data || mutation.payload.factors) {
 
           console.log("Updating counters for factors %o", mutation.payload.factors);
           let commentCount = 0;
@@ -234,7 +220,7 @@ export default {
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, factors: [] })
+      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null });
       this.getFormFactors();
 
     },
@@ -246,6 +232,14 @@ export default {
     },
     updateFilter() {
       console.log("Apply filter %o", this.selectedFilter);
+
+      // get the filter from the store
+      let filter = this.reportTypes[this.reportTab].filters.filter(option => option.value === this.selectedFilter)[0];
+      console.log("Filter %o", filter);
+
+      this.store.$patch({ advancedFilter: filter })
+
+
     },
     changeStartDate() {
       console.log("Start date changed...");
@@ -267,7 +261,6 @@ export default {
         console.log("Got chart types %o", data);
         data.forEach(type => {
           console.log("Add type %o", type);
-          debugger;
           this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
         });
       }
@@ -289,25 +282,20 @@ export default {
 
     removeAdvancedFilter() {
       this.filter.advancedFilter = null;
-      // this.$store.commit('updateAdvancedFilter', this.filter.advancedFilter);
     },
     changeAdvancedFilter(value) {
       console.log("Changing advanced filter to %o %d", value);
       this.filter.advancedFilter = value;
-      // this.$store.commit('updateAdvancedFilter', this.filter.advancedFilter);
     },
     removeFactor(factor) {
       console.log("Removed %o %s", factor);
       let removedIdx = this.filter.factors.findIndex(filter => filter.id === factor.id);
       this.filter.factors.splice(removedIdx, 1);
       console.log("Removed %o", removedIdx);
-      // eslint-disable-next-line no-debugger
 
-      // this.$store.commit('updateFactors', this.filter.factors);
     },
     updateFactors() {
       console.log("Filter update", this.selectedFactors);
-      //  this.trendstore.commit('updateFactors', this.filter.factors);
       this.store.$patch({ factors: this.selectedFactors })
 
     },
@@ -323,14 +311,12 @@ export default {
     },
     changeStartDate() {
       console.log("Filter start date %o %o", this.filter.startDate);
-      // this.$store.commit('userUpdateStartDate', this.filter.startDate);
-      // this.trendstore.commit('userUpdateStartDate', this.filter.startDate);
+
 
     },
     changeEndDate() {
       console.log("Filter end date %o", this.filter.endDate);
-      // this.$store.commit('userUpdateEndDate', this.filter.endDate);
-      // this.trendstore.commit('userUpdateEndDate', this.filter.endDate);
+
 
     }
   }
