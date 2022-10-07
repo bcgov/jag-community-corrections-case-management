@@ -52,7 +52,17 @@
 
 
     </div>
-    <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading data...</v-progress-linear>
+    <v-overlay :value="loading">
+      <v-progress-circular
+        indeterminate :width="6"
+        size="200"
+      >
+      <span class="mt-30">Loading chart data...</span>
+
+    </v-progress-circular>
+
+    </v-overlay>
+
 
   </div>
 </template>
