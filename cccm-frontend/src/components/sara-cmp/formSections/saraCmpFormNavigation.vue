@@ -25,7 +25,7 @@
                   :key="headerc.key" 
                   :href="`#${indexp}${indexc}`"
                   :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
-                  @click="setCurrentSectionParentChild">
+                  @click="()=>scrollToContent(headerc.key)">
                   {{ headerc.label }}
                 </a>
               </span>
@@ -68,17 +68,18 @@ export default {
   },
   watch: {
     parentNavMoveToNext() {
-      let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
-      let childNavPos = '0';
-      this.showHideWrapper(parentNavPos, childNavPos);
-
-      // Move the position to the top by simulating an anchor click
-      let hrefVal = '#' + parentNavPos + childNavPos;
-      let selector = 'a[href="' + hrefVal + '"]'
-      let theAnchor = document.querySelector(selector);
-      if (theAnchor != null) {
-        theAnchor.click();
-      }
+      //TODO: Ask Echo if we should remove
+      // let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
+      // let childNavPos = '0';
+      // this.showHideWrapper(parentNavPos, childNavPos);
+      //
+      // // Move the position to the top by simulating an anchor click
+      // let hrefVal = '#' + parentNavPos + childNavPos;
+      // let selector = 'a[href="' + hrefVal + '"]'
+      // let theAnchor = document.querySelector(selector);
+      // if (theAnchor != null) {
+      //   theAnchor.click();
+      // }
     }
   },
   mounted() {
@@ -90,7 +91,7 @@ export default {
           //console.log("Intersection ratio: ", entry.intersectionRatio);
           if (this.initLoad) {
             this.timeoutDelay = 2500;
-            this.showHideWrapper(0, 0);
+            //this.showHideWrapper(0, 0);
             this.initLoad = false;
           } else {
             if (entry &&
@@ -104,7 +105,7 @@ export default {
                 this.currentSectionParent = tmpID.substr(0, 1);
                 this.currentSectionChild = tmpID.substr(1);
                 
-                this.showHideWrapper(this.currentSectionParent, this.currentSectionChild);
+                //this.showHideWrapper(this.currentSectionParent, this.currentSectionChild);
               }
             }
           }
@@ -123,6 +124,13 @@ export default {
     }
   },
   methods: {
+    scrollToContent: (headerKey='') => {
+      const node = document.querySelector(`div[ref="nested-${headerKey}"]`);
+      if(node){
+        const y = node?.getBoundingClientRect().top + (window.scrollY - 400);
+        window.scrollTo({top:y, behavior: 'smooth'})
+      }
+    },
     private_loadData() {
       const formdata = this.dataModel.components.filter(obj => {
         return obj.key === 'section_data';
