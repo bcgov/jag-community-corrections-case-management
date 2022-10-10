@@ -75,7 +75,9 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
     column-gap: 100px;
 }
 
-
+.client-search .formio-action-buttons-container {
+    padding-bottom: 0px !important;
+}
 div[ref="nested-generalInfo"]  {
     padding: 20px;
 }
