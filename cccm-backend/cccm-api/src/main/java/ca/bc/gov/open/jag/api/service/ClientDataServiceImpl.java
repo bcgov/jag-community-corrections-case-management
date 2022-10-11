@@ -145,10 +145,6 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public BigDecimal addClientForm(CreateFormInput createFormInput) {
-
-        // todo - how do we get the userid and location id?
-        createFormInput.setCreatedByUserId(BigDecimal.TEN);
-        createFormInput.setLocationId(BigDecimal.TEN);
         return obridgeClientService.createForm(createFormInput);
     }
 

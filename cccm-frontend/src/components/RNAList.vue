@@ -123,6 +123,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { lookupFormTypes, formSearch, cloneForm, createForm, getFormSummaries } from "@/components/form.api";
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'RNAList',
@@ -285,6 +287,7 @@ export default {
       const [err, formInfo] = await getFormSummaries('CRNA', true);
       this.formData.clientNumber = "00142091";
       this.formData.formTypeId = formInfo[0].id;
+      this.formData.location = this.mainStore.location;
       const [error, formId] = await createForm(this.formData);
       if (error) {
         console.error(error);
@@ -384,6 +387,7 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useStore),
     getFormStatusColor() {
       let colorClass = {};
       colorClass[this.const_formstatus_incomplete] = 'dashboard-background-color-yellow';

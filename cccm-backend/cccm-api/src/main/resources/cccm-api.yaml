@@ -263,6 +263,8 @@ paths:
 
   /forms/client:
     post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
       tags:
         - client-form-controller
       summary: createNewForm
@@ -275,22 +277,22 @@ paths:
               $ref: '#/components/schemas/CreateFormInput'
         required: true
       responses:
-        '200':
+        200:
           description: OK
           content:
             '*/*':
               schema:
                 type: number
-        '201':
+        201:
           description: Created
           content: {}
-        '401':
+        401:
           description: Unauthorized
           content: {}
-        '403':
+        403:
           description: Forbidden
           content: {}
-        '404':
+        404:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
@@ -1869,12 +1871,21 @@ components:
       properties:
         clientNumber:
           type: string
-        createdByUserId:
-          type: number
+        creationDate:
+          type: string
+          format: date
+        formLevelComments:
+          type: string
         formTypeId:
           type: number
+        location:
+          type: string
         locationId:
           type: number
+        planSummary:
+          type: string
+        sourcesContacted:
+          type: string
     ClientFormAnswerInput:
       title: ClientFormAnswerInput
       type: object
