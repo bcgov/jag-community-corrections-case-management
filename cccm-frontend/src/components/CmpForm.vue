@@ -172,7 +172,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import CmpFormDetail from "@/components/cmp-form/CmpFormDetails.vue";
+import CmpFormDetail from "@/components/cmp-form/FormRenderer.vue";
 import { createForm } from "@/components/form.api";
 
 export default {
