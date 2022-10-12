@@ -172,7 +172,7 @@ label.col-form-label {
 .crna-right-sticky-panel {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 50vh;
 }
 
 .crna-right-panel-button-container {
@@ -192,7 +192,7 @@ label.col-form-label {
 }
 
 .crna-formio-h1 {
-    margin-top: 80px;
+    margin-top: 0px;
 }
 
 .crna-formio-metadata-section {
