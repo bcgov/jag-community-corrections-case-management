@@ -70,12 +70,12 @@
           </div>
         </div>
         <div class="col-sm-3">
-          <label<strong>Supervision Periods</strong></label>
-            <v-radio-group label="" v-model="selectedSupervisionPeriods" row v-on:change="applyPeriodFilter">
+          <strong>Supervision Periods</strong>
+            <v-radio-group label="" v-model="currentPeriod" row v-on:change="changePeriods">
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
-                value="false"></v-radio>
+                value="all"></v-radio>
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
-                value="true"></v-radio>
+                value="current"></v-radio>
             </v-radio-group>
         </div>
         <div class="col-sm-3"></div>
@@ -84,7 +84,7 @@
         </div>
       </section>
       <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="filteredRNAList"
+        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
           item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
           :loading="loading"   loading-text="Loading RNA List... Please wait"
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
@@ -181,6 +181,7 @@ export default {
       page: 1,
       pageCount: 1,
       itemsPerPage: 5,
+      currentPeriod: "all",
       totalClients: 0,
       loading: true,
       headers: [
@@ -210,7 +211,7 @@ export default {
       selectedFormTypeValue: [],
     }
   },
-  mounted(){
+  mounted() {
     this.initFormCreation();
 
     this.lookupFormTypesAPI();
@@ -270,22 +271,6 @@ export default {
     applyPeriodFilter(period) {
       this.private_applyFilter(this.selectedFormTypes, period);
     },
-    private_applyFilter(formType, currentPeriod) {
-      if (typeof formType == 'object') {
-        formType = formType.key;
-      }
-      if (typeof currentPeriod == 'object') {
-        currentPeriod = currentPeriod.value;
-      }
-      this.filteredRNAList = this.rnaList.filter(el => {
-        if (currentPeriod == "true") {
-          return el.module.includes(formType) && el.status != 'Complete';
-        } else {
-          return el.module.includes(formType);
-        }
-      });
-      this.key_rnalistSearchResult++;
-    },
     async lookupFormTypesAPI() {
       const [error, response] = await lookupFormTypes();
       if (error) {
@@ -297,8 +282,8 @@ export default {
       }
       // to be removed
       this.formTypes = [
-        {value: "CRNA", key: "crna"}, 
-        {value: "SARA", key: "sara"}
+        { value: "CRNA", key: "crna" }, 
+        { value: "SARA", key: "sara" }
       ];
       this.formTypes.unshift(this.selectedFormTypes);
     },
@@ -309,6 +294,7 @@ export default {
       this.formData.formTypeId = formInfo[0].id;
 
       const [error, formId] = await createForm(this.formData);
+      this.newCreatedFormId = formId;
       if (error) {
         console.error(error);
       }
@@ -321,465 +307,25 @@ export default {
       }
     },
     async formSearchAPI(clientNum, tobeRemoved_addOne) {
-
-      const [error, response] = await formSearch(clientNum, 'RNA', true);
-      //this.initData = response.data;
-      this.key_rnalistSearchResult++;
-      this.loading = false;
-      this.rnaList = response;
-      this.rnaList = 
-      [
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-23",
-          "formTypeId": 755,
-          "id": 389760,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": 10000,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-23",
-          "formTypeId": 755,
-          "id": 389759,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-22",
-          "formTypeId": 755,
-          "id": 389740,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-22",
-          "formTypeId": 755,
-          "id": 389739,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-22",
-          "formTypeId": 755,
-          "id": 389719,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-16",
-          "formTypeId": 755,
-          "id": 389699,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-15",
-          "formTypeId": 755,
-          "id": 389679,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-14",
-          "formTypeId": 755,
-          "id": 389677,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-14",
-          "formTypeId": 755,
-          "id": 389675,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-14",
-          "formTypeId": 755,
-          "id": 389676,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-14",
-          "formTypeId": 755,
-          "id": 389678,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 389664,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 389663,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "Not Set",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 389662,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 389661,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        },
-        {
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 389665,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
+      this.loading = true;
+      try {
+        let period = (this.currentPeriod === 'current') ? true : false;
+        const [error, response] = await formSearch(clientNum, 'RNA', period);
+        //this.initData = response.data;
+        this.key_rnalistSearchResult++;
+        this.rnaList = response;
+      
+        if (error) {
+          console.error(error);
         }
-      ];
-      if (tobeRemoved_addOne) {
-        this.rnaList.unshift({
-          "complete": false,
-          "completedDate": null,
-          "createdBy": "MYUSER",
-          "createdDate": "2022-09-13",
-          "formTypeId": 755,
-          "id": 3896621,
-          "location": "Victoria Probation",
-          "module": "CRNA",
-          "mostRecent": true,
-          "ratings": {
-            "SARA": "***TBD",
-            "CRNA": "",
-            "Supervision": null
-          },
-          "reassessment": false,
-          "relatedFormTypeId": null,
-          "responsivities": [],
-          "riskNeedsAssessment": false,
-          "status": "Incomplete",
-          "summary": null,
-          "supervisionLevel": null,
-          "supervisionRating": null,
-          "updatedBy": null,
-          "updatedDate": null
-        });
+      } finally {
+        this.loading = false;
       }
-      //apply filter
-      this.private_applyFilter(this.selectedFormTypes, this.selectedSupervisionPeriods);
-
-      if (error) {
-        console.error(error);
-      }
+    },
+    changePeriods() {
+      console.log("Filter updating periods %o", this.currentPeriod);
+      let period = (this.currentPeriod === 'current') ? true : false;
+      this.formSearchAPI(this.clientNum, period);
     },
     formView( formID, formType, relatedFormTypeId) {
       if (formID != null) {

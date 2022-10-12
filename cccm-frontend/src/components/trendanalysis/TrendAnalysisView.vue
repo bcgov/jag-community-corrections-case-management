@@ -8,11 +8,14 @@
     <TrendChart class="mb-4" v-if="this.viewType === 'graph'"/>
     <InterventionsTable class="mb-4" v-if="this.viewType === 'interventions'"/>
     <CommentsTable class="mb-4" v-if="this.viewType === 'comments'"/>
+    <CommentsAndInterventionsTable class="mb-4" v-if="this.viewType === 'combined'"/>
+
   </div>
 
 </template>
 
 <script lang="ts">
+import CommentsAndInterventionsTable from "./CommentsAndInterventionsTable.vue";
 
 import CommentsTable from "./CommentsTable.vue";
 import ChartFilter from "./ChartFilter.vue";
@@ -22,9 +25,11 @@ import InterventionsTable from "./InterventionsTable.vue";
 import axios from "axios";
 import {trendStore} from "@/stores/trendstore";
 import {formSearch} from "@/components/form.api";
+import CommentsAndInterventionsTable from "./CommentsAndInterventionsTable.vue";
 
 export default {
   name: "TrendAnalysisView",
+  
   data() {
     return {
       currentPath: window.location.hash,
@@ -41,13 +46,7 @@ export default {
       showComments: true,
       viewType: 'graph',
       reportTypes: [],
-      filter: {
-        clientId: 0,
-        formName: null,
-        factors: [],
-        start: null,
-        end: null
-      }
+
     }
   },
   setup() {
@@ -58,27 +57,17 @@ export default {
   },
   mounted() {
     // dummy list of report types
-    formSearch()
-
-
+    let csNumber = this.$route.params.csNumber;
   }, components: {
     InterventionsTable,
     CommentsTable,
     TrendChart,
     DataView,
     ChartFilter,
-  },
+    CommentsAndInterventionsTable
+},
   methods: {
-    getSampleForm(formName) {
-      console.log("Getting form %s", formName);
-      axios
-          .get('http://localhost:8888/client/form/' + formName)
-          .then((response) => {
-            this.form = response.data;
-            this.getFormFields();
-          });
 
-    },
     changeFactors(factors) {
       console.log("Updating factors %o %o", factors);
       this.filter.factors = factors;

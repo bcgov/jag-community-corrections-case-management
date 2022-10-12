@@ -389,13 +389,13 @@ export async function clientProfileSearch(clientNum: String) {
 }
 
 // function to search for RNA list
-export async function formSearch(clientNum: String, formType: String, supervisionPeriod: boolean) {
+export async function formSearch(clientNum: String, formType: String, currentPeriod: boolean) {
     try{
-        console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, supervisionPeriod);
+        console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, currentPeriod);
         const { data } = await axiosClient.get('/forms/client/search/' + clientNum, {
                 params: {
                     formTypeCd: formType,
-                    currentPeriod: supervisionPeriod
+                    currentPeriod: currentPeriod
                 }
             });
         return [null, data];
@@ -403,6 +403,7 @@ export async function formSearch(clientNum: String, formType: String, supervisio
         return [error];
     }
 }
+
 // function to search for form types
 export async function async_lookupFormTypes() {
     try {
@@ -443,11 +444,32 @@ export async function getFormSummaries( formType: String, latestOnly: boolean) {
 //-------------------------------------
 // Trend analysis
 //-------------------------------------
-export async function getClientFormFactors( clientNumber:number, reportType: string) {
+export async function getFormFactors( reportType: string) {
     try {
-        const { data} = await axiosClient.get('/trend/client/' + clientNumber + '/' + reportType + '/factors');
+        const { data} = await axiosClient.get('/trend/' + reportType + '/factors');
         return [null,data];
     }catch (error) {
+        return [error];
+    }
+}
+
+export async function getChartData(payload: Object) {
+    try{
+        const { data } = await axiosClient.post('/trend/client/data', payload);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+/**
+ * Get available chart types
+ */
+ export async function getTrendChartTypes() {
+    try{
+        const { data } = await axiosClient.get('/trend/types');
+        return [null, data];
+    } catch (error) {
         return [error];
     }
 }
@@ -455,9 +477,38 @@ export async function getClientFormFactors( clientNumber:number, reportType: str
 //-------------------------------------
 // Comments
 //-------------------------------------
-export async function getClientFormComments( clientNumber:number, payload: object) {
+export async function searchClientFormComments( clientNumber:number, payload: object) {
     try {
         const { data} = await axiosClient.post('/forms/client/comments/' + clientNumber, payload );
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+export async function searchClientInterventions( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/interventions', payload);
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+export async function searchClientResponsivities( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/responsivities', payload);
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+
+
+export async function searchClientComments( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/comments', payload);
         return [null,data];
     }catch (error) {
         return [error];
