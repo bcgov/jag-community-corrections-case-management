@@ -4,8 +4,7 @@
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
 	        <span v-for="(header, index) in dataModel.components" :key="index">
-            <a v-if="index < dataModel.components.length"
-              :key="index" 
+            <a :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
               @click="setCurrentSectionParentChild">
@@ -17,18 +16,19 @@
       <div class="divTableRowL2 divTableRowNav">
         <span v-for="(header, indexp) in dataModel.components" :key="indexp">
           <!-- To skip the button components-->
-          <div v-if="indexp < dataModel.components.length" 
-              :key="indexp"
+          <div :key="indexp"
               :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
               <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
-              <span v-if="header.custom_subNavOnOff != null && header.custom_subNavOnOff == 'on'">
-                <a v-for="(headerc, indexc) in header.components" 
-                  :key="headerc.key" 
-                  :href="`#${indexp}${indexc}`"
-                  :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
-                  @click="setCurrentSectionParentChild">
-                  {{ headerc.label }}
-                </a>
+              <span v-if="header.custom_subNavOn != null && header.custom_subNavOn">
+                <span v-for="(headerc, indexc) in header.components" :key="headerc.key"> 
+                  <a  v-if="indexc > 0"
+                    :key="headerc.key" 
+                    :href="`#${indexp}${indexc}`"
+                    :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
+                    @click="setCurrentSectionParentChild">
+                    {{ headerc.navText }}
+                  </a>
+                </span>
               </span>
           </div>
         </span>
@@ -42,43 +42,48 @@ import { Component, Vue } from 'vue-property-decorator';
 import { ref, reactive } from '@vue/composition-api';
 
 export default {
-  name: 'CrnaCmpFormNavigation',
+  name: 'FormNavigation',
   props: {
     dataModel: {},
     // param passed from parent to indicate move to the next parentNav
     parentNavMoveToNext: {
       type: Number,
       default: 1,
+    },
+    parentNavJumpToPointed: {
+      type: String,
+      default: '0',
     }
   },
   data() {
     return {
       //const
-      CUSTOM_SECTION_PREFIX: 'custom_section_',
-      CUSTOM_QUESTION_PREFIX: 'custom_question_',
+      CUSTOM_QUESTION_PREFIX: 'question_panel_',
       observer : null,
-      currentSectionChild : '0',
+      currentSectionChild : '1',
       currentSectionParent : '0',
-      indexZero: '0',
-      timeoutDelay: 1000,
+      indexZero: '1',
+      timeoutDelay: 2000,
       initLoad: true,
 
       data_rightPanel: {},
    }
   },
   watch: {
-    parentNavMoveToNext() {
-      let parentNavPos = (parseInt(this.currentSectionParent) + 1).toString();
-      let childNavPos = '0';
-      this.showHideWrapper(parentNavPos, childNavPos);
-
-      // Move the position to the top by simulating an anchor click
-      let hrefVal = '#' + parentNavPos + childNavPos;
-      let selector = 'a[href="' + hrefVal + '"]'
-      let theAnchor = document.querySelector(selector);
-      if (theAnchor != null) {
-        theAnchor.click();
+    parentNavJumpToPointed() {
+      //console.log("nav watch: ", this.parentNavJumpToPointed );
+      //this.parentNavJumpToPointed sample value: 1Q3_0
+      // Need to get the value before _
+      let navSection = this.parentNavJumpToPointed.split("_");
+      if (navSection != null && navSection.length == 2){
+        let nav = navSection[0].split("Q");
+        if (nav != null && nav.length == 2){
+          this.private_moveNav((parseInt(nav[0])).toString(), (parseInt(nav[1])).toString());
+        }
       }
+    },
+    parentNavMoveToNext() {
+      this.private_moveNav((parseInt(this.currentSectionParent) + 1).toString(), '1');
     }
   },
   mounted() {
@@ -87,22 +92,30 @@ export default {
         entries.forEach((entry) => {
           //console.log("Intersection ratio: ", entry.intersectionRatio);
           if (this.initLoad) {
-            this.timeoutDelay = 2500;
-            this.showHideWrapper(0, 0);
+            this.timeoutDelay = 2000;
+            this.showHideWrapper(0, 1);
             this.initLoad = false;
           } else {
             if (entry &&
                 entry.isIntersecting &&
                 entry.intersectionRatio > 0) {
               //console.log("Entry: ", entry);
+              // Sample value for entry.target.className: question_panel_S02Q01
               let tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
-              let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 3);
-              //console.log("tmpID on mounted: ", tmpID);
+              let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
+              //console.log("tmpID on mounted: ", entry.target.className, tmpID);
               if (tmpID) {
-                this.currentSectionParent = tmpID.substr(0, 1);
-                this.currentSectionChild = tmpID.substr(1);
-                
-                this.showHideWrapper(this.currentSectionParent, this.currentSectionChild);
+                let theArray = [];
+                let idArray = [];
+                theArray = tmpID.split('S');
+                if (theArray && theArray.length == 2) {
+                  idArray = theArray[1].split('Q');
+                  if (theArray && theArray.length == 2) {
+                    console.log("show value: ", idArray[0] - 1, idArray[1] - 1);
+                    // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
+                    this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
+                  }
+                }
               }
             }
           }
@@ -121,25 +134,36 @@ export default {
     }
   },
   methods: {
+    private_moveNav(parentNavPos, childNavPos) {
+      //console.log("parentNavPos, childNavPos: ", parentNavPos, childNavPos);
+      this.showHideWrapper(parseInt(parentNavPos), parseInt(childNavPos));
+
+      // Move the position to the top by simulating an anchor click
+      let hrefVal = '#' + parentNavPos + childNavPos;
+      let selector = 'a[href="' + hrefVal + '"]'
+      let theAnchor = document.querySelector(selector);
+      if (theAnchor != null) {
+        theAnchor.click();
+      }
+    },
     // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        //console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 1));
-        this.showHideWrapper(e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
+        console.log(e.target.hash);
+        console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
+        this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)));
       }
     },
     showHideWrapper(posParentNav, posChildNav) {
       this.currentSectionParent = posParentNav; 
       this.currentSectionChild = posChildNav;
 
-      //console.log("Local click:", this.currentSectionParent, this.currentSectionChild);
-
       // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
       this.$emit('parentNavClicked', this.currentSectionParent);
                     
       // show/hide sideCards panels
-      this.showHideRightsidePanels();
+      //this.showHideRightsidePanels();
 
       // show/hide questions
       this.showHideSections();
@@ -179,22 +203,25 @@ export default {
       // show questions
       if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
         //console.log("panel is not null: ",  this.dataModel.components.length);
-        for (let i = 0; i < this.dataModel.components.length; i++) {
-          let className = '[class*="' + this.CUSTOM_SECTION_PREFIX + i + '0"]';
-          let thePanel = document.querySelector(className);
+        for (let i = 0; i <= this.dataModel.components.length; i++) {
+          // Section ID is 1 based, not 0 based.
+          let panelIDIndex = (i + 1).toString().length < 2 ? "0" + (i + 1).toString() : (i + 1).toString();
+          let panelID = "S" + panelIDIndex;
+          //console.log("this.currentSectionParent, panelID: ", this.currentSectionParent, this.currentSectionParent.toString().length, "S" + "0" + this.currentSectionParent.toString(), panelID);
+          let thePanel = document.getElementById(panelID);
+          //console.log("ShowHideSections", this.currentSectionParent, this.currentSectionChild, panelIDIndex, panelID, thePanel);
 
           if (thePanel != null) {
-             //console.log(this.currentSectionParent, i, thePanel);
+            //console.log(this.currentSectionParent, i, thePanel);
             if (this.currentSectionParent == i) {
               thePanel.setAttribute('style', 'display:block');
-              if (this.currentSectionChild != 0) {
-                let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + i + this.currentSectionChild + '"]';
+              if (this.currentSectionChild >= 1) {
+                let questionIDIndex = (this.currentSectionChild).toString().length < 2 ? ("0" + (this.currentSectionChild).toString()): (this.currentSectionChild).toString();
+                let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
+                console.log("questionClassName: ", questionClassName);
                 let theQuestionPanel = document.querySelector(questionClassName);
-                //console.log("theQuestionPanel: ", theQuestionPanel);
+                console.log("theQuestionPanel: ", theQuestionPanel);
                 if (theQuestionPanel != null) {
-                  //theQuestionPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  //window.scrollTo(0, theQuestionPanel.offsetTop);
-                  //theQuestionPanel.scrollTop(5);
                   theQuestionPanel.scrollIntoView(false);
                 }
               }

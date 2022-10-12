@@ -1,10 +1,9 @@
 <template>
-    <!--Summary section-->
+    <!--Case plan section-->
     <div>
-        <h1>Summary</h1>
-        <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading summary</v-progress-linear>
-
-        <div v-for="data in summaryData">
+        <h1>Case Plan</h1>
+        <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading case plan</v-progress-linear>
+        <!-- <div v-for="(data, index) in summaryData" :key="index">
             <div class="dashboard-v-card" v-if="data.answers.length > 0">
                 <h3 class="heading">{{ data.section }}</h3>
                 <v-data-table :items="data.answers" no-data-text="No answers for this section" class="summary-table elevation-10"
@@ -16,7 +15,9 @@
                     </template>
                 </v-data-table>
             </div>
-        </div>
+        </div> -->
+
+        <Form :form="template"/>
     </div>
 </template>
   
@@ -25,7 +26,10 @@ import Vue from 'vue'
 import { getFormSummary } from "@/components/form.api";
 
 export default {
-    name: 'FormSummary',
+    name: 'FormCasePlan',
+    props: {
+        template: {},
+    },
     data() {
         return {
             summaryData: {},
@@ -40,57 +44,33 @@ export default {
             ],
         }
     },
-    props: {
-
-        dataChangeCount: {
-            type: Number
-        },
-        showSummaryCounter: {
-            type: Number
-        }
-    },
     mounted() {
+        console.log("template: ", this.template);
         this.getSummaryData();
     },
-
     methods: {
-
-        formValuesUpdated() {
-            this.getSummaryData();
-        },
-        editFormItem(item) {
-            console.log("Clicked %o", item);
-            let section = Number.parseInt(item.value.substr(1, 2)) - 1; // entries are 1-based but tab indexes are zero based (ugh)
-            let question = Number.parseInt(item.value.substr(4, 6)) - 1;
-            this.$emit('viewSectionQuestion', section, question);
-
-        },
         async getSummaryData() {
             this.loading = true;
             let formId = this.$route.params.formID;
             let csNumber = this.$route.params.csNumber;
             const [error, response] = await getFormSummary(csNumber, formId);
+            console.log("formSummary: ", response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {
                 this.summaryData = response;
             }
             this.loading = false;
-
         }
     },
-
 }
 </script>
+
 <style scoped>
-
-
 h3.heading {
     margin-top: 20px;
 }
-
 h3.heading::after {
-
     content: "";
     height: 0px;
     width: 50px;
@@ -98,7 +78,6 @@ h3.heading::after {
     border-bottom: 8px solid #FCBA19;
     margin-bottom: 20px;
 }
-
 .summary-table > th > td {
     font-size: 16px;
 }

@@ -17,7 +17,6 @@ import {faBarChart, faComments, faWarning} from '@fortawesome/free-solid-svg-ico
 
 library.add(faBarChart, faComments, faWarning);
 
-
 Vue.use(VueCompositionAPI)
 Vue.use(authentication)
 Vue.use(PiniaVuePlugin)
@@ -36,6 +35,8 @@ setupInterceptors();
 //   // Logout
 //   Vue.$keycloak.logout({ redirectUri: window.location.origin  + import.meta.env.BASE_URL });
 // }
+Vue.prototype.$CONST_FORMTYPE_CRNA = 'CRNA'
+Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
 
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })

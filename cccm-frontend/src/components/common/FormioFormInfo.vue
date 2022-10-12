@@ -10,7 +10,7 @@ import templateFormInfo from '@/components/common/templateFormInfo.json';
 export default {
   name: 'FormioFormInfo',
   props: {
-    dataModel: {}
+    dataModel: {},
   },
   data() {
     return {
@@ -34,6 +34,8 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${createdBy}', this.dataModel.createdBy);
       tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate);
       tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate);
+      tmpJSONStr = tmpJSONStr.replace('${formType}', this.dataModel.formType);
+      tmpJSONStr = tmpJSONStr.replace('${location}', this.dataModel.location);
       tmpJSONStr = tmpJSONStr.replace('${formStatus}', this.dataModel.formStatus);
 
       let tmpJSON = JSON.parse(tmpJSONStr);

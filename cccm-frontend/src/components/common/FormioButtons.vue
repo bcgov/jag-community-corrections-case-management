@@ -1,5 +1,9 @@
 <template>
-    <Form :form="formJSON" @evt_save="handleSave" @evt_saveDraft="handleSaveDraft" @evt_cancel="handleCancelForm" @evt_print="handlePrint"/>
+    <Form :form="formJSON" 
+    @evt_save="handleSave" 
+    @evt_saveDraft="handleSaveDraft" 
+    @evt_cancel="handleCancelForm" 
+    @evt_print="handlePrint"/>
 </template>
 
 <script lang="ts">
@@ -10,12 +14,19 @@ import templateButtons from '@/components/common/templateButtons.json';
 export default {
   name: 'FormioButton',
   props: {
-    buttonType: ''
+    buttonType: '',
+    saveBtnLabel: '',
   },
   data() {
     return {
+      CONST_KEY_SAVE_BTN: 'save_contine',
       templatePanel : templateButtons,
       formJSON : {},
+    }
+  },
+  watch: {
+    saveBtnLabel() {
+      this.private_updateSaveBtnLabel();
     }
   },
   components: {
@@ -84,6 +95,23 @@ export default {
       //console.log("FormInfoDataEntry: ", tmpJSON);
       this.formJSON = JSON.parse(tmpJSONStr);
     },
+    private_updateSaveBtnLabel() {
+      let theBtn = this.private_getSaveBtn();
+      if (theBtn != null && theBtn.childNodes != null && theBtn.childNodes[0] != null) {
+        theBtn.childNodes[0].nodeValue = this.saveBtnLabel;
+      }
+    },
+    private_getSaveBtn() {
+      let theBtn = null;
+      let className = '[class*="' + this.CONST_KEY_SAVE_BTN + '"]';
+      let thePanel = document.querySelector(className);
+      if (thePanel != null) {
+        let typeName = '[type=button]';
+        theBtn = thePanel.querySelector(typeName);
+      }
+      //console.log("save btn: ", theBtn);
+      return theBtn;
+    },
     handleSave(evt) {
       // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === this.dataModel[0].event ) {
@@ -93,7 +121,7 @@ export default {
     handleSaveDraft(evt) {
       // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === this.dataModel[0].event ) {
-        this.$emit('saveContinueClicked', false);
+        this.$emit('saveDraftClicked', false);
       } 
     },
     handleCancelForm(evt) {

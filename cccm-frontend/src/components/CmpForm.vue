@@ -1,7 +1,7 @@
 <template>
   <div data-app>
     <!-- CRNA form instance. Modal dialog section-->
-    <div v-if="formType === CONST_FORMTYPE_CRNA">
+    <div v-if="formType === $CONST_FORMTYPE_CRNA">
       <!--SARA form creation modal dialog-->
       <v-btn
         id="id_modal_createSARAForm"
@@ -92,7 +92,7 @@
     </div>
 
     <!-- SARA form instance. Modal dialog section-->
-    <div v-if="formType === CONST_FORMTYPE_SARA">
+    <div v-if="formType === $CONST_FORMTYPE_SARA">
       <!--Form delete modal dialog -->
       <v-btn
         id="id_modal_deleteForm"
@@ -161,9 +161,8 @@
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.tab">
           <div v-if="item.id === 'cp'" class="p-4">
-            <CrnaCmpForm v-if="formType === CONST_FORMTYPE_CRNA" :formId="formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></CrnaCmpForm>
-            <SaraCmpForm v-if="formType === CONST_FORMTYPE_SARA" :formId="formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></SaraCmpForm>
-          </div>
+            <CmpFormDetail :formType="formType" :formId="formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></CmpFormDetail>
+           </div>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -173,20 +172,18 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import CrnaCmpForm from "@/components/crna-cmp/crnaCmpForm.vue";
-import SaraCmpForm from "@/components/sara-cmp/saraCmpForm.vue";
+import CmpFormDetail from "@/components/cmp-form/CmpFormDetails.vue";
 import { createForm } from "@/components/form.api";
 
 export default {
-  name: 'CRNACMP',
+  name: 'CMPForm',
   components: {
-    CrnaCmpForm,
-    SaraCmpForm,
+    CmpFormDetail,
   },
   data() {
     return {
-      CONST_FORMTYPE_CRNA: 'CRNA',
-      CONST_FORMTYPE_SARA: 'SARA',
+      //CONST_FORMTYPE_CRNA: 'CRNA',
+      //CONST_FORMTYPE_SARA: 'SARA',
       formId: '',
       clientNum: '',
       linkedSara: null,
@@ -229,7 +226,7 @@ export default {
       this.$router.push({
         name: "cmpform",
         params: {
-          formType: this.CONST_FORMTYPE_SARA,
+          formType: this.$CONST_FORMTYPE_SARA,
           formID: this.newCreatedFormId,
           csNumber: this.clientNum,
           linkedSara: false
@@ -252,10 +249,10 @@ export default {
     },
     handleDeleteFormBtnClick() {
       this.deleteDialog = false;
-      if (this.formType === this.CONST_FORMTYPE_CRNA) {
+      if (this.formType === this.$CONST_FORMTYPE_CRNA) {
         //this.deleteForm();
       }
-      if (this.formType === this.CONST_FORMTYPE_SARA) {
+      if (this.formType === this.$CONST_FORMTYPE_SARA) {
         console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
         //this.deleteForm();
       }

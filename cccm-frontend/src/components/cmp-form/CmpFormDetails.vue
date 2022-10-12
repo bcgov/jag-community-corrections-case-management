@@ -1,6 +1,6 @@
 <template>
   <div class="main crna-cmp-form">
-    <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert>
+    <!-- <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert> -->
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
@@ -9,29 +9,33 @@
               <FormioFormInfo :key="staticComponentKey" :dataModel="clientData" />
             </div>
             <div class="menuR2" v-if="!loading">
-              <CrnaCmpFormNavigation :key="componentKey" 
+              <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
+                :parentNavJumpToPointed="parentNavJumpToPointed"
                 @parentNavClicked="handleNavChildCallback"/>
             </div>
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           <div :class="loading ? 'hide' : 'mainContent'">
-            <div class="mainContent">
-              <CrnaCmpFormDataEntry :key="componentKey" 
-                :dataModel="data_formEntries" 
-                :initData="formInitData" 
-                :saveBtnLabel="btnSaveContinueText" 
-                :notifySaveDraft="notifySaveDraft"
-                @saveContinueClicked="handleSaveContinue" 
-                @cancelFormClicked="handleCancelForm"/>   
-              
-              <FormioButton 
-                :buttonType="'formButton'"
-                @saveContinueClicked="handleSaveContinue"
-                @cancelFormClicked="handleCancelForm" />
-            </div>
-          </div>  
+            <FormDataEntry :key="componentKey" 
+              :csNumber="csNumber"
+              :formId="formId"
+              :dataModel="data_formEntries" 
+              :initData="formInitData" />   
+            
+            <FormCasePlan v-if="displayCasePlan" :template="responsesivityTemplate" />
+
+            <FormSummary v-if="displaySummary" 
+              @viewSectionQuestion="navToSectionAndQuestion" 
+              :showSummaryCounter="showSummaryCounter" />
+
+            <FormioButton 
+              :buttonType="'formButton'"
+              :saveBtnLabel="btnSaveContinueText" 
+              @saveContinueClicked="handleSaveContinue"
+              @cancelFormClicked="handleCancelForm" />
+          </div>
         </div>
         <div class="column R">
           <div class="R-Sticky">
@@ -40,7 +44,7 @@
                 <!--Save draft button group-->
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
-                  @saveContinueClicked="handleSaveContinue" 
+                  @saveDraftClicked="handleSaveContinue" 
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
@@ -58,31 +62,38 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getFormDetails, updateForm, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
-import CrnaCmpFormDataEntry from "@/components/crna-cmp/formSections/crnaCmpFormDataEntry.vue";
-import CrnaCmpFormNavigation from "@/components/crna-cmp/formSections/crnaCmpFormNavigation.vue";
+import { getFormDetails, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
+import FormDataEntry from "@/components/cmp-form/formSections/FormDataEntry.vue";
+import FormNavigation from "@/components/cmp-form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
+import FormSummary from '@/components/cmp-form/formSections/FormSummary.vue';
+import FormCasePlan from '@/components/cmp-form/formSections/FormCasePlan.vue';
 
 export default {
-  name: 'crnaForm',
+  name: 'CmpFormDetail',
   components: {
     Form,
-    CrnaCmpFormDataEntry,
-    CrnaCmpFormNavigation,
+    FormDataEntry,
+    FormNavigation,
     FormioSidePanel,
     FormioFormInfo,
-    FormioButton
+    FormioButton,
+    FormSummary,
+    FormCasePlan
   },
   data() {
     return {
       loadingMsg: "Loading form...",
       loading: false,
+      formType: '',
       formId: -1,
       csNumber: '',
-      notifySaveDraft: 0,
+      displaySummary: false,
       parentNavMoveToNext: 1,
+      parentNavJumpToPointed: '',
+      parentNavJumpToPointed_sufix: 0,
       totalNumParentNav: 1,
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
@@ -92,11 +103,16 @@ export default {
       dataMap: {},
       componentKey: 0,
       staticComponentKey: 0,
+      showSummaryCounter: 0,
+      displayCasePlan: false,
+      responsesivityTemplate: {"display": "form", "components": {}},
     }
   },
   mounted(){
+    this.formType = this.$route.params.formType;
     this.formId = this.$route.params.formID;
     this.csNumber = this.$route.params.csNumber;
+    this.displaySummary = false;
     this.clientProfileSearchAPI();
     this.getFormDetails();
   },
@@ -208,7 +224,14 @@ export default {
           "sealed": "Yes",
           "gender": "Male"
       };
-      this.clientData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
+      // set the form title
+      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+        this.clientData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
+        this.clientData.formType = "CRNA-CMP Type"
+      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+        this.clientData.formTitle = "SARA (SARA-CMP)";
+        this.clientData.formType = "SARA-CMP Type"
+      }
       this.staticComponentKey++;
     },
     async getFormDetails() {
@@ -218,48 +241,52 @@ export default {
       const [error, response] = await getFormDetails(this.csNumber, this.formId);
       if (error) {
         console.error(error);
-
       } else {
         this.loadingMsg = "Loading client form data...";
-        this.data_formEntries = JSON.parse(response);
-        
+        this.data_formEntries = response;
+        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
+        // if it's CRNA form, get caseplan responsivity template
+        if (this.formType == this.$CONST_FORMTYPE_CRNA && this.totalNumParentNav > 2) {
+          this.responsesivityTemplate.components = response.components[this.totalNumParentNav - 2];
+          console.log("this.responsesivityTemplate: ", this.responsesivityTemplate);
+        }
+        //console.log("this.totalNumParentNav: ", this.totalNumParentNav);
+
         // Load form data
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
         if (error) {
           console.error(error);
         } else {
-          this.formInitData = JSON.parse(clientFormData);
+          this.formInitData = clientFormData;
         }
       }
       this.loading = false;
       this.componentKey++;
     },
-    async updateForm(formData) {
-      let formId= this.$route.params.formID;
-      const [error, response] = await updateForm(formData);
-      if (error) {
-        console.error("Form update failed: ", error);
+    navToSectionAndQuestion(section: number, question: number) {
+      //console.log("Navigating %d %d", section, question);
+      // update the displaySummary flag to hide summary panel
+      this.displaySummary = false;
+
+      // navigate to the pointed section, 
+      // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
+      // so it reactively refreshes the FormNavigation component
+      if (this.parentNavJumpToPointed_sufix == '0') {
+        this.parentNavJumpToPointed_sufix = "1";
+      } else {
+        this.parentNavJumpToPointed_sufix = "0";
       }
-    },
-    handleSaveDraft(evt) {
-      if (evt != null && evt.type === 'evt_saveDraft' ) {
-        console.log("handleSaveDraft: ");
-        this.notifySaveDraft++;
-      }
+      this.parentNavJumpToPointed = section + "Q" + question + "_" + this.parentNavJumpToPointed_sufix;
+
     },
     handlePrintForm(evt) {
-      if (evt != null && evt.type === 'evt_print' ) {
-        console.log("handlePrint: ");
-      } 
+      console.log("handlePrint: "); 
     },
-    handleSaveContinue(formData) {
-      //console.log("formData: ", formData);
+    handleSaveContinue(continueToNextSection) {
+      console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
-      if (this.parentNavCurLocation < this.totalNumParentNav - 1) {
+      if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         this.parentNavMoveToNext++;
-      }
-      if (formData != null) {
-        this.updateForm(formData);
       }
     },
     handleCancelForm() {
@@ -268,7 +295,16 @@ export default {
     },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
-      if (parentNavCurLocationFromChild == this.totalNumParentNav - 1) {
+      this.displaySummary = false;
+      this.displayCasePlan = false;
+
+      // User clicked 'Case plan' section from the navigation panel
+      if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
+        this.displayCasePlan = true;
+      }
+      // User clicked 'Summary' section from the navigation panel
+      if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
+        this.displaySummary = true;
         this.btnSaveContinueText = "Submit Form"; 
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
