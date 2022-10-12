@@ -281,6 +281,7 @@ export default {
     },
     handlePrintForm(evt) {
       console.log("handlePrint: "); 
+      window.print();
     },
     handleSaveContinue(continueToNextSection) {
       console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
