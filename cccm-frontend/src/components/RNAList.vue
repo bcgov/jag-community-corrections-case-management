@@ -56,7 +56,7 @@
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-2">
           <div class="mt-2 ml-3">
-            <label><strong>Filter RNA Form</strong></label>
+            <strong>Filter RNA Form</strong>
             <v-select
               item-text="value"
               item-value="key"
@@ -84,7 +84,7 @@
         </div>
       </section>
       <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
+        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="filteredRNAList"
           item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
           :loading="loading"   loading-text="Loading RNA List... Please wait"
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
@@ -268,8 +268,21 @@ export default {
     applyFormTypeFilter(ft) {
       this.private_applyFilter(ft, this.selectedSupervisionPeriods);
     },
-    applyPeriodFilter(period) {
-      this.private_applyFilter(this.selectedFormTypes, period);
+    private_applyFilter(formType, currentPeriod) {
+      if (typeof formType == 'object') {
+        formType = formType.key;
+      }
+      if (typeof currentPeriod == 'object') {
+        currentPeriod = currentPeriod.value;
+      }
+      this.filteredRNAList = this.rnaList.filter(el => {
+        if (currentPeriod == "true") {
+          return el.module.includes(formType) && el.status != 'Complete';
+        } else {
+          return el.module.includes(formType);
+        }
+      });
+      this.key_rnalistSearchResult++;
     },
     async lookupFormTypesAPI() {
       const [error, response] = await lookupFormTypes();
@@ -291,6 +304,7 @@ export default {
       // get latest form version
       const [err, formInfo] = await getFormSummaries('CRNA', true);
       this.formData.clientNumber = "00142091";
+      //this.formData.clientNumber = this.clientNum;
       this.formData.formTypeId = formInfo[0].id;
 
       const [error, formId] = await createForm(this.formData);
@@ -314,7 +328,7 @@ export default {
         //this.initData = response.data;
         this.key_rnalistSearchResult++;
         this.rnaList = response;
-      
+        this.filteredRNAList = this.rnaList;
         if (error) {
           console.error(error);
         }
