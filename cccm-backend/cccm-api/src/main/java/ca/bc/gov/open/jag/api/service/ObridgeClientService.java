@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.Client;
+import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
@@ -105,6 +106,10 @@ public interface ObridgeClientService {
     String getOracleId(@QueryParam("idirId") String idirId);
 
     @GET
+    @Path("/user/dashboard/po")
+    List<PODashboard> getPODashboard(@QueryParam("idirId") String idirId, @QueryParam("locationId") BigDecimal locationId);
+
+    @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
     String getClientFormAsJSON(@PathParam("clientNumber") String clientNumber,
                                @PathParam("clientFormId") BigDecimal clientFormId,
@@ -138,6 +143,11 @@ public interface ObridgeClientService {
     String getClientFormAnswersSummary(@PathParam("clientNumber") String clientNumber,
                                 @PathParam("clientFormId") BigDecimal clientFormId);
 
+    @GET
+    @Path("forms/client/summary/{clientNumber}/{clientFormId}")
+    String getClientFormSummary(@PathParam("clientNumber") String clientNumber,
+                                       @PathParam("clientFormId") BigDecimal clientFormId);
+
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}")
@@ -161,25 +171,23 @@ public interface ObridgeClientService {
 
 
     @POST
-    @Path("/forms/client/interventions/{csNumber}")
-    List<Intervention> searchClientInterventions(@PathParam("csNumber") String clientNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/interventions")
+    List<Intervention> searchClientInterventions( @RequestBody ClientSearchInput searchInput);
 
     @POST
-    @Path("/forms/client/comments/{csNumber}")
-    List<Comment> searchClientComments(@PathParam("csNumber") String clientNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/comments")
+    List<Comment> searchClientComments( @RequestBody ClientSearchInput searchInput);
 
     @POST
-    @Path("/forms/client/responsivities/{csNumber}")
-    List<Responsivity> searchClientResponsivities(@PathParam("csNumber") String csNumber, @RequestBody ClientSearchInput searchInput);
+    @Path("/forms/client/responsivities")
+    List<Responsivity> searchClientResponsivities( @RequestBody ClientSearchInput searchInput);
 
 
     @GET
     @Path("/trend/client/{csNumber}/{reportType}/factors")
     List<LabelValuePair> getClientFormFactors(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
 
-    @GET
-    @Path("/trend/client/{csNumber}/{reportType}/data")
-    ChartDataSet getClientChartData(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
+
 
     @GET
     @Path("/forms/{formId}")
@@ -197,5 +205,15 @@ public interface ObridgeClientService {
                                        @QueryParam("latestOnly") boolean latestOnly);
 
 
+    @GET
+    @Path("/trend/types")
+    List<TrendAnalysisConfig> getTrendTypes();
 
+    @GET
+    @Path("/trend/{type}/factors")
+    List<LabelValuePair> getTrendFactors(@PathParam("type") String type);
+
+    @POST
+    @Path("/trend/client/data")
+    TrendFormData getClientTrendData(@RequestBody TrendFilterInput input);
 }

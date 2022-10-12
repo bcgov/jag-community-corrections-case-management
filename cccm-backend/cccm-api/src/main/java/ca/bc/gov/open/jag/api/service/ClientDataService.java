@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
-import javax.ws.rs.PathParam;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -56,6 +55,8 @@ public interface ClientDataService {
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
 
+    ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber);
+
     /**
      * Get all client form answers for a client form and section sequence (.e. S03 )
      * @param clientNumber client csNumber
@@ -83,38 +84,28 @@ public interface ClientDataService {
      */
     List<LabelValuePair> getClientFormFactors( String reportType,  String csNumber);
 
-    /**
-     * Get chart data for a given report type and csNumber
-     * @param reportType
-     * @param csNumber
-     * @return {@link ChartDataSet}
-     */
-    ChartDataSet getClientChartData(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
 
 
     /**
      * As is says on the can - get responsivities (emotional/social response to some input - e.g an intervention plan)
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Responsivity>}
      */
-    List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput);
+    List<Responsivity> searchClientFormResponsivities(ClientSearchInput searchInput);
 
     /**
      * Get interventions
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Intervention>}
      */
-    List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput);
+    List<Intervention> searchClientFormInterventions(ClientSearchInput searchInput);
 
     /**
      * Get comments related to form questions
-     * @param csNumber - client number
      * @param searchInput {@link ClientSearchInput}
      * @return {@link List<Comment>}
      */
-    List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput);
+    List<Comment> searchClientFormComments(ClientSearchInput searchInput);
 
     /**
      * Get summary information for a form
