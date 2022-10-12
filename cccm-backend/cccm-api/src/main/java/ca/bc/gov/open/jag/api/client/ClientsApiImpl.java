@@ -13,6 +13,7 @@ import org.eclipse.microprofile.jwt.Claims;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,8 +32,6 @@ public class ClientsApiImpl implements ClientsApi {
     @Override
     @RolesAllowed("client-search")
     public Client getClient(String clientNum, String xLocationId) {
-
-        logger.info(username);
 
         return clientDataService.clientProfile(clientNum, username, xLocationId);
 
@@ -54,7 +53,7 @@ public class ClientsApiImpl implements ClientsApi {
 
         logger.info("Client Search Request");
 
-        return clientDataService.clientSearch(new ClientSearch(lastName, soundex, givenName, birthYear, age, range, currentLocation, gender, identifierType, identifier));
+        return clientDataService.clientSearch(new ClientSearch(lastName, soundex, givenName, birthYear, age, range, currentLocation, gender, identifierType, identifier, username, new BigDecimal(xLocationId)));
 
     }
 
@@ -64,7 +63,7 @@ public class ClientsApiImpl implements ClientsApi {
 
         logger.info("Client Address Search Request");
 
-        return clientDataService.clientAddressSearch(new ClientAddressSearch(addressType, address, city, province, postalCode, expired, currentLocation));
+        return clientDataService.clientAddressSearch(new ClientAddressSearch(addressType, address, city, province, postalCode, expired, currentLocation, username, new BigDecimal(xLocationId)));
 
     }
 

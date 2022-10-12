@@ -51,15 +51,18 @@ public class ClientDataServiceImpl implements ClientDataService {
         } else {
             searchType = "EXACT";
         }
-
         //Validation tbd
         return createClientResult(obridgeClientService.getClientSearch(searchType, clientSearch.getLastName(),
                 clientSearch.getGivenName(),
                 (clientSearch.getBirthYear() != null ? BigDecimal.valueOf(clientSearch.getBirthYear()) : null),
                 (clientSearch.getRange() != null ? BigDecimal.valueOf(clientSearch.getRange()): null),
                 clientSearch.getAge(),
-                clientSearch.getGender(), clientSearch.getIdentifierType(),
-                clientSearch.getIdentifier()));
+                clientSearch.getGender(),
+                clientSearch.getIdentifierType(),
+                clientSearch.getIdentifier(),
+                stripUserName(clientSearch.getUser()),
+                clientSearch.getLocationId()
+        ));
 
     }
 
@@ -72,7 +75,9 @@ public class ClientDataServiceImpl implements ClientDataService {
                 clientAddressSearch.getCity(),
                 clientAddressSearch.getProvince(),
                 clientAddressSearch.getPostalCode(),
-                clientAddressSearch.getExpired()
+                clientAddressSearch.getExpired(),
+                stripUserName(clientAddressSearch.getUser()),
+                clientAddressSearch.getLocationId()
         ));
 
     }

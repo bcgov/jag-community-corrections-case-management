@@ -2,7 +2,7 @@
   <div data-app class="client-search">
     <div class="container">
       <section class="paper">
-        <div class="pt-5">
+        <div>
           <Form class="formio-container" 
               :form="formJSON"
               v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 

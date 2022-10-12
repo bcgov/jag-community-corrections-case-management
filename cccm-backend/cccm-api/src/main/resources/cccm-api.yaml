@@ -1021,13 +1021,11 @@ paths:
           required: true
           schema:
             type: string
-          style: simple
         - in: query
           name: latestOnly
           required: false
           schema:
             type: boolean
-          style: simple
       responses:
         "200":
           content:

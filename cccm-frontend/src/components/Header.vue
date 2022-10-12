@@ -59,7 +59,7 @@
         </span>
       </div>
       <div class="headerNavContainer">
-        <span class="headerNav textShadow">
+        <span class="headerNav">
           <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
           <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> 
         </span>

@@ -40,6 +40,7 @@ public class ClientProfileTest {
         sut.setIcayraSecurityStatus("TEST");
         sut.setWarrants(new ArrayList<>());
         sut.setAlerts(new ArrayList<>());
+        sut.setPrograms(new ArrayList<>());
         sut.setFederalParolOffice("TEST");
         sut.setIsBiometricEnrolled("TEST");
         sut.seteServicesStatus("TEST");
@@ -73,6 +74,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getIcayraSecurityStatus());
         Assertions.assertEquals(0, sut.getWarrants().size());
         Assertions.assertEquals(0, sut.getAlerts().size());
+        Assertions.assertEquals(0, sut.getPrograms().size());
         Assertions.assertEquals("TEST", sut.getFederalParolOffice());
         Assertions.assertEquals("TEST", sut.getIsBiometricEnrolled());
         Assertions.assertEquals("TEST", sut.geteServicesStatus());

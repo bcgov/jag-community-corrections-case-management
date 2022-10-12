@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 @QuarkusTest
 public class ClientSearchTest {
 
@@ -15,7 +17,7 @@ public class ClientSearchTest {
     @DisplayName("Test Client Search Model")
     public void testModel() {
 
-        ClientSearch sut = new ClientSearch(TEST_STRING, false, TEST_STRING, 1, 1, 1, true, TEST_STRING, TEST_STRING, TEST_STRING);
+        ClientSearch sut = new ClientSearch(TEST_STRING, false, TEST_STRING, 1, 1, 1, true, TEST_STRING, TEST_STRING, TEST_STRING, TEST_STRING, BigDecimal.ONE);
 
         Assertions.assertEquals(TEST_STRING, sut.getLastName());
         Assertions.assertEquals(false, sut.getSoundex());
@@ -27,6 +29,8 @@ public class ClientSearchTest {
         Assertions.assertEquals(TEST_STRING, sut.getGender());
         Assertions.assertTrue(sut.getLocation());
         Assertions.assertEquals(TEST_STRING, sut.getIdentifierType());
+        Assertions.assertEquals(TEST_STRING, sut.getUser());
+        Assertions.assertEquals(BigDecimal.ONE, sut.getLocationId());
 
     }
 
