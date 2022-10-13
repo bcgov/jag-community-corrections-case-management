@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 @RequestScoped
 public class FormsApiImpl implements FormsApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
-
     @Inject
     FormDataService formDataService;
 
