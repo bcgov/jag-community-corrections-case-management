@@ -210,7 +210,39 @@ paths:
                 $ref: '#/components/schemas/Client'
       tags:
         - clients
-
+  #-------------------------------------------------------------------------------------
+  #        FORMS
+  #-------------------------------------------------------------------------------------
+  /forms/summaries:
+    get:
+      operationId: GetFormSummaries
+      parameters:
+        - in: query
+          name: module
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: latestOnly
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/FormSummary'
+          description: get summary details for the form type
+      summary: Get forms for a client
+      tags:
+        - forms
+      x-accepts: application/json
+      x-tags:
+        - tag: forms
   #-------------------------------------------------------------------------------------
   #        DASHBOARD
   #-------------------------------------------------------------------------------------
@@ -921,129 +953,6 @@ paths:
         404:
           description: Not Found
           content: {}
-
-
-
-  /forms/{formId}/question:
-    post:
-      operationId: AddQuestionAnswer
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - explode: false
-          in: path
-          name: formId
-          required: true
-          schema:
-            type: number
-          style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FormQuestionAnswer'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormQuestionAnswer'
-          description: form question answer created
-      summary: add a form question
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-    put:
-      operationId: UpdateQuestionAnswer
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - explode: false
-          in: path
-          name: formId
-          required: true
-          schema:
-            type: number
-          style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FormQuestionAnswer'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormQuestionAnswer'
-          description: form question answer updated
-      summary: update an existing form question answer
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-
-  /forms/{formType}:
-    get:
-      operationId: GetFormByType
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-        - explode: false
-          in: path
-          name: formType
-          required: true
-          schema:
-            type: string
-          style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FormDetails'
-          description: form found
-        "404":
-          description: form not found
-      summary: get a form by type
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-
-  /forms/summaries:
-    get:
-      operationId: GetFormSummaries
-      parameters:
-        - in: query
-          name: module
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: latestOnly
-          required: false
-          schema:
-            type: boolean
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  allOf:
-                    - $ref: '#/components/schemas/FormSummary'
-          description: get summary details for the form type
-      summary: Get forms for a client
-      tags:
-        - forms
-      x-accepts: application/json
-      x-tags:
-        - tag: forms
-
-
   #-------------------------------------------------------------------------------------
   #        LOOKUPS
   #-------------------------------------------------------------------------------------
@@ -1257,277 +1166,6 @@ components:
         expiryDate:
           format: date
           type: string
-    FormDetails:
-      description: Client
-      properties:
-        formId:
-          type: number
-        formClientId:
-          type: number
-        createdBy:
-          type: string
-        createdDate:
-          format: date
-          type: string
-        updateDate:
-          format: date
-          type: string
-        completedDate:
-          format: date
-          type: string
-        formType:
-          type: string
-        formTitle:
-          type: string
-        formStatus:
-          type: string
-        crnacmp_types:
-          allOf:
-            - $ref: '#/components/schemas/CRNAType'
-            - type: object
-        rightPanel:
-          type: array
-          items:
-            $ref: '#/components/schemas/SideCard'
-        saveBtnGroup:
-          allOf:
-            - $ref: '#/components/schemas/ButtonGroup'
-            - type: object
-        saveDraftBtnGroup:
-          allOf:
-            - $ref: '#/components/schemas/ButtonGroup'
-            - type: object
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormSections'
-      type: object
-    CRNAType:
-      type: object
-      properties:
-        type:
-          type: string
-        data:
-          type: object
-          properties:
-            values:
-              type: array
-              items:
-                type: object
-                properties:
-                  value:
-                    type: string
-                  label:
-                    type: string
-    SideCard:
-      type: object
-      properties:
-        type:
-          type: string
-        contentType:
-          type: string
-        panelTitle:
-          type: string
-        panelKey:
-          type: string
-        contentKey:
-          type: string
-        dataArray:
-          type: array
-          items:
-            type: string
-        dataMatrix:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-        dataString:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        csNumber:
-          type: string
-        gender:
-          type: string
-        dob:
-          type: string
-        location:
-          type: string
-        finalOrderExpDate:
-          type: string
-        button:
-          allOf:
-            - $ref: '#/components/schemas/Button'
-            - type: object
-    Button:
-      type: object
-      properties:
-        type:
-          type: string
-        action:
-          type: string
-        key:
-          type: string
-        label:
-          type: string
-        theme:
-          type: string
-    ButtonGroup:
-      type: object
-      properties:
-        type:
-          type: string
-        button:
-          type: array
-          items:
-            $ref: '#/components/schemas/Button'
-    FormSections:
-      type: object
-      properties:
-        section:
-          type: string
-        sideCardPanelHiddenList:
-          type: array
-          items:
-            type: string
-        subNavOnOff:
-          type: string
-        subsections:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormSubSections'
-    FormSubSections:
-      type: object
-      properties:
-        type:
-          type: string
-        sectionKey:
-          type: string
-        subSectionKey:
-          type: string
-        sectionTitle:
-          type: string
-        sectionSubTitle:
-          type: string
-        questionLabel:
-          type: string
-        label:
-          type: string
-        label_textarea:
-          type: string
-        key:
-          type: string
-        defaultValue:
-          type: string
-        values:
-          type: array
-          items:
-            $ref: "#/components/schemas/QuestionBody"
-        comments:
-          allOf:
-            - $ref: '#/components/schemas/CommentsArea'
-            - type: object
-        interventionNeeded:
-          allOf:
-            - $ref: '#/components/schemas/InterventionArea'
-            - type: object
-        questionId:
-          type: number
-        questionAnswerClientId:
-          type: number
-        questionAnswer:
-          type: string
-    QuestionBody:
-      properties:
-        label:
-          type: string
-        value:
-          type: string
-        shortcut:
-          type: string
-    CommentsArea:
-      type: object
-      properties:
-        type:
-          type: string
-        key:
-          type: string
-    InterventionArea:
-      type: object
-      properties:
-        type:
-          type: string
-        key:
-          type: string
-        defaultValue:
-          type: boolean
-    FormList:
-      example:
-        items:
-          - formId: 0.8008281904610115
-            updateDate: 2000-01-23
-            formType: formType
-            createdDate: 2000-01-23
-            createdBy: createdBy
-            completedDate: 2000-01-23
-          - formId: 0.8008281904610115
-            updateDate: 2000-01-23
-            formType: formType
-            createdDate: 2000-01-23
-            createdBy: createdBy
-            completedDate: 2000-01-23
-      properties:
-        items:
-          description: FormDetails
-          items:
-            $ref: '#/components/schemas/FormDetails'
-          type: array
-      type: object
-    Component:
-      type: object
-      properties:
-        key:
-          type: string
-        title:
-          type: string
-        collapsible:
-          type: boolean
-        label:
-          type: string
-        inline:
-          type: boolean
-        tableView:
-          type: boolean
-        content:
-          type: string
-        input:
-          type: boolean
-        type:
-          type: string
-        tag:
-          type: string
-        refreshOnChange:
-          type: boolean
-        disableOnInvalid:
-          type: boolean
-        components:
-          type: array
-          items:
-            $ref: "#/components/schemas/Component"
-        attrs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Attr'
-    Attr:
-      type: object
-      properties:
-        attr:
-          type: string
-        value:
-          type: string
     ClientList:
       type: array
       items:
@@ -1716,35 +1354,6 @@ components:
           type: string
         outcome:
           type: string
-    Form:
-      type: object
-      properties:
-        type:
-          type: string
-        assessmentStatus:
-          type: string
-        status:
-          type: string
-        updateDate:
-          type: string
-        createdLocation:
-          type: string
-        completedBy:
-          type: string
-        supervisionRating:
-          type: string
-        crnaRating:
-          type: string
-        saraRating:
-          type: string
-    FormSearchList:
-      properties:
-        items:
-          description: Form Search Results
-          items:
-            $ref: '#/components/schemas/Form'
-          type: array
-      type: object
     Photo:
       type: object
       properties:

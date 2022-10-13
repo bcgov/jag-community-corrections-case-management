@@ -1,8 +1,5 @@
 package ca.bc.gov.open.jag.api.form;
 
-import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
-import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.service.FormRequest;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
@@ -12,7 +9,6 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
@@ -107,34 +103,6 @@ public class FormsApiImpl implements FormsApi {
         return clientDataService.getClientFormAnswersSummary(clientNumber, clientFormId);
     }
 
-    @Override
-    @Transactional
-    @RolesAllowed("form-update")
-    public FormQuestionAnswer addQuestionAnswer(BigDecimal formId, String xLocationId, @Valid FormQuestionAnswer formQuestionAnswer) {
-
-        logger.info("Add question answer received");
-
-        if (formQuestionAnswer.getFormQuestionId() == null) {
-            throw new CCCMException("Required ID not present", CCCMErrorCode.VALIDATIONERROR);
-        }
-
-        return null;
-
-
-    }
-
-
-
-    @Override
-    @RolesAllowed("form-view")
-    public FormDetails getFormByType(String xLocationId, String formType) {
-
-        logger.info("Get form type request received");
-
-        return formDataService.formRequest(new FormRequest(null, formType));
-
-    }
-
 
 
 //    @Override
@@ -149,45 +117,26 @@ public class FormsApiImpl implements FormsApi {
 //    }
 
     @Override
-    @Transactional
-    @RolesAllowed("form-update")
-    public FormQuestionAnswer updateQuestionAnswer(BigDecimal formId, String xLocationId, @Valid FormQuestionAnswer formQuestionAnswer) {
-
-        logger.info("Update question answer request received");
-
-        if (formQuestionAnswer.getFormAnswerId() == null || formQuestionAnswer.getFormQuestionId() == null) {
-            throw new CCCMException("Required ID's not present", CCCMErrorCode.VALIDATIONERROR);
-        }
-
-        return null;
-
-    }
-
-
-
-    @Override
     @RolesAllowed("form-view")
-
     public List<FormSummary> getFormSummaries(String module, Boolean latestOnly) {
         return formDataService.getFormSummaries(module, latestOnly);
     }
 
     @Override
     @RolesAllowed("form-view")
-
     public String getClientFormAnswersForSectionAndQuestionUsingGET(BigDecimal clientFormId, String clientNumber, Integer questionSequence, Integer sectionSequence) {
         return clientDataService.getClientFormAnswersForSectionAndQuestion(clientNumber, clientFormId, sectionSequence, questionSequence);
     }
 
     @Override
     @RolesAllowed("form-view")
-
     public String getClientFormAnswersForSectionUsingGET(BigDecimal clientFormId, String clientNumber, Integer sectionSequence) {
         return clientDataService.getClientFormAnswersForSection(clientNumber, clientFormId, sectionSequence);
     }
 
 
     @Override
+    @RolesAllowed("form-view")
     public List<Comment> searchClientCommentsUsingPOST( ClientSearchInput searchInput) {
         return clientDataService.searchClientFormComments( searchInput);
     }
