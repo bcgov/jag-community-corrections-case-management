@@ -9,16 +9,16 @@
               "components": [
                 {
                   "customClass": "text-left pl-4",
-                  "label": "${label_btn_save}",
+                  "label": "${label_btn_primary}",
                   "action": "event",
                   "showValidations": false,
                   "disableOnInvalid": true,
                   "tableView": true,
-                  "key": "${key_btn_save}",
+                  "key": "${key_btn_primary}",
                   "type": "button",
                   "input": false,
-                  "event": "${evt_btn_save}",
-                  "theme": "${theme_save}"
+                  "event": "${evt_btn_primary}",
+                  "theme": "${theme_primary}"
                 }
               ],
               "width": 6,

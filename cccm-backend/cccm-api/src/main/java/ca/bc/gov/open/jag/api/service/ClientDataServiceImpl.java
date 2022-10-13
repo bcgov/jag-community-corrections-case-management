@@ -150,10 +150,6 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public BigDecimal addClientForm(CreateFormInput createFormInput) {
-
-        // todo - how do we get the userid and location id?
-        createFormInput.setCreatedByUserId(BigDecimal.TEN);
-        createFormInput.setLocationId(BigDecimal.TEN);
         return obridgeClientService.createForm(createFormInput);
     }
 
@@ -161,6 +157,12 @@ public class ClientDataServiceImpl implements ClientDataService {
     public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
         log.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
         return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
+    }
+
+
+    @Override
+    public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber) {
+        return null;
     }
 
     @Override
@@ -204,24 +206,20 @@ public class ClientDataServiceImpl implements ClientDataService {
         return obridgeClientService.getClientFormFactors(reportType, csNumber);
     }
 
+
     @Override
-    public ChartDataSet getClientChartData(String reportType, String csNumber) {
-        return obridgeClientService.getClientChartData(reportType, csNumber);
+    public List<Responsivity> searchClientFormResponsivities(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientResponsivities(searchInput);
     }
 
     @Override
-    public List<Responsivity> getClientFormResponsivities(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientResponsivities(csNumber,searchInput);
+    public List<Intervention> searchClientFormInterventions(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientInterventions( searchInput);
     }
 
     @Override
-    public List<Intervention> getClientFormInterventions(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientInterventions(csNumber, searchInput);
-    }
-
-    @Override
-    public List<Comment> getClientFormComments(String csNumber, ClientSearchInput searchInput) {
-        return obridgeClientService.searchClientComments(csNumber, searchInput);
+    public List<Comment> searchClientFormComments(ClientSearchInput searchInput) {
+        return obridgeClientService.searchClientComments( searchInput);
     }
 
     private Photo getPhoto(String clientNum) {

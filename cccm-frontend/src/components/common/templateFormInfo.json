@@ -10,7 +10,7 @@
             "components": [
                 {
                     "label": "HTML",
-                    "tag": "h1",
+                    "tag": "h2",
                     "attrs": [
                         {
                             "attr": "",
@@ -27,7 +27,6 @@
                 },
                 {
                     "label": "Columns",
-
                     "columns": [
                         {
                             "components": [
@@ -91,21 +90,20 @@
                                         {
                                             "components": [
                                                 {
-                                                    "label": "CRNA-CMP Type",
-                                                    "customClass": "mt-2",
-                                                    "widget": "choicesjs",
-                                                    "tableView": true,
-                                                    "data": {
-                                                        "values": [
-                                                            {
-                                                                "label": "",
-                                                                "value": ""
-                                                            }
-                                                        ]
-                                                    },
-                                                    "key": "key_crnaCmpType",
-                                                    "type": "select",
-                                                    "input": true
+                                                    "label": "HTML",
+                                                    "tag": "div",
+                                                    "attrs": [
+                                                        {
+                                                            "attr": "",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "content": "<div class='mb-3 mt-3'><Strong>${formType}: </Strong>${updatedDate}</div><div><Strong>Location: </Strong>${location}</div>",
+                                                    "refreshOnChange": false,
+                                                    "key": "html1",
+                                                    "type": "htmlelement",
+                                                    "input": false,
+                                                    "tableView": false
                                                 }
                                             ],
                                             "size": "md",

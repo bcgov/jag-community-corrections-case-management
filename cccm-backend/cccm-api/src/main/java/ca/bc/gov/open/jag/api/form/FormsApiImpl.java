@@ -55,11 +55,19 @@ public class FormsApiImpl implements FormsApi {
         clientDataService.deleteInterventionsExcept(clientNumber,clientFormId, updatePayload);
     }
 
+//    @Override
+//    @Transactional
+//    @RolesAllowed("form-add")
+//    public BigDecimal createNewFormUsingPOST(String xLocationId, CreateFormInput createFormInput) {
+//       return clientDataService.addClientForm(createFormInput);
+//    }
+
     @Override
     @Transactional
     @RolesAllowed("form-add")
-    public BigDecimal createNewFormUsingPOST(CreateFormInput createFormInput) {
-       return clientDataService.addClientForm(createFormInput);
+    public BigDecimal createNewFormUsingPOST(CreateFormInput createFormInput, String xLocationId) {
+        createFormInput.setLocation(xLocationId);
+        return clientDataService.addClientForm(createFormInput);
     }
 
     @Override
@@ -82,6 +90,14 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-view")
     public List<ClientFormSummary> clientFormSearchUsingGET(String csNumber, Boolean currentPeriod, String formTypeCd) {
         return clientDataService.clientFormSearch(csNumber, currentPeriod, formTypeCd);
+    }
+
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public ClientFormSummary getClientFormSummaryUsingGET(BigDecimal clientFormId, String clientNumber) {
+        return clientDataService.getClientFormSummary(clientFormId, clientNumber);
     }
 
     @Override
@@ -172,21 +188,20 @@ public class FormsApiImpl implements FormsApi {
 
 
     @Override
-    public List<Comment> getClientCommentsUsingPOST(String csNumber, ClientSearchInput searchInput, String xLocationId) {
-        return clientDataService.getClientFormComments(csNumber, searchInput);
+    public List<Comment> searchClientCommentsUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormComments( searchInput);
     }
-
 
 
     @Override
     @RolesAllowed("form-view")
-    public List<Intervention> getClientInterventionsUsingPOST(String csNumber, ClientSearchInput searchInput) {
-        return clientDataService.getClientFormInterventions(csNumber, searchInput);
+    public List<Intervention> searchClientInterventionsUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormInterventions( searchInput);
     }
 
     @Override
     @RolesAllowed("form-view")
-    public List<Responsivity> getClientResponsivitiesUsingPOST(String csNumber, ClientSearchInput searchInput) {
-        return clientDataService.getClientFormResponsivities(csNumber, searchInput);
+    public List<Responsivity> searchClientResponsivitiesUsingPOST( ClientSearchInput searchInput) {
+        return clientDataService.searchClientFormResponsivities( searchInput);
     }
 }

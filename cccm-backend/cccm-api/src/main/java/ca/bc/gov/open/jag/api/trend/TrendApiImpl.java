@@ -3,9 +3,9 @@
 package ca.bc.gov.open.jag.api.trend;
 
 import ca.bc.gov.open.jag.api.service.ClientDataService;
+import ca.bc.gov.open.jag.api.service.TrendDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.TrendApi;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ChartDataSet;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.LabelValuePair;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -19,17 +19,33 @@ public class TrendApiImpl implements TrendApi {
     @Inject
     ClientDataService clientDataService;
 
+    @Inject
+    TrendDataService trendDataService;
+
+
+
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public ChartDataSet getChartDataUsingGET(String csNumber, String reportType) {
-        return clientDataService.getClientChartData(reportType, csNumber);
+    public List<TrendAnalysisConfig> getConfigOptionsUsingGET() {
+        return trendDataService.getTrendConfig();
     }
 
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public List<LabelValuePair> getClientFormFactorsUsingGET(String csNumber, String reportType) {
-        return clientDataService.getClientFormFactors(reportType, csNumber);
+    public List<LabelValuePair> getTrendFactorsUsingGET(String type) {
+        return trendDataService.getTrendFactors(type);
     }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public TrendFormData getChartDataUsingPOST(TrendFilterInput trendInput) {
+        return trendDataService.getChartData(trendInput);
+    }
+
+
+
+
 }

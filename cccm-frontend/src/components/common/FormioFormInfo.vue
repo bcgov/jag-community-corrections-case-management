@@ -10,7 +10,7 @@ import templateFormInfo from '@/components/common/templateFormInfo.json';
 export default {
   name: 'FormioFormInfo',
   props: {
-    dataModel: {}
+    dataModel: {},
   },
   data() {
     return {
@@ -30,24 +30,15 @@ export default {
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
 
       tmpJSONStr = tmpJSONStr.replace('${formTitle}', this.dataModel.formTitle);
-
-      //build first row content
       tmpJSONStr = tmpJSONStr.replace('${createdDate}', this.dataModel.createdDate);
       tmpJSONStr = tmpJSONStr.replace('${createdBy}', this.dataModel.createdBy);
-      
-      //build second row content
       tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate);
       tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate);
-      
-      // build formStatus
+      tmpJSONStr = tmpJSONStr.replace('${formType}', this.dataModel.formType);
+      tmpJSONStr = tmpJSONStr.replace('${location}', this.dataModel.location);
       tmpJSONStr = tmpJSONStr.replace('${formStatus}', this.dataModel.formStatus);
 
-      // build crnacmpType DDL
       let tmpJSON = JSON.parse(tmpJSONStr);
-      if (this.dataModel != null && this.dataModel.crnacmp_types != null) {
-        tmpJSON.components[0].components[1].columns[0].components[0].columns[2].components[0].data = this.dataModel.crnacmp_types.data;
-      }
-     
       this.formJSON = tmpJSON;
     }
   },

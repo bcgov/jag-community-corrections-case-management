@@ -1,6 +1,6 @@
 <template>
-  <div data-app class="row filters p-4">
-    <v-tabs v-model="reportTab" fixed-tabs color="deep-purple accent-4"  @change="chartTypeChangeHandler">
+  <div data-app class="row filters p-2">
+    <v-tabs v-model="reportTab" fixed-tabs color="deep-purple accent-4" @change="chartTypeChangeHandler">
       <v-tab v-for="item in reportTypes" :key="item.tab">
         {{ item.tab }}
       </v-tab>
@@ -8,78 +8,75 @@
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Date Range</div>
       <div class="d-flex justify-content-evenly align-items-center pb-3">
-        <input id="startDate"  v-model="filter.startDate" @change="changeStartDate"
+        <input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
           class="form-control ms-3 me-3 mr-2" type="date" />
         <small>to</small>
-        <input id="endDate"  v-model="filter.endDate" @change="changeEndDate"
+        <input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
           class="form-control ms-3 me-3 ml-2" type="date" />
+
+        <v-btn class="ml-1" v-on:click="resetDates" tooltip="test"><a class="fas fa-undo-alt" /></v-btn>
+
       </div>
     </div>
-    <div class="col-md-3  col-sm-1 divider-right">
+    <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
-      <div class="d-flex justify-content-start">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="periodRadio" id="allPeriodsRadio" value="allPeriods"
-            v-model="filter.periods" @change="changePeriods">
-          <label class="form-check-label" for="flexRadioDefault1">
-            All periods
-          </label>
-        </div>
-        <div class="form-check ml-3">
-          <input class="form-check-input" type="radio" name="periodRadio" id="currentPeriodRadio" value="currentPeriod"
-            v-model="filter.periods" @change="changePeriods">
-          <label class="form-check-label" for="flexRadioDefault2">
-            Current period
-          </label>
-        </div>
+      <div class="d-flex justify-content-center">
+        <v-radio-group label="" v-model="period" row v-on:change="changePeriods">
+          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Periods" value="allPeriods">
+          </v-radio>
+          <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Period"
+            value="currentPeriod"></v-radio>
+        </v-radio-group>
+
       </div>
 
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
-      <v-select v-model="filter.factors" item-text="label"
-          item-value="value" :items="factorOptions"  @blur="changeFactors()"
-        :menu-props="{ maxHeight: '400' }" label="" multiple hint="Select one or more factors" persistent-hint>
+      <v-select v-model="selectedFactors" item-text="label" item-value="value" :items="factorOptions" chips
+        @blur="updateFactors()" :menu-props="{ maxHeight: '400' }" multiple hint="Select one or more factors"
+        persistent-hint>
+        <template v-slot:selection="{ item, index }">
+          <span v-if="index === 0">
+            <b class="ml-6" style="margin-left:8px">{{ selectedFactors.length }}</b> factor(s) selected
+          </span>
+        </template>
       </v-select>
-<!-- 
-      <v-select v-model="filter.factors"       item-text="label"
-          item-value="value" :items="factorOptions"  @close="changeFactors()" @remove="removeFactor"
-        :menu-props="{ maxHeight: '400' }" label="Select" multiple hint="Select one or more factors" persistent-hint>
-      </v-select> -->
-
-      <!-- <VueMultiselect
-          :multiple="true"
-          v-model="filter.factors"
-          :close-on-select="false"
-          @close="changeFactors()"
-          @remove="removeFactor"
-          track-by="id"
-          label="name"
-          :taggable="false"
-          placeholder="Select one or more factors"
-          :options="factors"/> -->
-
 
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
-
+      <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions"
+        @change="updateFilter()" :menu-props="{ maxHeight: '400' }" hint="Select a display filter" persistent-hint>
+      </v-select>
 
 
     </div>
+    <v-overlay :value="loading">
+      <v-progress-circular
+        indeterminate :width="6"
+        size="200"
+      >
+      <span class="mt-30">Loading chart data...</span>
+
+    </v-progress-circular>
+
+    </v-overlay>
+
+
   </div>
 </template>
 
 <script>
 
 import { trendStore } from '@/stores/trendstore';
-import { mapStores,mapState,mapWritableState } from "pinia";
-import { getClientForms, getClientFormFactors } from "@/components/form.api";
+import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
+import { getClientForms, getFormFactors, getTrendChartTypes, getChartData } from "@/components/form.api";
 
 
 export default {
   name: "ChartFilter",
-  components: {  },
+  components: {},
   setup() {
     const store = trendStore()
     return {
@@ -89,150 +86,350 @@ export default {
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapState(trendStore,['factors','minStartDate','maxEndDate','advancedFilterOptions','startDate'])
+    // ...mapWritableState(trendStore, ['data','factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
+    ...mapStores(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
+
   },
   data() {
     return {
       expanded: null,
+      loading: false,
+      userStartDate: null,
+      filterOptions: [],
+      period: 'allPeriods',
+      maxEndDate: null,
+      minStartDate: null,
+      chartType: null,
+      selectedFactors: [],
+      userEndDate: null,
+      selectedFilter: null,
       factorOptions: [],
       reportTypes: [
-        { tab: 'SARA: Spousal Assualt History', content: 'sara-ah' },
-        { tab: 'SARA: Psychosocial Adjustment', content: 'sara-pa' },
-        { tab: 'CRNA: Overall Trends', content: 'crna-ot' },
-        { tab: 'CRNA: Supervision Rating Trends', content: 'crna-rt' },
-        { tab: 'Intervention Summary', content: 'is' },
-        { tab: 'Supversivion Rating', content: 'sr' },
       ],
-      reportTab:0,
-      filter: {
-        factors: [],
-        periods: 'allPeriods',
-        minStartDate: null,
-        maxEndDate: null,
-        startDate: null,
-        endDate: null,
-        advancedFilter: null
-      }
+      reportTab: 0,
+
     }
   },
   props: {},
   mounted() {
-    this.getFormFactors();
+    this.getChartTypes().then(() => {
+      let chartType = this.reportTypes[this.reportTab].content;
+      this.store.$patch({ chartType: chartType });
+
+      this.getFormFactors();
+      this.getFilterOptions();
+    });
+
+    this.store.$subscribe(async (mutation, state) => {
+
+      // chart type or period changed
+      if (mutation.payload) {
+
+        // chart change or period change reloads back-end data
+        if (mutation.payload.chartType) {
+          console.log("Changing chart type");
+          this.userStartDate = null;
+          this.userEndDate = null;
+          this.selectedFilter = null;
+          await this.loadData();
+        }
+        else if (mutation.payload.period && mutation.payload.period !== this.period) {
+          console.log("Changing period");
+          await this.loadData();
+        }
+
+        if (mutation.payload.factors || mutation.payload.period || mutation.payload.data || mutation.payload.startDate || mutation.payload.endDate || mutation.payload.advancedFilter) {
+          this.applyDateFilters();
+        }
+
+
+
+      }
+
+
+    });
 
   },
   updated() {
 
-    console.log("Chart filter updated");
-    if (!this.filter.startDate) {
-      this.filter.startDate = this.minStartDate;
-    }
-    if (!this.filter.endDate) {
-      this.filter.endDate = this.maxEndDate;
-    }
+
   },
-  watch: {
-    advancedFilterOptions: {
-      handler: function (options) {
-        console.log("Filter options updated!! %o", options);
-        let optionSelections = this.advancedFilterOptions.map(option => {
-          return { name: option, label: option };
-        })
-        this.filter.options = optionSelections;
 
-      },
-    },
-    startDate: {
-      handler: function (newValue, oldValue) {
-        console.log("Start date updated!! %s %s", newValue, oldValue);
-        this.filter.startDate = this.startDate;
-        this.changeStartDate();
-
-      },
-    },
-    endDate: {
-      handler: function (newValue, oldValue) {
-        console.log("End date updated!! %s %s", newValue, oldValue);
-        this.filter.endDate = this.endDate;
-        this.changeEndDate();
-      },
-    },
-    factors: {
-      handler: function (newValue, oldValue) {
-        console.log("Factors updated from chart %o %o", newValue, oldValue);
-
-      }
-    }
-  },
   methods: {
+    resetDates() {
+      this.userStartDate = this.store.minStartDate;
+      this.userEndDate = this.store.maxEndDate;
+      this.store.$patch({ startDate: this.userStartDate, endDate: this.userEndDate });
+
+    },
+    async loadData() {
+      console.log("Getting data for %s", this.store.chartType);
+      this.loading = true;
+      let csNumber = this.$route.params.csNumber;
+      const filter = {
+        factors: [],
+        chartType: this.store.chartType,
+        currentPeriod: this.store.period === 'currentPeriod' ? true : false,
+        clientNumber: csNumber,
+        includeComments: true,
+        includeInterventions: true
+      }
+      try {
+        await getChartData(filter).then(([error, data]) => {
+          if (error) {
+            console.error(error);
+
+          } else {
+            console.log("Got data %o", data);
+            let xSeries = data.dataLabels;
+
+            // Get counters
+            let commentCount = data.counters.comments ? data.counters.comments : 0;
+            let interventionCount = data.counters.interventions ? data.counters.interventions : 0;
+
+            if (xSeries.length !== 0) {
+
+              this.maxEndDate = xSeries[xSeries.length - 1];
+              this.minStartDate = xSeries[0];
+              // patch the pinia store
+              this.store.$patch({ data: data, minStartDate: xSeries[0], maxEndDate: xSeries[xSeries.length - 1], interventionCount: 0, commentCount: 0, startDate: this.minStartDate, endDate: this.maxEndDate });
+              if (!this.userStartDate) {
+                this.userStartDate = this.minStartDate;
+              }
+
+              if (!this.userEndDate) {
+                this.userEndDate = this.maxEndDate;
+              }
+            } else {
+              this.userStartDate = null;
+              this.userEndDate = null;
+              this.store.$patch({ data: data, minStartDate: null, maxEndDate: null, interventionCount: 0, commentCount: 0 });
+
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.loading = false;
+      }
+    },
     chartTypeChangeHandler() {
-        this.getFormFactors();
+      this.chartType = this.reportTypes[this.reportTab].content;
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+      this.selectedFactors = [];
+      this.userStartDate = null;
+      this.userEndDate = null;
+      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
+      this.getFormFactors();
+
+    },
+    clearSelections() {
+
     },
     getMinStart() {
       return this.minStartDate;
     },
-    getMaxEnd() {
-      return this.maxEndDate;
-    },
-    datesChanged() {
+    updateFilter() {
+      // get the filter from the store
+      let filter = this.reportTypes[this.reportTab].filters.filter(option => option.value === this.selectedFilter)[0];
 
-    },
-    async getFormFactors() {
-      let clientNumber = this.$route.params.csNumber;
-      let reportType = this.reportTypes[this.reportTab].content;
-      const [error, data] = await getClientFormFactors( clientNumber, reportType);
-      if (error) {
-        console.error(error);
-      } else {
-        console.log("Got factors %o", data);
-        this.factorOptions = data;
-      }
-    },
+      this.store.$patch({ advancedFilter: filter })
 
 
-    removeAdvancedFilter() {
-      this.filter.advancedFilter = null;
-      // this.$store.commit('updateAdvancedFilter', this.filter.advancedFilter);
-    },
-    changeAdvancedFilter(value) {
-      console.log("Changing advanced filter to %o %d", value);
-      this.filter.advancedFilter = value;
-      // this.$store.commit('updateAdvancedFilter', this.filter.advancedFilter);
-    },
-    removeFactor(factor) {
-      console.log("Removed %o %s", factor);
-      let removedIdx = this.filter.factors.findIndex(filter => filter.id === factor.id);
-      this.filter.factors.splice(removedIdx, 1);
-      console.log("Removed %o", removedIdx);
-      // eslint-disable-next-line no-debugger
-
-      // this.$store.commit('updateFactors', this.filter.factors);
-    },
-    changeFactors() {
-      // eslint-disable-next-line no-debugger
-      console.log("Filter updating factors %o", this.filter.factors);
-      //  this.trendstore.commit('updateFactors', this.filter.factors);
-       this.store.$patch({ factors: this.filter.factors })
-
-    },
-    changePeriods() {
-      console.log("Filter updating periods %o", this.filter.periods);
-      // this.$store.commit('updatePeriod', this.filter.periods);
-      this.filter.startDate = undefined;
-      this.filter.endDate = undefined;
     },
     changeStartDate() {
-      console.log("Filter start date %o %o", this.filter.startDate);
-      // this.$store.commit('userUpdateStartDate', this.filter.startDate);
-      this.trendstore.commit('userUpdateStartDate', this.filter.startDate);
+      console.log("Start date changed...");
+      this.store.$patch({ startDate: this.userStartDate });
 
     },
     changeEndDate() {
-      console.log("Filter end date %o", this.filter.endDate);
-      // this.$store.commit('userUpdateEndDate', this.filter.endDate);
-      this.trendstore.commit('userUpdateEndDate', this.filter.endDate);
+      console.log("End date changed...");
+      this.store.$patch({ endDate: this.userEndDate });
+    },
+    getMaxEnd() {
+      return this.maxEndDate;
+    },
+    applyDateFilters() {
+      let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
+      let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
+      if (this.store.factors === null || this.store.factors.length === 0) {
+        return;
+      }
+      if (this.store.data && this.store.data.dataLabels && startDate && endDate) {
+        let labels = [];
+        let index = 0;
+        let startIndex = 0;
+        let endIndex = this.store.data.dataLabels.length - 1;
+        this.store.data.dataLabels.forEach(label => {
+          let seriesDate = new Date(label);
+          if (startDate != null && seriesDate < startDate) {
+            startIndex++;
+          }
+          if (endDate != null && endDate < seriesDate) {
+            endIndex--;
+          }
+          index++;
+        });
+
+        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
+          return this.store.factors.includes(dataset.source);
+        });
+
+        filteredDatasets = this.applyAdvancedFilter(filteredDatasets);
+
+
+        let datasets = [];
+        filteredDatasets.forEach(ds => {
+          let data = [];
+          for (let i = startIndex; i <= endIndex; i++) {
+            data.push(ds.data[i]);
+          }
+          let copiedDs = JSON.parse(JSON.stringify(ds));
+
+          copiedDs.data = data;
+          datasets.push(copiedDs);
+
+        });
+        for (let i = startIndex; i <= endIndex; i++) {
+          labels.push(this.store.data.dataLabels[i]);
+        }
+
+        // this.applyFilters(labels, datasets);
+        let filtered = {
+          datasets: datasets,
+          labels: labels
+        }
+        let commentCount = 0;
+        let interventionCount = 0;
+        datasets.forEach(dataset => {
+          if ( !dataset.hidden) {
+          let filteredComments = dataset.comments.filter( comment => new Date(comment.createdDate) >= startDate && new Date(comment.createdDate) <= endDate);
+          let filteredInterventions = dataset.interventions.filter( intervention => new Date(intervention.createdDate) >= startDate && new Date(intervention.createdDate) <= endDate);
+          dataset.comments = filteredComments;
+          dataset.interventions = filteredInterventions;
+          commentCount += filteredComments.length;
+          interventionCount += filteredInterventions.length;
+          }
+        });
+
+
+        this.store.$patch({ filteredData: filtered, commentCount: commentCount, interventionCount: interventionCount });
+
+      }
+
+    },
+    async getChartTypes() {
+      const [error, data] = await getTrendChartTypes();
+      if (error) {
+        console.error(error);
+      } else {
+        data.forEach(type => {
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
+        });
+      }
+    },
+    async getFilterOptions() {
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+    },
+    async getFormFactors() {
+      let chartType = this.reportTypes[this.reportTab].content;
+      const [error, data] = await getFormFactors(chartType);
+      if (error) {
+        console.error(error);
+      } else {
+        this.factorOptions = data;
+      }
+    },
+    applyAdvancedFilter(datasets) {
+
+      let filter = this.store.advancedFilter;
+
+      if (filter) {
+
+        datasets.forEach(ds => {
+          ds.hidden = false;
+
+          const lastTwo = ds.data.slice(-2);
+
+          switch (filter.value) {
+            case '': {
+              ds.hidden = null;
+              break;
+            }
+            case 'improved': {
+              if (lastTwo[1] > lastTwo[0]) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+
+              }
+              break;
+            }
+            case 'worsened': {
+              if (lastTwo[1] < lastTwo[0]) {
+                ds.hidden = false;
+
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-c-d': {
+              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+              }
+
+              break;
+            }
+            case 'remained-a-b': {
+              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
+                ds.hidden = null;
+              } else {
+                ds.hidden = true;
+
+              }
+
+              break;
+            }
+            default: {
+              console.log("Not handling %s", filter.condition);
+            }
+
+          }
+        });
+
+      }
+      return datasets;
+    },
+
+    removeAdvancedFilter() {
+      this.filter.advancedFilter = null;
+    },
+    changeAdvancedFilter(value) {
+      this.filter.advancedFilter = value;
+    },
+    removeFactor(factor) {
+      let removedIdx = this.filter.factors.findIndex(filter => filter.id === factor.id);
+      this.filter.factors.splice(removedIdx, 1);
+    },
+    updateFactors() {
+      this.store.$patch({ factors: this.selectedFactors })
+
+    },
+    changePeriods() {
+      let chartType = this.reportTypes[this.reportTab].content;
+      this.filterOptions = this.reportTypes[this.reportTab].filters;
+      this.userStartDate = null;
+      this.userEndDate = null;
+      this.store.$patch({ chartType: chartType, period: this.period })
+      this.getFormFactors();
 
     }
-  },
+
+  }
 }
 </script>
 
@@ -241,7 +438,6 @@ export default {
 <style scoped>
 .filters {
   background-color: #EEEEEE;
-  min-height: 80px;
 }
 
 .divider-right {

@@ -87,12 +87,14 @@ export async function getFormSummary(clientNum: string, formId: number) {
 
 // function to fetch the form details
 export async function getFormDetails(clientNum: String, formId: number) {
+    console.log("getFormdetails: ");
     try {
         const { data } = await axiosClient.get(`/forms/client/json/${clientNum}/${formId}`, {
             params: {
                 includeOptionValues: true
             }
         });
+        console.log("getFormdetails: ", data);
         return [null, data];
     }catch (error) {
         return [error];
@@ -158,12 +160,61 @@ export async function loadFormDataForSectionAndQuestion(csNumber: number, client
 
 // get form data (all data returned)
 export async function loadFormData(csNumber: number, clientFormId: number) {
+    console.log("load formdata");
     try {
         const { data } = await axiosClient.get('/forms/client/answers/' + csNumber + '/' + clientFormId);
+        console.log("load formdata: ", data);
         return [null, data];
     } catch (error) {
         return [error];
     }
+    // let tmpJson = {
+    //     "data": {
+    //         "S01Q01": "H",
+    //         "S02Q02": "B",
+    //         "S03Q04": "B",
+    //         "S01Q02": "L",
+    //         "S02Q03": "D",
+    //         "S03Q03": "B",
+    //         "S04Q04": "N",
+    //         "S03Q02": "C",
+    //         "S04Q03": "Y",
+    //         "S02Q01": "C",
+    //         "S01Q01_COMMENT": "a new comment! updated again",
+    //         "S01Q03_intervention_datagrid": [
+    //             {
+    //                 "S01Q03_intervention_type": "ACVS",
+    //                 "S01Q03_intervention_desc": "asdasd"
+    //             }
+    //         ],
+    //         "S01Q03_intervention_checkbox": true,
+    //         "S01Q01_intervention_checkbox": true,
+    //         "S01Q01_intervention_datagrid": [
+    //             {
+    //                 "S01Q01_intervention_desc": "asdas sdf sdf sdf sdf ",
+    //                 "S01Q01_intervention_type": "ACVS"
+    //             },
+    //             {
+    //                 "S01Q01_intervention_desc": "sadadasd",
+    //                 "S01Q01_intervention_type": "LIAR"
+    //             },
+    //             {
+    //                 "S01Q01_intervention_desc": "drugs",
+    //                 "S01Q01_intervention_type": "SUMI"
+    //             }
+    //         ],
+    //         "S03Q09": "C",
+    //         "S02Q06": "B",
+    //         "S03Q08": "A",
+    //         "S02Q07": "D",
+    //         "S01Q03": "bbb",
+    //         "S02Q04": "C",
+    //         "S03Q06": "A",
+    //         "S06Q07": "aa"
+    //     },
+    //     "clientFormId": 389760
+    // };
+    // return [null, JSON.stringify(tmpJson)];
 }
 
 // function to delete form
@@ -338,13 +389,13 @@ export async function clientProfileSearch(clientNum: String) {
 }
 
 // function to search for RNA list
-export async function formSearch(clientNum: String, formType: String, supervisionPeriod: boolean) {
+export async function formSearch(clientNum: String, formType: String, currentPeriod: boolean) {
     try{
-        console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, supervisionPeriod);
+        console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, currentPeriod);
         const { data } = await axiosClient.get('/forms/client/search/' + clientNum, {
                 params: {
                     formTypeCd: formType,
-                    currentPeriod: supervisionPeriod
+                    currentPeriod: currentPeriod
                 }
             });
         return [null, data];
@@ -352,6 +403,7 @@ export async function formSearch(clientNum: String, formType: String, supervisio
         return [error];
     }
 }
+
 // function to search for form types
 export async function async_lookupFormTypes() {
     try {
@@ -392,11 +444,32 @@ export async function getFormSummaries( formType: String, latestOnly: boolean) {
 //-------------------------------------
 // Trend analysis
 //-------------------------------------
-export async function getClientFormFactors( clientNumber:number, reportType: string) {
+export async function getFormFactors( reportType: string) {
     try {
-        const { data} = await axiosClient.get('/trend/client/' + clientNumber + '/' + reportType + '/factors');
+        const { data} = await axiosClient.get('/trend/' + reportType + '/factors');
         return [null,data];
     }catch (error) {
+        return [error];
+    }
+}
+
+export async function getChartData(payload: Object) {
+    try{
+        const { data } = await axiosClient.post('/trend/client/data', payload);
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+/**
+ * Get available chart types
+ */
+ export async function getTrendChartTypes() {
+    try{
+        const { data } = await axiosClient.get('/trend/types');
+        return [null, data];
+    } catch (error) {
         return [error];
     }
 }
@@ -404,9 +477,38 @@ export async function getClientFormFactors( clientNumber:number, reportType: str
 //-------------------------------------
 // Comments
 //-------------------------------------
-export async function getClientFormComments( clientNumber:number, payload: object) {
+export async function searchClientFormComments( clientNumber:number, payload: object) {
     try {
         const { data} = await axiosClient.post('/forms/client/comments/' + clientNumber, payload );
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+export async function searchClientInterventions( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/interventions', payload);
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+export async function searchClientResponsivities( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/responsivities', payload);
+        return [null,data];
+    }catch (error) {
+        return [error];
+    }
+}
+
+
+
+export async function searchClientComments( payload: Object) {
+    try {
+        const { data} = await axiosClient.post('/forms/client/comments', payload);
         return [null,data];
     }catch (error) {
         return [error];

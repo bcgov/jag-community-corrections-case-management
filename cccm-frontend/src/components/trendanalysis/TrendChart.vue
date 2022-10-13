@@ -1,15 +1,18 @@
 <template>
   <div class="container panel">
-
-    <div v-if="!factorsSelected" class="inactive-banner justify-content-center pt-5 text-center">
+    <div v-if="!chartReady" class="inactive-banner justify-content-center pt-5 text-center">
       <h1><b>No Factors Selected</b></h1>
       <p />
       <p>Please select an item(s) from the "Factor View" dropdown menu</p>
     </div>
-    <div class="chart mb-4" :class="[ factorsSelected  ? 'chartActive' : 'chartInactive' ]">
-      <canvas id="justiceChart" style="z-index: 1;"></canvas>
-    </div>
-    {{ factors }}
+    <v-progress-linear v-if="loading" indeterminate height="20" color="primary">Loading chart data...
+    </v-progress-linear>
+
+    <v-card class="chart-container">
+      <div class="chart mb-4 " :class="[ chartReady  ? 'chartActive' : 'chartInactive' ]">
+        <canvas id="justiceChart" style="z-index: 1;"></canvas>
+      </div>
+    </v-card>
 
   </div>
 </template>
@@ -19,27 +22,59 @@
 import { Chart, registerables } from 'chart.js';
 import axios from "axios";
 import { trendStore } from '@/stores/trendstore';
-import { mapStores, mapState, mapWritableState } from "pinia";
-
+import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
+import { getChartData } from "@/components/form.api";
 export default {
   name: "TrendChart",
   data() {
     return {
       chartData: [],
-      factorsSelected: false
+      chartReady: false,
+      loading: false,
+    }
+  },
+  setup() {
+    const store = trendStore()
+    return {
+      store,
     }
   },
   computed: {
-    ...mapStores(trendStore, ['factors', 'startDate', 'endDate'])
+    ...mapStores(trendStore, ['data', 'startDate', 'endDate', 'commentCount', 'interventionCount', 'factors', 'advancedFilter', 'filteredData'])
   },
   created() {
 
   },
+  beforeUnmount() {
+    let tooltipEl = document.getElementById('chartjs-tooltip');
+    tooltipEl.remove();
+  },
+
   mounted() {
     let ctx = document.getElementById('justiceChart');
+    let vm = this;
+    if (this.store && this.store.filteredData) {
+      this.chartReady = true;
+      // run with timeout to give chart time to display and then render updates
+      setTimeout(function () {
+        vm.updateChart(vm.store.filteredData);
+      }, 500);
 
-    this.trendStore.$subscribe((mutation, state) => {
-      console.log("Mutation %o %o", mutation, state);
+
+    }
+
+    this.store.$subscribe((mutation, state) => {
+      let changed = false;
+      if (mutation.payload && mutation.payload.hasOwnProperty('filteredData')) {
+        if (mutation.payload.filteredData === null) {
+          this.chartReady = false;
+        } else {
+          this.chartReady = true;
+
+          this.updateChart(mutation.payload.filteredData);
+        }
+      }
+
     });
 
     const linePlugin = {
@@ -51,7 +86,6 @@ export default {
         chartInstance.data.datasets.forEach(dataset => {
           if (dataset.verticalLines) {
             for (const [key, val] of Object.entries(dataset.verticalLines)) {
-              console.log("key val %o %o", key, val);
               const axisPoint = chartInstance.scales.x.getPixelForValue(chartInstance.data.labels[chartInstance.data.labels.length - 2]);
               let yAxis = chartInstance.scales.y;
               let ctx = chartInstance.ctx;
@@ -114,6 +148,7 @@ export default {
       lineAtIndex: [2, 4, 8],
       options: {
         responsive: true,
+        spanGaps: false,
         datasets: {
           line: 5
         },
@@ -151,7 +186,6 @@ export default {
             external: function (context) {
               // Tooltip Element
               let tooltipEl = document.getElementById('chartjs-tooltip');
-              console.log("Tooltip %o", tooltipEl);
 
               // Create element on first render
               if (!tooltipEl) {
@@ -168,7 +202,6 @@ export default {
 
               // Keep the tooltip visible
               const tooltipModel = context.tooltip;
-              console.log("Model %o", tooltipModel);
               if (tooltipModel.opacity === 0) {
                 tooltipEl.style.opacity = 1;
                 return;
@@ -200,7 +233,6 @@ export default {
 
 
                 bodyLines.forEach(function (body, i) {
-                  console.log("Tooltip %o", tooltipModel);
                   const colors = tooltipModel.labelColors[i];
                   let style = 'background:' + colors.backgroundColor;
                   style += '; border-color:' + colors.borderColor;
@@ -222,7 +254,6 @@ export default {
 
               tips.forEach(tip => {
                 tip.addEventListener('click', function handleClick(event) {
-                  console.log('tip clicked %o %o', event, event.target);
                   tip.setAttribute('style', 'font-weight: bold;');
                   tooltipEl.style.opacity = 0;
                 });
@@ -282,180 +313,23 @@ export default {
     });
 
 
-    this.refreshChart();
-
   },
 
-  updated() {
-
-  },
-  watch: {
-    factors(newValue) {
-        alert('factor change ' + newValue);
-        // this.refreshChart();
-    },
-    userEndDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          this.refreshChart();
-        }
-      },
-    },
-    userStartDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("Start date updated %s %s", newValue, oldValue);
-          this.refreshChart();
-        }
-      },
-    },
-    filterEndDate: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("End date updated %s %s", newValue, oldValue);
-          this.refreshChart();
-        }
-      },
-    },
-    advancedFilter: {
-      handler: function (newValue, oldValue) {
-        if (oldValue !== newValue) {
-          console.log("Advanced filter updated %s %s", newValue, oldValue);
-          this.toggleSelected(newValue);
-        }
-      },
-    },
-
-    period: {
-      handler: function (newValue, oldValue) {
-        console.log("Period updated!! %s %s", newValue, oldValue);
-        this.refreshChart();
-      },
-    }
-  },
   methods: {
 
-    toggleSelected(newValue) {
-      let ctx = document.getElementById('justiceChart');
-      let chart = Chart.getChart("justiceChart");
-      console.log('NewValue %o %o', newValue, ctx);
 
-      if (!newValue) {
 
-        chart.data.datasets.forEach(ds => {
-          ds.hidden = false;
-        });
-      } else {
-        // TODO Need to inject this from the incoming JSON as its chart type specific
-        switch (newValue.id) {
-          // worsened
-          case 1: {
-            chart.data.datasets.forEach(ds => {
-              const lastTwo = ds.data.slice(-2);
-              console.log("Checking last 2 entries for each dataset %o", lastTwo);
-              if (lastTwo[1] < lastTwo[0]) {
-                ds.hidden = false;
-                console.log("Keeping %o", ds);
 
-              } else {
-                ds.hidden = true;
-                console.log("Hiding %o", ds);
+    updateChart(data) {
+      if (data) {
 
-              }
-            });
-            break;
-          }
-          // improved
-          case 2: {
-            chart.data.datasets.forEach(ds => {
-              const lastTwo = ds.data.slice(-2);
-              console.log("Checking last 2 entries for each dataset %o", lastTwo);
-              if (lastTwo[1] > lastTwo[0]) {
-                ds.hidden = false;
-                console.log("Keeping %o", ds);
-              } else {
-                ds.hidden = true;
-                console.log("Hiding %o", ds);
+        const chart = Chart.getChart("justiceChart");
+        if (chart) {
 
-              }
-            });
-            break;
-          }
-          case 3: {
-            chart.data.datasets.forEach(ds => {
-              console.log("Checking last 2 entries for each dataset %o", ds);
-              const lastTwo = ds.data.slice(-2);
-              if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-
-              }
-            });
-            break;
-          }
-          case 4: {
-            chart.data.datasets.forEach(ds => {
-              console.log("Checking last 2 entries for each dataset %o", ds);
-              const lastTwo = ds.data.slice(-2);
-              if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
-                ds.hidden = null;
-              } else {
-                ds.hidden = true;
-
-              }
-            });
-            break;
-          }
-          default: {
-            // do nothing
-          }
+          chart.data = data;
+          chart.update();
         }
       }
-      chart.update();
-
-    },
-    refreshChart() {
-      console.log("RefreshChart() called");
-      // if (this.factors) {
-      //   console.log("Factors %o", this.factors);
-      //   axios
-      //     .get('/forms/client/', {
-      //       params: {
-      //         factors: factors,
-      //         period: this.period,
-      //         clientId: this.clientId,
-      //         startDate: this.userStartDate,
-      //         endDate: this.userEndDate,
-      //         advancedFilter: this.advancedFilter
-      //       },
-      //     })
-      //     .then((response) => {
-      //       console.log("Got response %o", this.form);
-      //       this.updateChart(response.data);
-      //     });
-      // }
-    },
-
-    updateChart(responseData) {
-      const chart = Chart.getChart("justiceChart");
-
-      console.log("ResponseData %o", responseData);
-      let xSeries = responseData.dataLabels;
-      // update start and end dates
-      this.$store.commit('updateStartAndEndDateLimits', [xSeries[0], xSeries[xSeries.length - 1]]);
-      this.$store.commit('updateStartAndEndDate', [xSeries[0], xSeries[xSeries.length - 1]]);
-      this.$store.commit('updateInterventionCount', responseData.interventionCount);
-      this.$store.commit('updateCommentCount', responseData.commentCount);
-      this.$store.commit('updateAdvancedFilterOptions', responseData.advancedFilterOptions);
-
-
-      const data = {
-        labels: xSeries,
-        datasets: responseData.datasets
-      };
-      chart.data = data;
-      chart.update();
     }
   }
 }
@@ -485,5 +359,10 @@ div.chartInactive {
 #chartjs-tooltip {
   border: 1px solid black;
   box-shadow: 5px 5px black;
+}
+
+
+.chart-container {
+  height: 100%;
 }
 </style>
