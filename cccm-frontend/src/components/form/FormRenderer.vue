@@ -63,13 +63,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import { getFormDetails, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
-import FormDataEntry from "@/components/cmp-form/formSections/FormDataEntry.vue";
-import FormNavigation from "@/components/cmp-form/formSections/FormNavigation.vue";
+import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
+import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
-import FormSummary from '@/components/cmp-form/formSections/FormSummary.vue';
-import FormCasePlan from '@/components/cmp-form/formSections/FormCasePlan.vue';
+import FormSummary from '@/components/form/formSections/FormSummary.vue';
+import FormCasePlan from '@/components/form/formSections/FormCasePlan.vue';
 
 export default {
   name: 'CmpFormDetail',

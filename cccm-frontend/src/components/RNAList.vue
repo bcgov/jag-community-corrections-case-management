@@ -202,10 +202,6 @@ export default {
       selectedFormTypes: {value: "ALL", key: ""},
       formTypes: [],
       selectedSupervisionPeriods: "false",
-      // form creation payload
-      formData: {},
-      // newly created formID
-      newCreatedFormId: 0,
       dialog: false,
       readonly: true,
       selectedFormTypeValue: [],
@@ -301,18 +297,38 @@ export default {
       this.formTypes.unshift(this.selectedFormTypes);
     },
     async createFormAPI() {
-      // get latest form version
-      const [err, formInfo] = await getFormSummaries('CRNA', true);
-      this.formData.clientNumber = "00142091";
-      //this.formData.clientNumber = this.clientNum;
-      this.formData.formTypeId = formInfo[0].id;
+      let formData = {};
+      // get latest 'CRNA' form version
+      const [err, formInfo] = await getFormSummaries(this.$CONST_FORMTYPE_CRNA, true);
+      formData.clientNumber = "00142091";
+      //formData.clientNumber = this.clientNum;
+      formData.formTypeId = formInfo[0].id;
 
-      const [error, formId] = await createForm(this.formData);
-      this.newCreatedFormId = formId;
+      //Create a new 'CRNA' form instance no matter what
+      const [error, CRNAformId] = await createForm(formData);
       if (error) {
         console.error(error);
+      } else {
+        // User selected 'SARA', need to call createForm API again to create 'SARA'
+        if (this.selectedFormTypeValue.includes("sara")) {
+          // get latest 'SARA' form version
+          const [err, formInfo] = await getFormSummaries(this.$CONST_FORMTYPE_SARA, true);
+          formData.clientNumber = "00142091";
+          //formData.clientNumber = this.clientNum;
+          formData.formTypeId = formInfo[0].id;
+
+          // need to create a new 'CRNA' form instance no matter what
+          const [error, SARAformId] = await createForm(formData);
+          if (error) {
+            console.error(error);
+          } else {
+            return SARAformId;
+          }
+        } else {
+          return CRNAformId;
+        }
       }
-      return formId;
+      return null;
     },
     async formCloneAPI(formID) {
       const [error, response] = await cloneForm(formID);
@@ -370,18 +386,19 @@ export default {
       this.dialog = false;
       console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
 
-      this.createFormAPI();
+      let newCreatedFormId = null;
+      newCreatedFormId = this.createFormAPI();
       //Redirect User to the newly created form
-      console.log("newCreatedFormID: ", this.newCreatedFormId);
-      let formType = "CRNA";
+      console.log("newCreatedFormID: ", newCreatedFormId);
+      let formType = this.$CONST_FORMTYPE_CRNA;
       if (this.selectedFormTypeValue.includes("sara")) {
-        formType = "SARA";
+        formType = this.$CONST_FORMTYPE_SARA;
       }
       this.$router.push({
         name: "cmpform",
         params: {
           formType: formType,
-          formID: this.newCreatedFormId,
+          formID: newCreatedFormId,
           csNumber: this.clientNum,
           linkedSara: false
         }

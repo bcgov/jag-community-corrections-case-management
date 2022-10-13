@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       active: '',
+      toggle_exclusive: ''
     }
   },
 
