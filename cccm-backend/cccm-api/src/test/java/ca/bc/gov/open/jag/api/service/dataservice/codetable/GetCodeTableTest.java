@@ -107,7 +107,7 @@ public class GetCodeTableTest {
     }
 
     @Test
-    @DisplayName("Success: should return address")
+    @DisplayName("Success: should return Intervention")
     public void testGetIntervention() {
 
         CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
@@ -123,7 +123,7 @@ public class GetCodeTableTest {
     }
 
     @Test
-    @DisplayName("Success: should return address")
+    @DisplayName("Success: should return Responseivity")
     public void testGetResponsivity() {
 
         CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
