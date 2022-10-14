@@ -26,7 +26,7 @@
 
 <script>
 
-import {mapState, mapStores} from "pinia/dist/pinia";
+import {mapState, mapStores} from "pinia";
 import { trendStore } from '@/stores/trendstore';
 
 export default {
