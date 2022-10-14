@@ -17,6 +17,7 @@
             </div>
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          <v-progress-linear v-if="loadingCasePlanIntervention" indeterminate height="30" color="primary">{{loadingMsgCasePlanIntervention}}</v-progress-linear>
           <div :class="loading ? 'hide' : 'mainContent'">
             <FormDataEntry :key="componentKey" 
               :csNumber="csNumber"
@@ -24,8 +25,6 @@
               :dataModel="data_formEntries" 
               :initData="formInitData" />   
             
-            <FormCasePlan v-if="displayCasePlan" :template="responsesivityTemplate" />
-
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
               :showSummaryCounter="showSummaryCounter" />
@@ -69,7 +68,6 @@ import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
-import FormCasePlan from '@/components/form/formSections/FormCasePlan.vue';
 
 export default {
   name: 'CmpFormDetail',
@@ -80,8 +78,7 @@ export default {
     FormioSidePanel,
     FormioFormInfo,
     FormioButton,
-    FormSummary,
-    FormCasePlan
+    FormSummary
   },
   data() {
     return {
@@ -104,8 +101,9 @@ export default {
       componentKey: 0,
       staticComponentKey: 0,
       showSummaryCounter: 0,
-      displayCasePlan: false,
-      responsesivityTemplate: {"display": "form", "components": {}},
+      loadingCasePlanIntervention: false,
+      loadingMsgCasePlanIntervention: "Loading intervention data..."
+
     }
   },
   mounted(){
@@ -245,13 +243,7 @@ export default {
         this.loadingMsg = "Loading client form data...";
         this.data_formEntries = response;
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
-        // if it's CRNA form, get caseplan responsivity template
-        if (this.formType == this.$CONST_FORMTYPE_CRNA && this.totalNumParentNav > 2) {
-          this.responsesivityTemplate.components = response.components[this.totalNumParentNav - 2];
-          console.log("this.responsesivityTemplate: ", this.responsesivityTemplate);
-        }
-        //console.log("this.totalNumParentNav: ", this.totalNumParentNav);
-
+        
         // Load form data
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
         if (error) {
@@ -267,6 +259,7 @@ export default {
       //console.log("Navigating %d %d", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
+      this.private_showHideCasePlanInterventions(false);
 
       // navigate to the pointed section, 
       // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
@@ -287,6 +280,10 @@ export default {
       console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
+        //show case plan
+        if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
+          this.private_getCasePlanData();
+        }
         this.parentNavMoveToNext++;
       }
     },
@@ -294,14 +291,15 @@ export default {
       console.log("Cancel Form");
       this.$emit("cancelFormClicked");
     },
-    handleNavChildCallback(parentNavCurLocationFromChild) {
+    async handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
-      this.displayCasePlan = false;
+      this.private_showHideCasePlanInterventions(false);
 
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
-        this.displayCasePlan = true;
+        //console.log("set show_intervention to true");
+        this.private_getCasePlanData();
       }
       // User clicked 'Summary' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
@@ -309,6 +307,35 @@ export default {
         this.btnSaveContinueText = "Submit Form"; 
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
+      }
+    },
+    async private_getCasePlanData() {
+      this.loadingCasePlanIntervention = true;
+      this.loadingMsgCasePlanIntervention = "Loading intervention data...";
+      const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
+      if (error) {
+        console.error(error);
+      } else {
+        // do something
+        this.loadingCasePlanIntervention = false;
+        this.loadingMsgCasePlanIntervention = "";
+        this.private_showHideCasePlanInterventions(true);
+      }
+    },
+    private_showHideCasePlanInterventions(isShow) {
+      // get intervention panel
+      const thePanel = document.querySelector(`div[ref="nested-intervention_panel"]`);
+      //console.log("thePanel: ", thePanel);
+      if (isShow) {
+        //console.log("show intervention");
+        if (thePanel != null) {
+          thePanel.setAttribute('style', 'display:block');
+        }
+      } else {
+        //console.log("hide intervention");
+        if (thePanel != null) {
+          thePanel.setAttribute('style', 'display:none');
+        }
       }
     }
   }  
@@ -323,10 +350,17 @@ export default {
 .subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
-  color: #fcba19;
-  text-decoration: underline;
-  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
+  -webkit-text-decoration-color: rgb(255, 208, 0); 
   text-decoration-color: rgb(255, 208, 0);
+}
+
+.subSectionTitleClass::after {
+    content: "";
+    height: 0px;
+    width: 50px;
+    display: block;
+    border-bottom: 6px solid rgb(255, 208, 0);
+    margin-bottom: 25px;
 }
 
 .subSectionChildTitleClass {
