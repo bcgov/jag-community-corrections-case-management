@@ -10,7 +10,7 @@
 <script>
 // import {mapState} from "vuex";
 import axios from "axios";
-import { mapState, mapStores } from "pinia/dist/pinia";
+import { mapState, mapStores } from "pinia";
 import { trendStore } from '@/stores/trendstore';
 
 export default {
