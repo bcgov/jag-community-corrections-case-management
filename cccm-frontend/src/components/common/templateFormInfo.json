@@ -98,7 +98,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>${formType}: </Strong>${updatedDate}</div><div><Strong>Location: </Strong>${location}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>${formType}: </Strong>${clientFormType}</div><div><Strong>Location: </Strong>${location}</div>",
                                                     "refreshOnChange": false,
                                                     "key": "html1",
                                                     "type": "htmlelement",

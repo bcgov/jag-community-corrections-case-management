@@ -26,6 +26,11 @@ export default {
   components: {
     Form
   },
+  watch: {
+    initData() {
+      console.log("initData updated: ", this.initData);
+    }
+  },
   data() {
     return {
       CONST_EDITGRID: 'editgrid',

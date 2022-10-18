@@ -142,6 +142,7 @@ export default {
       let hrefVal = '#' + parentNavPos + childNavPos;
       let selector = 'a[href="' + hrefVal + '"]'
       let theAnchor = document.querySelector(selector);
+      console.log("selector: , theAnchor: ", selector, theAnchor);
       if (theAnchor != null) {
         theAnchor.click();
       }
@@ -150,8 +151,8 @@ export default {
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        console.log(e.target.hash);
-        console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
+        //console.log(e.target.hash);
+        //console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
         this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)));
       }
     },
@@ -199,7 +200,7 @@ export default {
       }
     },
     showHideSections() {
-      console.log("this.currentSectionParent, this.currentSectionChild: ", this.currentSectionParent, this.currentSectionChild);
+      //console.log("this.currentSectionParent, this.currentSectionChild: ", this.currentSectionParent, this.currentSectionChild);
       // show questions
       if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
         //console.log("panel is not null: ",  this.dataModel.components.length);
@@ -218,9 +219,9 @@ export default {
               if (this.currentSectionChild >= 1) {
                 let questionIDIndex = (this.currentSectionChild).toString().length < 2 ? ("0" + (this.currentSectionChild).toString()): (this.currentSectionChild).toString();
                 let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
-                console.log("questionClassName: ", questionClassName);
+                //console.log("questionClassName: ", questionClassName);
                 let theQuestionPanel = document.querySelector(questionClassName);
-                console.log("theQuestionPanel: ", theQuestionPanel);
+                //console.log("theQuestionPanel: ", theQuestionPanel);
                 if (theQuestionPanel != null) {
                   theQuestionPanel.scrollIntoView(false);
                 }

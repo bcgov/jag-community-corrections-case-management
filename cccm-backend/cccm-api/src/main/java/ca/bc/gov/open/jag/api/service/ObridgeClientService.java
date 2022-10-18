@@ -19,45 +19,45 @@ import java.util.List;
 @RegisterRestClient
 public interface ObridgeClientService {
 
-    //TODO: user and location should be moved to the header for all obridge requests
+    // TODO: user and location should be moved to the header for all obridge
+    // requests
     @GET
     @Path("/clientSearch")
     List<Client> getClientSearch(@QueryParam("searchType") String searchType,
-                                 @QueryParam("surname") String surname,
-                                 @QueryParam("givenName") String givenName,
-                                 @QueryParam("birthYear") BigDecimal birthYear,
-                                 @QueryParam("birthYearRange") BigDecimal birthYearRange,
-                                 @QueryParam("age") Integer age,
-                                 @QueryParam("gender") String gender,
-                                 @QueryParam("identifierType") String identifierType,
-                                 @QueryParam("identifierText") String identifierText,
-                                 @QueryParam("user") String user,
-                                 @QueryParam("location") BigDecimal location
-    );
+            @QueryParam("surname") String surname,
+            @QueryParam("givenName") String givenName,
+            @QueryParam("birthYear") BigDecimal birthYear,
+            @QueryParam("birthYearRange") BigDecimal birthYearRange,
+            @QueryParam("age") Integer age,
+            @QueryParam("gender") String gender,
+            @QueryParam("identifierType") String identifierType,
+            @QueryParam("identifierText") String identifierText,
+            @QueryParam("user") String user,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/clientAddressSearch")
     List<Client> getClientAddressSearch(@QueryParam("addressType") String addressType,
-                                        @QueryParam("address") String address,
-                                        @QueryParam("city") String city,
-                                        @QueryParam("province") String province,
-                                        @QueryParam("postalCode") String postalCode,
-                                        @QueryParam("expired") Boolean expired,
-                                        @QueryParam("user") String user,
-                                        @QueryParam("location") BigDecimal location);
+            @QueryParam("address") String address,
+            @QueryParam("city") String city,
+            @QueryParam("province") String province,
+            @QueryParam("postalCode") String postalCode,
+            @QueryParam("expired") Boolean expired,
+            @QueryParam("user") String user,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/clientSearch")
-        //Lastname search only
+    // Lastname search only
     List<Client> getClientSearch(@QueryParam("searchType") String searchType,
-                                 @QueryParam("surname") String surname);
+            @QueryParam("surname") String surname);
 
     @GET
     @Path("/clientSearch")
-        //Get a client
+    // Get a client
     List<Client> getClientById(@QueryParam("searchType") String searchType,
-                               @QueryParam("identifierType") String identifierType,
-                               @QueryParam("identifierText") String identifierText);
+            @QueryParam("identifierType") String identifierType,
+            @QueryParam("identifierText") String identifierText);
 
     @GET
     @Path("/client/{clientNumber}/photo")
@@ -65,17 +65,19 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/client/address")
-    List<ca.bc.gov.open.jag.api.model.data.Address> getAddressById(@QueryParam("clientNumber") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+    List<ca.bc.gov.open.jag.api.model.data.Address> getAddressById(@QueryParam("clientNumber") String clientNum,
+            @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/{clientNumber}/details")
-    Client getDetailsById(@PathParam("clientNumber") String clientNum, @QueryParam("user") String user, @QueryParam("location") BigDecimal location);
+    Client getDetailsById(@PathParam("clientNumber") String clientNum, @QueryParam("user") String user,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/clientProfile")
     ClientProfile getProfileById(@QueryParam("clientNumber") String csNumber,
-                                 @QueryParam("user") String user,
-                                 @QueryParam("location") BigDecimal location);
+            @QueryParam("user") String user,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/lookup/identifierTypes")
@@ -88,7 +90,6 @@ public interface ObridgeClientService {
     @GET
     @Path("/lookup/genderTypes")
     List<CodeTable> getGenderTypes();
-
 
     @GET
     @Path("/lookup/intervention-types")
@@ -112,13 +113,14 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/user/dashboard/po")
-    List<PODashboard> getPODashboard(@QueryParam("idirId") String idirId, @QueryParam("locationId") BigDecimal locationId);
+    List<PODashboard> getPODashboard(@QueryParam("idirId") String idirId,
+            @QueryParam("locationId") BigDecimal locationId);
 
     @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
     String getClientFormAsJSON(@PathParam("clientNumber") String clientNumber,
-                               @PathParam("clientFormId") BigDecimal clientFormId,
-                               @QueryParam("includeValues") boolean includeValues);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @QueryParam("includeValues") boolean includeValues);
 
     @POST
     @Path("/forms/client")
@@ -127,78 +129,72 @@ public interface ObridgeClientService {
     @PUT
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}")
     String saveClientFormAnswers(@PathParam("clientNumber") String clientNumber,
-                                     @PathParam("clientFormId") BigDecimal clientFormId,
-                                     @RequestBody String payload,
-                                     @QueryParam("loadLatestValues") boolean loadLatestValues);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @RequestBody String payload,
+            @QueryParam("loadLatestValues") boolean loadLatestValues);
 
     @PUT
     @Path("/forms/client/answers/interventions/{clientNumber}/{clientFormId}")
     String updateClientFormInterventions(@PathParam("clientNumber") String clientNumber,
-                                 @PathParam("clientFormId") BigDecimal clientFormId,
-                                 @RequestBody String payload);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @RequestBody String payload);
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}")
     String getClientFormAnswers(@PathParam("clientNumber") String clientNumber,
-                                           @PathParam("clientFormId") BigDecimal clientFormId);
-
+            @PathParam("clientFormId") BigDecimal clientFormId);
 
     @GET
     @Path("forms/client/summary/answers/{clientNumber}/{clientFormId}")
     String getClientFormAnswersSummary(@PathParam("clientNumber") String clientNumber,
-                                @PathParam("clientFormId") BigDecimal clientFormId);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @QueryParam("includeLinkedForm") boolean includeLinkedForm); 
 
     @GET
     @Path("forms/client/summary/{clientNumber}/{clientFormId}")
     String getClientFormSummary(@PathParam("clientNumber") String clientNumber,
-                                       @PathParam("clientFormId") BigDecimal clientFormId);
-
+            @PathParam("clientFormId") BigDecimal clientFormId);
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}")
     String getClientFormAnswersForSection(@PathParam("clientNumber") String clientNumber,
-                                                @PathParam("clientFormId") BigDecimal clientFormId,
-                                                @PathParam("sectionSequence") int sectionSequence);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @PathParam("sectionSequence") int sectionSequence);
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}")
     String getClientFormAnswersForSectionAndQuestion(@PathParam("clientNumber") String clientNumber,
-                                                     @PathParam("clientFormId") BigDecimal clientFormId,
-                                                     @PathParam("sectionSequence") int sectionSequence,
-                                                     @PathParam("questionSequence") int questionSequence);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @PathParam("sectionSequence") int sectionSequence,
+            @PathParam("questionSequence") int questionSequence);
 
     @GET
     @Path("/forms/client/search/{clientId}")
     List<ClientFormSummary> getClientForms(@PathParam("clientId") String clientId,
-                                           @QueryParam("currentPeriod") boolean currentPeriod,
-                                           @QueryParam("formTypeCd") String formTypeCd);
-
-
+            @QueryParam("currentPeriod") boolean currentPeriod,
+            @QueryParam("formTypeCd") String formTypeCd);
 
     @POST
     @Path("/forms/client/interventions")
-    List<Intervention> searchClientInterventions( @RequestBody ClientSearchInput searchInput);
+    List<Intervention> searchClientInterventions(@RequestBody ClientSearchInput searchInput);
 
     @POST
     @Path("/forms/client/comments")
-    List<Comment> searchClientComments( @RequestBody ClientSearchInput searchInput);
+    List<Comment> searchClientComments(@RequestBody ClientSearchInput searchInput);
 
     @POST
     @Path("/forms/client/responsivities")
-    List<Responsivity> searchClientResponsivities( @RequestBody ClientSearchInput searchInput);
-
+    List<Responsivity> searchClientResponsivities(@RequestBody ClientSearchInput searchInput);
 
     @GET
     @Path("/trend/client/{csNumber}/{reportType}/factors")
-    List<LabelValuePair> getClientFormFactors(@PathParam("reportType") String reportType, @PathParam("csNumber") String csNumber);
-
-
+    List<LabelValuePair> getClientFormFactors(@PathParam("reportType") String reportType,
+            @PathParam("csNumber") String csNumber);
 
     @GET
     @Path("/forms/{formId}")
     FormDetails getForm(@PathParam("formId") BigDecimal formId,
-                        @QueryParam("includeAnswers") boolean includeAnswers);
-
+            @QueryParam("includeAnswers") boolean includeAnswers);
 
     @GET
     @Path("/forms/decorator/{identifier}")
@@ -207,8 +203,7 @@ public interface ObridgeClientService {
     @GET
     @Path("/forms/summaries")
     List<FormSummary> getFormSummaries(@QueryParam("module") String module,
-                                       @QueryParam("latestOnly") boolean latestOnly);
-
+            @QueryParam("latestOnly") boolean latestOnly);
 
     @GET
     @Path("/trend/types")
@@ -221,4 +216,17 @@ public interface ObridgeClientService {
     @POST
     @Path("/trend/client/data")
     TrendFormData getClientTrendData(@RequestBody TrendFilterInput input);
+
+    @GET
+    @Path("/forms/client/intervention/json/{csNumber}/{clientFormId}")
+    String getClientFormInterventionsForCasePlan(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
+            @QueryParam("includeLinkedForm") boolean includeLinkedForm);
+    
+    @GET
+    @Path("/forms/client/meta/json/{csNumber}/{clientFormId}")
+    String getClientFormMetaJson(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId);
+    
+    @PUT
+    @Path("/forms/client/sourcesContacted/{clientFormId}")
+    void updateSourcesContacted(@PathParam("clientFormId") BigDecimal clientFormId, @QueryParam("sourcesContacted") String sourcesContacted);
 }
