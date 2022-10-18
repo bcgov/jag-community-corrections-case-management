@@ -261,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SupervisorDashboard'
+                $ref: '#/components/schemas/SupervisorDashboardList'
           description: get get supervisor dahsboard
       summary: get supervisor dashboard
       tags:
@@ -1776,6 +1776,10 @@ components:
           type: number
         dueSeven:
           type: number
+    SupervisorDashboardList:
+      type: array
+      items:
+        $ref: '#/components/schemas/SupervisorDashboard'
     Code:
       type: object
       properties:
