@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface UserDataService {
     String getOracleId(String user);
 
     List<PODashboard> getPODashboard(String user, String location);
+
+    List<SupervisorDashboard> getSupervisorDashboard(String user, String location);
 
 }
