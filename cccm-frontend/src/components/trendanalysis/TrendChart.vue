@@ -22,7 +22,7 @@
 import { Chart, registerables } from 'chart.js';
 import axios from "axios";
 import { trendStore } from '@/stores/trendstore';
-import { mapStores, mapState, mapWritableState } from "pinia/dist/pinia";
+import { mapStores, mapState, mapWritableState } from "pinia";
 import { getChartData } from "@/components/form.api";
 export default {
   name: "TrendChart",

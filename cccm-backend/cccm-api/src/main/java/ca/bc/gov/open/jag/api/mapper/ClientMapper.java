@@ -33,6 +33,7 @@ public interface ClientMapper {
     //Order Information
     @Mapping(target = "orderInformation.orders", source = "clientProfile.orders")
     @Mapping(target = "orderInformation.expiryDate", source = "clientProfile.finalOrderExpiryDt")
+    @Mapping(target = "orderInformation.effectiveDate", source = "clientProfile.orderEffectiveDt")
     //TODO orderInformation requires effective and due dates
     //TODO courtInformation is required
     //General Information

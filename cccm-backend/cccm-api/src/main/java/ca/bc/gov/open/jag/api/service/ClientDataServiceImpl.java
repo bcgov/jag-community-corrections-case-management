@@ -3,7 +3,6 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
-import ca.bc.gov.open.jag.api.mapper.FormMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
@@ -19,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ca.bc.gov.open.jag.api.Keys.*;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @RequestScoped
@@ -34,22 +34,19 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Inject
     ClientMapper clientMapper;
 
-    @Inject
-    FormMapper formMapper;
-
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
 
         String searchType;
         //This is based on the current stored procedure
         if (Boolean.TRUE.equals(clientSearch.getSoundex())) {
-            searchType = "SOUNDEX";
+            searchType = SEARCH_TYPE_SOUNDEX;
         } else if (StringUtils.isNoneBlank(clientSearch.getIdentifierType())) {
-            searchType = "ID";
+            searchType = SEARCH_TYPE_ID;
         } else if (StringUtils.isNoneBlank(clientSearch.getLastName()) && clientSearch.getLastName().contains("%")) {
-            searchType = "PARTIAL";
+            searchType = SEARCH_TYPE_PARTIAL;
         } else {
-            searchType = "EXACT";
+            searchType = SEARCH_TYPE_EXACT;
         }
         //Validation tbd
         return createClientResult(obridgeClientService.getClientSearch(searchType, clientSearch.getLastName(),
