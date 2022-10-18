@@ -5,7 +5,10 @@ package ca.bc.gov.open.jag.api.trend;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.TrendDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.TrendApi;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LabelValuePair;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendAnalysisConfig;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFilterInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFormData;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;

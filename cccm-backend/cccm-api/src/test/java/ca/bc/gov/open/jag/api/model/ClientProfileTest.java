@@ -27,6 +27,7 @@ public class ClientProfileTest {
         sut.setSupervisionLevel("TEST");
         sut.setOrders("TEST");
         sut.setFinalOrderExpiryDt(Date.valueOf(testDate));
+        sut.setOrderEffectiveDt(Date.valueOf(testDate));
         sut.setReleaseReason("TEST");
         sut.setInstitutionstatus("TEST");
         sut.setClientinoutyn("TEST");
@@ -61,6 +62,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getSupervisionLevel());
         Assertions.assertEquals("TEST", sut.getOrders());
         Assertions.assertEquals(Date.valueOf(testDate), sut.getFinalOrderExpiryDt());
+        Assertions.assertEquals(Date.valueOf(testDate), sut.getOrderEffectiveDt());
         Assertions.assertEquals("TEST", sut.getReleaseReason());
         Assertions.assertEquals("TEST", sut.getInstitutionstatus());
         Assertions.assertEquals("TEST", sut.getClientinoutyn());

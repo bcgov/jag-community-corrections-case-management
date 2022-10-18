@@ -12,6 +12,7 @@ public class ClientProfile {
     private String supervisionLevel;
     private String orders;
     private Date finalOrderExpiryDt;
+    private Date orderEffectiveDt;
     private String releaseReason;
     private String institutionstatus;
     private String clientinoutyn;
@@ -292,4 +293,13 @@ public class ClientProfile {
     public void setPrograms(List<Program> programs) {
         this.programs = programs;
     }
+
+    public Date getOrderEffectiveDt() {
+        return orderEffectiveDt;
+    }
+
+    public void setOrderEffectiveDt(Date orderEffectiveDt) {
+        this.orderEffectiveDt = orderEffectiveDt;
+    }
+
 }
