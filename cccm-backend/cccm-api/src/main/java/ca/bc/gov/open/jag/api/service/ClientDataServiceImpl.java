@@ -184,8 +184,8 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId) {
-        return obridgeClientService.getClientFormAnswersSummary(clientNumber, clientFormId);
+    public String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm) {
+        return obridgeClientService.getClientFormAnswersSummary(clientNumber, clientFormId, includeLinkedForm);
     }
 
     @Override
@@ -219,6 +219,22 @@ public class ClientDataServiceImpl implements ClientDataService {
         return obridgeClientService.searchClientComments( searchInput);
     }
 
+    @Override
+    public String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm) {
+        log.debug("Get client form intervention for case plan, clientFormId: {}, includeLinkedForm: {}", clientFormId, includeLinkedForm);
+        return obridgeClientService.getClientFormInterventionsForCasePlan(csNumber, clientFormId, includeLinkedForm);
+    }
+    
+    @Override
+    public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId) {
+        return obridgeClientService.getClientFormMetaJson(csNumber, clientFormId);
+    }
+    
+    @Override
+    public void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted) {
+        obridgeClientService.updateSourcesContacted(clientFormId, sourcesContacted);
+    }
+    
     private Photo getPhoto(String clientNum) {
 
         List<Photo> photos = obridgeClientService.getPhotosById(clientNum);

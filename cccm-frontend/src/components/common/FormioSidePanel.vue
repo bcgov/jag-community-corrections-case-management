@@ -5,13 +5,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { updateForm } from "@/components/form.api";
+import { updateSourcesContacted } from "@/components/form.api";
 import templatePanel from '@/components/common/templateSidePanel.json';
 
 export default {
   name: 'FormioPanel',
   props: {
-    dataModel: {}
+    dataModel: {},
+    clientFormId: 0
   },
   data() {
     return {
@@ -85,10 +86,10 @@ export default {
             }
           } else {
             // Save button clicked, call API to save the data
-            //console.log("evt.data: ", evt.data);
-            const [error, response] = await updateForm(evt.data);
+            console.log("evt.data: ", evt.data);
+            const [error, response] = await updateSourcesContacted(this.clientFormId, evt.data.input_key_sourceContacted);
             if (error) {
-              console.error("Save source contacted error", error);
+              console.error("Save source contacted error: ", error);
             } else {
               console.log("Save source contacted success", response);
             }

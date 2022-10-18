@@ -32,11 +32,12 @@ export default {
       tmpJSONStr = tmpJSONStr.replace('${formTitle}', this.dataModel.formTitle);
       tmpJSONStr = tmpJSONStr.replace('${createdDate}', this.dataModel.createdDate);
       tmpJSONStr = tmpJSONStr.replace('${createdBy}', this.dataModel.createdBy);
-      tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate);
-      tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate);
+      tmpJSONStr = tmpJSONStr.replace('${updatedDate}', this.dataModel.updatedDate == null ? "" : this.dataModel.updatedDate);
+      tmpJSONStr = tmpJSONStr.replace('${completedDate}', this.dataModel.completedDate == null ? "" : this.dataModel.completedDate);
       tmpJSONStr = tmpJSONStr.replace('${formType}', this.dataModel.formType);
+      tmpJSONStr = tmpJSONStr.replace('${clientFormType}', this.dataModel.clientFormType);
       tmpJSONStr = tmpJSONStr.replace('${location}', this.dataModel.location);
-      tmpJSONStr = tmpJSONStr.replace('${formStatus}', this.dataModel.formStatus);
+      tmpJSONStr = tmpJSONStr.replace('${formStatus}', this.dataModel.status);
 
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;

@@ -292,7 +292,120 @@ paths:
   #-------------------------------------------------------------------------------------
   #        CLIENT FORMS
   #-------------------------------------------------------------------------------------
-
+  /forms/client/meta/{csNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: Get client form meta data in Json format
+      operationId: getClientFormMetaJson
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/sourcesContacted/{clientFormId}:
+    put:
+      tags:
+        - client-form-controller
+      summary: updateSourcesContacted
+      operationId: updateSourcesContacted
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: sourcesContacted
+          in: query
+          description: sourcesContacted
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content: {}
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/intervention/json/{csNumber}/{clientFormId}:
+    get:
+      tags:
+        - client-form-controller
+      summary: Get client form interventions based on the clientFormId
+      operationId: getClientFormIntervention
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: includeLinkedForm
+          in: query
+          description: includeLinkedForm
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/client:
     post:
       parameters:
@@ -348,6 +461,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: includeLinkedForm
+          in: query
+          description: includeLinkedForm
+          required: true
+          schema:
+            type: boolean
       responses:
         200:
           description: OK

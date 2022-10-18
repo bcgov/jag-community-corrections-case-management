@@ -3,17 +3,29 @@
     <div>
         <h1>Summary</h1>
         <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading summary</v-progress-linear>
-        <div v-for="(data, index) in summaryData" :key="index">
-            <div class="dashboard-v-card" v-if="data.answers.length > 0">
-                <h3 class="heading">{{ data.section }}</h3>
-                <v-data-table :items="data.answers" no-data-text="No answers for this section" class="summary-table elevation-10"
-                    :headers="headers" item-key="answer.key" no-results-text="No results found" hide-default-footer>
-                    <template v-slot:item.key="key">
-                        <a href="#" @click="editFormItem(key)">
-                            <v-icon>fas fa-eye</v-icon>
-                        </a>
-                    </template>
-                </v-data-table>
+        <div v-for="(formEle, index) in summaryData" :key="index">
+            <h2>{{ formEle.formType }}</h2>
+            <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+                <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                    <h3 class="heading">{{ section.section }}</h3>
+                    <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
+                        <h4 class="heading">{{ subSection.title }}</h4>
+                        <v-data-table class="summary-table elevation-10" 
+                            no-data-text="No answers for this section" 
+                            :items="subSection.answers"
+                            :headers="formHeaders" item-key="key" 
+                            no-results-text="No results found" 
+                            hide-default-footer>
+                            <!--Customize the action field, making it clickable-->
+                            <template v-slot:item.editKey="{item}">
+                                <a href="#" @click="editFormItem(item.editKey)">
+                                    <v-icon>fas fa-eye</v-icon>
+                                </a>
+                            </template>
+                        </v-data-table>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -31,11 +43,11 @@ export default {
             modalEditVisible: false,
             changeCount: -1,
             loading: false,
-            headers: [
+            formHeaders: [
                 { text: 'Question', value: 'question', width: '20%',align:'center' , class: 'summary-head'},
                 { text: 'Answer', value: 'value', width: '20%' ,align:'center' },
                 { text: 'Comments', value: 'comment', width: '50%' ,align:'center' },
-                { text: 'Action', value: 'key', width: '10%' ,align:'center' },
+                { text: 'Action', value: 'editKey', width: '10%' ,align:'center' },
             ],
         }
     },
@@ -45,7 +57,9 @@ export default {
         },
         showSummaryCounter: {
             type: Number
-        }
+        },
+        clientFormId: 0,
+        csNumber: ''
     },
     mounted() {
         this.getSummaryData();
@@ -54,19 +68,18 @@ export default {
         formValuesUpdated() {
             this.getSummaryData();
         },
-        editFormItem(item) {
-            console.log("Clicked %o", item);
+        editFormItem(editKey) {
+            console.log("Clicked %o", editKey);
             // entries are 1-based but tab indexes are zero based (ugh)
-            let section = Number.parseInt(item.value.substr(1, 2)) - 1; 
-            let question = Number.parseInt(item.value.substr(4, 6)) - 1;
+            let section = Number.parseInt(editKey.substr(1, 2)) - 1; 
+            let question = Number.parseInt(editKey.substr(4, 6));
+            console.log("section: , question: ", section, question);
             this.$emit('viewSectionQuestion', section, question);
         },
         async getSummaryData() {
             this.loading = true;
-            let formId = this.$route.params.formID;
-            let csNumber = this.$route.params.csNumber;
-            const [error, response] = await getFormSummary(csNumber, formId);
-            console.log("formSummary: ", response);
+            const [error, response] = await getFormSummary(this.csNumber, this.clientFormId, true);
+            console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {

@@ -6,7 +6,7 @@
         <div class="column L">
           <div class="menu-Sticky">
             <div class="menuR1">
-              <FormioFormInfo :key="staticComponentKey" :dataModel="clientData" />
+              <FormioFormInfo :key="staticComponentKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -17,18 +17,25 @@
             </div>
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          
           <div :class="loading ? 'hide' : 'mainContent'">
             <FormDataEntry :key="componentKey" 
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
               :initData="formInitData" />   
-            
-            <FormCasePlan v-if="displayCasePlan" :template="responsesivityTemplate" />
+      
+            <FormCaseplan v-if="displayCasePlan" 
+              :dataModel="casePlanDataModel" 
+              :initData="formInitData"
+              :clientFormId="formId"
+              :csNumber="csNumber"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
-              :showSummaryCounter="showSummaryCounter" />
+              :showSummaryCounter="showSummaryCounter"
+              :clientFormId="formId"
+              :csNumber="csNumber" />
 
             <FormioButton 
               :buttonType="'formButton'"
@@ -48,7 +55,9 @@
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
-                <FormioSidePanel :key="staticComponentKey" :dataModel="clientData" />
+                <FormioSidePanel :key="staticComponentKey" 
+                  :dataModel="clientData" 
+                  :clientFormId="formId"/>
               </div>
             </section>
           </div>
@@ -62,14 +71,14 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getFormDetails, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
+import { getClientFormMetaData, getFormDetails, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
-import FormCasePlan from '@/components/form/formSections/FormCasePlan.vue';
+import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
 
 export default {
   name: 'CmpFormDetail',
@@ -81,7 +90,7 @@ export default {
     FormioFormInfo,
     FormioButton,
     FormSummary,
-    FormCasePlan
+    FormCaseplan
   },
   data() {
     return {
@@ -99,13 +108,15 @@ export default {
       btnSaveContinueText: "Save and Continue",
       data_formEntries: {},
       clientData: {},
+      formInfoData: {},
       formInitData: {},
       dataMap: {},
       componentKey: 0,
       staticComponentKey: 0,
       showSummaryCounter: 0,
+      loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
-      responsesivityTemplate: {"display": "form", "components": {}},
+      casePlanDataModel: {"display": "form", "components": []}
     }
   },
   mounted(){
@@ -113,125 +124,144 @@ export default {
     this.formId = this.$route.params.formID;
     this.csNumber = this.$route.params.csNumber;
     this.displaySummary = false;
-    this.clientProfileSearchAPI();
+    this.getClientAndFormMeta();
     this.getFormDetails();
   },
   methods: {
-    async clientProfileSearchAPI() {
-      // Client profile search.
-      const [error, response] = await clientProfileSearch(this.csNumber);
-      //this.clientData = response.data;
-      this.clientData = {};
-      this.clientData =
-        {
-          "clientId": "1",
-          "clientName": "Ross, Bob",
-          "clientNum": "123456780",
-          "clientAge": 44,
-          "profileClosed": false,
-          "communityAlerts": [
+    async getClientAndFormMeta() {
+      // ClientForm Meta data search.
+      const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
+      if (error) {
+        console.error(error);
+      } else {
+        this.formInfoData = clientFormMeta;
+        this.formInfoData.clientFormType = (this.formInfoData.clientFormType) ? "Reassessment" : "Initial"
+
+        // set the form title
+        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+          this.formInfoData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
+          this.formInfoData.formType = "CRNA-CMP Type"
+        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+          this.formInfoData.formTitle = "SARA (SARA-CMP)";
+          this.formInfoData.formType = "SARA-CMP Type"
+        }
+        // Client profile search.
+        const [error, response] = await clientProfileSearch(this.csNumber);
+        // if (error) {
+        //   console.error(error);
+        // } else {
+          //this.clientData = response.data;
+          console.log("client profile search done");
+          this.clientData = {};
+          this.clientData =
             {
-              "date": "2022-01-02",
-              "comment": "Client threatened staff"
-            },
-            {
-              "date": "2022-03-02",
-              "comment": "Client brought knife to meeting"
-            },
-            {
-              "date": "2022-04-02",
-              "comment": "Client attacked staff"
-            }
-          ],
-          "outstandingWarrants": [
-            {
-              "type": "string",
-              "date": "2022-01-02",
-              "courtFile": "Client threatened staff"
-            },
-            {
-              "type": "string",
-              "date": "2022-03-02",
-              "courtFile": "Client brought knife to meeting"
-            },
-            {
-              "type": "string",
-              "date": "2022-04-02",
-              "courtFile": "Client attacked staff"
-            }
-          ],
-          "supervisionLevel": "High",
-          "birthDate": "1979-12-03",
-          "communityInformation": {
-            "communityLocation": "Victoria",
-            "status": "Active",
-            "caseManager": "Smith, Bob",
-            "secondaryManager": "Doe, Jane"
-          },
-          "orderInformation": {
-            "orders": "None",
-            "effectiveDate": "2022-03-04",
-            "expiryDate": "2022-03-05",
-            "dueDate": "2022-03-04"
-          },
-          "generalInformation": {
-            "institution": "0543- Sunshine Coast Health Centre",
-            "status": "Inactive",
-            "custody": "Warrant of commital",
-            "dischargeDate": "2022-04-03",
-            "type": "In (parole)",
-            "paroleDate": "2022-03-04"
-          },
-          "locationInformation": {
-            "internalLocation": "0543 - Sunshine Coast Health Centre",
-            "outLocation": "0543 - Sunshine Coast Health Centre",
-            "federalParole": "0101 - Victoria Corrections",
-            "outReason": "Sentence ended",
-            "warrantExpiryDate": "2022-05-04"
-          },
-          "biometric": {
-            "type": "No",
-            "status": "Inactive",
-            "eServices": "No",
-            "eReporting": "No"
-          },
-          "address": [
-            {
-              "fullAddress": "123 Hello St, Victoria BC, 123 abc",
-              "type": "Work",
-              "primary": true
-            }
-          ],
-          "designations": [
-            {
-              "type": "GEN",
-              "rating": "low"
-            },
-            {
-              "type": "SMO",
-              "rating": "high"
-            }
-          ],
-          "programs": [
-            {
-              "name": "string",
-              "status": "string",
-              "referredDate": "string",
-              "startDate": "string",
-              "outcome": "string"
-            }
-          ],
-          "sealed": "Yes",
-          "gender": "Male"
+              "clientId": "1",
+              "clientName": "Ross, Bob",
+              "clientNum": "123456780",
+              "clientAge": 44,
+              "profileClosed": false,
+              "communityAlerts": [
+                {
+                  "date": "2022-01-02",
+                  "comment": "Client threatened staff"
+                },
+                {
+                  "date": "2022-03-02",
+                  "comment": "Client brought knife to meeting"
+                },
+                {
+                  "date": "2022-04-02",
+                  "comment": "Client attacked staff"
+                }
+              ],
+              "outstandingWarrants": [
+                {
+                  "type": "string",
+                  "date": "2022-01-02",
+                  "courtFile": "Client threatened staff"
+                },
+                {
+                  "type": "string",
+                  "date": "2022-03-02",
+                  "courtFile": "Client brought knife to meeting"
+                },
+                {
+                  "type": "string",
+                  "date": "2022-04-02",
+                  "courtFile": "Client attacked staff"
+                }
+              ],
+              "supervisionLevel": "High",
+              "birthDate": "1979-12-03",
+              "communityInformation": {
+                "communityLocation": "Victoria",
+                "status": "Active",
+                "caseManager": "Smith, Bob",
+                "secondaryManager": "Doe, Jane"
+              },
+              "orderInformation": {
+                "orders": "None",
+                "effectiveDate": "2022-03-04",
+                "expiryDate": "2022-03-05",
+                "dueDate": "2022-03-04"
+              },
+              "generalInformation": {
+                "institution": "0543- Sunshine Coast Health Centre",
+                "status": "Inactive",
+                "custody": "Warrant of commital",
+                "dischargeDate": "2022-04-03",
+                "type": "In (parole)",
+                "paroleDate": "2022-03-04"
+              },
+              "locationInformation": {
+                "internalLocation": "0543 - Sunshine Coast Health Centre",
+                "outLocation": "0543 - Sunshine Coast Health Centre",
+                "federalParole": "0101 - Victoria Corrections",
+                "outReason": "Sentence ended",
+                "warrantExpiryDate": "2022-05-04"
+              },
+              "biometric": {
+                "type": "No",
+                "status": "Inactive",
+                "eServices": "No",
+                "eReporting": "No"
+              },
+              "address": [
+                {
+                  "fullAddress": "123 Hello St, Victoria BC, 123 abc",
+                  "type": "Work",
+                  "primary": true
+                }
+              ],
+              "designations": [
+                {
+                  "type": "GEN",
+                  "rating": "low"
+                },
+                {
+                  "type": "SMO",
+                  "rating": "high"
+                }
+              ],
+              "programs": [
+                {
+                  "name": "string",
+                  "status": "string",
+                  "referredDate": "string",
+                  "startDate": "string",
+                  "outcome": "string"
+                }
+              ],
+              "sealed": "Yes",
+              "gender": "Male"
+          }
+          //set sources contacted
+          this.clientData.input_key_sourceContacted = this.formInfoData.sourceContacted;
+
+          
+        //}
       };
-      // set the form title
-      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-        this.clientData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
-        this.clientData.formType = "CRNA-CMP Type"
-      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-        this.clientData.formTitle = "SARA (SARA-CMP)";
-        this.clientData.formType = "SARA-CMP Type"
-      }
+      
       this.staticComponentKey++;
     },
     async getFormDetails() {
@@ -245,12 +275,12 @@ export default {
         this.loadingMsg = "Loading client form data...";
         this.data_formEntries = response;
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
-        // if it's CRNA form, get caseplan responsivity template
-        if (this.formType == this.$CONST_FORMTYPE_CRNA && this.totalNumParentNav > 2) {
-          this.responsesivityTemplate.components = response.components[this.totalNumParentNav - 2];
-          console.log("this.responsesivityTemplate: ", this.responsesivityTemplate);
+        if (this.totalNumParentNav >= 2) {
+          const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
+          this.casePlanDataModel.components = clone;
+          this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
+          console.log("caseplan template:", this.casePlanDataModel);
         }
-        //console.log("this.totalNumParentNav: ", this.totalNumParentNav);
 
         // Load form data
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
@@ -267,6 +297,8 @@ export default {
       //console.log("Navigating %d %d", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
+      this.displayCasePlan = false;
+      //this.private_showHideCasePlanInterventions(false);
 
       // navigate to the pointed section, 
       // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
@@ -287,21 +319,30 @@ export default {
       console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
-        this.parentNavMoveToNext++;
+        //show case plan
+        if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
+          this.private_getCasePlanData();
+        } else {
+          this.parentNavMoveToNext++;
+        }
       }
     },
     handleCancelForm() {
       console.log("Cancel Form");
       this.$emit("cancelFormClicked");
     },
-    handleNavChildCallback(parentNavCurLocationFromChild) {
+    async handleNavChildCallback(parentNavCurLocationFromChild) {
+      console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
+      //this.private_showHideCasePlanInterventions(false);
 
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
+        console.log("set displayCasePlan to true");
         this.displayCasePlan = true;
+        //this.private_getCasePlanData();
       }
       // User clicked 'Summary' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
@@ -309,6 +350,42 @@ export default {
         this.btnSaveContinueText = "Submit Form"; 
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
+      }
+    },
+    async private_getCasePlanData() {
+      this.loadingCasePlanIntervention = true;
+      this.loadingMsgCasePlanIntervention = "Loading intervention data...";
+      const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
+      if (error) {
+        console.error(error);
+      } else {
+        // do something
+        this.loadingCasePlanIntervention = false;
+        this.loadingMsgCasePlanIntervention = "";
+        
+        this.formInitData.data.responsivity.MHCF = true;
+        this.formInitData.data.responsivity.MHCF_desc = "comments for MHCD";
+
+        console.log("formInitData: ", this.formInitData);
+        //this.componentKey++;
+        //this.parentNavMoveToNext = this.totalNumParentNav - 2;
+        this.private_showHideCasePlanInterventions(true);
+      }
+    },
+    private_showHideCasePlanInterventions(isShow) {
+      // get intervention panel
+      const thePanel = document.querySelector(`div[ref="nested-intervention_panel"]`);
+      //console.log("thePanel: ", thePanel);
+      if (isShow) {
+        //console.log("show intervention");
+        if (thePanel != null) {
+          thePanel.setAttribute('style', 'display:block');
+        }
+      } else {
+        //console.log("hide intervention");
+        if (thePanel != null) {
+          thePanel.setAttribute('style', 'display:none');
+        }
       }
     }
   }  
@@ -323,10 +400,17 @@ export default {
 .subSectionTitleClass {
   font-size: 20px;
   font-weight: bold;
-  color: #fcba19;
-  text-decoration: underline;
-  -webkit-text-decoration-color: rgb(255, 208, 0); /* Safari */  
+  -webkit-text-decoration-color: rgb(255, 208, 0); 
   text-decoration-color: rgb(255, 208, 0);
+}
+
+.subSectionTitleClass::after {
+    content: "";
+    height: 0px;
+    width: 50px;
+    display: block;
+    border-bottom: 6px solid rgb(255, 208, 0);
+    margin-bottom: 25px;
 }
 
 .subSectionChildTitleClass {

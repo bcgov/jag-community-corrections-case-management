@@ -1,90 +1,71 @@
 <template>
     <!--Case plan section-->
     <div>
-        <h1>Case Plan</h1>
         <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading case plan</v-progress-linear>
-        <!-- <div v-for="(data, index) in summaryData" :key="index">
-            <div class="dashboard-v-card" v-if="data.answers.length > 0">
-                <h3 class="heading">{{ data.section }}</h3>
-                <v-data-table :items="data.answers" no-data-text="No answers for this section" class="summary-table elevation-10"
-                    :headers="headers" item-key="answer.key" no-results-text="No results found" hide-default-footer>
-                    <template v-slot:item.key="key">
-                        <a href="#" @click="editFormItem(key)">
-                            <v-icon>fas fa-eye</v-icon>
-                        </a>
-                    </template>
-                </v-data-table>
-            </div>
-        </div> -->
-
-        <Form :form="template"/>
+        <Form v-if="!loading" :key="keyCaseplan" :form="dataModel" :submission="initData" />
     </div>
 </template>
-  
+
 <script lang="ts">
-import Vue from 'vue'
-import { getFormSummary } from "@/components/form.api";
+import { Component, Vue } from 'vue-property-decorator';
+import { Form } from 'vue-formio';
+import {updateForm, getCasePlanIntervention} from "@/components/form.api";
 
 export default {
-    name: 'FormCasePlan',
-    props: {
-        template: {},
-    },
-    data() {
-        return {
-            summaryData: {},
-            modalEditVisible: false,
-            changeCount: -1,
-            loading: false,
-            headers: [
-                { text: 'Question', value: 'question', width: '20%',align:'center' , class: 'summary-head'},
-                { text: 'Answer', value: 'value', width: '20%' ,align:'center' },
-                { text: 'Comments', value: 'comment', width: '50%' ,align:'center' },
-                { text: 'Action', value: 'key', width: '10%' ,align:'center' },
-            ],
-        }
-    },
-    mounted() {
-        console.log("template: ", this.template);
-        this.getSummaryData();
-    },
-    methods: {
-        async getSummaryData() {
-            this.loading = true;
-            let formId = this.$route.params.formID;
-            let csNumber = this.$route.params.csNumber;
-            const [error, response] = await getFormSummary(csNumber, formId);
-            console.log("formSummary: ", response);
-            if (error) {
-                console.error("Get summary failed: ", error);
-            } else {
-                this.summaryData = response;
+  name: 'FormCasePlan',
+  props: {
+    dataModel: {},
+    initData: {},
+    clientFormId: 0,
+    csNumber: ''
+  },
+  components: {
+    Form
+  },
+  data() {
+    return {
+        keyCaseplan: 0,
+        loading: false,
+    }
+  },
+  mounted() {
+    console.log("dataModel: ", this.dataModel);
+    this.getCasePlanInterventionAPI();
+
+    console.log("After: ", this.initData.data.interventions);
+    if (this.initData.data.interventions != null) {
+        for (let i = 0; i < this.initData.data.interventions.length; i++) {
+            let itv = this.initData.data.interventions[i];
+            console.log("itv: ", itv);
+            if (itv != null && itv.navKey != null) {
+                console.log("itv.navKey: ", itv.navKey);
+                let editLink = document.getElementById("editLink_" + itv.navKey);
+                console.log("editLink: ", editLink);
+                if (editLink != null) {
+                    console.log("register editLink click event: ", editLink);
+                    editLink.addEventListener("click", this.editMe);
+                }
             }
-            this.loading = false;
         }
+    }
+  },
+  methods: {
+    editMe() {
+        console.log("edit me");
     },
+    async getCasePlanInterventionAPI() {
+        this.loading = true;
+        const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
+        if (error) {
+            console.error(error);
+        } else {
+            this.loading = false;
+            // add Intervention data to the initData; refresh the page to show it
+            this.initData.data.interventions = interventionData;
+            console.log("interventionData; ", this.initData.data.interventions);
+            this.keyCaseplan++;
+        }
+    }
+  }
 }
 </script>
-
-<style scoped>
-h3.heading {
-    margin-top: 20px;
-}
-h3.heading::after {
-    content: "";
-    height: 0px;
-    width: 50px;
-    display: block;
-    border-bottom: 8px solid #FCBA19;
-    margin-bottom: 20px;
-}
-.summary-table > th > td {
-    font-size: 16px;
-}
-
-
-
-</style>
-  
-  
-  

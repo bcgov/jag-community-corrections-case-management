@@ -7,6 +7,11 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+
 public interface ClientDataService {
 
     List<Client> clientSearch(ClientSearch clientSearch);
@@ -114,5 +119,33 @@ public interface ClientDataService {
      * @return Submitted answers for a form - server call to ensure latest data always displayed
      * as is saved in the database
      */
-    String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId);
+    String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm);
+    
+    
+    /**
+     * Gets the client form intervetion for case plan.
+     *
+     * @param csNumber the cs number
+     * @param clientFormId the client form id
+     * @param includeLinkedForm the include linked form
+     * @return the client form intervetion for case plan
+     */
+    String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm);
+    
+    /**
+     * Gets the client form meta json.
+     *
+     * @param csNumber the cs number
+     * @param clientFormId the client form id
+     * @return the client form meta json
+     */
+    String getClientFormMetaJson(String csNumber, BigDecimal clientFormId);
+    
+    /**
+     * Update sources contacted.
+     *
+     * @param clientFormId the client form id
+     * @param sourcesContacted the sources contacted
+     */
+    void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted);
 }
