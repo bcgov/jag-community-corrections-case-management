@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Form :key="pageKey" 
-      :form="dataModel" 
+    <Form :form="dataModel" 
       :submission="initData" 
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent" 
@@ -38,7 +37,6 @@ export default {
       CONST_INTERVENTIONDESCRIPTION: 'interventionDescription',
       CONST_INTERVENTIONTYPE: 'interventionType',
       CONST_INTERVENTIONTYPEOTHER: 'interventionTypeOther',
-      pageKey: 0,
       saveDraft: false,
       latestKey: '',
       latestValue: '',
@@ -80,13 +78,13 @@ export default {
       // datagrid either 'add intervention' or 'delete' icon is clicked
       if (   event.changed 
           && ( event.changed.component.type === "datagrid")) {
-        console.log("Datagrid changed: ", event);
+        console.log("Datagrid changed: ", event, event.changed.component.key);
           
       }
       if (   event.changed 
           && ( event.changed.component.type === "textfield"
             || event.changed.component.type === "textarea")) {
-        console.log("textfield or textarea changed: ", event);
+        console.log("textfield or textarea changed: ", event.data, event.changed.component.key, event.changed.value);
         // don't trigger the autosave on every key stroke, keep the latest values for now.
         // Trigger the autosave when blur event occurs.
         this.latestKey = event.changed.component.key;
@@ -101,55 +99,23 @@ export default {
             || event.changed.component.type === "checkbox"
             || event.changed.component.type === "select")
           ) {
-        console.log("radio, checkbox or select changed: ", event);
+        console.log("radio, checkbox or select changed: ", event.data, event.changed.component.key, event.changed.value);
+
         // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
-        if (this.private_isDataMappingRequired(event.changed.instance, event.changed.component.key)) {
-          //console.log("radio not part of editgrid");
-          this.private_updateMappedData(event.changed.instance, event.changed.component.key, event.changed.value, event.data);
+        let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+        if (dataGridKey != null) {
+          console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
         }
       }
     },
     handleBlurEvent(event) {
+      console.log("latestKey, latestVal, latestData, ", this.latestKey, this.latestValue, this.latestData);
       if (this.triggerAutoSave) {
-        this.triggerAutoSave = false;
-        this.private_updateMappedData(event, this.latestKey, this.latestValue, this.latestData);
-        // Refresh the view
-        this.pageKey++;
+        this.triggerAutoSave = false
       }
-    },
-    private_isDataMappingRequired(theInstance, componentKey) {
-      // if it's part of editgrid, return false;
-      if (theInstance != null 
-          && theInstance.parent != null 
-          && theInstance.parent.parent != null 
-          && theInstance.parent.parent.type === this.CONST_EDITGRID) {
-        return false;
-      }
-      // If the component key is the dataMap
-      if (this.private_isDataMappingExistsHelper(componentKey)) {
-        return true;
-      }
-      // If it's part of the datagrid and dataMap exists for the datagrid, return true;
-      let dataGridKey = this.private_isPartOfDatagrid(theInstance);
-      //console.log("datagridKey: ", dataGridKey);
-      return this.private_isDataMappingExistsHelper(dataGridKey);
-    },
-    private_isDataMappingExistsHelper(theKey) {
-      if (theKey == null) {
-        return false;
-      }
-      // let dataMapKeyObj = this.dataMap[theKey];
-      // if (dataMapKeyObj != null) {
-      //   for (let i = 0; i < dataMapKeyObj.length; i++) {
-      //     let dataKey = dataMapKeyObj[i];
-      //     if (dataKey != null) {
-      //       return true;
-      //     }
-      //   }
-      // }
-      return false;
     },
     private_isPartOfDatagrid(theInstance) {
+      //console.log("check partof dataGrid: ", theInstance);
       let datagridKey = null;
       if (theInstance != null 
           && theInstance.parent != null 
@@ -161,107 +127,6 @@ export default {
         datagridKey = theInstance.parent.parent.parent.key;
       }
       return datagridKey;
-    },
-    private_updateMappedData(instance, theKey, newValue, latestData) {
-      //console.log("try update mapped data: ", instance, theKey, newValue, latestData);
-      console.log("latestData: ", latestData);
-      if (instance != null) {
-        // it's part of a datagrid, do the updates accordingly
-        let datagridKey = this.private_isPartOfDatagrid(instance);
-        if (datagridKey != null) {
-          console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", instance, theKey, newValue, latestData);
-          if (latestData != null) {
-            // get the newValue of the dataGrid
-            // sample dataGridValue: 
-            // [
-            //   {
-            //       "interventionType": "type1",
-            //       "interventionTypeOther": "",
-            //       "interventionDescription": "some comments for S0Q0 type 1 sss",
-            //       "questionLabel": "Family Relationships"
-            //   },
-            //   {
-            //       "interventionType": "other",
-            //       "interventionTypeOther": "S0Q0 type",
-            //       "interventionDescription": "some comments for S0Q0 type other",
-            //       "questionLabel": "Family Relationships"
-            //   }
-            // ]
-            let dataGridValue = latestData[datagridKey];
-            //console.log("dataGridValue: ", dataGridValue, dataGridValue.length);
-            // Let's do the data mapping
-            if (dataGridValue != null && dataGridValue.length > 0) {
-              for (let i = 0; i < dataGridValue.length; i++) {
-                let keys = Object.keys(dataGridValue[i]);
-                //console.log("dataGridValue[i] keys: ", dataGridValue[i], i, keys);
-
-                // look for the data key 
-                if (keys != null && keys.length > 0) {
-                  for (let k = 0; k < keys.length; k++) {
-                    //console.log("keys[k]: ", keys[k]);
-
-                    // get the mapped key object
-                    // sample dataMapKeyObj: ["summary_S3Q00", "S3Q00"]
-                    // let dataMapKeyObj = this.dataMap[datagridKey];
-                    // if (dataMapKeyObj != null) {
-                    //   for (let j = 0; j < dataMapKeyObj.length; j++) {
-                    //     //console.log("mapped datakey: ", dataMapKeyObj[j]);
-                    //     if (dataMapKeyObj[j] != null) {
-                    //       // "summary_S3Q00": [
-                    //       //   {
-                    //       //     "questionLabel": "Family Relationships",
-                    //       //     "interventionType": "type 1",
-                    //       //     "comments": "Sample comment for S0Q0",
-                    //       //     "interventionDescription": "some comments for S0Q0 type 1"
-                    //       //   },
-                    //       //   {
-                    //       //     "questionLabel": "Family Relationships",
-                    //       //     "interventionType": "S0Q0 type",
-                    //       //     "comments": "Sample comment for S0Q0",
-                    //       //     "interventionDescription": "some comments for S0Q0 type other"
-                    //       //   }
-                    //       // ]
-                    //       // Overwrite the interventionType value if interventionTypeOther is not empty
-                    //       //console.log("j, i, k, this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]: ", j, i, k, keys[k], this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]);
-                    //       if (this.initData.data[dataMapKeyObj[j]][i] == null) {
-                    //         this.initData.data[dataMapKeyObj[j]][i] = {};
-                    //       }
-                    //       if (keys[k] === this.CONST_INTERVENTIONTYPEOTHER && dataGridValue[i][keys[k]] != '') {
-                    //         this.initData.data[dataMapKeyObj[j]][i][this.CONST_INTERVENTIONTYPE]=dataGridValue[i][keys[k]];
-                    //       } else {
-                    //         this.initData.data[dataMapKeyObj[j]][i][keys[k]]=dataGridValue[i][keys[k]];
-                    //       }
-                    //     }
-                    //   }
-                    // }
-                  }
-                }
-              }
-              //console.log("mapped data summary_S3Q00: ", this.initData.data["summary_S3Q000"]);
-              //console.log("mapped data S3Q00: ", this.initData.data["S3Q000"]);
-            }
-          }
-        } else {
-          // let dataMapKeyObj = this.dataMap[theKey];
-          // // sample dataMapKeyObj: ["summary_S0Q0.radio"]
-          // if (dataMapKeyObj != null) {
-          //   for (let i = 0; i < dataMapKeyObj.length; i++) {
-          //     let dataKey = dataMapKeyObj[i];
-          //     if (dataKey != null) {
-          //       //console.log("dataKey: ", dataKey);
-          //       // sample dataKey: "summary_S0Q0.radio"
-          //       let dataKeySplit = dataKey.split(".");
-          //       if (dataKeySplit != null && dataKeySplit.length == 2) {
-          //         let sectionID = dataKeySplit[0];
-          //         let questionID = dataKeySplit[1];
-          //         //console.log("dataKey value: ", this.initData.data[sectionID][0][questionID]);
-          //         this.initData.data[sectionID][0][questionID] = newValue;
-          //       }
-          //     }
-          //   }
-          // }
-        }
-      }
     }
   }
 }
