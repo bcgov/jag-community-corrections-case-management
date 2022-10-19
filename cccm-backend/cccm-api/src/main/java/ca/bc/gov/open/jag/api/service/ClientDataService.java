@@ -7,11 +7,6 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-
 public interface ClientDataService {
 
     List<Client> clientSearch(ClientSearch clientSearch);

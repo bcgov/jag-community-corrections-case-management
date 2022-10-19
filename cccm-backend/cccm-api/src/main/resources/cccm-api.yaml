@@ -342,12 +342,12 @@ paths:
           required: true
           schema:
             type: number
-      requestBody:
-        description: sourcesContacted
-        content:
-          application/json:
-            schema:
-              type: string  
+        - name: sourcesContacted
+          in: query
+          description: sourcesContacted
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: OK
@@ -1823,6 +1823,12 @@ components:
           type: string
         sourcesContacted:
           type: string
+        linkedClientFormId:
+          type: number
+          description: required to link a form
+        cloneClientFormId:
+          type: number
+          description: required to clone form
     ClientFormAnswerInput:
       title: ClientFormAnswerInput
       type: object
