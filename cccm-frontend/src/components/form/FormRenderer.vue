@@ -316,23 +316,22 @@ export default {
       window.print();
     },
     handleSaveContinue(continueToNextSection) {
-      console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
+      //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         //show case plan
         if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
           this.private_getCasePlanData();
-        } else {
-          this.parentNavMoveToNext++;
-        }
+        } 
+        this.parentNavMoveToNext++;
       }
     },
     handleCancelForm() {
-      console.log("Cancel Form");
+      //console.log("Cancel Form");
       this.$emit("cancelFormClicked");
     },
     async handleNavChildCallback(parentNavCurLocationFromChild) {
-      console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
+      //console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
@@ -340,7 +339,7 @@ export default {
 
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
-        console.log("set displayCasePlan to true");
+        //console.log("set displayCasePlan to true");
         this.displayCasePlan = true;
         //this.private_getCasePlanData();
       }
