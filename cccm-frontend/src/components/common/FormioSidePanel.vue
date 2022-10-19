@@ -1,5 +1,5 @@
 <template>
-    <Form :form="formJSON" @evt_changeButtonLabel="changeButtonLabel"/>
+    <Form :form="formJSON" :submission="dataModel" @evt_changeButtonLabel="changeButtonLabel"/>
 </template>
 
 <script lang="ts">
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       templatePanel : templatePanel,
-      formJSON : {},
+      formJSON : {}
     }
   },
   components: {
@@ -48,13 +48,13 @@ export default {
     },
     hideInputTextBox() {
       // get textbox instance
-        let tbName= "data[input_key_sourceContacted]";
-        let textBox = document.getElementsByName(tbName);
-        
-        // hide textbox
-        if (textBox != null &&  textBox[0] != null) {
-          textBox[0].setAttribute('style', 'display:none');
-        }
+      let tbName= "data[input_key_sourceContacted]";
+      let textBox = document.getElementsByName(tbName);
+      
+      //hide textbox
+      if (textBox != null &&  textBox[0] != null) {
+        textBox[0].setAttribute('style', 'display:none');
+      }
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_changeButtonLabel" ) {
@@ -87,7 +87,7 @@ export default {
           } else {
             // Save button clicked, call API to save the data
             console.log("evt.data: ", evt.data);
-            const [error, response] = await updateSourcesContacted(this.clientFormId, evt.data.input_key_sourceContacted);
+            const [error, response] = await updateSourcesContacted(this.clientFormId, evt.data);
             if (error) {
               console.error("Save source contacted error: ", error);
             } else {

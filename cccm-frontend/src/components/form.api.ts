@@ -3610,14 +3610,10 @@ export async function getCasePlanIntervention(csNumber: String, clientFormId: nu
 }
 
 // function to update sources contacted
-export async function updateSourcesContacted(clientFormId: number, sourcesContacted: String) {
+export async function updateSourcesContacted(clientFormId: number, sourcesContacted: string) {
     try{
         console.log("Update source contacted, clientFormId: {}, sourcesContacted: {}", clientFormId, sourcesContacted);
-        const { data } = await axiosClient.put(`/forms/client/sourcesContacted/${clientFormId}`, {
-            params: {
-                sourcesContacted: sourcesContacted
-            }
-        });
+        const { data } = await axiosClient.put(`/forms/client/sourcesContacted/${clientFormId}`,  sourcesContacted);
         return [null, data];
     } catch (error) {
         return [error];

@@ -107,7 +107,7 @@ export default {
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
       data_formEntries: {},
-      clientData: {},
+      clientData: {"data": {}},
       formInfoData: {},
       formInitData: {},
       dataMap: {},
@@ -134,6 +134,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
+        console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData = clientFormMeta;
         this.formInfoData.clientFormType = (this.formInfoData.clientFormType) ? "Reassessment" : "Initial"
 
@@ -152,8 +153,7 @@ export default {
         // } else {
           //this.clientData = response.data;
           console.log("client profile search done");
-          this.clientData = {};
-          this.clientData =
+          this.clientData.data =
             {
               "clientId": "1",
               "clientName": "Ross, Bob",
@@ -256,8 +256,8 @@ export default {
               "gender": "Male"
           }
           //set sources contacted
-          this.clientData.input_key_sourceContacted = this.formInfoData.sourceContacted;
-
+          this.clientData.data.input_key_sourceContacted = this.formInfoData.input_key_sourceContacted;
+          console.log("this.clientData: ", this.clientData);
           
         //}
       };
