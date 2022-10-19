@@ -96,7 +96,7 @@
 					"components": [
 						{
 						  "label": "HTML",
-						  "tag": "div",
+						  "tag": "p",
 						  "attrs": [
 							  {
 								  "attr": "",
@@ -115,9 +115,8 @@
 						  "tableView": true,
 						  "clearOnHide": false,
 						  "key": "input_key_sourceContacted",
-						  "type": "textfield",
-						  "input": true,
-						  "defaultValue": "Joe Smith"
+						  "type": "textarea",
+						  "input": true
 						},
 						{
 						  "label": "Add Source",

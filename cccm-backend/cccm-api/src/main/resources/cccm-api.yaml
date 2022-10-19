@@ -342,12 +342,12 @@ paths:
           required: true
           schema:
             type: number
-        - name: sourcesContacted
-          in: query
-          description: sourcesContacted
-          required: true
-          schema:
-            type: string
+      requestBody:
+        description: sourcesContacted
+        content:
+          application/json:
+            schema:
+              type: string  
       responses:
         200:
           description: OK
