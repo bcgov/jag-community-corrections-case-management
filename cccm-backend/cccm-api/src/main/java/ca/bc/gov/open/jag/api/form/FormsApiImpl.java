@@ -84,6 +84,11 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    public BigDecimal cloneClientForm(String csNumber, BigDecimal clientFormId, String xLocationId) {
+        return null;
+    }
+
+    @Override
     @Transactional
     @RolesAllowed("form-view")
     public ClientFormSummary getClientFormSummaryUsingGET(BigDecimal clientFormId, String clientNumber) {

@@ -445,7 +445,42 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-
+  /forms/client/clone/{csNumber}/{clientFormId}:
+    post:
+      tags:
+        - client-forms
+      summary: Clone an existing client form
+      operationId: cloneClientForm
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - name: csNumber
+          in: path
+          description: csNumber
+          required: true
+          schema:
+            type: string
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/client/summary/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
