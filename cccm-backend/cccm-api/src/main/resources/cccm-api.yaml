@@ -715,7 +715,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - tests
+        - client-forms
       summary: getClientFormAnswers
       operationId: used for auto save
       parameters:
