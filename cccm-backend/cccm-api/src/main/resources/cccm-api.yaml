@@ -717,7 +717,7 @@ paths:
       tags:
         - client-forms
       summary: getClientFormAnswers
-      operationId: used for auto save
+      operationId: getClientFormAnswersUsingGET
       parameters:
         - name: clientFormId
           in: path

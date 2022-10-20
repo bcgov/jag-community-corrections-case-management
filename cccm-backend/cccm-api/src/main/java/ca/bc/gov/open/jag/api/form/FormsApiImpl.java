@@ -58,14 +58,6 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("form-add")
-    public BigDecimal createNewFormUsingPOST(CreateFormInput createFormInput, String xLocationId) {
-        createFormInput.setLocationId(new BigDecimal(xLocationId));
-        return clientDataService.addClientForm(createFormInput);
-    }
-
-    @Override
-    @Transactional
     @RolesAllowed("form-view")
     public String getFormAsJSONUsingGET(BigDecimal clientFormId, String clientNumber, Boolean includeOptionValues) {
         return clientDataService.getClientFormJSON(clientFormId, clientNumber, includeOptionValues);
@@ -89,6 +81,27 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-add")
     public BigDecimal cloneClientForm(String xLocationId, @Valid CloneForm cloneForm) {
         return clientDataService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)));
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal completeForm(@Valid @NotNull CompleteFormInput createFormInput, String xLocationId) {
+        return null;
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal createCrnaForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
+
+        //createFormInput.setLocationId(new BigDecimal(xLocationId));
+        return clientDataService.addClientForm(createFormInput);
+
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal createSaraForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
+        return null;
     }
 
     @Override
@@ -146,6 +159,18 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-view")
+    public List<Responsivity> upcertResposnivities(BigDecimal clientFormId, @Valid @NotNull String searchInput) {
+        return null;
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal updateForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
+        return null;
+    }
+
+    @Override
+    @RolesAllowed("form-view")
     public String getClientFormIntervention(String csNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String xLocationId) {
         return clientDataService.getClientFormIntervetionForCasePlan(csNumber, clientFormId, includeLinkedForm);
     }
@@ -155,7 +180,7 @@ public class FormsApiImpl implements FormsApi {
     public void updateSourcesContacted(BigDecimal clientFormId, String xLocationId, String sourcesContacted) {
         clientDataService.updateSourcesContacted(clientFormId, sourcesContacted);
     }
-    
+
     @Override
     @RolesAllowed("form-view")
     public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId, String xLocationId) {
