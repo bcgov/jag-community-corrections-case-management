@@ -1806,6 +1806,9 @@ components:
       title: CreateFormInput
       type: object
       properties:
+        clientFormId:
+          type: number
+          description: for updates
         clientNumber:
           type: string
         creationDate:
@@ -1819,6 +1822,7 @@ components:
           type: string
         locationId:
           type: number
+          description: used by obridge will have x-location
         planSummary:
           type: string
         sourcesContacted:
