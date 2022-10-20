@@ -1811,7 +1811,7 @@ components:
           description: for updates
         clientNumber:
           type: string
-        creationDate:
+        completionDate:
           type: string
           format: date
         formLevelComments:
