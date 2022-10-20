@@ -59,7 +59,7 @@ public class FormsApiImpl implements FormsApi {
     @Transactional
     @RolesAllowed("form-add")
     public BigDecimal createNewFormUsingPOST(CreateFormInput createFormInput, String xLocationId) {
-        createFormInput.setLocation(xLocationId);
+        createFormInput.setLocationId(new BigDecimal(xLocationId));
         return clientDataService.addClientForm(createFormInput);
     }
 

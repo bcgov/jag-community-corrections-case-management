@@ -8,6 +8,8 @@ servers:
 tags:
   - description: Endpoints for client data
     name: clients
+  - description: Endpoints for client form data
+    name: client-forms
   - description: Endpoints for form data
     name: forms
   - description: Endpoints for code tables data
@@ -16,6 +18,8 @@ tags:
     name: dashboards
   - description: Endpoints for users
     name: users
+  - description: Endpoints for trends
+    name: trends
 paths:
 
   #-------------------------------------------------------------------------------------
@@ -295,7 +299,7 @@ paths:
   /forms/client/meta/{csNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get client form meta data in Json format
       operationId: getClientFormMetaJson
       parameters:
@@ -331,7 +335,7 @@ paths:
   /forms/client/sourcesContacted/{clientFormId}:
     put:
       tags:
-        - client-form-controller
+        - client-forms
       summary: updateSourcesContacted
       operationId: updateSourcesContacted
       parameters:
@@ -367,7 +371,7 @@ paths:
   /forms/client/intervention/json/{csNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get client form interventions based on the clientFormId
       operationId: getClientFormIntervention
       parameters:
@@ -411,7 +415,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - client-form-controller
+        - client-forms
       summary: createNewForm
       operationId: createNewFormUsingPOST
       requestBody:
@@ -445,7 +449,7 @@ paths:
   /forms/client/summary/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get summary form.io JSON for a client form
       operationId: getClientFormAnswersSummaryJSONUsingGET
       parameters:
@@ -487,7 +491,7 @@ paths:
   /forms/client/search/{csNumber}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get client forms
       operationId: clientFormSearchUsingGET
       parameters:
@@ -531,7 +535,7 @@ paths:
   /forms/client/json/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: getFormAsJSON
       operationId: getFormAsJSONUsingGET
       parameters:
@@ -572,7 +576,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: getClientFormAnswers
       operationId: getClientFormAnswersUsingGET
       parameters:
@@ -606,7 +610,7 @@ paths:
           content: {}
     put:
       tags:
-        - client-form-controller
+        - client-forms
       summary: saveClientFormAnswers
       operationId: saveClientFormAnswersUsingPUT
       parameters:
@@ -659,7 +663,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: getClientFormAnswersForSection
       operationId: getClientFormAnswersForSectionUsingGET
       parameters:
@@ -702,7 +706,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: getClientFormAnswersForSectionAndQuestion
       operationId: getClientFormAnswersForSectionAndQuestionUsingGET
       parameters:
@@ -752,7 +756,7 @@ paths:
   /forms/client/answers/interventions/{clientNumber}/{clientFormId}:
     put:
       tags:
-        - client-form-controller
+        - client-forms
       summary: deleteInterventionsExcept
       operationId: deleteInterventionsExceptUsingPUT
       parameters:
@@ -801,7 +805,7 @@ paths:
   /trend/types:
     get:
       tags:
-        - trend-controller
+        - trends
       summary: getConfigOptions
       operationId: getConfigOptionsUsingGET
       responses:
@@ -825,7 +829,7 @@ paths:
   /trend/{type}/factors:
     get:
       tags:
-        - trend-controller
+        - trends
       summary: getTrendFactors
       operationId: getTrendFactorsUsingGET
       parameters:
@@ -857,7 +861,7 @@ paths:
   /trend/client/data:
     post:
       tags:
-        - client-form-trend-controller
+        - trends
       summary: getChartData
       operationId: getChartDataUsingPOST
       requestBody:
@@ -895,7 +899,7 @@ paths:
   /forms/client/comments:
     post:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get a list of client comments based on search params
       operationId: searchClientCommentsUsingPOST
       requestBody:
@@ -930,7 +934,7 @@ paths:
   /forms/client/interventions:
     post:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get a list of client interventions based on search params
       operationId: searchClientInterventionsUsingPOST
       requestBody:
@@ -966,7 +970,7 @@ paths:
   /forms/client/responsivities:
     post:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get a list of client responsivities based on search params
       operationId: searchClientResponsivitiesUsingPOST
       requestBody:
@@ -1003,7 +1007,7 @@ paths:
   /forms/client/summary/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get summary for a client form
       operationId: getClientFormSummaryUsingGET
       parameters:
@@ -1046,7 +1050,7 @@ paths:
   /forms/decorator/{identifier}:
     get:
       tags:
-        - form-controller
+        - forms
       summary: Get a form decorator such as intervention panels
       operationId: getDecoratorContentUsingGET
       parameters:
@@ -1079,7 +1083,7 @@ paths:
   /lookup/intervention-types:
     get:
       tags:
-        - lookup-controller
+        - lookups
       summary: getInterventionTypes
       operationId: getInterventionTypesUsingGET
       responses:
@@ -1101,7 +1105,7 @@ paths:
   /lookup/responsivity-types:
     get:
       tags:
-        - lookup-controller
+        - lookups
       summary: getResponsivityTypes
       operationId: getResponsivityTypesUsingGET
       responses:
@@ -1803,7 +1807,6 @@ components:
         formAnswer:
           type: string
     CreateFormInput:
-      title: CreateFormInput
       type: object
       properties:
         clientFormId:
@@ -1822,7 +1825,7 @@ components:
           type: string
         locationId:
           type: number
-          description: used by obridge will have x-location
+          description: will be set in backend used by obridge will have
         planSummary:
           type: string
         sourcesContacted:
