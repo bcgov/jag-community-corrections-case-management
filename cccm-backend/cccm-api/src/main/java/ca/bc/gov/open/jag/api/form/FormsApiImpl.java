@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -86,7 +87,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-add")
     public BigDecimal completeForm(@Valid @NotNull CompleteFormInput createFormInput, String xLocationId) {
-        return null;
+        return BigDecimal.ONE;
     }
 
     @Override
@@ -101,7 +102,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-add")
     public BigDecimal createSaraForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
-        return null;
+        return BigDecimal.ONE;
     }
 
     @Override
@@ -160,13 +161,13 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-view")
     public List<Responsivity> upcertResposnivities(BigDecimal clientFormId, @Valid @NotNull String searchInput) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     @RolesAllowed("form-add")
     public BigDecimal updateForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
-        return null;
+        return BigDecimal.ONE;
     }
 
     @Override
