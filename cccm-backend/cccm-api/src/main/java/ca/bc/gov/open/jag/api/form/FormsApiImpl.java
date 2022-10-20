@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.form;
 import ca.bc.gov.open.jag.api.client.ClientsApiImpl;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
@@ -84,8 +85,10 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
-    public BigDecimal cloneClientForm(String csNumber, BigDecimal clientFormId, String xLocationId) {
-        return null;
+    @Transactional
+    @RolesAllowed("form-add")
+    public BigDecimal cloneClientForm(String xLocationId, @Valid CloneForm cloneForm) {
+        return clientDataService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)));
     }
 
     @Override

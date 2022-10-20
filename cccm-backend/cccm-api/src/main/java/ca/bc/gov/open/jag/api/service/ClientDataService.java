@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
@@ -52,6 +53,8 @@ public interface ClientDataService {
     List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd);
 
     BigDecimal addClientForm(CreateFormInput createFormInput);
+
+    BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest);
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
 

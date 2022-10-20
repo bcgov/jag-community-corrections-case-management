@@ -132,6 +132,10 @@ public interface ObridgeClientService {
     @Path("/forms/client")
     BigDecimal createForm(@RequestBody CreateFormInput createFormInput);
 
+    @POST
+    @Path("/forms/client/clone")
+    BigDecimal cloneForm(@RequestBody CloneFormRequest cloneFormRequest);
+
     @PUT
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}")
     String saveClientFormAnswers(@PathParam("clientNumber") String clientNumber,

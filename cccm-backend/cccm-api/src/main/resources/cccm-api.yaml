@@ -445,7 +445,7 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/clone/{csNumber}/{clientFormId}:
+  /forms/client/clone/:
     post:
       tags:
         - client-forms
@@ -453,18 +453,12 @@ paths:
       operationId: cloneClientForm
       parameters:
         - $ref: "#/components/parameters/xLocationId"
-        - name: csNumber
-          in: path
-          description: csNumber
-          required: true
-          schema:
-            type: string
-        - name: clientFormId
-          in: path
-          description: clientFormId
-          required: true
-          schema:
-            type: number
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloneForm'
       responses:
         201:
           description: OK
@@ -2267,3 +2261,10 @@ components:
       properties:
         contentType:
           type: string
+    CloneForm:
+      type: object
+      properties:
+        clientNumber:
+          type: string
+        clientFormId:
+          type: number
