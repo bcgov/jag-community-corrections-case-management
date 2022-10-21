@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
+import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
@@ -30,6 +31,9 @@ public class FormsApiImpl implements FormsApi {
 
     @Inject
     ClientDataService clientDataService;
+
+    @Inject
+    ClientFormSaveService clientFormSaveService;
 
     @Override
     @Transactional
@@ -87,7 +91,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-add")
     public BigDecimal completeForm(@Valid @NotNull CompleteFormInput createFormInput, String xLocationId) {
-        return BigDecimal.ONE;
+        return clientFormSaveService.completeForm(createFormInput, new BigDecimal(xLocationId));
     }
 
     @Override
@@ -95,14 +99,14 @@ public class FormsApiImpl implements FormsApi {
     public BigDecimal createCrnaForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
 
         //createFormInput.setLocationId(new BigDecimal(xLocationId));
-        return clientDataService.addClientForm(createFormInput);
+        return clientFormSaveService.createCRNA(createFormInput, new BigDecimal(xLocationId));
 
     }
 
     @Override
     @RolesAllowed("form-add")
     public BigDecimal createSaraForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
-        return BigDecimal.ONE;
+        return clientFormSaveService.createSARA(createFormInput, new BigDecimal(xLocationId));
     }
 
     @Override
@@ -167,7 +171,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-add")
     public BigDecimal updateForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
-        return BigDecimal.ONE;
+        return clientFormSaveService.updateForm(createFormInput, new BigDecimal(xLocationId));
     }
 
     @Override

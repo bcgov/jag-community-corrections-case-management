@@ -52,8 +52,6 @@ public interface ClientDataService {
 
     List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd);
 
-    BigDecimal addClientForm(CreateFormInput createFormInput);
-
     BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest);
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);

@@ -26,8 +26,6 @@ import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 @Slf4j
 public class ClientDataServiceImpl implements ClientDataService {
 
-    public static final String LOCATION = "location";
-
     @Inject
     @RestClient
     ObridgeClientService obridgeClientService;
@@ -144,11 +142,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     @Override
     public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
         return obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
-    }
-
-    @Override
-    public BigDecimal addClientForm(CreateFormInput createFormInput) {
-        return obridgeClientService.createForm(createFormInput);
     }
 
     @Override

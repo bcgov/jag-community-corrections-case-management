@@ -93,6 +93,10 @@ public interface ObridgeClientService {
     List<CodeTable> getGenderTypes();
 
     @GET
+    @Path("/lookup/formTypes")
+    List<CodeTable> getFormTypes(@QueryParam("formType") String formType);
+
+    @GET
     @Path("/lookup/intervention-types")
     List<CodeTable> getInterventionTypes();
 
@@ -130,7 +134,7 @@ public interface ObridgeClientService {
 
     @POST
     @Path("/forms/client")
-    BigDecimal createForm(@RequestBody CreateFormInput createFormInput);
+    BigDecimal createForm(@RequestBody FormInput createFormInput);
 
     @POST
     @Path("/forms/client/clone")
