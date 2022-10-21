@@ -130,7 +130,7 @@ public interface ObridgeClientService {
 
     @POST
     @Path("/forms/client")
-    BigDecimal createForm(@RequestBody CreateFormInput createFormInput);
+    BigDecimal createForm(@RequestBody FormInput createFormInput);
 
     @POST
     @Path("/forms/client/clone")
