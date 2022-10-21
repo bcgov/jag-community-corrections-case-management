@@ -20,6 +20,14 @@ tags:
     name: users
   - description: Endpoints for trends
     name: trends
+  - description: Endpoints for crna cru
+    name: crna-forms
+  - description: Endpoints for sara cru
+    name: sara-forms
+  - description: Endpoints both crna and sara
+    name: crna-sara-forms
+  - description: Endpoints for testing
+    name: tests
 paths:
 
   #-------------------------------------------------------------------------------------
@@ -371,7 +379,7 @@ paths:
   /forms/client/intervention/json/{csNumber}/{clientFormId}:
     get:
       tags:
-        - client-forms
+        - tests
       summary: Get client form interventions based on the clientFormId
       operationId: getClientFormIntervention
       parameters:
@@ -410,14 +418,14 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client:
+  /forms/client/crna:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - client-forms
+        - crna-forms
       summary: createNewForm
-      operationId: createNewFormUsingPOST
+      operationId: createCrnaForm
       requestBody:
         description: createFormInput
         content:
@@ -445,7 +453,109 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/clone/:
+  /forms/client/sara:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - sara-forms
+      summary: createNewSaraForm
+      operationId: createSaraForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client:
+    put:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: updateForm
+      operationId: updateForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/complete:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: completeForm
+      operationId: completeForm
+      requestBody:
+        description: completeFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/clone:
     post:
       tags:
         - client-forms
@@ -521,7 +631,7 @@ paths:
     get:
       tags:
         - client-forms
-      summary: Get client forms
+      summary: Get client forms for rna
       operationId: clientFormSearchUsingGET
       parameters:
         - name: csNumber
@@ -564,8 +674,8 @@ paths:
   /forms/client/json/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-forms
-      summary: getFormAsJSON
+        - tests
+      summary: get data for summary view
       operationId: getFormAsJSONUsingGET
       parameters:
         - name: clientFormId
@@ -692,7 +802,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}:
     get:
       tags:
-        - client-forms
+        - tests
       summary: getClientFormAnswersForSection
       operationId: getClientFormAnswersForSectionUsingGET
       parameters:
@@ -735,7 +845,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}:
     get:
       tags:
-        - client-forms
+        - tests
       summary: getClientFormAnswersForSectionAndQuestion
       operationId: getClientFormAnswersForSectionAndQuestionUsingGET
       parameters:
@@ -785,7 +895,7 @@ paths:
   /forms/client/answers/interventions/{clientNumber}/{clientFormId}:
     put:
       tags:
-        - client-forms
+        - tests
       summary: deleteInterventionsExcept
       operationId: deleteInterventionsExceptUsingPUT
       parameters:
@@ -928,7 +1038,7 @@ paths:
   /forms/client/comments:
     post:
       tags:
-        - client-forms
+        - trends
       summary: Get a list of client comments based on search params
       operationId: searchClientCommentsUsingPOST
       requestBody:
@@ -963,7 +1073,7 @@ paths:
   /forms/client/interventions:
     post:
       tags:
-        - client-forms
+        - trends
       summary: Get a list of client interventions based on search params
       operationId: searchClientInterventionsUsingPOST
       requestBody:
@@ -999,7 +1109,7 @@ paths:
   /forms/client/responsivities:
     post:
       tags:
-        - client-forms
+        - trends
       summary: Get a list of client responsivities based on search params
       operationId: searchClientResponsivitiesUsingPOST
       requestBody:
@@ -1031,13 +1141,54 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: searchInput
-
+  /forms/{clientFormId}/client/responsivities:
+    patch:
+      tags:
+        - client-forms
+      summary: create/update client forms responsivities
+      operationId: upcertResposnivities
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Responsivity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
 
   /forms/client/summary/{clientNumber}/{clientFormId}:
     get:
       tags:
         - client-forms
-      summary: Get summary for a client form
+      summary: Get fromio template for a client form
       operationId: getClientFormSummaryUsingGET
       parameters:
         - name: clientFormId
@@ -1838,33 +1989,29 @@ components:
     CreateFormInput:
       type: object
       properties:
-        clientFormId:
-          type: number
-          description: for updates
         clientNumber:
-          type: string
-        completionDate:
-          type: string
-          format: date
-        formLevelComments:
-          type: string
-        formTypeId:
-          type: number
-        location:
-          type: string
-        locationId:
-          type: number
-          description: will be set in backend used by obridge will have
-        planSummary:
-          type: string
-        sourcesContacted:
           type: string
         linkedClientFormId:
           type: number
           description: required to link a form
-        cloneClientFormId:
+    UpdateFormInput:
+      type: object
+      properties:
+        clientFormId:
           type: number
-          description: required to clone form
+        reAssessmentComments:
+          type: string
+        planSummary:
+          type: string
+        sourcesContacted:
+          type: string
+    CompleteFormInput:
+      type: object
+      properties:
+        clientFormId:
+          type: number
+        jsonString:
+          type: string
     ClientFormAnswerInput:
       title: ClientFormAnswerInput
       type: object
