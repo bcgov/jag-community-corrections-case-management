@@ -251,7 +251,7 @@ paths:
           description: get summary details for the form type
       summary: Get forms for a client
       tags:
-        - forms
+        - tests
       x-accepts: application/json
       x-tags:
         - tag: forms
@@ -344,7 +344,7 @@ paths:
     put:
       tags:
         - client-forms
-      summary: updateSourcesContacted
+      summary: Update sourcesContacted for a given client form
       operationId: updateSourcesContacted
       parameters:
         - $ref: "#/components/parameters/xLocationId"
@@ -589,7 +589,7 @@ paths:
     get:
       tags:
         - client-forms
-      summary: Get summary form.io JSON for a client form
+      summary: Get form data JSON, used in summary view
       operationId: getClientFormAnswersSummaryJSONUsingGET
       parameters:
         - name: clientFormId
@@ -631,7 +631,7 @@ paths:
     get:
       tags:
         - client-forms
-      summary: Get client forms for rna
+      summary: Get client forms, used for RNA list
       operationId: clientFormSearchUsingGET
       parameters:
         - name: csNumber
@@ -674,8 +674,8 @@ paths:
   /forms/client/json/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - tests
-      summary: get data for summary view
+        - client-forms
+      summary: Get from.io template JSON for a client form
       operationId: getFormAsJSONUsingGET
       parameters:
         - name: clientFormId
@@ -716,7 +716,7 @@ paths:
     get:
       tags:
         - client-forms
-      summary: getClientFormAnswers
+      summary: Get form data (full data) JSON for a given client form
       operationId: getClientFormAnswersUsingGET
       parameters:
         - name: clientFormId
@@ -750,7 +750,7 @@ paths:
     put:
       tags:
         - client-forms
-      summary: saveClientFormAnswers
+      summary: Update form questions, used in auto save
       operationId: saveClientFormAnswersUsingPUT
       parameters:
         - name: clientFormId
@@ -1145,7 +1145,7 @@ paths:
     patch:
       tags:
         - client-forms
-      summary: create/update client forms responsivities
+      summary: Create/update client forms responsivities
       operationId: upcertResposnivities
       parameters:
         - name: clientFormId
@@ -1188,7 +1188,7 @@ paths:
     get:
       tags:
         - client-forms
-      summary: Get fromio template for a client form
+      summary: Get form details for a client form
       operationId: getClientFormSummaryUsingGET
       parameters:
         - name: clientFormId
@@ -1230,7 +1230,7 @@ paths:
   /forms/decorator/{identifier}:
     get:
       tags:
-        - forms
+        - tests
       summary: Get a form decorator such as intervention panels
       operationId: getDecoratorContentUsingGET
       parameters:
