@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.FormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CompleteFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
@@ -10,6 +11,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
+import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
@@ -21,16 +27,18 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public BigDecimal createCRNA(CreateFormInput createFormInput, BigDecimal locationId) {
 
-        return createForm(createFormInput, locationId, BigDecimal.ONE);
+        List<CodeTable> codes = obridgeClientService.getFormTypes(CRNA_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
 
     }
 
     @Override
     public BigDecimal createSARA(CreateFormInput createFormInput, BigDecimal locationId) {
 
-        //TODO Get Form Type Id's
-        BigDecimal formSARATypeId = BigDecimal.ONE;
-        BigDecimal formCRNATypeId = BigDecimal.ONE;
+        List<CodeTable> codes = obridgeClientService.getFormTypes("");
+
+        BigDecimal formSARATypeId = getCode(SARA_FORM_TYPE, codes);
+        BigDecimal formCRNATypeId = getCode(CRNA_FORM_TYPE, codes);
         if (createFormInput.getLinkedClientFormId() == null) {
             createFormInput.setLinkedClientFormId(createForm(createFormInput, locationId, formCRNATypeId));
         }
@@ -74,6 +82,17 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setLinkedClientFormId(createFormInput.getLinkedClientFormId());
 
         return obridgeClientService.createForm(formInput);
+    }
+
+    private BigDecimal getCode(String codeValue, List<CodeTable> codes) {
+
+       Optional<CodeTable> code = codes
+               .stream()
+               .filter(codeTable -> codeTable.getValue().equalsIgnoreCase(codeValue))
+               .findFirst();
+
+       return code.map(codeTable -> new BigDecimal(codeTable.getCode())).orElse(null);
+
     }
 
 }

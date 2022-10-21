@@ -93,6 +93,10 @@ public interface ObridgeClientService {
     List<CodeTable> getGenderTypes();
 
     @GET
+    @Path("/lookup/formTypes")
+    List<CodeTable> getFormTypes(@QueryParam("formType") String formType);
+
+    @GET
     @Path("/lookup/intervention-types")
     List<CodeTable> getInterventionTypes();
 
