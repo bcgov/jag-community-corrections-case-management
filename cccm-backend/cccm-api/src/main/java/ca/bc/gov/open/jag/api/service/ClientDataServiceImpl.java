@@ -158,7 +158,7 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber) {
-        return null;
+        return obridgeClientService.getClientFormSummary(clientNumber, clientFormId);
     }
 
     @Override

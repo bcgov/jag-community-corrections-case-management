@@ -1902,7 +1902,7 @@ components:
             type: string
         reassessment:
           type: boolean
-        relatedFormTypeId:
+        relatedClientFormId:
           type: number
         responsivities:
           type: array
