@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.ClientProfile;
+import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
@@ -24,8 +25,6 @@ import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 @RequestScoped
 @Slf4j
 public class ClientDataServiceImpl implements ClientDataService {
-
-    public static final String LOCATION = "location";
 
     @Inject
     @RestClient
@@ -146,8 +145,8 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public BigDecimal addClientForm(CreateFormInput createFormInput) {
-        return obridgeClientService.createForm(createFormInput);
+    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest) {
+        return obridgeClientService.cloneForm(cloneFormRequest);
     }
 
     @Override

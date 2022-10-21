@@ -8,6 +8,8 @@ servers:
 tags:
   - description: Endpoints for client data
     name: clients
+  - description: Endpoints for client form data
+    name: client-forms
   - description: Endpoints for form data
     name: forms
   - description: Endpoints for code tables data
@@ -16,6 +18,16 @@ tags:
     name: dashboards
   - description: Endpoints for users
     name: users
+  - description: Endpoints for trends
+    name: trends
+  - description: Endpoints for crna cru
+    name: crna-forms
+  - description: Endpoints for sara cru
+    name: sara-forms
+  - description: Endpoints both crna and sara
+    name: crna-sara-forms
+  - description: Endpoints for testing
+    name: tests
 paths:
 
   #-------------------------------------------------------------------------------------
@@ -295,7 +307,7 @@ paths:
   /forms/client/meta/{csNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get client form meta data in Json format
       operationId: getClientFormMetaJson
       parameters:
@@ -331,7 +343,7 @@ paths:
   /forms/client/sourcesContacted/{clientFormId}:
     put:
       tags:
-        - client-form-controller
+        - client-forms
       summary: updateSourcesContacted
       operationId: updateSourcesContacted
       parameters:
@@ -342,12 +354,12 @@ paths:
           required: true
           schema:
             type: number
-      requestBody:
-        description: sourcesContacted
-        content:
-          application/json:
-            schema:
-              type: string  
+        - name: sourcesContacted
+          in: query
+          description: sourcesContacted
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: OK
@@ -367,7 +379,7 @@ paths:
   /forms/client/intervention/json/{csNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - tests
       summary: Get client form interventions based on the clientFormId
       operationId: getClientFormIntervention
       parameters:
@@ -406,14 +418,14 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client:
+  /forms/client/crna:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - client-form-controller
+        - crna-forms
       summary: createNewForm
-      operationId: createNewFormUsingPOST
+      operationId: createCrnaForm
       requestBody:
         description: createFormInput
         content:
@@ -441,11 +453,142 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-
+  /forms/client/sara:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - sara-forms
+      summary: createNewSaraForm
+      operationId: createSaraForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client:
+    put:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: updateForm
+      operationId: updateForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/complete:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: completeForm
+      operationId: completeForm
+      requestBody:
+        description: completeFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/clone:
+    post:
+      tags:
+        - client-forms
+      summary: Clone an existing client form
+      operationId: cloneClientForm
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloneForm'
+      responses:
+        201:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/client/summary/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: Get summary form.io JSON for a client form
       operationId: getClientFormAnswersSummaryJSONUsingGET
       parameters:
@@ -487,8 +630,8 @@ paths:
   /forms/client/search/{csNumber}:
     get:
       tags:
-        - client-form-controller
-      summary: Get client forms
+        - client-forms
+      summary: Get client forms for rna
       operationId: clientFormSearchUsingGET
       parameters:
         - name: csNumber
@@ -531,8 +674,8 @@ paths:
   /forms/client/json/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
-      summary: getFormAsJSON
+        - tests
+      summary: get data for summary view
       operationId: getFormAsJSONUsingGET
       parameters:
         - name: clientFormId
@@ -572,7 +715,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
+        - client-forms
       summary: getClientFormAnswers
       operationId: getClientFormAnswersUsingGET
       parameters:
@@ -606,7 +749,7 @@ paths:
           content: {}
     put:
       tags:
-        - client-form-controller
+        - client-forms
       summary: saveClientFormAnswers
       operationId: saveClientFormAnswersUsingPUT
       parameters:
@@ -659,7 +802,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}:
     get:
       tags:
-        - client-form-controller
+        - tests
       summary: getClientFormAnswersForSection
       operationId: getClientFormAnswersForSectionUsingGET
       parameters:
@@ -702,7 +845,7 @@ paths:
   /forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}/{questionSequence}:
     get:
       tags:
-        - client-form-controller
+        - tests
       summary: getClientFormAnswersForSectionAndQuestion
       operationId: getClientFormAnswersForSectionAndQuestionUsingGET
       parameters:
@@ -752,7 +895,7 @@ paths:
   /forms/client/answers/interventions/{clientNumber}/{clientFormId}:
     put:
       tags:
-        - client-form-controller
+        - tests
       summary: deleteInterventionsExcept
       operationId: deleteInterventionsExceptUsingPUT
       parameters:
@@ -801,7 +944,7 @@ paths:
   /trend/types:
     get:
       tags:
-        - trend-controller
+        - trends
       summary: getConfigOptions
       operationId: getConfigOptionsUsingGET
       responses:
@@ -825,7 +968,7 @@ paths:
   /trend/{type}/factors:
     get:
       tags:
-        - trend-controller
+        - trends
       summary: getTrendFactors
       operationId: getTrendFactorsUsingGET
       parameters:
@@ -857,7 +1000,7 @@ paths:
   /trend/client/data:
     post:
       tags:
-        - client-form-trend-controller
+        - trends
       summary: getChartData
       operationId: getChartDataUsingPOST
       requestBody:
@@ -895,7 +1038,7 @@ paths:
   /forms/client/comments:
     post:
       tags:
-        - client-form-controller
+        - trends
       summary: Get a list of client comments based on search params
       operationId: searchClientCommentsUsingPOST
       requestBody:
@@ -930,7 +1073,7 @@ paths:
   /forms/client/interventions:
     post:
       tags:
-        - client-form-controller
+        - trends
       summary: Get a list of client interventions based on search params
       operationId: searchClientInterventionsUsingPOST
       requestBody:
@@ -966,7 +1109,7 @@ paths:
   /forms/client/responsivities:
     post:
       tags:
-        - client-form-controller
+        - trends
       summary: Get a list of client responsivities based on search params
       operationId: searchClientResponsivitiesUsingPOST
       requestBody:
@@ -998,13 +1141,54 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: searchInput
-
+  /forms/{clientFormId}/client/responsivities:
+    patch:
+      tags:
+        - client-forms
+      summary: create/update client forms responsivities
+      operationId: upcertResposnivities
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: searchInput
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Responsivity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: searchInput
 
   /forms/client/summary/{clientNumber}/{clientFormId}:
     get:
       tags:
-        - client-form-controller
-      summary: Get summary for a client form
+        - client-forms
+      summary: Get fromio template for a client form
       operationId: getClientFormSummaryUsingGET
       parameters:
         - name: clientFormId
@@ -1046,7 +1230,7 @@ paths:
   /forms/decorator/{identifier}:
     get:
       tags:
-        - form-controller
+        - forms
       summary: Get a form decorator such as intervention panels
       operationId: getDecoratorContentUsingGET
       parameters:
@@ -1079,7 +1263,7 @@ paths:
   /lookup/intervention-types:
     get:
       tags:
-        - lookup-controller
+        - lookups
       summary: getInterventionTypes
       operationId: getInterventionTypesUsingGET
       responses:
@@ -1101,7 +1285,7 @@ paths:
   /lookup/responsivity-types:
     get:
       tags:
-        - lookup-controller
+        - lookups
       summary: getResponsivityTypes
       operationId: getResponsivityTypesUsingGET
       responses:
@@ -1803,25 +1987,30 @@ components:
         formAnswer:
           type: string
     CreateFormInput:
-      title: CreateFormInput
       type: object
       properties:
         clientNumber:
           type: string
-        creationDate:
-          type: string
-          format: date
-        formLevelComments:
-          type: string
-        formTypeId:
+        linkedClientFormId:
           type: number
-        location:
-          type: string
-        locationId:
+          description: required to link a form
+    UpdateFormInput:
+      type: object
+      properties:
+        clientFormId:
           type: number
+        reAssessmentComments:
+          type: string
         planSummary:
           type: string
         sourcesContacted:
+          type: string
+    CompleteFormInput:
+      type: object
+      properties:
+        clientFormId:
+          type: number
+        jsonString:
           type: string
     ClientFormAnswerInput:
       title: ClientFormAnswerInput
@@ -2219,3 +2408,10 @@ components:
       properties:
         contentType:
           type: string
+    CloneForm:
+      type: object
+      properties:
+        clientNumber:
+          type: string
+        clientFormId:
+          type: number
