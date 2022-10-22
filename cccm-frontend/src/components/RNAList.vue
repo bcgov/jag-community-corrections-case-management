@@ -115,7 +115,7 @@
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
-            <a href="#" @click="formView(item.id, item.module, item.relatedFormTypeId)" title="View form">
+            <a href="#" @click="formView(item.id)" title="View form">
               <i class="fa fa-eye"></i>
             </a>
             &nbsp;&nbsp;
@@ -146,7 +146,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { lookupFormTypes, formSearch, cloneForm, createForm, getFormSummaries } from "@/components/form.api";
+import { lookupFormTypes, formSearch, cloneForm, createCRNAForm, createSARAForm } from "@/components/form.api";
 
 export default {
   name: 'RNAList',
@@ -296,36 +296,28 @@ export default {
       ];
       this.formTypes.unshift(this.selectedFormTypes);
     },
-    async createFormAPI() {
+    async createFormAPI(formType) {
       let formData = {};
-      // get latest 'CRNA' form version
-      const [err, formInfo] = await getFormSummaries(this.$CONST_FORMTYPE_CRNA, true);
+      // set formData
       formData.clientNumber = "00142091";
       //formData.clientNumber = this.clientNum;
-      formData.formTypeId = formInfo[0].id;
+      formData.linkedClientFormId = null;
 
-      //Create a new 'CRNA' form instance no matter what
-      const [error, CRNAformId] = await createForm(formData);
-      if (error) {
-        console.error(error);
-      } else {
-        // User selected 'SARA', need to call createForm API again to create 'SARA'
-        if (this.selectedFormTypeValue.includes("sara")) {
-          // get latest 'SARA' form version
-          const [err, formInfo] = await getFormSummaries(this.$CONST_FORMTYPE_SARA, true);
-          formData.clientNumber = "00142091";
-          //formData.clientNumber = this.clientNum;
-          formData.formTypeId = formInfo[0].id;
-
-          // need to create a new 'CRNA' form instance no matter what
-          const [error, SARAformId] = await createForm(formData);
-          if (error) {
-            console.error(error);
-          } else {
-            return SARAformId;
-          }
+      if (formType == this.$CONST_FORMTYPE_CRNA) {
+        // need to create a new 'CRNA' form instance
+        const [error, CRNAformId] = await createCRNAForm(formData);
+        if (error) {
+          console.error("Failed creating CRNA form instance", error);
         } else {
           return CRNAformId;
+        }
+      } else if (formType == this.$CONST_FORMTYPE_SARA) {
+        // need to create a new 'SARA' form instance
+        const [error, SARAformId] = await createSARAForm(formData);
+        if (error) {
+          console.error("Failed creating SARA form instance", error);
+        } else {
+          return SARAformId;
         }
       }
       return null;
@@ -357,23 +349,15 @@ export default {
       let period = (this.currentPeriod === 'current') ? true : false;
       this.formSearchAPI(this.clientNum, period);
     },
-    formView( formID, formType, relatedFormTypeId) {
+    formView( formID ) {
       if (formID != null) {
         formID = formID.toString();
-      }
-      let linkedSara = false;
-      if (formType === 'CRNA') {
-        if (relatedFormTypeId != null) {
-          linkedSara = true;
-        }
       }
       this.$router.push({
         name: "cmpform",
         params: {
-          formType: formType,
           formID: formID,
-          csNumber: this.clientNum,
-          linkedSara: linkedSara
+          csNumber: this.clientNum
         }
       });
     },
@@ -386,21 +370,21 @@ export default {
       this.dialog = false;
       console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
 
-      let newCreatedFormId = null;
-      newCreatedFormId = this.createFormAPI();
-      //Redirect User to the newly created form
-      console.log("newCreatedFormID: ", newCreatedFormId);
       let formType = this.$CONST_FORMTYPE_CRNA;
       if (this.selectedFormTypeValue.includes("sara")) {
         formType = this.$CONST_FORMTYPE_SARA;
       }
+
+      let newCreatedFormId = null;
+      newCreatedFormId = this.createFormAPI(formType);
+      console.log("newCreatedFormID: ", newCreatedFormId);
+      
+      //Redirect User to the newly created form
       this.$router.push({
         name: "cmpform",
         params: {
-          formType: formType,
           formID: newCreatedFormId,
-          csNumber: this.clientNum,
-          linkedSara: false
+          csNumber: this.clientNum
         }
       });
     },
@@ -419,14 +403,7 @@ export default {
       colorClass[this.const_formstatus_complete] = 'dashboard-background-color-green';
       colorClass[this.const_formstatus_overdue] = 'dashboard-background-color-red';
       return colorClass;
-    },
-    // getRatingColor() {
-    //   let colorClass = {};
-    //   colorClass[this.const_rating_low]='dashboard-background-color-green';
-    //   colorClass[this.const_rating_medium]='dashboard-background-color-yellow';
-    //   colorClass[this.const_rating_high]='dashboard-background-color-red';
-    //   return colorClass;
-    // }
+    }
   }
 }
 </script>

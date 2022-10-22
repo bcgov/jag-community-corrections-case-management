@@ -92,7 +92,7 @@ export default {
         entries.forEach((entry) => {
           //console.log("Intersection ratio: ", entry.intersectionRatio);
           if (this.initLoad) {
-            this.timeoutDelay = 2000;
+            this.timeoutDelay = 1000;
             this.showHideWrapper(0, 1);
             this.initLoad = false;
           } else {

@@ -25,72 +25,114 @@ export default {
   components: {
     Form
   },
-  watch: {
-    initData() {
-      console.log("initData updated: ", this.initData);
-    }
-  },
   data() {
     return {
-      CONST_EDITGRID: 'editgrid',
+      CONST_COMMENT_SUFIX: '_COMMENT',
       CONST_DATAGRID: 'datagrid',
-      CONST_INTERVENTIONDESCRIPTION: 'interventionDescription',
-      CONST_INTERVENTIONTYPE: 'interventionType',
-      CONST_INTERVENTIONTYPEOTHER: 'interventionTypeOther',
+      CONST_INTERVENTION_CHECKBOX_SUFIX: '_intervention_checkbox',
+      CONST_INTERVENTION_KEY_SUFFIX: '_intervention_datagrid',
       saveDraft: false,
       latestKey: '',
       latestValue: '',
       latestData: {},
-      autoSaveData: {}
+      autoSaveData: {},
+      autoSaveDataCandidate: {},
+      saving: false,
+      savingSuccess: false,
     }
   },
   mounted() {
-    this.debounce((changeEvent) => this.autoSave(), 1000);
+    // reset the indicator
+    this.savingSuccess = false;
+    this.saving = false;
   },
   methods: {
-    debounce(func, timeout = 300) {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          func.apply(this, args);
-        }, timeout);
-      };
-    },
     async autoSave() {
-      console.log("autosave: ", this.autoSaveData);
-      try {
-        const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
-        if (error) {
-          console.error(error);
-          // this.errorOccurred = true;
-          // this.errorText = "Failed to save form: " + err;
-        } 
-      } catch (err) {
-        console.error("Saving failed %o", err);
-      } finally {
-        //this.saving = false;
+      console.log("autosave");
+      //only start saving if previous saving is done
+      console.log("this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
+      if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
+        this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
+        console.log("autosave data: ", this.autoSaveData);
+        console.log("this.autoSaveData: ", this.autoSaveData);
+        //clear this.autoSaveDataCandidate, so we are not repeated saving it
+        this.autoSaveDataCandidate = {};
+        
+        // Repeat the saving till it succeeds
+       //while(!this.savingSuccess) {
+          try {
+            this.saving = true;
+            this.savingSuccess = true;
+            this.saving = false;
+            const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
+            if (error) {
+              console.error(error);
+            } else {
+              this.savingSuccess = true;
+              this.saving = false;
+            }
+          } catch (err) {
+            console.error("Saving failed %o", err);
+          } 
+        //}
       }
-      //clear the autoSaveData
-      this.autoSaveData = {};
+    },
+    private_addToAutoSaveDataCandidate(isDataGrid, key, eventData) {
+      console.log("candidate before: ", this.autoSaveDataCandidate);
+      let questionSequence = key;
+
+      // ignore if the key contains CONST_INTERVENTION_CHECKBOX_SUFIX
+      if (key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFIX) >= 0) {
+        let questionKey = key.substr(0, 6);
+        let interventionDatagridKey = questionKey + this.CONST_INTERVENTION_KEY_SUFFIX;
+        // if the checkbox is unchecked, remove the associated intervention
+        if (!eventData[key]) {
+          delete this.autoSaveDataCandidate[interventionDatagridKey];
+          // need to include the question in the payload to keep API happy
+          this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFIX] = eventData[questionKey + this.CONST_COMMENT_SUFIX];
+          this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
+        }
+        return;
+      }
+      if (isDataGrid) {
+        this.autoSaveDataCandidate[key] = eventData[key];
+        // need to include the question in the payload to keep API happy
+        let questionKey = key.substr(0, 6);
+        this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFIX] = eventData[questionKey + this.CONST_COMMENT_SUFIX];
+        this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
+      } else {
+        //if key contain _COMMENT, get the question sequence
+        if (key.indexOf(this.CONST_COMMENT_SUFIX) >= 0) {
+          questionSequence = key.substr(0, 6);
+          this.autoSaveDataCandidate[questionSequence] = eventData[questionSequence];
+          this.autoSaveDataCandidate[key] = eventData[key];
+        } else {
+          this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFIX] = eventData[key + this.CONST_COMMENT_SUFIX];
+          this.autoSaveDataCandidate[key] = eventData[key];
+        }
+      }
+      console.log("candidate after: ", this.autoSaveDataCandidate);
     },
     handleChangeEvent(event) {
       // datagrid either 'add intervention' or 'delete' icon is clicked
       if (   event.changed 
           && ( event.changed.component.type === "datagrid")) {
-        console.log("Datagrid changed: ", event, event.changed.component.key);
-          
+        console.log("Datagrid changed: ", event.data, event.changed.component.key, event.changed.value);
+        this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data);
       }
       if (   event.changed 
           && ( event.changed.component.type === "textfield"
             || event.changed.component.type === "textarea")) {
-        console.log("textfield or textarea changed: ", event.data, event.changed.component.key, event.changed.value);
+        //console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
         // don't trigger the autosave on every key stroke, keep the latest values for now.
         // Trigger the autosave when blur event occurs.
-        this.latestKey = event.changed.component.key;
-        this.latestValue = event.changed.value;  
-        this.latestData = event.data;  
-        this.triggerAutoSave = true;
+        let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+        if (dataGridKey != null) {
+          this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data);
+        } else {
+          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data);
+        }
+          this.triggerAutoSave = true;
       }
 
       // Trigger autosave
@@ -99,20 +141,25 @@ export default {
             || event.changed.component.type === "checkbox"
             || event.changed.component.type === "select")
           ) {
-        console.log("radio, checkbox or select changed: ", event.data, event.changed.component.key, event.changed.value);
-
-        // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
+        //console.log("radio, checkbox or select changed: ", event.data, event.changed.component.key, event.changed.value);
+        
+        // if the radio button or checkbox or select is part of an datagrid, map the datagrid data to this.autoSaveDataCandidate
         let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
         if (dataGridKey != null) {
-          console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
+          //console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
+          this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data);
+        } else {
+          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data);
         }
       }
     },
     handleBlurEvent(event) {
-      console.log("latestKey, latestVal, latestData, ", this.latestKey, this.latestValue, this.latestData);
-      if (this.triggerAutoSave) {
-        this.triggerAutoSave = false
-      }
+      console.log("From blur event, this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
+      this.autoSave();
+      // if (this.triggerAutoSave) {
+      //   this.triggerAutoSave = false;
+      //   this.autoSave();
+      // }
     },
     private_isPartOfDatagrid(theInstance) {
       //console.log("check partof dataGrid: ", theInstance);

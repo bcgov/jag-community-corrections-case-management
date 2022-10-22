@@ -1,5 +1,5 @@
 <template>
-  <div data-app>
+  <div data-app :key="formKey" >
     <!-- CRNA form instance. Modal dialog section-->
     <div v-if="formType === $CONST_FORMTYPE_CRNA">
       <!--SARA form creation modal dialog-->
@@ -51,7 +51,7 @@
         >
         <v-card>
           <v-card-title class="text-h5">
-            <span v-if="linkedSara">
+            <span v-if="relatedClientFormId">
               Are you sure you want to delete?
             </span>
             <span v-else>
@@ -60,7 +60,7 @@
           </v-card-title>
           
           <v-card-text >
-            <span v-if="linkedSara">
+            <span v-if="relatedClientFormId">
               The CRNA-CMP and the SARA-CMP forms and all the information you have entered will be deleted. You will be directed to the client's RNA list.
             </span>
             <span v-else>
@@ -79,7 +79,7 @@
               dark
               @click="handleDeleteFormBtnClick"
             >
-              <span v-if="linkedSara">
+              <span v-if="relatedClientFormId">
                 Yes, delete form(s)
               </span>
               <span v-else>
@@ -148,21 +148,22 @@
     </div>
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.tab" > 
-          <span v-if="item.id === 'cp'">{{ item.tab }}</span>
+        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id"> 
+          <span v-if="item.id === $CONST_FORMTYPE_CRNA">{{ item.tab }}</span>
           <div v-if="item.id === 'saraBtn'" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createSARA"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
+          <span v-if="item.id === $CONST_FORMTYPE_SARA" class="p-4">
+            {{ item.tab }}
+          </span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
-        <v-tab-item v-for="item in items" :key="item.tab">
-          <div v-if="item.id === 'cp'" class="p-4">
-            <CmpFormDetail :formType="formType" :formId="formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></CmpFormDetail>
-           </div>
+        <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
+          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -172,64 +173,86 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import CmpFormDetail from "@/components/form/FormRenderer.vue";
-import { createForm } from "@/components/form.api";
+import FormRenderer from "@/components/form/FormRenderer.vue";
+import { createSARAForm, getClientFormDetails } from "@/components/form.api";
 
 export default {
   name: 'CMPForm',
   components: {
-    CmpFormDetail,
+    FormRenderer,
   },
   data() {
     return {
-      //CONST_FORMTYPE_CRNA: 'CRNA',
-      //CONST_FORMTYPE_SARA: 'SARA',
       formId: '',
       clientNum: '',
-      linkedSara: null,
+      relatedClientFormId: null,
       formType: '',
       newCreatedFormId: 0,
-      current_tab: 'tab-cp',
+      current_tab: 'tab-CRNA',
       items: [],
       dialog: false,
       deleteDialog: false,
       selectedFormTypeValue: [],
+      formKey: 0,      
     }
   },
   mounted(){
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
-    this.linkedSara = this.$route.params.linkedSara;
-    this.formType = this.$route.params.formType;
-    // if the crna form doesn't have a sara form linked, show the 'Add SARA-CMP FORM' button
-    if (this.formType === 'CRNA') {
-      this.items.push({ tab: 'CRNA-CMP', id: 'cp' });
-      if (!this.linkedSara) {
-        this.items.push({ tab: '', id: 'saraBtn' });
-      }
-    }
-    if (this.formType === 'SARA') {
-      this.items.push({ tab: 'SARA-CMP', id: 'cp' });
-    }
-    this.selectedFormTypeValue.push("sara");
+    this.getClientFormDetailsAPI();
   },
   methods: {
-    async createFormAPI() {
-      const [error, response] = await createForm(this.formId);
+    async getClientFormDetailsAPI() {
+      const [error, response] = await getClientFormDetails(this.clientNum, this.formId);
       if (error) {
-        console.error(error);
-      } 
-      newCreatedFormId = response.formID;
+        console.error("Failed creating SARA form instance", error);
+      } else {
+        console.log("Form details: ", response);
+        this.formType = 'SARA'; //response.module;
+        this.relatedClientFormId = 389821; //response.relatedClientFormId;
+        
+        // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
+        if (this.formType === this.$CONST_FORMTYPE_CRNA) {
+          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId });
+          this.current_tab = 'tab-CRNA';
+          if (!this.relatedClientFormId) {
+            // show the 'add sara' btn if the crna form hasn't linked with sara
+            this.items.push({ tab: '', id: 'saraBtn', formId: '' });
+          } else {
+            // otherwise, show sara tab
+            this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId });
+          }
+        }
+        // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
+        if (this.formType === this.$CONST_FORMTYPE_SARA) {
+          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId });
+          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId });
+          this.current_tab = 'tab-SARA';
+        }
+        this.selectedFormTypeValue.push("sara");
+      }
+      //this.formKey++;
+    },
+    async createSARAFormAPI() {
+      let formData = {};
+      // set formData
+      formData.clientNumber = "00142091";
+      //formData.clientNumber = this.clientNum;
+      formData.linkedClientFormId = this.formId;
+      const [error, SARAFormId] = await createSARAForm(formData);
+      if (error) {
+        console.error("Failed creating SARA form instance", error);
+      } else {
+        this.newCreatedFormId = SARAFormId;
+      }
     },
     handleCreateSARAFormBtnClick() {
-      this.createFormAPI();
+      this.createSARAFormAPI();
       this.$router.push({
         name: "cmpform",
         params: {
-          formType: this.$CONST_FORMTYPE_SARA,
           formID: this.newCreatedFormId,
-          csNumber: this.clientNum,
-          linkedSara: false
+          csNumber: this.clientNum
         }
       });
     },

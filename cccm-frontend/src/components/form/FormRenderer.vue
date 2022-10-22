@@ -9,7 +9,7 @@
               <FormioFormInfo :key="staticComponentKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
-              <FormNavigation :key="componentKey" 
+              <FormNavigation :key="navComponentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
                 :parentNavJumpToPointed="parentNavJumpToPointed"
@@ -71,7 +71,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormDetails, loadFormData, loadFormDataForSectionSeq, deleteQuestionInterventionsExcept, clientProfileSearch } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -81,7 +81,12 @@ import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
 
 export default {
-  name: 'CmpFormDetail',
+  name: 'FormRenderer',
+  props: {
+    formType: '',
+    formId: 0,
+    csNumber: ''
+  },
   components: {
     Form,
     FormDataEntry,
@@ -96,9 +101,6 @@ export default {
     return {
       loadingMsg: "Loading form...",
       loading: false,
-      formType: '',
-      formId: -1,
-      csNumber: '',
       displaySummary: false,
       parentNavMoveToNext: 1,
       parentNavJumpToPointed: '',
@@ -112,6 +114,7 @@ export default {
       formInitData: {},
       dataMap: {},
       componentKey: 0,
+      navComponentKey: 0,
       staticComponentKey: 0,
       showSummaryCounter: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
@@ -120,12 +123,9 @@ export default {
     }
   },
   mounted(){
-    this.formType = this.$route.params.formType;
-    this.formId = this.$route.params.formID;
-    this.csNumber = this.$route.params.csNumber;
     this.displaySummary = false;
     this.getClientAndFormMeta();
-    this.getFormDetails();
+    this.getFormioTemplate();
   },
   methods: {
     async getClientAndFormMeta() {
@@ -134,7 +134,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("clientFormMeta: ", clientFormMeta);
+        //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData = clientFormMeta;
         this.formInfoData.clientFormType = (this.formInfoData.clientFormType) ? "Reassessment" : "Initial"
 
@@ -152,7 +152,7 @@ export default {
         //   console.error(error);
         // } else {
           //this.clientData = response.data;
-          console.log("client profile search done");
+          //console.log("client profile search done");
           this.clientData.data =
             {
               "clientId": "1",
@@ -257,32 +257,36 @@ export default {
           }
           //set sources contacted
           this.clientData.data.input_key_sourceContacted = this.formInfoData.input_key_sourceContacted;
-          console.log("this.clientData: ", this.clientData);
+          //console.log("this.clientData: ", this.clientData);
           
         //}
       };
       
       this.staticComponentKey++;
     },
-    async getFormDetails() {
+    async getFormioTemplate() {
       // Load formio template
       this.loading = true;
       this.loadingMsg = "Loading form...";
-      const [error, response] = await getFormDetails(this.csNumber, this.formId);
+      const [error, response] = await getFormioTemplate(this.csNumber, this.formId);
       if (error) {
         console.error(error);
       } else {
-        this.loadingMsg = "Loading client form data...";
+        this.loadingMsg = "Setup navigation...";
         this.data_formEntries = response;
+        // force FormNavigation to refresh.
+        this.navComponentKey++;
+
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
         if (this.totalNumParentNav >= 2) {
           const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
           this.casePlanDataModel.components = clone;
           this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
-          console.log("caseplan template:", this.casePlanDataModel);
+          //console.log("caseplan template:", this.casePlanDataModel);
         }
 
         // Load form data
+        this.loadingMsg = "Loading client form data...";
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
         if (error) {
           console.error(error);
@@ -321,7 +325,7 @@ export default {
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         //show case plan
         if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
-          this.private_getCasePlanData();
+          this.displayCasePlan = true;
         } 
         this.parentNavMoveToNext++;
       }
@@ -341,7 +345,6 @@ export default {
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
         //console.log("set displayCasePlan to true");
         this.displayCasePlan = true;
-        //this.private_getCasePlanData();
       }
       // User clicked 'Summary' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
@@ -349,42 +352,6 @@ export default {
         this.btnSaveContinueText = "Submit Form"; 
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
-      }
-    },
-    async private_getCasePlanData() {
-      this.loadingCasePlanIntervention = true;
-      this.loadingMsgCasePlanIntervention = "Loading intervention data...";
-      const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
-      if (error) {
-        console.error(error);
-      } else {
-        // do something
-        this.loadingCasePlanIntervention = false;
-        this.loadingMsgCasePlanIntervention = "";
-        
-        this.formInitData.data.responsivity.MHCF = true;
-        this.formInitData.data.responsivity.MHCF_desc = "comments for MHCD";
-
-        console.log("formInitData: ", this.formInitData);
-        //this.componentKey++;
-        //this.parentNavMoveToNext = this.totalNumParentNav - 2;
-        this.private_showHideCasePlanInterventions(true);
-      }
-    },
-    private_showHideCasePlanInterventions(isShow) {
-      // get intervention panel
-      const thePanel = document.querySelector(`div[ref="nested-intervention_panel"]`);
-      //console.log("thePanel: ", thePanel);
-      if (isShow) {
-        //console.log("show intervention");
-        if (thePanel != null) {
-          thePanel.setAttribute('style', 'display:block');
-        }
-      } else {
-        //console.log("hide intervention");
-        if (thePanel != null) {
-          thePanel.setAttribute('style', 'display:none');
-        }
       }
     }
   }  
