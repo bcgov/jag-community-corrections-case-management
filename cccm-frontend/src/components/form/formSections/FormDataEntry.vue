@@ -1,7 +1,6 @@
 <template>
   <div>
-    <Form :key="pageKey" 
-      :form="dataModel" 
+    <Form :form="dataModel" 
       :submission="initData" 
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent" 
@@ -26,73 +25,114 @@ export default {
   components: {
     Form
   },
-  watch: {
-    initData() {
-      console.log("initData updated: ", this.initData);
-    }
-  },
   data() {
     return {
-      CONST_EDITGRID: 'editgrid',
+      CONST_COMMENT_SUFIX: '_COMMENT',
       CONST_DATAGRID: 'datagrid',
-      CONST_INTERVENTIONDESCRIPTION: 'interventionDescription',
-      CONST_INTERVENTIONTYPE: 'interventionType',
-      CONST_INTERVENTIONTYPEOTHER: 'interventionTypeOther',
-      pageKey: 0,
+      CONST_INTERVENTION_CHECKBOX_SUFIX: '_intervention_checkbox',
+      CONST_INTERVENTION_KEY_SUFFIX: '_intervention_datagrid',
       saveDraft: false,
       latestKey: '',
       latestValue: '',
       latestData: {},
-      autoSaveData: {}
+      autoSaveData: {},
+      autoSaveDataCandidate: {},
+      saving: false,
+      savingSuccess: false,
     }
   },
   mounted() {
-    this.debounce((changeEvent) => this.autoSave(), 1000);
+    // reset the indicator
+    this.savingSuccess = false;
+    this.saving = false;
   },
   methods: {
-    debounce(func, timeout = 300) {
-      let timer;
-      return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          func.apply(this, args);
-        }, timeout);
-      };
-    },
     async autoSave() {
-      console.log("autosave: ", this.autoSaveData);
-      try {
-        const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
-        if (error) {
-          console.error(error);
-          // this.errorOccurred = true;
-          // this.errorText = "Failed to save form: " + err;
-        } 
-      } catch (err) {
-        console.error("Saving failed %o", err);
-      } finally {
-        //this.saving = false;
+      console.log("autosave");
+      //only start saving if previous saving is done
+      console.log("this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
+      if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
+        this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
+        console.log("autosave data: ", this.autoSaveData);
+        console.log("this.autoSaveData: ", this.autoSaveData);
+        //clear this.autoSaveDataCandidate, so we are not repeated saving it
+        this.autoSaveDataCandidate = {};
+        
+        // Repeat the saving till it succeeds
+       //while(!this.savingSuccess) {
+          try {
+            this.saving = true;
+            this.savingSuccess = true;
+            this.saving = false;
+            const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
+            if (error) {
+              console.error(error);
+            } else {
+              this.savingSuccess = true;
+              this.saving = false;
+            }
+          } catch (err) {
+            console.error("Saving failed %o", err);
+          } 
+        //}
       }
-      //clear the autoSaveData
-      this.autoSaveData = {};
+    },
+    private_addToAutoSaveDataCandidate(isDataGrid, key, eventData) {
+      console.log("candidate before: ", this.autoSaveDataCandidate);
+      let questionSequence = key;
+
+      // ignore if the key contains CONST_INTERVENTION_CHECKBOX_SUFIX
+      if (key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFIX) >= 0) {
+        let questionKey = key.substr(0, 6);
+        let interventionDatagridKey = questionKey + this.CONST_INTERVENTION_KEY_SUFFIX;
+        // if the checkbox is unchecked, remove the associated intervention
+        if (!eventData[key]) {
+          delete this.autoSaveDataCandidate[interventionDatagridKey];
+          // need to include the question in the payload to keep API happy
+          this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFIX] = eventData[questionKey + this.CONST_COMMENT_SUFIX];
+          this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
+        }
+        return;
+      }
+      if (isDataGrid) {
+        this.autoSaveDataCandidate[key] = eventData[key];
+        // need to include the question in the payload to keep API happy
+        let questionKey = key.substr(0, 6);
+        this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFIX] = eventData[questionKey + this.CONST_COMMENT_SUFIX];
+        this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
+      } else {
+        //if key contain _COMMENT, get the question sequence
+        if (key.indexOf(this.CONST_COMMENT_SUFIX) >= 0) {
+          questionSequence = key.substr(0, 6);
+          this.autoSaveDataCandidate[questionSequence] = eventData[questionSequence];
+          this.autoSaveDataCandidate[key] = eventData[key];
+        } else {
+          this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFIX] = eventData[key + this.CONST_COMMENT_SUFIX];
+          this.autoSaveDataCandidate[key] = eventData[key];
+        }
+      }
+      console.log("candidate after: ", this.autoSaveDataCandidate);
     },
     handleChangeEvent(event) {
       // datagrid either 'add intervention' or 'delete' icon is clicked
       if (   event.changed 
           && ( event.changed.component.type === "datagrid")) {
-        console.log("Datagrid changed: ", event);
-          
+        console.log("Datagrid changed: ", event.data, event.changed.component.key, event.changed.value);
+        this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data);
       }
       if (   event.changed 
           && ( event.changed.component.type === "textfield"
             || event.changed.component.type === "textarea")) {
-        console.log("textfield or textarea changed: ", event);
+        //console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
         // don't trigger the autosave on every key stroke, keep the latest values for now.
         // Trigger the autosave when blur event occurs.
-        this.latestKey = event.changed.component.key;
-        this.latestValue = event.changed.value;  
-        this.latestData = event.data;  
-        this.triggerAutoSave = true;
+        let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+        if (dataGridKey != null) {
+          this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data);
+        } else {
+          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data);
+        }
+          this.triggerAutoSave = true;
       }
 
       // Trigger autosave
@@ -101,55 +141,28 @@ export default {
             || event.changed.component.type === "checkbox"
             || event.changed.component.type === "select")
           ) {
-        console.log("radio, checkbox or select changed: ", event);
-        // if the radio button or checkbox or select is NOT part of an editgrid, call dataMapping function
-        if (this.private_isDataMappingRequired(event.changed.instance, event.changed.component.key)) {
-          //console.log("radio not part of editgrid");
-          this.private_updateMappedData(event.changed.instance, event.changed.component.key, event.changed.value, event.data);
+        //console.log("radio, checkbox or select changed: ", event.data, event.changed.component.key, event.changed.value);
+        
+        // if the radio button or checkbox or select is part of an datagrid, map the datagrid data to this.autoSaveDataCandidate
+        let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+        if (dataGridKey != null) {
+          //console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
+          this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data);
+        } else {
+          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data);
         }
       }
     },
     handleBlurEvent(event) {
-      if (this.triggerAutoSave) {
-        this.triggerAutoSave = false;
-        this.private_updateMappedData(event, this.latestKey, this.latestValue, this.latestData);
-        // Refresh the view
-        this.pageKey++;
-      }
-    },
-    private_isDataMappingRequired(theInstance, componentKey) {
-      // if it's part of editgrid, return false;
-      if (theInstance != null 
-          && theInstance.parent != null 
-          && theInstance.parent.parent != null 
-          && theInstance.parent.parent.type === this.CONST_EDITGRID) {
-        return false;
-      }
-      // If the component key is the dataMap
-      if (this.private_isDataMappingExistsHelper(componentKey)) {
-        return true;
-      }
-      // If it's part of the datagrid and dataMap exists for the datagrid, return true;
-      let dataGridKey = this.private_isPartOfDatagrid(theInstance);
-      //console.log("datagridKey: ", dataGridKey);
-      return this.private_isDataMappingExistsHelper(dataGridKey);
-    },
-    private_isDataMappingExistsHelper(theKey) {
-      if (theKey == null) {
-        return false;
-      }
-      // let dataMapKeyObj = this.dataMap[theKey];
-      // if (dataMapKeyObj != null) {
-      //   for (let i = 0; i < dataMapKeyObj.length; i++) {
-      //     let dataKey = dataMapKeyObj[i];
-      //     if (dataKey != null) {
-      //       return true;
-      //     }
-      //   }
+      console.log("From blur event, this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
+      this.autoSave();
+      // if (this.triggerAutoSave) {
+      //   this.triggerAutoSave = false;
+      //   this.autoSave();
       // }
-      return false;
     },
     private_isPartOfDatagrid(theInstance) {
+      //console.log("check partof dataGrid: ", theInstance);
       let datagridKey = null;
       if (theInstance != null 
           && theInstance.parent != null 
@@ -161,107 +174,6 @@ export default {
         datagridKey = theInstance.parent.parent.parent.key;
       }
       return datagridKey;
-    },
-    private_updateMappedData(instance, theKey, newValue, latestData) {
-      //console.log("try update mapped data: ", instance, theKey, newValue, latestData);
-      console.log("latestData: ", latestData);
-      if (instance != null) {
-        // it's part of a datagrid, do the updates accordingly
-        let datagridKey = this.private_isPartOfDatagrid(instance);
-        if (datagridKey != null) {
-          console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", instance, theKey, newValue, latestData);
-          if (latestData != null) {
-            // get the newValue of the dataGrid
-            // sample dataGridValue: 
-            // [
-            //   {
-            //       "interventionType": "type1",
-            //       "interventionTypeOther": "",
-            //       "interventionDescription": "some comments for S0Q0 type 1 sss",
-            //       "questionLabel": "Family Relationships"
-            //   },
-            //   {
-            //       "interventionType": "other",
-            //       "interventionTypeOther": "S0Q0 type",
-            //       "interventionDescription": "some comments for S0Q0 type other",
-            //       "questionLabel": "Family Relationships"
-            //   }
-            // ]
-            let dataGridValue = latestData[datagridKey];
-            //console.log("dataGridValue: ", dataGridValue, dataGridValue.length);
-            // Let's do the data mapping
-            if (dataGridValue != null && dataGridValue.length > 0) {
-              for (let i = 0; i < dataGridValue.length; i++) {
-                let keys = Object.keys(dataGridValue[i]);
-                //console.log("dataGridValue[i] keys: ", dataGridValue[i], i, keys);
-
-                // look for the data key 
-                if (keys != null && keys.length > 0) {
-                  for (let k = 0; k < keys.length; k++) {
-                    //console.log("keys[k]: ", keys[k]);
-
-                    // get the mapped key object
-                    // sample dataMapKeyObj: ["summary_S3Q00", "S3Q00"]
-                    // let dataMapKeyObj = this.dataMap[datagridKey];
-                    // if (dataMapKeyObj != null) {
-                    //   for (let j = 0; j < dataMapKeyObj.length; j++) {
-                    //     //console.log("mapped datakey: ", dataMapKeyObj[j]);
-                    //     if (dataMapKeyObj[j] != null) {
-                    //       // "summary_S3Q00": [
-                    //       //   {
-                    //       //     "questionLabel": "Family Relationships",
-                    //       //     "interventionType": "type 1",
-                    //       //     "comments": "Sample comment for S0Q0",
-                    //       //     "interventionDescription": "some comments for S0Q0 type 1"
-                    //       //   },
-                    //       //   {
-                    //       //     "questionLabel": "Family Relationships",
-                    //       //     "interventionType": "S0Q0 type",
-                    //       //     "comments": "Sample comment for S0Q0",
-                    //       //     "interventionDescription": "some comments for S0Q0 type other"
-                    //       //   }
-                    //       // ]
-                    //       // Overwrite the interventionType value if interventionTypeOther is not empty
-                    //       //console.log("j, i, k, this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]: ", j, i, k, keys[k], this.initData.data[dataMapKeyObj[j]][i], dataGridValue[i][keys[k]]);
-                    //       if (this.initData.data[dataMapKeyObj[j]][i] == null) {
-                    //         this.initData.data[dataMapKeyObj[j]][i] = {};
-                    //       }
-                    //       if (keys[k] === this.CONST_INTERVENTIONTYPEOTHER && dataGridValue[i][keys[k]] != '') {
-                    //         this.initData.data[dataMapKeyObj[j]][i][this.CONST_INTERVENTIONTYPE]=dataGridValue[i][keys[k]];
-                    //       } else {
-                    //         this.initData.data[dataMapKeyObj[j]][i][keys[k]]=dataGridValue[i][keys[k]];
-                    //       }
-                    //     }
-                    //   }
-                    // }
-                  }
-                }
-              }
-              //console.log("mapped data summary_S3Q00: ", this.initData.data["summary_S3Q000"]);
-              //console.log("mapped data S3Q00: ", this.initData.data["S3Q000"]);
-            }
-          }
-        } else {
-          // let dataMapKeyObj = this.dataMap[theKey];
-          // // sample dataMapKeyObj: ["summary_S0Q0.radio"]
-          // if (dataMapKeyObj != null) {
-          //   for (let i = 0; i < dataMapKeyObj.length; i++) {
-          //     let dataKey = dataMapKeyObj[i];
-          //     if (dataKey != null) {
-          //       //console.log("dataKey: ", dataKey);
-          //       // sample dataKey: "summary_S0Q0.radio"
-          //       let dataKeySplit = dataKey.split(".");
-          //       if (dataKeySplit != null && dataKeySplit.length == 2) {
-          //         let sectionID = dataKeySplit[0];
-          //         let questionID = dataKeySplit[1];
-          //         //console.log("dataKey value: ", this.initData.data[sectionID][0][questionID]);
-          //         this.initData.data[sectionID][0][questionID] = newValue;
-          //       }
-          //     }
-          //   }
-          // }
-        }
-      }
     }
   }
 }

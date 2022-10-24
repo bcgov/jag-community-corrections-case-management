@@ -29,30 +29,10 @@ export default {
     }
   },
   mounted() {
-    console.log("dataModel: ", this.dataModel);
+    console.log("caseplan mounted");
     this.getCasePlanInterventionAPI();
-
-    console.log("After: ", this.initData.data.interventions);
-    if (this.initData.data.interventions != null) {
-        for (let i = 0; i < this.initData.data.interventions.length; i++) {
-            let itv = this.initData.data.interventions[i];
-            console.log("itv: ", itv);
-            if (itv != null && itv.navKey != null) {
-                console.log("itv.navKey: ", itv.navKey);
-                let editLink = document.getElementById("editLink_" + itv.navKey);
-                console.log("editLink: ", editLink);
-                if (editLink != null) {
-                    console.log("register editLink click event: ", editLink);
-                    editLink.addEventListener("click", this.editMe);
-                }
-            }
-        }
-    }
   },
   methods: {
-    editMe() {
-        console.log("edit me");
-    },
     async getCasePlanInterventionAPI() {
         this.loading = true;
         const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);

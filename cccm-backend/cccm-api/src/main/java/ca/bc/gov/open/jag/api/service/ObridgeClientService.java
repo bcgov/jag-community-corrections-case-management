@@ -166,7 +166,7 @@ public interface ObridgeClientService {
 
     @GET
     @Path("forms/client/summary/{clientNumber}/{clientFormId}")
-    String getClientFormSummary(@PathParam("clientNumber") String clientNumber,
+    ClientFormSummary getClientFormSummary(@PathParam("clientNumber") String clientNumber,
             @PathParam("clientFormId") BigDecimal clientFormId);
 
     @GET
@@ -242,5 +242,5 @@ public interface ObridgeClientService {
     
     @PUT
     @Path("/forms/client/sourcesContacted/{clientFormId}")
-    void updateSourcesContacted(@PathParam("clientFormId") BigDecimal clientFormId, @QueryParam("sourcesContacted") String sourcesContacted);
+    String updateSourcesContacted(@PathParam("clientFormId") BigDecimal clientFormId, @RequestBody String sourcesContacted);
 }

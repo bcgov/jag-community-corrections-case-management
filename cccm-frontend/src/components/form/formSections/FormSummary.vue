@@ -33,7 +33,7 @@
   
 <script lang="ts">
 import Vue from 'vue'
-import { getFormSummary } from "@/components/form.api";
+import { getDataForSummaryView } from "@/components/form.api";
 
 export default {
     name: 'FormSummary',
@@ -78,7 +78,7 @@ export default {
         },
         async getSummaryData() {
             this.loading = true;
-            const [error, response] = await getFormSummary(this.csNumber, this.clientFormId, true);
+            const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
             console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
