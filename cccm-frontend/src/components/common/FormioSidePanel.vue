@@ -16,6 +16,7 @@ export default {
   },
   data() {
     return {
+      KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
       templatePanel : templatePanel,
       formJSON : {}
     }
@@ -27,7 +28,7 @@ export default {
     this.buildFormData();
     setTimeout(() => {
       this.hideInputTextBox();
-    }, 500);
+    }, 1000);
   },
   methods: {
     buildFormData() {
@@ -48,7 +49,7 @@ export default {
     },
     hideInputTextBox() {
       // get textbox instance
-      let tbName= "data[input_key_sourceContacted]";
+      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
       let textBox = document.getElementsByName(tbName);
       
       //hide textbox
@@ -63,7 +64,7 @@ export default {
         let theBtn = document.getElementsByName(btnName);
 
         // get textbox instance
-        let tbName= "data[input_key_sourceContacted]";
+        let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
         let textBox = document.getElementsByName(tbName);
         
         // get html instance
@@ -86,8 +87,10 @@ export default {
             }
           } else {
             // Save button clicked, call API to save the data
-            console.log("evt.data: ", evt.data);
-            const [error, response] = await updateSourcesContacted(this.clientFormId, evt.data);
+            let sourcesContacted = {};
+            sourcesContacted[this.KEY_SOURCESCONTACTED] = evt.data[this.KEY_SOURCESCONTACTED];
+            //console.log("sourcesContacted data: ", sourcesContacted);
+            const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
             if (error) {
               console.error("Save source contacted error: ", error);
             } else {
