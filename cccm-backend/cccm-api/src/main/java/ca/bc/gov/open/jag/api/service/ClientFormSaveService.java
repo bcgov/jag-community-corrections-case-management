@@ -11,7 +11,7 @@ public interface ClientFormSaveService {
 
     BigDecimal createSARA(CreateFormInput createFormInput, BigDecimal locationId);
 
-    void updateForm(BigDecimal clientFormId, String updateFormInput, BigDecimal locationId);
+    void updateForm(BigDecimal clientFormId, String updateFormInput);
 
     BigDecimal completeForm(CompleteFormInput completeFormInput, BigDecimal locationId);
 

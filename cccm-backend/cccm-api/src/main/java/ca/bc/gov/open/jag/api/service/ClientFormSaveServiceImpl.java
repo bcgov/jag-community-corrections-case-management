@@ -47,7 +47,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public void updateForm(BigDecimal clientFormId, String updateFormInput, BigDecimal locationId) {
+    public void updateForm(BigDecimal clientFormId, String updateFormInput) {
         obridgeClientService.updateForm(clientFormId, updateFormInput);
     }
 
