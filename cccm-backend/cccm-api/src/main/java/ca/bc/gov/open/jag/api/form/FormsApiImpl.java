@@ -163,15 +163,15 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
-    @RolesAllowed("form-view")
-    public List<Responsivity> upcertResposnivities(BigDecimal clientFormId, @Valid @NotNull String searchInput) {
-        return Collections.emptyList();
+    @RolesAllowed("form-update")
+    public void upcertResponsivities(BigDecimal clientFormId, String payload) {
+        clientDataService.upcertResponsivities(clientFormId, payload);
     }
 
     @Override
-    @RolesAllowed("form-add")
-    public BigDecimal updateForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
-        return clientFormSaveService.updateForm(createFormInput, new BigDecimal(xLocationId));
+    @RolesAllowed("form-update")
+    public void updateForm(BigDecimal clientFormId, String createFormInput, String xLocationId) {
+        clientFormSaveService.updateForm(clientFormId, createFormInput, new BigDecimal(xLocationId));
     }
 
     @Override

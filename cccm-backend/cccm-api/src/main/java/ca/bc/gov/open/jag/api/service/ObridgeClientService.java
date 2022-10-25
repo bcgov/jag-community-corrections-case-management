@@ -243,4 +243,9 @@ public interface ObridgeClientService {
     @PUT
     @Path("/forms/client/sourcesContacted/{clientFormId}")
     String updateSourcesContacted(@PathParam("clientFormId") BigDecimal clientFormId, @RequestBody String sourcesContacted);
+    
+    @PUT
+    @Path("/forms/{clientFormId}/client")
+    String updateForm(@PathParam("clientFormId") BigDecimal clientFormId,
+            @RequestBody String payload);
 }

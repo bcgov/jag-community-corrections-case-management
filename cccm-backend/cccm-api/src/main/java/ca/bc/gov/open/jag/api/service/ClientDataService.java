@@ -8,6 +8,9 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 public interface ClientDataService {
 
     List<Client> clientSearch(ClientSearch clientSearch);
@@ -144,4 +147,13 @@ public interface ClientDataService {
      * @param sourcesContacted the sources contacted
      */
     void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted);
+    
+    
+    /**
+     * Create and update responsivities.
+     *
+     * @param clientFormId the client form id
+     * @param payload the payload
+     */
+    void upcertResponsivities(BigDecimal clientFormId, String payload);
 }
