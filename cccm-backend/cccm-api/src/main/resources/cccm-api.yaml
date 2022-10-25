@@ -489,28 +489,31 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client:
+  /forms/{clientFormId}/client:
     put:
       parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - crna-sara-forms
-      summary: updateForm
+        - tests
+      summary: Update form level comments and questions, e.g., form comments; responsivities
       operationId: updateForm
       requestBody:
-        description: createFormInput
+        description: payload
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateFormInput'
+              type: string
         required: true
       responses:
         200:
           description: OK
-          content:
-            '*/*':
-              schema:
-                type: number
+          content: {}
         401:
           description: Unauthorized
           content: {}
@@ -520,7 +523,7 @@ paths:
         404:
           description: Not Found
           content: {}
-      x-codegen-request-body-name: createFormInput
+      x-codegen-request-body-name: payload
   /forms/client/complete:
     post:
       parameters:
@@ -1145,9 +1148,9 @@ paths:
   /forms/{clientFormId}/client/responsivities:
     patch:
       tags:
-        - client-forms
+        - tests
       summary: Create/update client forms responsivities
-      operationId: upcertResposnivities
+      operationId: upcertResponsivities
       parameters:
         - name: clientFormId
           in: path
@@ -1156,7 +1159,7 @@ paths:
           schema:
             type: number
       requestBody:
-        description: searchInput
+        description: payload
         content:
           application/json:
             schema:
@@ -1165,12 +1168,7 @@ paths:
       responses:
         200:
           description: OK
-          content:
-            '*/*':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Responsivity'
+          content: {}
         201:
           description: Created
           content: {}
@@ -1995,17 +1993,6 @@ components:
         linkedClientFormId:
           type: number
           description: required to link a form
-    UpdateFormInput:
-      type: object
-      properties:
-        clientFormId:
-          type: number
-        reAssessmentComments:
-          type: string
-        planSummary:
-          type: string
-        sourcesContacted:
-          type: string
     CompleteFormInput:
       type: object
       properties:

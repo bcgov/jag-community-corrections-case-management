@@ -234,8 +234,13 @@ public class ClientDataServiceImpl implements ClientDataService {
         obridgeClientService.updateSourcesContacted(clientFormId, sourcesContacted);
     }
     
+    @Override
+    public void upcertResponsivities(BigDecimal clientFormId, String payload) {
+        // TODO Auto-generated method stub
+        
+    }
+    
     private Photo getPhoto(String clientNum) {
-
         List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
 
         if (!photos.isEmpty()) {
@@ -243,11 +248,9 @@ public class ClientDataServiceImpl implements ClientDataService {
         }
 
         return null;
-
     }
 
     private String padCsNum(String clientNum) {
         return ("00000000" + clientNum).substring(clientNum.length());
     }
-
 }
