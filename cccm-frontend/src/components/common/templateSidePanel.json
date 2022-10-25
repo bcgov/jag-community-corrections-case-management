@@ -76,7 +76,7 @@
 					  {
 						"label": "",
 						"tag": "div",
-						"content": "<table><tr><th>Rist/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
+						"content": "<table style='width:100%'><tr><th>Risk/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
 						"refreshOnChange": false,
 						"type": "htmlelement",
 						"input": false,

@@ -182,7 +182,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-update")
-    public void updateSourcesContacted(BigDecimal clientFormId, String xLocationId, String sourcesContacted) {
+    public void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted, String xLocationId) {
         clientDataService.updateSourcesContacted(clientFormId, sourcesContacted);
     }
 

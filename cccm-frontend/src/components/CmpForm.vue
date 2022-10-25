@@ -205,11 +205,11 @@ export default {
     async getClientFormDetailsAPI() {
       const [error, response] = await getClientFormDetails(this.clientNum, this.formId);
       if (error) {
-        console.error("Failed creating SARA form instance", error);
+        console.error("Failed getting client form details", error);
       } else {
         console.log("Form details: ", response);
-        this.formType = 'SARA'; //response.module;
-        this.relatedClientFormId = 389821; //response.relatedClientFormId;
+        this.formType = response.module;
+        this.relatedClientFormId = response.relatedClientFormId;
         
         // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
         if (this.formType === this.$CONST_FORMTYPE_CRNA) {
