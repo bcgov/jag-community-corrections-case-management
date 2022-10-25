@@ -1,12 +1,10 @@
 package ca.bc.gov.open.jag.api.form;
 
-import ca.bc.gov.open.jag.api.client.ClientsApiImpl;
-import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
-import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
+import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
@@ -17,14 +15,10 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RequestScoped
 public class FormsApiImpl implements FormsApi {
-
-    private static final Logger logger = Logger.getLogger(String.valueOf(FormsApiImpl.class));
     
     @Inject
     FormDataService formDataService;
@@ -34,6 +28,9 @@ public class FormsApiImpl implements FormsApi {
 
     @Inject
     ClientFormSaveService clientFormSaveService;
+
+    @Inject
+    ValidationService validationService;
 
     @Override
     @Transactional
@@ -107,6 +104,12 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-add")
     public BigDecimal createSaraForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
         return clientFormSaveService.createSARA(createFormInput, new BigDecimal(xLocationId));
+    }
+
+    @Override
+    @RolesAllowed("form-delete")
+    public void deleteClientForm(BigDecimal clientFormId, String xLocationId) {
+        //TODO: implement delete
     }
 
     @Override
@@ -184,6 +187,18 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-update")
     public void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted, String xLocationId) {
         clientDataService.updateSourcesContacted(clientFormId, sourcesContacted);
+    }
+
+    @Override
+    @RolesAllowed("form-view")
+    public ValidationResult validateCRNAForm(@Valid @NotNull String body) {
+        return validationService.validateCRNA(body);
+    }
+
+    @Override
+    @RolesAllowed("form-view")
+    public ValidationResult validateSARAForm(@Valid @NotNull String body) {
+        return validationService.validateSARA(body);
     }
 
     @Override
