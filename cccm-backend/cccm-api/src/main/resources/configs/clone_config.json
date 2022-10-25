@@ -1,0 +1,13 @@
+{
+  "cloneConfig" : [
+    {
+      "formType": "CRNA",
+      "ignoreKeys": ["123","123"]
+    },
+    {
+      "formType": "SARA",
+      "ignoreKeys": ["123","123"]
+    }
+  ]
+
+}
