@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.FormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CompleteFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.RequestScoped;
@@ -48,16 +47,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal updateForm(UpdateFormInput updateFormInput, BigDecimal locationId) {
-
-        FormInput formInput = new FormInput();
-        formInput.setLocationId(locationId);
-        formInput.setClientFormId(updateFormInput.getClientFormId());
-        formInput.setPlanSummary(updateFormInput.getPlanSummary());
-        formInput.setFormLevelComments(updateFormInput.getReAssessmentComments());
-        formInput.setSourcesContacted(updateFormInput.getSourcesContacted());
-
-        return obridgeClientService.createForm(formInput);
+    public void updateForm(BigDecimal clientFormId, String updateFormInput) {
+        obridgeClientService.updateForm(clientFormId, updateFormInput);
     }
 
     @Override
