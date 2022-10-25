@@ -617,7 +617,7 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/{clientFormId}/client/delete:
+  /forms/{clientFormId}/client/{clientNum}/delete:
     delete:
       tags:
         - crna-sara-forms
@@ -630,6 +630,12 @@ paths:
           required: true
           schema:
             type: number
+        - name: clientNum
+          in: path
+          required: true
+          schema:
+            type: string
+          style: simple
         - $ref: "#/components/parameters/xLocationId"
       responses:
         200:

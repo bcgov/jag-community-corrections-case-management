@@ -108,8 +108,8 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-delete")
-    public void deleteClientForm(BigDecimal clientFormId, String xLocationId) {
-        //TODO: implement delete
+    public void deleteClientForm(BigDecimal clientFormId, String clientNum, String xLocationId) {
+        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId));
     }
 
     @Override

@@ -86,4 +86,9 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     }
 
+    @Override
+    public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId) {
+
+    }
+
 }

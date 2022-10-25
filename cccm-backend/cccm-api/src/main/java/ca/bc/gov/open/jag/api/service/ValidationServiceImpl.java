@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
@@ -95,7 +96,14 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private String findAnswerByKey(String answers, String key) {
+
+        JSONObject jsonData = new JSONObject(answers);
+        if (jsonData.has(key)) {
+            return jsonData.getString(key);
+        }
+
         return null;
+
     }
 
 }
