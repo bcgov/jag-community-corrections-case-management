@@ -500,7 +500,7 @@ paths:
             type: number
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - crna-sara-forms
+        - tests
       summary: Update form level comments and questions, e.g., form comments; responsivities
       operationId: updateForm
       requestBody:
