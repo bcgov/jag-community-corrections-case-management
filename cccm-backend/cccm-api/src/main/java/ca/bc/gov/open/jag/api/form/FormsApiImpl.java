@@ -89,7 +89,7 @@ public class FormsApiImpl implements FormsApi {
     @Transactional
     @RolesAllowed("form-add")
     public BigDecimal cloneClientForm(String xLocationId, @Valid CloneForm cloneForm) {
-        return clientDataService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)));
+        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)));
     }
 
     @Override
