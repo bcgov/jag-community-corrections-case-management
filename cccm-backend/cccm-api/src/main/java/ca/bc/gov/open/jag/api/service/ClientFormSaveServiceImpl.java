@@ -56,7 +56,6 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public BigDecimal completeForm(CompleteFormInput completeFormInput, BigDecimal locationId) {
 
-        //TODO: Validation, Save Answers
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
         formInput.setClientFormId(completeFormInput.getClientFormId());
