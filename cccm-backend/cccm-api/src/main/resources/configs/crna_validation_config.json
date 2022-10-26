@@ -1,11 +1,54 @@
 {
   "validation": [
     {
-      "key": "123",
-      "dependentKeys": ["123"],
-      "dependentValues": ["D"],
-      "message": "Failed validation"
+      "key": "S02Q01",
+      "dependentKeys": ["S02Q01_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "1. Family Relationships: requires comment"
+    },
+    {
+      "key": "S02Q02",
+      "dependentKeys": ["S02Q02_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "2. Living Arrangements: requires comment"
+    },
+    {
+      "key": "S02Q03",
+      "dependentKeys": ["S02Q03_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "3. Companion/Significant Others: requires comment"
+    },
+    {
+      "key": "S02Q04",
+      "dependentKeys": ["S02Q04_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "4. Academic/Vocational Skills: requires comment"
+    },
+    {
+      "key": "S02Q05",
+      "dependentKeys": ["S02Q05_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "5. Financial Management Skills: requires comment"
+    },
+    {
+      "key": "S02Q06",
+      "dependentKeys": ["S02Q06_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "6. Behavioural/Emotional Stability: requires comment"
+    },
+    {
+      "key": "S02Q07",
+      "dependentKeys": ["S02Q07_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "7. Substance Misuse: requires comment"
+    },
+    {
+      "key": "S02Q08",
+      "dependentKeys": ["S02Q08_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "8. Attitude requires: comment"
     }
+
   ]
 
 }
