@@ -2088,7 +2088,11 @@ components:
       properties:
         clientFormId:
           type: number
-        jsonString:
+        formLevelComments:
+          type: string
+        sourcesContacted:
+          type: string
+        planSummary:
           type: string
     ClientFormAnswerInput:
       title: ClientFormAnswerInput

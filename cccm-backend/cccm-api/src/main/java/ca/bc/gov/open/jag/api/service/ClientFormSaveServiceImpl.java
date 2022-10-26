@@ -76,6 +76,9 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
         formInput.setClientFormId(completeFormInput.getClientFormId());
+        formInput.setFormLevelComments(completeFormInput.getFormLevelComments());
+        formInput.setPlanSummary(completeFormInput.getPlanSummary());
+        formInput.setSourcesContacted(completeFormInput.getSourcesContacted());
         formInput.setCompletionDate(LocalDate.now());
 
         return obridgeClientService.createForm(formInput);
