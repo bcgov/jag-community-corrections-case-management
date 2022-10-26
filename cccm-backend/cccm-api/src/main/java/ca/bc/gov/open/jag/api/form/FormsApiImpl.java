@@ -7,6 +7,8 @@ import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -31,6 +33,11 @@ public class FormsApiImpl implements FormsApi {
 
     @Inject
     ValidationService validationService;
+
+
+    @Inject
+    @Claim(standard = Claims.preferred_username)
+    String username;
 
     @Override
     @Transactional
@@ -108,8 +115,8 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-delete")
-    public void deleteClientForm(BigDecimal clientFormId, String xLocationId) {
-        //TODO: implement delete
+    public void deleteClientForm(BigDecimal clientFormId, String clientNum, String xLocationId) {
+        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username);
     }
 
     @Override

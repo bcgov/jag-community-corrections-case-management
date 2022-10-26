@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.api.model.data.SupervisorDashboard;
+import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
@@ -248,4 +249,9 @@ public interface ObridgeClientService {
     @Path("/forms/client/{clientFormId}")
     String updateForm(@PathParam("clientFormId") BigDecimal clientFormId,
             @RequestBody String payload);
+
+    @DELETE
+    @Path("/forms/client/delete")
+    String deleteForm(@RequestBody DeleteRequest deleteRequest);
+
 }
