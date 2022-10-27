@@ -6,10 +6,10 @@
         <div class="column L">
           <div class="menu-Sticky">
             <div class="menuR1">
-              <FormioFormInfo :key="staticComponentKey" :dataModel="formInfoData" />
+              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
-              <FormNavigation :key="navComponentKey" 
+              <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
                 :parentNavJumpToPointed="parentNavJumpToPointed"
@@ -55,7 +55,7 @@
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
-                <FormioSidePanel :key="staticComponentKey" 
+                <FormioSidePanel :key="formInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"/>
               </div>
@@ -114,8 +114,7 @@ export default {
       formInitData: {},
       dataMap: {},
       componentKey: 0,
-      navComponentKey: 0,
-      staticComponentKey: 0,
+      formInfoKey: 0,
       showSummaryCounter: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
@@ -131,6 +130,7 @@ export default {
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
       const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
+      //this.formInfoKey++;
       if (error) {
         console.error(error);
       } else {
@@ -148,6 +148,7 @@ export default {
         }
         // Client profile search.
         const [error, response] = await clientProfileSearch(this.csNumber);
+        this.formInfoKey++;
         // if (error) {
         //   console.error(error);
         // } else {
@@ -261,8 +262,6 @@ export default {
           
         //}
       };
-      
-      this.staticComponentKey++;
     },
     async getFormioTemplate() {
       // Load formio template
@@ -275,7 +274,7 @@ export default {
         this.loadingMsg = "Setup navigation...";
         this.data_formEntries = response;
         // force FormNavigation to refresh.
-        this.navComponentKey++;
+        this.componentKey++;
 
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
         if (this.totalNumParentNav >= 2) {
@@ -288,6 +287,7 @@ export default {
         // Load form data
         this.loadingMsg = "Loading client form data...";
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
+        console.log("client form data: ", clientFormData)
         if (error) {
           console.error(error);
         } else {
@@ -295,7 +295,6 @@ export default {
         }
       }
       this.loading = false;
-      this.componentKey++;
     },
     navToSectionAndQuestion(section: number, question: number) {
       //console.log("Navigating %d %d", section, question);
