@@ -37,8 +37,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     public ClientFormSaveServiceImpl(ObjectMapper objectMapper) throws IOException {
         objectMapper.findAndRegisterModules();
-
-        cloneConfig = objectMapper.readValue(Paths.get("configs/clone_config.json").toFile(), CloneConfig.class);
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        cloneConfig = objectMapper.readValue(loader.getResourceAsStream("configs/clone_config.json"), CloneConfig.class);
 
     }
 
