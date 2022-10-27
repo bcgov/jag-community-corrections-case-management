@@ -161,6 +161,20 @@
       "key": "S01Q01",
       "type": "REQUIRED",
       "message": "Overall Supervision Rating: is required"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_desc"],
+      "dependentValues": ["ACVS","ATAS","BEES","COSO","EMPA","FARE","FIMA","LIAR","PRCA","SUMI"],
+      "message": ""
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_specify", "intervention_desc"],
+      "dependentValues": ["OTHR"],
+      "message": ""
     }
 
   ]
