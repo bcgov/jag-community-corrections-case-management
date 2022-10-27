@@ -5,19 +5,18 @@ import ca.bc.gov.open.jag.api.model.validation.Validation;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.netty.util.internal.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ca.bc.gov.open.jag.api.Keys.INTERVENTION_DATAGRID;
-import static ca.bc.gov.open.jag.api.Keys.INTERVENTION_KEY_PATTERN;
+import static ca.bc.gov.open.jag.api.Keys.*;
 import static ca.bc.gov.open.jag.api.model.validation.ValidationType.*;
 
 @RequestScoped
@@ -28,9 +27,9 @@ public class ValidationServiceImpl implements ValidationService {
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
         objectMapper.findAndRegisterModules();
-
-        crnaValidation = objectMapper.readValue(Paths.get("configs/crna_validation_config.json").toFile(), Validation.class);
-        saraValidation = objectMapper.readValue(Paths.get("configs/sara_validation_config.json").toFile(), Validation.class);
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        crnaValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/crna_validation_config.json"), Validation.class);
+        saraValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/sara_validation_config.json"), Validation.class);
 
     }
 
@@ -53,15 +52,15 @@ public class ValidationServiceImpl implements ValidationService {
         List<ValidationError> errors = new ArrayList<>();
 
         for(Question question: formValidation.getQuestions()) {
-            if (question.getValidationType().equals(CONDITIONAL)) {
-                if (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(findAnswerByKey(answers, question.getKey()))) {
+            if (question.getType().equals(CONDITIONAL)) {
+                if (isAnswerTriggered(answers, question.getKey(), question.getDependentValues()) && isAnswerValid(answers, question.getDependentKeys())) {
                     errors.add(createValidationError(question.getKey(), question.getMessage()));
                 }
-            } else if (question.getValidationType().equals(REQUIRED)) {
+            } else if (question.getType().equals(REQUIRED)) {
                 if (StringUtils.isBlank(findAnswerByKey(answers, question.getKey()))) {
                     errors.add(createValidationError(question.getKey(), question.getMessage()));
                 }
-            } else if (question.getValidationType().equals(INTERVENTION_CONDITIONAL)) {
+            } else if (question.getType().equals(INTERVENTION_CONDITIONAL)) {
                 errors.addAll(validationIntervention(answers, question));
             }
         }
@@ -87,11 +86,28 @@ public class ValidationServiceImpl implements ValidationService {
 
     }
 
-    private Boolean isAnswerTriggered(String answers, List<String> keys, List<String> possibleResponses) {
+    private Boolean isAnswerTriggered(String answers, String key, List<String> possibleResponses) {
+
+        String answer = findAnswerByKey(answers, key);
+        if (possibleResponses.contains(answer)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    /**
+     *
+     * @param answers all answers
+     * @param keys keys to be validated
+     * @return true if any dependent answers failed validation
+     */
+    private Boolean isAnswerValid(String answers, List<String> keys) {
 
         for(String key: keys) {
             String answer = findAnswerByKey(answers, key);
-            if (possibleResponses.contains(answer)) {
+            if (StringUtils.isBlank(answer)) {
                 return true;
             }
 
@@ -103,7 +119,14 @@ public class ValidationServiceImpl implements ValidationService {
 
     private String findAnswerByKey(String answers, String key) {
 
-        JSONObject jsonData = new JSONObject(answers);
+        JSONObject jsonData = null;
+        JSONObject outerData = new JSONObject(answers);
+        if (outerData.has(OUTER_DATA_ELEMENT)) {
+            jsonData = outerData.getJSONObject(OUTER_DATA_ELEMENT);
+        } else {
+            jsonData = outerData;
+        }
+
         if (jsonData.has(key)) {
             return jsonData.getString(key);
         }
@@ -114,7 +137,14 @@ public class ValidationServiceImpl implements ValidationService {
 
     private List<ValidationError> validationIntervention(String answers, Question question) {
         List<ValidationError> validationErrors = new ArrayList<>();
-        JSONObject jsonData = new JSONObject(answers);
+        JSONObject jsonData = null;
+        JSONObject outerData = new JSONObject(answers);
+        if (outerData.has(OUTER_DATA_ELEMENT)) {
+            jsonData = outerData.getJSONObject(OUTER_DATA_ELEMENT);
+        } else {
+            jsonData = outerData;
+        }
+
         for (String key: jsonData.keySet()) {
             if (key.contains(INTERVENTION_DATAGRID)) {
                 JSONArray jsonArray = jsonData.getJSONArray(key);

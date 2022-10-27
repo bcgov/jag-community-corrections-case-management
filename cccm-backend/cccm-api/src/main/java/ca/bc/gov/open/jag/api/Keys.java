@@ -13,5 +13,6 @@ public class Keys {
     public static final String SARA_FORM_TYPE = "SARA";
     public static final String INTERVENTION_DATAGRID = "intervention_datagrid";
     public static final String INTERVENTION_KEY_PATTERN = "{0}_{1}";
+    public static final String OUTER_DATA_ELEMENT = "data";
 
 }
