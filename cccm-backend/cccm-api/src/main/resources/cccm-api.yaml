@@ -454,6 +454,35 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
+  /forms/client/validate/crna:
+    post:
+      tags:
+        - crna-forms
+      summary: validateCRNAForm
+      operationId: validateCRNAForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/client/sara:
     post:
       parameters:
@@ -489,6 +518,35 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
+  /forms/client/validate/sara:
+    post:
+      tags:
+        - sara-forms
+      summary: validateSARAForm
+      operationId: validateSARAForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/{clientFormId}/client:
     put:
       parameters:
@@ -500,7 +558,7 @@ paths:
             type: number
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - crna-sara-forms
+        - tests
       summary: Update form level comments and questions, e.g., form comments; responsivities
       operationId: updateForm
       requestBody:
@@ -559,10 +617,42 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
+  /forms/{clientFormId}/client/{clientNum}/delete:
+    delete:
+      tags:
+        - crna-sara-forms
+      summary: delete an existing client form
+      operationId: deleteClientForm
+      parameters:
+        - name: clientFormId
+          in: path
+          description: clientFormId
+          required: true
+          schema:
+            type: number
+        - name: clientNum
+          in: path
+          required: true
+          schema:
+            type: string
+          style: simple
+        - $ref: "#/components/parameters/xLocationId"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
   /forms/client/clone:
     post:
       tags:
-        - client-forms
+        - crna-sara-forms
       summary: Clone an existing client form
       operationId: cloneClientForm
       parameters:
@@ -2403,3 +2493,17 @@ components:
           type: string
         clientFormId:
           type: number
+    ValidationResult:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    ValidationError:
+      type: object
+      properties:
+        answerKey:
+          type: string
+        message:
+          type: string

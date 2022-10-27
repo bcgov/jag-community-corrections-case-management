@@ -2,6 +2,8 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.FormInput;
+import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
+import ca.bc.gov.open.jag.api.util.JwtUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CompleteFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -61,6 +63,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setCompletionDate(LocalDate.now());
 
         return obridgeClientService.createForm(formInput);
+
+    }
+
+
+    @Override
+    public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId) {
+
+        obridgeClientService.deleteForm(new DeleteRequest(clientFormId, locationId, clientNum, JwtUtils.stripUserName(idirId)));
 
     }
 
