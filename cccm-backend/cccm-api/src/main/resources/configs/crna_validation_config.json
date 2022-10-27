@@ -167,14 +167,14 @@
       "type": "INTERVENTION_CONDITIONAL",
       "dependentKeys": ["intervention_desc"],
       "dependentValues": ["ACVS","ATAS","BEES","COSO","EMPA","FARE","FIMA","LIAR","PRCA","SUMI"],
-      "message": ""
+      "message": "Intervention is missing description"
     },
     {
       "key": "intervention_type",
       "type": "INTERVENTION_CONDITIONAL",
       "dependentKeys": ["intervention_specify", "intervention_desc"],
       "dependentValues": ["OTHR"],
-      "message": ""
+      "message": "Intervention set to 'Other' is missing a description"
     }
 
   ]

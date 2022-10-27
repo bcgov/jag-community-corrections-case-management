@@ -6,13 +6,19 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ca.bc.gov.open.jag.api.Keys.INTERVENTION_DATAGRID;
+import static ca.bc.gov.open.jag.api.Keys.INTERVENTION_KEY_PATTERN;
+import static ca.bc.gov.open.jag.api.model.validation.ValidationType.*;
 
 @RequestScoped
 public class ValidationServiceImpl implements ValidationService {
@@ -31,52 +37,36 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public ValidationResult validateCRNA(String answers) {
 
-        List<ValidationError> failedValidations = new ArrayList<>();
-
-        for(Question question: crnaValidation.getQuestions()) {
-
-            if (!validate(answers, question)) {
-                failedValidations.add(createValidationError(question.getKey(), question.getMessage()));
-            }
-
-        }
-
-        return createValidationResult(failedValidations);
+        return createValidationResult(validate(answers, crnaValidation));
 
     }
 
     @Override
     public ValidationResult validateSARA(String answers) {
 
-        List<ValidationError> failedValidations = new ArrayList<>();
-
-        for(Question question: saraValidation.getQuestions()) {
-
-            if (validate(answers, question).equals(true)) {
-                failedValidations.add(createValidationError(question.getKey(), question.getMessage()));
-            }
-
-        }
-
-        return createValidationResult(failedValidations);
+        return createValidationResult(validate(answers, saraValidation));
 
     }
 
-    private Boolean validate(String answers, Question question) {
+    private List<ValidationError> validate(String answers, Validation formValidation) {
 
-        String answer = findAnswerByKey(answers, question.getKey());
+        List<ValidationError> errors = new ArrayList<>();
 
-        switch (question.getValidationType()) {
-            case CONDITIONAL: {
-                return (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(answer));
-            }
-            case REQUIRED: {
-                return StringUtils.isBlank(answer);
-            }
-            default: {
-                return false;
+        for(Question question: formValidation.getQuestions()) {
+            if (question.getValidationType().equals(CONDITIONAL)) {
+                if (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(findAnswerByKey(answers, question.getKey()))) {
+                    errors.add(createValidationError(question.getKey(), question.getMessage()));
+                }
+            } else if (question.getValidationType().equals(REQUIRED)) {
+                if (StringUtils.isBlank(findAnswerByKey(answers, question.getKey()))) {
+                    errors.add(createValidationError(question.getKey(), question.getMessage()));
+                }
+            } else if (question.getValidationType().equals(INTERVENTION_CONDITIONAL)) {
+                errors.addAll(validationIntervention(answers, question));
             }
         }
+
+        return errors;
 
     }
 
@@ -120,6 +110,39 @@ public class ValidationServiceImpl implements ValidationService {
 
         return null;
 
+    }
+
+    private List<ValidationError> validationIntervention(String answers, Question question) {
+        List<ValidationError> validationErrors = new ArrayList<>();
+        JSONObject jsonData = new JSONObject(answers);
+        for (String key: jsonData.keySet()) {
+            if (key.contains(INTERVENTION_DATAGRID)) {
+                JSONArray jsonArray = jsonData.getJSONArray(key);
+                String[] keyParts = key.split("_");
+                validationErrors.addAll(validateInterventionGrid(jsonArray, question, keyParts[0]));
+            }
+        }
+
+        return validationErrors;
+    }
+
+    private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {
+
+        List<ValidationError> validationErrors = new ArrayList<>();
+
+        for (int i=0; i < jsonArray.length(); i++) {
+            String answer = jsonArray.getJSONObject(i).getString(MessageFormat.format(INTERVENTION_KEY_PATTERN, keyPart, question.getKey()));
+            if (question.getDependentValues().contains(answer)) {
+                for (String requiredAnswerKey: question.getDependentKeys()) {
+                    String requiredAnswer = jsonArray.getJSONObject(i).getString(MessageFormat.format(INTERVENTION_KEY_PATTERN, keyPart, requiredAnswerKey));
+                    if (StringUtils.isBlank(requiredAnswer)) {
+                        validationErrors.add(createValidationError(MessageFormat.format(INTERVENTION_KEY_PATTERN, keyPart, requiredAnswerKey), question.getMessage()));
+                    }
+                }
+            }
+        }
+
+        return validationErrors;
     }
 
 }

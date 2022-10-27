@@ -11,7 +11,7 @@ public class Keys {
     public static final String SEARCH_TYPE_EXACT = "EXACT";
     public static final String CRNA_FORM_TYPE = "CRNA";
     public static final String SARA_FORM_TYPE = "SARA";
-
-
+    public static final String INTERVENTION_DATAGRID = "intervention_datagrid";
+    public static final String INTERVENTION_KEY_PATTERN = "{0}_{1}";
 
 }
