@@ -54,7 +54,113 @@
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q08_COMMENT"],
       "dependentValues": ["C","D"],
-      "message": "8. Attitude requires: comment"
+      "message": "8. Attitude: requires comment"
+    },
+    {
+      "key": "S02Q01",
+      "type": "REQUIRED",
+      "message": "1. Family Relationships: is required"
+    },
+    {
+      "key": "S02Q02",
+      "type": "REQUIRED",
+      "message": "2. Living Arrangements: is required"
+    },
+    {
+      "key": "S02Q03",
+      "type": "REQUIRED",
+      "message": "3. Companion/Significant Others: is required"
+    },
+    {
+      "key": "S02Q04",
+      "type": "REQUIRED",
+      "message": "4. Academic/Vocational Skills: is required"
+    },
+    {
+      "key": "S02Q05",
+      "type": "REQUIRED",
+      "message": "5. Financial Management Skills: is required"
+    },
+    {
+      "key": "S02Q06",
+      "type": "REQUIRED",
+      "message": "6. Behavioural/Emotional Stability: is required"
+    },
+    {
+      "key": "S02Q07",
+      "type": "REQUIRED",
+      "message": "7. Substance Misuse: is required"
+    },
+    {
+      "key": "S02Q08",
+      "type": "REQUIRED",
+      "message": "8. Attitude: is required"
+    },
+    {
+      "key": "S03Q01",
+      "type": "REQUIRED",
+      "message": "1. # of Current Convictions/Peace Bonds: is required"
+    },
+    {
+      "key": "S03Q02",
+      "type": "REQUIRED",
+      "message": "2. # of Prior Court Dispositions: is required"
+    },
+    {
+      "key": "S03Q03",
+      "type": "REQUIRED",
+      "message": "3. # of Prior Supervision Periods: is required"
+    },
+    {
+      "key": "S03Q04",
+      "type": "REQUIRED",
+      "message": "4. # of Prior Failures to Comply: is required"
+    },
+    {
+      "key": "S03Q05",
+      "type": "REQUIRED",
+      "message": "5. Age at First Arrest / Conviction: is required"
+    },
+    {
+      "key": "S03Q06",
+      "type": "REQUIRED",
+      "message": "6. Ever Imprisoned After a Conviction: is required"
+    },
+    {
+      "key": "S03Q07",
+      "type": "REQUIRED",
+      "message": "7. Escape History: is required"
+    },
+    {
+      "key": "S03Q08",
+      "type": "REQUIRED",
+      "message": "8. Weapon Use / Threat: is required"
+    },
+    {
+      "key": "S03Q09",
+      "type": "REQUIRED",
+      "message": "9. Frequency of Violence: is required"
+    },
+    {
+      "key": "S03Q10",
+      "type": "REQUIRED",
+      "message": "10. Severity of Violence: is required"
+    },
+
+    {
+      "key": "S01Q02",
+      "type": "REQUIRED",
+      "message": "Overall Needs Rating: is required"
+    },
+    {
+      "key": "S01Q03",
+      "type": "REQUIRED",
+      "message": "Overall Risk Rating: is required"
+    },
+    {
+      "key": "S01Q01",
+      "type": "REQUIRED",
+      "message": "Overall Supervision Rating: is required"
     }
 
   ]

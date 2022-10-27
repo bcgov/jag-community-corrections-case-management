@@ -34,9 +34,8 @@ public class ValidationServiceImpl implements ValidationService {
         List<ValidationError> failedValidations = new ArrayList<>();
 
         for(Question question: crnaValidation.getQuestions()) {
-            String answer = findAnswerByKey(answers, question.getKey());
 
-            if (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(answer)) {
+            if (!validate(answers, question)) {
                 failedValidations.add(createValidationError(question.getKey(), question.getMessage()));
             }
 
@@ -52,15 +51,32 @@ public class ValidationServiceImpl implements ValidationService {
         List<ValidationError> failedValidations = new ArrayList<>();
 
         for(Question question: saraValidation.getQuestions()) {
-            String answer = findAnswerByKey(answers, question.getKey());
 
-            if (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(answer)) {
+            if (validate(answers, question).equals(true)) {
                 failedValidations.add(createValidationError(question.getKey(), question.getMessage()));
             }
 
         }
 
         return createValidationResult(failedValidations);
+
+    }
+
+    private Boolean validate(String answers, Question question) {
+
+        String answer = findAnswerByKey(answers, question.getKey());
+
+        switch (question.getValidationType()) {
+            case CONDITIONAL: {
+                return (isAnswerTriggered(answers, question.getDependentKeys(), question.getDependentValues()) && StringUtils.isBlank(answer));
+            }
+            case REQUIRED: {
+                return StringUtils.isBlank(answer);
+            }
+            default: {
+                return false;
+            }
+        }
 
     }
 
