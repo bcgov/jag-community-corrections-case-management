@@ -89,20 +89,25 @@ public class FormsApiImpl implements FormsApi {
     @Transactional
     @RolesAllowed("form-add")
     public BigDecimal cloneClientForm(String xLocationId, @Valid CloneForm cloneForm) {
-        return clientDataService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)));
+        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)), username);
     }
 
     @Override
     @RolesAllowed("form-add")
-    public BigDecimal completeForm(@Valid @NotNull CompleteFormInput createFormInput, String xLocationId) {
+    public BigDecimal completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
         return clientFormSaveService.completeForm(createFormInput, new BigDecimal(xLocationId));
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
+        clientFormSaveService.editForm(updateFormInput, new BigDecimal(xLocationId));
     }
 
     @Override
     @RolesAllowed("form-add")
     public BigDecimal createCrnaForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
 
-        //createFormInput.setLocationId(new BigDecimal(xLocationId));
         return clientFormSaveService.createCRNA(createFormInput, new BigDecimal(xLocationId));
 
     }
