@@ -5,6 +5,7 @@ import java.util.List;
 public class Question {
 
     private String key;
+    private ValidationType type;
     private List<String> dependentKeys;
     private List<String> dependentValues;
     private String message;
@@ -40,4 +41,13 @@ public class Question {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public ValidationType getType() {
+        return type;
+    }
+
+    public void setType(ValidationType type) {
+        this.type = type;
+    }
+
 }

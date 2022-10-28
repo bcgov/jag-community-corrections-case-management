@@ -145,11 +145,6 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest) {
-        return obridgeClientService.cloneForm(cloneFormRequest);
-    }
-
-    @Override
     public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
         log.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
         return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );

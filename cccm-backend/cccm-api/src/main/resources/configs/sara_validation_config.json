@@ -1,5 +1,5 @@
 {
-  "validation": [
+  "questions": [
     {
       "key": "123",
       "dependentKeys": ["123"],

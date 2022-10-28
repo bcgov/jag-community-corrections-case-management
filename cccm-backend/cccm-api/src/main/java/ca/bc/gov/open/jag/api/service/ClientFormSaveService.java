@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CompleteFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 
@@ -16,5 +17,7 @@ public interface ClientFormSaveService {
     BigDecimal completeForm(CompleteFormInput completeFormInput, BigDecimal locationId);
 
     void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId);
+
+    BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest);
 
 }

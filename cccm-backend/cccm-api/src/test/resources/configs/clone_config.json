@@ -1,0 +1,13 @@
+{
+  "forms" : [
+    {
+      "formType": "CRNA",
+      "ignoreKeys": ["S01Q02","S01Q03","S01Q01"]
+    },
+    {
+      "formType": "SARA",
+      "ignoreKeys": ["S01Q01","S03Q08","S03Q09","S03Q10","S03Q08_COMMENT","S03Q09_COMMENT","S03Q10_COMMENT"]
+    }
+  ]
+
+}
