@@ -302,7 +302,7 @@ export async function getFormioTemplate(clientNum: String, formId: number) {
     // return [null, tmpData];
 }
 
-// function to update form data
+// function to update form section question data
 export async function updateForm( csNumber: number,clientFormId: number, formData: object) {
     try{
         //console.log("Update form payload", formData);
