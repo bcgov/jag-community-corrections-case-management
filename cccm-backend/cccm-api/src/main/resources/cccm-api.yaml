@@ -588,14 +588,14 @@ paths:
         - $ref: "#/components/parameters/xLocationId"
       tags:
         - crna-sara-forms
-      summary: completeForm
+      summary: Complete Form a Form
       operationId: completeForm
       requestBody:
-        description: completeFormInput
+        description: updateFormInput
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CompleteFormInput'
+              $ref: '#/components/schemas/UpdateFormInput'
         required: true
       responses:
         200:
@@ -616,7 +616,42 @@ paths:
         404:
           description: Not Found
           content: {}
-      x-codegen-request-body-name: createFormInput
+      x-codegen-request-body-name: updateFormInput
+  /forms/client/edit:
+    put:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: Unlock a Form
+      operationId: editForm
+      requestBody:
+        description: updateFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: updateFormInput
   /forms/{clientFormId}/client/{clientNum}/delete:
     delete:
       tags:
@@ -2083,11 +2118,13 @@ components:
         linkedClientFormId:
           type: number
           description: required to link a form
-    CompleteFormInput:
+    UpdateFormInput:
       type: object
       properties:
         clientFormId:
           type: number
+        clientNumber:
+          type: string
         formLevelComments:
           type: string
         sourcesContacted:
