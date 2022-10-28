@@ -633,14 +633,8 @@ paths:
               $ref: '#/components/schemas/UpdateFormInput'
         required: true
       responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: number
-        201:
-          description: Created
+        204:
+          description: No Content
           content: {}
         401:
           description: Unauthorized
@@ -2123,8 +2117,6 @@ components:
       properties:
         clientFormId:
           type: number
-        clientNumber:
-          type: string
         formLevelComments:
           type: string
         sourcesContacted:
