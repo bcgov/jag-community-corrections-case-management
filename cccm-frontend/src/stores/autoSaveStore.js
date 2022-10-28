@@ -4,13 +4,13 @@ import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 export const useStore = defineStore('autosave', { 
     // state
     state: () =>({
-        keyValueMap: [{key: '', value: ''}]
+        keyValueMap: []
     }),
     actions: {
         addOne(key, value) {
             let found = false;
-            for(i = 0; i< keyValueMap.length; i++){    
-                if(keyValueMap[i].key === key){
+            for(let i = 0; i< this.keyValueMap.length; i++){    
+                if(this.keyValueMap[i].key === key){
                     found = true;
                     break;
                 }        
@@ -19,15 +19,15 @@ export const useStore = defineStore('autosave', {
                 let newItem = {};
                 newItem.key = key;
                 newItem.value = value;
-                keyValueMap.push(newItem);  
+                this.keyValueMap.push(newItem);  
             }
         },
         addArray(dataArray) {
             if (dataArray != null) {
-                for(j = 0; j < dataArray.length; j++){   
+                for(let j = 0; j < dataArray.length; j++){   
                     let found = false; 
-                    for(i = 0; i< keyValueMap.length; i++){    
-                        if(keyValueMap[i].key === dataArray[j].key){
+                    for(let i = 0; i< this.keyValueMap.length; i++){    
+                        if(this.keyValueMap[i].key === dataArray[j].key){
                             found = true;
                             break;
                         }        
@@ -36,15 +36,15 @@ export const useStore = defineStore('autosave', {
                         let newItem = {};
                         newItem.key = dataArray[j].key;
                         newItem.value = dataArray[j].value;
-                        keyValueMap.push(newItem);  
+                        this.keyValueMap.push(newItem);  
                     }
                 }
             }
         },
         getValue(key) {
-            for(i = 0; i< keyValueMap.length; i++){    
-                if(keyValueMap[i].key === key){
-                    return keyValueMap[i].value;
+            for(let i = 0; i< this.keyValueMap.length; i++){    
+                if(this.keyValueMap[i].key === key){
+                    return this.keyValueMap[i].value;
                 }        
             }
         }

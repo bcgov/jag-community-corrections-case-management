@@ -29,17 +29,17 @@ export default {
   },
   data() {
     return {
-        CONST_CONTAINER: 'container',
-        keyCaseplan: 0,
-        loading: false,
-        autoSaveData: {},
-        autoSaveDataCandidate: {},
+      CONST_MAX_RETRY: 1,
+      CONST_CONTAINER: 'container',
+      keyCaseplan: 0,
+      loading: false,
+      autoSaveData: {},
+      autoSaveDataCandidate: {},
+      saving: false,
     }
   },
   mounted() {
-    console.log("caseplan mounted");
     // reset the indicator
-    this.savingSuccess = false;
     this.saving = false;
 
     // fetch interventions 
@@ -47,32 +47,46 @@ export default {
   },
   methods: {
     async autoSave() {
-      //console.log("autosave");
       //only start saving if previous saving is done
-      //console.log("this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
       if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
+        // deep copy of autoSaveDataCandidate, and assign it to autoSaveData 
         this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
-        console.log("autosave data: ", this.autoSaveData);
+
         //clear this.autoSaveDataCandidate, so we are not repeatedly saving it
         this.autoSaveDataCandidate = {};
         
         // Repeat the saving till it succeeds
-       //while(!this.savingSuccess) {
+        let savingCnt = 0;
+        while(savingCnt < this.CONST_MAX_RETRY) {
           try {
             this.saving = true;
-            this.savingSuccess = true;
-            this.saving = false;
             const [error, response] = await updateForm(this.csNumber, this.clientFormId, this.autoSaveData);
             if (error) {
               console.error(error);
             } else {
-              this.savingSuccess = true;
               this.saving = false;
+              break;
             }
           } catch (err) {
             console.error("Saving case plan data failed %o", err);
           } 
-       // }
+        }
+        // Saving failed after CONST_MAX_RETRY where this.saving flag didn't set to true, do the following:
+        // 1. Add payload back to the autoSaveDataCandidate, so we don't miss out data saving.
+        // 2. Set the this.saving flag to false so autosave can continue
+        if (this.saving) {
+          this.private_mergePayload(this.autoSaveData);
+          this.saving = false;
+          console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
+        }
+      }
+    },
+    private_mergePayload(source) {
+      for (let i = 0; i < Object.keys(source); i++) {
+        let key = Object.keys(source)[i];
+        if (this.autoSaveDataCandidate[key] == null) {
+          this.autoSaveDataCandidate[key] = source[key];
+        }
       }
     },
     async getCasePlanInterventionAPI() {
@@ -95,14 +109,12 @@ export default {
         //console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
         // don't trigger the autosave on every key stroke, keep the latest values for now.
         // Trigger the autosave when blur event occurs.
-        console.log("textarea changed: ", event.data);
         let containerKey = this.private_isPartOfContainer(event.changed.instance);
         let theKey = event.changed.component.key;
         if (containerKey != null) {
-          //console.log("part of a containter: ", containerKey);
           theKey = containerKey;
         } 
-        this.private_addToAutoSaveDataCandidate(theKey, event.data);
+        this.private_addToAutoSaveDataCandidate(theKey, event.data, false);
       }
 
       // Trigger autosave
@@ -117,16 +129,18 @@ export default {
         if (containerKey != null) {
           theKey = containerKey;
         } 
-        this.private_addToAutoSaveDataCandidate(theKey, event.data);
+        this.private_addToAutoSaveDataCandidate(theKey, event.data, true);
       }
     },
     handleBlurEvent(event) {
       //console.log("From blur event, this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
       this.autoSave();
     },
-    private_addToAutoSaveDataCandidate(key, eventData) {
+    private_addToAutoSaveDataCandidate(key, eventData, autoSaveNow) {
       this.autoSaveDataCandidate[key] = eventData[key];
-      console.log("candidate after: ", this.autoSaveDataCandidate);
+      if (autoSaveNow) {
+        this.autoSave();
+      }
     },
     private_isPartOfContainer(theInstance) {
       //console.log("check partof dataGrid: ", theInstance);
