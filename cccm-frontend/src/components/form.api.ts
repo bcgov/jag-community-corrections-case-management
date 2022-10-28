@@ -543,12 +543,12 @@ export async function photoSearch(clientNum: String) {
 }
 
 // Supervisor dashboard search
-export async function dashboardSupervisorSearch(supervisorID: String) {
+export async function dashboardSupervisorSearch() {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/supervisor', {
             params: {
-                userId: supervisorID
+                userId: ""
             }
         });
         return [null, data];
@@ -562,14 +562,10 @@ export async function dashboardSupervisorSearch(supervisorID: String) {
 //------------------------------------------
 
 // PO dashboard search
-export async function dashboardPOSearch(poID: String) {
+export async function dashboardPOSearch() {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get('/dashboards/po', {
-            params: {
-                userId: poID
-            }
-        });
+        const { data } = await axiosClient.get('/dashboards/po');
         return [null, data];
     } catch (error) {
         return [error];

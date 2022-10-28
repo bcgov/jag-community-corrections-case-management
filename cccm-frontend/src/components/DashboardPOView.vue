@@ -183,7 +183,7 @@ export default {
   },
   mounted(){
     //form search from the backend
-    this.dashboardPOSearch(this.$route.params.poID)
+    this.dashboardPOSearch()
   },
   methods: {
     selectClient(csNumber) {
@@ -237,218 +237,220 @@ export default {
       this.keyExpandRow++;
       // TO BE REMOVED END
     },
-    async dashboardPOSearch(POID) {
-      const [error, response] = await dashboardPOSearch(null, null, null, null,
-            null, null, null, POID, null);
+    async dashboardPOSearch() {
+      const [error, response] = await dashboardPOSearch();
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("PO search: ", response);
+        this.clientList = response;
+        //update the counts
+        for (let el of this.clientList) {
+          for (let d of el.designation) {
+            if (d == this.CONST_DESIGNATION_GEN) {
+              this.numOfGen++;
+            }
+            if (d == this.CONST_DESIGNATION_SMO) {
+              this.numOfSMO++;
+            }
+            if (d == this.CONST_DESIGNATION_IPV) {
+              this.numOfIPV++;
+            }
+          }
+        }
+
+        // populate this.initDataArray
+        this.getInitData();
+      }
       //this.initData = response.data;
       this.key_results++;
       this.loading = false;
-      this.clientList =   
-        [
-          {
-            "clientID": 2551.0005,
-            "csNumber": "00142091",
-            "clientName": "Arsenault, Sonja",
-            "designation": ["GEN", "IPV", "SMO"],
-            "inCustody": "Y", 
-            "orderExpiryDate": "2022-10-10",
-            "supervisionRating": "H",
-            "rnaCompleteDate": "2022-08-10",
-            "dueNext": "Conditions Due",
-            "dueDate": "2022-08-15",
-            "birthDate": "1979-12-03",
-            "rnaStatus": "OD",
-            "communityAlerts": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff"
-              }
-            ],
-            "outstandingWarrants": [],
-            "nextAppointmentDate": "2022-12-01",
-            "orderEffectiveDate": "2022-11-01",
-            "programs": [
-              {
-                "referredDate": "2022-01-02",
-                "name": "Violence Prevention",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              },
-              {
-                "referredDate": "2022-01-02",
-                "name": "Substance Abuse",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              }
-            ],
-            "nextCourtDate": "2022-11-01"
-          },
-          {
-            "clientID": 21321232,
-            "csNumber": "123456781",
-            "clientName": "Kovlachek, Maria",
-            "designation": ["GEN"],
-            "inCustody": "N", 
-            "orderExpiryDate": "2022-10-04",
-            "supervisionRating": "H",
-            "rnaCompleteDate": "2022-08-12",
-            "dueNext": "Bail Expiry Date",
-            "dueDate": "2022-08-10",
-            "birthDate": "1979-12-03",
-            "rnaStatus": "OD",
-            "communityAlerts": [],
-            "outstandingWarrants": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting",
-                "fileNumber": "18-0184"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff",
-                "fileNumber": "18-0184"
-              }
-            ],
-            "nextAppointmentDate": "2022-12-01",
-            "orderEffectiveDate": "2022-11-01",
-            "programs": [],
-            "nextCourtDate": "2022-11-01"
-          },
-          {
-            "clientID": 342321312,
-            "csNumber": "123456782",
-            "clientName": "Shiau, Ann",
-            "designation": ["GEN", "IPV"],
-            "inCustody": "N", 
-            "orderExpiryDate": "2022-12-10",
-            "supervisionRating": "H",
-            "rnaCompleteDate": "2022-10-10",
-            "dueNext": "CRNA-CMP",
-            "dueDate": "2022-08-09",
-            "birthDate": "1979-12-03",
-            "rnaStatus": "OD",
-            "communityAlerts": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff"
-              },
-              {
-                "date": "2022-03-02",
-                "details": "Client brought knife to meeting"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff"
-              }
-            ],
-            "outstandingWarrants": [],
-            "nextAppointmentDate": "2022-12-01",
-            "orderEffectiveDate": "2022-11-01",
-            "programs": [
-              {
-                "referredDate": "2022-01-02",
-                "name": "Violence Prevention",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              },
-              {
-                "referredDate": "2022-01-02",
-                "name": "Substance Abuse",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              }
-            ],
-            "nextCourtDate": "2022-11-01"
-          },
-          {
-            "clientID": 2433312,
-            "csNumber": "123456783",
-            "clientName": "Tyler, Steven",
-            "designation": ["GEN", "IPV", "SMO"],
-            "inCustody": "Y", 
-            "orderExpiryDate": "2022-11-10",
-            "supervisionRating": "H",
-            "rnaCompleteDate": "2022-05-10",
-            "dueNext": "CRNA-CMP",
-            "dueDate": "2022-10-10",
-            "birthDate": "1979-12-03",
-            "rnaStatus": "OD",
-            "communityAlerts": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff"
-              },
-              {
-                "date": "2022-04-02",
-                "details": "Client attacked staff"
-              }
-            ],
-            "outstandingWarrants": [
-              {
-                "date": "2022-01-02",
-                "details": "Client threatened staff",
-                "fileNumber": "18-0184"
-              }
-            ],
-            "nextAppointmentDate": "2022-12-01",
-            "orderEffectiveDate": "2022-11-01",
-            "programs": [
-              {
-                "referredDate": "2022-01-02",
-                "name": "Violence Prevention",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              },
-              {
-                "referredDate": "2022-01-02",
-                "name": "Substance Abuse",
-                "status": "Enrolled",
-                "startDate": "2022-01-02",
-                "outcome": "Failed to complete"
-              }
-            ],
-            "nextCourtDate": "2022-11-01"
-          }
-        ];
-      //update the counts
-      for (let el of this.clientList) {
-        for (let d of el.designation) {
-          if (d == this.CONST_DESIGNATION_GEN) {
-            this.numOfGen++;
-          }
-          if (d == this.CONST_DESIGNATION_SMO) {
-            this.numOfSMO++;
-          }
-          if (d == this.CONST_DESIGNATION_IPV) {
-            this.numOfIPV++;
-          }
-        }
-      }
-
-      // populate this.initDataArray
-      this.getInitData();
-
-      if (error) {
-        console.error(error);
-      }       
+      // this.clientList =   
+      //   [
+      //     {
+      //       "clientID": 2551.0005,
+      //       "csNumber": "00142091",
+      //       "clientName": "Arsenault, Sonja",
+      //       "designation": ["GEN", "IPV", "SMO"],
+      //       "inCustody": "Y", 
+      //       "orderExpiryDate": "2022-10-10",
+      //       "supervisionRating": "H",
+      //       "rnaCompleteDate": "2022-08-10",
+      //       "dueNext": "Conditions Due",
+      //       "dueDate": "2022-08-15",
+      //       "birthDate": "1979-12-03",
+      //       "rnaStatus": "OD",
+      //       "communityAlerts": [
+      //         {
+      //           "date": "2022-01-02",
+      //           "details": "Client threatened staff"
+      //         },
+      //         {
+      //           "date": "2022-03-02",
+      //           "details": "Client brought knife to meeting"
+      //         },
+      //         {
+      //           "date": "2022-04-02",
+      //           "details": "Client attacked staff"
+      //         }
+      //       ],
+      //       "outstandingWarrants": [],
+      //       "nextAppointmentDate": "2022-12-01",
+      //       "orderEffectiveDate": "2022-11-01",
+      //       "programs": [
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Violence Prevention",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         },
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Substance Abuse",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         }
+      //       ],
+      //       "nextCourtDate": "2022-11-01"
+      //     },
+      //     {
+      //       "clientID": 21321232,
+      //       "csNumber": "123456781",
+      //       "clientName": "Kovlachek, Maria",
+      //       "designation": ["GEN"],
+      //       "inCustody": "N", 
+      //       "orderExpiryDate": "2022-10-04",
+      //       "supervisionRating": "H",
+      //       "rnaCompleteDate": "2022-08-12",
+      //       "dueNext": "Bail Expiry Date",
+      //       "dueDate": "2022-08-10",
+      //       "birthDate": "1979-12-03",
+      //       "rnaStatus": "OD",
+      //       "communityAlerts": [],
+      //       "outstandingWarrants": [
+      //         {
+      //           "date": "2022-01-02",
+      //           "details": "Client threatened staff",
+      //           "fileNumber": "18-0184"
+      //         },
+      //         {
+      //           "date": "2022-03-02",
+      //           "details": "Client brought knife to meeting",
+      //           "fileNumber": "18-0184"
+      //         },
+      //         {
+      //           "date": "2022-04-02",
+      //           "details": "Client attacked staff",
+      //           "fileNumber": "18-0184"
+      //         }
+      //       ],
+      //       "nextAppointmentDate": "2022-12-01",
+      //       "orderEffectiveDate": "2022-11-01",
+      //       "programs": [],
+      //       "nextCourtDate": "2022-11-01"
+      //     },
+      //     {
+      //       "clientID": 342321312,
+      //       "csNumber": "123456782",
+      //       "clientName": "Shiau, Ann",
+      //       "designation": ["GEN", "IPV"],
+      //       "inCustody": "N", 
+      //       "orderExpiryDate": "2022-12-10",
+      //       "supervisionRating": "H",
+      //       "rnaCompleteDate": "2022-10-10",
+      //       "dueNext": "CRNA-CMP",
+      //       "dueDate": "2022-08-09",
+      //       "birthDate": "1979-12-03",
+      //       "rnaStatus": "OD",
+      //       "communityAlerts": [
+      //         {
+      //           "date": "2022-01-02",
+      //           "details": "Client threatened staff"
+      //         },
+      //         {
+      //           "date": "2022-03-02",
+      //           "details": "Client brought knife to meeting"
+      //         },
+      //         {
+      //           "date": "2022-04-02",
+      //           "details": "Client attacked staff"
+      //         }
+      //       ],
+      //       "outstandingWarrants": [],
+      //       "nextAppointmentDate": "2022-12-01",
+      //       "orderEffectiveDate": "2022-11-01",
+      //       "programs": [
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Violence Prevention",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         },
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Substance Abuse",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         }
+      //       ],
+      //       "nextCourtDate": "2022-11-01"
+      //     },
+      //     {
+      //       "clientID": 2433312,
+      //       "csNumber": "123456783",
+      //       "clientName": "Tyler, Steven",
+      //       "designation": ["GEN", "IPV", "SMO"],
+      //       "inCustody": "Y", 
+      //       "orderExpiryDate": "2022-11-10",
+      //       "supervisionRating": "H",
+      //       "rnaCompleteDate": "2022-05-10",
+      //       "dueNext": "CRNA-CMP",
+      //       "dueDate": "2022-10-10",
+      //       "birthDate": "1979-12-03",
+      //       "rnaStatus": "OD",
+      //       "communityAlerts": [
+      //         {
+      //           "date": "2022-01-02",
+      //           "details": "Client threatened staff"
+      //         },
+      //         {
+      //           "date": "2022-04-02",
+      //           "details": "Client attacked staff"
+      //         }
+      //       ],
+      //       "outstandingWarrants": [
+      //         {
+      //           "date": "2022-01-02",
+      //           "details": "Client threatened staff",
+      //           "fileNumber": "18-0184"
+      //         }
+      //       ],
+      //       "nextAppointmentDate": "2022-12-01",
+      //       "orderEffectiveDate": "2022-11-01",
+      //       "programs": [
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Violence Prevention",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         },
+      //         {
+      //           "referredDate": "2022-01-02",
+      //           "name": "Substance Abuse",
+      //           "status": "Enrolled",
+      //           "startDate": "2022-01-02",
+      //           "outcome": "Failed to complete"
+      //         }
+      //       ],
+      //       "nextCourtDate": "2022-11-01"
+      //     }
+      //   ];
+      
     },
     getColor(dueDateStr) {
       const dueDate = new Date(dueDateStr);
