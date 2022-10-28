@@ -8,8 +8,8 @@ import ca.bc.gov.open.jag.api.model.service.CloneForm;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.api.util.JwtUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CompleteFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
@@ -18,7 +18,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +70,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal completeForm(CompleteFormInput completeFormInput, BigDecimal locationId) {
+    public BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId) {
 
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
@@ -85,6 +84,20 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     }
 
+    @Override
+    public void editForm(UpdateFormInput updateFormInput, BigDecimal locationId) {
+
+        FormInput formInput = new FormInput();
+        formInput.setLocationId(locationId);
+        formInput.setClientFormId(updateFormInput.getClientFormId());
+        formInput.setFormLevelComments(updateFormInput.getFormLevelComments());
+        formInput.setPlanSummary(updateFormInput.getPlanSummary());
+        formInput.setSourcesContacted(updateFormInput.getSourcesContacted());
+        formInput.setCompletionDate(null);
+
+        obridgeClientService.createForm(formInput);
+
+    }
 
     @Override
     public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId) {
@@ -95,7 +108,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
 
     @Override
-    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest) {
+    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId) {
 
         //Get Form Details
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
