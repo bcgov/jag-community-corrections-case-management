@@ -433,9 +433,9 @@ export async function formSearch(clientNum: String, formType: String, currentPer
 }
 
 // function to search client based on general info
-export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String,
+export async function clientSearchByGeneralInfo(age: number, birthYear: number, gender: String,
     givenName: String, identifier: String, identifierType: String, lastName: String,
-    limitToLocation: String, range: String, soundex: String) {
+    limitToLocation: boolean, range: number, soundex: boolean) {
     try{
         console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
                 "birthYear: " + birthYear + "; " +
@@ -447,34 +447,20 @@ export async function clientSearchByGeneralInfo(age: String, birthYear: String, 
                 "limitToLocation: " + limitToLocation + "; " +
                 "range: " + range + "; " +
                 "soundex: " + soundex);
-        // Build url
-        let url = "/clients?";
-        url += age == '' ? '' : "age=" + age;
-        url += birthYear == '' ? '' : "&birthYear=" + birthYear;
-        url += gender == '' ? '' : "&gender=" + gender;
-        url += givenName == '' ? '' : "&givenName=" + givenName;
-        url += identifier == '' ? '' : "&identifier=" + identifier;
-        url += identifierType == '' ? '' : "&identifierType=" + identifierType;
-        url += lastName == '' ? '' : "&lastName=" + lastName;
-        url += limitToLocation == '' ? '' : "&limitToLocation=" + limitToLocation;
-        url += range == '' ? '' : "&range=" + range;
-        url += soundex == null ? '' : "&soundex=" + soundex;
-        // const { data } = await axiosClient.get('/clients', {
-        //     params: {
-        //         age: age,
-        //         birthYear: birthYear,
-        //         gender: gender,
-        //         givenName: givenName,
-        //         identifier: identifier,
-        //         identifierType: identifierType,
-        //         lastName: lastName,
-        //         limitToLocation: limitToLocation,
-        //         range: range,
-        //         soundex: soundex
-        //     }
-        // });
-        //console.log("url: ", url);
-        const { data } = await axiosClient.get(url);
+        const { data } = await axiosClient.get('/clients', {
+            params: {
+                lastName: lastName,
+                soundex: soundex,
+                givenName: givenName,
+                birthYear: birthYear,
+                age: age,
+                range: range,
+                limitToLocation: limitToLocation,
+                gender: gender,
+                identifierType: identifierType,
+                identifier: identifier                
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];
