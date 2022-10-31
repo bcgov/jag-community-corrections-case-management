@@ -160,7 +160,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         } else {
             answerJson = outerData;
         }
-        
+
         for (String key: cloneForm.getIgnoreKeys()) {
             answerJson.remove(key);
         }
