@@ -646,6 +646,35 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: updateFormInput
+  /forms/client/link:
+    put:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - crna-sara-forms
+      summary: link a form to another
+      operationId: linkForm
+      requestBody:
+        description: updateFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFormInput'
+        required: true
+      responses:
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: updateFormInput
   /forms/{clientFormId}/client/{clientNum}/delete:
     delete:
       tags:
@@ -2106,6 +2135,8 @@ components:
           type: string
     CreateFormInput:
       type: object
+      required:
+        - clientNumber
       properties:
         clientNumber:
           type: string
@@ -2114,9 +2145,17 @@ components:
           description: required to link a form
     UpdateFormInput:
       type: object
+      required:
+        - clientFormId
+        - formLevelComments
+        - sourcesContacted
+        - planSummary
       properties:
         clientFormId:
           type: number
+        linkedClientFormId:
+          type: number
+          description: required to link a form
         formLevelComments:
           type: string
         sourcesContacted:
