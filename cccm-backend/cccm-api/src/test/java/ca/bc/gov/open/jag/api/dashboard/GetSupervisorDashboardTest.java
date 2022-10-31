@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class GetSupervisorDashboardTest {
 
         Mockito.when(userDataService.getSupervisorDashboard(any(), any())).thenReturn(createSupervisorList());
 
-        List<SupervisorDashboard> result = sut.getSupervisorDashboard(null, "TEST");
+        List<SupervisorDashboard> result = sut.getSupervisorDashboard(null, BigDecimal.ONE);
 
         Assertions.assertEquals(1, result.size());
 
@@ -46,7 +47,7 @@ public class GetSupervisorDashboardTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboard(null,"TEST"));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboard(null, BigDecimal.ONE));
 
     }
 
@@ -54,7 +55,7 @@ public class GetSupervisorDashboardTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboard(null,"TEST"));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboard(null, BigDecimal.ONE));
 
     }
 

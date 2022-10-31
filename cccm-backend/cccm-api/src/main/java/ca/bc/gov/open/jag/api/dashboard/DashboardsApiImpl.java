@@ -11,6 +11,7 @@ import org.jboss.logmanager.Level;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,9 +29,9 @@ public class DashboardsApiImpl implements DashboardsApi {
 
     @Override
     @RolesAllowed("po-manage")
-    public List<SupervisorDashboard> getSupervisorDashboard(String xLocationId, String userId) {
-        logger.warning("This is not implemented");
-        return userDataService.getSupervisorDashboard(username, xLocationId);
+    public List<SupervisorDashboard> getSupervisorDashboard(String xLocationId, BigDecimal locationId) {
+        logger.info("Supervisor dashboard request");
+        return userDataService.getSupervisorDashboard(username, locationId);
 
     }
 
@@ -38,7 +39,7 @@ public class DashboardsApiImpl implements DashboardsApi {
     @RolesAllowed("client-search")
     public List<PODashboard> getPODashboard(String xLocationId) {
 
-        logger.log(Level.DEBUG, "Dashboard request received");
+        logger.info("Dashboard request received");
 
         return userDataService.getPODashboard(username, xLocationId);
 

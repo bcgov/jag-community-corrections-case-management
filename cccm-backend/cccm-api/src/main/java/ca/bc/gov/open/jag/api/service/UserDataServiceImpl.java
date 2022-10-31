@@ -65,7 +65,7 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public List<SupervisorDashboard> getSupervisorDashboard(String user, String location) {
-        return userMapper.toSupervisorDashboardList(obridgeClientService.getSupervisorDashboard(stripUserName(user), new BigDecimal(location)));
+    public List<SupervisorDashboard> getSupervisorDashboard(String user, BigDecimal location) {
+        return userMapper.toSupervisorDashboardList(obridgeClientService.getSupervisorDashboard(stripUserName(user),location));
     }
 }
