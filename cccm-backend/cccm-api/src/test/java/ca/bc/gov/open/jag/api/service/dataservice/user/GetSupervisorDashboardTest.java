@@ -36,7 +36,7 @@ public class GetSupervisorDashboardTest {
 
         Mockito.when(obridgeClientService.getSupervisorDashboard(Mockito.any(), Mockito.any())).thenReturn(createSupervisorResult());
 
-        List<SupervisorDashboard> result = sut.getSupervisorDashboard("test@idir", "123");
+        List<SupervisorDashboard> result = sut.getSupervisorDashboard("test@idir", BigDecimal.ONE);
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(TEST_PO, result.get(0).getOfficer());
