@@ -22,8 +22,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
-import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
+import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.Keys.OUTER_DATA_ELEMENT;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
@@ -153,8 +153,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     private String stripAnswers(String answers, CloneForm cloneForm) {
 
-        JSONObject answerJson = new JSONObject(answers);
-
+        JSONObject answerJson = null;
+        JSONObject outerData = new JSONObject(answers);
+        if (outerData.has(OUTER_DATA_ELEMENT)) {
+            answerJson = outerData.getJSONObject(OUTER_DATA_ELEMENT);
+        } else {
+            answerJson = outerData;
+        }
+        
         for (String key: cloneForm.getIgnoreKeys()) {
             answerJson.remove(key);
         }
