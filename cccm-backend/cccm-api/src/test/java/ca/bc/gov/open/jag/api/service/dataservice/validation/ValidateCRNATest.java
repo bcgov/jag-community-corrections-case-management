@@ -15,7 +15,7 @@ import java.io.IOException;
 @QuarkusTest
 public class ValidateCRNATest {
 
-    private static String DATA_ONE = "{\n" +
+    private static final String DATA_ONE = "{\n" +
             "    \"data\": {\n" +
             "        \"S02Q01\": \"A\",\n" +
             "        \"S02Q01_COMMENT\": \"update my comments please aasdfsdf\",\n" +
@@ -96,7 +96,7 @@ public class ValidateCRNATest {
             "    \"clientFormId\": 389821\n" +
             "}";
 
-    private static String DATA_TWO = "{\n" +
+    private static final String DATA_TWO = "{\n" +
             "    \"S02Q01\": \"A\",\n" +
             "    \"S02Q01_COMMENT\": \"update my comments please aasdfsdf\",\n" +
             "    \"S02Q01_intervention_checkbox\": true,\n" +

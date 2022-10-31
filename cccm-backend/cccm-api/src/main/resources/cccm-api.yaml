@@ -265,9 +265,9 @@ paths:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
-          name: userId
+          name: locationId
           schema:
-            type: string
+            type: number
       responses:
         "200":
           content:
