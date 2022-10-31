@@ -16,7 +16,9 @@ public interface ClientFormSaveService {
 
     BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId);
 
-    void editForm(UpdateFormInput completeFormInput, BigDecimal locationId);
+    void editForm(UpdateFormInput updateFormInput, BigDecimal locationId);
+
+    void linkForm(UpdateFormInput linkFormInput, BigDecimal locationId);
 
     void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId);
 

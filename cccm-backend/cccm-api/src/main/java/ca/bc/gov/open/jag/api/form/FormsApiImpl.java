@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.form;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
@@ -18,6 +19,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static ca.bc.gov.open.jag.api.error.CCCMErrorCode.VALIDATIONERROR;
 
 @RequestScoped
 public class FormsApiImpl implements FormsApi {
@@ -102,6 +105,15 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-add")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
         clientFormSaveService.editForm(updateFormInput, new BigDecimal(xLocationId));
+    }
+
+    @Override
+    public void linkForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
+        if (updateFormInput.getLinkedClientFormId() == null) {
+            throw new CCCMException("Linked form id is required", VALIDATIONERROR);
+        }
+        clientFormSaveService.linkForm(updateFormInput, new BigDecimal(xLocationId));
+
     }
 
     @Override

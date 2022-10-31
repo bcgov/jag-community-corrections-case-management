@@ -98,6 +98,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
+    public void linkForm(UpdateFormInput linkFormInput, BigDecimal locationId) {
+
+        FormInput formInput = new FormInput();
+        formInput.setLocationId(locationId);
+        formInput.setClientFormId(linkFormInput.getClientFormId());
+        formInput.setFormLevelComments(linkFormInput.getFormLevelComments());
+        formInput.setPlanSummary(linkFormInput.getPlanSummary());
+        formInput.setSourcesContacted(linkFormInput.getSourcesContacted());
+        formInput.setLinkedClientFormId(linkFormInput.getLinkedClientFormId());
+
+        obridgeClientService.createForm(formInput);
+
+    }
+
+    @Override
     public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId) {
 
         obridgeClientService.deleteForm(new DeleteRequest(clientFormId, locationId, clientNum, JwtUtils.stripUserName(idirId)));
