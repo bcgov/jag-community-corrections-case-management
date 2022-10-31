@@ -103,7 +103,7 @@
             <v-select
               solo
               :items="items"
-              value=5
+              v-model="itemsPerPage"
               dense
               item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"
@@ -138,10 +138,10 @@ export default {
       formInfoTemplate: template,
       formJSON: {},
       // datatable variables
-      items: ['1', '2', '5', '10', '15'],
+      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
-      itemsPerPage: 5,
+      itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
       search: '',

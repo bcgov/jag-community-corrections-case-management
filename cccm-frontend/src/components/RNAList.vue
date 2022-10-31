@@ -129,7 +129,7 @@
       <div v-if="!loading" class="text-center pt-2">
         <div class="row justify-content-between pl-3 pr-3">
           <div class="col-sm-1">
-            <v-select solo :items="items" value=5 dense item-color="primary"
+            <v-select solo :items="items" v-model="itemsPerPage" dense item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"></v-select>
           </div>
           <div class="col-sm-10">
@@ -177,10 +177,10 @@ export default {
       const_rating_high: "High",
       key_rnalistSearchResult: 0,
       // datatable variables
-      items: ['1', '2', '5', '10', '15'],
+      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
-      itemsPerPage: 5,
+      itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       currentPeriod: "all",
       totalClients: 0,
       loading: true,

@@ -36,7 +36,7 @@
             :key="key_results"
             :headers="headers"
             :search="search"
-            :items="filteredOfficerList"
+            :items="officerList"
             item-key="officer"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
@@ -145,7 +145,7 @@
             <v-select
               solo
               :items="items"
-              value=5
+              v-model="itemsPerPage"
               dense
               item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"
@@ -176,13 +176,13 @@ export default {
     return {
       key_results: 0,
       key_location: 0,
-      selectedLocation: {value: "ALL", key: ""},
+      selectedLocation: {},
       locationTypes: [],
       // datatable variables
-      items: ['1', '2', '5', '10', '15'],
+      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
-      itemsPerPage: 5,
+      itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
       headers: [
@@ -199,17 +199,16 @@ export default {
       ],
       expanded: [],
       singleExpand: false,
-      filteredOfficerList: [],
       officerList: [],
       search: '',
-      baseURL: import.meta.env.BASE_URL,
+      baseURL: import.meta.env.BASE_URL
     }
   },
   mounted(){
     this.selectedLocation.key = this.mainStore.locationCD;
     this.selectedLocation.value = this.mainStore.locationDescription;
     this.locationTypes = this.mainStore.locations;
-    this.locationTypes.unshift({value: "ALL", key: ""});
+    console.log("this.$CONST_DATATABLE_ITEMS_PER_PAGE: ", this.$CONST_DATATABLE_ITEMS_PER_PAGE);
 
     //form search from the backend
     this.getPOList();
@@ -219,36 +218,26 @@ export default {
       this.key_results++;
       this.key_location++;
 
-      this.dashboardSupervisorSearch();
+      this.dashboardSupervisorSearch(this.selectedLocation.key);
     },
     sumField(key) {
       // sum data in give key (property)
-      return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
+      return this.officerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
       console.log("locationType: ", locationType);
-
-      // TODO: to be updated once API returns location info for each PO
-      this.filteredOfficerList = this.officerList;
-      // this.filteredOfficerList = this.officerList.filter(el => {
-      //   if (locationType == '') {
-      //     return el.locations;
-      //   }
-      //   return el.locations.includes(locationType.toLowerCase());
-      // });
+      // search based on the newly selected location
+      this.dashboardSupervisorSearch(locationType);
       this.key_results++;
     },
-    async dashboardSupervisorSearch() {
-      const [error, response] = await dashboardSupervisorSearch();
+    async dashboardSupervisorSearch(locationId) {
+      const [error, response] = await dashboardSupervisorSearch(locationId);
       this.loading = false;
       if (error) {
         console.error(error);
       } else {
         console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
-        
-        // apply location filter
-        this.applyLocationFilter(this.selectedLocation.key);
       }
     }
   },

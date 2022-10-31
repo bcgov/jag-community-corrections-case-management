@@ -529,12 +529,12 @@ export async function photoSearch(clientNum: String) {
 }
 
 // Supervisor dashboard search
-export async function dashboardSupervisorSearch() {
+export async function dashboardSupervisorSearch(locationId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/supervisor', {
             params: {
-                userId: ""
+                locationId: locationId
             }
         });
         return [null, data];
