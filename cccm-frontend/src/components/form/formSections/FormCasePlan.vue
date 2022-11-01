@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      CONST_MAX_RETRY: 1,
+      CONST_MAX_RETRY: 5,
       CONST_CONTAINER: 'container',
       keyCaseplan: 0,
       loading: false,

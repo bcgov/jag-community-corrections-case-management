@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      CONST_MAX_RETRY: 1,
+      CONST_MAX_RETRY: 5,
       CONST_ID_SUFFIX: '_ID',
       CONST_COMMENT_SUFFIX: '_COMMENT',
       CONST_DATAGRID: 'datagrid',
