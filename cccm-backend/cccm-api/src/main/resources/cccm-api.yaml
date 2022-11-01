@@ -286,6 +286,10 @@ paths:
       operationId: GetPODashboard
       parameters:
         - $ref: "#/components/parameters/xLocationId"
+        - in: query
+          name: userId
+          schema:
+            type: string
       responses:
         "200":
           content:

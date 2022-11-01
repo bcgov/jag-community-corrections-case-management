@@ -37,11 +37,11 @@ public class DashboardsApiImpl implements DashboardsApi {
 
     @Override
     @RolesAllowed("client-search")
-    public List<PODashboard> getPODashboard(String xLocationId) {
+    public List<PODashboard> getPODashboard(String xLocationId, String userId) {
 
         logger.info("Dashboard request received");
 
-        return userDataService.getPODashboard(username, xLocationId);
+        return userDataService.getPODashboard(userId, xLocationId);
 
     }
 
