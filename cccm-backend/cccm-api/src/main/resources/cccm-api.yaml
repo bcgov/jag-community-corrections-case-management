@@ -281,6 +281,28 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: dashboards
+  /dashboards/supervisor/details:
+    get:
+      operationId: GetSupervisorDashboardDetails
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+        - in: query
+          name: userId
+          schema:
+            type: number
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupervisorDashboardDetails'
+          description: get get supervisor dahsboard
+      summary: get supervisor dashboard
+      tags:
+        - dashboards
+      x-accepts: application/json
+      x-tags:
+        - tag: dashboards
   /dashboards/po:
     get:
       operationId: GetPODashboard
@@ -2097,6 +2119,15 @@ components:
           type: number
         activeReports:
           type: number
+        notRequired:
+          type: number
+    SupervisorDashboardList:
+      type: array
+      items:
+        $ref: '#/components/schemas/SupervisorDashboard'
+    SupervisorDashboardDetails:
+      type: object
+      properties:
         pcm:
           type: number
         scm:
@@ -2107,14 +2138,8 @@ components:
           type: number
         expiringThirty:
           type: number
-        notRequired:
-          type: number
         dueSeven:
           type: number
-    SupervisorDashboardList:
-      type: array
-      items:
-        $ref: '#/components/schemas/SupervisorDashboard'
     Code:
       type: object
       properties:

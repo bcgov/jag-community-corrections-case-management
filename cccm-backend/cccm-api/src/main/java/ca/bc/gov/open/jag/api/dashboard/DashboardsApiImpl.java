@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.DashboardsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.jboss.logmanager.Level;
@@ -33,6 +34,11 @@ public class DashboardsApiImpl implements DashboardsApi {
         logger.info("Supervisor dashboard request");
         return userDataService.getSupervisorDashboard(username, locationId);
 
+    }
+
+    @Override
+    public SupervisorDashboardDetails getSupervisorDashboardDetails(String xLocationId, BigDecimal userId) {
+        return null;
     }
 
     @Override
