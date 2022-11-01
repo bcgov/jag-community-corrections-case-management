@@ -566,6 +566,9 @@ export async function photoSearch(clientNum: String) {
     }
 }
 
+//------------------------------------------
+// Dashboard APIs
+//------------------------------------------
 // Supervisor dashboard search
 export async function dashboardSupervisorSearch(locationId: number) {
     try{
@@ -581,15 +584,30 @@ export async function dashboardSupervisorSearch(locationId: number) {
     }
 }
 
-//------------------------------------------
-// Dashboard APIs
-//------------------------------------------
-
-// PO dashboard search
-export async function dashboardPOSearch() {
+// Supervisor dashboard PO search
+export async function dashboardPODetailsSearch(userId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get('/dashboards/po');
+        const { data } = await axiosClient.get('/dashboards/supervisor/details', {
+            params: {
+                userId: userId
+            }
+        });
+        return [null, data];
+    } catch (error) {
+        return [error];
+    }
+}
+
+// PO dashboard search
+export async function dashboardPOSearch(userId: String) {
+    try{
+        //console.log("Officer search by supervisorID: ", supervisorID);
+        const { data } = await axiosClient.get('/dashboards/po', {
+            params: {
+                userId: userId
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];

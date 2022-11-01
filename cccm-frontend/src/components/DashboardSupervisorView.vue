@@ -40,6 +40,7 @@
             item-key="officer"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
+            @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
             class="elevation-1 text-center"
@@ -67,11 +68,12 @@
           <!--Customize the officer field, making it clickable-->
           <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <a :href="`${baseURL}dashboardpo`">{{item.officer}}</a>
+              <a :href="`${baseURL}dashboardpo/${item.IDIRId}`">{{item.officer}}</a>
             </td>
           </template>
           <!--Customize the expanded item to show more-->
           <template v-slot:expanded-item="{ headers, item }">
+            <span :key="keyExpandRow">
             <td :colspan="1"></td>
             <td :colspan="1">
               <strong>PCM</strong>
@@ -108,7 +110,9 @@
               <br />
               {{ item.dueSeven}}
             </td>
+          </span>
           </template>
+          
           <!--Customize the high field -->
           <template v-slot:item.high="{ item }">
             <div class="
@@ -166,9 +170,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import {dashboardSupervisorSearch} from "@/components/form.api";
-import {useStore} from "@/stores/store";
-import {mapStores} from 'pinia';
+import { dashboardSupervisorSearch, dashboardPODetailsSearch } from "@/components/form.api";
+import { useStore } from "@/stores/store";
+import { mapStores } from 'pinia';
 
 export default {
   name: 'OfficerList',
@@ -201,7 +205,8 @@ export default {
       singleExpand: false,
       officerList: [],
       search: '',
-      baseURL: import.meta.env.BASE_URL
+      baseURL: import.meta.env.BASE_URL,
+      keyExpandRow: 0,
     }
   },
   mounted(){
@@ -214,6 +219,40 @@ export default {
     this.getPOList();
   },
   methods: {
+    expandRow ({ item, value }) {
+      // call searchPhotoAPI only when the photo hasn't loaded.
+      if (this.officerList != null && this.officerList[item.userId] != null 
+        && this.officerList[item.userId].poDetailFetched) {
+        return;
+      }
+      this.dashboardPODetailsSearchAPI(item.userId);
+    },
+    async dashboardPODetailsSearchAPI(POUserId) {
+      const [error, response] = await dashboardPODetailsSearch(POUserId);
+      if (error) {
+        console.error("Supervisor dashboard PO search failed: ", error);
+      } else {
+        console.log("Supervisor dashboard PO search: ", response);
+        //Cache the PO details into this.officerList object
+        // Set the poDetailFetched flag to true
+        if (this.officerList != null) {
+          for (let el of this.officerList) {
+            el.poDetailFetched = true;
+            if (el.userId == POUserId) {
+              el.pcm = response.pcm;
+              el.scm = response.scm;
+              el.smo = response.smo;
+              el.closedIncomplete = response.closedIncomplete;
+              el.expiringThirty = response.expiringThirty;
+              el.dueSeven = response.dueSeven;
+              break;
+            }
+          }
+        }
+        // Force refresh the expanded row
+        this.keyExpandRow++;
+      }
+    },
     async getPOList() {
       this.key_results++;
       this.key_location++;
@@ -238,6 +277,14 @@ export default {
       } else {
         console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
+
+        // preset the flag to false; 
+        this.officerList = this.officerList.filter(el => {
+          el.poDetailFetched = false;
+          el.IDIRId = 'BBAILES';
+          el.userId = '437593.0005';
+          return el;
+        });
       }
     }
   },
