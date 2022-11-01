@@ -28,8 +28,8 @@
 								"value": ""
 							}
 						],
-						"content": "<li><Strong>Name:</Strong> ${name}</li><li><Strong>CS#:</Strong> ${csNumber}</li><li><Strong>Gender:</Strong> ${gender}</li> <li><Strong>Date of Birth:</Strong> ${dob}</li> <li><Strong>Location:</Strong> ${location}</li> <li><Strong>Final Order Exp. Date:</Strong> ${orderExpDate}</li> ",
-						"refreshOnChange": false,
+						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Location:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.outLocation}}</li> <li><Strong>Final Order Exp. Date:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</li> ",
+						"refreshOnChange": true,
 						"type": "htmlelement",
 						"input": false,
 						"tableView": false

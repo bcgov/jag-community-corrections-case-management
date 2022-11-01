@@ -185,7 +185,6 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'Id (debug)', align: 'start', sortable: true, value: 'id' },
         { text: 'RNA Form', align: 'start', sortable: true, value: 'module' },
         { text: 'Assessment Status', value: 'reassessment' },
         { text: 'Status', value: 'status' },

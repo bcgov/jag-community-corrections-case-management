@@ -17,8 +17,8 @@
                             "value": ""
                         }
                     ],
-                    "content": "${formTitle}",
-                    "refreshOnChange": false,
+                    "content": "{{data.formTitle}}",
+                    "refreshOnChange": true,
                     "key": "html",
                     "type": "htmlelement",
                     "input": false,
@@ -46,8 +46,8 @@
 
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>Created Date: </Strong>${createdDate}</div><div><Strong>Created By: </Strong>${createdBy}</div>",
-                                                    "refreshOnChange": false,
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Created Date: </Strong>{{data.createdDate}}</div><div><Strong>Created By: </Strong>{{data.createdBy}}</div>",
+                                                    "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
                                                     "input": false,
@@ -72,8 +72,8 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>${updatedDate}</div><div><Strong>Completed Date: </Strong>${completedDate}</div>",
-                                                    "refreshOnChange": false,
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>{{data.updatedDate}}</div><div><Strong>Completed Date: </Strong>{{data.completedDate}}</div>",
+                                                    "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
                                                     "input": false,
@@ -98,8 +98,8 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>${formType}: </Strong>${clientFormType}</div><div><Strong>Location: </Strong>${location}</div>",
-                                                    "refreshOnChange": false,
+                                                    "content": "<div class='mb-3 mt-3'><Strong>{{data.formType}}: </Strong>{{data.clientFormType}}</div><div><Strong>Location: </Strong>{{data.location}}</div>",
+                                                    "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
                                                     "input": false,
@@ -139,8 +139,8 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "${formStatus}",
-                                    "refreshOnChange": false,
+                                    "content": "{{data.status}}",
+                                    "refreshOnChange": true,
                                     "key": "key_formStatus",
                                     "type": "htmlelement",
                                     "input": false,
