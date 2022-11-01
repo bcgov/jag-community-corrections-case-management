@@ -1,7 +1,7 @@
 <template>
     <Form :form="formJSON" 
     @evt_save="handleSave" 
-    @evt_saveDraft="handleSaveDraft" 
+    @evt_saveAndClose="handleSaveAndClose" 
     @evt_cancel="handleCancelForm" 
     @evt_print="handlePrint"/>
 </template>
@@ -63,9 +63,9 @@ export default {
         this.dataModel = [
           {
               "action": "event",
-              "event": "evt_saveDraft",
+              "event": "evt_saveAndClose",
               "key": "add_saveDraft",
-              "label": "Save as Draft",
+              "label": "Save and Close",
               "theme": "primary"
           },
           {
@@ -118,10 +118,10 @@ export default {
         this.$emit('saveContinueClicked', true);
       } 
     },
-    handleSaveDraft(evt) {
+    handleSaveAndClose(evt) {
       // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === this.dataModel[0].event ) {
-        this.$emit('saveDraftClicked', false);
+        this.$emit('saveCloseClicked', false);
       } 
     },
     handleCancelForm(evt) {

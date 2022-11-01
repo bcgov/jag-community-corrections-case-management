@@ -138,8 +138,6 @@ export default {
       }
     },
     async clientProfileSearchAPI() {
-      console.log("this.csNumber, this.initData", this.csNumber, this.initData);
-      
       // Client profile search.
       const [error, response] = await clientProfileSearch(this.csNumber);
       if (error) {

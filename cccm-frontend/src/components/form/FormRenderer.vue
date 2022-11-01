@@ -51,7 +51,7 @@
                 <!--Save draft button group-->
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
-                  @saveDraftClicked="handleSaveContinue" 
+                  @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
@@ -317,6 +317,17 @@ export default {
     handlePrintForm(evt) {
       console.log("handlePrint: "); 
       window.print();
+    },
+    handleSaveClose() {
+      console.log("handleSaveClose");
+      //Redirect User back to clientRecord.RNAList
+      this.$router.push({
+        name: 'clientrecord',
+        params: {
+          clientNum: this.csNumber,
+          tabIndex: 'tab-rl'
+        }
+      });
     },
     handleSaveContinue(continueToNextSection) {
       //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);

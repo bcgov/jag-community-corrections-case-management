@@ -204,7 +204,7 @@ export default {
       selectedSupervisionPeriods: "false",
       dialog: false,
       readonly: true,
-      selectedFormTypeValue: [],
+      selectedFormTypeValue: []
     }
   },
   mounted() {
@@ -299,8 +299,7 @@ export default {
     async createFormAPI(formType) {
       let formData = {};
       // set formData
-      formData.clientNumber = "00142091";
-      //formData.clientNumber = this.clientNum;
+      formData.clientNumber = this.clientNum;
       formData.linkedClientFormId = null;
 
       if (formType == this.$CONST_FORMTYPE_CRNA) {
@@ -309,7 +308,14 @@ export default {
         if (error) {
           console.error("Failed creating CRNA form instance", error);
         } else {
-          return CRNAformId;
+          //Redirect User to the newly created form
+          this.$router.push({
+            name: "cmpform",
+            params: {
+              formID: CRNAformId,
+              csNumber: this.clientNum
+            }
+          });
         }
       } else if (formType == this.$CONST_FORMTYPE_SARA) {
         // need to create a new 'SARA' form instance
@@ -317,10 +323,17 @@ export default {
         if (error) {
           console.error("Failed creating SARA form instance", error);
         } else {
-          return SARAformId;
+          console.log ("Newly created formID: ", SARAformId);
+          //Redirect User to the newly created form
+          this.$router.push({
+            name: "cmpform",
+            params: {
+              formID: SARAformId,
+              csNumber: this.clientNum
+            }
+          });
         }
       }
-      return null;
     },
     async formCloneAPI(formID) {
       const [error, response] = await cloneForm(formID);
@@ -366,7 +379,7 @@ export default {
       this.formCloneAPI(formID);
       this.formSearchAPI(this.clientNum, true);
     },
-    handleFormCreateBtnClick() {
+    async handleFormCreateBtnClick() {
       this.dialog = false;
       console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
 
@@ -374,19 +387,7 @@ export default {
       if (this.selectedFormTypeValue.includes("sara")) {
         formType = this.$CONST_FORMTYPE_SARA;
       }
-
-      let newCreatedFormId = null;
-      newCreatedFormId = this.createFormAPI(formType);
-      console.log("newCreatedFormID: ", newCreatedFormId);
-      
-      //Redirect User to the newly created form
-      this.$router.push({
-        name: "cmpform",
-        params: {
-          formID: newCreatedFormId,
-          csNumber: this.clientNum
-        }
-      });
+      this.createFormAPI(formType);
     },
     formCreate() {
       console.log("Create form btn click");
