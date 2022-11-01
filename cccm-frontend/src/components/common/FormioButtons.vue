@@ -119,7 +119,7 @@ export default {
       } 
     },
     handleSaveAndClose(evt) {
-      // emit an event, saveContinueClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
+      // emit an event, saveCloseClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === this.dataModel[0].event ) {
         this.$emit('saveCloseClicked', false);
       } 

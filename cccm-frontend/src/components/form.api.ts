@@ -367,6 +367,39 @@ export async function createSARAForm(formData: object) {
     }
 }
 
+// function to validate CRNA form
+export async function validateCRNAForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/validate/crna', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error validating crna form: %o", error);
+        return [error];
+    }
+}
+
+// function to validate SARA form
+export async function validateSARAForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/validate/sara', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error validating sara form: %o", error);
+        return [error];
+    }
+}
+
+// function to complete a form
+export async function completeForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/complete', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error completing a form: %o", error);
+        return [error];
+    }
+}
+
 // Get interventions for case plan view
 export async function getCasePlanIntervention(csNumber: String, clientFormId: number, includeLinkedForm: boolean) {
     try{

@@ -23,13 +23,17 @@
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
-              :initData="formInitData" />   
+              :initData="formInitData" 
+              :timeForValidate='timeForValidate'
+              @dataCollectedForValidate="handleValidationData"/>   
       
             <FormCaseplan v-if="displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"/>
+              :csNumber="csNumber"
+              :timeForValidate='timeForValidate'
+              @dataCollectedForValidate="handleValidationData"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -48,7 +52,7 @@
           <div class="R-Sticky">
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
-                <!--Save draft button group-->
+                <!--Save Close button group-->
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
@@ -57,7 +61,9 @@
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
-                  :clientFormId="formId"/>
+                  :clientFormId="formId"
+                  :timeForValidate='timeForValidate'
+                  @dataCollectedForValidate="handleValidationData"/>
               </div>
             </section>
           </div>
@@ -71,7 +77,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -119,11 +125,11 @@ export default {
       showSummaryCounter: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
-      casePlanDataModel: {"display": "form", "components": []}
+      casePlanDataModel: {"display": "form", "components": []},
+      timeForValidate: 0,
     }
   },
   mounted(){
-    this.displaySummary = false;
     this.getClientAndFormMeta();
     this.getFormioTemplate();
   },
@@ -238,6 +244,13 @@ export default {
         } 
         this.parentNavMoveToNext++;
       }
+
+      // If reaching the last section, time to validate the form and complete the form
+      if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
+        // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
+        this.timeForValidate++;
+        this.validateAndCompleteForm();
+      }
     },
     handleCancelForm() {
       //console.log("Cancel Form");
@@ -248,11 +261,9 @@ export default {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-      //this.private_showHideCasePlanInterventions(false);
 
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
-        //console.log("set displayCasePlan to true");
         this.displayCasePlan = true;
       }
       // User clicked 'Summary' section from the navigation panel
@@ -262,6 +273,50 @@ export default {
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
       }
+    },
+    async validateAndCompleteForm() {
+      let formData = {};
+      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+        const [error, crnaResult] = await validateCRNAForm(formData);
+        if (error) {
+          console.error("Failed validating CRNA form instance", error);
+        } else {
+          console.log("CRNA form validate sucess");
+          this.completeForm();
+        }
+      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+        const [error, saraResult] = await validateSARAForm(formData);
+        if (error) {
+          console.error("Failed validating SARA form instance", error);
+        } else {
+          this.completeForm();
+        }
+      }
+    },
+    async completeForm() {
+      let completeFormData = {};
+      completeFormData.clientFormId='';
+      completeFormData.linkedClientFormId='';
+      completeFormData.formLevelComments='';
+      completeFormData.sourcesContacted='';
+      completeFormData.planSummary='';
+
+      const [error, completResult] = await completeForm(completeFormData);
+      if (error) {
+        console.error("Failed completing a form instance", error);
+      } else {
+        //Redirect User back to clientRecord.RNAList
+        this.$router.push({
+          name: 'clientrecord',
+          params: {
+            clientNum: this.csNumber,
+            tabIndex: 'tab-rl'
+          }
+        });
+      }
+    }, 
+    handleValidationData(dataToValidate) {
+      console.log("dataToValidate: ", dataToValidate);
     }
   }  
 }
