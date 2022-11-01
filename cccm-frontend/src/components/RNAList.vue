@@ -335,9 +335,23 @@ export default {
       }
     },
     async formCloneAPI(formID) {
-      const [error, response] = await cloneForm(formID);
+      let formData = {};
+      // set formData
+      formData.clientNumber = this.clientNum;
+      formData.clientFormId = formID;
+
+      const [error, newFormId] = await cloneForm(formData);
       if (error) {
         console.error(error);
+      } else {
+        //Redirect User to the newly created form
+        this.$router.push({
+          name: "cmpform",
+          params: {
+            formID: newFormId,
+            csNumber: this.clientNum
+          }
+        });
       }
     },
     async formSearchAPI(clientNum, tobeRemoved_addOne) {

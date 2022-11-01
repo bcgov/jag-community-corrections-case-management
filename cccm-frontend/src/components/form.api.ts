@@ -326,9 +326,9 @@ export async function loadFormData(csNumber: number, clientFormId: number) {
 }
 
 // function to clone form
-export async function cloneForm(formId: number) {
+export async function cloneForm(formData: object) {
     try {
-        const { data } = await axiosClient.post(`/forms/client/clone/${formId}`);
+        const { data } = await axiosClient.post('/forms/client/clone', formData);
         return [null, data];
     }catch (error) {
         return [error];
@@ -336,8 +336,13 @@ export async function cloneForm(formId: number) {
 }
 
 // function to delete form
-export async function deleteForm(formId: number) {
-
+export async function deleteForm(clientFormId: number, clientNum: String) {
+    try {
+        const { data } = await axiosClient.delete(`/forms/${clientFormId}/client/${clientNum}/delete`);
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
 }
 
 // function to create CRNA form
