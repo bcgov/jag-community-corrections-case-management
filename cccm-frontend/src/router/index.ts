@@ -26,7 +26,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardpo/:poID',
+      path: '/dashboardpo',
       name: 'dashboardpo',
       component: DashboardPOView,
       meta: {
@@ -34,7 +34,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardsupervisor/:supervisorID',
+      path: '/dashboardsupervisor',
       name: 'dashboardsupervisor',
       component: DashboardSupervisorView,
       meta: {
@@ -112,14 +112,14 @@ router.beforeEach((to, from, next) => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == 'home') {
             if (Vue.$keycloak.hasRealmRole('po-manage')) {
-              next({ name: 'dashboardsupervisor', params: { supervisorID: subjectID } });
+              next({ name: 'dashboardsupervisor' });
             } else {
-              next({ name: 'dashboardpo', params: { poID: subjectID }  })
+              next({ name: 'dashboardpo' })
             }
           } else {
             // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
             if (to.name == 'dashboardsupervisor' && !Vue.$keycloak.hasRealmRole('po-manage')) {
-              next({ name: 'dashboardpo', params: { poID: subjectID }  })
+              next({ name: 'dashboardpo' })
             } else {
               // otherwise, direct them to dashboardpo view
               next()

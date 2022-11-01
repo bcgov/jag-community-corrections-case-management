@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
-import { getUserDefaultLocation, getUserLocations } from "@/components/form.api";
+import { async_getUserDefaultLocation, async_getUserLocations } from "@/components/form.api";
 
 export const useStore = defineStore('main', { 
     // state
@@ -26,39 +26,34 @@ export const useStore = defineStore('main', {
             this.locationCD = '';
             this.locationDescription = '';
         },
-        getUserLocations() {
+        async getUserLocations() {
             if (this.locations == null || this.locations.length == 0) {
                 console.info("Fetching user locations ...");
-                const [error, response] = getUserLocations();
+                const [error, response] = await async_getUserLocations();
                 if (error) {
                     console.error(error);
                 } else {
+                    //console.info("Locations fetched: ", response);
                     if (response != null && response.items != null) {
                         this.locations = response.items;
                     }
-                    //console.info("Location fetched: ", response.items);
                 }
-                // to be removed
-                this.locations = [{value: "Victoria Probation Office", key: "victoria"}, {value: "Vancouver", key: "vancouver"}, {value: "Nanaimo", key: "nanaimo"}];
             }
         },
-        getUserDefaultLocation() {
-            //console.info("Attempt to fetch getUserDefaultLocation.");
+        async getUserDefaultLocation() {
+            //console.info("Attempt to fetch async_getUserDefaultLocation.");
             if (this.locationCD == '') {
-                console.info("Fetching location ...");
-                const [error, response] = getUserDefaultLocation();
+                console.info("Fetching default location ...");
+                const [error, response] = await async_getUserDefaultLocation();
                 if (error) {
                     console.error(error);
                 } else {
+                    //console.info("Location fetched: ", response);
                     if (response != null) {
                         this.locationDescription = response.value;
                         this.locationCD = response.key;
                     }
-                    //console.info("Location fetched: ", response.items);
                 }
-                // to be removed
-                this.locationDescription = "Victoria Probation Office";
-                this.locationCD = "victoria";
             }
         }
     }

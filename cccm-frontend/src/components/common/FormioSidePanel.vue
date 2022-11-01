@@ -12,7 +12,25 @@ export default {
   name: 'FormioPanel',
   props: {
     dataModel: {},
-    clientFormId: 0
+    clientFormId: 0,
+    timeForValidate: {
+      type: Number,
+      default: 1,
+    }
+  },
+  watch: {
+    timeForValidate() {
+      // get event.data, emit dataCollectedForValidate event to parent
+      let sourcesContacted = {};
+      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
+      let textBox = document.getElementsByName(tbName);
+      
+      //hide textbox
+      if (textBox != null &&  textBox[0] != null) {
+        sourcesContacted[this.KEY_SOURCESCONTACTED] = textBox[0].value;
+      }
+      this.$emit('dataCollectedForValidate', sourcesContacted);
+    }
   },
   data() {
     return {
@@ -34,16 +52,6 @@ export default {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
-
-      // set client details
-      tmpJSONStr = tmpJSONStr.replaceAll('${name}', this.dataModel.clientName);
-      tmpJSONStr = tmpJSONStr.replaceAll('${csNumber}', this.dataModel.clientNumber);
-      tmpJSONStr = tmpJSONStr.replaceAll('${gender}', this.dataModel.gender);
-      tmpJSONStr = tmpJSONStr.replaceAll('${dob}', this.dataModel.birthDate);
-      tmpJSONStr = tmpJSONStr.replaceAll('${location}', this.dataModel.locationInformation == null ? '' : this.dataModel.locationInformation.outLocation);
-      tmpJSONStr = tmpJSONStr.replaceAll('${orderExpDate}', this.dataModel.orderInformation == null ? '' : this.dataModel.orderInformation.expiryDate);
-      
-      //console.log("FormInfoDataEntry: ", tmpJSON);
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
     },

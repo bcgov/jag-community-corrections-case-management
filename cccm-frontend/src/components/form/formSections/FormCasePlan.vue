@@ -22,14 +22,25 @@ export default {
     dataModel: {},
     initData: {},
     clientFormId: 0,
-    csNumber: ''
+    csNumber: '',
+    timeForValidate: {
+      type: Number,
+      default: 1,
+    }
   },
   components: {
     Form
   },
+  watch: {
+    timeForValidate() {
+      // get event.data, emit dataCollectedForValidate event to parent
+      let fullData = {};
+      this.$emit('dataCollectedForValidate', fullData);
+    }
+  },
   data() {
     return {
-      CONST_MAX_RETRY: 1,
+      CONST_MAX_RETRY: 5,
       CONST_CONTAINER: 'container',
       keyCaseplan: 0,
       loading: false,

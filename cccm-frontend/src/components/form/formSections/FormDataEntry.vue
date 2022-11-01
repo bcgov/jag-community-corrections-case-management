@@ -23,13 +23,24 @@ export default {
     initData: {},
     csNumber: '',
     formId: '',
+    timeForValidate: {
+      type: Number,
+      default: 1,
+    },
   },
   components: {
     Form
   },
+  watch: {
+    timeForValidate() {
+      // get event.data, emit dataCollectedForValidate event to parent
+      let fullData = {};
+      this.$emit('dataCollectedForValidate', fullData);
+    }
+  },
   data() {
     return {
-      CONST_MAX_RETRY: 1,
+      CONST_MAX_RETRY: 5,
       CONST_ID_SUFFIX: '_ID',
       CONST_COMMENT_SUFFIX: '_COMMENT',
       CONST_DATAGRID: 'datagrid',

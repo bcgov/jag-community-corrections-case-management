@@ -36,6 +36,8 @@ public interface UserMapper {
     @Mapping(target = "unknown", source = "unknown")
     @Mapping(target = "overdue", source = "overDueRNAs")
     @Mapping(target = "activeReports", source = "activeReports")
+    @Mapping(target = "notRequired", source = "notRequired")
+    @Mapping(target = "adminClosed", source = "adminClosed")
     SupervisorDashboard toSupervisorDashboard(ca.bc.gov.open.jag.api.model.data.SupervisorDashboard supervisorDashboard);
 
 }

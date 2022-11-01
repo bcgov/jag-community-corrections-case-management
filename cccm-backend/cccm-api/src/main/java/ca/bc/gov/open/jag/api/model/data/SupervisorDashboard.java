@@ -12,6 +12,15 @@ public class SupervisorDashboard {
     private Integer unknown;
     private Integer overDueRNAs;
     private Integer activeReports;
+    private Integer notRequired;
+
+    public Integer getNotRequired() {
+        return notRequired;
+    }
+
+    public void setNotRequired(Integer notRequired) {
+        this.notRequired = notRequired;
+    }
 
     public String getPoName() {
         return poName;

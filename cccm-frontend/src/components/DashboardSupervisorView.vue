@@ -36,8 +36,8 @@
             :key="key_results"
             :headers="headers"
             :search="search"
-            :items="filteredOfficerList"
-            item-key="poID"
+            :items="officerList"
+            item-key="officer"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
             no-results-text="No results found"
@@ -53,21 +53,21 @@
             <tr class="pink--text table-footer">
               <th></th>
               <th class="title text-left p-0">Total</th>
-              <th class="title">{{ sumField('numActive') }}</th>
-              <th class="title">{{ sumField('numAdminClosed') }}</th>
-              <th class="title">{{ sumField('numBAL') }}</th>
-              <th class="title">{{ sumField('numHigh') }}</th>
-              <th class="title">{{ sumField('numMedium') }}</th>
-              <th class="title">{{ sumField('numLow') }}</th>
-              <th class="title">{{ sumField('numUnknown') }}</th>
-              <th class="title">{{ sumField('numOverdue') }}</th>
-              <th class="title">{{ sumField('numActiveReports') }}</th>
+              <th class="title">{{ sumField('activeAdmin') }}</th>
+              <th class="title">{{ sumField('adminClosed') }}</th>
+              <th class="title">{{ sumField('bal') }}</th>
+              <th class="title">{{ sumField('high') }}</th>
+              <th class="title">{{ sumField('medium') }}</th>
+              <th class="title">{{ sumField('low') }}</th>
+              <th class="title">{{ sumField('unknown') }}</th>
+              <th class="title">{{ sumField('overdue') }}</th>
+              <th class="title">{{ sumField('activeReports') }}</th>
             </tr>
           </template>
-          <!--Customize the poName field, making it clickable-->
-          <template v-slot:item.poName="{ item }">
+          <!--Customize the officer field, making it clickable-->
+          <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <a :href="`${baseURL}dashboardpo/${item.poID}`">{{item.poName}}</a>
+              <a :href="`${baseURL}dashboardpo`">{{item.officer}}</a>
             </td>
           </template>
           <!--Customize the expanded item to show more-->
@@ -76,65 +76,65 @@
             <td :colspan="1">
               <strong>PCM</strong>
               <br />
-              {{ item.numPCM}}
+              {{ item.pcm}}
             </td>
             <td :colspan="1">
               <strong>SCM</strong>
               <br />
-              {{ item.numSCM}}
+              {{ item.scm}}
             </td>
             <td :colspan="1">
               <strong>SMO</strong>
               <br />
-              {{ item.numSMO}}
+              {{ item.smo}}
             </td>
             <td :colspan="1">
               <strong>Closed/Incomplete Report</strong>
               <br />
-              {{ item.numClosedReport}}
+              {{ item.closedIncomplete}}
             </td>
             <td :colspan="1">
               <strong>Expiring 30 Days</strong>
               <br />
-              {{ item.numExpiry30Days}}
+              {{ item.expiringThirty}}
             </td>
             <td :colspan="1">
               <strong>Not Required</strong>
               <br />
-              {{ item.numNotRquired}}
+              {{ item.notRequired}}
             </td>
             <td :colspan="1">
               <strong>RNA's Due 7 days</strong>
               <br />
-              {{ item.numDue7Days}}
+              {{ item.dueSeven}}
             </td>
           </template>
-          <!--Customize the numHigh field -->
-          <template v-slot:item.numHigh="{ item }">
+          <!--Customize the high field -->
+          <template v-slot:item.high="{ item }">
             <div class="
               w-100 h-100
               d-flex
               align-items-center
               justify-content-center
-              dashboard-background-color-red">{{item.numHigh}}</div>
+              dashboard-background-color-red">{{item.high}}</div>
           </template>
-          <!--Customize the numMedium field -->
-          <template v-slot:item.numMedium="{ item }">
+          <!--Customize the medium field -->
+          <template v-slot:item.medium="{ item }">
             <div class="
             w-100 h-100
             d-flex
             align-items-center
             justify-content-center
-            dashboard-background-color-yellow">{{item.numMedium}}</div>
+            dashboard-background-color-yellow">{{item.medium}}</div>
           </template>
-          <!--Customize the numLow field -->
-          <template v-slot:item.numLow="{ item }">
+          <!--Customize the low field -->
+          <template v-slot:item.low="{ item }">
             <div class="
             w-100 h-100
             d-flex
             align-items-center
             justify-content-center
-            dashboard-backgro und-color-green">{{item.numLow}}</div>
+            dashboard-backgro und-color-green">{{item.low}}</div>
           </template>
         </v-data-table>
       </div>
@@ -145,7 +145,7 @@
             <v-select
               solo
               :items="items"
-              value=5
+              v-model="itemsPerPage"
               dense
               item-color="primary"
               @input="itemsPerPage = parseInt($event, 10)"
@@ -176,43 +176,41 @@ export default {
     return {
       key_results: 0,
       key_location: 0,
-      selectedLocation: {value: "ALL", key: ""},
+      selectedLocation: {},
       locationTypes: [],
       // datatable variables
-      items: ['1', '2', '5', '10', '15'],
+      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
-      itemsPerPage: 5,
+      itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'PO Name', value: 'poName', sortable: true },
-        { text: 'Active/Admin', value: 'numActive' },
-        { text: 'Admin Closed', value: 'numAdminClosed' },
-        { text: 'BAL', value: 'numBAL' },
-        { text: 'High', value: 'numHigh', cellClass: 'p-0 m-0 text-center' },
-        { text: 'Medium', value: 'numMedium', cellClass: 'p-0 m-0 text-center' },
-        { text: 'Low', value: 'numLow', cellClass: 'p-0 m-0 text-center' },
-        { text: 'Unknown', value: 'numUnknown' },
-        { text: 'Overdue RNA\'s', value: 'numOverdue' },
-        { text: 'Active Reports', value: 'numActiveReports' },
+        { text: 'PO Name', value: 'officer', sortable: true },
+        { text: 'Active/Admin', value: 'activeAdmin' },
+        { text: 'Admin Closed', value: 'adminClosed' },
+        { text: 'BAL', value: 'bal' },
+        { text: 'High', value: 'high', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Medium', value: 'medium', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Low', value: 'low', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Unknown', value: 'unknown' },
+        { text: 'Overdue RNA\'s', value: 'overdue' },
+        { text: 'Active Reports', value: 'activeReports' },
       ],
       expanded: [],
       singleExpand: false,
-      filteredOfficerList: [],
       officerList: [],
       search: '',
-      baseURL: import.meta.env.BASE_URL,
+      baseURL: import.meta.env.BASE_URL
     }
   },
   mounted(){
     this.selectedLocation.key = this.mainStore.locationCD;
     this.selectedLocation.value = this.mainStore.locationDescription;
     this.locationTypes = this.mainStore.locations;
-    this.locationTypes.unshift({value: "ALL", key: ""});
+    console.log("this.$CONST_DATATABLE_ITEMS_PER_PAGE: ", this.$CONST_DATATABLE_ITEMS_PER_PAGE);
 
     //form search from the backend
-    console.log("Get PO list: ", this.selectedLocation, this.locationTypes);
     this.getPOList();
   },
   methods: {
@@ -220,120 +218,27 @@ export default {
       this.key_results++;
       this.key_location++;
 
-      this.dashboardSupervisorSearch(this.$route.params.supervisorID);
+      this.dashboardSupervisorSearch(this.selectedLocation.key);
     },
     sumField(key) {
       // sum data in give key (property)
-      return this.filteredOfficerList.reduce((total, obj) => total + obj[key], 0);
+      return this.officerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
       console.log("locationType: ", locationType);
-      this.filteredOfficerList = this.officerList.filter(el => {
-        if (locationType == '') {
-          return el.locations;
-        }
-        return el.locations.includes(locationType.toLowerCase());
-      });
+      // search based on the newly selected location
+      this.dashboardSupervisorSearch(locationType);
       this.key_results++;
     },
-    async dashboardSupervisorSearch(supervisorID) {
-      const [error, response] = await dashboardSupervisorSearch(supervisorID);
+    async dashboardSupervisorSearch(locationId) {
+      const [error, response] = await dashboardSupervisorSearch(locationId);
       this.loading = false;
       if (error) {
         console.error(error);
-      } //else {
+      } else {
         console.log("Supervisor dashboard search: ", response);
-        //this.officerList = response.data;
-        this.officerList =   
-          [
-            {
-              "poID": "1233440",
-              "poName": "Arsenault, Sonja",
-              "numActive": 44,
-              "numAdminClosed": 8, 
-              "numBAL": 890,
-              "numHigh": 4,
-              "numMedium": 30,
-              "numLow": 10,
-              "numUnknown": 0,
-              "numOverdue": 3,
-              "numActiveReports": 13,
-              "numPCM": 203,
-              "numSCM": 0,
-              "numSMO": 7,
-              "numClosedReport": 2,
-              "numExpiry30Days": 4,
-              "numNotRquired": 1,
-              "numDue7Days": 3,
-              "locations": ["victoria", "vancouver"]
-            },
-            {
-              "poID": "1233441",
-              "poName": "Kovlachek, Maria",
-              "numActive": 56,
-              "numAdminClosed": 0, 
-              "numBAL": 700,
-              "numHigh": 5,
-              "numMedium": 30,
-              "numLow": 9,
-              "numUnknown": 0,
-              "numOverdue": 3,
-              "numActiveReports": 8,
-              "numPCM": 203,
-              "numSCM": 0,
-              "numSMO": 7,
-              "numClosedReport": 2,
-              "numExpiry30Days": 4,
-              "numNotRquired": 1,
-              "numDue7Days": 3,
-              "locations": ["victoria"]
-            },
-            {
-              "poID": "1233442",
-              "poName": "Shiau, Ann",
-              "numActive": 21,
-              "numAdminClosed": 2, 
-              "numBAL": 210,
-              "numHigh": 1,
-              "numMedium": 20,
-              "numLow": 4,
-              "numUnknown": 5,
-              "numOverdue": 1,
-              "numActiveReports": 14,
-              "numPCM": 203,
-              "numSCM": 0,
-              "numSMO": 7,
-              "numClosedReport": 2,
-              "numExpiry30Days": 4,
-              "numNotRquired": 1,
-              "numDue7Days": 3,
-              "locations": ["victoria", "vancouver", "nanaimo"]
-            },
-            {
-              "poID": "1233443",
-              "poName": "Tyler, Steven",
-              "numActive": 39,
-              "numAdminClosed": 2, 
-              "numBAL": 340,
-              "numHigh": 2,
-              "numMedium": 10,
-              "numLow": 7,
-              "numUnknown": 1,
-              "numOverdue": 2,
-              "numActiveReports": 30,
-              "numPCM": 203,
-              "numSCM": 0,
-              "numSMO": 7,
-              "numClosedReport": 2,
-              "numExpiry30Days": 4,
-              "numNotRquired": 1,
-              "numDue7Days": 3,
-              "locations": ["vancouver"]
-            }
-          ];
-        // apply location filter
-        this.applyLocationFilter(this.selectedLocation.key);
-      //}
+        this.officerList = response;
+      }
     }
   },
   computed: {

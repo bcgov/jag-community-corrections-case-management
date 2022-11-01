@@ -23,13 +23,17 @@
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
-              :initData="formInitData" />   
+              :initData="formInitData" 
+              :timeForValidate='timeForValidate'
+              @dataCollectedForValidate="handleValidationData"/>   
       
             <FormCaseplan v-if="displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"/>
+              :csNumber="csNumber"
+              :timeForValidate='timeForValidate'
+              @dataCollectedForValidate="handleValidationData"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -48,16 +52,18 @@
           <div class="R-Sticky">
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
-                <!--Save draft button group-->
+                <!--Save Close button group-->
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
-                  @saveDraftClicked="handleSaveContinue" 
+                  @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
-                <FormioSidePanel :key="formInfoKey" 
+                <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
-                  :clientFormId="formId"/>
+                  :clientFormId="formId"
+                  :timeForValidate='timeForValidate'
+                  @dataCollectedForValidate="handleValidationData"/>
               </div>
             </section>
           </div>
@@ -71,7 +77,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -109,20 +115,21 @@ export default {
       parentNavCurLocation: '0',
       btnSaveContinueText: "Save and Continue",
       data_formEntries: {},
-      clientData: {"data": {}},
+      clientData: {},
       formInfoData: {},
       formInitData: {},
       dataMap: {},
       componentKey: 0,
       formInfoKey: 0,
+      formStaticInfoKey: 0,
       showSummaryCounter: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
-      casePlanDataModel: {"display": "form", "components": []}
+      casePlanDataModel: {"display": "form", "components": []},
+      timeForValidate: 0,
     }
   },
   mounted(){
-    this.displaySummary = false;
     this.getClientAndFormMeta();
     this.getFormioTemplate();
   },
@@ -130,138 +137,36 @@ export default {
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
       const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
-      //this.formInfoKey++;
       if (error) {
-        console.error(error);
+        console.error("Failed getting client form metadata: ", error);
       } else {
-        //console.log("clientFormMeta: ", clientFormMeta);
-        this.formInfoData = clientFormMeta;
-        this.formInfoData.clientFormType = (this.formInfoData.clientFormType) ? "Reassessment" : "Initial"
+        console.log("clientFormMeta: ", clientFormMeta);
+        this.formInfoData.data = clientFormMeta;
+        this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
         // set the form title
         if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-          this.formInfoData.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
-          this.formInfoData.formType = "CRNA-CMP Type"
+          this.formInfoData.data.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
+          this.formInfoData.data.formType = "CRNA-CMP Type"
         } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-          this.formInfoData.formTitle = "SARA (SARA-CMP)";
-          this.formInfoData.formType = "SARA-CMP Type"
+          this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
+          this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        // Client profile search.
-        const [error, response] = await clientProfileSearch(this.csNumber);
         this.formInfoKey++;
-        // if (error) {
-        //   console.error(error);
-        // } else {
-          //this.clientData = response.data;
-          //console.log("client profile search done");
-          this.clientData.data =
-            {
-              "clientId": "1",
-              "clientName": "Ross, Bob",
-              "clientNum": "123456780",
-              "clientAge": 44,
-              "profileClosed": false,
-              "communityAlerts": [
-                {
-                  "date": "2022-01-02",
-                  "comment": "Client threatened staff"
-                },
-                {
-                  "date": "2022-03-02",
-                  "comment": "Client brought knife to meeting"
-                },
-                {
-                  "date": "2022-04-02",
-                  "comment": "Client attacked staff"
-                }
-              ],
-              "outstandingWarrants": [
-                {
-                  "type": "string",
-                  "date": "2022-01-02",
-                  "courtFile": "Client threatened staff"
-                },
-                {
-                  "type": "string",
-                  "date": "2022-03-02",
-                  "courtFile": "Client brought knife to meeting"
-                },
-                {
-                  "type": "string",
-                  "date": "2022-04-02",
-                  "courtFile": "Client attacked staff"
-                }
-              ],
-              "supervisionLevel": "High",
-              "birthDate": "1979-12-03",
-              "communityInformation": {
-                "communityLocation": "Victoria",
-                "status": "Active",
-                "caseManager": "Smith, Bob",
-                "secondaryManager": "Doe, Jane"
-              },
-              "orderInformation": {
-                "orders": "None",
-                "effectiveDate": "2022-03-04",
-                "expiryDate": "2022-03-05",
-                "dueDate": "2022-03-04"
-              },
-              "generalInformation": {
-                "institution": "0543- Sunshine Coast Health Centre",
-                "status": "Inactive",
-                "custody": "Warrant of commital",
-                "dischargeDate": "2022-04-03",
-                "type": "In (parole)",
-                "paroleDate": "2022-03-04"
-              },
-              "locationInformation": {
-                "internalLocation": "0543 - Sunshine Coast Health Centre",
-                "outLocation": "0543 - Sunshine Coast Health Centre",
-                "federalParole": "0101 - Victoria Corrections",
-                "outReason": "Sentence ended",
-                "warrantExpiryDate": "2022-05-04"
-              },
-              "biometric": {
-                "type": "No",
-                "status": "Inactive",
-                "eServices": "No",
-                "eReporting": "No"
-              },
-              "address": [
-                {
-                  "fullAddress": "123 Hello St, Victoria BC, 123 abc",
-                  "type": "Work",
-                  "primary": true
-                }
-              ],
-              "designations": [
-                {
-                  "type": "GEN",
-                  "rating": "low"
-                },
-                {
-                  "type": "SMO",
-                  "rating": "high"
-                }
-              ],
-              "programs": [
-                {
-                  "name": "string",
-                  "status": "string",
-                  "referredDate": "string",
-                  "startDate": "string",
-                  "outcome": "string"
-                }
-              ],
-              "sealed": "Yes",
-              "gender": "Male"
-          }
-          //set sources contacted
-          this.clientData.data.input_key_sourceContacted = this.formInfoData.input_key_sourceContacted;
-          //console.log("this.clientData: ", this.clientData);
+
+        // Client profile search.
+        const [error1, response] = await clientProfileSearch(this.csNumber);
+        if (error1) {
+          console.error("Failed doing client profile search: ", error1);
+        } else {
+          this.clientData.data = response;
           
-        //}
+          //set sources contacted
+          this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
+        }
+        this.formStaticInfoKey++;
       };
+      
     },
     async getFormioTemplate() {
       // Load formio template
@@ -318,6 +223,17 @@ export default {
       console.log("handlePrint: "); 
       window.print();
     },
+    handleSaveClose() {
+      console.log("handleSaveClose");
+      //Redirect User back to clientRecord.RNAList
+      this.$router.push({
+        name: 'clientrecord',
+        params: {
+          clientNum: this.csNumber,
+          tabIndex: 'tab-rl'
+        }
+      });
+    },
     handleSaveContinue(continueToNextSection) {
       //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
@@ -327,6 +243,13 @@ export default {
           this.displayCasePlan = true;
         } 
         this.parentNavMoveToNext++;
+      }
+
+      // If reaching the last section, time to validate the form and complete the form
+      if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
+        // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
+        this.timeForValidate++;
+        this.validateAndCompleteForm();
       }
     },
     handleCancelForm() {
@@ -338,11 +261,9 @@ export default {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-      //this.private_showHideCasePlanInterventions(false);
 
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
-        //console.log("set displayCasePlan to true");
         this.displayCasePlan = true;
       }
       // User clicked 'Summary' section from the navigation panel
@@ -352,6 +273,50 @@ export default {
       } else {
         this.btnSaveContinueText = "Save and Continue"; 
       }
+    },
+    async validateAndCompleteForm() {
+      let formData = {};
+      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+        const [error, crnaResult] = await validateCRNAForm(formData);
+        if (error) {
+          console.error("Failed validating CRNA form instance", error);
+        } else {
+          console.log("CRNA form validate sucess");
+          this.completeForm();
+        }
+      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+        const [error, saraResult] = await validateSARAForm(formData);
+        if (error) {
+          console.error("Failed validating SARA form instance", error);
+        } else {
+          this.completeForm();
+        }
+      }
+    },
+    async completeForm() {
+      let completeFormData = {};
+      completeFormData.clientFormId='';
+      completeFormData.linkedClientFormId='';
+      completeFormData.formLevelComments='';
+      completeFormData.sourcesContacted='';
+      completeFormData.planSummary='';
+
+      const [error, completResult] = await completeForm(completeFormData);
+      if (error) {
+        console.error("Failed completing a form instance", error);
+      } else {
+        //Redirect User back to clientRecord.RNAList
+        this.$router.push({
+          name: 'clientrecord',
+          params: {
+            clientNum: this.csNumber,
+            tabIndex: 'tab-rl'
+          }
+        });
+      }
+    }, 
+    handleValidationData(dataToValidate) {
+      console.log("dataToValidate: ", dataToValidate);
     }
   }  
 }

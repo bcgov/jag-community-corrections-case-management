@@ -326,9 +326,9 @@ export async function loadFormData(csNumber: number, clientFormId: number) {
 }
 
 // function to clone form
-export async function cloneForm(formId: number) {
+export async function cloneForm(formData: object) {
     try {
-        const { data } = await axiosClient.post(`/forms/client/clone/${formId}`);
+        const { data } = await axiosClient.post('/forms/client/clone', formData);
         return [null, data];
     }catch (error) {
         return [error];
@@ -336,8 +336,13 @@ export async function cloneForm(formId: number) {
 }
 
 // function to delete form
-export async function deleteForm(formId: number) {
-
+export async function deleteForm(clientFormId: number, clientNum: String) {
+    try {
+        const { data } = await axiosClient.delete(`/forms/${clientFormId}/client/${clientNum}/delete`);
+        return [null, data];
+    }catch (error) {
+        return [error];
+    }
 }
 
 // function to create CRNA form
@@ -358,6 +363,39 @@ export async function createSARAForm(formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error creating form %o", error);
+        return [error];
+    }
+}
+
+// function to validate CRNA form
+export async function validateCRNAForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/validate/crna', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error validating crna form: %o", error);
+        return [error];
+    }
+}
+
+// function to validate SARA form
+export async function validateSARAForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/validate/sara', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error validating sara form: %o", error);
+        return [error];
+    }
+}
+
+// function to complete a form
+export async function completeForm(formData: object) {
+    try{
+        const { data } = await axiosClient.post('/forms/client/complete', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error completing a form: %o", error);
         return [error];
     }
 }
@@ -433,9 +471,9 @@ export async function formSearch(clientNum: String, formType: String, currentPer
 }
 
 // function to search client based on general info
-export async function clientSearchByGeneralInfo(age: String, birthYear: String, gender: String,
+export async function clientSearchByGeneralInfo(age: number, birthYear: number, gender: String,
     givenName: String, identifier: String, identifierType: String, lastName: String,
-    limitToLocation: String, range: String, soundex: String) {
+    limitToLocation: boolean, range: number, soundex: boolean) {
     try{
         console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
                 "birthYear: " + birthYear + "; " +
@@ -447,34 +485,20 @@ export async function clientSearchByGeneralInfo(age: String, birthYear: String, 
                 "limitToLocation: " + limitToLocation + "; " +
                 "range: " + range + "; " +
                 "soundex: " + soundex);
-        // Build url
-        let url = "/clients?";
-        url += age == '' ? '' : "age=" + age;
-        url += birthYear == '' ? '' : "&birthYear=" + birthYear;
-        url += gender == '' ? '' : "&gender=" + gender;
-        url += givenName == '' ? '' : "&givenName=" + givenName;
-        url += identifier == '' ? '' : "&identifier=" + identifier;
-        url += identifierType == '' ? '' : "&identifierType=" + identifierType;
-        url += lastName == '' ? '' : "&lastName=" + lastName;
-        url += limitToLocation == '' ? '' : "&limitToLocation=" + limitToLocation;
-        url += range == '' ? '' : "&range=" + range;
-        url += soundex == null ? '' : "&soundex=" + soundex;
-        // const { data } = await axiosClient.get('/clients', {
-        //     params: {
-        //         age: age,
-        //         birthYear: birthYear,
-        //         gender: gender,
-        //         givenName: givenName,
-        //         identifier: identifier,
-        //         identifierType: identifierType,
-        //         lastName: lastName,
-        //         limitToLocation: limitToLocation,
-        //         range: range,
-        //         soundex: soundex
-        //     }
-        // });
-        //console.log("url: ", url);
-        const { data } = await axiosClient.get(url);
+        const { data } = await axiosClient.get('/clients', {
+            params: {
+                lastName: lastName,
+                soundex: soundex,
+                givenName: givenName,
+                birthYear: birthYear,
+                age: age,
+                range: range,
+                limitToLocation: limitToLocation,
+                gender: gender,
+                identifierType: identifierType,
+                identifier: identifier                
+            }
+        });
         return [null, data];
     } catch (error) {
         return [error];
@@ -543,12 +567,12 @@ export async function photoSearch(clientNum: String) {
 }
 
 // Supervisor dashboard search
-export async function dashboardSupervisorSearch(supervisorID: String) {
+export async function dashboardSupervisorSearch(locationId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/supervisor', {
             params: {
-                userId: supervisorID
+                locationId: locationId
             }
         });
         return [null, data];
@@ -562,14 +586,10 @@ export async function dashboardSupervisorSearch(supervisorID: String) {
 //------------------------------------------
 
 // PO dashboard search
-export async function dashboardPOSearch(poID: String) {
+export async function dashboardPOSearch() {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get('/dashboards/po', {
-            params: {
-                userId: poID
-            }
-        });
+        const { data } = await axiosClient.get('/dashboards/po');
         return [null, data];
     } catch (error) {
         return [error];

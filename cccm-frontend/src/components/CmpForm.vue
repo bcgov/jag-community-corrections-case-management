@@ -163,7 +163,7 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" @cancelFormClicked="handleCancelForm"></FormRenderer>
+          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" @cancelFormClicked="handleDeleteForm"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -174,7 +174,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
-import { createSARAForm, getClientFormDetails } from "@/components/form.api";
+import { createSARAForm, getClientFormDetails, deleteForm } from "@/components/form.api";
 
 export default {
   name: 'CMPForm',
@@ -187,7 +187,6 @@ export default {
       clientNum: '',
       relatedClientFormId: null,
       formType: '',
-      newCreatedFormId: 0,
       current_tab: 'tab-CRNA',
       items: [],
       dialog: false,
@@ -236,57 +235,58 @@ export default {
     async createSARAFormAPI() {
       let formData = {};
       // set formData
-      formData.clientNumber = "00142091";
-      //formData.clientNumber = this.clientNum;
+      formData.clientNumber = this.clientNum;
       formData.linkedClientFormId = this.formId;
       const [error, SARAFormId] = await createSARAForm(formData);
       if (error) {
         console.error("Failed creating SARA form instance", error);
       } else {
-        this.newCreatedFormId = SARAFormId;
+        this.$router.push({
+        name: "cmpform",
+        params: {
+          formID: this.SARAFormId,
+          csNumber: this.clientNum
+        }
+      });
       }
     },
     handleCreateSARAFormBtnClick() {
       this.createSARAFormAPI();
-      this.$router.push({
-        name: "cmpform",
-        params: {
-          formID: this.newCreatedFormId,
-          csNumber: this.clientNum
-        }
-      });
     },
     createSARA() {
-      console.log("Create SARA Form");
       let modal = document.getElementById("id_modal_createSARAForm");
       if (modal != null) {
         modal.click();
       }
     },
-    handleCancelForm() {
-      console.log("Cancel Form");
+    handleDeleteForm() {
       let modal = document.getElementById("id_modal_deleteForm");
       if (modal != null) {
         modal.click();
       }
     },
-    handleDeleteFormBtnClick() {
+    async handleDeleteFormBtnClick() {
       this.deleteDialog = false;
-      if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-        //this.deleteForm();
+      // if (this.formType === this.$CONST_FORMTYPE_CRNA) {
+      //   this.deleteForm();
+      // }
+      // if (this.formType === this.$CONST_FORMTYPE_SARA) {
+      //   this.deleteForm();
+      // }
+      const [error, SARAFormId] = await deleteForm(this.formId, this.clientNum);
+      if (error) {
+        console.error("Failed deleting SARA form instance", error);
+      } else {
+        //Redirect User back to clientRecord.RNAList
+        this.$router.push({
+          name: 'clientrecord',
+          params: {
+            clientNum: this.clientNum,
+            tabIndex: 'tab-rl'
+          }
+        });
       }
-      if (this.formType === this.$CONST_FORMTYPE_SARA) {
-        console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
-        //this.deleteForm();
-      }
-      //Redirect User back to clientRecord.RNAList
-      this.$router.push({
-        name: 'clientrecord',
-        params: {
-          clientNum: this.clientNum,
-          tabIndex: 'tab-rl'
-        }
-      });
+      
     },
   }
 }

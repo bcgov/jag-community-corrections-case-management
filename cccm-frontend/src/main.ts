@@ -29,6 +29,8 @@ setupInterceptors();
 
 Vue.prototype.$CONST_FORMTYPE_CRNA = 'CRNA'
 Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
+Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
+Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
 
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
