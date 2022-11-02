@@ -31,9 +31,7 @@
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"
-              :timeForValidate='timeForValidate'
-              @dataCollectedForValidate="handleValidationData"/>
+              :csNumber="csNumber"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -61,9 +59,7 @@
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
-                  :clientFormId="formId"
-                  :timeForValidate='timeForValidate'
-                  @dataCollectedForValidate="handleValidationData"/>
+                  :clientFormId="formId"/>
               </div>
             </section>
           </div>
@@ -140,7 +136,7 @@ export default {
       if (error) {
         console.error("Failed getting client form metadata: ", error);
       } else {
-        console.log("clientFormMeta: ", clientFormMeta);
+        //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
@@ -181,12 +177,12 @@ export default {
         // force FormNavigation to refresh.
         this.componentKey++;
 
-        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
+        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length - 1;
         if (this.totalNumParentNav >= 2) {
           const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
           this.casePlanDataModel.components = clone;
           this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
-          //console.log("caseplan template:", this.casePlanDataModel);
+          //console.log("this.data_formEntries:", this.data_formEntries);
         }
 
         // Load form data
@@ -249,7 +245,6 @@ export default {
       if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
         // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
         this.timeForValidate++;
-        this.validateAndCompleteForm();
       }
     },
     handleCancelForm() {
@@ -274,33 +269,41 @@ export default {
         this.btnSaveContinueText = "Save and Continue"; 
       }
     },
-    async validateAndCompleteForm() {
-      let formData = {};
-      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-        const [error, crnaResult] = await validateCRNAForm(formData);
-        if (error) {
-          console.error("Failed validating CRNA form instance", error);
-        } else {
-          console.log("CRNA form validate sucess");
-          this.completeForm();
-        }
-      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-        const [error, saraResult] = await validateSARAForm(formData);
-        if (error) {
-          console.error("Failed validating SARA form instance", error);
-        } else {
-          this.completeForm();
+    async validateAndCompleteForm(formData) {
+      if (formData) {
+        //build validationData
+        let validationData = {"data": {}};
+        validationData.data = formData
+        console.log("validationData: ", validationData);
+
+        // build completeFormData
+        let completeFormData = {};
+        completeFormData.clientFormId = Number(this.formId);
+        completeFormData.linkedClientFormId = 0;
+        completeFormData.formLevelComments = formData.COMMENT_TXT;
+        completeFormData.sourcesContacted = formData.input_key_sourceContacted;
+        completeFormData.planSummary = formData.PLAN_SUMMARY_TXT;
+        console.log("completeFormData: ", completeFormData);
+        
+        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+          const [error, crnaResult] = await validateCRNAForm(validationData);
+          if (error) {
+            console.error("Failed validating CRNA form instance", error);
+          } else {
+            console.log("CRNA form validate sucess");
+            this.completeForm(completeFormData);
+          }
+        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+          const [error, saraResult] = await validateSARAForm(validationData);
+          if (error) {
+            console.error("Failed validating SARA form instance", error);
+          } else {
+            this.completeForm(completeFormData);
+          }
         }
       }
     },
-    async completeForm() {
-      let completeFormData = {};
-      completeFormData.clientFormId='';
-      completeFormData.linkedClientFormId='';
-      completeFormData.formLevelComments='';
-      completeFormData.sourcesContacted='';
-      completeFormData.planSummary='';
-
+    async completeForm(completeFormData) {
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
@@ -316,7 +319,10 @@ export default {
       }
     }, 
     handleValidationData(dataToValidate) {
-      console.log("dataToValidate: ", dataToValidate);
+      if (dataToValidate) {
+        console.log("dataToValidate: ", dataToValidate);
+        this.validateAndCompleteForm(dataToValidate);
+      }
     }
   }  
 }
