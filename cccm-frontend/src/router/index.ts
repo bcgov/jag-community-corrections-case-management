@@ -26,7 +26,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardpo/:userId',
+      path: '/dashboardpo/:poObj',
       name: 'dashboardpo',
       component: DashboardPOView,
       meta: {

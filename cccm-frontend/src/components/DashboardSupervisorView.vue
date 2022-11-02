@@ -31,7 +31,7 @@
           ></v-text-field>
         </div>
       </div>
-      <div class="dashboard-v-card">
+      <div :key="keyExpandRow" class="dashboard-v-card">
         <v-data-table
             :key="key_results"
             :headers="headers"
@@ -68,13 +68,14 @@
           <!--Customize the officer field, making it clickable-->
           <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <a :href="`${baseURL}dashboardpo/${item.IDIRId}`">{{item.officer}}</a>
+              <!-- <a :href="`${baseURL}dashboardpo?q=${item.idirId}`" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a> -->
+              <a href="#" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a>
             </td>
           </template>
           <!--Customize the expanded item to show more-->
+          <!-- <div :key="keyExpandRow"> -->
           <template v-slot:expanded-item="{ headers, item }">
-            <span :key="keyExpandRow">
-            <td :colspan="1"></td>
+            <td :colspan="2"></td>
             <td :colspan="1">
               <strong>PCM</strong>
               <br />
@@ -110,9 +111,8 @@
               <br />
               {{ item.dueSeven}}
             </td>
-          </span>
           </template>
-          
+        
           <!--Customize the high field -->
           <template v-slot:item.high="{ item }">
             <div class="
@@ -210,15 +210,24 @@ export default {
     }
   },
   mounted(){
-    this.selectedLocation.key = this.mainStore.locationCD;
-    this.selectedLocation.value = this.mainStore.locationDescription;
-    this.locationTypes = this.mainStore.locations;
-    console.log("this.$CONST_DATATABLE_ITEMS_PER_PAGE: ", this.$CONST_DATATABLE_ITEMS_PER_PAGE);
-
-    //form search from the backend
+    //get PO list
     this.getPOList();
   },
   methods: {
+    onSelected(idirId, poName) {
+      let param = {};
+      param.userId = idirId;
+      param.userName = poName;
+      let base64EncodeParam = btoa(JSON.stringify(param));
+      //For code running using Node.js APIs, converting between base64-encoded strings and binary data 
+      //should be performed using Buffer.from(str, 'base64') andbuf.toString('base64')
+      this.$router.push({
+          name: "dashboardpo",
+          params: {
+            poObj: base64EncodeParam
+          }
+        });
+    },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
       if (this.officerList != null && this.officerList[item.userId] != null 
@@ -232,19 +241,19 @@ export default {
       if (error) {
         console.error("Supervisor dashboard PO search failed: ", error);
       } else {
-        console.log("Supervisor dashboard PO search: ", response);
+        console.log("Supervisor dashboard PO search: ", POUserId, response);
         //Cache the PO details into this.officerList object
         // Set the poDetailFetched flag to true
-        if (this.officerList != null) {
+        if (this.officerList != null && response != null) {
           for (let el of this.officerList) {
             el.poDetailFetched = true;
             if (el.userId == POUserId) {
-              el.pcm = response.pcm;
-              el.scm = response.scm;
-              el.smo = response.smo;
-              el.closedIncomplete = response.closedIncomplete;
-              el.expiringThirty = response.expiringThirty;
-              el.dueSeven = response.dueSeven;
+              el.pcm = response.pcm ? response.pcm : 0;
+              el.scm = response.scm ? response.scm : 0;
+              el.smo = response.smo ? response.smo : 0;
+              el.closedIncomplete = response.closedIncomplete ? response.closedIncomplete : 0;
+              el.expiringThirty = response.expiringThirty ? response.expiringThirty : 0;
+              el.dueSeven = response.dueSeven ? response.dueSeven : 0;
               break;
             }
           }
@@ -254,10 +263,23 @@ export default {
       }
     },
     async getPOList() {
-      this.key_results++;
-      this.key_location++;
+      const [error, locations] = await this.mainStore.getUserLocations();
+      if (error) {
+        console.log(error);
+      } else {
+        this.locationTypes = this.mainStore.locations;
+        const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+        if (error1) {
+          console.error(error1);
+        } else {
+          this.selectedLocation.key = this.mainStore.locationCD;
+          this.selectedLocation.value = this.mainStore.locationDescription;
+          this.key_results++;
+          this.key_location++;
 
-      this.dashboardSupervisorSearch(this.selectedLocation.key);
+          this.dashboardSupervisorSearch(this.selectedLocation.key);
+        }
+      }
     },
     sumField(key) {
       // sum data in give key (property)
@@ -281,7 +303,7 @@ export default {
         // preset the flag to false; 
         this.officerList = this.officerList.filter(el => {
           el.poDetailFetched = false;
-          el.IDIRId = 'BBAILES';
+          el.idirId = 'BBAILES';
           el.userId = '437593.0005';
           return el;
         });

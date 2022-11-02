@@ -10,7 +10,7 @@
     <v-card class="p-3">
       <div class="row pl-4">
         <div class="col-sm-6">
-          <table class="designations-totals">
+          <table class="designation-totals">
             <thead>
               <tr>
                 <th class="pl-4" colspan="3"> Designation Totals </th>
@@ -179,11 +179,26 @@ export default {
       initData: {},
       formJSON: templateClientProfile,
       baseURL: import.meta.env.BASE_URL,
-      POIDIRId: '',
+      POIdirId: null,
+      POName: null
     }
   },
   mounted(){
-    this.POIDIRId = this.$route.params.userId;
+    let enCoded = this.$route.params.poObj;
+    try {
+      if (enCoded) {
+        // base64 decode the string
+        let POObjString = atob(enCoded);
+        let POObj = JSON.parse(POObjString);
+        this.POIdirId = POObj.userId;
+        this.POName = POObj.userName;
+        //console.log("ENcoded, decoded: ", enCoded, POObj);
+        //console.log("poid, poName: ", this.POIdirId, this.POName);
+      }
+    } catch (err) {
+      console.error("PO dashboard parsing param failed: ", err);
+    }
+    
     //form search from the backend
     this.dashboardPOSearch()
   },
@@ -245,8 +260,8 @@ export default {
     },
     async dashboardPOSearch() {
       let POId = Vue.$keycloak.tokenParsed.preferred_username;
-      if (this.POIDIRId) {
-        POId = this.POIDIRId;
+      if (this.POIdirId) {
+        POId = this.POIdirId;
       }
       const [error, response] = await dashboardPOSearch(POId);
       if (error) {
@@ -335,7 +350,12 @@ export default {
       return alertWarrant;
     },
     getUserName() {
-        return Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+      let name = Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+      console.log("getUserName: ", this.POName);
+      if (this.POName) {
+        name = this.POName;
+      }
+      return name;
     }
   }
 }

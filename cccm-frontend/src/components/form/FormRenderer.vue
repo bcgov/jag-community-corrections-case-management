@@ -1,11 +1,14 @@
 <template>
-  <div class="main crna-cmp-form">
-    <!-- <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert> -->
+  <div data-app class="main crna-cmp-form">
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
           <div class="menu-Sticky">
             <div class="menuR1">
+              <v-alert v-if="errorOccurred" color="#f81e41" dismissible  elevation="13" prominent>
+                <span v-html="getErrorText"></span>
+              </v-alert>
+
               <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
@@ -123,6 +126,8 @@ export default {
       displayCasePlan: false,
       casePlanDataModel: {"display": "form", "components": []},
       timeForValidate: 0,
+      errorOccurred: false,
+      errorText: ''
     }
   },
   mounted(){
@@ -279,7 +284,7 @@ export default {
         // build completeFormData
         let completeFormData = {};
         completeFormData.clientFormId = Number(this.formId);
-        completeFormData.linkedClientFormId = 0;
+        completeFormData.linkedClientFormId = null;
         completeFormData.formLevelComments = formData.COMMENT_TXT;
         completeFormData.sourcesContacted = formData.input_key_sourceContacted;
         completeFormData.planSummary = formData.PLAN_SUMMARY_TXT;
@@ -290,15 +295,28 @@ export default {
           if (error) {
             console.error("Failed validating CRNA form instance", error);
           } else {
-            console.log("CRNA form validate sucess");
-            this.completeForm(completeFormData);
+            console.log("CRNA form validate result: ", crnaResult);
+            // validation failed, display validation result
+            if (crnaResult != '') {
+              this.errorOccurred = true;
+              this.errorText = crnaResult.errors;
+            } else {
+              this.completeForm(completeFormData);
+            }
           }
         } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
           const [error, saraResult] = await validateSARAForm(validationData);
           if (error) {
             console.error("Failed validating SARA form instance", error);
           } else {
-            this.completeForm(completeFormData);
+            console.log("SARA form validate result: ", saraResult);
+            // validation failed, display validation result
+            if (saraResult != '') {
+              this.errorOccurred = true;
+              this.errorText = saraResult.errors;
+            } else {
+              this.completeForm(completeFormData);
+            }
           }
         }
       }
@@ -319,12 +337,23 @@ export default {
       }
     }, 
     handleValidationData(dataToValidate) {
+      this.errorOccurred = false;
+      this.errorText = '';
       if (dataToValidate) {
         console.log("dataToValidate: ", dataToValidate);
         this.validateAndCompleteForm(dataToValidate);
       }
     }
-  }  
+  },
+  computed: {
+    getErrorText() {
+      let error = '';
+      for (let i = 0; i < this.errorText.length; i++) {
+        error += this.errorText[i].message + "<br>";
+      }
+      return error;
+    }
+  }
 }
 </script>
 

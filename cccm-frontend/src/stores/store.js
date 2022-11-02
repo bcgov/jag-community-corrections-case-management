@@ -32,13 +32,16 @@ export const useStore = defineStore('main', {
                 const [error, response] = await async_getUserLocations();
                 if (error) {
                     console.error(error);
+                    return [error];
                 } else {
-                    //console.info("Locations fetched: ", response);
+                    console.info("Locations fetched: ", response);
                     if (response != null && response.items != null) {
                         this.locations = response.items;
                     }
+                    return [null, this.locations];
                 }
             }
+            return [null, this.locations];
         },
         async getUserDefaultLocation() {
             //console.info("Attempt to fetch async_getUserDefaultLocation.");
@@ -47,14 +50,17 @@ export const useStore = defineStore('main', {
                 const [error, response] = await async_getUserDefaultLocation();
                 if (error) {
                     console.error(error);
+                    return [error];
                 } else {
-                    //console.info("Location fetched: ", response);
+                    console.info("Location fetched: ", response);
                     if (response != null) {
                         this.locationDescription = response.value;
                         this.locationCD = response.key;
                     }
+                    return [null, response];
                 }
             }
+            return [null, {}];
         }
     }
     // getters
