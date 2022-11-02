@@ -211,7 +211,7 @@ export default {
 
     this.lookupFormTypesAPI();
     //form search from the backend
-    this.formSearchAPI(this.clientNum, false)
+    this.formSearchAPI(this.clientNum)
   },
   methods: {
     getAssessmentStatus(isReassessment) {
@@ -318,6 +318,7 @@ export default {
         }
       } else if (formType == this.$CONST_FORMTYPE_SARA) {
         // need to create a new 'SARA' form instance
+        console.log("create SARA");
         const [error, SARAformId] = await createSARAForm(formData);
         if (error) {
           console.error("Failed creating SARA form instance", error);
@@ -354,7 +355,7 @@ export default {
         });
       }
     },
-    async formSearchAPI(clientNum, tobeRemoved_addOne) {
+    async formSearchAPI(clientNum) {
       this.loading = true;
       try {
         let period = (this.currentPeriod === 'current') ? true : false;
@@ -362,6 +363,7 @@ export default {
         //this.initData = response.data;
         this.key_rnalistSearchResult++;
         this.rnaList = response;
+        console.log("RNAList: ", this.rnaList);
         this.filteredRNAList = this.rnaList;
         if (error) {
           console.error(error);
@@ -390,7 +392,7 @@ export default {
     async formClone(formID) {
       console.log("formClone", formID);
       this.formCloneAPI(formID);
-      this.formSearchAPI(this.clientNum, true);
+      this.formSearchAPI(this.clientNum);
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
