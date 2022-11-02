@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static ca.bc.gov.open.jag.api.Keys.USERNAME_PREFIX;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @RequestScoped
@@ -61,7 +62,7 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Override
     public List<PODashboard> getPODashboard(String user, String location) {
-        return userMapper.toPODashboardList(obridgeClientService.getPODashboard(stripUserName(user), new BigDecimal(location)));
+        return userMapper.toPODashboardList(obridgeClientService.getPODashboard(user.replace(USERNAME_PREFIX, ""), new BigDecimal(location)));
     }
 
     @Override
