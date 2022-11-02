@@ -1,5 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.data.FormInput;
@@ -125,6 +127,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         //Get Form Details
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
+
+        if (!clientFormSummary.getMostRecent() || !validateFormType(clientFormSummary.getFormTypeId(), clientFormSummary.getModule())) {
+            throw new CCCMException("", CCCMErrorCode.CLONEVALIDATIONERROR);
+        }
+
         //Create top level form
         FormInput formInput = new FormInput();
         formInput.setLocationId(cloneFormRequest.getLocationId());
@@ -181,6 +188,16 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         }
 
         return answerJson.toString();
+
+    }
+
+    private Boolean validateFormType(BigDecimal formTypeId, String formType) {
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(formType);
+
+        Optional<CodeTable> code = codes.stream().filter(codeTable -> new BigDecimal(codeTable.getCode()).equals(formTypeId)).findFirst();
+
+        return code.isPresent();
 
     }
 
