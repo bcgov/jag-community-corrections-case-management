@@ -2101,6 +2101,10 @@ components:
       properties:
         officer:
           type: string
+        idirId:
+          type: string
+        userId:
+          type: number
         activeAdmin:
           type: number
         adminClosed:
