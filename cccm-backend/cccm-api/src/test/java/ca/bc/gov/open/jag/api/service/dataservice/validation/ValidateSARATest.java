@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 
 @QuarkusTest
-public class ValidateCRNATest {
+public class ValidateSARATest {
 
     private static final String DATA_ONE = "{\n" +
             "    \"data\": {\n" +
@@ -204,9 +204,9 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA(DATA_ONE);
+        ValidationResult result = sut.validateSARA(DATA_ONE);
 
-        Assertions.assertEquals(15, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
@@ -216,9 +216,9 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA(DATA_TWO);
+        ValidationResult result = sut.validateSARA(DATA_TWO);
 
-        Assertions.assertEquals(18, result.getErrors().size());
+        Assertions.assertEquals(11, result.getErrors().size());
 
     }
 
@@ -228,9 +228,9 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("{}");
+        ValidationResult result = sut.validateSARA("{}");
 
-        Assertions.assertEquals(21, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
@@ -240,11 +240,10 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("");
+        ValidationResult result = sut.validateSARA("");
 
-        Assertions.assertEquals(21, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
-
 
 }

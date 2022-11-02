@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
+import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
@@ -16,6 +18,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Collections;
 
 import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
 import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
@@ -122,6 +125,7 @@ public class CloneFormTest {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(CRNA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
@@ -138,6 +142,7 @@ public class CloneFormTest {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
@@ -148,15 +153,38 @@ public class CloneFormTest {
 
     }
 
+    @Test
+    @DisplayName("Error: Form Type Invalid")
+    public void testCloneFormTypeInvalid() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
+
+        Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir"));
+
+    }
+
+
     private ClientFormSummary createClientForm(String module) {
 
         ClientFormSummary clientFormSummary = new ClientFormSummary();
 
         clientFormSummary.setFormTypeId(BigDecimal.ONE);
+        clientFormSummary.setMostRecent(true);
         clientFormSummary.setModule(module);
 
         return clientFormSummary;
 
+    }
+
+    private CodeTable createCodeTable(String module, String code) {
+        return new CodeTable(
+                code,
+                module
+        );
     }
 
 }

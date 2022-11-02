@@ -14,6 +14,7 @@ import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -89,11 +90,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Boolean isAnswerTriggered(String answers, String key, List<String> possibleResponses) {
 
         String answer = findAnswerByKey(answers, key);
-        if (possibleResponses.contains(answer)) {
-            return true;
-        }
-
-        return false;
+        return possibleResponses.contains(answer);
 
     }
 
@@ -119,6 +116,10 @@ public class ValidationServiceImpl implements ValidationService {
 
     private String findAnswerByKey(String answers, String key) {
 
+        if (StringUtils.isBlank(answers)) {
+            return null;
+        }
+
         JSONObject jsonData = null;
         JSONObject outerData = new JSONObject(answers);
         if (outerData.has(OUTER_DATA_ELEMENT)) {
@@ -136,6 +137,11 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private List<ValidationError> validationIntervention(String answers, Question question) {
+
+        if (StringUtils.isBlank(answers)) {
+            return Collections.emptyList();
+        }
+
         List<ValidationError> validationErrors = new ArrayList<>();
         JSONObject jsonData = null;
         JSONObject outerData = new JSONObject(answers);
@@ -154,6 +160,7 @@ public class ValidationServiceImpl implements ValidationService {
         }
 
         return validationErrors;
+
     }
 
     private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {

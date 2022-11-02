@@ -26,6 +26,9 @@ public class CCCMExceptionHandler implements ExceptionMapper<CCCMException> {
             case VALIDATIONERROR:
                 logger.severe("Invalid request exception ");
                 return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.BAD_REQUEST);
+            case CLONEVALIDATIONERROR:
+                logger.severe("Invalid clone request exception ");
+                return buildResponse(e.getErrorCode(), e.getMessage(), Response.Status.BAD_REQUEST);
             default:
                 logger.severe(e.getMessage());
                 return buildResponse(CCCMErrorCode.UNKNOWN, e.getMessage(), Response.Status.INTERNAL_SERVER_ERROR);
