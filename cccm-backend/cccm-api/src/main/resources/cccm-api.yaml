@@ -2182,9 +2182,6 @@ components:
       type: object
       required:
         - clientFormId
-        - formLevelComments
-        - sourcesContacted
-        - planSummary
       properties:
         clientFormId:
           type: number
