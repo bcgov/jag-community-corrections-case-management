@@ -123,7 +123,7 @@ public class CloneFormTest {
     @DisplayName("Success: Form CRNA is cloned")
     public void testCloneCrnaForm() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(CRNA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
@@ -133,14 +133,13 @@ public class CloneFormTest {
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
-
     }
 
     @Test
     @DisplayName("Success: Form SARA is cloned")
     public void testCloneSaraForm() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
@@ -150,14 +149,29 @@ public class CloneFormTest {
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
+    }
 
+    @Test
+    @DisplayName("Success: Form SARA with child is cloned")
+    public void testCloneSaraChildForm() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
+
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+        
     }
 
     @Test
     @DisplayName("Error: Form Type Invalid")
     public void testCloneFormTypeInvalid() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
@@ -168,14 +182,14 @@ public class CloneFormTest {
     }
 
 
-    private ClientFormSummary createClientForm(String module) {
+    private ClientFormSummary createClientForm(String module, BigDecimal relatedFormId) {
 
         ClientFormSummary clientFormSummary = new ClientFormSummary();
 
         clientFormSummary.setFormTypeId(BigDecimal.ONE);
         clientFormSummary.setMostRecent(true);
         clientFormSummary.setModule(module);
-
+        clientFormSummary.setRelatedClientFormId(relatedFormId);
         return clientFormSummary;
 
     }
