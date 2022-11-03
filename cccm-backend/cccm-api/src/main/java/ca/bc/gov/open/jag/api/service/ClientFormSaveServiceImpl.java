@@ -132,17 +132,32 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             throw new CCCMException("", CCCMErrorCode.CLONEVALIDATIONERROR);
         }
 
+        BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null);
+
+        //Add related form when cloning
+        if (clientFormSummary.getRelatedClientFormId() != null) {
+            ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId());
+            cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId);
+        }
+
+        return clientFormId;
+
+    }
+
+    private BigDecimal cloneFormAndAnswers(ClientFormSummary clientFormSummary, CloneFormRequest cloneFormRequest, BigDecimal parentId) {
+
         //Create top level form
         FormInput formInput = new FormInput();
-        formInput.setLocationId(cloneFormRequest.getLocationId());
+        formInput.setLocationId(clientFormSummary.getLocationId());
         formInput.setFormTypeId(clientFormSummary.getFormTypeId());
         formInput.setClientNumber(cloneFormRequest.getClientNumber());
+        if (parentId != null) {
+            formInput.setLinkedClientFormId(parentId);
+        }
         BigDecimal clientFormId = obridgeClientService.createForm(formInput);
 
-        //If it is a SARA should we create a linked form?
-
         //Get Answers
-        String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
+        String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormSummary.getId());
         //Insert Answers Use Clone Config for ignore
         String strippedAnswers = stripAnswers(answers, cloneConfig.getForms().stream().filter(cloneForm -> cloneForm.getFormType().equalsIgnoreCase(clientFormSummary.getModule())).findFirst().get());
         obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, false);
