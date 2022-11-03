@@ -155,7 +155,7 @@ public class CloneFormTest {
     @DisplayName("Success: Form SARA with child is cloned")
     public void testCloneSaraChildForm() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
@@ -171,7 +171,7 @@ public class CloneFormTest {
     @DisplayName("Error: Form Type Invalid")
     public void testCloneFormTypeInvalid() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
