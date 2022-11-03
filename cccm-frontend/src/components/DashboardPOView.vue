@@ -10,7 +10,7 @@
     <v-card class="p-3">
       <div class="row pl-4">
         <div class="col-sm-6">
-          <table class="designations-totals">
+          <table class="designation-totals">
             <thead>
               <tr>
                 <th class="pl-4" colspan="3"> Designation Totals </th>
@@ -61,7 +61,7 @@
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
             <div class="w-100 h-100 d-flex align-items-center">
-              <a :href="`${baseURL}clientrecord/${item.clientNum}/tab-cp`" @click="selectClient(item.clientNum)">{{item.clientName}}</a>
+              <a :href="`${baseURL}clientrecord/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
@@ -178,54 +178,98 @@ export default {
       //data for the expand row
       initData: {},
       formJSON: templateClientProfile,
-      baseURL: import.meta.env.BASE_URL
+      baseURL: import.meta.env.BASE_URL,
+      POIdirId: null,
+      POName: null
     }
   },
   mounted(){
+    let enCoded = this.$route.params.poObj;
+    try {
+      if (enCoded) {
+        // base64 decode the string
+        let POObjString = atob(enCoded);
+        let POObj = JSON.parse(POObjString);
+        this.POIdirId = POObj.userId;
+        this.POName = POObj.userName;
+        //console.log("ENcoded, decoded: ", enCoded, POObj);
+        //console.log("poid, poName: ", this.POIdirId, this.POName);
+      }
+    } catch (err) {
+      console.error("PO dashboard parsing param failed: ", err);
+    }
+    
     //form search from the backend
     this.dashboardPOSearch()
   },
   methods: {
-    selectClient(clientNum) {
-      //console.log("view client [clientNum]: ", clientNum);
-      this.$router.push({
-        name: '${baseURL}clientrecord',
-        params: {
-          clientNum: clientNum,
-          tabIndex: 'tab-cp'
-        }
-      });
-    },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
       if (this.initDataArray != null && this.initDataArray[item.clientNum] != null 
-        && this.initDataArray[item.clientNum].data != null && this.initDataArray[item.clientNum].data.photo != null) {
+        && this.initDataArray[item.clientNum].data.detailsFetched) {
         return;
       }
       this.getClientProfile(item.clientNum);
     },
     async getClientProfile(clientNum) {
       //console.log("Client profile search for clientNum: ", clientNum);
-      const [error, response] = await clientProfileSearch(clientNum);
+      const [error, el] = await clientProfileSearch(clientNum);
       if (error) {
         console.error(error);
       } else {
         //Cache the photoData into this.initDataArray object
         if (this.initDataArray != null && this.initDataArray[clientNum] != null && this.initDataArray[clientNum].data != null) {
-          this.initDataArray[clientNum].data.photo = "data:image/png;base64, " + response.photo.image;
-          this.initDataArray[clientNum].data.datePhotoTaken = response.photo.photoTakenDate;
+          if (el.photo != null) {
+            this.initDataArray[clientNum].data.photo = "data:image/png;base64, " + el.photo.image;
+            this.initDataArray[clientNum].data.datePhotoTaken = el.photo.photoTakenDate;
+          }
+
+          // Build community alerts, outstanding warrants and programs
+          //build communityAlerts
+          let caVal = "";
+          if (el.communityAlerts != null && el.communityAlerts.length > 0) {
+            for (let ca of el.communityAlerts) {
+              caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
+            }
+          } else {
+            caVal = "<li>The client doesn't have any community alerts</li>"
+          }
+          this.initDataArray[clientNum].data.communityAlerts = caVal;
+          
+          //build outstandingWarrants
+          let waVal = "N";
+          if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
+            waVal = "Y";
+          };
+          this.initDataArray[clientNum].data.outstandingWarrants = el.outstandingWarrants;
+          this.initDataArray[clientNum].data.outstandingWarrants_yn = waVal;
+
+          //build programs
+          let pVal = "N";
+          if (el.programs != null && el.programs.length > 0) {
+            pVal = "Y";
+          };
+          this.initDataArray[clientNum].data.programs = el.programs;
+          this.initDataArray[clientNum].data.programs_yn = pVal;
+          
+          // Set detailsFetched flag to true
+          this.initDataArray[clientNum].data.detailsFetched = true;
         }
         this.keyExpandRow++;
       }
     },
     async dashboardPOSearch() {
-      const [error, response] = await dashboardPOSearch();
+      let POId = Vue.$keycloak.tokenParsed.preferred_username;
+      if (this.POIdirId) {
+        POId = this.POIdirId;
+      }
+      const [error, response] = await dashboardPOSearch(POId);
       if (error) {
         console.error(error);
       } else {
         this.clientList = response;
-
-        //update the counts
+        console.log("PO search: ", response);
+        //Update the counts
         for (let el of this.clientList) {
           for (let d of el.designations) {
             if (d == this.CONST_DESIGNATION_GEN) {
@@ -245,57 +289,6 @@ export default {
       }
       this.key_results++;
       this.loading = false;
-      // this.clientList =   
-      //   [
-      //     {
-      //       "clientID": 2551.0005,
-      //       "clientNum": "00142091",
-      //       "clientName": "Arsenault, Sonja",
-      //       "designations": ["GEN", "IPV", "SMO"],
-      //       "inCustody": "Y", 
-      //       "orderExpiryDate": "2022-10-10",
-      //       "supervisionRating": "H",
-      //       "rnaCompletedDate": "2022-08-10",
-      //       "dueNext": "Conditions Due",
-      //       "dueDate": "2022-08-15",
-      //       "birthDate": "1979-12-03",
-      //       "rnaStatus": "OD",
-      //       "communityAlerts": [
-      //         {
-      //           "date": "2022-01-02",
-      //           "details": "Client threatened staff"
-      //         },
-      //         {
-      //           "date": "2022-03-02",
-      //           "details": "Client brought knife to meeting"
-      //         },
-      //         {
-      //           "date": "2022-04-02",
-      //           "details": "Client attacked staff"
-      //         }
-      //       ],
-      //       "outstandingWarrants": [],
-      //       "nextAppointmentDate": "2022-12-01",
-      //       "orderEffectiveDate": "2022-11-01",
-      //       "programs": [
-      //         {
-      //           "referredDate": "2022-01-02",
-      //           "name": "Violence Prevention",
-      //           "status": "Enrolled",
-      //           "startDate": "2022-01-02",
-      //           "outcome": "Failed to complete"
-      //         },
-      //         {
-      //           "referredDate": "2022-01-02",
-      //           "name": "Substance Abuse",
-      //           "status": "Enrolled",
-      //           "startDate": "2022-01-02",
-      //           "outcome": "Failed to complete"
-      //         }
-      //       ],
-      //       "nextCourtDate": "2022-11-01"
-      //     }
-      //   ];
     },
     getColor(dueDateStr) {
       const dueDate = new Date(dueDateStr);
@@ -316,37 +309,13 @@ export default {
     getInitData() {
       for (let el of this.clientList) {
         let initData = {"data": {}};
+        
         let dataContent = {};
+        //Preset the flag to false;
+        dataContent.detailsFetched = false;
         dataContent.fullName = el.clientName;
         dataContent.clientNum = el.clientNum;
         dataContent.birthDate = el.birthDate;
-        //build communityAlerts
-        let caVal = "";
-        if (el.communityAlerts != null && el.communityAlerts.length > 0) {
-          for (let ca of el.communityAlerts) {
-            caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
-          }
-        } else {
-          caVal = "<li>The client doesn't have any community alerts</li>"
-        }
-        dataContent.communityAlerts = caVal;
-        
-        //build outstandingWarrants
-        let waVal = "N";
-        if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
-          waVal = "Y";
-        };
-        dataContent.outstandingWarrants = el.outstandingWarrants;
-        dataContent.outstandingWarrants_yn = waVal;
-
-        //build programs
-        let pVal = "N";
-        if (el.programs != null && el.programs.length > 0) {
-          pVal = "Y";
-        };
-        dataContent.programs = el.programs;
-        dataContent.programs_yn = pVal;
-
         dataContent.nextAppointmentDate = el.nextAppointmentDate;
         dataContent.orderEffectiveDate = el.orderEffectiveDate;
         dataContent.rnaStatus = el.rnaStatus;
@@ -362,8 +331,8 @@ export default {
       let alertArray = [];
       for (let el of this.clientList) {
         let alert = "N";
-        if (el.communityAlerts != null && el.communityAlerts.length > 0) {
-          alert = "Y (" + el.communityAlerts.length + ")";
+        if (el.alerts > 0) {
+          alert = "Y (" + el.alerts + ")";
         }
         alertArray[el.clientNum] = alert;
       }
@@ -373,15 +342,20 @@ export default {
       let alertWarrant = [];
       for (let el of this.clientList) {
         let warrant = "N";
-        if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
-          warrant = "Y (" + el.outstandingWarrants.length + ")";
+        if (el.warrants > 0) {
+          warrant = "Y (" + el.warrants + ")";
         }
         alertWarrant[el.clientNum] = warrant;
       }
       return alertWarrant;
     },
     getUserName() {
-        return Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+      let name = Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+      console.log("getUserName: ", this.POName);
+      if (this.POName) {
+        name = this.POName;
+      }
+      return name;
     }
   }
 }

@@ -1,11 +1,14 @@
 <template>
-  <div class="main crna-cmp-form">
-    <!-- <v-alert border="right" color="red" dismissible v-if="errorOccurred" elevation="13" prominent>{{errorText}}</v-alert> -->
+  <div data-app class="main crna-cmp-form">
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
           <div class="menu-Sticky">
             <div class="menuR1">
+              <v-alert v-if="errorOccurred" color="#f81e41" dismissible  elevation="13" prominent>
+                <span v-html="getErrorText"></span>
+              </v-alert>
+
               <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
@@ -31,9 +34,7 @@
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"
-              :timeForValidate='timeForValidate'
-              @dataCollectedForValidate="handleValidationData"/>
+              :csNumber="csNumber"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -61,9 +62,7 @@
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
-                  :clientFormId="formId"
-                  :timeForValidate='timeForValidate'
-                  @dataCollectedForValidate="handleValidationData"/>
+                  :clientFormId="formId"/>
               </div>
             </section>
           </div>
@@ -127,6 +126,8 @@ export default {
       displayCasePlan: false,
       casePlanDataModel: {"display": "form", "components": []},
       timeForValidate: 0,
+      errorOccurred: false,
+      errorText: ''
     }
   },
   mounted(){
@@ -140,7 +141,7 @@ export default {
       if (error) {
         console.error("Failed getting client form metadata: ", error);
       } else {
-        console.log("clientFormMeta: ", clientFormMeta);
+        //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
@@ -181,12 +182,12 @@ export default {
         // force FormNavigation to refresh.
         this.componentKey++;
 
-        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
+        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length - 1;
         if (this.totalNumParentNav >= 2) {
           const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
           this.casePlanDataModel.components = clone;
           this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
-          //console.log("caseplan template:", this.casePlanDataModel);
+          //console.log("this.data_formEntries:", this.data_formEntries);
         }
 
         // Load form data
@@ -249,7 +250,6 @@ export default {
       if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
         // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
         this.timeForValidate++;
-        this.validateAndCompleteForm();
       }
     },
     handleCancelForm() {
@@ -274,33 +274,54 @@ export default {
         this.btnSaveContinueText = "Save and Continue"; 
       }
     },
-    async validateAndCompleteForm() {
-      let formData = {};
-      if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-        const [error, crnaResult] = await validateCRNAForm(formData);
-        if (error) {
-          console.error("Failed validating CRNA form instance", error);
-        } else {
-          console.log("CRNA form validate sucess");
-          this.completeForm();
-        }
-      } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-        const [error, saraResult] = await validateSARAForm(formData);
-        if (error) {
-          console.error("Failed validating SARA form instance", error);
-        } else {
-          this.completeForm();
+    async validateAndCompleteForm(formData) {
+      if (formData) {
+        //build validationData
+        let validationData = {"data": {}};
+        validationData.data = formData
+        console.log("validationData: ", validationData);
+
+        // build completeFormData
+        let completeFormData = {};
+        completeFormData.clientFormId = Number(this.formId);
+        completeFormData.linkedClientFormId = null;
+        completeFormData.formLevelComments = formData.COMMENT_TXT;
+        completeFormData.sourcesContacted = formData.input_key_sourceContacted;
+        completeFormData.planSummary = formData.PLAN_SUMMARY_TXT;
+        console.log("completeFormData: ", completeFormData);
+        
+        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
+          const [error, crnaResult] = await validateCRNAForm(validationData);
+          if (error) {
+            console.error("Failed validating CRNA form instance", error);
+          } else {
+            console.log("CRNA form validate result: ", crnaResult);
+            // validation failed, display validation result
+            if (crnaResult != '') {
+              this.errorOccurred = true;
+              this.errorText = crnaResult.errors;
+            } else {
+              this.completeForm(completeFormData);
+            }
+          }
+        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
+          const [error, saraResult] = await validateSARAForm(validationData);
+          if (error) {
+            console.error("Failed validating SARA form instance", error);
+          } else {
+            console.log("SARA form validate result: ", saraResult);
+            // validation failed, display validation result
+            if (saraResult != '') {
+              this.errorOccurred = true;
+              this.errorText = saraResult.errors;
+            } else {
+              this.completeForm(completeFormData);
+            }
+          }
         }
       }
     },
-    async completeForm() {
-      let completeFormData = {};
-      completeFormData.clientFormId='';
-      completeFormData.linkedClientFormId='';
-      completeFormData.formLevelComments='';
-      completeFormData.sourcesContacted='';
-      completeFormData.planSummary='';
-
+    async completeForm(completeFormData) {
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
@@ -316,9 +337,23 @@ export default {
       }
     }, 
     handleValidationData(dataToValidate) {
-      console.log("dataToValidate: ", dataToValidate);
+      this.errorOccurred = false;
+      this.errorText = '';
+      if (dataToValidate) {
+        console.log("dataToValidate: ", dataToValidate);
+        this.validateAndCompleteForm(dataToValidate);
+      }
     }
-  }  
+  },
+  computed: {
+    getErrorText() {
+      let error = '';
+      for (let i = 0; i < this.errorText.length; i++) {
+        error += this.errorText[i].message + "<br>";
+      }
+      return error;
+    }
+  }
 }
 </script>
 

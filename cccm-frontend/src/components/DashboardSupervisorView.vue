@@ -31,7 +31,7 @@
           ></v-text-field>
         </div>
       </div>
-      <div class="dashboard-v-card">
+      <div :key="keyExpandRow" class="dashboard-v-card">
         <v-data-table
             :key="key_results"
             :headers="headers"
@@ -40,6 +40,7 @@
             item-key="officer"
             :single-expand="singleExpand"
             :expanded.sync="expanded"
+            @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
             class="elevation-1 text-center"
@@ -67,12 +68,14 @@
           <!--Customize the officer field, making it clickable-->
           <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <a :href="`${baseURL}dashboardpo`">{{item.officer}}</a>
+              <!-- <a :href="`${baseURL}dashboardpo?q=${item.idirId}`" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a> -->
+              <a href="#" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a>
             </td>
           </template>
           <!--Customize the expanded item to show more-->
+          <!-- <div :key="keyExpandRow"> -->
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="1"></td>
+            <td :colspan="2"></td>
             <td :colspan="1">
               <strong>PCM</strong>
               <br />
@@ -109,6 +112,7 @@
               {{ item.dueSeven}}
             </td>
           </template>
+        
           <!--Customize the high field -->
           <template v-slot:item.high="{ item }">
             <div class="
@@ -166,9 +170,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
-import {dashboardSupervisorSearch} from "@/components/form.api";
-import {useStore} from "@/stores/store";
-import {mapStores} from 'pinia';
+import { dashboardSupervisorSearch, dashboardPODetailsSearch } from "@/components/form.api";
+import { useStore } from "@/stores/store";
+import { mapStores } from 'pinia';
 
 export default {
   name: 'OfficerList',
@@ -201,24 +205,81 @@ export default {
       singleExpand: false,
       officerList: [],
       search: '',
-      baseURL: import.meta.env.BASE_URL
+      baseURL: import.meta.env.BASE_URL,
+      keyExpandRow: 0,
     }
   },
   mounted(){
-    this.selectedLocation.key = this.mainStore.locationCD;
-    this.selectedLocation.value = this.mainStore.locationDescription;
-    this.locationTypes = this.mainStore.locations;
-    console.log("this.$CONST_DATATABLE_ITEMS_PER_PAGE: ", this.$CONST_DATATABLE_ITEMS_PER_PAGE);
-
-    //form search from the backend
+    //get PO list
     this.getPOList();
   },
   methods: {
+    onSelected(idirId, poName) {
+      let param = {};
+      param.userId = idirId;
+      param.userName = poName;
+      let base64EncodeParam = btoa(JSON.stringify(param));
+      //For code running using Node.js APIs, converting between base64-encoded strings and binary data 
+      //should be performed using Buffer.from(str, 'base64') andbuf.toString('base64')
+      this.$router.push({
+          name: "dashboardpo",
+          params: {
+            poObj: base64EncodeParam
+          }
+        });
+    },
+    expandRow ({ item, value }) {
+      // call searchPhotoAPI only when the photo hasn't loaded.
+      if (this.officerList != null && this.officerList[item.userId] != null 
+        && this.officerList[item.userId].poDetailFetched) {
+        return;
+      }
+      this.dashboardPODetailsSearchAPI(item.userId);
+    },
+    async dashboardPODetailsSearchAPI(POUserId) {
+      const [error, response] = await dashboardPODetailsSearch(POUserId);
+      if (error) {
+        console.error("Supervisor dashboard PO search failed: ", error);
+      } else {
+        console.log("Supervisor dashboard PO search: ", POUserId, response);
+        //Cache the PO details into this.officerList object
+        // Set the poDetailFetched flag to true
+        if (this.officerList != null && response != null) {
+          for (let el of this.officerList) {
+            el.poDetailFetched = true;
+            if (el.userId == POUserId) {
+              el.pcm = response.pcm ? response.pcm : 0;
+              el.scm = response.scm ? response.scm : 0;
+              el.smo = response.smo ? response.smo : 0;
+              el.closedIncomplete = response.closedIncomplete ? response.closedIncomplete : 0;
+              el.expiringThirty = response.expiringThirty ? response.expiringThirty : 0;
+              el.dueSeven = response.dueSeven ? response.dueSeven : 0;
+              break;
+            }
+          }
+        }
+        // Force refresh the expanded row
+        this.keyExpandRow++;
+      }
+    },
     async getPOList() {
-      this.key_results++;
-      this.key_location++;
+      const [error, locations] = await this.mainStore.getUserLocations();
+      if (error) {
+        console.log(error);
+      } else {
+        this.locationTypes = this.mainStore.locations;
+        const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+        if (error1) {
+          console.error(error1);
+        } else {
+          this.selectedLocation.key = this.mainStore.locationCD;
+          this.selectedLocation.value = this.mainStore.locationDescription;
+          this.key_results++;
+          this.key_location++;
 
-      this.dashboardSupervisorSearch(this.selectedLocation.key);
+          this.dashboardSupervisorSearch(this.selectedLocation.key);
+        }
+      }
     },
     sumField(key) {
       // sum data in give key (property)
@@ -238,6 +299,14 @@ export default {
       } else {
         console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
+
+        // preset the flag to false; 
+        this.officerList = this.officerList.filter(el => {
+          el.poDetailFetched = false;
+          el.idirId = 'BBAILES';
+          el.userId = '437593.0005';
+          return el;
+        });
       }
     }
   },

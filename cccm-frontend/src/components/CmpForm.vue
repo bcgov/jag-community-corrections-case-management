@@ -242,12 +242,12 @@ export default {
         console.error("Failed creating SARA form instance", error);
       } else {
         this.$router.push({
-        name: "cmpform",
-        params: {
-          formID: this.SARAFormId,
-          csNumber: this.clientNum
-        }
-      });
+          name: "cmpform",
+          params: {
+            formID: this.SARAFormId,
+            csNumber: this.clientNum
+          }
+        });
       }
     },
     handleCreateSARAFormBtnClick() {

@@ -4,6 +4,7 @@
       :submission="initData" 
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent"
+      @key_submit_btn="handleSubmit"
     />
   </div>
 </template>
@@ -33,13 +34,18 @@ export default {
   },
   watch: {
     timeForValidate() {
-      // get event.data, emit dataCollectedForValidate event to parent
-      let fullData = {};
-      this.$emit('dataCollectedForValidate', fullData);
+      // Submit the form by simulating clicking the submit button
+      let btn = document.getElementById(this.CONST_HIDDEN_BUTTON_KEY);
+      if (btn != null) { 
+        //console.log("Simulate the btn click: ", btn);
+        btn.click(); 
+      }
     }
   },
   data() {
     return {
+      KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
+      CONST_HIDDEN_BUTTON_KEY: 'key_submit_btn',
       CONST_MAX_RETRY: 5,
       CONST_ID_SUFFIX: '_ID',
       CONST_COMMENT_SUFFIX: '_COMMENT',
@@ -59,6 +65,23 @@ export default {
     this.saving = false;
   },
   methods: {
+    handleSubmit(evt) {
+      let sourcesContacted = this.private_getSourcesContacted();
+      // emit an event, dataSubmitted, to the parent, so parent knows the form data
+      if (evt.data != null) {
+        evt.data[this.KEY_SOURCESCONTACTED] = sourcesContacted;
+      }
+      this.$emit('dataCollectedForValidate', evt.data);
+    },
+    private_getSourcesContacted() {
+      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
+      let textBox = document.getElementsByName(tbName);
+      
+      //hide textbox
+      if (textBox != null &&  textBox[0] != null) {
+        return textBox[0].value;
+      }
+    },
     async autoSave() {
       //only start saving if previous saving is done
       if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {

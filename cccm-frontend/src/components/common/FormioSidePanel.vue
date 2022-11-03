@@ -12,25 +12,7 @@ export default {
   name: 'FormioPanel',
   props: {
     dataModel: {},
-    clientFormId: 0,
-    timeForValidate: {
-      type: Number,
-      default: 1,
-    }
-  },
-  watch: {
-    timeForValidate() {
-      // get event.data, emit dataCollectedForValidate event to parent
-      let sourcesContacted = {};
-      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
-      let textBox = document.getElementsByName(tbName);
-      
-      //hide textbox
-      if (textBox != null &&  textBox[0] != null) {
-        sourcesContacted[this.KEY_SOURCESCONTACTED] = textBox[0].value;
-      }
-      this.$emit('dataCollectedForValidate', sourcesContacted);
-    }
+    clientFormId: 0
   },
   data() {
     return {
