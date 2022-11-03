@@ -17,7 +17,7 @@ public interface UserDataService {
 
     String getOracleId(String user);
 
-    List<PODashboard> getPODashboard(String user, String location);
+    List<PODashboard> getPODashboard(String user, BigDecimal location);
 
     List<SupervisorDashboard> getSupervisorDashboard(String user, BigDecimal location);
 
