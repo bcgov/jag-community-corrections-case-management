@@ -49,7 +49,7 @@ public class GetPoDashboardTest {
 
         Mockito.when(obridgeClientService.getPODashboard(Mockito.any(), Mockito.any())).thenReturn(createPOResult());
 
-        List<PODashboard> result = sut.getPODashboard("test@idir", "123");
+        List<PODashboard> result = sut.getPODashboard("test@idir", BigDecimal.ONE);
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(new BigDecimal(2), result.get(0).getAlerts());

@@ -45,7 +45,7 @@ public class GetPODashboardTest {
 
         Mockito.when(userDataService.getPODashboard(any(), any())).thenReturn(createPOList());
 
-        List<PODashboard> result = sut.getPODashboard("123", "");
+        List<PODashboard> result = sut.getPODashboard("123", BigDecimal.ONE);
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(BigDecimal.ONE, result.get(0).getAlerts());
@@ -65,7 +65,7 @@ public class GetPODashboardTest {
     @DisplayName("403: throw unauthorized exception")
     public void getDefaultLocationsTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getPODashboard("123", ""));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getPODashboard("123", BigDecimal.ONE));
 
     }
 
@@ -73,7 +73,7 @@ public class GetPODashboardTest {
     @DisplayName("401: throw unauthorized exception")
     public void getDefaultLocationTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getPODashboard("123",""));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getPODashboard("123",BigDecimal.ONE));
 
     }
 
