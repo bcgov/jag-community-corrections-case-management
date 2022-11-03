@@ -15,9 +15,8 @@
                         {
                             "components": [
                                 {
-                                    "label": "HTML",
-                                    "customClass": "mt-4",
-                                    "tag": "img",
+                                  "label": "HTML",
+                                  "tag": "img",
                                   "customClass": "justify-content-around  mt-3 mb-3",
                                   "attrs": [
                                         {

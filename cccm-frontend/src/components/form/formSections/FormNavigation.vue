@@ -4,7 +4,7 @@
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
 	        <span v-for="(header, index) in dataModel.components" :key="index">
-            <a :key="index" 
+            <a v-if="index < dataModel.components.length - 1" :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
               @click="setCurrentSectionParentChild">
@@ -16,7 +16,7 @@
       <div class="divTableRowL2 divTableRowNav">
         <span v-for="(header, indexp) in dataModel.components" :key="indexp">
           <!-- To skip the button components-->
-          <div :key="indexp"
+          <div v-if="indexp < dataModel.components.length - 1" :key="indexp"
               :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
               <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
               <span v-if="header.custom_subNavOn != null && header.custom_subNavOn">
