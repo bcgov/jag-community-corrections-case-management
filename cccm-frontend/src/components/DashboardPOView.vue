@@ -73,7 +73,7 @@
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getWarrants[item.clientNum]}}</div>
           </template>
           <template v-slot:item.designations="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designations.reduce((acc, d) => `${acc},&nbsp;${d}`) }}</div>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getDesignations[item.clientNum]}}</div>
           </template>
           <template v-slot:item.inCustody="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
@@ -291,15 +291,17 @@ export default {
         console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
-          for (let d of el.designations) {
-            if (d == this.CONST_DESIGNATION_GEN) {
-              this.numOfGen++;
-            }
-            if (d == this.CONST_DESIGNATION_SMO) {
-              this.numOfSMO++;
-            }
-            if (d == this.CONST_DESIGNATION_IPV) {
-              this.numOfIPV++;
+          if (el.designations != null) {
+            for (let d of el.designations) {
+              if (d == this.CONST_DESIGNATION_GEN) {
+                this.numOfGen++;
+              }
+              if (d == this.CONST_DESIGNATION_SMO) {
+                this.numOfSMO++;
+              }
+              if (d == this.CONST_DESIGNATION_IPV) {
+                this.numOfIPV++;
+              }
             }
           }
         }
@@ -377,6 +379,18 @@ export default {
         name = this.POName;
       }
       return name;
+    }, 
+    getDesignations() {
+      let designations = [];
+      for (let item of this.clientList) {
+        let designation = '';
+        if (item.designations != null) {
+          const designationArray = item.designations.split(" ");
+          designation = designationArray.reduce((acc, d) => `${acc}, ${d}`);
+        }
+        designations[item.clientNum] = designation;
+      }
+      return designations;
     }
   }
 }
