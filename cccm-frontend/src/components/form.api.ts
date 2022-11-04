@@ -600,12 +600,13 @@ export async function dashboardPODetailsSearch(userId: number) {
 }
 
 // PO dashboard search
-export async function dashboardPOSearch(userId: String) {
+export async function dashboardPOSearch(userId: String, locationId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/po', {
             params: {
-                userId: userId
+                idirId: userId,
+                locationId: locationId
             }
         });
         return [null, data];
