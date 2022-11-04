@@ -16,7 +16,10 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -141,7 +144,30 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
-        return obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
+
+        List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
+        List<ClientFormSummary> formsMerged = new ArrayList<>();
+
+        for (ClientFormSummary form: forms) {
+            Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
+            if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
+                ClientFormSummary mergedForm = form;
+                mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
+                mergedForm.setStatus(relatedFrom.get().getStatus());
+                mergedForm.getRatings().putAll(relatedFrom.get().getRatings());
+                mergedForm.setLocationId(relatedFrom.get().getLocationId());
+                mergedForm.setLocation(relatedFrom.get().getLocation());
+                mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
+                if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
+                    mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
+                }
+                formsMerged.add(mergedForm);
+            } else if (!relatedFrom.isPresent()) {
+                formsMerged.add(form);
+            }
+        }
+
+        return formsMerged;
     }
 
     @Override
@@ -248,4 +274,17 @@ public class ClientDataServiceImpl implements ClientDataService {
     private String padCsNum(String clientNum) {
         return ("00000000" + clientNum).substring(clientNum.length());
     }
+
+    private Boolean inListByPrimaryKey(List<ClientFormSummary> forms, BigDecimal key) {
+        return forms.stream().anyMatch(clientFormSummary -> clientFormSummary.getId().equals(key));
+    }
+
+    private Boolean inListByRelatedKey(List<ClientFormSummary> forms, BigDecimal key) {
+        return forms.stream().anyMatch(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key));
+    }
+
+    private Optional<ClientFormSummary> getRelatedKey(List<ClientFormSummary> forms, BigDecimal key) {
+        return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
+    }
+
 }
