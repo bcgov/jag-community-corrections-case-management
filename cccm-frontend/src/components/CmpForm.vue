@@ -199,15 +199,15 @@ export default {
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
     //console.log("cmpform mounted: ", this.formId, this.clientNum);
-    this.getClientFormDetailsAPI();
+    this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
   methods: {
-    async getClientFormDetailsAPI() {
-      const [error, response] = await getClientFormDetails(this.clientNum, this.formId);
+    async getClientFormDetailsAPI(csNum, clientFormId) {
+      const [error, response] = await getClientFormDetails(csNum, clientFormId);
       if (error) {
         console.error("Failed getting client form details", error);
       } else {
-        //console.log("Form details: ", response);
+        console.log("Form details: ", response);
         this.formType = response.module;
         this.relatedClientFormId = response.relatedClientFormId;
         
@@ -231,7 +231,7 @@ export default {
         }
         this.selectedFormTypeValue.push("sara");
       }
-      //this.formKey++;
+      this.formKey++;
     },
     async createSARAFormAPI() {
       let formData = {};
@@ -242,16 +242,13 @@ export default {
       if (error) {
         console.error("Failed creating SARA form instance", error);
       } else {
-        this.$router.push({
-          name: "cmpform",
-          params: {
-            formID: this.SARAFormId,
-            csNumber: this.clientNum
-          }
-        });
+        //console.info("SARA form instance created: ", SARAFormId);
+        this.items = [];
+        this.getClientFormDetailsAPI(this.clientNum, SARAFormId);
       }
     },
     handleCreateSARAFormBtnClick() {
+      this.dialog = false;
       this.createSARAFormAPI();
     },
     createSARA() {
