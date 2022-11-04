@@ -77,7 +77,7 @@
             <v-btn
               color="#f81e41"
               dark
-              @click="handleDeleteFormBtnClick"
+              @click="handleDeleteCRNAFormBtnClick"
             >
               <span v-if="relatedClientFormId">
                 Yes, delete form(s)
@@ -138,7 +138,7 @@
             <v-btn
               color="#f81e41"
               dark
-              @click="handleDeleteFormBtnClick"
+              @click="handleDeleteSARAFormBtnClick"
             >
               Yes, delete form(s)
             </v-btn>
@@ -198,6 +198,7 @@ export default {
   mounted(){
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
+    //console.log("cmpform mounted: ", this.formId, this.clientNum);
     this.getClientFormDetailsAPI();
   },
   methods: {
@@ -265,18 +266,30 @@ export default {
         modal.click();
       }
     },
-    async handleDeleteFormBtnClick() {
-      this.deleteDialog = false;
-      // if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-      //   this.deleteForm();
-      // }
-      // if (this.formType === this.$CONST_FORMTYPE_SARA) {
-      //   this.deleteForm();
-      // }
-      const [error, SARAFormId] = await deleteForm(this.formId, this.clientNum);
+    async formDeleteHelper(fullDelete) {
+      // delete the form instance
+      console.log("Delete form instance");
+      const [error, response] = await deleteForm(this.formId, this.clientNum);
       if (error) {
-        console.error("Failed deleting SARA form instance", error);
+        console.error("Failed deleting the form instance: ", error);
       } else {
+        // delete the linked form instance
+        if (fullDelete && this.relatedClientFormId) {
+          console.log("Delete linked form instance");
+          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.clientNum);
+          if (error1) {
+            console.error("Failed deleting the linked form instance: ", error1);
+          } else {
+            //Redirect User back to clientRecord.RNAList
+            this.$router.push({
+              name: 'clientrecord',
+              params: {
+                clientNum: this.clientNum,
+                tabIndex: 'tab-rl'
+              }
+            });
+          }
+        }
         //Redirect User back to clientRecord.RNAList
         this.$router.push({
           name: 'clientrecord',
@@ -286,8 +299,27 @@ export default {
           }
         });
       }
-      
     },
+    async handleDeleteCRNAFormBtnClick() {
+      console.log("Delete a CRNA form: ", this.formId, this.clientNum, this.relatedClientFormId);
+      this.deleteDialog = false;
+      this.formDeleteHelper(true);
+    },
+    async handleDeleteSARAFormBtnClick() {
+      console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
+      this.deleteDialog = false;
+      
+      let fullDelete = false;
+      if (this.selectedFormTypeValue != null) {
+        for (let i = 0; i < this.selectedFormTypeValue.length; i++) {
+          if (this.selectedFormTypeValue[i] == this.$CONST_FORMTYPE_CRNA) {
+            fullDelete = true;
+            break;
+          }
+        }
+      }
+      this.formDeleteHelper(fullDelete);
+    }
   }
 }
 </script>
