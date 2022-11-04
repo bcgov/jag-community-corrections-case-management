@@ -154,7 +154,13 @@ public class ClientDataServiceImpl implements ClientDataService {
                 ClientFormSummary mergedForm = form;
                 mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
                 mergedForm.setStatus(relatedFrom.get().getStatus());
-                mergedForm.set
+                mergedForm.getRatings().putAll(relatedFrom.get().getRatings());
+                mergedForm.setLocationId(relatedFrom.get().getLocationId());
+                mergedForm.setLocation(relatedFrom.get().getLocation());
+                mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
+                if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
+                    mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
+                }
                 formsMerged.add(mergedForm);
             } else if (!relatedFrom.isPresent()) {
                 formsMerged.add(form);

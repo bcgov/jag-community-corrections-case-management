@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAmount;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,11 +72,13 @@ public class ClientFormSearchTest {
         ClientFormSummary form1 = new ClientFormSummary();
         form1.setId(BigDecimal.ONE);
         form1.setRelatedClientFormId(BigDecimal.TEN);
+        form1.setUpdatedDate(LocalDate.now());
         form1.setModule("CRNA");
 
         ClientFormSummary form2 = new ClientFormSummary();
         form2.setId(BigDecimal.TEN);
         form2.setRelatedClientFormId(BigDecimal.ONE);
+        form2.setUpdatedDate(LocalDate.now().minusDays(1));
         form2.setModule("TEST2");
 
         ClientFormSummary form3 = new ClientFormSummary();
@@ -84,11 +88,13 @@ public class ClientFormSearchTest {
         ClientFormSummary form4 = new ClientFormSummary();
         form4.setId(BigDecimal.valueOf(123));
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
+        form4.setUpdatedDate(LocalDate.now());
         form4.setModule("TEST4");
 
         ClientFormSummary form5 = new ClientFormSummary();
         form5.setId(BigDecimal.valueOf(321));
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
+        form5.setUpdatedDate(LocalDate.now().minusDays(1));
         form5.setModule("CRNA");
 
         return Arrays.asList(form1, form2, form3, form4, form5);
