@@ -37,115 +37,8 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
-      <!-- Form delete modal dialog-->
-      <v-btn
-        id="id_modal_deleteForm"
-        v-show=false
-        @click.stop="deleteDialog = true"
-      ></v-btn>
-      <v-dialog
-          v-model="deleteDialog"
-          persistent
-          max-width="550"
-        >
-        <v-card>
-          <v-card-title class="text-h5">
-            <span v-if="relatedClientFormId">
-              Are you sure you want to delete?
-            </span>
-            <span v-else>
-              Are you sure you want to delete this form?
-            </span>
-          </v-card-title>
-          
-          <v-card-text >
-            <span v-if="relatedClientFormId">
-              The CRNA-CMP and the SARA-CMP forms and all the information you have entered will be deleted. You will be directed to the client's RNA list.
-            </span>
-            <span v-else>
-              This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
-            </span>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              @click="deleteDialog = false"
-            >
-            No, I don't want to delete
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="#f81e41"
-              dark
-              @click="handleDeleteCRNAFormBtnClick"
-            >
-              <span v-if="relatedClientFormId">
-                Yes, delete form(s)
-              </span>
-              <span v-else>
-                Yes, delete this form
-              </span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </div>
 
-    <!-- SARA form instance. Modal dialog section-->
-    <div v-if="formType === $CONST_FORMTYPE_SARA">
-      <!--Form delete modal dialog -->
-      <v-btn
-        id="id_modal_deleteForm"
-        v-show=false
-        @click.stop="deleteDialog = true"
-      ></v-btn>
-      <v-dialog
-          v-model="deleteDialog"
-          persistent
-          max-width="550"
-        >
-        <v-card>
-          <div class="col-sm-12 m-7">
-            <v-card-title >
-              Select what you want to delete:
-            </v-card-title>
-            <v-checkbox
-              v-model="selectedFormTypeValue"
-              label="CRNA-CMP"
-              value="crna"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="selectedFormTypeValue"
-              :readonly=true
-              label="SARA-CMP"
-              value="sara"
-            ></v-checkbox>
-            <v-card-title>
-            Are you sure you want to delete?
-          </v-card-title>
-          <v-card-text>
-            The form(s) and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
-          </v-card-text>
-          </div>
-          
-          <v-card-actions>
-            <v-btn
-              @click="deleteDialog = false"
-            >
-            No, I don't want to delete
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="#f81e41"
-              dark
-              @click="handleDeleteSARAFormBtnClick"
-            >
-              Yes, delete form(s)
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id"> 
@@ -163,7 +56,7 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" @cancelFormClicked="handleDeleteForm"></FormRenderer>
+          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -174,7 +67,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
-import { createSARAForm, getClientFormDetails, deleteForm } from "@/components/form.api";
+import { createSARAForm, getClientFormDetails } from "@/components/form.api";
 
 export default {
   name: 'CMPForm',
@@ -190,8 +83,6 @@ export default {
       current_tab: 'tab-CRNA',
       items: [],
       dialog: false,
-      deleteDialog: false,
-      selectedFormTypeValue: [],
       formKey: 0,      
     }
   },
@@ -213,23 +104,22 @@ export default {
         
         // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
         if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId });
+          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId});
           this.current_tab = 'tab-CRNA';
           if (!this.relatedClientFormId) {
             // show the 'add sara' btn if the crna form hasn't linked with sara
-            this.items.push({ tab: '', id: 'saraBtn', formId: '' });
+            this.items.push({ tab: '', id: 'saraBtn', formId: '', relatedClientFormId: '' });
           } else {
             // otherwise, show sara tab
-            this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId });
+            this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId });
           }
         }
         // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
         if (this.formType === this.$CONST_FORMTYPE_SARA) {
-          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId });
-          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId });
+          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId });
+          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId });
           this.current_tab = 'tab-SARA';
         }
-        this.selectedFormTypeValue.push("sara");
       }
       this.formKey++;
     },
@@ -256,66 +146,6 @@ export default {
       if (modal != null) {
         modal.click();
       }
-    },
-    handleDeleteForm() {
-      let modal = document.getElementById("id_modal_deleteForm");
-      if (modal != null) {
-        modal.click();
-      }
-    },
-    async formDeleteHelper(fullDelete) {
-      // delete the form instance
-      console.log("Delete form instance");
-      const [error, response] = await deleteForm(this.formId, this.clientNum);
-      if (error) {
-        console.error("Failed deleting the form instance: ", error);
-      } else {
-        // delete the linked form instance
-        if (fullDelete && this.relatedClientFormId) {
-          console.log("Delete linked form instance");
-          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.clientNum);
-          if (error1) {
-            console.error("Failed deleting the linked form instance: ", error1);
-          } else {
-            //Redirect User back to clientRecord.RNAList
-            this.$router.push({
-              name: 'clientrecord',
-              params: {
-                clientNum: this.clientNum,
-                tabIndex: 'tab-rl'
-              }
-            });
-          }
-        }
-        //Redirect User back to clientRecord.RNAList
-        this.$router.push({
-          name: 'clientrecord',
-          params: {
-            clientNum: this.clientNum,
-            tabIndex: 'tab-rl'
-          }
-        });
-      }
-    },
-    async handleDeleteCRNAFormBtnClick() {
-      console.log("Delete a CRNA form: ", this.formId, this.clientNum, this.relatedClientFormId);
-      this.deleteDialog = false;
-      this.formDeleteHelper(true);
-    },
-    async handleDeleteSARAFormBtnClick() {
-      console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
-      this.deleteDialog = false;
-      
-      let fullDelete = false;
-      if (this.selectedFormTypeValue != null) {
-        for (let i = 0; i < this.selectedFormTypeValue.length; i++) {
-          if (this.selectedFormTypeValue[i] == this.$CONST_FORMTYPE_CRNA) {
-            fullDelete = true;
-            break;
-          }
-        }
-      }
-      this.formDeleteHelper(fullDelete);
     }
   }
 }

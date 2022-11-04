@@ -1,5 +1,115 @@
 <template>
   <div data-app class="main crna-cmp-form">
+    <!-- CRNA form instance. Delete modal dialog section-->
+    <div v-if="formType === $CONST_FORMTYPE_CRNA">
+      <!-- Form delete modal dialog-->
+      <v-btn
+        :id="`id_modal_deleteForm_${formType}`"
+        v-show=false
+        @click.stop="deleteDialog = true"
+      ></v-btn>
+      <v-dialog
+          v-model="deleteDialog"
+          persistent
+          max-width="550"
+        >
+        <v-card>
+          <v-card-title class="text-h5">
+            <span v-if="relatedClientFormId">
+              Are you sure you want to delete?
+            </span>
+            <span v-else>
+              Are you sure you want to delete this form?
+            </span>
+          </v-card-title>
+          
+          <v-card-text >
+            <span v-if="relatedClientFormId">
+              The CRNA-CMP and the SARA-CMP forms and all the information you have entered will be deleted. You will be directed to the client's RNA list.
+            </span>
+            <span v-else>
+              This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              @click="deleteDialog = false"
+            >
+            No, I don't want to delete
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#f81e41"
+              dark
+              @click="handleDeleteCRNAFormBtnClick"
+            >
+              <span v-if="relatedClientFormId">
+                Yes, delete form(s)
+              </span>
+              <span v-else>
+                Yes, delete this form
+              </span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
+    <!-- SARA form instance. Delete modal dialog section-->
+    <div v-if="formType === $CONST_FORMTYPE_SARA">
+      <!--Form delete modal dialog -->
+      <v-btn
+        :id="`id_modal_deleteForm_${formType}`"
+        v-show=false
+        @click.stop="deleteDialog = true"
+      ></v-btn>
+      <v-dialog
+          v-model="deleteDialog"
+          persistent
+          max-width="550"
+        >
+        <v-card>
+          <div class="col-sm-12 m-7">
+            <v-card-title >
+              Select what you want to delete:
+            </v-card-title>
+            <v-checkbox
+              v-model="saraDeleteSelectedFormTypeValue"
+              label="CRNA-CMP"
+              value="crna"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="saraDeleteSelectedFormTypeValue"
+              :readonly=true
+              label="SARA-CMP"
+              value="sara"
+            ></v-checkbox>
+            <v-card-title>
+            Are you sure you want to delete?
+          </v-card-title>
+          <v-card-text>
+            The form(s) and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
+          </v-card-text>
+          </div>
+          
+          <v-card-actions>
+            <v-btn
+              @click="deleteDialog = false"
+            >
+            No, I don't want to delete
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#f81e41"
+              dark
+              @click="handleDeleteSARAFormBtnClick"
+            >
+              Yes, delete form(s)
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <div class="wrap">
       <div class="mainRow">
         <div class="column L">
@@ -46,7 +156,7 @@
               :buttonType="'formButton'"
               :saveBtnLabel="btnSaveContinueText" 
               @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleCancelForm" />
+              @cancelFormClicked="handleDeleteForm" />
           </div>
         </div>
         <div class="column R">
@@ -76,7 +186,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -90,7 +200,8 @@ export default {
   props: {
     formType: '',
     formId: 0,
-    csNumber: ''
+    csNumber: '',
+    relatedClientFormId: 0
   },
   components: {
     Form,
@@ -127,10 +238,13 @@ export default {
       casePlanDataModel: {"display": "form", "components": []},
       timeForValidate: 0,
       errorOccurred: false,
-      errorText: ''
+      errorText: '',
+      deleteDialog: false,
+      saraDeleteSelectedFormTypeValue: ["sara"],
     }
   },
   mounted(){
+    //console.log("form renderer mounted: ", this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
   },
@@ -225,7 +339,7 @@ export default {
       window.print();
     },
     handleSaveClose() {
-      console.log("handleSaveClose");
+      //console.log("handleSaveClose");
       //Redirect User back to clientRecord.RNAList
       this.$router.push({
         name: 'clientrecord',
@@ -252,9 +366,9 @@ export default {
         this.timeForValidate++;
       }
     },
-    handleCancelForm() {
-      //console.log("Cancel Form");
-      this.$emit("cancelFormClicked");
+    handleDeleteForm() {
+      //console.log("Delete Form btn clicked");
+      this.showDeleteDialog();
     },
     async handleNavChildCallback(parentNavCurLocationFromChild) {
       //console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
@@ -343,6 +457,66 @@ export default {
         console.log("dataToValidate: ", dataToValidate);
         this.validateAndCompleteForm(dataToValidate);
       }
+    },
+    showDeleteDialog() {
+      console.log("show delete modal, formType", this.formType);
+      let modal = document.getElementById("id_modal_deleteForm_" + this.formType);
+      if (modal != null) {
+        modal.click();
+      }
+    },
+    async formDeleteHelper(fullDelete) {
+      // delete the form instance
+      console.log("Delete form instance");
+      let redirect = false;
+      const [error, response] = await deleteForm(this.formId, this.clientNum);
+      if (error) {
+        console.error("Failed deleting the form instance: ", error);
+      } else {
+        // delete the linked form instance
+        if (fullDelete && this.relatedClientFormId) {
+          console.log("Delete linked form instance");
+          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.clientNum);
+          if (error1) {
+            console.error("Failed deleting the linked form instance: ", error1);
+          } else {
+            redirect = true;
+          }
+        } else {
+          redirect = true;
+        }
+
+        if (redirect) {
+          //Redirect User back to clientRecord.RNAList
+          this.$router.push({
+            name: 'clientrecord',
+            params: {
+              clientNum: this.clientNum,
+              tabIndex: 'tab-rl'
+            }
+          });
+        }
+      }
+    },
+    async handleDeleteCRNAFormBtnClick() {
+      console.log("Delete a CRNA form: ", this.formId, this.clientNum, this.relatedClientFormId);
+      this.deleteDialog = false;
+      this.formDeleteHelper(true);
+    },
+    async handleDeleteSARAFormBtnClick() {
+      console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
+      this.deleteDialog = false;
+      
+      let fullDelete = false;
+      if (this.saraDeleteSelectedFormTypeValue != null) {
+        for (let i = 0; i < this.saraDeleteSelectedFormTypeValue.length; i++) {
+          if (this.saraDeleteSelectedFormTypeValue[i] == this.$CONST_FORMTYPE_CRNA) {
+            fullDelete = true;
+            break;
+          }
+        }
+      }
+      this.formDeleteHelper(fullDelete);
     }
   },
   computed: {

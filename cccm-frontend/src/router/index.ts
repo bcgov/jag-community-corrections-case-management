@@ -58,7 +58,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/clientrecord/:csNumber/form/:formID',
+      path: '/client/:csNumber/form/:formID',
       name: 'cmpform',
       component: CmpFormView,
       meta: {
