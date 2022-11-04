@@ -68,7 +68,6 @@
           <!--Customize the officer field, making it clickable-->
           <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <!-- <a :href="`${baseURL}dashboardpo?q=${item.idirId}`" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a> -->
               <a href="#" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a>
             </td>
           </template>
@@ -207,6 +206,7 @@ export default {
       search: '',
       baseURL: import.meta.env.BASE_URL,
       keyExpandRow: 0,
+      pickedLocationCD : 0
     }
   },
   mounted(){
@@ -218,13 +218,16 @@ export default {
       let param = {};
       param.userId = idirId;
       param.userName = poName;
+      param.locationId = this.pickedLocationCD;
+      console.log("Set PO param: ", param);
       let base64EncodeParam = btoa(JSON.stringify(param));
+
       //For code running using Node.js APIs, converting between base64-encoded strings and binary data 
       //should be performed using Buffer.from(str, 'base64') andbuf.toString('base64')
       this.$router.push({
           name: "dashboardpo",
           params: {
-            poObj: base64EncodeParam
+            param: base64EncodeParam
           }
         });
     },
@@ -272,6 +275,7 @@ export default {
         if (error1) {
           console.error(error1);
         } else {
+          this.pickedLocationCD = this.mainStore.locationCD;
           this.selectedLocation.key = this.mainStore.locationCD;
           this.selectedLocation.value = this.mainStore.locationDescription;
           this.key_results++;
@@ -287,6 +291,8 @@ export default {
     },
     applyLocationFilter(locationType) {
       console.log("locationType: ", locationType);
+      this.pickedLocationCD = locationType;
+
       // search based on the newly selected location
       this.dashboardSupervisorSearch(locationType);
       this.key_results++;
@@ -303,8 +309,8 @@ export default {
         // preset the flag to false; 
         this.officerList = this.officerList.filter(el => {
           el.poDetailFetched = false;
-          el.idirId = 'BBAILES';
-          el.userId = '437593.0005';
+          el.idirId = 'michman';
+          el.userId = '504.0005';
           return el;
         });
       }

@@ -26,7 +26,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/dashboardpo/:poObj',
+      path: '/dashboardpo/:param?', //? makes the param optional
       name: 'dashboardpo',
       component: DashboardPOView,
       meta: {
