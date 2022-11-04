@@ -81,14 +81,30 @@ export default {
       dialog: false,
       selectedLocation: {key: "", value: ""},
       locationTypes: [],
+      keyPage: 0
     }
   },
   mounted() {
-    this.selectedLocation.key = this.mainStore.locationCD;
-    this.selectedLocation.value = this.mainStore.locationDescription;
-    this.locationTypes = this.mainStore.locations;
+    this.getLocationInfo();
   },
   methods: {
+    async getLocationInfo() {
+      const [error, locations] = await this.mainStore.getUserLocations();
+      if (error) {
+        console.log(error);
+      } else {
+        this.locationTypes = this.mainStore.locations;
+        const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+        if (error1) {
+          console.error(error1);
+        } else {
+          this.selectedLocation.key = this.mainStore.locationCD;
+          this.selectedLocation.value = this.mainStore.locationDescription;
+          this.locationTypes = this.mainStore.locations;
+          this.keyPage++;
+        }
+      }
+    },
     handleShowModal() {
       console.log("Show modal");
       let modal = document.getElementById("id_modal");
