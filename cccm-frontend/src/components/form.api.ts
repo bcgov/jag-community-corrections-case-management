@@ -59,7 +59,7 @@ export function getUserLocations() {
 // Lookup APIs
 //------------------------------------------
 // function to search for form types
-export async function async_lookupFormTypes() {
+export async function lookupFormTypes() {
     try {
         const { data } = await axiosClient.get('/lookup/formtypes');
         return [null, data];
@@ -68,15 +68,6 @@ export async function async_lookupFormTypes() {
     }
 }
 
-// function to search for form types
-export function lookupFormTypes() {
-    try {
-        const data = axiosClient.get('/lookup/formtypes');
-        return [null, data];
-    }catch (error) {
-        return [error];
-    }
-}
 
 //------------------------------------------
 // Client Form APIs
