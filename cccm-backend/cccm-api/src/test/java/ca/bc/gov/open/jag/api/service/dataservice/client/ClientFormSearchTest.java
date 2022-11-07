@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAmount;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All");
 
         Assertions.assertEquals(2, result.size());
 
@@ -46,22 +45,48 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All");
 
         Assertions.assertEquals(3, result.size());
-        Assertions.assertEquals("CRNA-TEST2", result.get(0).getModule());
-        Assertions.assertEquals("CRNA-TEST4", result.get(2).getModule());
+        Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
+        Assertions.assertEquals("CRNA-SARA", result.get(2).getModule());
 
     }
 
+    @Test
+    @DisplayName("Success: should return clients forms CRNA no relations")
+    public void testGetClientFormsCRNA() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "CRNA");
+
+        Assertions.assertEquals(1, result.size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should return clients forms SARA ")
+    public void testGetClientFormsSARA() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA");
+
+        Assertions.assertEquals(1, result.size());
+
+
+    }
 
     private List<ClientFormSummary> createNonRelatedList() {
 
         ClientFormSummary form1 = new ClientFormSummary();
         form1.setId(BigDecimal.ONE);
+        form1.setModule("CRNA");
 
         ClientFormSummary form2 = new ClientFormSummary();
         form2.setId(BigDecimal.TEN);
+        form2.setModule("SARA");
 
         return Arrays.asList(form1, form2);
 
@@ -79,17 +104,17 @@ public class ClientFormSearchTest {
         form2.setId(BigDecimal.TEN);
         form2.setRelatedClientFormId(BigDecimal.ONE);
         form2.setUpdatedDate(LocalDate.now().minusDays(1));
-        form2.setModule("TEST2");
+        form2.setModule("SARA");
 
         ClientFormSummary form3 = new ClientFormSummary();
         form3.setId(BigDecimal.ZERO);
-        form3.setModule("TEST3");
+        form3.setModule("CRNA");
 
         ClientFormSummary form4 = new ClientFormSummary();
         form4.setId(BigDecimal.valueOf(123));
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
         form4.setUpdatedDate(LocalDate.now());
-        form4.setModule("TEST4");
+        form4.setModule("SARA");
 
         ClientFormSummary form5 = new ClientFormSummary();
         form5.setId(BigDecimal.valueOf(321));
