@@ -73,7 +73,7 @@
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getWarrants[item.clientNum]}}</div>
           </template>
           <template v-slot:item.designations="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designations.reduce((acc, d) => `${acc},&nbsp;${d}`) }}</div>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getDesignations[item.clientNum]}}</div>
           </template>
           <template v-slot:item.inCustody="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
@@ -137,6 +137,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import {dashboardPOSearch, clientProfileSearch} from "@/components/form.api";
 import { Form } from 'vue-formio';
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
+import { useStore } from "@/stores/store";
+import { mapStores } from 'pinia';
 
 export default {
   name: 'RNAList',
@@ -180,29 +182,51 @@ export default {
       formJSON: templateClientProfile,
       baseURL: import.meta.env.BASE_URL,
       POIdirId: null,
-      POName: null
+      POName: null,
+      POLocationId: null
     }
   },
   mounted(){
-    let enCoded = this.$route.params.poObj;
-    try {
-      if (enCoded) {
-        // base64 decode the string
-        let POObjString = atob(enCoded);
-        let POObj = JSON.parse(POObjString);
-        this.POIdirId = POObj.userId;
-        this.POName = POObj.userName;
-        //console.log("ENcoded, decoded: ", enCoded, POObj);
-        //console.log("poid, poName: ", this.POIdirId, this.POName);
-      }
-    } catch (err) {
-      console.error("PO dashboard parsing param failed: ", err);
-    }
-    
-    //form search from the backend
-    this.dashboardPOSearch()
+    this.initPage();
   },
+  // watch: {
+  //   useStore: {
+  //     immediate: true,
+  //     deep: true,
+  //     handler(newValue, oldValue) {
+  //       console.log("Location updated from Header: ", newValue, oldValue);
+  //     }
+  //   }
+  // },
   methods: {
+    async initPage() {
+      let enCoded = this.$route.params.param;
+      // User gets here when navigate from supervisor dashboard
+      if (enCoded) {
+        try {
+          // base64 decode the string
+          let POObjString = atob(enCoded);
+          let POObj = JSON.parse(POObjString);
+          this.POIdirId = POObj.userId;
+          this.POName = POObj.userName;
+          this.POLocationId = POObj.locationId;
+          
+          //form search from the backend
+          this.dashboardPOSearch(POObj.userId, POObj.locationId)
+        } catch (err) {
+          console.error("PO dashboard parsing param failed: ", err);
+        }
+      } else{
+        // The login user is a PO
+        //form search from the backend
+        const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+        if (error1) {
+          console.error(error1);
+        } else {
+          this.dashboardPOSearch(Vue.$keycloak.tokenParsed.preferred_username, this.mainStore.locationCD)
+        }
+      }
+    },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
       if (this.initDataArray != null && this.initDataArray[item.clientNum] != null 
@@ -258,28 +282,26 @@ export default {
         this.keyExpandRow++;
       }
     },
-    async dashboardPOSearch() {
-      let POId = Vue.$keycloak.tokenParsed.preferred_username;
-      if (this.POIdirId) {
-        POId = this.POIdirId;
-      }
-      const [error, response] = await dashboardPOSearch(POId);
+    async dashboardPOSearch(POId, POLocationId) {
+      const [error, response] = await dashboardPOSearch(POId, POLocationId);
       if (error) {
         console.error(error);
       } else {
         this.clientList = response;
-        console.log("PO search: ", response);
+        console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
-          for (let d of el.designations) {
-            if (d == this.CONST_DESIGNATION_GEN) {
-              this.numOfGen++;
-            }
-            if (d == this.CONST_DESIGNATION_SMO) {
-              this.numOfSMO++;
-            }
-            if (d == this.CONST_DESIGNATION_IPV) {
-              this.numOfIPV++;
+          if (el.designations != null) {
+            for (let d of el.designations) {
+              if (d == this.CONST_DESIGNATION_GEN) {
+                this.numOfGen++;
+              }
+              if (d == this.CONST_DESIGNATION_SMO) {
+                this.numOfSMO++;
+              }
+              if (d == this.CONST_DESIGNATION_IPV) {
+                this.numOfIPV++;
+              }
             }
           }
         }
@@ -327,6 +349,7 @@ export default {
     }
   },
   computed: {
+    ...mapStores(useStore),
     getAlerts() {
       let alertArray = [];
       for (let el of this.clientList) {
@@ -351,11 +374,23 @@ export default {
     },
     getUserName() {
       let name = Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
-      console.log("getUserName: ", this.POName);
+      //console.log("getUserName: ", this.POName);
       if (this.POName) {
         name = this.POName;
       }
       return name;
+    }, 
+    getDesignations() {
+      let designations = [];
+      for (let item of this.clientList) {
+        let designation = '';
+        if (item.designations != null) {
+          const designationArray = item.designations.split(" ");
+          designation = designationArray.reduce((acc, d) => `${acc}, ${d}`);
+        }
+        designations[item.clientNum] = designation;
+      }
+      return designations;
     }
   }
 }

@@ -17,15 +17,15 @@
             Select Form Type
           </strong>
           <v-checkbox
-            v-model="selectedFormTypeValue"
+            v-model="selectedFormtypeForFormCreate"
             :readonly="readonly"
             label="CRNA-CMP"
-            value="crna"
+            value="$CONST_FORMTYPE_CRNA"
           ></v-checkbox>
           <v-checkbox
-            v-model="selectedFormTypeValue"
+            v-model="selectedFormtypeForFormCreate"
             label="SARA-CMP"
-            value="sara"
+            value="$CONST_FORMTYPE_SARA"
           ></v-checkbox>
         </div>
         <v-card-actions>
@@ -71,7 +71,7 @@
         </div>
         <div class="col-sm-3">
           <strong>Supervision Periods</strong>
-            <v-radio-group label="" v-model="currentPeriod" row v-on:change="changePeriods">
+            <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
                 value="all"></v-radio>
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
@@ -84,7 +84,7 @@
         </div>
       </section>
       <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="filteredRNAList"
+        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
           item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
           :loading="loading"   loading-text="Loading RNA List... Please wait"
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
@@ -146,7 +146,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { lookupFormTypes, formSearch, cloneForm, createCRNAForm, createSARAForm } from "@/components/form.api";
+import { formSearch, cloneForm, createCRNAForm, createSARAForm } from "@/components/form.api";
 
 export default {
   name: 'RNAList',
@@ -167,8 +167,6 @@ export default {
   data() {
     return {
       //Const
-      const_formtype_crna: "crna",
-      const_formtype_sara: "sara",
       const_formstatus_incomplete: "Incomplete",
       const_formstatus_complete: "Complete",
       const_formstatus_overdue: "Overdue",
@@ -196,22 +194,17 @@ export default {
         { text: 'SARA Rating', value: 'saraRating' },
         { text: 'Actions', value: 'action' },
       ],
-      filteredRNAList: [],
       rnaList: [],
-      selectedFormTypes: {value: "ALL", key: ""},
-      formTypes: [],
-      selectedSupervisionPeriods: "false",
+      selectedFormTypes: {value: "ALL", key: this.$CONST_FORMTYPE_RNA},
+      formTypes: this.$CONST_FORM_TYPES,
       dialog: false,
       readonly: true,
-      selectedFormTypeValue: []
+      selectedFormtypeForFormCreate: []
     }
   },
   mounted() {
-    this.initFormCreation();
-
-    this.lookupFormTypesAPI();
-    //form search from the backend
-    this.formSearchAPI(this.clientNum)
+    this.initFormCreationSelection();
+    this.formSearchAPI(this.selectedFormTypes.key)
   },
   methods: {
     getAssessmentStatus(isReassessment) {
@@ -248,52 +241,33 @@ export default {
 
       return colorClass;
     },
-    initFormCreation() {
-      console.log("this.selectedFormTypeValue this.IPVClient: ", this.selectedFormTypeValue, this.IPVClient);
-      this.selectedFormTypeValue = [];
+    initFormCreationSelection() {
+      console.log("this.selectedFormtypeForFormCreate this.IPVClient: ", this.selectedFormtypeForFormCreate, this.IPVClient);
+      this.selectedFormtypeForFormCreate = [];
 
-      // added const_formtype_crna to this.selectedFormTypeValue
-      this.selectedFormTypeValue.push(this.const_formtype_crna);
+      // added $CONST_FORMTYPE_CRNA to this.selectedFormtypeForFormCreate
+      this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_CRNA);
 
-      // if it's IPVClient, add this.const_formtype_sara to this.selectedFormTypeValue
+      // if it's IPVClient, add this.$CONST_FORMTYPE_SARA to this.selectedFormtypeForFormCreate
       if (this.IPVClient) {
-        this.selectedFormTypeValue.push(this.const_formtype_sara);
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
       }
     },
-    applyFormTypeFilter(ft) {
-      this.private_applyFilter(ft, this.selectedSupervisionPeriods);
+    applyPeriodFilter() {
+      console.log("Filter updating periods %o", this.currentPeriod);
+      let formType = this.$CONST_FORMTYPE_RNA;
+      if (typeof this.selectedFormTypes == 'object') {
+        formType = this.selectedFormTypes.key;
+      } else {
+        formType = this.selectedFormTypes;
+      }
+      this.formSearchAPI(formType);
     },
-    private_applyFilter(formType, currentPeriod) {
+    applyFormTypeFilter(formType) {
       if (typeof formType == 'object') {
         formType = formType.key;
       }
-      if (typeof currentPeriod == 'object') {
-        currentPeriod = currentPeriod.value;
-      }
-      this.filteredRNAList = this.rnaList.filter(el => {
-        if (currentPeriod == "true") {
-          return el.module.includes(formType) && el.status != 'Complete';
-        } else {
-          return el.module.includes(formType);
-        }
-      });
-      this.key_rnalistSearchResult++;
-    },
-    async lookupFormTypesAPI() {
-      const [error, response] = await lookupFormTypes();
-      if (error) {
-        console.error(error);
-      } else {
-        if (response != null && response.items != null) {
-            this.formTypes = response.items;
-        }
-      }
-      // to be removed
-      this.formTypes = [
-        { value: "CRNA", key: "crna" }, 
-        { value: "SARA", key: "sara" }
-      ];
-      this.formTypes.unshift(this.selectedFormTypes);
+      this.formSearchAPI(formType);
     },
     async createFormAPI(formType) {
       let formData = {};
@@ -355,27 +329,23 @@ export default {
         });
       }
     },
-    async formSearchAPI(clientNum) {
+    async formSearchAPI(formType) {
+      
       this.loading = true;
       try {
         let period = (this.currentPeriod === 'current') ? true : false;
-        const [error, response] = await formSearch(clientNum, 'RNA', period);
-        //this.initData = response.data;
-        this.key_rnalistSearchResult++;
-        this.rnaList = response;
-        console.log("RNAList: ", this.rnaList);
-        this.filteredRNAList = this.rnaList;
+        console.log("RNAList search: ", this.clientNum, formType, period);
+        const [error, response] = await formSearch(this.clientNum, formType, period);
         if (error) {
           console.error(error);
+        } else {
+          this.key_rnalistSearchResult++;
+          this.rnaList = response;
+          console.log("RNAList: ", this.rnaList);
         }
       } finally {
         this.loading = false;
       }
-    },
-    changePeriods() {
-      console.log("Filter updating periods %o", this.currentPeriod);
-      let period = (this.currentPeriod === 'current') ? true : false;
-      this.formSearchAPI(this.clientNum, period);
     },
     formView( formID ) {
       if (formID != null) {
@@ -392,14 +362,14 @@ export default {
     async formClone(formID) {
       console.log("formClone", formID);
       this.formCloneAPI(formID);
-      this.formSearchAPI(this.clientNum);
+      this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      console.log("selectedFormTypeValue: ", this.selectedFormTypeValue);
+      console.log("selectedFormtypeForFormCreate: ", this.selectedFormtypeForFormCreate);
 
       let formType = this.$CONST_FORMTYPE_CRNA;
-      if (this.selectedFormTypeValue.includes("sara")) {
+      if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
         formType = this.$CONST_FORMTYPE_SARA;
       }
       this.createFormAPI(formType);

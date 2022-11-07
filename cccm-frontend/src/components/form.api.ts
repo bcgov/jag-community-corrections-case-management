@@ -59,7 +59,7 @@ export function getUserLocations() {
 // Lookup APIs
 //------------------------------------------
 // function to search for form types
-export async function async_lookupFormTypes() {
+export async function lookupFormTypes() {
     try {
         const { data } = await axiosClient.get('/lookup/formtypes');
         return [null, data];
@@ -68,15 +68,6 @@ export async function async_lookupFormTypes() {
     }
 }
 
-// function to search for form types
-export function lookupFormTypes() {
-    try {
-        const data = axiosClient.get('/lookup/formtypes');
-        return [null, data];
-    }catch (error) {
-        return [error];
-    }
-}
 
 //------------------------------------------
 // Client Form APIs
@@ -600,12 +591,13 @@ export async function dashboardPODetailsSearch(userId: number) {
 }
 
 // PO dashboard search
-export async function dashboardPOSearch(userId: String) {
+export async function dashboardPOSearch(userId: String, locationId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/po', {
             params: {
-                userId: userId
+                idirId: userId,
+                locationId: locationId
             }
         });
         return [null, data];
