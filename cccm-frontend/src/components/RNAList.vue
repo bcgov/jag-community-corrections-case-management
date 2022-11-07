@@ -20,12 +20,12 @@
             v-model="selectedFormtypeForFormCreate"
             :readonly="readonly"
             label="CRNA-CMP"
-            value="$CONST_FORMTYPE_CRNA"
+            :value="$CONST_FORMTYPE_CRNA"
           ></v-checkbox>
           <v-checkbox
             v-model="selectedFormtypeForFormCreate"
             label="SARA-CMP"
-            value="$CONST_FORMTYPE_SARA"
+            :value="$CONST_FORMTYPE_SARA"
           ></v-checkbox>
         </div>
         <v-card-actions>
@@ -242,7 +242,7 @@ export default {
       return colorClass;
     },
     initFormCreationSelection() {
-      console.log("this.selectedFormtypeForFormCreate this.IPVClient: ", this.selectedFormtypeForFormCreate, this.IPVClient);
+      //console.log("this.selectedFormtypeForFormCreate this.IPVClient: ", this.selectedFormtypeForFormCreate, this.IPVClient);
       this.selectedFormtypeForFormCreate = [];
 
       // added $CONST_FORMTYPE_CRNA to this.selectedFormtypeForFormCreate
