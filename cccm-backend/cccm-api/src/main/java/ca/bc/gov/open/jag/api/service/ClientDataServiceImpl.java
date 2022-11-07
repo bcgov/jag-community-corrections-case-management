@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.client.ClientsApiImpl;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.mapper.ClientMapper;
@@ -20,6 +21,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -151,6 +153,9 @@ public class ClientDataServiceImpl implements ClientDataService {
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
             if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
+
+                log.info("Merging crna and sara");
+
                 ClientFormSummary mergedForm = form;
                 mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
                 mergedForm.setStatus(relatedFrom.get().getStatus());
@@ -163,6 +168,9 @@ public class ClientDataServiceImpl implements ClientDataService {
                 }
                 formsMerged.add(mergedForm);
             } else if (!relatedFrom.isPresent()) {
+
+                log.info("adding stand alone form");
+
                 formsMerged.add(form);
             }
         }
