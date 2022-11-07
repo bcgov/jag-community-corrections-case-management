@@ -11,7 +11,7 @@ public class ClientProfile {
     private String status;
     private String supervisionLevel;
     private String orders;
-    private Date finalOrderExpiryDt;
+    private String finalOrderExpiryDt;
     private Date orderEffectiveDt;
     private String releaseReason;
     private String institutionstatus;
@@ -94,11 +94,11 @@ public class ClientProfile {
         this.orders = orders;
     }
 
-    public Date getFinalOrderExpiryDt() {
+    public String getFinalOrderExpiryDt() {
         return finalOrderExpiryDt;
     }
 
-    public void setFinalOrderExpiryDt(Date finalOrderExpiryDt) {
+    public void setFinalOrderExpiryDt(String finalOrderExpiryDt) {
         this.finalOrderExpiryDt = finalOrderExpiryDt;
     }
 

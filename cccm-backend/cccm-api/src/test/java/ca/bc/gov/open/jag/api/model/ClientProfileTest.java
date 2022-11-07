@@ -26,7 +26,7 @@ public class ClientProfileTest {
         sut.setStatus("TEST");
         sut.setSupervisionLevel("TEST");
         sut.setOrders("TEST");
-        sut.setFinalOrderExpiryDt(Date.valueOf(testDate));
+        sut.setFinalOrderExpiryDt(testDate.toString());
         sut.setOrderEffectiveDt(Date.valueOf(testDate));
         sut.setReleaseReason("TEST");
         sut.setInstitutionstatus("TEST");
