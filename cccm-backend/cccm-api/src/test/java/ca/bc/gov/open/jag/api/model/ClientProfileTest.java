@@ -61,7 +61,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getStatus());
         Assertions.assertEquals("TEST", sut.getSupervisionLevel());
         Assertions.assertEquals("TEST", sut.getOrders());
-        Assertions.assertEquals(Date.valueOf(testDate), sut.getFinalOrderExpiryDt());
+        Assertions.assertEquals(testDate.toString(), sut.getFinalOrderExpiryDt());
         Assertions.assertEquals(Date.valueOf(testDate), sut.getOrderEffectiveDt());
         Assertions.assertEquals("TEST", sut.getReleaseReason());
         Assertions.assertEquals("TEST", sut.getInstitutionstatus());
