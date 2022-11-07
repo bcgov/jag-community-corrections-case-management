@@ -29,13 +29,13 @@ setupInterceptors();
 
 Vue.prototype.$CONST_FORMTYPE_CRNA = 'CRNA'
 Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
-Vue.prototype.$CONST_FORMTYPE_RNA = 'RNA'
+Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
 Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
 Vue.prototype.$CONST_FORM_TYPES = [
-  { value: "All", key: "RNA"},
+  { value: "ALL", key: "ALL"},
   { value: "CRNA", key: "CRNA" }, 
-  { value: "CRNA-SARA", key: "CRNA-SARA" }
+  { value: "CRNA-SARA", key: "SARA" }
 ]
 
 Vue.$keycloak

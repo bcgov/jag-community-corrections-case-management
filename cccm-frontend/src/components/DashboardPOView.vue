@@ -292,7 +292,9 @@ export default {
         //Update the counts
         for (let el of this.clientList) {
           if (el.designations != null) {
-            for (let d of el.designations) {
+            const designationArray = el.designations.split(" ");
+            for (let d of designationArray) {
+              d = d.trim();
               if (d == this.CONST_DESIGNATION_GEN) {
                 this.numOfGen++;
               }
