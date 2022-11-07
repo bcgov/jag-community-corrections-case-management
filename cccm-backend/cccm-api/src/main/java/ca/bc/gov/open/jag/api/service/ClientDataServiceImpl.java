@@ -152,25 +152,34 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
-            if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
 
-                log.info("Merging crna and sara");
+            if (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) || formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE)) {
+                if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
 
-                ClientFormSummary mergedForm = form;
-                mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
-                mergedForm.setStatus(relatedFrom.get().getStatus());
-                mergedForm.getRatings().putAll(relatedFrom.get().getRatings());
-                mergedForm.setLocationId(relatedFrom.get().getLocationId());
-                mergedForm.setLocation(relatedFrom.get().getLocation());
-                mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
-                if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
-                    mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
+                    log.info("Merging crna and sara");
+
+                    ClientFormSummary mergedForm = form;
+                    mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
+                    mergedForm.setStatus(relatedFrom.get().getStatus());
+                    mergedForm.getRatings().putAll(relatedFrom.get().getRatings());
+                    mergedForm.setLocationId(relatedFrom.get().getLocationId());
+                    mergedForm.setLocation(relatedFrom.get().getLocation());
+                    mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
+                    if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
+                        mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
+                    }
+                    formsMerged.add(mergedForm);
+                } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE) && form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
+
+                    log.info("adding stand alone form");
+
+                    formsMerged.add(form);
+
+                } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) {
+                    formsMerged.add(form);
                 }
-                formsMerged.add(mergedForm);
-            } else if (!relatedFrom.isPresent()) {
-
-                log.info("adding stand alone form");
-
+            }
+            else if (formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) {
                 formsMerged.add(form);
             }
         }
