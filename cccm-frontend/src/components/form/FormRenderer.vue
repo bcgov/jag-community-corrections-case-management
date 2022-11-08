@@ -312,7 +312,9 @@ export default {
           console.error(error);
         } else {
           this.formInitData = clientFormData;
+          this.formInitData.data.clientFormType = this.formInfoData.data.clientFormType.toLowerCase();
         }
+        //console.log("this.formInitData:", this.formInitData);
       }
       this.loading = false;
     },
