@@ -148,7 +148,6 @@
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
-              :showSummaryCounter="showSummaryCounter"
               :clientFormId="formId"
               :csNumber="csNumber" />
 
@@ -232,7 +231,6 @@ export default {
       componentKey: 0,
       formInfoKey: 0,
       formStaticInfoKey: 0,
-      showSummaryCounter: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
       casePlanDataModel: {"display": "form", "components": []},

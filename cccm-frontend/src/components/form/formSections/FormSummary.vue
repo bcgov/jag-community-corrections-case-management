@@ -55,9 +55,6 @@ export default {
         dataChangeCount: {
             type: Number
         },
-        showSummaryCounter: {
-            type: Number
-        },
         clientFormId: 0,
         csNumber: ''
     },
