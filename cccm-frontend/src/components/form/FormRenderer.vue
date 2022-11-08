@@ -122,7 +122,7 @@
               <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" />
             </div>
             <div class="menuR2" v-if="!loading">
-              <FormNavigation :key="componentKey" 
+              <FormNavigation v-if="!destroy" :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
                 :parentNavJumpToPointed="parentNavJumpToPointed"
@@ -132,7 +132,7 @@
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
           <div :class="loading ? 'hide' : 'mainContent'">
-            <FormDataEntry :key="componentKey" 
+            <FormDataEntry v-if="!destroy" :key="componentKey" 
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
@@ -169,7 +169,7 @@
                   @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
-                <FormioSidePanel :key="formStaticInfoKey" 
+                <FormioSidePanel v-if="!destroy" :key="formStaticInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"/>
               </div>
@@ -239,12 +239,17 @@ export default {
       errorText: '',
       deleteDialog: false,
       saraDeleteSelectedFormTypeValue: ["sara"],
+      destroy: false
     }
   },
   mounted(){
     //console.log("form renderer mounted: ", this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
+  },
+  beforeDestroy(){
+    this.destroy = true;
+    console.log("form renderer beforeDestroy");
   },
   methods: {
     async getClientAndFormMeta() {
