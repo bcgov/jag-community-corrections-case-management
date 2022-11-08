@@ -168,6 +168,10 @@ public class ClientDataServiceImpl implements ClientDataService {
                     if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
                         mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
                     }
+
+                    mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getSupervisionRating()) > ratingToInteger(form.getSupervisionRating()) ? relatedFrom.get().getSupervisionRating() : form.getSupervisionRating()));
+                    mergedForm.setReassessment(relatedFrom.get().getReassessment());
+
                     formsMerged.add(mergedForm);
                 } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE) && form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
 
@@ -302,6 +306,32 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     private Optional<ClientFormSummary> getRelatedKey(List<ClientFormSummary> forms, BigDecimal key) {
         return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
+    }
+
+    private Integer ratingToInteger(String rating) {
+
+        if (StringUtils.isBlank(rating)) {
+            return -1;
+        }
+
+        int result;
+
+        switch (rating) {
+            case HIGH:
+                result = 3;
+                break;
+            case MEDIUM:
+                result = 2;
+                break;
+            case LOW:
+                result = 1;
+                break;
+            default:
+                result = 0;
+                break;
+        }
+
+        return result;
     }
 
 }
