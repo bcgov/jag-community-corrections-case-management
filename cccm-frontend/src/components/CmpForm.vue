@@ -134,6 +134,7 @@ export default {
       } else {
         //console.info("SARA form instance created: ", SARAFormId);
         this.items = [];
+        this.formId = SARAFormId;
         this.getClientFormDetailsAPI(this.clientNum, SARAFormId);
       }
     },
