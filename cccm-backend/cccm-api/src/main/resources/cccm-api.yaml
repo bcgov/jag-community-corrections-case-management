@@ -2214,9 +2214,12 @@ components:
       type: object
       required:
         - clientFormId
+        - clientNumber
       properties:
         clientFormId:
           type: number
+        clientNumber:
+          type: string
         linkedClientFormId:
           type: number
           description: required to link a form

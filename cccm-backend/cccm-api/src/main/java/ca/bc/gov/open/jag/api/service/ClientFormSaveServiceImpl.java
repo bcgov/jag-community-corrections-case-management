@@ -78,6 +78,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setFormLevelComments(completeFormInput.getFormLevelComments());
         formInput.setPlanSummary(completeFormInput.getPlanSummary());
         formInput.setSourcesContacted(completeFormInput.getSourcesContacted());
+        formInput.setClientNumber(completeFormInput.getClientNumber());
         formInput.setCompletionDate(LocalDate.now());
 
         return obridgeClientService.createForm(formInput);
@@ -93,6 +94,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setFormLevelComments(updateFormInput.getFormLevelComments());
         formInput.setPlanSummary(updateFormInput.getPlanSummary());
         formInput.setSourcesContacted(updateFormInput.getSourcesContacted());
+        formInput.setClientNumber(updateFormInput.getClientNumber());
         formInput.setCompletionDate(null);
 
         obridgeClientService.createForm(formInput);
