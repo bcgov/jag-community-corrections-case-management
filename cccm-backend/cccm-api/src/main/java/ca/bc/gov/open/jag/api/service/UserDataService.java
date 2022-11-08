@@ -1,9 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,5 +17,7 @@ public interface UserDataService {
     List<PODashboard> getPODashboard(String user, BigDecimal location);
 
     List<SupervisorDashboard> getSupervisorDashboard(String user, BigDecimal location);
+
+    LogonResult logonUser(String user, String locationType);
 
 }

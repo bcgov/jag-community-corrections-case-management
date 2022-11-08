@@ -1603,6 +1603,35 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/logon:
+    get:
+      operationId: GetLogon
+      parameters:
+        - in: query
+          name: locationType
+          required: true
+          schema:
+            type: string
+            enum:
+              - all
+              - community
+          description: >
+            Sort order:
+             * `all` - Admin will return all locations
+             * `community` - Community will only return community locations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogonResult'
+          description: perform user logon action get default location and availble locations also set last logon date
+      summary: get users locations
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
   /user/id:
     get:
       operationId: GetUserId
@@ -2614,3 +2643,10 @@ components:
           type: string
         message:
           type: string
+    LogonResult:
+      type: object
+      properties:
+        defaultLocation:
+          $ref: '#/components/schemas/Code'
+        locations:
+          $ref: '#/components/schemas/CodeList'

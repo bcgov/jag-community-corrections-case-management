@@ -254,4 +254,7 @@ public interface ObridgeClientService {
     @Path("/forms/client/delete")
     String deleteForm(@RequestBody DeleteRequest deleteRequest);
 
+    @PUT
+    @Path("/user/{idirId}/login")
+    void setLoginDate(@PathParam("idirId") String idirId);
 }
