@@ -18,5 +18,8 @@ public class Keys {
     public static final String CCCM_LOCATION = "CCIL";
     public static final String LOCATION_TYPE_ALL = "all";
     public static final String LOCATION_TYPE_COMMUNITY = "community";
+    public static final String HIGH = "H";
+    public static final String MEDIUM = "M";
+    public static final String LOW = "L";
 
 }

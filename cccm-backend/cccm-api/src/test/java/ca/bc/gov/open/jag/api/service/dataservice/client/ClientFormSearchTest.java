@@ -17,6 +17,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static ca.bc.gov.open.jag.api.Keys.*;
+
 @QuarkusTest
 public class ClientFormSearchTest {
 
@@ -49,7 +51,9 @@ public class ClientFormSearchTest {
 
         Assertions.assertEquals(3, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
+        Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
         Assertions.assertEquals("CRNA-SARA", result.get(2).getModule());
+        Assertions.assertEquals(MEDIUM, result.get(2).getSupervisionRating());
 
     }
 
@@ -98,12 +102,14 @@ public class ClientFormSearchTest {
         form1.setId(BigDecimal.ONE);
         form1.setRelatedClientFormId(BigDecimal.TEN);
         form1.setUpdatedDate(LocalDate.now());
+        form1.setSupervisionRating(HIGH);
         form1.setModule("CRNA");
 
         ClientFormSummary form2 = new ClientFormSummary();
         form2.setId(BigDecimal.TEN);
         form2.setRelatedClientFormId(BigDecimal.ONE);
         form2.setUpdatedDate(LocalDate.now().minusDays(1));
+        form2.setSupervisionRating(MEDIUM);
         form2.setModule("SARA");
 
         ClientFormSummary form3 = new ClientFormSummary();
@@ -114,12 +120,14 @@ public class ClientFormSearchTest {
         form4.setId(BigDecimal.valueOf(123));
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
         form4.setUpdatedDate(LocalDate.now());
+        form4.setSupervisionRating(MEDIUM);
         form4.setModule("SARA");
 
         ClientFormSummary form5 = new ClientFormSummary();
         form5.setId(BigDecimal.valueOf(321));
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
         form5.setUpdatedDate(LocalDate.now().minusDays(1));
+        form5.setSupervisionRating(LOW);
         form5.setModule("CRNA");
 
         return Arrays.asList(form1, form2, form3, form4, form5);
