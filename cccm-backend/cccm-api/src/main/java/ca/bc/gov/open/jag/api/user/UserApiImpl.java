@@ -4,12 +4,14 @@ import ca.bc.gov.open.jag.api.service.UserDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 import java.util.logging.Logger;
 
 @RequestScoped
@@ -23,6 +25,15 @@ public class UserApiImpl implements UserApi {
     @Inject
     @Claim(standard = Claims.preferred_username)
     String username;
+
+    @Override
+    public LogonResult getLogon(@NotNull String locationType) {
+
+        logger.info("User Logon Request");
+
+        return userDataService.logonUser(username, locationType);
+
+    }
 
     @Override
     @RolesAllowed("data-view")
