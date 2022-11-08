@@ -41,7 +41,7 @@
 
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id"> 
+        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item.id)" > 
           <span v-if="item.id === $CONST_FORMTYPE_CRNA">{{ item.tab }}</span>
           <div v-if="item.id === 'saraBtn'" class="p-4">
             <v-btn
@@ -56,7 +56,8 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -83,7 +84,9 @@ export default {
       current_tab: 'tab-CRNA',
       items: [],
       dialog: false,
-      formKey: 0,      
+      formKey: 0,    
+      CRNATabKey: 0,  
+      SARATabKey: 0,
     }
   },
   mounted(){
@@ -93,6 +96,14 @@ export default {
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
   methods: {
+    updateTabKey(itemId) {
+      if (itemId == this.$CONST_FORMTYPE_CRNA) {
+        this.CRNATabKey++;
+      }
+      if (itemId == this.$CONST_FORMTYPE_SARA) {
+        this.SARATabKey++;
+      }
+    },
     async getClientFormDetailsAPI(csNum, clientFormId) {
       const [error, response] = await getClientFormDetails(csNum, clientFormId);
       if (error) {
