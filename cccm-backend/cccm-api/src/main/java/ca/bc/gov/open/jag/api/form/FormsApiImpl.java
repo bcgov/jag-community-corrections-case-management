@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.form;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
+import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
@@ -106,14 +107,14 @@ public class FormsApiImpl implements FormsApi {
     @RolesAllowed("form-add")
     public BigDecimal completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
 
-        return clientFormSaveService.completeForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username);
+        return clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username, false));
 
     }
 
     @Override
     @RolesAllowed("form-add")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
-        clientFormSaveService.editForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(), username);
+        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(), username, false));
     }
 
     @Override

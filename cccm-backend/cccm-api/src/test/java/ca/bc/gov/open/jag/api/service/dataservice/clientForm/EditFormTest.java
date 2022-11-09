@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
@@ -47,7 +48,7 @@ public class EditFormTest {
         updateFormInput.setPlanSummary("TEST");
         updateFormInput.setSourcesContacted("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
 
     }
 
@@ -65,7 +66,7 @@ public class EditFormTest {
         updateFormInput.setPlanSummary("TEST");
         updateFormInput.setSourcesContacted("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false)));
 
     }
 
@@ -84,7 +85,7 @@ public class EditFormTest {
         updateFormInput.setPlanSummary("TEST");
         updateFormInput.setSourcesContacted("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false)));
 
     }
 
@@ -98,7 +99,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
 
     }
 
