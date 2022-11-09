@@ -204,7 +204,7 @@ export default {
       // show questions
       if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
         //console.log("panel is not null: ",  this.dataModel.components.length);
-        for (let i = 0; i <= this.dataModel.components.length; i++) {
+        for (let i = 0; i <= this.dataModel.components.length - 2; i++) {
           // Section ID is 1 based, not 0 based.
           let panelIDIndex = (i + 1).toString().length < 2 ? "0" + (i + 1).toString() : (i + 1).toString();
           let panelID = "S" + panelIDIndex;
