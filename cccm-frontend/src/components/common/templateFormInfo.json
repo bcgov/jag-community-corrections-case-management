@@ -145,6 +145,21 @@
                                     "type": "htmlelement",
                                     "input": false,
                                     "tableView": false
+                                },
+                                {
+                                    "label": "Edit",
+                                    "action": "event",
+                                    "showValidations": false,
+                                    "tableView": false,
+                                    "key": "edit",
+                                    "conditional": {
+                                        "show": true,
+                                        "when": "readonly",
+                                        "eq": "true"
+                                    },
+                                    "type": "button",
+                                    "event": "evt_editForm",
+                                    "input": true
                                 }
                             ],
                             "width": 2,

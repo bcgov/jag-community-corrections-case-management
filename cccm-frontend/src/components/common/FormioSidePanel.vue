@@ -1,5 +1,9 @@
 <template>
-    <Form :form="formJSON" :submission="dataModel" @evt_changeButtonLabel="changeButtonLabel"/>
+    <Form :key="formKey"
+      :form="formJSON" 
+      :submission="dataModel" 
+      :options="options"
+      @evt_changeButtonLabel="changeButtonLabel"/>
 </template>
 
 <script lang="ts">
@@ -12,23 +16,39 @@ export default {
   name: 'FormioPanel',
   props: {
     dataModel: {},
-    clientFormId: 0
+    clientFormId: 0,
+    options: {},
+    timeForValidate: {
+      type: Number,
+      default: 1,
+    }
   },
   data() {
     return {
       KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
       templatePanel : templatePanel,
-      formJSON : {}
+      formJSON : {},
+      formKey: 0,
+      simulateBtnClick: false
     }
   },
   components: {
     Form
   },
+  watch: {
+    timeForValidate() {
+      this.simulateBtnClick = true;
+      // get button instance
+      let btnName= "data[add_source]";
+      let theBtn = document.getElementsByName(btnName);
+      // Submit the form by simulating clicking the submit button
+      if (theBtn != null && theBtn[0] != null) {
+        theBtn[0].click(); 
+      }
+    }
+  },
   mounted(){
     this.buildFormData();
-    setTimeout(() => {
-      this.hideInputTextBox();
-    }, 1000);
   },
   methods: {
     buildFormData() {
@@ -37,65 +57,25 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
     },
-    hideInputTextBox() {
-      // get textbox instance
-      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
-      let textBox = document.getElementsByName(tbName);
-      
-      //hide textbox
-      if (textBox != null &&  textBox[0] != null) {
-        textBox[0].setAttribute('style', 'display:none');
-      }
-    },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_changeButtonLabel" ) {
-        // get button instance
-        let btnName= "data[add_source]";
-        let theBtn = document.getElementsByName(btnName);
+        if (this.simulateBtnClick) {
+          this.simulateBtnClick = false;
+          this.$emit('dataCollectedForValidate', evt.data[this.KEY_SOURCESCONTACTED]);
+        } else {
+          this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
+          this.formKey++;
 
-        // get textbox instance
-        let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
-        let textBox = document.getElementsByName(tbName);
-        
-        // get html instance
-        let className = '[class*="key_sourceContacted"]';
-        let theHtmlParentDiv = document.querySelector(className);
-
-        if (theBtn != null && theBtn[0] != null) {
-          if (theBtn[0].innerText === "Add Source") {
-            // Update the label to 'Save'
-            theBtn[0].innerText = "Save";
-
-            // show textbox
-            if (textBox != null && textBox[0] != null) {
-              textBox[0].setAttribute('style', 'display:block');
-            }
-            
-            // hide html
-            if (theHtmlParentDiv != null) {
-              theHtmlParentDiv.setAttribute('style', 'display:none');
-            }
-          } else {
+          // Time to save
+          if (!this.dataModel.data.hideSCInput) {
             // Save button clicked, call API to save the data
             let sourcesContacted = {};
             sourcesContacted[this.KEY_SOURCESCONTACTED] = evt.data[this.KEY_SOURCESCONTACTED];
-            //console.log("sourcesContacted data: ", sourcesContacted);
             const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
             if (error) {
               console.error("Save source contacted error: ", error);
             } else {
               console.log("Save source contacted success", response);
-            }
-            
-            theBtn[0].innerText = "Add Source"
-            // hide textbox
-            if (textBox != null &&  textBox[0] != null) {
-              textBox[0].setAttribute('style', 'display:none');
-            }
-            
-            // show html
-            if (theHtmlParentDiv != null) {
-              theHtmlParentDiv.setAttribute('style', 'display:block');
             }
           }
         }

@@ -2,6 +2,7 @@
   <div>
     <Form :form="dataModel" 
       :submission="initData" 
+      :options="options"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent"
       @key_submit_btn="handleSubmit"
@@ -28,6 +29,7 @@ export default {
       type: Number,
       default: 1,
     },
+    options: {}
   },
   components: {
     Form
@@ -63,24 +65,12 @@ export default {
   mounted() {
     // reset the indicator
     this.saving = false;
+    //console.log("options: ", this.options);
   },
   methods: {
     handleSubmit(evt) {
-      let sourcesContacted = this.private_getSourcesContacted();
       // emit an event, dataSubmitted, to the parent, so parent knows the form data
-      if (evt.data != null) {
-        evt.data[this.KEY_SOURCESCONTACTED] = sourcesContacted;
-      }
       this.$emit('dataCollectedForValidate', evt.data);
-    },
-    private_getSourcesContacted() {
-      let tbName= "data[" + this.KEY_SOURCESCONTACTED + "]";
-      let textBox = document.getElementsByName(tbName);
-      
-      //hide textbox
-      if (textBox != null &&  textBox[0] != null) {
-        return textBox[0].value;
-      }
     },
     async autoSave() {
       //only start saving if previous saving is done
