@@ -41,7 +41,7 @@
 
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item.id)" > 
+        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
           <span v-if="item.id === $CONST_FORMTYPE_CRNA">{{ item.tab }}</span>
           <div v-if="item.id === 'saraBtn'" class="p-4">
             <v-btn
@@ -96,12 +96,30 @@ export default {
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
   methods: {
-    updateTabKey(itemId) {
-      if (itemId == this.$CONST_FORMTYPE_CRNA) {
-        this.CRNATabKey++;
-      }
-      if (itemId == this.$CONST_FORMTYPE_SARA) {
-        this.SARATabKey++;
+    updateTabKey(item) {
+      let currentPath = this.$route.path;
+      let pathArray = currentPath.split("/");
+      let currentPathClientFormId = pathArray[pathArray.length - 1];
+
+      // Reload the whole page if clicking on different tab, 
+      // which resolves the issues with the whole DOM object not cleared when reload the same component with different param
+      if (currentPathClientFormId != item.formId) {
+        console.log("push path");
+        let r = this.$router.resolve({
+          name: "cmpform", 
+          params: {
+            formID: item.formId,
+            csNumber: this.clientNum
+          }
+        });
+        window.location.assign(r.href)
+      } else {
+        if (item.id == this.$CONST_FORMTYPE_CRNA) {
+          this.CRNATabKey++;
+        }
+        if (item.id == this.$CONST_FORMTYPE_SARA) {
+          this.SARATabKey++;
+        }
       }
     },
     async getClientFormDetailsAPI(csNum, clientFormId) {
@@ -109,7 +127,7 @@ export default {
       if (error) {
         console.error("Failed getting client form details", error);
       } else {
-        console.log("Form details: ", response);
+        //console.log("Form details: ", response);
         this.formType = response.module;
         this.relatedClientFormId = response.relatedClientFormId;
         
