@@ -13,7 +13,6 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
 
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
-import static ca.bc.gov.open.jag.api.Keys.OUTER_DATA_ELEMENT;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
@@ -71,7 +69,13 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId) {
+    public BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId, Boolean hasOverride, String idirId) {
+
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(completeFormInput.getClientNumber(), completeFormInput.getClientFormId());
+
+        if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
+            throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
+        }
 
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
@@ -82,13 +86,36 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientNumber(completeFormInput.getClientNumber());
         formInput.setCompletionDate(LocalDate.now());
 
-        return obridgeClientService.createForm(formInput);
+        BigDecimal result = obridgeClientService.createForm(formInput);
+
+        if (completeFormInput.getLinkedClientFormId() != null) {
+
+            FormInput childFormInput = new FormInput();
+            childFormInput.setLocationId(locationId);
+            childFormInput.setClientFormId(completeFormInput.getLinkedClientFormId());
+            childFormInput.setFormLevelComments(completeFormInput.getFormLevelComments());
+            childFormInput.setPlanSummary(completeFormInput.getPlanSummary());
+            childFormInput.setSourcesContacted(completeFormInput.getSourcesContacted());
+            childFormInput.setClientNumber(completeFormInput.getClientNumber());
+            childFormInput.setCompletionDate(LocalDate.now());
+
+            obridgeClientService.createForm(childFormInput);
+
+        }
+
+        return result;
 
     }
 
     @Override
-    public void editForm(UpdateFormInput updateFormInput, BigDecimal locationId) {
+    public void editForm(UpdateFormInput updateFormInput, BigDecimal locationId, Boolean hasOverride, String idirId) {
 
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateFormInput.getClientNumber(), updateFormInput.getClientFormId());
+
+        if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
+            throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
+        }
+        //TODO: Update both instances
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
         formInput.setClientFormId(updateFormInput.getClientFormId());
@@ -99,6 +126,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setCompletionDate(null);
 
         obridgeClientService.createForm(formInput);
+
+        if (updateFormInput.getLinkedClientFormId() != null) {
+
+            FormInput childFormInput = new FormInput();
+            childFormInput.setLocationId(locationId);
+            childFormInput.setClientFormId(updateFormInput.getLinkedClientFormId());
+            childFormInput.setFormLevelComments(updateFormInput.getFormLevelComments());
+            childFormInput.setPlanSummary(updateFormInput.getPlanSummary());
+            childFormInput.setSourcesContacted(updateFormInput.getSourcesContacted());
+            childFormInput.setClientNumber(updateFormInput.getClientNumber());
+            childFormInput.setCompletionDate(LocalDate.now());
+
+            obridgeClientService.createForm(childFormInput);
+
+        }
 
     }
 
@@ -118,7 +160,13 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId) {
+    public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId, Boolean hasOverride) {
+
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNum, clientFormId);
+
+        if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
+            throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
+        }
 
         obridgeClientService.deleteForm(new DeleteRequest(clientFormId, locationId, clientNum, JwtUtils.stripUserName(idirId)));
 
@@ -132,7 +180,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
 
         if (!clientFormSummary.getMostRecent() || !validateFormType(clientFormSummary.getFormTypeId(), clientFormSummary.getModule())) {
-            throw new CCCMException("", CCCMErrorCode.CLONEVALIDATIONERROR);
+            throw new CCCMException("Cannot clone form that is not most recent or mismatch type", CCCMErrorCode.CLONEVALIDATIONERROR);
         }
 
         BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null);
