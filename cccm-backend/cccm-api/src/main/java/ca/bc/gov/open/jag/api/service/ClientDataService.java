@@ -1,15 +1,11 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 public interface ClientDataService {
 

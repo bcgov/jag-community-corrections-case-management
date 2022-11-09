@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.api.service.dataservice.user;
 
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
