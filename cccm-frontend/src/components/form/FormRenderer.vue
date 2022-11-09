@@ -428,13 +428,12 @@ export default {
           } else {
             //console.log("CRNA form validate result: ", crnaResult);
             // validation failed, display validation result
-            this.completeForm(completeFormData);
-            // if (crnaResult != '') {
-            //   this.errorOccurred = true;
-            //   this.errorText = crnaResult.errors;
-            // } else {
-            //   this.completeForm(completeFormData);
-            // }
+            if (crnaResult != '') {
+              this.errorOccurred = true;
+              this.errorText = crnaResult.errors;
+            } else {
+              this.completeForm(completeFormData);
+            }
           }
         } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
           const [error, saraResult] = await validateSARAForm(this.validationData);
