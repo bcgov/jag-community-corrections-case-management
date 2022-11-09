@@ -54,8 +54,6 @@ public class CodeTableServiceImpl implements CodeTableService {
                 codes = obridgeClientService.getResponsivityTypes();
                 break;
 
-
-
         }
 
         return codeTableMapper.toCodeResult("dummyValue", codes);

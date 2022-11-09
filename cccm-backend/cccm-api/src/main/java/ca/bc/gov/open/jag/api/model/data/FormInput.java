@@ -53,39 +53,4 @@ public class FormInput {
         this.linkedClientFormId = linkedClientFormId;
     }
 
-    public String getClientNumber() {
-        return clientNumber;
-    }
-
-    public BigDecimal getLocationId() {
-        return locationId;
-    }
-
-    public BigDecimal getFormTypeId() {
-        return formTypeId;
-    }
-
-    public LocalDate getCompletionDate() {
-        return completionDate;
-    }
-
-    public String getFormLevelComments() {
-        return formLevelComments;
-    }
-
-    public String getSourcesContacted() {
-        return sourcesContacted;
-    }
-
-    public String getPlanSummary() {
-        return planSummary;
-    }
-
-    public BigDecimal getClientFormId() {
-        return clientFormId;
-    }
-
-    public BigDecimal getLinkedClientFormId() {
-        return linkedClientFormId;
-    }
 }
