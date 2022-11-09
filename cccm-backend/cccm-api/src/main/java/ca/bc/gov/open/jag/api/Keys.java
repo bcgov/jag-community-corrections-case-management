@@ -15,11 +15,14 @@ public class Keys {
     public static final String INTERVENTION_DATAGRID = "intervention_datagrid";
     public static final String INTERVENTION_KEY_PATTERN = "{0}_{1}";
     public static final String OUTER_DATA_ELEMENT = "data";
-    public static final String CCCM_LOCATION = "CCIL";
+    public static final String CCCM_LOCATION = "OFF";
     public static final String LOCATION_TYPE_ALL = "all";
     public static final String LOCATION_TYPE_COMMUNITY = "community";
     public static final String HIGH = "H";
     public static final String MEDIUM = "M";
     public static final String LOW = "L";
+    public static final String JWT_REALM_ACCESS = "realm_access";
+    public static final String JWT_REALM_ROLES = "roles";
+    public static final String JWT_ROLE = "form-override";
 
 }

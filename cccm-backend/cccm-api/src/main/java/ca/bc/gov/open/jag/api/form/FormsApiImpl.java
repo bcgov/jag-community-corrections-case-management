@@ -10,16 +10,21 @@ import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.json.JsonObject;
+import javax.json.JsonString;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static ca.bc.gov.open.jag.api.Keys.*;
 import static ca.bc.gov.open.jag.api.error.CCCMErrorCode.VALIDATIONERROR;
 
 @RequestScoped
@@ -37,6 +42,8 @@ public class FormsApiImpl implements FormsApi {
     @Inject
     ValidationService validationService;
 
+    @Inject
+    JsonWebToken jwt;
 
     @Inject
     @Claim(standard = Claims.preferred_username)
@@ -98,13 +105,15 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-add")
     public BigDecimal completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
-        return clientFormSaveService.completeForm(createFormInput, new BigDecimal(xLocationId));
+
+        return clientFormSaveService.completeForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username);
+
     }
 
     @Override
     @RolesAllowed("form-add")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
-        clientFormSaveService.editForm(updateFormInput, new BigDecimal(xLocationId));
+        clientFormSaveService.editForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(), username);
     }
 
     @Override
@@ -133,7 +142,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @RolesAllowed("form-delete")
     public void deleteClientForm(BigDecimal clientFormId, String clientNum, String xLocationId) {
-        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username);
+        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username, hasOverride());
     }
 
     @Override
@@ -230,4 +239,18 @@ public class FormsApiImpl implements FormsApi {
     public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId, String xLocationId) {
         return clientDataService.getClientFormMetaJson(csNumber, clientFormId);
     }
+
+    private Boolean hasOverride() {
+
+        JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();
+
+        List<String> roles = realmAccess.getJsonArray(JWT_REALM_ROLES)
+                .stream()
+                .map(value -> ((JsonString)value).getString())
+                .collect(Collectors.toList());
+
+        return (roles.contains(JWT_ROLE));
+
+    }
+
 }
