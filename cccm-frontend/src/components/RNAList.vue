@@ -254,7 +254,7 @@ export default {
       }
     },
     applyPeriodFilter() {
-      console.log("Filter updating periods %o", this.currentPeriod);
+      //console.log("Filter updating periods %o", this.currentPeriod);
       let formType = this.$CONST_FORMTYPE_RNA;
       if (typeof this.selectedFormTypes == 'object') {
         formType = this.selectedFormTypes.key;
@@ -292,12 +292,12 @@ export default {
         }
       } else if (formType == this.$CONST_FORMTYPE_SARA) {
         // need to create a new 'SARA' form instance
-        console.log("create SARA");
+        //console.log("create SARA");
         const [error, SARAformId] = await createSARAForm(formData);
         if (error) {
           console.error("Failed creating SARA form instance", error);
         } else {
-          console.log ("Newly created formID: ", SARAformId);
+          //console.log ("Newly created formID: ", SARAformId);
           //Redirect User to the newly created form
           this.$router.push({
             name: "cmpform",
@@ -334,14 +334,14 @@ export default {
       this.loading = true;
       try {
         let period = (this.currentPeriod === 'current') ? true : false;
-        console.log("RNAList search: ", this.clientNum, formType, period);
+        //console.log("RNAList search: ", this.clientNum, formType, period);
         const [error, response] = await formSearch(this.clientNum, formType, period);
         if (error) {
           console.error(error);
         } else {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
-          console.log("RNAList: ", this.rnaList);
+          //console.log("RNAList: ", this.rnaList);
         }
       } finally {
         this.loading = false;
@@ -360,13 +360,13 @@ export default {
       });
     },
     async formClone(formID) {
-      console.log("formClone", formID);
+      //console.log("formClone", formID);
       this.formCloneAPI(formID);
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      console.log("selectedFormtypeForFormCreate: ", this.selectedFormtypeForFormCreate);
+      //console.log("selectedFormtypeForFormCreate: ", this.selectedFormtypeForFormCreate);
 
       let formType = this.$CONST_FORMTYPE_CRNA;
       if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
@@ -375,7 +375,7 @@ export default {
       this.createFormAPI(formType);
     },
     formCreate() {
-      console.log("Create form btn click");
+      //console.log("Create form btn click");
       let modal = document.getElementById("id_modal_form_creation");
       if (modal != null) {
         modal.click();
