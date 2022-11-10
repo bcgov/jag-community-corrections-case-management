@@ -59,6 +59,7 @@ export default {
     return {
       //const
       CUSTOM_QUESTION_PREFIX: 'question_panel_',
+      ENTRY_TARGET_TIMEOUT: 500,
       observer : null,
       currentSectionChild : '1',
       currentSectionParent : '0',
@@ -88,7 +89,8 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      this.observer = new IntersectionObserver((entries) => {
+      let timeouts = {};
+      this.observer = new IntersectionObserver((entries, ob) => {
         entries.forEach((entry) => {
           //console.log("Intersection ratio: ", entry.intersectionRatio);
           if (this.initLoad) {
@@ -97,26 +99,29 @@ export default {
             this.initLoad = false;
           } else {
             if (entry &&
-                entry.isIntersecting &&
-                entry.intersectionRatio > 0) {
+                entry.isIntersecting) {
               //console.log("Entry: ", entry);
               // Sample value for entry.target.className: question_panel_S02Q01
               let tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
               let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
               //console.log("tmpID on mounted: ", entry.target.className, tmpID);
               if (tmpID) {
-                let theArray = [];
-                let idArray = [];
-                theArray = tmpID.split('S');
-                if (theArray && theArray.length == 2) {
-                  idArray = theArray[1].split('Q');
+                timeouts[tmpID] = setTimeout(() => {
+                  ob.unobserve(entry.target)
+                  let theArray = [];
+                  let idArray = [];
+                  theArray = tmpID.split('S');
                   if (theArray && theArray.length == 2) {
-                    //console.log("show value: ", idArray[0] - 1, idArray[1] - 1);
-                    // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
-                    this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
+                    idArray = theArray[1].split('Q');
+                    if (theArray && theArray.length == 2) {
+                      // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
+                      this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
+                    }
                   }
-                }
+                }, this.ENTRY_TARGET_TIMEOUT);
               }
+            } else {
+              clearTimeout(timeouts[entry.target.id])
             }
           }
         })
