@@ -20,12 +20,7 @@ import java.util.List;
 public class TrendApiImpl implements TrendApi {
 
     @Inject
-    ClientDataService clientDataService;
-
-    @Inject
     TrendDataService trendDataService;
-
-
 
     @Override
     @Transactional
@@ -47,8 +42,5 @@ public class TrendApiImpl implements TrendApi {
     public TrendFormData getChartDataUsingPOST(TrendFilterInput trendInput) {
         return trendDataService.getChartData(trendInput);
     }
-
-
-
 
 }

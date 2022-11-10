@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
+import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 
@@ -14,9 +15,7 @@ public interface ClientFormSaveService {
 
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 
-    BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId, Boolean hasOverride, String idirId);
-
-    void editForm(UpdateFormInput updateFormInput, BigDecimal locationId, Boolean hasOverride, String idirId);
+    BigDecimal editForm(UpdateForm updateForm);
 
     void linkForm(UpdateFormInput linkFormInput, BigDecimal locationId);
 

@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
@@ -48,7 +49,7 @@ public class CompleteFormTest {
         completeFormInput.setPlanSummary("TEST");
         completeFormInput.setSourcesContacted("TEST");
 
-        BigDecimal result = sut.completeForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir");
+        BigDecimal result = sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true));
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -68,7 +69,7 @@ public class CompleteFormTest {
         completeFormInput.setPlanSummary("TEST");
         completeFormInput.setSourcesContacted("TEST");
 
-        BigDecimal result = sut.completeForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir");
+        BigDecimal result = sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true));
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -89,7 +90,7 @@ public class CompleteFormTest {
         completeFormInput.setPlanSummary("TEST");
         completeFormInput.setSourcesContacted("TEST");
 
-        BigDecimal result = sut.completeForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir");
+        BigDecimal result = sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true));
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -105,7 +106,7 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.completeForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true)));
 
     }
 
