@@ -13,6 +13,7 @@ import ca.bc.gov.open.jag.api.util.JwtUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
@@ -33,6 +34,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Inject
     @RestClient
     ObridgeClientService obridgeClientService;
+
+
+    @Inject
+    ValidationService validationService;
 
     private CloneConfig cloneConfig;
 
@@ -78,6 +83,37 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
         }
 
+        if (updateForm.getComplete()) {
+            if (clientFormSummary.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
+                ValidationResult result = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("CRNA Failed", CCCMErrorCode.VALIDATIONERROR, result);
+                }
+
+                if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
+                    ValidationResult saraResult = validationService.validateSARA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                    if (!saraResult.getErrors().isEmpty()) {
+                        throw new CCCMException("SARA Failed", CCCMErrorCode.VALIDATIONERROR, saraResult);
+                    }
+                }
+            }
+
+            if (clientFormSummary.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
+                ValidationResult result = validationService.validateSARA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("SARA Failed", CCCMErrorCode.VALIDATIONERROR, result);
+                }
+
+                if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
+                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                    if (!crnaResult.getErrors().isEmpty()) {
+                        throw new CCCMException("CRNA Failed", CCCMErrorCode.VALIDATIONERROR, crnaResult);
+                    }
+                }
+            }
+
+        }
+
         FormInput formInput = new FormInput();
         formInput.setLocationId(updateForm.getLocationId());
         formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
@@ -89,11 +125,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         BigDecimal result = obridgeClientService.createForm(formInput);
 
-        if (updateForm.getUpdateFormInput().getClientFormId() != null) {
+        if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
 
             FormInput childFormInput = new FormInput();
             childFormInput.setLocationId(updateForm.getLocationId());
-            childFormInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
+            childFormInput.setClientFormId(updateForm.getUpdateFormInput().getLinkedClientFormId());
             childFormInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
             childFormInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
             childFormInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());

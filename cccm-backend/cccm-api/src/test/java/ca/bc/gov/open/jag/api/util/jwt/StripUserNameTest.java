@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.util.jwt;
 
-import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.util.JwtUtils;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
