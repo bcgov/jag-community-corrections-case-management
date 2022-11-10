@@ -22,26 +22,12 @@ public class StripUserNameTest {
     }
 
     @Test
-    @DisplayName("Error: null user should throw")
-    public void testErrorNull() {
-
-        Assertions.assertThrows(CCCMException.class, () ->  JwtUtils.stripUserName(null));
-
-    }
-
-    @Test
-    @DisplayName("Error: blank user should throw")
-    public void testErrorBlank() {
-
-        Assertions.assertThrows(CCCMException.class, () ->  JwtUtils.stripUserName(""));
-
-    }
-
-    @Test
     @DisplayName("Error: missing domain ")
     public void testErrorMissing() {
 
-        Assertions.assertThrows(CCCMException.class, () ->  JwtUtils.stripUserName("test"));
+        String result = JwtUtils.stripUserName("test");
+
+        Assertions.assertEquals("test", result );
 
     }
 
