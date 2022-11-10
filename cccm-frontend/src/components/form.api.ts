@@ -201,6 +201,17 @@ export async function completeForm(formData: object) {
     }
 }
 
+// function to unlock a form
+export async function unlockForm(formData: object) {
+    try{
+        const { data } = await axiosClient.put('/forms/client/edit', formData);
+        return [null, data];
+    } catch (error) {
+        console.error("Error unlocking a form: %o", error);
+        return [error];
+    }
+}
+
 // Get interventions for case plan view
 export async function getCasePlanIntervention(csNumber: String, clientFormId: number, includeLinkedForm: boolean) {
     try{

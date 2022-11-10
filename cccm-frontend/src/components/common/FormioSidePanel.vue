@@ -17,35 +17,18 @@ export default {
   props: {
     dataModel: {},
     clientFormId: 0,
-    options: {},
-    timeForValidate: {
-      type: Number,
-      default: 1,
-    }
+    options: {}
   },
   data() {
     return {
       KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
       templatePanel : templatePanel,
       formJSON : {},
-      formKey: 0,
-      simulateBtnClick: false
+      formKey: 0
     }
   },
   components: {
     Form
-  },
-  watch: {
-    timeForValidate() {
-      this.simulateBtnClick = true;
-      // get button instance
-      let btnName= "data[add_source]";
-      let theBtn = document.getElementsByName(btnName);
-      // Submit the form by simulating clicking the submit button
-      if (theBtn != null && theBtn[0] != null) {
-        theBtn[0].click(); 
-      }
-    }
   },
   mounted(){
     this.buildFormData();
@@ -59,24 +42,19 @@ export default {
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_changeButtonLabel" ) {
-        if (this.simulateBtnClick) {
-          this.simulateBtnClick = false;
-          this.$emit('dataCollectedForValidate', evt.data[this.KEY_SOURCESCONTACTED]);
-        } else {
-          this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
-          this.formKey++;
+        this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
+        this.formKey++;
 
-          // Time to save
-          if (!this.dataModel.data.hideSCInput) {
-            // Save button clicked, call API to save the data
-            let sourcesContacted = {};
-            sourcesContacted[this.KEY_SOURCESCONTACTED] = evt.data[this.KEY_SOURCESCONTACTED];
-            const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
-            if (error) {
-              console.error("Save source contacted error: ", error);
-            } else {
-              console.log("Save source contacted success", response);
-            }
+        // Time to save
+        if (!this.dataModel.data.hideSCInput) {
+          // Save button clicked, call API to save the data
+          let sourcesContacted = {};
+          sourcesContacted[this.KEY_SOURCESCONTACTED] = evt.data[this.KEY_SOURCESCONTACTED];
+          const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
+          if (error) {
+            console.error("Save source contacted error: ", error);
+          } else {
+            console.log("Save source contacted success", response);
           }
         }
       }

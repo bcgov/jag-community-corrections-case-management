@@ -7,7 +7,8 @@
           :form="dataModel" 
           :submission="initData" 
           v-on:change="handleChangeEvent" 
-          v-on:blur="handleBlurEvent" />
+          v-on:blur="handleBlurEvent" 
+          :options="options"/>
     </div>
 </template>
 
@@ -23,6 +24,7 @@ export default {
     initData: {},
     clientFormId: 0,
     csNumber: '',
+    options: {},
     timeForValidate: {
       type: Number,
       default: 1,
@@ -55,6 +57,7 @@ export default {
 
     // fetch interventions 
     this.getCasePlanInterventionAPI();
+    console.log("caseplan options: ", this.options);
   },
   methods: {
     async autoSave() {

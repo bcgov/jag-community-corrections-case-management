@@ -33,7 +33,7 @@ export default {
     },
     handleEditForm() {
       //console.log("edit form");
-      this.$emit('editForm');
+      this.$emit('unlockForm');
     }
   },
 }

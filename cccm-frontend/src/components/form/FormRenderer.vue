@@ -137,15 +137,14 @@
               :formId="formId"
               :dataModel="data_formEntries" 
               :options="options"
-              :initData="formInitData" 
-              :timeForValidate='timeForValidate'
-              @dataCollectedForValidate="handleValidationData"/>   
+              :initData="formInitData" />   
       
             <FormCaseplan v-if="displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"/>
+              :csNumber="csNumber"
+              :options="options"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -156,7 +155,8 @@
               :buttonType="'formButton'"
               :saveBtnLabel="btnSaveContinueText" 
               @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleDeleteForm" />
+              @cancelFormClicked="handleDeleteForm" 
+              :options="options"/>
           </div>
         </div>
         <div class="column R">
@@ -167,14 +167,13 @@
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
-                  @printFormClicked="handlePrintForm" />
+                  @printFormClicked="handlePrintForm"
+                  :options="options"/>
               </div>
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"
-                  :timeForValidate='timeForValidate'
-                  @dataCollectedForValidate="handleValidationData_SourceContacted"
                   :options="options"/>
               </div>
             </section>
@@ -189,7 +188,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -239,15 +238,11 @@ export default {
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
       casePlanDataModel: {"display": "form", "components": []},
-      timeForValidate: 0,
       errorOccurred: false,
       errorText: '',
       deleteDialog: false,
       saraDeleteSelectedFormTypeValue: ["sara"],
       options: {},
-      validationData: {"data": {}},
-      validateDataCallback_cnt: 0,
-      validateDataCallback_totalCnt: 2
     }
   },
   mounted(){
@@ -384,7 +379,7 @@ export default {
       // If reaching the last section, time to validate the form and complete the form
       if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
         // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
-        this.timeForValidate++;
+        this.validateAndCompleteForm();
       }
     },
     handleDeleteForm() {
@@ -410,52 +405,21 @@ export default {
       }
     },
     async validateAndCompleteForm() {
-      this.validateDataCallback_cnt = 0;
-      if (this.validationData) {
-        // build completeFormData
-        let completeFormData = {};
-        completeFormData.clientFormId = Number(this.formId);
-        completeFormData.linkedClientFormId = null;
-        completeFormData.formLevelComments = this.validationData.data.COMMENT_TXT;
-        completeFormData.sourcesContacted = this.validationData.data.input_key_sourceContacted;
-        completeFormData.planSummary = this.validationData.data.PLAN_SUMMARY_TXT;
-        console.log("completeFormData: ", completeFormData);
-        
-        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-          const [error, crnaResult] = await validateCRNAForm(this.validationData);
-          if (error) {
-            console.error("Failed validating CRNA form instance", error);
-          } else {
-            //console.log("CRNA form validate result: ", crnaResult);
-            // validation failed, display validation result
-            if (crnaResult != '') {
-              this.errorOccurred = true;
-              this.errorText = crnaResult.errors;
-            } else {
-              this.completeForm(completeFormData);
-            }
-          }
-        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-          const [error, saraResult] = await validateSARAForm(this.validationData);
-          if (error) {
-            console.error("Failed validating SARA form instance", error);
-          } else {
-            //console.log("SARA form validate result: ", saraResult);
-            // validation failed, display validation result
-            if (saraResult != '') {
-              this.errorOccurred = true;
-              this.errorText = saraResult.errors;
-            } else {
-              this.completeForm(completeFormData);
-            }
-          }
-        }
-      }
-    },
-    async completeForm(completeFormData) {
+      // build completeFormData
+      let completeFormData = {};
+      completeFormData.clientFormId = Number(this.formId);
+      completeFormData.clientNumber = this.csNumber;
+      completeFormData.linkedClientFormId = this.relatedClientFormId;
+      completeFormData.formLevelComments = '';
+      completeFormData.sourcesContacted = '';
+      completeFormData.planSummary = '';
+      console.log("completeFormData: ", completeFormData);
+      
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
+        this.errorOccurred = true;
+        this.errorText = error;
       } else {
         //Redirect User back to clientRecord.RNAList
         this.$router.push({
@@ -465,39 +429,6 @@ export default {
             tabIndex: 'tab-rl'
           }
         });
-      }
-    }, 
-    handleValidationData(dataToValidate) {
-      this.errorOccurred = false;
-      this.errorText = '';
-
-      if (dataToValidate) {
-        this.validateDataCallback_cnt++;
-
-        // Populate this.validationData
-        this.validationData.data = dataToValidate;
-
-        // When all children callback occurred, call this.validateAndCompleteForm()
-        if (this.validateDataCallback_cnt == this.validateDataCallback_totalCnt) {
-          console.log("main this.validateDataCallback_cnt", this.validateDataCallback_cnt);
-          this.validateAndCompleteForm();
-        }
-      }
-    }, 
-    handleValidationData_SourceContacted(sourceContacted) {
-      this.errorOccurred = false;
-      this.errorText = '';
-
-      if (sourceContacted) {
-        this.validateDataCallback_cnt++;
-
-        // Add sourceContacted to this.validationData
-        this.validationData.data.input_key_sourceContacted = sourceContacted;
-
-        // When all children callback occurred, call this.validateAndCompleteForm()
-        if (this.validateDataCallback_cnt == this.validateDataCallback_totalCnt) {
-          this.validateAndCompleteForm();
-        }
       }
     },
     showDeleteDialog() {
