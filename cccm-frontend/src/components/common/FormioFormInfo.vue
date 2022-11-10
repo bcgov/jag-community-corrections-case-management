@@ -1,5 +1,5 @@
 <template>
-  <Form :form="formJSON" :submission="dataModel" @evt_editForm="handleEditForm"/>
+  <Form :form="formJSON" :submission="dataModel" @evt_editForm="handleUnlockForm"/>
 </template>
 
 <script lang="ts">
@@ -31,8 +31,7 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
     },
-    handleEditForm() {
-      //console.log("edit form");
+    handleUnlockForm() {
       this.$emit('unlockForm');
     }
   },

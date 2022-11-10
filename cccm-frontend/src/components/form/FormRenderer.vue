@@ -119,7 +119,7 @@
                 <span v-html="getErrorText"></span>
               </v-alert>
 
-              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" @editForm="handleEditForm"/>
+              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -131,8 +131,8 @@
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :class="loading ? 'hide' : 'mainContent'">
-            <FormDataEntry :key="componentKey" 
+          <div :key="componentKey" :class="loading ? 'hide' : 'mainContent'">
+            <FormDataEntry 
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
@@ -167,8 +167,7 @@
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
-                  @printFormClicked="handlePrintForm"
-                  :options="options"/>
+                  @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
@@ -252,8 +251,7 @@ export default {
     this.getFormioTemplate();
   },
   methods: {
-    handleEditForm() {
-      //console.log("parent received editform btn click");
+    handleUnlockForm() {
       this.options.readOnly = false;
       this.formInfoData.data.readonly = false;
       this.componentKey++;
@@ -419,8 +417,9 @@ export default {
       if (error) {
         console.error("Failed completing a form instance", error);
         this.errorOccurred = true;
-        this.errorText = error;
+        this.errorText = error.response.data.errorMessage;
       } else {
+        console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
         this.$router.push({
           name: 'clientrecord',

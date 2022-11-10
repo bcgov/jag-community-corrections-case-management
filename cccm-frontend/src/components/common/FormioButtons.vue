@@ -1,10 +1,10 @@
 <template>
     <Form :form="formJSON" 
-    @evt_save="handleSave" 
-    @evt_saveAndClose="handleSaveAndClose" 
-    @evt_cancel="handleCancelForm" 
-    @evt_print="handlePrint"
-    :options="options" />
+      @evt_save="handleSave" 
+      @evt_saveAndClose="handleSaveAndClose" 
+      @evt_cancel="handleCancelForm" 
+      @evt_print="handlePrint"
+      :options="options" />
 </template>
 
 <script lang="ts">
@@ -36,7 +36,6 @@ export default {
   },
   mounted(){
     this.buildFormData();
-    //console.log("mounted, options: ", this.options);
   },
   methods: {
     buildFormData() {
