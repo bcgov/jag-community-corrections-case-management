@@ -1,11 +1,14 @@
 package ca.bc.gov.open.jag.api.error;
 
+import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
+import java.util.Collections;
 
 @QuarkusTest
 public class CCCMExceptionHandlerTest {
@@ -91,6 +94,31 @@ public class CCCMExceptionHandlerTest {
         Assertions.assertEquals(500, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.UNKNOWN, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
+
+    }
+
+    @Test
+    @DisplayName("Error: should return validation result error")
+    public void testValidationResultError() {
+
+        ValidationResult validationResult = new ValidationResult();
+        ValidationError validationError = new ValidationError();
+        validationError.setMessage("TEST");
+        validationError.setAnswerKey("KEY");
+        validationResult.setErrors(Collections.singletonList(validationError));
+
+        CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.VALIDATIONERRORWITHRESULT, validationResult);
+
+        Response result = sut.toResponse(error);
+
+        CCCMError body = (CCCMError)result.getEntity();
+
+        Assertions.assertEquals(400, result.getStatus());
+        Assertions.assertEquals(CCCMErrorCode.VALIDATIONERRORWITHRESULT, body.getError());
+        Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
+        Assertions.assertEquals(1, body.getValidationResult().getErrors().size());
+        Assertions.assertEquals("KEY", body.getValidationResult().getErrors().get(0).getAnswerKey());
+        Assertions.assertEquals("TEST", body.getValidationResult().getErrors().get(0).getMessage());
 
     }
 
