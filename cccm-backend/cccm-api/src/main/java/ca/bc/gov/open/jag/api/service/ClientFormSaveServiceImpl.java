@@ -8,6 +8,7 @@ import ca.bc.gov.open.jag.api.model.data.FormInput;
 import ca.bc.gov.open.jag.api.model.service.CloneConfig;
 import ca.bc.gov.open.jag.api.model.service.CloneForm;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
+import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.util.JwtUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
@@ -69,78 +70,41 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal completeForm(UpdateFormInput completeFormInput, BigDecimal locationId, Boolean hasOverride, String idirId) {
+    public BigDecimal editForm(UpdateForm updateForm) {
 
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(completeFormInput.getClientNumber(), completeFormInput.getClientFormId());
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
 
-        if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
+        if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
             throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
         }
 
         FormInput formInput = new FormInput();
-        formInput.setLocationId(locationId);
-        formInput.setClientFormId(completeFormInput.getClientFormId());
-        formInput.setFormLevelComments(completeFormInput.getFormLevelComments());
-        formInput.setPlanSummary(completeFormInput.getPlanSummary());
-        formInput.setSourcesContacted(completeFormInput.getSourcesContacted());
-        formInput.setClientNumber(completeFormInput.getClientNumber());
-        formInput.setCompletionDate(LocalDate.now());
+        formInput.setLocationId(updateForm.getLocationId());
+        formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
+        formInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
+        formInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
+        formInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());
+        formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
+        formInput.setCompletionDate((updateForm.getComplete() ? LocalDate.now() : null));
 
         BigDecimal result = obridgeClientService.createForm(formInput);
 
-        if (completeFormInput.getLinkedClientFormId() != null) {
+        if (updateForm.getUpdateFormInput().getClientFormId() != null) {
 
             FormInput childFormInput = new FormInput();
-            childFormInput.setLocationId(locationId);
-            childFormInput.setClientFormId(completeFormInput.getLinkedClientFormId());
-            childFormInput.setFormLevelComments(completeFormInput.getFormLevelComments());
-            childFormInput.setPlanSummary(completeFormInput.getPlanSummary());
-            childFormInput.setSourcesContacted(completeFormInput.getSourcesContacted());
-            childFormInput.setClientNumber(completeFormInput.getClientNumber());
-            childFormInput.setCompletionDate(LocalDate.now());
+            childFormInput.setLocationId(updateForm.getLocationId());
+            childFormInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
+            childFormInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
+            childFormInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
+            childFormInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());
+            childFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
+            childFormInput.setCompletionDate((updateForm.getComplete() ? LocalDate.now() : null));
 
             obridgeClientService.createForm(childFormInput);
 
         }
 
         return result;
-
-    }
-
-    @Override
-    public void editForm(UpdateFormInput updateFormInput, BigDecimal locationId, Boolean hasOverride, String idirId) {
-
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateFormInput.getClientNumber(), updateFormInput.getClientFormId());
-
-        if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
-            throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
-        }
-        //TODO: Update both instances
-        FormInput formInput = new FormInput();
-        formInput.setLocationId(locationId);
-        formInput.setClientFormId(updateFormInput.getClientFormId());
-        formInput.setFormLevelComments(updateFormInput.getFormLevelComments());
-        formInput.setPlanSummary(updateFormInput.getPlanSummary());
-        formInput.setSourcesContacted(updateFormInput.getSourcesContacted());
-        formInput.setClientNumber(updateFormInput.getClientNumber());
-        formInput.setCompletionDate(null);
-
-        obridgeClientService.createForm(formInput);
-
-        if (updateFormInput.getLinkedClientFormId() != null) {
-
-            FormInput childFormInput = new FormInput();
-            childFormInput.setLocationId(locationId);
-            childFormInput.setClientFormId(updateFormInput.getLinkedClientFormId());
-            childFormInput.setFormLevelComments(updateFormInput.getFormLevelComments());
-            childFormInput.setPlanSummary(updateFormInput.getPlanSummary());
-            childFormInput.setSourcesContacted(updateFormInput.getSourcesContacted());
-            childFormInput.setClientNumber(updateFormInput.getClientNumber());
-            childFormInput.setCompletionDate(LocalDate.now());
-
-            obridgeClientService.createForm(childFormInput);
-
-        }
 
     }
 
