@@ -59,7 +59,7 @@ export default {
     return {
       //const
       CUSTOM_QUESTION_PREFIX: 'question_panel_',
-      ENTRY_TARGET_TIMEOUT: 500,
+      ENTRY_TARGET_TIMEOUT: 100,
       observer : null,
       currentSectionChild : '1',
       currentSectionParent : '0',
@@ -92,37 +92,34 @@ export default {
       let timeouts = {};
       this.observer = new IntersectionObserver((entries, ob) => {
         entries.forEach((entry) => {
+          let tmpID_index = '';
+          let tmpID = '';
           //console.log("Intersection ratio: ", entry.intersectionRatio);
-          if (this.initLoad) {
-            this.timeoutDelay = 1000;
-            this.showHideWrapper(0, 1);
-            this.initLoad = false;
-          } else {
-            if (entry &&
-                entry.isIntersecting) {
-              //console.log("Entry: ", entry);
-              // Sample value for entry.target.className: question_panel_S02Q01
-              let tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
-              let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
-              //console.log("tmpID on mounted: ", entry.target.className, tmpID);
-              if (tmpID) {
-                timeouts[tmpID] = setTimeout(() => {
-                  ob.unobserve(entry.target)
-                  let theArray = [];
-                  let idArray = [];
-                  theArray = tmpID.split('S');
+          if (entry &&
+              entry.isIntersecting &&
+              entry.intersectionRatio > 0) {
+            //console.log("Entry: ", entry);
+            // Sample value for entry.target.className: question_panel_S02Q01
+            tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
+            tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
+            console.log("tmpID on mounted: ", tmpID);
+            if (tmpID) {
+              timeouts[tmpID] = setTimeout(() => {
+                ob.unobserve(entry.target);
+                let theArray = [];
+                let idArray = [];
+                theArray = tmpID.split('S');
+                if (theArray && theArray.length == 2) {
+                  idArray = theArray[1].split('Q');
                   if (theArray && theArray.length == 2) {
-                    idArray = theArray[1].split('Q');
-                    if (theArray && theArray.length == 2) {
-                      // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
-                      this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
-                    }
+                    // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
+                    this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
                   }
-                }, this.ENTRY_TARGET_TIMEOUT);
-              }
-            } else {
-              clearTimeout(timeouts[entry.target.id])
+                }
+              }, this.ENTRY_TARGET_TIMEOUT);
             }
+          } else {
+            clearTimeout(timeouts[tmpID])
           }
         })
       });
