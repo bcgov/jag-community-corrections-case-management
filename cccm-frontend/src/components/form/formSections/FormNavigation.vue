@@ -89,41 +89,52 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      let timeouts = {};
-      this.observer = new IntersectionObserver((entries, ob) => {
+      // Keep track of when the entry transitioned to a visible state.
+      let visibleSince = 0;
+      this.observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          let tmpID_index = '';
-          let tmpID = '';
-          //console.log("Intersection ratio: ", entry.intersectionRatio);
-          if (entry &&
-              entry.isIntersecting &&
-              entry.intersectionRatio > 0) {
+          //console.log("entry: ", entry, entry.target.className, entry.isIntersecting, entry.isVisible, entry.time);
+          if (typeof entry.isVisible === 'undefined') {
+            // The browser doesn't support Intersection Observer v2, falling back to v1 behavior.
+            entry.isVisible = true;
+          };
+          if (entry.isIntersecting && entry.isVisible) {
+            visibleSince = entry.time;
             //console.log("Entry: ", entry);
             // Sample value for entry.target.className: question_panel_S02Q01
-            tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
-            tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
-            console.log("tmpID on mounted: ", tmpID);
+            let tmpID_index = entry.target.className.indexOf(this.CUSTOM_QUESTION_PREFIX) + this.CUSTOM_QUESTION_PREFIX.length;
+            let tmpID = entry.target.className.substring(tmpID_index, tmpID_index + 6);
+            //console.log("tmpID on mounted: ", entry.target.className, tmpID);
             if (tmpID) {
-              timeouts[tmpID] = setTimeout(() => {
-                ob.unobserve(entry.target);
-                let theArray = [];
-                let idArray = [];
-                theArray = tmpID.split('S');
+              let theArray = [];
+              let idArray = [];
+              theArray = tmpID.split('S');
+              if (theArray && theArray.length == 2) {
+                idArray = theArray[1].split('Q');
                 if (theArray && theArray.length == 2) {
-                  idArray = theArray[1].split('Q');
-                  if (theArray && theArray.length == 2) {
-                    // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
-                    this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) );
-                  }
+                  //console.log("show value: ", idArray[0] - 1, idArray[1] - 1);
+                  // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
+                  this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]), true);
                 }
-              }, this.ENTRY_TARGET_TIMEOUT);
+              }
             }
           } else {
-            clearTimeout(timeouts[tmpID])
+            visibleSince = 0;
           }
         })
+      }, {
+          threshold: 1,
+          // Track the actual visibility of the element
+          trackVisibility: true,
+          // Set a minimum delay between notifications
+          delay: 250
       });
+
       let className = '[class*="' + this.CUSTOM_QUESTION_PREFIX + '"]';
+      //let className = '[class=wrap]';
+      //this.observer.observe(document.querySelector(className));
+      //console.log("all sections: ", document.querySelector(className));
+      //this.observer.observe(document.querySelectorAll(className));
       document.querySelectorAll(className).forEach((section) => {
         this.observer.observe(section);
       });
@@ -138,7 +149,7 @@ export default {
   methods: {
     private_moveNav(parentNavPos, childNavPos) {
       //console.log("parentNavPos, childNavPos: ", parentNavPos, childNavPos);
-      this.showHideWrapper(parseInt(parentNavPos), parseInt(childNavPos));
+      this.showHideWrapper(parseInt(parentNavPos), parseInt(childNavPos), false);
 
       // Move the position to the top by simulating an anchor click
       let hrefVal = '#' + parentNavPos + childNavPos;
@@ -155,10 +166,10 @@ export default {
         // a sample of hash value: #00
         //console.log(e.target.hash);
         //console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
-        this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)));
+        this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)), false);
       }
     },
-    showHideWrapper(posParentNav, posChildNav) {
+    showHideWrapper(posParentNav, posChildNav, autoScroll) {
       this.currentSectionParent = posParentNav; 
       this.currentSectionChild = posChildNav;
 
@@ -169,7 +180,7 @@ export default {
       //this.showHideRightsidePanels();
 
       // show/hide questions
-      this.showHideSections();
+      this.showHideSections(autoScroll);
     },
     showHideRightsidePanels() {
       // show all panels
@@ -201,7 +212,7 @@ export default {
         }
       }
     },
-    showHideSections() {
+    showHideSections(autoScroll) {
       //console.log("this.currentSectionParent, this.currentSectionChild: ", this.currentSectionParent, this.currentSectionChild);
       // show questions
       if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
@@ -218,14 +229,17 @@ export default {
             //console.log(this.currentSectionParent, i, thePanel);
             if (this.currentSectionParent == i) {
               thePanel.setAttribute('style', 'display:block');
-              if (this.currentSectionChild >= 1) {
-                let questionIDIndex = (this.currentSectionChild).toString().length < 2 ? ("0" + (this.currentSectionChild).toString()): (this.currentSectionChild).toString();
-                let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
-                //console.log("questionClassName: ", questionClassName);
-                let theQuestionPanel = document.querySelector(questionClassName);
-                //console.log("theQuestionPanel: ", theQuestionPanel);
-                if (theQuestionPanel != null) {
-                  theQuestionPanel.scrollIntoView(false);
+              console.log("autoScroll: ", autoScroll);
+              if (!autoScroll) {
+                if (this.currentSectionChild >= 1) {
+                  let questionIDIndex = (this.currentSectionChild).toString().length < 2 ? ("0" + (this.currentSectionChild).toString()): (this.currentSectionChild).toString();
+                  let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
+                  //console.log("questionClassName: ", questionClassName);
+                  let theQuestionPanel = document.querySelector(questionClassName);
+                  //console.log("theQuestionPanel: ", theQuestionPanel);
+                  if (theQuestionPanel != null) {
+                    theQuestionPanel.scrollIntoView(false);
+                  }
                 }
               }
             } else {
