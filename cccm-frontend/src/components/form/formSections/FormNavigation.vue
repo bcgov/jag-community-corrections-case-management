@@ -229,7 +229,6 @@ export default {
             //console.log(this.currentSectionParent, i, thePanel);
             if (this.currentSectionParent == i) {
               thePanel.setAttribute('style', 'display:block');
-              console.log("autoScroll: ", autoScroll);
               if (!autoScroll) {
                 if (this.currentSectionChild >= 1) {
                   let questionIDIndex = (this.currentSectionChild).toString().length < 2 ? ("0" + (this.currentSectionChild).toString()): (this.currentSectionChild).toString();
@@ -343,7 +342,7 @@ a.navHeaderA-L2.active {
 	color: #436492;
 	font-weight: 600;
 	padding: 15px 8px;
-	border: 1px solid #BFD4E9;	
+	border: 2px solid #BFD4E9;	
 
 }
 
