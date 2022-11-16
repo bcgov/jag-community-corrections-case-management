@@ -20,22 +20,25 @@
         z-index:0;
     }
 
+    /* Hide footer content */
+    .footer ul li a {
+        display: none;
+    }
+
+    .footer ul {
+        display: none;
+    }
+
+    /* Show logo at footer section */
     .footer:first-of-type:after {
         display:flex;
         align-items:center;
         justify-content: center;
         width:100%;
         border-top: 1px solid #ccc;
-        content: url("/src/assets/css/images/justice.png");
+        content: url("/src/assets/images/justice.png");
     }
 
-    .footer ul li a {
-        border:none;
-    }
-
-    .footer ul {
-        list-style: none;
-    }
     svg {
         display:none!important;
     }
@@ -62,10 +65,7 @@
     .table-bordered th, .table-bordered td  {
         border: none!important;
     }
-    textarea {
-
-    }
-
+  
     input[type='radio']:after {
         width: 15px;
         height: 15px;
@@ -104,59 +104,49 @@
         display:none!important;
     }
 
-    .crna-cmp-form .R, .sara-cmp-form .R {
+    .crna-cmp-form .R {
         display:none;
     }
-    .crna-cmp-form .L, .sara-cmp-form .L {
+     
+    .crna-cmp-form .L {
         width:100%;
         box-shadow: none;
     }
-    .crna-cmp-form, .sara-cmp-form .crna-formio-metadata-section, .sara-cmp-form .crna-formio-metadata-section {
+    .crna-cmp-form, .crna-formio-metadata-section {
         background-color: transparent;
-        width:80%;
+        width:100%;
+    }
+    .crna-cmp-form .menuR2 {
+        display:none;
     }
 
-    .crna-cmp-form, .sara-cmp-form .formio-component-key_formStatus .custom_wrap {
-        margin-top:40px;
-        font-size:18px;
+    .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
+        display:none;
     }
 
     .crna-cmp-form .menu-Sticky {
         background-color: transparent;
         position: relative;
         top:0;
-        margin-top:-200px;
-    }
-
-    .sara-cmp-form .menu-Sticky {
-        background-color: transparent;
-        position: relative;
-        top:0;
-        margin-top:-120px;
-    }
-    .crna-cmp-form, .sara-cmp-form .menu-Sticky .menuR2 {
-        display:none;
-    }
-
-    .sara-cmp-form .menu-Sticky {
-        background-color: transparent!important;
+        margin-top:-100px;
     }
 
     .crna-formio-h1 {
         padding: 0;
     }
-    .crna-formio-h1>h1 {
+    
+    .crna-formio-h1>h2 {
         display: inline-block;
-        width: calc(100% - 50px);
-        text-align:right;
-        margin:0;
+        width: calc(100% - 20px);
+        text-align: right;
+        margin: 0;
         margin-top: 30px;
-        padding-left:350px;
+        padding-left:300px;
         padding-bottom:75px;
-        font-size: 38px;
+        font-size: 25px;
     }
 
-    .crna-formio-h1>h1:after {
+    .crna-formio-h1>h2:after {
         display:block;
         width:100%;
         float:none;
@@ -171,35 +161,26 @@
     }
     .crna-formio-h1:before {
         display: inline-block;
-        float:left;
-        width:25px;
-        height:200px;
-        content: url("https://langley.bigbrothersbigsisters.ca/wp-content/uploads/sites/145/2017/10/BC-Ministry-of-Justice.png");
+        width:15px;
+        content: url("/src/assets/images/justice.png");
     }
 
-    .crna-cmp-form, .sara-cmp-form  .dropdown  {
+    .crna-cmp-form .dropdown  {
         border: none;
     }
 
-    .crna-cmp-form, .sara-cmp-form .mainContent {
+    .crna-cmp-form .mainContent {
         border: none!important;
         padding: 0;
     }
 
-    .editgrid-header {
-        background-color: #545454;
+    /* Hide 'Summary' text */
+    .crna-cmp-form .mainContent>div>h1 {
+        display: none;
     }
 
     div>.formio_anchor_class:not(:first-of-type) {
         page-break-after: always;
-    }
-    .crna-subSectionTitleClass:after {
-        content: "";
-        height: 0px;
-        width: 50px;
-        display: block;
-        border: 1px solid #ccc!important;
-        margin-bottom: 20px;
     }
 
 }
