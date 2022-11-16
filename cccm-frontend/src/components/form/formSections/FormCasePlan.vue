@@ -57,7 +57,7 @@ export default {
 
     // fetch interventions 
     this.getCasePlanInterventionAPI();
-    console.log("caseplan options: ", this.options);
+    //console.log("caseplan options: ", this.options);
   },
   methods: {
     async autoSave() {

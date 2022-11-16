@@ -263,7 +263,7 @@ export default {
       if (error) {
         console.error("Failed getting client form metadata: ", error);
       } else {
-        console.log("clientFormMeta: ", clientFormMeta);
+        //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.readonly = this.readonly;
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
@@ -289,7 +289,7 @@ export default {
           //set sources contacted
           this.clientData.data.hideSCInput = true;
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
-          console.log("clientData: ", this.clientData);
+          //console.log("clientData: ", this.clientData);
         }
         this.formStaticInfoKey++;
       };

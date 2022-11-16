@@ -155,7 +155,7 @@ export default {
       let hrefVal = '#' + parentNavPos + childNavPos;
       let selector = 'a[href="' + hrefVal + '"]'
       let theAnchor = document.querySelector(selector);
-      console.log("selector: , theAnchor: ", selector, theAnchor);
+      //console.log("selector: , theAnchor: ", selector, theAnchor);
       if (theAnchor != null) {
         theAnchor.click();
       }

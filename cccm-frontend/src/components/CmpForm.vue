@@ -127,7 +127,7 @@ export default {
       if (error) {
         console.error("Failed getting client form details", error);
       } else {
-        console.log("Form details: ", response);
+        //console.log("Form details: ", response);
         this.formType = response.module;
         this.relatedClientFormId = response.relatedClientFormId;
         
