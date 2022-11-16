@@ -108,7 +108,12 @@
 						  "key": "key_sourceContacted",
 						  "type": "htmlelement",
 						  "input": true,
-						  "tableView": false
+						  "tableView": false,
+						  "conditional": {
+							"show": true,
+							"when": "hideSCInput",
+							"eq": "true"
+						  }
 						},
 						{
 						  "label": "",
@@ -116,6 +121,12 @@
 						  "clearOnHide": false,
 						  "key": "input_key_sourceContacted",
 						  "type": "textarea",
+						  "redrawOn": "hideSCInput",
+						  "conditional": {
+							"show": true,
+							"when": "hideSCInput",
+							"eq": "false"
+						  },
 						  "input": true
 						},
 						{
@@ -127,7 +138,28 @@
 						  "key": "add_source",
 						  "type": "button",
 						  "input": true,
-						  "event": "evt_changeButtonLabel"
+						  "event": "evt_changeButtonLabel",
+						  "conditional": {
+							"show": true,
+							"when": "hideSCInput",
+							"eq": "true"
+						  }
+						},
+						{
+						  "label": "Save",
+						  "action": "event",
+						  "showValidations": false,
+						  "disableOnInvalid": true,
+						  "tableView": true,
+						  "key": "add_source",
+						  "type": "button",
+						  "input": true,
+						  "event": "evt_changeButtonLabel",
+						  "conditional": {
+							"show": true,
+							"when": "hideSCInput",
+							"eq": "false"
+						  }
 						}
 					  ]
 				}  

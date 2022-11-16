@@ -1,5 +1,5 @@
 <template>
-  <Form :form="formJSON" :submission="dataModel"/>
+  <Form :form="formJSON" :submission="dataModel" @evt_editForm="handleUnlockForm"/>
 </template>
 
 <script lang="ts">
@@ -30,6 +30,9 @@ export default {
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
+    },
+    handleUnlockForm() {
+      this.$emit('unlockForm');
     }
   },
 }

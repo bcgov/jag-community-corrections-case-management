@@ -119,7 +119,7 @@
                 <span v-html="getErrorText"></span>
               </v-alert>
 
-              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" />
+              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -131,20 +131,20 @@
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :class="loading ? 'hide' : 'mainContent'">
-            <FormDataEntry :key="componentKey" 
+          <div :key="componentKey" :class="loading ? 'hide' : 'mainContent'">
+            <FormDataEntry 
               :csNumber="csNumber"
               :formId="formId"
               :dataModel="data_formEntries" 
-              :initData="formInitData" 
-              :timeForValidate='timeForValidate'
-              @dataCollectedForValidate="handleValidationData"/>   
+              :options="options"
+              :initData="formInitData" />   
       
             <FormCaseplan v-if="displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
-              :csNumber="csNumber"/>
+              :csNumber="csNumber"
+              :options="options"/>
 
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
@@ -155,7 +155,8 @@
               :buttonType="'formButton'"
               :saveBtnLabel="btnSaveContinueText" 
               @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleDeleteForm" />
+              @cancelFormClicked="handleDeleteForm" 
+              :options="options"/>
           </div>
         </div>
         <div class="column R">
@@ -171,7 +172,8 @@
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
-                  :clientFormId="formId"/>
+                  :clientFormId="formId"
+                  :options="options"/>
               </div>
             </section>
           </div>
@@ -185,7 +187,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -200,7 +202,8 @@ export default {
     formType: '',
     formId: 0,
     csNumber: '',
-    relatedClientFormId: 0
+    relatedClientFormId: 0,
+    readonly: false
   },
   components: {
     Form,
@@ -234,19 +237,26 @@ export default {
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
       casePlanDataModel: {"display": "form", "components": []},
-      timeForValidate: 0,
       errorOccurred: false,
       errorText: '',
       deleteDialog: false,
-      saraDeleteSelectedFormTypeValue: ["sara"]
+      saraDeleteSelectedFormTypeValue: ["sara"],
+      options: {},
     }
   },
   mounted(){
-    //console.log("form renderer mounted: ", this.formType, this.formId , this.relatedClientFormId, this.csNumber);
+    this.options.readOnly = this.readonly;
+    //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
   },
   methods: {
+    handleUnlockForm() {
+      this.options.readOnly = false;
+      this.formInfoData.data.readonly = false;
+      this.componentKey++;
+      this.formStaticInfoKey++;
+    },
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
       const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
@@ -255,6 +265,7 @@ export default {
       } else {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
+        this.formInfoData.data.readonly = this.readonly;
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
         // set the form title
@@ -265,6 +276,7 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
+        //console.log("this.formInfoData: ", this.formInfoData);
         this.formInfoKey++;
 
         // Client profile search.
@@ -275,7 +287,9 @@ export default {
           this.clientData.data = response;
           
           //set sources contacted
+          this.clientData.data.hideSCInput = true;
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
+          //console.log("clientData: ", this.clientData);
         }
         this.formStaticInfoKey++;
       };
@@ -363,7 +377,7 @@ export default {
       // If reaching the last section, time to validate the form and complete the form
       if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
         // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
-        this.timeForValidate++;
+        this.validateAndCompleteForm();
       }
     },
     handleDeleteForm() {
@@ -388,58 +402,24 @@ export default {
         this.btnSaveContinueText = "Save and Continue"; 
       }
     },
-    async validateAndCompleteForm(formData) {
-      if (formData) {
-        //build validationData
-        let validationData = {"data": {}};
-        validationData.data = formData
-        console.log("validationData: ", validationData);
-
-        // build completeFormData
-        let completeFormData = {};
-        completeFormData.clientFormId = Number(this.formId);
-        completeFormData.linkedClientFormId = null;
-        completeFormData.formLevelComments = formData.COMMENT_TXT;
-        completeFormData.sourcesContacted = formData.input_key_sourceContacted;
-        completeFormData.planSummary = formData.PLAN_SUMMARY_TXT;
-        console.log("completeFormData: ", completeFormData);
-        
-        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-          const [error, crnaResult] = await validateCRNAForm(validationData);
-          if (error) {
-            console.error("Failed validating CRNA form instance", error);
-          } else {
-            console.log("CRNA form validate result: ", crnaResult);
-            // validation failed, display validation result
-            if (crnaResult != '') {
-              this.errorOccurred = true;
-              this.errorText = crnaResult.errors;
-            } else {
-              this.completeForm(completeFormData);
-            }
-          }
-        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-          const [error, saraResult] = await validateSARAForm(validationData);
-          if (error) {
-            console.error("Failed validating SARA form instance", error);
-          } else {
-            console.log("SARA form validate result: ", saraResult);
-            // validation failed, display validation result
-            if (saraResult != '') {
-              this.errorOccurred = true;
-              this.errorText = saraResult.errors;
-            } else {
-              this.completeForm(completeFormData);
-            }
-          }
-        }
-      }
-    },
-    async completeForm(completeFormData) {
+    async validateAndCompleteForm() {
+      // build completeFormData
+      let completeFormData = {};
+      completeFormData.clientFormId = Number(this.formId);
+      completeFormData.clientNumber = this.csNumber;
+      completeFormData.linkedClientFormId = this.relatedClientFormId;
+      completeFormData.formLevelComments = '';
+      completeFormData.sourcesContacted = '';
+      completeFormData.planSummary = '';
+      console.log("completeFormData: ", completeFormData);
+      
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
+        this.errorOccurred = true;
+        this.errorText = error.response.data.errorMessage;
       } else {
+        console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
         this.$router.push({
           name: 'clientrecord',
@@ -449,17 +429,9 @@ export default {
           }
         });
       }
-    }, 
-    handleValidationData(dataToValidate) {
-      this.errorOccurred = false;
-      this.errorText = '';
-      if (dataToValidate) {
-        console.log("dataToValidate: ", dataToValidate);
-        this.validateAndCompleteForm(dataToValidate);
-      }
     },
     showDeleteDialog() {
-      console.log("show delete modal, formType", this.formType);
+      //console.log("show delete modal, formType", this.formType);
       let modal = document.getElementById("id_modal_deleteForm_" + this.formType);
       if (modal != null) {
         modal.click();
@@ -467,16 +439,16 @@ export default {
     },
     async formDeleteHelper(fullDelete) {
       // delete the form instance
-      console.log("Delete form instance");
+      //console.log("Delete form instance");
       let redirect = false;
-      const [error, response] = await deleteForm(this.formId, this.clientNum);
+      const [error, response] = await deleteForm(this.formId, this.csNumber);
       if (error) {
         console.error("Failed deleting the form instance: ", error);
       } else {
         // delete the linked form instance
         if (fullDelete && this.relatedClientFormId) {
-          console.log("Delete linked form instance");
-          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.clientNum);
+          //console.log("Delete linked form instance");
+          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.csNumber);
           if (error1) {
             console.error("Failed deleting the linked form instance: ", error1);
           } else {
@@ -491,7 +463,7 @@ export default {
           this.$router.push({
             name: 'clientrecord',
             params: {
-              clientNum: this.clientNum,
+              clientNum: this.csNumber,
               tabIndex: 'tab-rl'
             }
           });
@@ -499,12 +471,12 @@ export default {
       }
     },
     async handleDeleteCRNAFormBtnClick() {
-      console.log("Delete a CRNA form: ", this.formId, this.clientNum, this.relatedClientFormId);
+      //console.log("Delete a CRNA form: ", this.formId, this.csNumber, this.relatedClientFormId);
       this.deleteDialog = false;
       this.formDeleteHelper(true);
     },
     async handleDeleteSARAFormBtnClick() {
-      console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
+      //console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
       this.deleteDialog = false;
       
       let fullDelete = false;

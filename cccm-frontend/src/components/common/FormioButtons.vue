@@ -1,9 +1,10 @@
 <template>
     <Form :form="formJSON" 
-    @evt_save="handleSave" 
-    @evt_saveAndClose="handleSaveAndClose" 
-    @evt_cancel="handleCancelForm" 
-    @evt_print="handlePrint"/>
+      @evt_save="handleSave" 
+      @evt_saveAndClose="handleSaveAndClose" 
+      @evt_cancel="handleCancelForm" 
+      @evt_print="handlePrint"
+      :options="options" />
 </template>
 
 <script lang="ts">
@@ -16,6 +17,7 @@ export default {
   props: {
     buttonType: '',
     saveBtnLabel: '',
+    options: {}
   },
   data() {
     return {
@@ -65,7 +67,7 @@ export default {
               "action": "event",
               "event": "evt_saveAndClose",
               "key": "add_saveDraft",
-              "label": "Save and Close",
+              "label": "Close",
               "theme": "primary"
           },
           {
@@ -126,12 +128,6 @@ export default {
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
-      // if (this.canEmitCancel) {
-      //   this.canEmitCancel = false;
-      //   this.$emit('cancelFormClicked');
-      // } else {
-      //   this.canEmitCancel = true;
-      // }
       if (evt != null && evt.type === this.dataModel[1].event ) {
         this.$emit('cancelFormClicked');
       }
