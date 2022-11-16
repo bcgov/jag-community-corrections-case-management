@@ -441,14 +441,14 @@ export default {
       // delete the form instance
       //console.log("Delete form instance");
       let redirect = false;
-      const [error, response] = await deleteForm(this.formId, this.clientNum);
+      const [error, response] = await deleteForm(this.formId, this.csNumber);
       if (error) {
         console.error("Failed deleting the form instance: ", error);
       } else {
         // delete the linked form instance
         if (fullDelete && this.relatedClientFormId) {
           //console.log("Delete linked form instance");
-          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.clientNum);
+          const [error1, response1] = await deleteForm(this.relatedClientFormId, this.csNumber);
           if (error1) {
             console.error("Failed deleting the linked form instance: ", error1);
           } else {
@@ -463,7 +463,7 @@ export default {
           this.$router.push({
             name: 'clientrecord',
             params: {
-              clientNum: this.clientNum,
+              clientNum: this.csNumber,
               tabIndex: 'tab-rl'
             }
           });
@@ -471,7 +471,7 @@ export default {
       }
     },
     async handleDeleteCRNAFormBtnClick() {
-      //console.log("Delete a CRNA form: ", this.formId, this.clientNum, this.relatedClientFormId);
+      //console.log("Delete a CRNA form: ", this.formId, this.csNumber, this.relatedClientFormId);
       this.deleteDialog = false;
       this.formDeleteHelper(true);
     },
