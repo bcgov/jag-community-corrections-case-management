@@ -530,22 +530,6 @@ export default {
   
 }
 
-.crna-subSectionTitleClass {
-  font-size: 20px;
-  font-weight: bold;
-  padding-bottom: 1px!important;
-}
-
-.crna-subSectionTitleClass:nth-child(1):after {
-  content: "";
-  height: 0px;
-  width: 50px;
-  display: block;
-  border: 4px solid #FCBA19;
-  margin-bottom:20px;
-}
-
-
 /* 
  * Need to add the following definition, 
  * vuetify/dist/vuetify.min.css override it's original definition
