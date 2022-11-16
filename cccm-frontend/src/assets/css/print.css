@@ -55,6 +55,11 @@
         color: transparent;
     }
 
+    /* Remove the scroll bars */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
     button {
         display:none!important;
     }
@@ -65,45 +70,12 @@
     .table-bordered th, .table-bordered td  {
         border: none!important;
     }
-  
-    input[type='radio']:after {
-        width: 15px;
-        height: 15px;
-        border-radius: 15px;
-        top: -2px;
-        left: -1px;
-        position: relative;
-        background-color: #ccc;
-        content: '';
-        display: inline-block;
-        visibility: visible;
-        border: none;
-        box-shadow: none;
-    }
-
-    input[type='radio']:checked:after {
-        width: 15px;
-        height: 15px;
-        border-radius: 15px;
-        top: -2px;
-        left: -1px;
-        position: relative;
-        background-color: #000;
-        content: '';
-        display: inline-block;
-        visibility: visible;
-        border: none;
-        box-shadow: none;
-    }
-
-    .formio_anchor_class {
-        margin-top:-20px;
-    }
-
+ 
     .v-tabs {
         display:none!important;
     }
 
+    /* Hide Right hand side panel */
     .crna-cmp-form .R {
         display:none;
     }
@@ -116,10 +88,13 @@
         background-color: transparent;
         width:100%;
     }
+
+    /* Hide navigation */
     .crna-cmp-form .menuR2 {
         display:none;
     }
 
+    /* Hide form status */
     .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
         display:none;
     }
@@ -128,7 +103,7 @@
         background-color: transparent;
         position: relative;
         top:0;
-        margin-top:-100px;
+        margin-top:0px;
     }
 
     .crna-formio-h1 {
@@ -137,36 +112,27 @@
     
     .crna-formio-h1>h2 {
         display: inline-block;
-        width: calc(100% - 20px);
+        width: calc(100% - 50px);
         text-align: right;
         margin: 0;
-        margin-top: 30px;
-        padding-left:300px;
-        padding-bottom:75px;
+        padding-left:350px;
+        padding-bottom:5px;
         font-size: 25px;
-    }
-
-    .crna-formio-h1>h2:after {
-        display:block;
-        width:100%;
-        float:none;
     }
 
     .crna-formio-h1:after {
         display:block;
         width:100%;
-        height:40px;
+        height:0px;
         border-bottom: 1px solid #ccc;
         content:""
     }
+
+    /* Add logo before the form title text */
     .crna-formio-h1:before {
         display: inline-block;
-        width:15px;
+        width: 15px;
         content: url("/src/assets/images/justice.png");
-    }
-
-    .crna-cmp-form .dropdown  {
-        border: none;
     }
 
     .crna-cmp-form .mainContent {
@@ -179,8 +145,8 @@
         display: none;
     }
 
-    div>.formio_anchor_class:not(:first-of-type) {
-        page-break-after: always;
+    .crna-cmp-form .mainContent .v-data-table-header {
+        background-color: #545454;
     }
 
 }
