@@ -76,13 +76,13 @@
             <v-checkbox
               v-model="saraDeleteSelectedFormTypeValue"
               label="CRNA-CMP"
-              value="crna"
+              value="CRNA"
             ></v-checkbox>
             <v-checkbox
               v-model="saraDeleteSelectedFormTypeValue"
               :readonly=true
               label="SARA-CMP"
-              value="sara"
+              value="SARA"
             ></v-checkbox>
             <v-card-title>
             Are you sure you want to delete?
@@ -242,7 +242,7 @@ export default {
       errorOccurred: false,
       errorText: '',
       deleteDialog: false,
-      saraDeleteSelectedFormTypeValue: ["sara"],
+      saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
       printRequested: false,
     }
@@ -453,7 +453,7 @@ export default {
     },
     async formDeleteHelper(fullDelete) {
       // delete the form instance
-      //console.log("Delete form instance");
+      console.log("Delete form instance: ", fullDelete);
       let redirect = false;
       const [error, response] = await deleteForm(this.formId, this.csNumber);
       if (error) {
@@ -490,7 +490,7 @@ export default {
       this.formDeleteHelper(true);
     },
     async handleDeleteSARAFormBtnClick() {
-      //console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
+      console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
       this.deleteDialog = false;
       
       let fullDelete = false;
