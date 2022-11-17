@@ -75,27 +75,73 @@
         display:none!important;
     }
 
-    /* Hide Right hand side panel */
-    .crna-cmp-form .R {
+    /* Hide Right hand side button group */
+    .crna-cmp-form .R .crna-right-panel-button-container{
         display:none;
     }
-     
+    /* Hide Right hand side legend panel */
+    .crna-cmp-form .R .formio-component-key_legend{
+        display:none;
+    }
+    /* Hide Right hand side supervision level matrix panel */
+    .crna-cmp-form .R .formio-component-key_supervisionLevelMatrix{
+        display:none;
+    }
+    /* Hide Right hand side sources contacted panel */
+    .crna-cmp-form .R .formio-component-panel_sourceContacted{
+        display:none;
+    }
+
     .crna-cmp-form .L {
         width:100%;
         box-shadow: none;
     }
-    .crna-cmp-form, .crna-formio-metadata-section {
+
+    /* Display form info section */
+    .crna-cmp-form .crna-formio-metadata-section {
         background-color: transparent;
         width:100%;
     }
 
-    /* Hide navigation */
-    .crna-cmp-form .menuR2 {
-        display:none;
-    }
-
     /* Hide form status */
     .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
+        visibility: hidden;
+    }
+
+    /* Add a line after the form info section */
+    .crna-formio-metadata-section:after {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        content:""
+    }
+
+    /* Display client details */
+    .crna-cmp-form .R {
+        position: absolute;
+        margin-left: 0.5em;
+        margin-top: 20em;
+    }
+
+    .formio-component-key_clientDetails .card-title {
+        color: black;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+
+    .card-header {
+        margin-bottom: 0;
+        background-color: #38598A;
+        border-bottom: 0;
+    }
+
+
+    .formio-component-key_clientDetails .border {
+        border: none!important;
+    }
+
+    /* Hide navigation */
+    .crna-cmp-form .menuR2 {
         display:none;
     }
 
@@ -120,6 +166,13 @@
         font-size: 25px;
     }
 
+    /* Add logo before the form title text */
+    .crna-formio-h1:before {
+        display: inline-block;
+        width: 15px;
+        content: url("/src/assets/images/justice.png");
+    }
+
     .crna-formio-h1:after {
         display:block;
         width:100%;
@@ -128,16 +181,10 @@
         content:""
     }
 
-    /* Add logo before the form title text */
-    .crna-formio-h1:before {
-        display: inline-block;
-        width: 15px;
-        content: url("/src/assets/images/justice.png");
-    }
-
     .crna-cmp-form .mainContent {
         border: none!important;
         padding: 0;
+        padding-top: 250px;
     }
 
     /* Hide 'Summary' text */
