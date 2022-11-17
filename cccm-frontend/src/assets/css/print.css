@@ -75,19 +75,11 @@
         display:none!important;
     }
 
-    /* Hide Right hand side button group */
-    .crna-cmp-form .R .crna-right-panel-button-container{
-        display:none;
+    /* Hide Right hand side panel */
+    .crna-cmp-form .R{
+        display: none;
     }
-    /* Hide Right hand side legend panel */
-    .crna-cmp-form .R .formio-component-key_legend{
-        display:none;
-    }
-    /* Hide Right hand side supervision level matrix panel */
-    .crna-cmp-form .R .formio-component-key_supervisionLevelMatrix{
-        display:none;
-    }
-    
+        
     .crna-cmp-form .L {
         width:100%;
         box-shadow: none;
@@ -104,7 +96,7 @@
         visibility: hidden;
     }
 
-    /* Add a line after the form info section */
+    /* Underline the form info section */
     .crna-formio-metadata-section:after {
         display: block;
         width: 100%;
@@ -113,35 +105,16 @@
     }
 
     /* Display client details */
-    /* Position Client Details section under the form Info */
-    .crna-cmp-form .R {
-        position: absolute;
-        margin-left: 0.5em;
-        margin-top: 20em;
+    .crna-cmp-form .menuR1 .hide {
+        display: block;
     }
 
-    /* Deco for the 'Client Details' text */
-    .formio-component-key_clientDetails .card-title {
-        color: black;
-        font-size: 2rem;
-        font-weight: 500;
-    }
-
-    /* Hide the border line under the 'Client Details' text */
-    .card-header {
-        margin-bottom: 0;
-        background-color: #38598A;
-        border-bottom: 0;
-    }
-
-    /* Hide the border line around clientDetails panel */
-    .formio-component-key_clientDetails .border {
-        border: none!important;
-    }
-
-    /* Show Right hand side sources contacted panel */
-    .formio-component-panel_sourceContacted .border{
-        border: none!important;
+    .printOnly_formInfo_clientDetails > h2:after {
+        display: block;
+        width: 80px;
+        height: 0px;
+        border-bottom: 1px solid #ccc;
+        content:""
     }
 
     /* Hide navigation */
@@ -160,6 +133,7 @@
         padding: 0;
     }
     
+    /* Position the form title after the logo */
     .crna-formio-h1>h2 {
         display: inline-block;
         width: calc(100% - 50px);
@@ -177,6 +151,7 @@
         content: url("/src/assets/images/justice.png");
     }
 
+    /* Underline the log and form title text */
     .crna-formio-h1:after {
         display:block;
         width:100%;
@@ -188,12 +163,25 @@
     .crna-cmp-form .mainContent {
         border: none!important;
         padding: 0;
-        padding-top: 250px;
     }
 
     /* Hide 'Summary' text */
     .crna-cmp-form .mainContent>div>h1 {
         display: none;
+    }
+
+    /* Align the Summary form type text */
+    .crna-cmp-form .mainContent>div>div>h2 {
+        margin-left: 20px;
+    }
+
+    /* Underline the Summary form type text */
+    .crna-cmp-form .mainContent>div>div>h2:after {
+        display: block;
+        width: 80px;
+        height: 0px;
+        border-bottom: 1px solid #ccc;
+        content:""
     }
 
     .crna-cmp-form .mainContent .v-data-table-header {
