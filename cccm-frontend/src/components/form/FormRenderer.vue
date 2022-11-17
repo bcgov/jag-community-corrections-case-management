@@ -119,7 +119,7 @@
                 <span v-html="getErrorText"></span>
               </v-alert>
 
-              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
+              <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -173,7 +173,8 @@
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"
-                  :options="options"/>
+                  :options="options"
+                  @sourcesContactedUpdated="handleSourcesContactedUpdated"/>
               </div>
             </section>
           </div>
@@ -232,7 +233,6 @@ export default {
       formInitData: {},
       dataMap: {},
       componentKey: 0,
-      formInfoKey: 0,
       formStaticInfoKey: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
@@ -251,6 +251,12 @@ export default {
     this.getFormioTemplate();
   },
   methods: {
+    handleSourcesContactedUpdated(sourcesContacted) {
+      console.log("sources contacted: ", sourcesContacted);
+      // Update this.formInfoData
+      this.formInfoData.data.input_key_sourceContacted = sourcesContacted;
+      this.formStaticInfoKey++;
+    },
     handleUnlockForm() {
       this.options.readOnly = false;
       this.formInfoData.data.readonly = false;
@@ -276,15 +282,15 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        //console.log("this.formInfoData: ", this.formInfoData);
-        this.formInfoKey++;
-
+        console.log("this.formInfoData: ", this.formInfoData);
+        
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
         if (error1) {
           console.error("Failed doing client profile search: ", error1);
         } else {
           this.clientData.data = response;
+          this.formInfoData.data.clientData = response;
           
           //set sources contacted
           this.clientData.data.hideSCInput = true;
