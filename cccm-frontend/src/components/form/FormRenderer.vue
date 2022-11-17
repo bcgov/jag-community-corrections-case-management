@@ -149,7 +149,8 @@
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
-              :csNumber="csNumber" />
+              :csNumber="csNumber" 
+              :printRequested="printRequested"/>
 
             <FormioButton 
               :buttonType="'formButton'"
@@ -167,7 +168,8 @@
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
-                  @printFormClicked="handlePrintForm" />
+                  @printFormClicked="handlePrintForm" 
+                  @cancelPrintFlag="handleCancelPrintFlag"/>
               </div>
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
@@ -242,6 +244,7 @@ export default {
       deleteDialog: false,
       saraDeleteSelectedFormTypeValue: ["sara"],
       options: {},
+      printRequested: false,
     }
   },
   mounted(){
@@ -251,6 +254,9 @@ export default {
     this.getFormioTemplate();
   },
   methods: {
+    handleCancelPrintFlag() {
+      this.printRequested = false;
+    },
     handleSourcesContactedUpdated(sourcesContacted) {
       console.log("sources contacted: ", sourcesContacted);
       // Update this.formInfoData
@@ -337,12 +343,10 @@ export default {
       this.loading = false;
     },
     navToSectionAndQuestion(section: number, question: number) {
-      //console.log("Navigating %d %d", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;
-      //this.private_showHideCasePlanInterventions(false);
-
+      
       // navigate to the pointed section, 
       // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
       // so it reactively refreshes the FormNavigation component
@@ -352,11 +356,16 @@ export default {
         this.parentNavJumpToPointed_sufix = "0";
       }
       this.parentNavJumpToPointed = section + "Q" + question + "_" + this.parentNavJumpToPointed_sufix;
-
     },
     handlePrintForm(evt) {
-      console.log("handlePrint: "); 
-      window.print();
+      // Current on 'Summary', cancel the print flag, and start the print
+      if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
+        window.print();
+      } else {
+        // Navigate to the 'Summary' section, and set the printRequested flag to true
+        this.printRequested = true;
+        this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
+      }
     },
     handleSaveClose() {
       //console.log("handleSaveClose");
@@ -390,12 +399,11 @@ export default {
       //console.log("Delete Form btn clicked");
       this.showDeleteDialog();
     },
-    async handleNavChildCallback(parentNavCurLocationFromChild) {
-      //console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
+    handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-
+      
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
         this.displayCasePlan = true;

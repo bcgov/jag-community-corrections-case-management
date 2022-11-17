@@ -37,6 +37,11 @@ import { getDataForSummaryView } from "@/components/form.api";
 
 export default {
     name: 'FormSummary',
+    props: {
+        clientFormId: 0,
+        csNumber: '',
+        printRequested: false
+    },
     data() {
         return {
             summaryData: {},
@@ -51,15 +56,14 @@ export default {
             ],
         }
     },
-    props: {
-        dataChangeCount: {
-            type: Number
-        },
-        clientFormId: 0,
-        csNumber: ''
-    },
     mounted() {
         this.getSummaryData();
+        if (this.printRequested) { 
+            setTimeout(() => {
+                window.print();
+                this.$emit('cancelPrintFlag');
+            }, 1000);
+        }
     },
     methods: {
         formValuesUpdated() {

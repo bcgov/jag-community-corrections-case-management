@@ -148,9 +148,6 @@ export default {
   },
   methods: {
     private_moveNav(parentNavPos, childNavPos) {
-      //console.log("parentNavPos, childNavPos: ", parentNavPos, childNavPos);
-      this.showHideWrapper(parseInt(parentNavPos), parseInt(childNavPos), false);
-
       // Move the position to the top by simulating an anchor click
       let hrefVal = '#' + parentNavPos + childNavPos;
       let selector = 'a[href="' + hrefVal + '"]'
@@ -164,8 +161,7 @@ export default {
     setCurrentSectionParentChild(e) {
       if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        //console.log(e.target.hash);
-        //console.log("e: ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
+        //console.log("setCurrentSectionParentChild : ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
         this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)), false);
       }
     },
