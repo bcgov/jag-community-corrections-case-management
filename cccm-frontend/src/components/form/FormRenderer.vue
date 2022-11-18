@@ -76,13 +76,13 @@
             <v-checkbox
               v-model="saraDeleteSelectedFormTypeValue"
               label="CRNA-CMP"
-              value="crna"
+              value="CRNA"
             ></v-checkbox>
             <v-checkbox
               v-model="saraDeleteSelectedFormTypeValue"
               :readonly=true
               label="SARA-CMP"
-              value="sara"
+              value="SARA"
             ></v-checkbox>
             <v-card-title>
             Are you sure you want to delete?
@@ -119,7 +119,7 @@
                 <span v-html="getErrorText"></span>
               </v-alert>
 
-              <FormioFormInfo :key="formInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
+              <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -149,7 +149,8 @@
             <FormSummary v-if="displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
-              :csNumber="csNumber" />
+              :csNumber="csNumber" 
+              :printRequested="printRequested"/>
 
             <FormioButton 
               :buttonType="'formButton'"
@@ -167,13 +168,15 @@
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
-                  @printFormClicked="handlePrintForm" />
+                  @printFormClicked="handlePrintForm" 
+                  @cancelPrintFlag="handleCancelPrintFlag"/>
               </div>
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"
-                  :options="options"/>
+                  :options="options"
+                  @sourcesContactedUpdated="handleSourcesContactedUpdated"/>
               </div>
             </section>
           </div>
@@ -232,7 +235,6 @@ export default {
       formInitData: {},
       dataMap: {},
       componentKey: 0,
-      formInfoKey: 0,
       formStaticInfoKey: 0,
       loadingMsgCasePlanIntervention: "Loading intervention data...",
       displayCasePlan: false,
@@ -240,8 +242,9 @@ export default {
       errorOccurred: false,
       errorText: '',
       deleteDialog: false,
-      saraDeleteSelectedFormTypeValue: ["sara"],
+      saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
+      printRequested: false,
     }
   },
   mounted(){
@@ -251,6 +254,15 @@ export default {
     this.getFormioTemplate();
   },
   methods: {
+    handleCancelPrintFlag() {
+      this.printRequested = false;
+    },
+    handleSourcesContactedUpdated(sourcesContacted) {
+      console.log("sources contacted: ", sourcesContacted);
+      // Update this.formInfoData
+      this.formInfoData.data.input_key_sourceContacted = sourcesContacted;
+      this.formStaticInfoKey++;
+    },
     handleUnlockForm() {
       this.options.readOnly = false;
       this.formInfoData.data.readonly = false;
@@ -276,15 +288,15 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        //console.log("this.formInfoData: ", this.formInfoData);
-        this.formInfoKey++;
-
+        console.log("this.formInfoData: ", this.formInfoData);
+        
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
         if (error1) {
           console.error("Failed doing client profile search: ", error1);
         } else {
           this.clientData.data = response;
+          this.formInfoData.data.clientData = response;
           
           //set sources contacted
           this.clientData.data.hideSCInput = true;
@@ -331,12 +343,10 @@ export default {
       this.loading = false;
     },
     navToSectionAndQuestion(section: number, question: number) {
-      //console.log("Navigating %d %d", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;
-      //this.private_showHideCasePlanInterventions(false);
-
+      
       // navigate to the pointed section, 
       // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
       // so it reactively refreshes the FormNavigation component
@@ -346,11 +356,16 @@ export default {
         this.parentNavJumpToPointed_sufix = "0";
       }
       this.parentNavJumpToPointed = section + "Q" + question + "_" + this.parentNavJumpToPointed_sufix;
-
     },
     handlePrintForm(evt) {
-      console.log("handlePrint: "); 
-      window.print();
+      // Current on 'Summary', cancel the print flag, and start the print
+      if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
+        window.print();
+      } else {
+        // Navigate to the 'Summary' section, and set the printRequested flag to true
+        this.printRequested = true;
+        this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
+      }
     },
     handleSaveClose() {
       //console.log("handleSaveClose");
@@ -384,12 +399,11 @@ export default {
       //console.log("Delete Form btn clicked");
       this.showDeleteDialog();
     },
-    async handleNavChildCallback(parentNavCurLocationFromChild) {
-      //console.log("handleNavChildCallback parentNavCurLocationFromChild", parentNavCurLocationFromChild);
+    handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-
+      
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
         this.displayCasePlan = true;
@@ -439,7 +453,7 @@ export default {
     },
     async formDeleteHelper(fullDelete) {
       // delete the form instance
-      //console.log("Delete form instance");
+      console.log("Delete form instance: ", fullDelete);
       let redirect = false;
       const [error, response] = await deleteForm(this.formId, this.csNumber);
       if (error) {
@@ -476,7 +490,7 @@ export default {
       this.formDeleteHelper(true);
     },
     async handleDeleteSARAFormBtnClick() {
-      //console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
+      console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
       this.deleteDialog = false;
       
       let fullDelete = false;
@@ -529,22 +543,6 @@ export default {
   font-weight: bold;
   
 }
-
-.crna-subSectionTitleClass {
-  font-size: 20px;
-  font-weight: bold;
-  padding-bottom: 1px!important;
-}
-
-.crna-subSectionTitleClass:nth-child(1):after {
-  content: "";
-  height: 0px;
-  width: 50px;
-  display: block;
-  border: 4px solid #FCBA19;
-  margin-bottom:20px;
-}
-
 
 /* 
  * Need to add the following definition, 

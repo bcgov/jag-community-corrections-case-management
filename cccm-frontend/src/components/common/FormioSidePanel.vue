@@ -46,15 +46,17 @@ export default {
         this.formKey++;
 
         // Time to save
-        if (!this.dataModel.data.hideSCInput) {
+        if (this.dataModel.data.hideSCInput) {
           // Save button clicked, call API to save the data
+          let newVal = evt.data[this.KEY_SOURCESCONTACTED];
           let sourcesContacted = {};
-          sourcesContacted[this.KEY_SOURCESCONTACTED] = evt.data[this.KEY_SOURCESCONTACTED];
+          sourcesContacted[this.KEY_SOURCESCONTACTED] = newVal;
           const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
           if (error) {
             console.error("Save source contacted error: ", error);
           } else {
-            console.log("Save source contacted success", response);
+            console.log("Save source contacted success");
+            this.$emit('sourcesContactedUpdated', newVal);
           }
         }
       }

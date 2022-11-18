@@ -10,7 +10,7 @@
                     <h3 class="heading">{{ section.section }}</h3>
                     <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                         <h4 class="heading">{{ subSection.title }}</h4>
-                        <v-data-table class="summary-table elevation-10" 
+                        <v-data-table 
                             no-data-text="No answers for this section" 
                             :items="subSection.answers"
                             :headers="formHeaders" item-key="key" 
@@ -37,6 +37,11 @@ import { getDataForSummaryView } from "@/components/form.api";
 
 export default {
     name: 'FormSummary',
+    props: {
+        clientFormId: 0,
+        csNumber: '',
+        printRequested: false
+    },
     data() {
         return {
             summaryData: {},
@@ -44,22 +49,21 @@ export default {
             changeCount: -1,
             loading: false,
             formHeaders: [
-                { text: 'Question', value: 'question', width: '20%',align:'center' , class: 'summary-head'},
-                { text: 'Answer', value: 'value', width: '20%' ,align:'center' },
-                { text: 'Comments', value: 'comment', width: '50%' ,align:'center' },
-                { text: 'Action', value: 'editKey', width: '10%' ,align:'center' },
+                { text: 'Question', value: 'question', width: '20%', align:'center' },
+                { text: 'Answer', value: 'value', width: '20%', align:'center' },
+                { text: 'Comments', value: 'comment', width: '50%', align:'center' },
+                { text: 'Action', value: 'editKey', width: '10%', align:'center' },
             ],
         }
     },
-    props: {
-        dataChangeCount: {
-            type: Number
-        },
-        clientFormId: 0,
-        csNumber: ''
-    },
     mounted() {
         this.getSummaryData();
+        if (this.printRequested) { 
+            setTimeout(() => {
+                window.print();
+                this.$emit('cancelPrintFlag');
+            }, 1000);
+        }
     },
     methods: {
         formValuesUpdated() {
@@ -100,11 +104,6 @@ h3.heading::after {
     border-bottom: 8px solid #FCBA19;
     margin-bottom: 20px;
 }
-.summary-table > th > td {
-    font-size: 16px;
-}
-
-
 
 </style>
   
