@@ -100,7 +100,7 @@
     .crna-formio-metadata-section:after {
         display: block;
         width: 100%;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #545454;
         content:""
     }
 
@@ -109,11 +109,11 @@
         display: block;
     }
 
-    .printOnly_formInfo_clientDetails > h2:after {
+    .printOnly_formInfo_clientDetails > h3:after {
         display: block;
         width: 80px;
         height: 0px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 5px solid #545454;
         content:""
     }
 
@@ -151,12 +151,12 @@
         content: url("/src/assets/images/justice.png");
     }
 
-    /* Underline the log and form title text */
+    /* Underline the logo and form title text */
     .crna-formio-h1:after {
         display:block;
         width:100%;
         height:0px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #545454;
         content:""
     }
 
@@ -166,7 +166,7 @@
     }
 
     /* Hide 'Summary' text */
-    .crna-cmp-form .mainContent>div>h1 {
+    .crna-cmp-form .mainContent .sectionTitleClass {
         display: none;
     }
 
@@ -176,16 +176,27 @@
     }
 
     /* Underline the Summary form type text */
-    .crna-cmp-form .mainContent>div>div>h2:after {
+    .crna-cmp-form .mainContent>div>div>h3:after {
         display: block;
         width: 80px;
         height: 0px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 5px solid #545454;
         content:""
     }
 
-    .crna-cmp-form .mainContent .v-data-table-header {
-        background-color: #545454;
+    /* Change the section tile underline color */
+    .dashboard-v-card .subSectionTitleClass:after{
+        content: "";
+        height: 0px;
+        width: 50px;
+        display: block;
+        border-bottom: 3px solid #545454;
+        margin-bottom: 25px;
+    }
+
+    /* Change the header color - not working */
+    .dashboard-v-card .v-data-table-header {
+        background-color: #545454!important;
     }
 
 }

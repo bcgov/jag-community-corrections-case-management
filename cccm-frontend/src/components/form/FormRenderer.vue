@@ -150,7 +150,8 @@
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
               :csNumber="csNumber" 
-              :printRequested="printRequested"/>
+              :printRequested="printRequested"
+              @cancelPrintFlag="handleCancelPrintFlag"/>
 
             <FormioButton 
               :buttonType="'formButton'"
@@ -168,8 +169,7 @@
                 <FormioButton v-if="!loading" 
                   :buttonType="'sideButton'"
                   @saveCloseClicked="handleSaveClose" 
-                  @printFormClicked="handlePrintForm" 
-                  @cancelPrintFlag="handleCancelPrintFlag"/>
+                  @printFormClicked="handlePrintForm" />
               </div>
               <div class="crna-right-panel-details">
                 <FormioSidePanel :key="formStaticInfoKey" 
@@ -255,6 +255,7 @@ export default {
   },
   methods: {
     handleCancelPrintFlag() {
+      //console.log("cancel print requested");
       this.printRequested = false;
     },
     handleSourcesContactedUpdated(sourcesContacted) {
@@ -320,7 +321,7 @@ export default {
         // force FormNavigation to refresh.
         this.componentKey++;
 
-        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length - 1;
+        this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
         if (this.totalNumParentNav >= 2) {
           const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
           this.casePlanDataModel.components = clone;
