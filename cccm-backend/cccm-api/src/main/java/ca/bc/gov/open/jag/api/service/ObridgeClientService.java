@@ -138,6 +138,10 @@ public interface ObridgeClientService {
     BigDecimal createForm(@RequestBody FormInput createFormInput);
 
     @POST
+    @Path("/forms/client/update/completion")
+    void setCompletion(@RequestBody CompleteFormInput completeFormInput);
+
+    @POST
     @Path("/forms/client/clone")
     BigDecimal cloneForm(@RequestBody CloneFormRequest cloneFormRequest);
 

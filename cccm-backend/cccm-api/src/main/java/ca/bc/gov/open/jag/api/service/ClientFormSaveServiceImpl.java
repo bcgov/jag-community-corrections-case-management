@@ -1,19 +1,18 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.Keys;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
+import ca.bc.gov.open.jag.api.model.data.CompleteFormInput;
 import ca.bc.gov.open.jag.api.model.data.FormInput;
 import ca.bc.gov.open.jag.api.model.service.CloneConfig;
 import ca.bc.gov.open.jag.api.model.service.CloneForm;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.util.JwtUtils;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
@@ -35,6 +34,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @RestClient
     ObridgeClientService obridgeClientService;
 
+    @Inject
+    UserDataService userDataService;
 
     @Inject
     ValidationService validationService;
@@ -75,12 +76,12 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal editForm(UpdateForm updateForm) {
+    public void editForm(UpdateForm updateForm) {
 
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
 
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
-            throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
+            throw new CCCMException("User who created the form can only edit or complete", CCCMErrorCode.VALIDATIONERROR);
         }
 
         if (updateForm.getComplete()) {
@@ -114,38 +115,33 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         }
 
-        FormInput formInput = new FormInput();
-        formInput.setLocationId(updateForm.getLocationId());
-        formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
-        formInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
-        formInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
-        formInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());
-        formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
-        formInput.setCompletionDate((updateForm.getComplete() ? LocalDate.now() : null));
+        CompleteFormInput formInput = new CompleteFormInput();
 
-        BigDecimal result = obridgeClientService.createForm(formInput);
+        String oracelId = userDataService.getOracleId(updateForm.getIdirId());
+
+        formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
+        formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
+        formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+        formInput.setOracleId(oracelId);
+
+        obridgeClientService.setCompletion(formInput);
 
         if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
 
-            FormInput childFormInput = new FormInput();
-            childFormInput.setLocationId(updateForm.getLocationId());
+            CompleteFormInput childFormInput = new CompleteFormInput();
             childFormInput.setClientFormId(updateForm.getUpdateFormInput().getLinkedClientFormId());
-            childFormInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
-            childFormInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
-            childFormInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());
             childFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
-            childFormInput.setCompletionDate((updateForm.getComplete() ? LocalDate.now() : null));
+            childFormInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+            childFormInput.setOracleId(oracelId);
 
-            obridgeClientService.createForm(childFormInput);
+            obridgeClientService.setCompletion(childFormInput);
 
         }
-
-        return result;
 
     }
 
     @Override
-    public void linkForm(UpdateFormInput linkFormInput, BigDecimal locationId) {
+    public void linkForm(LinkFormInput linkFormInput, BigDecimal locationId) {
 
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
