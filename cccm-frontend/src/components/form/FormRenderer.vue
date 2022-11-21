@@ -422,10 +422,6 @@ export default {
       completeFormData.clientFormId = Number(this.formId);
       completeFormData.clientNumber = this.csNumber;
       completeFormData.linkedClientFormId = this.relatedClientFormId;
-      completeFormData.formLevelComments = '';
-      completeFormData.sourcesContacted = '';
-      completeFormData.planSummary = '';
-      console.log("completeFormData: ", completeFormData);
       
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
