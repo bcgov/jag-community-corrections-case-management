@@ -105,20 +105,22 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @RolesAllowed("form-add")
-    public BigDecimal completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
+    public void completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
 
-        return clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username, false));
+        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username, true));
 
     }
 
     @Override
     @RolesAllowed("form-add")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
+
         clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(), username, false));
+
     }
 
     @Override
-    public void linkForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
+    public void linkForm(@Valid @NotNull LinkFormInput updateFormInput, String xLocationId) {
         if (updateFormInput.getLinkedClientFormId() == null) {
             throw new CCCMException("Linked form id is required", VALIDATIONERROR);
         }

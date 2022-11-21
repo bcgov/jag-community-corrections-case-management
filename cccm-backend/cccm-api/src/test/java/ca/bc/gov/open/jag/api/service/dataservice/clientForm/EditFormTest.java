@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
+import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,19 +35,20 @@ public class EditFormTest {
     @Inject
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @InjectMock
+    UserDataService userDataService;
+
     @Test
     @DisplayName("Success: Form is edited by owner")
     public void testEditFormIsOwner() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
-        updateFormInput.setFormLevelComments("TEST");
-        updateFormInput.setPlanSummary("TEST");
-        updateFormInput.setSourcesContacted("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
 
@@ -58,13 +60,12 @@ public class EditFormTest {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
-        updateFormInput.setFormLevelComments("TEST");
-        updateFormInput.setPlanSummary("TEST");
-        updateFormInput.setSourcesContacted("TEST");
+
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false)));
 
@@ -76,14 +77,12 @@ public class EditFormTest {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setLinkedClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
-        updateFormInput.setFormLevelComments("TEST");
-        updateFormInput.setPlanSummary("TEST");
-        updateFormInput.setSourcesContacted("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false)));
 

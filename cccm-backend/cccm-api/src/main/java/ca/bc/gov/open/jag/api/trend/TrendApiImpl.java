@@ -2,7 +2,6 @@
 
 package ca.bc.gov.open.jag.api.trend;
 
-import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.TrendDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.TrendApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LabelValuePair;
