@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 
 import java.math.BigDecimal;
@@ -15,9 +16,9 @@ public interface ClientFormSaveService {
 
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 
-    BigDecimal editForm(UpdateForm updateForm);
+    void editForm(UpdateForm updateForm);
 
-    void linkForm(UpdateFormInput linkFormInput, BigDecimal locationId);
+    void linkForm(LinkFormInput linkFormInput, BigDecimal locationId);
 
     void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId, Boolean hasOverride);
 

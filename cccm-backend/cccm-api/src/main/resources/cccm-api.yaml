@@ -629,12 +629,8 @@ paths:
       responses:
         200:
           description: OK
-          content:
-            '*/*':
-              schema:
-                type: number
-        201:
-          description: Created
+        204:
+          description: No Content
           content: {}
         401:
           description: Unauthorized
@@ -688,7 +684,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateFormInput'
+              $ref: '#/components/schemas/LinkFormInput'
         required: true
       responses:
         204:
@@ -2211,6 +2207,19 @@ components:
           type: number
           description: required to link a form
     UpdateFormInput:
+      type: object
+      required:
+        - clientFormId
+        - clientNumber
+      properties:
+        clientFormId:
+          type: number
+        clientNumber:
+          type: string
+        linkedClientFormId:
+          type: number
+          description: required to link a form
+    LinkFormInput:
       type: object
       required:
         - clientFormId
