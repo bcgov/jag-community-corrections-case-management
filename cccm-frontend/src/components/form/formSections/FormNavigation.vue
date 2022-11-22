@@ -4,7 +4,7 @@
       <div class="divTableRowL1 divTableRowNav">
         <div class="divTableCell">
 	        <span v-for="(header, index) in dataModel.components" :key="index">
-            <a v-if="index < dataModel.components.length - 1" :key="index" 
+            <a :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
               @click="setCurrentSectionParentChild">
@@ -16,7 +16,7 @@
       <div class="divTableRowL2 divTableRowNav">
         <span v-for="(header, indexp) in dataModel.components" :key="indexp">
           <!-- To skip the button components-->
-          <div v-if="indexp < dataModel.components.length - 1" :key="indexp"
+          <div :key="indexp"
               :class="[currentSectionParent == indexp ? 'divTableCell' : 'hide', '']">
               <!-- {{ currentSectionParent }} {{ currentSectionChild }} -->
               <span v-if="header.custom_subNavOn != null && header.custom_subNavOn">
@@ -72,7 +72,7 @@ export default {
   },
   watch: {
     parentNavJumpToPointed() {
-      //console.log("nav watch: ", this.parentNavJumpToPointed );
+      //console.log("click to position: ", this.parentNavJumpToPointed );
       //this.parentNavJumpToPointed sample value: 1Q3_0
       // Need to get the value before _
       let navSection = this.parentNavJumpToPointed.split("_");
@@ -153,8 +153,19 @@ export default {
       let selector = 'a[href="' + hrefVal + '"]'
       let theAnchor = document.querySelector(selector);
       //console.log("selector: , theAnchor: ", selector, theAnchor);
+
+      // If targeted anchor doesn't exist (true for sections where the subNav is off),
+      // set childNavPos to 1
+      if (theAnchor == null) {
+        hrefVal = '#' + parentNavPos + '1';
+        selector = 'a[href="' + hrefVal + '"]'
+        theAnchor = document.querySelector(selector);
+      }
+      // add the delay so when user click edit icon from summary view, the click can respond in time
       if (theAnchor != null) {
-        theAnchor.click();
+        setTimeout(() => {
+          theAnchor.click();
+        }, 1000);
       }
     },
     // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
@@ -213,7 +224,7 @@ export default {
       // show questions
       if (this.dataModel.components != null && this.dataModel.components.length >= 1) {
         //console.log("panel is not null: ",  this.dataModel.components.length);
-        for (let i = 0; i <= this.dataModel.components.length - 2; i++) {
+        for (let i = 0; i <= this.dataModel.components.length - 1; i++) {
           // Section ID is 1 based, not 0 based.
           let panelIDIndex = (i + 1).toString().length < 2 ? "0" + (i + 1).toString() : (i + 1).toString();
           let panelID = "S" + panelIDIndex;
@@ -231,8 +242,8 @@ export default {
                   let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
                   //console.log("questionClassName: ", questionClassName);
                   let theQuestionPanel = document.querySelector(questionClassName);
-                  //console.log("theQuestionPanel: ", theQuestionPanel);
                   if (theQuestionPanel != null) {
+                    //console.log("scroll to view: ", theQuestionPanel);
                     theQuestionPanel.scrollIntoView(false);
                   }
                 }

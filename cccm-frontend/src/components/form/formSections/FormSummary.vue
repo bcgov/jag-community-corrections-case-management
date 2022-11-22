@@ -1,15 +1,14 @@
 <template>
     <!--Summary section-->
     <div>
-        <h1>Summary</h1>
         <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading summary</v-progress-linear>
         <div v-for="(formEle, index) in summaryData" :key="index">
-            <h2>{{ formEle.formType }}</h2>
+            <h3>{{ getFormTypeDesc[formEle.formType] }}</h3>
             <div class="dashboard-v-card" v-if="formEle.data.length > 0">
                 <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                    <h3 class="heading">{{ section.section }}</h3>
+                    <div class="subSectionTitleClass">{{ section.section }}</div>
                     <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                        <h4 class="heading">{{ subSection.title }}</h4>
+                        <h5>{{ subSection.title }}</h5>
                         <v-data-table 
                             no-data-text="No answers for this section" 
                             :items="subSection.answers"
@@ -58,10 +57,11 @@ export default {
     },
     mounted() {
         this.getSummaryData();
+        //console.log("this.printRequested: ", this.printRequested);
         if (this.printRequested) { 
+            this.$emit('cancelPrintFlag');
             setTimeout(() => {
                 window.print();
-                this.$emit('cancelPrintFlag');
             }, 1000);
         }
     },
@@ -70,11 +70,9 @@ export default {
             this.getSummaryData();
         },
         editFormItem(editKey) {
-            console.log("Clicked %o", editKey);
             // entries are 1-based but tab indexes are zero based (ugh)
             let section = Number.parseInt(editKey.substr(1, 2)) - 1; 
             let question = Number.parseInt(editKey.substr(4, 6));
-            console.log("section: , question: ", section, question);
             this.$emit('viewSectionQuestion', section, question);
         },
         async getSummaryData() {
@@ -89,23 +87,17 @@ export default {
             this.loading = false;
         }
     },
+    computed: {
+        getFormTypeDesc() {
+            let formTypeDesc = [];
+            formTypeDesc[this.$CONST_FORMTYPE_CRNA] = 'Community Risk Needs Assessment Form';
+            formTypeDesc[this.$CONST_FORMTYPE_SARA] = 'SARA';
+
+            return formTypeDesc
+        }
+    }
 }
 </script>
-
-<style scoped>
-h3.heading {
-    margin-top: 20px;
-}
-h3.heading::after {
-    content: "";
-    height: 0px;
-    width: 50px;
-    display: block;
-    border-bottom: 8px solid #FCBA19;
-    margin-bottom: 20px;
-}
-
-</style>
   
   
   

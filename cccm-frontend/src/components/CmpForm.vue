@@ -104,7 +104,6 @@ export default {
       // Reload the whole page if clicking on different tab, 
       // which resolves the issues with the whole DOM object not cleared when reload the same component with different param
       if (currentPathClientFormId != item.formId) {
-        console.log("push path");
         let r = this.$router.resolve({
           name: "cmpform", 
           params: {

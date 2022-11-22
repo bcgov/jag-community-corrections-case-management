@@ -288,7 +288,7 @@ export default {
         console.error(error);
       } else {
         this.clientList = response;
-        console.log("PO search result: ", response);
+        //console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
           if (el.designations != null) {
