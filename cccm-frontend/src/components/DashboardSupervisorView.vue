@@ -219,7 +219,7 @@ export default {
       param.userId = idirId;
       param.userName = poName;
       param.locationId = this.pickedLocationCD;
-      console.log("Set PO param: ", param);
+      //console.log("Set PO param: ", param);
       let base64EncodeParam = btoa(JSON.stringify(param));
 
       //For code running using Node.js APIs, converting between base64-encoded strings and binary data 
@@ -244,7 +244,7 @@ export default {
       if (error) {
         console.error("Supervisor dashboard PO search failed: ", error);
       } else {
-        console.log("Supervisor dashboard PO search: ", POUserId, response);
+        //console.log("Supervisor dashboard PO search: ", POUserId, response);
         //Cache the PO details into this.officerList object
         // Set the poDetailFetched flag to true
         if (this.officerList != null && response != null) {
@@ -290,7 +290,7 @@ export default {
       return this.officerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
-      console.log("locationType: ", locationType);
+      //console.log("locationType: ", locationType);
       this.pickedLocationCD = locationType;
 
       // search based on the newly selected location
@@ -303,7 +303,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Supervisor dashboard search: ", response);
+        //console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
 
         // preset the flag to false; 
