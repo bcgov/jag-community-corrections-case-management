@@ -8,6 +8,11 @@ const options = {
 }
 
 const _keycloak = new Keycloak(options)
+const kcLogin = _keycloak.login;
+_keycloak.login = (options) => {
+  Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});
+  kcLogin(options);
+};
 
 const Plugin = {
   install(Vue) {
