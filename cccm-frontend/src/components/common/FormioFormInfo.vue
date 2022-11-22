@@ -31,8 +31,10 @@ export default {
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
     },
-    handleUnlockForm() {
-      this.$emit('unlockForm');
+    handleUnlockForm(evt) {
+      if (evt != null && evt.type === 'evt_editForm' ) {
+        this.$emit('unlockForm');
+      }
     }
   },
 }
