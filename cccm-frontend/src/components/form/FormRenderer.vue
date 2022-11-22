@@ -248,7 +248,11 @@ export default {
     }
   },
   mounted(){
-    this.options.readOnly = this.readonly;
+    if (this.readonly) {
+      this.options.readOnly = this.readonly;
+    } else {
+      this.options = null;
+    }
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
@@ -259,16 +263,28 @@ export default {
       this.printRequested = false;
     },
     handleSourcesContactedUpdated(sourcesContacted) {
-      console.log("sources contacted: ", sourcesContacted);
-      // Update this.formInfoData
       this.formInfoData.data.input_key_sourceContacted = sourcesContacted;
       this.formStaticInfoKey++;
     },
     handleUnlockForm() {
-      this.options.readOnly = false;
+      this.options = null;
       this.formInfoData.data.readonly = false;
       this.componentKey++;
       this.formStaticInfoKey++;
+
+      // call api to unset the complete flag
+      this.unSetCompleteFlag();
+    },
+    async unSetCompleteFlag() {
+      let unlockFormData = {};
+      unlockFormData.clientFormId = Number(this.formId);
+      unlockFormData.clientNumber = this.csNumber;
+      unlockFormData.linkedClientFormId = null;
+
+      const [error, response] = await unlockForm(unlockFormData);
+      if (error) {
+        console.error("Failed unset complete status", error);
+      } 
     },
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
@@ -282,6 +298,7 @@ export default {
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
         // set the form title
+        this.formInfoData.data.formTypeCD = this.formType;
         if (this.formType == this.$CONST_FORMTYPE_CRNA) {
           this.formInfoData.data.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
           this.formInfoData.data.formType = "CRNA-CMP Type"
@@ -289,7 +306,7 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        console.log("this.formInfoData: ", this.formInfoData);
+        //console.log("this.formInfoData: ", this.formInfoData);
         
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
