@@ -122,6 +122,10 @@
             <a href="#" @click="formClone(item.id)" title="Copy form">
               <i class="fa fa-copy"></i>
             </a>
+            &nbsp;&nbsp;
+            <a href="#" @click="formPrint(item.id)" title="Print form">
+              <i class="fa fa-print"></i>
+            </a>
           </template>
         </v-data-table>
       </div>
@@ -363,6 +367,17 @@ export default {
       //console.log("formClone", formID);
       this.formCloneAPI(formID);
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
+    },
+    formPrint(formID) {
+      //Bring User to the form instance and trigger the print
+      this.$router.push({
+        name: "cmpform",
+        params: {
+          formID: formID,
+          csNumber: this.clientNum,
+          print: true
+        }
+      });
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;

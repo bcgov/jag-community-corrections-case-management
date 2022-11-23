@@ -206,7 +206,8 @@ export default {
     formId: 0,
     csNumber: '',
     relatedClientFormId: 0,
-    readonly: false
+    readonly: false,
+    printParam: false
   },
   components: {
     Form,
@@ -256,6 +257,13 @@ export default {
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
+
+    if (this.printParam) {
+      setTimeout(() => {
+        this.printRequested = true;
+        this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
+      }, 1000);
+    }
   },
   methods: {
     handleCancelPrintFlag() {

@@ -56,8 +56,8 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly"></FormRenderer>
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :printParam="printParam"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :printParam="printParam"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -87,11 +87,16 @@ export default {
       formKey: 0,    
       CRNATabKey: 0,  
       SARATabKey: 0,
+      printParam: false
     }
   },
   mounted(){
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
+    if (this.$route.params.print) {
+      this.printParam = true;
+    }
+    
     //console.log("cmpform mounted: ", this.formId, this.clientNum);
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
