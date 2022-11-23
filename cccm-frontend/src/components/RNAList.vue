@@ -119,9 +119,11 @@
               <i class="fa fa-eye"></i>
             </a>
             &nbsp;&nbsp;
-            <a href="#" @click="formClone(item.id)" title="Copy form">
-              <i class="fa fa-copy"></i>
-            </a>
+            <div style="display:inline-block" :title="getCloneTooltip(item)">
+              <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click="formClone(item.id)">
+                <i class="fa fa-copy"></i>
+              </a>
+            </div>
             &nbsp;&nbsp;
             <a href="#" @click="formPrint(item.id)" title="Print form">
               <i class="fa fa-print"></i>
@@ -208,9 +210,33 @@ export default {
   },
   mounted() {
     this.initFormCreationSelection();
-    this.formSearchAPI(this.selectedFormTypes.key)
+    this.formSearchAPI(this.selectedFormTypes.key);
   },
   methods: {
+    canClone(item) {
+      // User cannot clone:
+      // 1. another user’s CRNA-SARA-CMP,
+      // 2. an incomplete CRNA-SARA-CMP, nor
+      // 3. a previous version of the CRNA-SARA-CMP.
+      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username || 
+          item.status != this.const_formstatus_complete ||
+          !item.mostRecent) {
+        return false
+      }
+      return true
+    },
+    getCloneTooltip(item) {
+      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+        return "User cannot clone another user's form"
+      }
+      if (item.status != this.const_formstatus_complete) {
+        return 'User cannot clone an incomplete form'
+      }
+      if (!item.mostRecent) {
+        return 'User cannot clone a previous version of the form'
+      }
+      return 'Copy form';
+    },
     getAssessmentStatus(isReassessment) {
       return (isReassessment) ? "Reassessment" : "Initial";
     },
@@ -334,7 +360,6 @@ export default {
       }
     },
     async formSearchAPI(formType) {
-      
       this.loading = true;
       try {
         let period = (this.currentPeriod === 'current') ? true : false;
@@ -345,7 +370,7 @@ export default {
         } else {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
-          //console.log("RNAList: ", this.rnaList);
+          console.log("RNAList: ", this.rnaList);
         }
       } finally {
         this.loading = false;
@@ -364,7 +389,6 @@ export default {
       });
     },
     async formClone(formID) {
-      //console.log("formClone", formID);
       this.formCloneAPI(formID);
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
@@ -408,3 +432,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  a.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+</style>
