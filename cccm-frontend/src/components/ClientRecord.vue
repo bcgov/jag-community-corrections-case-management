@@ -139,31 +139,29 @@ export default {
     },
     async clientProfileSearchAPI() {
       // Client profile search.
-      const [error, response] = await clientProfileSearch(this.csNumber);
+      const [error, clientProfileResponse] = await clientProfileSearch(this.csNumber);
       if (error) {
         console.error("Failed searching for client profile: ", error);
       } else {
-        //this.initData = response.data;
         this.initData = {"data": {}};
-        this.initData.data = response;
-        
-        if (this.initData != null && this.initData.data != null) {
+        this.initData.data = clientProfileResponse;
+        if (clientProfileResponse != null) {
           //Cache the photoData into this.initData object
-          if (response.photo) {
-            this.initData.data.photo = "data:image/png;base64, " + this.initData.data.photo.image;
-            this.initData.data.photoDate = this.initData.data.photo.photoTakenDate;
+          if (clientProfileResponse.photo) {
+            this.initData.data.photo.image = "data:image/png;base64, " + clientProfileResponse.photo.image;
+            this.initData.data.photo.photoTakenDate = clientProfileResponse.photo.photoTakenDate;
           }
           // Build the designations value, set the IPVClient value
-          if (this.initData.data.designations != null) {
+          if (clientProfileResponse.designations != null) {
             let designationsVal = "";
-            for (let i = 0; i < this.initData.data.designations.length; i++) {
-              if (this.initData.data.designations[i].type.toLowerCase() === this.CONST_DESIGNATION_IPV.toLowerCase()) {
+            for (let i = 0; i < clientProfileResponse.designations.length; i++) {
+              if (clientProfileResponse.designations[i].type.toLowerCase() === this.CONST_DESIGNATION_IPV.toLowerCase()) {
                 this.IPVClient = true;
               }
               // (Sep 21, 2022) BA decided to get ride the color scheme for the designation 
               //let colorClass = this.getDesignationColor(this.initData.data.designations[i].rating);
               let colorClass = "";
-              let theVal = "<span class='" + colorClass + "'>" + this.initData.data.designations[i].type + "</span></br>";
+              let theVal = "<span class='" + colorClass + "'>" + clientProfileResponse.designations[i].type + "</span></br>";
               designationsVal += theVal;
             }
             this.initData.data.designationsVal = designationsVal;

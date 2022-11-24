@@ -175,7 +175,7 @@ export default {
       //Const
       const_formstatus_incomplete: "Incomplete",
       const_formstatus_complete: "Complete",
-      const_formstatus_overdue: "Overdue",
+      const_formstatus_overdue: "OverDue",
       const_rating_low: "Low",
       const_rating_medium: "Medium",
       const_rating_high: "High",
@@ -394,14 +394,24 @@ export default {
     },
     formPrint(formID) {
       //Bring User to the form instance and trigger the print
-      this.$router.push({
+      const route = this.$router.resolve({ 
         name: "cmpform",
         params: {
           formID: formID,
           csNumber: this.clientNum,
           print: true
         }
-      });
+      }); 
+      window.open(route.href, '_blank');
+
+      // this.$router.push({
+      //   name: "cmpform",
+      //   params: {
+      //     formID: formID,
+      //     csNumber: this.clientNum,
+      //     print: true
+      //   }
+      // });
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;

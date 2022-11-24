@@ -264,7 +264,7 @@ export default {
       setTimeout(() => {
         this.printRequested = true;
         this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
-      }, 1000);
+      }, 5000);
     }
   },
   methods: {
