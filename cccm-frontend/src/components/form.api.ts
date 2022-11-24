@@ -1,11 +1,10 @@
 import { identifier } from '@babel/types';
 import axios from 'axios';
 import { ScriptableLineSegmentContext } from 'chart.js';
-//import { config } from 'process';
 
 const axiosClient = axios.create({
     baseURL: config.VUE_APP_CCCM_API_ENDPOINT,
-    //baseURL: "http://localhost:8080"
+    timeout: config.VUE_APP_TIMEOUT
 });
 
 //------------------------------------------
