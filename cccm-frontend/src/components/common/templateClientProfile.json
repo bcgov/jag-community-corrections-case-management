@@ -20,7 +20,7 @@
                                     "attrs": [
                                         {
                                             "attr": "src",
-                                            "value": "{{data.photo}}"
+                                            "value": "{{data.photo == null ? '' : data.photo.image}}"
                                         },
                                         {
                                             "attr": "alt",
@@ -54,7 +54,7 @@
                                             "value": ""
                                         }
                                     ],
-                                    "content": "<p class='font-italic'>Photo Taken: {{data.photoDate}}</p>",
+                                    "content": "<p class='font-italic'>Photo Taken: {{data.photo == null ? '' : data.photo.photoTakenDate}}</p>",
                                     "refreshOnChange": true,
                                     "key": "html3",
                                     "type": "htmlelement",
