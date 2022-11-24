@@ -58,7 +58,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/client/:csNumber/form/:formID',
+      path: '/client/:csNumber/form/:formID/:print?', //param print is optional
       name: 'cmpform',
       component: CmpFormView,
       meta: {
@@ -73,23 +73,14 @@ const router = new VueRouter({
   ]
 })
 
-// List of realm roles:
-// client-search	
-// client-view	
-// data-view	
-// default-roles-cccm	
-// form-add
-// form-delete	
-// form-update	
-// form-view
-// po-manage
 router.beforeEach((to, from, next) => {
   // Fetch the default location
   const store = useStore();
   store.getUserDefaultLocation();
   store.getUserLocations();
-  
-  //console.log("In router, store: ", store.locationCD, store.locationDescription);
+  store.getLoginUserGroup();
+
+  //console.log("Store: ", store.locationCD, store.locationDescription, Vue.prototype.$USER_GROUP_SUPERVISOR, store.loginUserGroup);
   
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
@@ -100,10 +91,7 @@ router.beforeEach((to, from, next) => {
       // The page is protected and the user is not authenticated. Force a login.
       //console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
-     } else if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
-                'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')
-              || Vue.$keycloak.hasRealmRole('po-manage', 'client-search', 'client-view', 
-                'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
+    } else if (store.loginUserGroup != null) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
       //console.log("Authenticated and has 'client-search' role");
@@ -111,14 +99,16 @@ router.beforeEach((to, from, next) => {
         .then(() => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == 'home') {
-            if (Vue.$keycloak.hasRealmRole('po-manage')) {
+            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
               next({ name: 'dashboardsupervisor' });
-            } else {
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
             }
           } else {
             // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
-            if (to.name == 'dashboardsupervisor' && !Vue.$keycloak.hasRealmRole('po-manage')) {
+            if (to.name == 'dashboardsupervisor' && 
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
             } else {
               // otherwise, direct them to dashboardpo view

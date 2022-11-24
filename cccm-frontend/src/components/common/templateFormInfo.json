@@ -154,7 +154,7 @@
                                     "key": "edit",
                                     "conditional": {
                                         "show": true,
-                                        "when": "readonly",
+                                        "when": "showEditBtn",
                                         "eq": "true"
                                     },
                                     "type": "button",

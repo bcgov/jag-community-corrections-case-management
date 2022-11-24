@@ -56,8 +56,8 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly"></FormRenderer>
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :printParam="printParam"></FormRenderer>
+          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :printParam="printParam"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -69,6 +69,8 @@ import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
 import { createSARAForm, getClientFormDetails } from "@/components/form.api";
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'CMPForm',
@@ -87,11 +89,16 @@ export default {
       formKey: 0,    
       CRNATabKey: 0,  
       SARATabKey: 0,
+      printParam: false
     }
   },
   mounted(){
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
+    if (this.$route.params.print) {
+      this.printParam = true;
+    }
+    
     //console.log("cmpform mounted: ", this.formId, this.clientNum);
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
@@ -121,6 +128,23 @@ export default {
         }
       }
     },
+    isReadonly(response) {
+      // Readonly is true when:
+      // 1. the form was created by someone else; OR
+      // 2. the form is completed
+      //console.log("readonly check: ", response);
+      let isReadonly = false;
+      if (response.createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+        isReadonly = response.complete;
+      } else {
+        isReadonly = true;
+        if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
+            !response.complete) {
+            isReadonly = false;
+        }
+      }
+      return isReadonly;
+    },
     async getClientFormDetailsAPI(csNum, clientFormId) {
       const [error, response] = await getClientFormDetails(csNum, clientFormId);
       if (error) {
@@ -132,7 +156,7 @@ export default {
         
         // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
         if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: response.complete});
+          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response)});
           this.current_tab = 'tab-CRNA';
           if (!this.relatedClientFormId) {
             // show the 'add sara' btn if the crna form hasn't linked with sara
@@ -145,7 +169,7 @@ export default {
         // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
         if (this.formType === this.$CONST_FORMTYPE_SARA) {
           this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false });
-          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: response.complete });
+          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response) });
           this.current_tab = 'tab-SARA';
         }
       }
@@ -176,6 +200,11 @@ export default {
         modal.click();
       }
     }
+  },
+  computed: {
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   }
 }
 </script>

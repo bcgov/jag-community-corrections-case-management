@@ -36,7 +36,10 @@ Vue.prototype.$CONST_FORM_TYPES = [
   { value: "ALL", key: "ALL"},
   { value: "CRNA", key: "CRNA" }, 
   { value: "CRNA-SARA", key: "SARA" }
-]
+],
+Vue.prototype.$USER_GROUP_PO = 'po'
+Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
+Vue.prototype.$USER_GROUP_ADMIN = 'admin'
 
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
