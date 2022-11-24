@@ -62,7 +62,7 @@ export default {
             this.$emit('cancelPrintFlag');
             setTimeout(() => {
                 window.print();
-            }, 1000);
+            }, 3000);
         }
     },
     methods: {
