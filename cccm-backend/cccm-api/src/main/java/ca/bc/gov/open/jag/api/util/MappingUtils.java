@@ -7,10 +7,12 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public class MappingUtils {
@@ -25,14 +27,50 @@ public class MappingUtils {
             return BigDecimal.ZERO;
         }
         try {
-            LocalDate localBirthDate = LocalDate.parse(birthDate);
 
-            return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
+            if (birthDate.length() == 10) {
+
+                LocalDate localBirthDate = LocalDate.parse(birthDate);
+
+                return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
+            } else {
+                DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("MMMM d, u", Locale.ENGLISH);
+                LocalDate localBirthDate = LocalDate.parse(normalizeDate(birthDate), inputDtf);
+                return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
+            }
 
         } catch (Exception e) {
             logger.severe("Date mapping error: " + birthDate);
             logger.severe(e.getMessage());
             return BigDecimal.ZERO;
+        }
+
+    }
+
+    public static String formatDate(String input) {
+
+        if (StringUtils.isBlank(input)) {
+            return "";
+        }
+        try {
+        if (input.length() == 10) {
+
+            LocalDate localBirthDate = LocalDate.parse(input);
+
+            return localBirthDate.toString();
+
+        } else {
+
+            DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("MMMM d, u", Locale.ENGLISH);
+            LocalDate localBirthDate = LocalDate.parse(normalizeDate(input), inputDtf);
+            return localBirthDate.toString();
+
+        }
+
+        } catch (Exception e) {
+            logger.severe("Date formatting error: " + input);
+            logger.severe(e.getMessage());
+            return "";
         }
 
     }
@@ -96,5 +134,8 @@ public class MappingUtils {
 
     }
 
+    private static String normalizeDate(String input) {
+        return StringUtils.normalizeSpace(StringUtils.capitalize(input.toLowerCase()));
+    }
 
 }

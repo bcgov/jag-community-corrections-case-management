@@ -26,6 +26,17 @@ public class CalculateAgeTest {
     }
 
     @Test
+    @DisplayName("Success: should return age")
+    public void testSuccessCalculateAgeAlternateDate() {
+
+        BigDecimal result = MappingUtils.calculateAge("APRIL     19, 1982");
+
+        Assertions.assertTrue((result.intValue() >= 40));
+
+    }
+
+
+    @Test
     @DisplayName("Success: null date should return zero")
     public void testSuccessNullCalculateAge() {
         Assertions.assertEquals(BigDecimal.ZERO, MappingUtils.calculateAge(null));
