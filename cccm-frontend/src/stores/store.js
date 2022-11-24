@@ -43,6 +43,7 @@ export const useStore = defineStore('main', {
             this.locationCD = '';
             this.locationDescription = '';
             this.locations = [];
+            this.loginUserGroup = null;
         },
         clearCachedUserLocations() {
             //console.info("Clear cached user locations.");

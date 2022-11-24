@@ -198,6 +198,8 @@ import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
 import FormioButton from "@/components/common/FormioButtons.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'FormRenderer',
@@ -276,7 +278,7 @@ export default {
     },
     handleUnlockForm() {
       this.options = null;
-      this.formInfoData.data.readonly = false;
+      this.formInfoData.data.showEditBtn = false;
       this.componentKey++;
       this.formStaticInfoKey++;
 
@@ -294,6 +296,22 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
+    isShowEditButton(createdBy, formStatus) {
+      // Show edit button when:
+      // 1. The user is an admin
+      // 2. The user is the one who created the form
+      let showEditBtn = false;
+      if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+        showEditBtn = false;
+        if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
+            formStatus == 'Complete') {
+          showEditBtn = true;
+        } 
+      } else {
+        showEditBtn = formStatus == 'Complete';
+      }
+      return showEditBtn;
+    },
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
       const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
@@ -302,7 +320,8 @@ export default {
       } else {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
-        this.formInfoData.data.readonly = this.readonly;
+        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status);
+        //console.log("readonly override: ", this.readonly, this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status));
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
         // set the form title
@@ -534,7 +553,10 @@ export default {
         error += this.errorText[i].message + "<br>";
       }
       return error;
-    }
+    },
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   }
 }
 </script>

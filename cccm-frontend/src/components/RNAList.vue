@@ -370,7 +370,7 @@ export default {
         } else {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
-          console.log("RNAList: ", this.rnaList);
+          //console.log("RNAList: ", this.rnaList);
         }
       } finally {
         this.loading = false;
