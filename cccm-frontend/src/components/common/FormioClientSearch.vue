@@ -1,5 +1,6 @@
 <template>
   <div data-app class="client-search">
+    <a id="jumpToResult" href="#id_searchResults"></a>
     <div class="container">
       <section class="paper">
         <div>
@@ -11,9 +12,9 @@
             />
             </div>
       </section>
-    </div>
-    
-    <div class="container">
+    </div>  
+    <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+    <div id="id_searchResults" class="container">
       <section class="paper">
     <v-card class="p-2">
       <v-card-title>
@@ -165,6 +166,8 @@ export default {
       ],
       clients: [],
       baseURL: import.meta.env.BASE_URL,
+      loading: false,
+      loadingMsg: 'Searching ...'
     }
   },
   components: {
@@ -244,6 +247,8 @@ export default {
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
+      this.jumpToResult();
+
       if (error) {
         console.error(error);
         // clear the previous search result
@@ -273,14 +278,26 @@ export default {
         this.loading = false;
       }
     },
+    jumpToResult() {
+      let jumpAnchor = document.getElementById("jumpToResult");
+      if (jumpAnchor) {
+        console.log("jump sim click");
+        jumpAnchor.click();
+      }
+    },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
+        this.loading = true;
+        this.loadingMsg = "Searching ...";
+
         console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
             limitedToCurrentActiveLocation.toString(), evt.data.rangeYears, evt.data.lastNameSoundex);
         this.private_processSearchResults(error, response);
+
+        this.loading = false;
       }
     },
     async handleClientSearch_byAddressInfo(evt) {
@@ -295,10 +312,14 @@ export default {
         //   "postalCode": ""
         // }
         //console.log("Search by address info: ", evt.data);
+        this.loading = true;
+        this.loadingMsg = "Searching ...";
+
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
             evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
         this.private_processSearchResults(error, response);
+        this.loading = false;
       }
     },
     handleChangeEvent(event) {
