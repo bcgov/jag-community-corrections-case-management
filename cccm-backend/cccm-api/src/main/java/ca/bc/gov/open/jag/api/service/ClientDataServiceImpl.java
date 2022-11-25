@@ -166,17 +166,18 @@ public class ClientDataServiceImpl implements ClientDataService {
                         mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
                     }
 
-                    mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getSupervisionRating()) > ratingToInteger(form.getSupervisionRating()) ? relatedFrom.get().getSupervisionRating() : form.getSupervisionRating()));
+                    mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(form.getRatings().get(CRNA_FORM_TYPE)) ? relatedFrom.get().getRatings().get(SARA_FORM_TYPE) : form.getRatings().get(CRNA_FORM_TYPE)));
                     mergedForm.setReassessment(relatedFrom.get().getReassessment());
 
                     formsMerged.add(mergedForm);
                 } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE) && form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
 
                     log.info("adding stand alone form");
-
+                    form.setSupervisionRating(form.getRatings().get(SARA_FORM_TYPE));
                     formsMerged.add(form);
 
                 } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) {
+                    form.setSupervisionRating(form.getRatings().get(form.getModule()));
                     formsMerged.add(form);
                 }
             }
