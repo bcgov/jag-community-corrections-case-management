@@ -103,6 +103,7 @@ public class ClientFormSearchTest {
         form1.setRelatedClientFormId(BigDecimal.TEN);
         form1.setUpdatedDate(LocalDate.now());
         form1.setSupervisionRating(HIGH);
+        form1.getRatings().put("CRNA", HIGH);
         form1.setModule("CRNA");
 
         ClientFormSummary form2 = new ClientFormSummary();
@@ -110,6 +111,7 @@ public class ClientFormSearchTest {
         form2.setRelatedClientFormId(BigDecimal.ONE);
         form2.setUpdatedDate(LocalDate.now().minusDays(1));
         form2.setSupervisionRating(MEDIUM);
+        form2.getRatings().put("SARA", MEDIUM);
         form2.setModule("SARA");
 
         ClientFormSummary form3 = new ClientFormSummary();
@@ -121,6 +123,7 @@ public class ClientFormSearchTest {
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
         form4.setUpdatedDate(LocalDate.now());
         form4.setSupervisionRating(MEDIUM);
+        form4.getRatings().put("SARA", MEDIUM);
         form4.setModule("SARA");
 
         ClientFormSummary form5 = new ClientFormSummary();
@@ -128,6 +131,7 @@ public class ClientFormSearchTest {
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
         form5.setUpdatedDate(LocalDate.now().minusDays(1));
         form5.setSupervisionRating(LOW);
+        form5.getRatings().put("CRNA", LOW);
         form5.setModule("CRNA");
 
         return Arrays.asList(form1, form2, form3, form4, form5);
