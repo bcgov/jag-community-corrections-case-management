@@ -76,7 +76,7 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
     font-weight: bold;
 }
 
-.client-search .form-check {
+.client-search .formio-component-limitedToCurrentActiveLocation .form-check {
     position: relative;
     display: block;
     padding-left: 0 !important;
