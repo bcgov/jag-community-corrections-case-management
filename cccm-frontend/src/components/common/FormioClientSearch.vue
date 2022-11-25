@@ -191,7 +191,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Photo search results: ", response);
+        //console.log("Photo search results: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
@@ -243,7 +243,7 @@ export default {
       if (checkbox != null &&  checkbox[0] != null) {
         limitedToCurrentActiveLocation = checkbox[0].checked;
       }
-      console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
+      //console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
@@ -256,7 +256,7 @@ export default {
         this.key_clientsearchresult++;
         this.loading = false;
       } else {
-        console.log("client search by general info: ", response);
+        //console.log("client search by general info: ", response);
         this.clients = response;
 
         // populate primary address info 
@@ -281,7 +281,6 @@ export default {
     jumpToResult() {
       let jumpAnchor = document.getElementById("jumpToResult");
       if (jumpAnchor) {
-        console.log("jump sim click");
         jumpAnchor.click();
       }
     },
@@ -290,28 +289,16 @@ export default {
         this.loading = true;
         this.loadingMsg = "Searching ...";
 
-        console.log("Search by general info: ", evt, evt.data);
+        //console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
             limitedToCurrentActiveLocation.toString(), evt.data.rangeYears, evt.data.lastNameSoundex);
         this.private_processSearchResults(error, response);
-
-        this.loading = false;
       }
     },
     async handleClientSearch_byAddressInfo(evt) {
       if (evt.data != null) {
-        // Sample payload:
-        // {
-        //   "addressType": "all",
-        //   "address": "",
-        //   "includeExpiredAddresses": false,
-        //   "city": "",
-        //   "province": "",
-        //   "postalCode": ""
-        // }
-        //console.log("Search by address info: ", evt.data);
         this.loading = true;
         this.loadingMsg = "Searching ...";
 
@@ -319,7 +306,6 @@ export default {
         const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
             evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
         this.private_processSearchResults(error, response);
-        this.loading = false;
       }
     },
     handleChangeEvent(event) {
