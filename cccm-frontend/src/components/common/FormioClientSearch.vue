@@ -13,7 +13,6 @@
             </div>
       </section>
     </div>  
-    <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
     <div id="id_searchResults" class="container">
       <section class="paper">
     <v-card class="p-2">
@@ -31,6 +30,8 @@
         </div>
       </v-card-title>
       <v-data-table
+        :loading="loading"   
+        loading-text="Search... Please wait"
         :key="key_clientsearchresult"
         :headers="clientHeaders"
         :items="clients"
@@ -167,7 +168,6 @@ export default {
       clients: [],
       baseURL: import.meta.env.BASE_URL,
       loading: false,
-      loadingMsg: 'Searching ...'
     }
   },
   components: {
@@ -248,7 +248,6 @@ export default {
     },
     private_processSearchResults(error, response) {
       this.jumpToResult();
-
       if (error) {
         console.error(error);
         // clear the previous search result
@@ -286,8 +285,8 @@ export default {
     },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
+        this.jumpToResult();
         this.loading = true;
-        this.loadingMsg = "Searching ...";
 
         //console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
@@ -299,8 +298,8 @@ export default {
     },
     async handleClientSearch_byAddressInfo(evt) {
       if (evt.data != null) {
+        this.jumpToResult();
         this.loading = true;
-        this.loadingMsg = "Searching ...";
 
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 

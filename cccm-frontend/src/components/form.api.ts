@@ -286,16 +286,6 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
     givenName: String, identifier: String, identifierType: String, lastName: String,
     limitToLocation: boolean, range: number, soundex: boolean) {
     try{
-        console.log("ClientSearch by generalInfo: " + "age: " + age + "; " +
-                "birthYear: " + birthYear + "; " +
-                "gender: " + gender + "; " +
-                "givenName: " + givenName + "; " +
-                "identifier: " + identifier + "; " +
-                "identifierType: " + identifierType + "; " +
-                "lastName: " + lastName + "; " +
-                "limitToLocation: " + limitToLocation + "; " +
-                "range: " + range + "; " +
-                "soundex: " + soundex);
         const { data } = await axiosClient.get('/clients', {
             params: {
                 lastName: lastName,
@@ -320,13 +310,6 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
 export async function clientSearchByAddressInfo(address: String, addressType: String, city: String,
     expired: boolean, limitToLocation: boolean, postalCode: String, province: String) {
     try{
-        console.log("ClientSearch by addressInfo: " + "address: " + address + "; " +
-                "addressType: " + addressType + "; " +
-                "city: " + city + "; " +
-                "expired: " + expired + "; " +
-                "limitToLocation: " + limitToLocation + "; " +
-                "postalCode: " + postalCode + "; " +
-                "province: " + province);
         const { data } = await axiosClient.get('/clients/addressSearch', {
             params: {
                 address: address,
