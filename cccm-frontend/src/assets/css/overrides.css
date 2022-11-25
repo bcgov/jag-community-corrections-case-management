@@ -86,6 +86,7 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 
 .client-search-columns {
     column-gap: 200px;
+    margin-bottom: -60px!important;
 }
 .formio-component-lastNameSoundex > .checkbox {
     top: -90px!important;
