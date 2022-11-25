@@ -287,6 +287,8 @@ export default {
       if (evt.data != null) {
         this.jumpToResult();
         this.loading = true;
+        //clear the previous search results
+        this.clients = [];
 
         //console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
@@ -300,6 +302,8 @@ export default {
       if (evt.data != null) {
         this.jumpToResult();
         this.loading = true;
+        //clear the previous search results
+        this.clients = [];
 
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
