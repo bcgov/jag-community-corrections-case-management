@@ -68,12 +68,14 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 .client-search .how-to-icon {
     margin-top: 20px;
     color: #013265;
+    float: right
 }
 .client-search .how-to-wildcard {
-    margin-top: 10px;
+    margin-top: 20px;
     color: #013265;
     font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
+    text-align: left;
 }
 
 .formio-component-limitedToCurrentActiveLocation .form-check, .formio-component-lastNameSoundex .form-check {
