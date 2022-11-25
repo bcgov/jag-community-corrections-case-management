@@ -112,7 +112,7 @@
     </div>
     <div class="wrap">
       <div class="mainRow">
-        <div class="column L">
+        <div class="columnMain L">
           <div class="menu-Sticky">
             <div class="menuR1">
               <v-alert v-if="errorOccurred" color="#f81e41" dismissible  elevation="13" prominent>
@@ -161,7 +161,7 @@
               :options="options"/>
           </div>
         </div>
-        <div class="column R">
+        <div class="columnMain R">
           <div class="R-Sticky">
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">

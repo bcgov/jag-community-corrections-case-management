@@ -83,7 +83,7 @@ div.R-Sticky {
 * {
 	box-sizing: border-box;
 }
-.column {
+.columnMain {
 	float: left;
 }
 .L {
