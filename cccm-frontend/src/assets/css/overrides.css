@@ -70,9 +70,17 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
     color: #013265;
     float: right
 }
+
 .client-search .how-to-wildcard {
     margin-top: 20px;
     color: #013265;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    text-align: left;
+}
+
+.client-search .required-fields {
+    color: red;
     font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
     text-align: left;
@@ -87,7 +95,7 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 }
 
 .client-search-columns {
-    column-gap: 200px;
+    column-gap: 50px;
     margin-bottom: -60px!important;
 }
 .formio-component-lastNameSoundex > .checkbox {
