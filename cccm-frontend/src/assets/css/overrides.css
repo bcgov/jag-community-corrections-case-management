@@ -35,9 +35,14 @@
 
 /* CLIENT SEARCH todo: put in own file */
 
+.client-search .formio-container {
+    max-width: 100%!important;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
 
 .client-search .sectionTitleClass {
-    padding: 40px 20px 5px 20px!important;
+    padding: 0px!important;
 }
 
 .client-search .subSectionTitleClass {
@@ -61,35 +66,54 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 }
 
 .client-search .how-to-icon {
-    margin-top: -110px;
+    margin-top: 20px;
     color: #013265;
+    float: right
 }
+
 .client-search .how-to-wildcard {
-    margin-top: -120px;
+    margin-top: 20px;
     color: #013265;
     font-family: 'Noto Sans', sans-serif;
     font-weight: bold;
+    text-align: left;
+}
+
+.client-search .required-fields {
+    color: red;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    text-align: left;
+}
+
+.formio-component-limitedToCurrentActiveLocation .form-check, .formio-component-lastNameSoundex .form-check {
+    position: relative;
+    display: block;
+    padding-left: 0 !important;
+    padding-top: 20px;
+    padding-bottom: 0px;
 }
 
 .client-search-columns {
-    column-gap: 100px;
+    column-gap: 50px;
+    margin-bottom: -60px!important;
+}
+.formio-component-lastNameSoundex > .checkbox {
+    top: -90px!important;
 }
 
 .client-search .formio-action-buttons-container {
     padding-bottom: 0px !important;
 }
-div[ref="nested-generalInfo"]  {
-    padding: 20px;
+
+.client-search .form-group {
+    margin-bottom: 0;
 }
 
 .formio-component-lastNameSoundex {
     display:inline-block;
     width:100%;
     text-align:right;
-}
-
-.formio-component-lastNameSoundex > .checkbox {
-   top: -70px;
 }
 
 button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:active, button[name="data[generalInfo]"]:focus {
@@ -126,7 +150,6 @@ img[alt="Client photo"] {
 }
 
 label.col-form-label {
-    padding-top: 25px;
     font-weight: bold!important;
 }
 

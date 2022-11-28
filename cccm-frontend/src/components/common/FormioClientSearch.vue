@@ -1,5 +1,6 @@
 <template>
   <div data-app class="client-search">
+    <a id="jumpToResult" href="#id_searchResults"></a>
     <div class="container">
       <section class="paper">
         <div>
@@ -11,9 +12,8 @@
             />
             </div>
       </section>
-    </div>
-    
-    <div class="container">
+    </div>  
+    <div id="id_searchResults" class="container">
       <section class="paper">
     <v-card class="p-2">
       <v-card-title>
@@ -30,6 +30,8 @@
         </div>
       </v-card-title>
       <v-data-table
+        :loading="loading"   
+        loading-text="Search... Please wait"
         :key="key_clientsearchresult"
         :headers="clientHeaders"
         :items="clients"
@@ -165,6 +167,7 @@ export default {
       ],
       clients: [],
       baseURL: import.meta.env.BASE_URL,
+      loading: false,
     }
   },
   components: {
@@ -188,7 +191,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Photo search results: ", response);
+        //console.log("Photo search results: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
@@ -240,10 +243,11 @@ export default {
       if (checkbox != null &&  checkbox[0] != null) {
         limitedToCurrentActiveLocation = checkbox[0].checked;
       }
-      console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
+      //console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
+      this.jumpToResult();
       if (error) {
         console.error(error);
         // clear the previous search result
@@ -251,7 +255,7 @@ export default {
         this.key_clientsearchresult++;
         this.loading = false;
       } else {
-        console.log("client search by general info: ", response);
+        //console.log("client search by general info: ", response);
         this.clients = response;
 
         // populate primary address info 
@@ -273,9 +277,20 @@ export default {
         this.loading = false;
       }
     },
+    jumpToResult() {
+      let jumpAnchor = document.getElementById("jumpToResult");
+      if (jumpAnchor) {
+        jumpAnchor.click();
+      }
+    },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
-        console.log("Search by general info: ", evt, evt.data);
+        this.jumpToResult();
+        this.loading = true;
+        //clear the previous search results
+        this.clients = [];
+
+        //console.log("Search by general info: ", evt, evt.data);
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
@@ -285,16 +300,11 @@ export default {
     },
     async handleClientSearch_byAddressInfo(evt) {
       if (evt.data != null) {
-        // Sample payload:
-        // {
-        //   "addressType": "all",
-        //   "address": "",
-        //   "includeExpiredAddresses": false,
-        //   "city": "",
-        //   "province": "",
-        //   "postalCode": ""
-        // }
-        //console.log("Search by address info: ", evt.data);
+        this.jumpToResult();
+        this.loading = true;
+        //clear the previous search results
+        this.clients = [];
+
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
             evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
