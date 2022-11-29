@@ -153,8 +153,7 @@
               :printRequested="printRequested"
               @cancelPrintFlag="handleCancelPrintFlag"/>
 
-            <FormioButton 
-              :buttonType="'formButton'"
+            <FormioButtonGroupSubmit 
               :saveBtnLabel="btnSaveContinueText" 
               @saveContinueClicked="handleSaveContinue"
               @cancelFormClicked="handleDeleteForm" 
@@ -166,8 +165,7 @@
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
                 <!--Save Close button group-->
-                <FormioButton v-if="!loading" 
-                  :buttonType="'sideButton'"
+                <FormioButtonGroupSide v-if="!loading" 
                   @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
@@ -195,7 +193,8 @@ import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
-import FormioButton from "@/components/common/FormioButtons.vue";
+import FormioButtonGroupSide from "@/components/common/FormioButtonGroupSide.vue";
+import FormioButtonGroupSubmit from "@/components/common/FormioButtonGroupSubmit.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
 import {useStore} from "@/stores/store";
@@ -209,6 +208,7 @@ export default {
     csNumber: '',
     relatedClientFormId: 0,
     readonly: false,
+    locked: false,
     printParam: false
   },
   components: {
@@ -217,7 +217,8 @@ export default {
     FormNavigation,
     FormioSidePanel,
     FormioFormInfo,
-    FormioButton,
+    FormioButtonGroupSide,
+    FormioButtonGroupSubmit,
     FormSummary,
     FormCaseplan
   },
@@ -297,6 +298,10 @@ export default {
       } 
     },
     isShowEditButton(createdBy, formStatus) {
+      // When form is locked, hide edit button 
+      if (this.locked) {
+          return false;
+      }
       // Show edit button when:
       // 1. The user is an admin
       // 2. The user is the one who created the form
@@ -321,7 +326,6 @@ export default {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status);
-        //console.log("readonly override: ", this.readonly, this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status));
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
         // set the form title

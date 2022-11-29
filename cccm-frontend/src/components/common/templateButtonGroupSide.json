@@ -9,16 +9,16 @@
               "components": [
                 {
                   "customClass": "text-left pl-4",
-                  "label": "${label_btn_primary}",
+                  "label": "Close",
                   "action": "event",
                   "showValidations": false,
                   "disableOnInvalid": true,
                   "tableView": true,
-                  "key": "${key_btn_primary}",
+                  "key": "key_close",
                   "type": "button",
                   "input": false,
-                  "event": "${evt_btn_primary}",
-                  "theme": "${theme_primary}"
+                  "event": "evt_saveAndClose",
+                  "theme": "primary"
                 }
               ],
               "width": 6,
@@ -32,16 +32,16 @@
               "components": [
                 {
                   "customClass": "text-right mr-2",
-                  "label": "${label_btn_other}",
+                  "label": "Print",
                   "action": "event",
                   "showValidations": false,
                   "disableOnInvalid": true,
                   "tableView": true,
-                  "key": "${key_btn_other}",
+                  "key": "key_print",
                   "type": "button",
                   "input": false,
-                  "event": "${evt_btn_other}",
-                  "theme": "${theme_other}"
+                  "event": "evt_print",
+                  "theme": "primary"
                 }
               ],
               "width": 6,
