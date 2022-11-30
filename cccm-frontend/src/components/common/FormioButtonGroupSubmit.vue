@@ -2,7 +2,7 @@
     <Form :form="formJSON" 
       @evt_save="handleSave" 
       @evt_cancel="handleCancelForm" 
-      :options="options" />
+      :submission="dataModel" />
 </template>
 
 <script lang="ts">
@@ -14,7 +14,7 @@ export default {
   name: 'FormioSubmitButton',
   props: {
     saveBtnLabel: '',
-    options: {}
+    dataModel: {},
   },
   data() {
     return {

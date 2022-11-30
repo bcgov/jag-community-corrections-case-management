@@ -18,7 +18,12 @@
                   "type": "button",
                   "input": false,
                   "event": "evt_save",
-                  "theme": "primary"
+                  "theme": "primary",
+                  "conditional": {
+                      "show": true,
+                      "when": "!readonly",
+                      "eq": "true"
+                  }
                 }
               ],
               "width": 6,
@@ -41,7 +46,12 @@
                   "type": "button",
                   "input": false,
                   "event": "evt_cancel",
-                  "theme": "danger"
+                  "theme": "danger",
+                  "conditional": {
+                      "show": true,
+                      "when": "showSubmitBtn",
+                      "eq": "true"
+                  }
                 }
               ],
               "width": 6,

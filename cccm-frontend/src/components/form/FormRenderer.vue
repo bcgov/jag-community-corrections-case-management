@@ -154,10 +154,10 @@
               @cancelPrintFlag="handleCancelPrintFlag"/>
 
             <FormioButtonGroupSubmit 
-              :saveBtnLabel="btnSaveContinueText" 
+              :saveBtnLabel="btnSaveContinueText"
+              :dataModel="submitBtnData" 
               @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleDeleteForm" 
-              :options="options"/>
+              @cancelFormClicked="handleDeleteForm" />
           </div>
         </div>
         <div class="columnMain R">
@@ -249,6 +249,7 @@ export default {
       saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
       printRequested: false,
+      submitBtnData: {}
     }
   },
   mounted(){
@@ -260,7 +261,7 @@ export default {
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
-
+    
     if (this.printParam) {
       setTimeout(() => {
         this.printRequested = true;
@@ -296,6 +297,14 @@ export default {
       if (error) {
         console.error("Failed unset complete status", error);
       } 
+    },
+    isShowDeleteButton(createdBy) {
+      // Show delete btn is login user is sys admin or login user is the form owner
+      if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
+          createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+        return true;
+      }
+      return false;
     },
     isShowEditButton(createdBy, formStatus) {
       // When form is locked, hide edit button 
@@ -337,7 +346,12 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        //console.log("this.formInfoData: ", this.formInfoData);
+
+        // set submitBtnData
+        this.submitBtnData = {"data": {}};
+        this.submitBtnData.data.showSubmitBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
+        this.submitBtnData.data.readonly = this.readonly;
+        //console.log("this.submitBtnData: ", this.submitBtnData);
         
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
