@@ -337,6 +337,9 @@ export default {
         this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status);
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
+        // set the form lock 
+        this.formInfoData.data.locked = this.locked;
+        
         // set the form title
         this.formInfoData.data.formTypeCD = this.formType;
         if (this.formType == this.$CONST_FORMTYPE_CRNA) {
@@ -349,7 +352,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showSubmitBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
         this.submitBtnData.data.readonly = this.readonly;
         //console.log("this.submitBtnData: ", this.submitBtnData);
         

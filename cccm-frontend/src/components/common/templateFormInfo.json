@@ -156,7 +156,12 @@
                                     "key": "html",
                                     "type": "htmlelement",
                                     "input": false,
-                                    "tableView": true
+                                    "tableView": true,
+                                    "conditional": {
+                                      "show": true,
+                                      "when": "locked",
+                                      "eq": "true"
+                                    }
                                 },
                                 {
                                     "label": "Edit",

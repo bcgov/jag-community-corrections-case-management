@@ -49,7 +49,7 @@
                   "theme": "danger",
                   "conditional": {
                       "show": true,
-                      "when": "showSubmitBtn",
+                      "when": "showDeleteBtn",
                       "eq": "true"
                   }
                 }
