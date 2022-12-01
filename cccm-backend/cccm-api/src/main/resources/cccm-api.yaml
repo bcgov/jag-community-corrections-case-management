@@ -2087,6 +2087,8 @@ components:
         createdDate:
           type: string
           format: date
+        locked:
+          type: boolean
         formTypeId:
           type: number
         id:
@@ -2627,12 +2629,6 @@ components:
         label:
           type: string
         value:
-          type: string
-    View:
-      title: View
-      type: object
-      properties:
-        contentType:
           type: string
     CloneForm:
       type: object
