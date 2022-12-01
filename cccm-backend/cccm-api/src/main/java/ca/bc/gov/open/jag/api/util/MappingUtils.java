@@ -55,10 +55,6 @@ public class MappingUtils {
         }
         try {
 
-            if (createdDate.plusDays(DAYS_TILL_LOCKED).isEqual(LocalDate.now())) {
-                return true;
-            }
-
             return createdDate.plusDays(DAYS_TILL_LOCKED).isBefore(LocalDate.now());
 
         } catch (Exception e) {

@@ -16,6 +16,7 @@ public class CalculateLockedTest {
     public void testSuccessCalculateLocked() {
 
         Assertions.assertFalse(MappingUtils.calculateLocked(LocalDate.now().minusDays(59)));
+        Assertions.assertFalse(MappingUtils.calculateLocked(LocalDate.now().minusDays(60)));
 
     }
 
@@ -24,10 +25,8 @@ public class CalculateLockedTest {
     public void testSuccessCalculateLockedOver60andOver() {
 
         Assertions.assertTrue(MappingUtils.calculateLocked(LocalDate.now().minusDays(61)));
-        Assertions.assertTrue(MappingUtils.calculateLocked(LocalDate.now().minusDays(60)));
 
     }
-
 
     @Test
     @DisplayName("Success: null date should return false")
