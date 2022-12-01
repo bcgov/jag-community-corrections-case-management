@@ -402,9 +402,8 @@ export default {
           console.error(error);
         } else {
           this.formInitData = clientFormData;
-          this.formInitData.data.clientFormTypeDesc = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Assessment";
+          this.formInitData.data.clientFormTypeDesc = (this.formInfoData.data.clientFormType == 'Initial') ? "Assessment": "Reassessment";
         }
-        //console.log("this.formInitData:", this.formInitData);
       }
       this.loading = false;
     },
