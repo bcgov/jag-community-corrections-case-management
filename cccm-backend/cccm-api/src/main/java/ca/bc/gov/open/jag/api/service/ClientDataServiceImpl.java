@@ -179,12 +179,15 @@ public class ClientDataServiceImpl implements ClientDataService {
                     form.setSupervisionRating(form.getRatings().get(SARA_FORM_TYPE));
                     formsMerged.add(form);
 
-                } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) {
+                } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
+                        (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE))) {
                     form.setSupervisionRating(form.getRatings().get(form.getModule()));
                     formsMerged.add(form);
                 }
             }
-            else if (formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) {
+            else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
+                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE))) {
+                form.setSupervisionRating(form.getRatings().get(form.getModule()));
                 formsMerged.add(form);
             }
         }

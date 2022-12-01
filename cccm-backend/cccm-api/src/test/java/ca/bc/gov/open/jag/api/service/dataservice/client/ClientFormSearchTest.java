@@ -49,7 +49,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "All");
 
-        Assertions.assertEquals(3, result.size());
+        Assertions.assertEquals(4, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
         Assertions.assertTrue(result.get(0).getLocked());
         Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
@@ -77,6 +77,19 @@ public class ClientFormSearchTest {
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA");
+
+        Assertions.assertEquals(1, result.size());
+
+
+    }
+
+    @Test
+    @DisplayName("Success: should return clients forms ACUTE ")
+    public void testGetClientFormsACUTE() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createRelatedList());
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ACUTE");
 
         Assertions.assertEquals(1, result.size());
 
@@ -136,7 +149,14 @@ public class ClientFormSearchTest {
         form5.getRatings().put("CRNA", LOW);
         form5.setModule("CRNA");
 
-        return Arrays.asList(form1, form2, form3, form4, form5);
+        ClientFormSummary form6 = new ClientFormSummary();
+        form6.setId(BigDecimal.valueOf(321));
+        form6.setUpdatedDate(LocalDate.now().minusDays(1));
+        form6.setSupervisionRating(LOW);
+        form6.getRatings().put("ACUTE", LOW);
+        form6.setModule("ACUTE");
+
+        return Arrays.asList(form1, form2, form3, form4, form5, form6);
 
     }
 
