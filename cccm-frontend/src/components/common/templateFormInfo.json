@@ -147,8 +147,26 @@
                                     "tableView": false
                                 },
                                 {
+                                    "label": "",
+                                    "tag": "i",
+                                    "customClass": "lock-icon",
+                                    "className": "fa fa-lock",
+                                    "contents": " ",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": true,
+                                    "conditional": {
+                                      "show": true,
+                                      "when": "locked",
+                                      "eq": "true"
+                                    }
+                                },
+                                {
                                     "label": "Edit",
                                     "action": "event",
+                                    "customClass": "un-complete-button",
                                     "showValidations": false,
                                     "tableView": false,
                                     "key": "edit",

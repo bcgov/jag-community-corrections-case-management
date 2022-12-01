@@ -575,6 +575,16 @@ legend[ref="header"]{
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+.lock-icon {
+    margin-top: -15%;
+    margin-left: 80%;
+    color: #0e0e0f;
+    float: left;
+}
+
+.un-complete-button {
+    margin-left: 3%;
+}
 /* TREND ANALYSIS STYLES todo - write to own file */
 #trend-analysis-view {
     margin-bottom: 100px;

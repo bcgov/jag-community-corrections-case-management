@@ -94,7 +94,7 @@
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">{{item.status}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">{{item.status}}&nbsp;<i :class="[item.locked ? 'fa fa-lock' : '']"></i></div>
           </template>
           <!--Customize the date field field -->
           <template v-slot:item.updatedDate="{ item }">
@@ -403,19 +403,9 @@ export default {
         }
       }); 
       window.open(route.href, '_blank');
-
-      // this.$router.push({
-      //   name: "cmpform",
-      //   params: {
-      //     formID: formID,
-      //     csNumber: this.clientNum,
-      //     print: true
-      //   }
-      // });
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      //console.log("selectedFormtypeForFormCreate: ", this.selectedFormtypeForFormCreate);
 
       let formType = this.$CONST_FORMTYPE_CRNA;
       if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {

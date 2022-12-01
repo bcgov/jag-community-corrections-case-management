@@ -153,12 +153,11 @@
               :printRequested="printRequested"
               @cancelPrintFlag="handleCancelPrintFlag"/>
 
-            <FormioButton 
-              :buttonType="'formButton'"
-              :saveBtnLabel="btnSaveContinueText" 
+            <FormioButtonGroupSubmit 
+              :saveBtnLabel="btnSaveContinueText"
+              :dataModel="submitBtnData" 
               @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleDeleteForm" 
-              :options="options"/>
+              @cancelFormClicked="handleDeleteForm" />
           </div>
         </div>
         <div class="columnMain R">
@@ -166,8 +165,7 @@
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
                 <!--Save Close button group-->
-                <FormioButton v-if="!loading" 
-                  :buttonType="'sideButton'"
+                <FormioButtonGroupSide v-if="!loading" 
                   @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
@@ -195,7 +193,8 @@ import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
 import FormioFormInfo from "@/components/common/FormioFormInfo.vue";
-import FormioButton from "@/components/common/FormioButtons.vue";
+import FormioButtonGroupSide from "@/components/common/FormioButtonGroupSide.vue";
+import FormioButtonGroupSubmit from "@/components/common/FormioButtonGroupSubmit.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
 import {useStore} from "@/stores/store";
@@ -209,6 +208,7 @@ export default {
     csNumber: '',
     relatedClientFormId: 0,
     readonly: false,
+    locked: false,
     printParam: false
   },
   components: {
@@ -217,7 +217,8 @@ export default {
     FormNavigation,
     FormioSidePanel,
     FormioFormInfo,
-    FormioButton,
+    FormioButtonGroupSide,
+    FormioButtonGroupSubmit,
     FormSummary,
     FormCaseplan
   },
@@ -248,6 +249,7 @@ export default {
       saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
       printRequested: false,
+      submitBtnData: {}
     }
   },
   mounted(){
@@ -259,7 +261,7 @@ export default {
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
-
+    
     if (this.printParam) {
       setTimeout(() => {
         this.printRequested = true;
@@ -296,7 +298,19 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
+    isShowDeleteButton(createdBy) {
+      // Show delete btn is login user is sys admin or login user is the form owner
+      if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
+          createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+        return true;
+      }
+      return false;
+    },
     isShowEditButton(createdBy, formStatus) {
+      // When form is locked, hide edit button 
+      if (this.locked) {
+          return false;
+      }
       // Show edit button when:
       // 1. The user is an admin
       // 2. The user is the one who created the form
@@ -321,9 +335,11 @@ export default {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status);
-        //console.log("readonly override: ", this.readonly, this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status));
         this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
 
+        // set the form lock 
+        this.formInfoData.data.locked = this.locked;
+        
         // set the form title
         this.formInfoData.data.formTypeCD = this.formType;
         if (this.formType == this.$CONST_FORMTYPE_CRNA) {
@@ -333,7 +349,12 @@ export default {
           this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
           this.formInfoData.data.formType = "SARA-CMP Type"
         }
-        //console.log("this.formInfoData: ", this.formInfoData);
+
+        // set submitBtnData
+        this.submitBtnData = {"data": {}};
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
+        this.submitBtnData.data.readonly = this.readonly;
+        //console.log("this.submitBtnData: ", this.submitBtnData);
         
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
