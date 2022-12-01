@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
+import static ca.bc.gov.open.jag.api.Keys.DAYS_TILL_LOCKED;
+
 public class MappingUtils {
 
     private MappingUtils() {
@@ -43,6 +45,26 @@ public class MappingUtils {
             logger.severe("Date mapping error: " + birthDate);
             logger.severe(e.getMessage());
             return BigDecimal.ZERO;
+        }
+
+    }
+
+    public static Boolean calculateLocked(LocalDate createdDate) {
+        if (createdDate == null) {
+            return false;
+        }
+        try {
+
+            if (createdDate.plusDays(DAYS_TILL_LOCKED).isEqual(LocalDate.now())) {
+                return true;
+            }
+
+            return createdDate.plusDays(DAYS_TILL_LOCKED).isBefore(LocalDate.now());
+
+        } catch (Exception e) {
+            logger.severe("Locked form calculation error: " + createdDate);
+            logger.severe(e.getMessage());
+            return false;
         }
 
     }
