@@ -47,6 +47,26 @@ public class MappingUtils {
 
     }
 
+    public static Boolean calculateLocked(LocalDate createdDate) {
+        if (createdDate == null) {
+            return false;
+        }
+        try {
+
+            if (createdDate.plusDays(60).isEqual(LocalDate.now())) {
+                return true;
+            }
+
+            return createdDate.plusDays(60).isBefore(LocalDate.now());
+
+        } catch (Exception e) {
+            logger.severe("Locked form calculation error: " + createdDate);
+            logger.severe(e.getMessage());
+            return false;
+        }
+
+    }
+
     public static String formatDate(String input) {
 
         if (StringUtils.isBlank(input)) {

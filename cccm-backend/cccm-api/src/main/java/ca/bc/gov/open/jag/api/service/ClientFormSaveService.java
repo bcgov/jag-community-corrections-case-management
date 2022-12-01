@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 
 import java.math.BigDecimal;
 

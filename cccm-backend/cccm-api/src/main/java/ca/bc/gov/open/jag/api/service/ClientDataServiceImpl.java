@@ -7,6 +7,7 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -149,6 +150,8 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
+            //Set form locked for all forms
+            form.setLocked(MappingUtils.calculateLocked(form.getCreatedDate()));
 
             if (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) || formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE)) {
                 if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
@@ -198,7 +201,12 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Override
     public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber) {
-        return obridgeClientService.getClientFormSummary(clientNumber, clientFormId);
+
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNumber, clientFormId);
+        //Apply locked form logic
+        clientFormSummary.setLocked(MappingUtils.calculateLocked(clientFormSummary.getCreatedDate()));
+
+        return clientFormSummary;
     }
 
     @Override
