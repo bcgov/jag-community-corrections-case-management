@@ -26,5 +26,5 @@ public class Keys {
     public static final String JWT_ROLE = "form-override";
     public static final String YES = "Y";
     public static final String NO = "N";
-
+    public static final Integer DAYS_TILL_LOCKED = 60;
 }
