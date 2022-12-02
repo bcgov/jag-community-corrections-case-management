@@ -41,6 +41,17 @@ Vue.prototype.$USER_GROUP_PO = 'po'
 Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
 Vue.prototype.$USER_GROUP_ADMIN = 'admin'
 
+Vue.prototype.$FORM_STATUS_INCOMPLETE='Incomplete'
+Vue.prototype.$FORM_STATUS_COMPLETE='Complete'
+
+Vue.prototype.$FORM_TYPE_INITIAL='Initial'
+Vue.prototype.$FORM_TYPE_REASSESSMENT='Reassessment'
+
+Vue.prototype.$ROUTER_NAME_CMPFORM='cmpform'
+Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
+Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
+Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
+
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {

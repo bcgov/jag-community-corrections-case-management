@@ -225,7 +225,7 @@ export default {
       //For code running using Node.js APIs, converting between base64-encoded strings and binary data 
       //should be performed using Buffer.from(str, 'base64') andbuf.toString('base64')
       this.$router.push({
-          name: "dashboardpo",
+          name: this.$ROUTER_NAME_DASHBOARDPO,
           params: {
             param: base64EncodeParam
           }

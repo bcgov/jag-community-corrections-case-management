@@ -61,7 +61,7 @@
       <div class="headerNavContainer">
         <span class="headerNav">
           <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
-          <a :href="`${baseURL}clientsearch`" class="headerA">Client Search</a> 
+          <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
     </div>

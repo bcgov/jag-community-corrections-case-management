@@ -173,8 +173,6 @@ export default {
   data() {
     return {
       //Const
-      const_formstatus_incomplete: "Incomplete",
-      const_formstatus_complete: "Complete",
       const_formstatus_overdue: "OverDue",
       const_rating_low: "Low",
       const_rating_medium: "Medium",
@@ -219,7 +217,7 @@ export default {
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
       if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username || 
-          item.status != this.const_formstatus_complete ||
+          !item.complete ||
           !item.mostRecent) {
         return false
       }
@@ -229,7 +227,7 @@ export default {
       if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
         return "User cannot clone another user's form"
       }
-      if (item.status != this.const_formstatus_complete) {
+      if (!item.complete) {
         return 'User cannot clone an incomplete form'
       }
       if (!item.mostRecent) {
@@ -238,7 +236,7 @@ export default {
       return 'Copy form';
     },
     getAssessmentStatus(isReassessment) {
-      return (isReassessment) ? "Reassessment" : "Initial";
+      return (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
     getUpdatedDate(item) {
       return (item.updatedDate) ? item.updatedDate : item.createdDate;
@@ -313,7 +311,7 @@ export default {
         } else {
           //Redirect User to the newly created form
           this.$router.push({
-            name: "cmpform",
+            name: this.$ROUTER_NAME_CMPFORM,
             params: {
               formID: CRNAformId,
               csNumber: this.clientNum
@@ -330,7 +328,7 @@ export default {
           //console.log ("Newly created formID: ", SARAformId);
           //Redirect User to the newly created form
           this.$router.push({
-            name: "cmpform",
+            name: this.$ROUTER_NAME_CMPFORM,
             params: {
               formID: SARAformId,
               csNumber: this.clientNum
@@ -351,7 +349,7 @@ export default {
       } else {
         //Redirect User to the newly created form
         this.$router.push({
-          name: "cmpform",
+          name: this.$ROUTER_NAME_CMPFORM,
           params: {
             formID: newFormId,
             csNumber: this.clientNum
@@ -363,13 +361,23 @@ export default {
       this.loading = true;
       try {
         let period = (this.currentPeriod === 'current') ? true : false;
-        //console.log("RNAList search: ", this.clientNum, formType, period);
         const [error, response] = await formSearch(this.clientNum, formType, period);
         if (error) {
           console.error(error);
         } else {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
+          //console.log("RNAList search: ", response);
+          // Added Dec 1, 2022
+          // TODO: remove it once stored proc returns correct form status
+          this.rnaList = this.rnaList.filter(el => {
+            el.status = this.$FORM_STATUS_INCOMPLETE;
+            if (el.complete) {
+              el.status = this.$FORM_STATUS_COMPLETE;
+            }
+            
+            return el;
+          });
           //console.log("RNAList: ", this.rnaList);
         }
       } finally {
@@ -381,7 +389,7 @@ export default {
         formID = formID.toString();
       }
       this.$router.push({
-        name: "cmpform",
+        name: this.$ROUTER_NAME_CMPFORM,
         params: {
           formID: formID,
           csNumber: this.clientNum
@@ -395,7 +403,7 @@ export default {
     formPrint(formID) {
       //Bring User to the form instance and trigger the print
       const route = this.$router.resolve({ 
-        name: "cmpform",
+        name: this.$ROUTER_NAME_CMPFORM,
         params: {
           formID: formID,
           csNumber: this.clientNum,
@@ -424,8 +432,8 @@ export default {
   computed: {
     getFormStatusColor() {
       let colorClass = {};
-      colorClass[this.const_formstatus_incomplete] = 'dashboard-background-color-yellow';
-      colorClass[this.const_formstatus_complete] = 'dashboard-background-color-green';
+      colorClass[this.$FORM_STATUS_INCOMPLETE] = 'dashboard-background-color-yellow';
+      colorClass[this.$FORM_STATUS_COMPLETE] = 'dashboard-background-color-green';
       colorClass[this.const_formstatus_overdue] = 'dashboard-background-color-red';
       return colorClass;
     }
