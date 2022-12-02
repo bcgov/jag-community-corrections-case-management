@@ -1,6 +1,6 @@
 <template>
   <div id="trend-analysis-view">
-    <h1>Trend Analysis</h1>
+    <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Trend Analysis</div>
     <ChartFilter/>
 
     <DataView @changeView="changeView" :selected-view="this.viewType"/>
