@@ -68,7 +68,7 @@
 import Vue from 'vue'
 import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
-import { createSARAForm, getClientFormDetails } from "@/components/form.api";
+import { createForm, getClientFormDetails } from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
@@ -191,7 +191,7 @@ export default {
       // set formData
       formData.clientNumber = this.clientNum;
       formData.linkedClientFormId = this.formId;
-      const [error, SARAFormId] = await createSARAForm(formData);
+      const [error, SARAFormId] = await createForm(this.$CONST_FORMTYPE_SARA.toLowerCase(), formData);
       if (error) {
         console.error("Failed creating SARA form instance", error);
       } else {

@@ -145,21 +145,11 @@ export async function deleteForm(clientFormId: number, clientNum: String) {
     }
 }
 
-// function to create CRNA form
-export async function createCRNAForm(formData: object) {
+// function to create a new form
+export async function createForm(formType: String, formData: object) {
+    let endpointURL = '/forms/client/' + formType;
     try{
-        const { data } = await axiosClient.post('/forms/client/crna', formData);
-        return [null, data];
-    } catch (error) {
-        console.error("Error creating form %o", error);
-        return [error];
-    }
-}
-
-// function to create SARA form
-export async function createSARAForm(formData: object) {
-    try{
-        const { data } = await axiosClient.post('/forms/client/sara', formData);
+        const { data } = await axiosClient.post(endpointURL, formData);
         return [null, data];
     } catch (error) {
         console.error("Error creating form %o", error);
