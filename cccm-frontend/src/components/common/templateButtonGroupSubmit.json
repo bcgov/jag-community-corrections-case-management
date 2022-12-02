@@ -21,8 +21,8 @@
                   "theme": "primary",
                   "conditional": {
                       "show": true,
-                      "when": "!readonly",
-                      "eq": "true"
+                      "when": "readonly",
+                      "eq": "false"
                   }
                 }
               ],

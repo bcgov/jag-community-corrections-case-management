@@ -49,7 +49,7 @@
     <!--RNA List-->
     <div class="row justify-content-between mb-2">
       <div class="col-sm-6">
-        <h1 class="font-weight-bold">RNA List</h1>
+        <div class="sectionTitleClass mr-4 col-3 font-weight-bold">RNA List</div>
       </div>
     </div>
     <v-card>
