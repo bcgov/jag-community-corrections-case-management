@@ -1,0 +1,199 @@
+{
+  "questions": [
+    {
+      "key": "S02Q01",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q01_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "1. Past Assault of Family Members: requires comment"
+    },
+    {
+      "key": "S02Q02",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q02_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "2. Past Assault of Strangers/Acquaintances: requires comment"
+    },
+    {
+      "key": "S02Q03",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q03_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "3. Past Violation of Cond. Release or Community Supervision: requires comment"
+    },
+    {
+      "key": "S03Q04",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q04_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "4. Recent Relationship Problems (past year): requires comment"
+    },
+    {
+      "key": "S03Q05",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q05_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "5. Recent Employment Problems (past year): requires comment"
+    },
+    {
+      "key": "S03Q06",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q06_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "6. Victim of and/or Witness to Family Violence (Childhood): requires comment"
+    },
+    {
+      "key": "S03Q07",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q07_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "7. Recent Substance Abuse (past year): requires comment"
+    },
+    {
+      "key": "S03Q08",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q08_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "8. Recent Suicidal/Homicidal Ideation/Intent (past year) -- Requires Clinician's assessment: requires comment"
+    },
+    {
+      "key": "S03Q09",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q09_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "9. Recent Psychotic/Manic Symptoms (past year) - Requires clinician's assessment: requires comment"
+    },
+    {
+      "key": "S03Q10",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q10_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "10. Personality Disorder with Anger, Impulsivity or Behavioural Instability - requires clinician's assessment: requires comment"
+    },
+    {
+      "key": "S04Q11",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q11_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "11. Past Physical Assault: requires comment"
+    },
+    {
+      "key": "S04Q12",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q12_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "12. Past Sexual Assault/Sexual Jealousy: requires comment"
+    },
+    {
+      "key": "S04Q13",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q13_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "13. Past use of Weapons/Credible Threats of Harm: requires comment"
+    },
+    {
+      "key": "S04Q14",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q14_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "14. Recent Escalation of Frequency/Severity of Assault (past year): requires comment"
+    },
+    {
+      "key": "S04Q15",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q15_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "15. Past Violation of \\\"No Contact\\\" Order (civil or criminal): requires comment"
+    },
+    {
+      "key": "S04Q16",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q16_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "16. Extreme Minimization/Denial of Spousal Assault History: requires comment"
+    },
+    {
+      "key": "S04Q17",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S04Q17_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "17. Attitudes that Support or Condone Spousal Assault: requires comment"
+    },
+    {
+      "key": "S05Q18",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q18_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "18. Severe and/or Sexual Violence: requires comment"
+    },
+    {
+      "key": "S05Q19",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q19_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "19. Use of Weapons and/or Credible Threats of Harm: requires comment"
+    },
+    {
+      "key": "S05Q20",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q20_COMMENT"],
+      "dependentValues": ["B","C"],
+      "message": "20. Violation of \\\"No Contact\\\" Order (civil or criminal): requires comment"
+    },
+    {
+      "key": "S01Q01",
+      "type": "REQUIRED",
+      "message": "Overall Rating: is required"
+    },
+    {
+      "key": "S06Q01",
+      "type": "REQUIRED",
+      "message": "1. Current emotional crisis?: is required"
+    },
+    {
+      "key": "S06Q02",
+      "type": "REQUIRED",
+      "message": "2. History of torturing or disfiguring intimate partners?: is required"
+    },
+    {
+      "key": "S06Q03",
+      "type": "REQUIRED",
+      "message": "3. Victim or witness of political persecution, torture, or violence?: is required"
+    },
+    {
+      "key": "S06Q04",
+      "type": "REQUIRED",
+      "message": "4. Sexual sadism?: is required"
+    },
+    {
+      "key": "S06Q05",
+      "type": "REQUIRED",
+      "message": "5. Easy access to firearms?: is required"
+    },
+    {
+      "key": "S06Q06",
+      "type": "REQUIRED",
+      "message": "6. Stalking?: is required"
+    },
+    {
+      "key": "S06Q07",
+      "type": "REQUIRED",
+      "message": "7. Recent loss of social support network?: is required"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_desc"],
+      "dependentValues": ["ACVS","ATAS","BEES","COSO","EMPA","FARE","FIMA","LIAR","PRCA","SUMI"],
+      "message": "Intervention is missing description"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_specify", "intervention_desc"],
+      "dependentValues": ["OTHR"],
+      "message": "Intervention set to 'Other' is missing a description"
+    }
+  ]
+
+}

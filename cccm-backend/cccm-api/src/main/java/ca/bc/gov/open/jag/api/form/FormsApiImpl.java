@@ -84,6 +84,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public String getDecoratorContentUsingGET(String identifier) {
         return formDataService.getFormDecorator(identifier);
@@ -104,6 +105,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-add")
     public void completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
 
@@ -112,6 +114,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-add")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
 
@@ -120,6 +123,8 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
+    @RolesAllowed("form-add")
     public void linkForm(@Valid @NotNull LinkFormInput updateFormInput, String xLocationId) {
         if (updateFormInput.getLinkedClientFormId() == null) {
             throw new CCCMException("Linked form id is required", VALIDATIONERROR);
@@ -129,6 +134,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-add")
     public BigDecimal createCrnaForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
 
@@ -137,12 +143,14 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-add")
     public BigDecimal createSaraForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
         return clientFormSaveService.createSARA(createFormInput, new BigDecimal(xLocationId));
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-delete")
     public void deleteClientForm(BigDecimal clientFormId, String clientNum, String xLocationId) {
         clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username, hasOverride());
@@ -163,12 +171,14 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public List<FormSummary> getFormSummaries(String module, Boolean latestOnly) {
         return formDataService.getFormSummaries(module, latestOnly);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public String getClientFormAnswersForSectionAndQuestionUsingGET(BigDecimal clientFormId, String clientNumber,
             Integer questionSequence, Integer sectionSequence) {
@@ -177,6 +187,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public String getClientFormAnswersForSectionUsingGET(BigDecimal clientFormId, String clientNumber,
             Integer sectionSequence) {
@@ -184,63 +195,87 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public List<Intervention> searchClientInterventionsUsingPOST(ClientSearchInput searchInput) {
         return clientDataService.searchClientFormInterventions(searchInput);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public List<Comment> searchClientCommentsUsingPOST( ClientSearchInput searchInput) {
         return clientDataService.searchClientFormComments( searchInput);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public List<Responsivity> searchClientResponsivitiesUsingPOST(ClientSearchInput searchInput) {
         return clientDataService.searchClientFormResponsivities(searchInput);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-update")
     public void upcertResponsivities(BigDecimal clientFormId, String payload) {
         clientDataService.upcertResponsivities(clientFormId, payload);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-update")
     public void updateForm(BigDecimal clientFormId, String createFormInput, String xLocationId) {
         clientFormSaveService.updateForm(clientFormId, createFormInput);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public String getClientFormIntervention(String csNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String xLocationId) {
         return clientDataService.getClientFormIntervetionForCasePlan(csNumber, clientFormId, includeLinkedForm);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-update")
     public void updateSourcesContacted(BigDecimal clientFormId, String sourcesContacted, String xLocationId) {
         clientDataService.updateSourcesContacted(clientFormId, sourcesContacted);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public ValidationResult validateCRNAForm(@Valid @NotNull String body) {
         return validationService.validateCRNA(body);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public ValidationResult validateSARAForm(@Valid @NotNull String body) {
         return validationService.validateSARA(body);
     }
 
     @Override
+    @Transactional
     @RolesAllowed("form-view")
     public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId, String xLocationId) {
         return clientDataService.getClientFormMetaJson(csNumber, clientFormId);
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-add")
+    public BigDecimal createACUTEForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
+        return clientFormSaveService.createACUTE(createFormInput, new BigDecimal(xLocationId));
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public ValidationResult validateACUTEForm(@Valid @NotNull String body) {
+        return validationService.validateACUTE(body);
     }
 
     private Boolean hasOverride() {
