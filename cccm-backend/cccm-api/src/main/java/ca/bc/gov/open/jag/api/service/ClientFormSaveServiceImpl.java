@@ -72,6 +72,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
+    public BigDecimal createACUTE(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(ACUTE_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
+
+    }
+
+    @Override
     public void updateForm(BigDecimal clientFormId, String updateFormInput) {
         obridgeClientService.updateForm(clientFormId, updateFormInput);
     }

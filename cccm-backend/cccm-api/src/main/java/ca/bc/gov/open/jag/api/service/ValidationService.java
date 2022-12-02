@@ -18,4 +18,11 @@ public interface ValidationService {
      */
     ValidationResult validateSARA(String answers);
 
+    /**
+     *
+     * @param answers answers to be validated
+     * @return failed validations for acute
+     */
+    ValidationResult validateACUTE(String answers);
+
 }
