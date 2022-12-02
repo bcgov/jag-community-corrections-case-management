@@ -61,7 +61,7 @@
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
             <div class="w-100 h-100 d-flex align-items-center">
-              <a :href="`${baseURL}clientrecord/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
+              <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
