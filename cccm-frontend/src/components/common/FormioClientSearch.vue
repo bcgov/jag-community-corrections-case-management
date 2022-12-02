@@ -50,7 +50,7 @@
         >
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
-          <a :href="`${baseURL}clientrecord/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
+          <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">

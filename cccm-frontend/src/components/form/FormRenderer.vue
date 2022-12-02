@@ -119,7 +119,7 @@
                 <span v-html="getErrorText"></span>
               </v-alert>
 
-              <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleUnlockForm" />
+              <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
@@ -278,9 +278,11 @@ export default {
       this.formInfoData.data.input_key_sourceContacted = sourcesContacted;
       this.formStaticInfoKey++;
     },
-    handleUnlockForm() {
+    handleChangeFormToIncomplete() {
       this.options = null;
       this.formInfoData.data.showEditBtn = false;
+      this.formInfoData.data.status = this.$FORM_STATUS_INCOMPLETE;
+      this.submitBtnData.data.readonly = false;
       this.componentKey++;
       this.formStaticInfoKey++;
 
@@ -306,25 +308,29 @@ export default {
       }
       return false;
     },
-    isShowEditButton(createdBy, formStatus) {
+    isShowEditButton(createdBy, completeDate) {
       // When form is locked, hide edit button 
       if (this.locked) {
-          return false;
-      }
-      // Show edit button when:
-      // 1. The user is an admin
-      // 2. The user is the one who created the form
-      let showEditBtn = false;
-      if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
-        showEditBtn = false;
-        if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
-            formStatus == 'Complete') {
-          showEditBtn = true;
-        } 
+        if (completeDate != null) {
+          return true;
+        }
+        return false;
       } else {
-        showEditBtn = formStatus == 'Complete';
+        // Show edit button when:
+        // 1. The user is an admin
+        // 2. The user is the one who created the form
+        let showEditBtn = false;
+        if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+          showEditBtn = false;
+          if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
+            completeDate != null) {
+            showEditBtn = true;
+          } 
+        } else {
+          showEditBtn = completeDate != null;
+        }
+        return showEditBtn;
       }
-      return showEditBtn;
     },
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
@@ -334,8 +340,9 @@ export default {
       } else {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
-        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.status);
-        this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? "Reassessment" : "Initial"
+        this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
+        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.completedDate);
+        this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
 
         // set the form lock 
         this.formInfoData.data.locked = this.locked;
@@ -402,7 +409,7 @@ export default {
           console.error(error);
         } else {
           this.formInitData = clientFormData;
-          this.formInitData.data.clientFormTypeDesc = (this.formInfoData.data.clientFormType == 'Initial') ? "Assessment": "Reassessment";
+          this.formInitData.data.clientFormTypeDesc = (this.formInfoData.data.clientFormType == this.$FORM_TYPE_INITIAL) ? "Assessment": this.$FORM_TYPE_REASSESSMENT;
         }
       }
       this.loading = false;
@@ -436,7 +443,7 @@ export default {
       //console.log("handleSaveClose");
       //Redirect User back to clientRecord.RNAList
       this.$router.push({
-        name: 'clientrecord',
+        name: this.$ROUTER_NAME_CLIENTRECORD,
         params: {
           clientNum: this.csNumber,
           tabIndex: 'tab-rl'
@@ -497,7 +504,7 @@ export default {
         console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
         this.$router.push({
-          name: 'clientrecord',
+          name: this.$ROUTER_NAME_CLIENTRECORD,
           params: {
             clientNum: this.csNumber,
             tabIndex: 'tab-rl'
@@ -536,7 +543,7 @@ export default {
         if (redirect) {
           //Redirect User back to clientRecord.RNAList
           this.$router.push({
-            name: 'clientrecord',
+            name: this.$ROUTER_NAME_CLIENTRECORD,
             params: {
               clientNum: this.csNumber,
               tabIndex: 'tab-rl'

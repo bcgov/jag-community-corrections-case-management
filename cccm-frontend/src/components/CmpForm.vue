@@ -112,7 +112,7 @@ export default {
       // which resolves the issues with the whole DOM object not cleared when reload the same component with different param
       if (currentPathClientFormId != item.formId) {
         let r = this.$router.resolve({
-          name: "cmpform", 
+          name: this.$ROUTER_NAME_CMPFORM, 
           params: {
             formID: item.formId,
             csNumber: this.clientNum
@@ -133,25 +133,28 @@ export default {
       // When form is locked, readonly is false if login user is sys admin, true otherwise
       if (response.locked) {
         if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN) {
+          if (response.complete) {
+            return true;
+          }
           return false;
-        } else {
-          return true;
-        }
-      }
-      // When form is unlocked, readonly is true when:
-      // 1. the form was created by someone else; OR
-      // 2. the form is completed
-      let isReadonly = false;
-      if (response.createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
-        isReadonly = response.complete;
+        } 
+        return true;
       } else {
-        isReadonly = true;
-        if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
-            !response.complete) {
-            isReadonly = false;
+        // When form is unlocked, readonly is true when:
+        // 1. the form was created by someone else; OR
+        // 2. the form is completed
+        let isReadonly = false;
+        if (response.createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+          isReadonly = response.complete;
+        } else {
+          isReadonly = true;
+          if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
+              !response.complete) {
+              isReadonly = false;
+          }
         }
+        return isReadonly;
       }
-      return isReadonly;
     },
     async getClientFormDetailsAPI(csNum, clientFormId) {
       const [error, response] = await getClientFormDetails(csNum, clientFormId);

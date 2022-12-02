@@ -24,12 +24,14 @@ public class ValidationServiceImpl implements ValidationService {
 
     private Validation crnaValidation;
     private Validation saraValidation;
+    private Validation acuteValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
         objectMapper.findAndRegisterModules();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         crnaValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/crna_validation_config.json"), Validation.class);
         saraValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/sara_validation_config.json"), Validation.class);
+        acuteValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/acute_validation_config.json"), Validation.class);
 
     }
 
@@ -44,6 +46,13 @@ public class ValidationServiceImpl implements ValidationService {
     public ValidationResult validateSARA(String answers) {
 
         return createValidationResult(validate(answers, saraValidation));
+
+    }
+
+    @Override
+    public ValidationResult validateACUTE(String answers) {
+
+        return createValidationResult(validate(answers, acuteValidation));
 
     }
 
