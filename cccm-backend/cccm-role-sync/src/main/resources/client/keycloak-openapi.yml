@@ -8953,6 +8953,8 @@ components:
           type: string
         username:
           type: string
+    InputStream:
+      type: object
 security:
   - access_token: []
 externalDocs:
