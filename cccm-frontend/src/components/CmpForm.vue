@@ -42,22 +42,19 @@
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
-          <span v-if="item.id === $CONST_FORMTYPE_CRNA">{{ item.tab }}</span>
+          <span v-if="item.id != 'saraBtn'">{{ item.tab }}</span>
           <div v-if="item.id === 'saraBtn'" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createSARA"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
-          <span v-if="item.id === $CONST_FORMTYPE_SARA" class="p-4">
-            {{ item.tab }}
-          </span>
+          
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_CRNA" :key="CRNATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :locked="item.locked" :printParam="printParam"></FormRenderer>
-          <FormRenderer v-if="item.id == $CONST_FORMTYPE_SARA" :key="SARATabKey" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :locked="item.locked" :printParam="printParam"></FormRenderer>
+          <FormRenderer :key="item.key" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :locked="item.locked" :printParam="printParam"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -87,8 +84,6 @@ export default {
       items: [],
       dialog: false,
       formKey: 0,    
-      CRNATabKey: 0,  
-      SARATabKey: 0,
       printParam: false
     }
   },
@@ -98,8 +93,6 @@ export default {
     if (this.$route.params.print) {
       this.printParam = true;
     }
-    
-    //console.log("cmpform mounted: ", this.formId, this.clientNum);
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
   methods: {
@@ -120,12 +113,7 @@ export default {
         });
         window.location.assign(r.href)
       } else {
-        if (item.id == this.$CONST_FORMTYPE_CRNA) {
-          this.CRNATabKey++;
-        }
-        if (item.id == this.$CONST_FORMTYPE_SARA) {
-          this.SARATabKey++;
-        }
+        item.key++;
       }
     },
     isReadonly(response) {
@@ -161,30 +149,39 @@ export default {
       if (error) {
         console.error("Failed getting client form details", error);
       } else {
-        //console.log("Form details: ", response);
-        this.formType = response.module;
-        this.relatedClientFormId = response.relatedClientFormId;
-        
-        // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
-        if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked});
-          this.current_tab = 'tab-CRNA';
-          if (!this.relatedClientFormId) {
-            // show the 'add sara' btn if the crna form hasn't linked with sara
-            this.items.push({ tab: '', id: 'saraBtn', formId: '', relatedClientFormId: '', readonly: false, locked: false});
-          } else {
-            // otherwise, show sara tab
-            this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
-          }
-        }
-        // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
-        if (this.formType === this.$CONST_FORMTYPE_SARA) {
-          this.items.push({ tab: 'CRNA-CMP', id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
-          this.items.push({ tab: 'SARA-CMP', id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked });
-          this.current_tab = 'tab-SARA';
-        }
+        // console.log("Form details: ", response);
+        this.private_getTabs(response);
       }
       this.formKey++;
+    },
+    private_getTabs(response) {
+      this.formType = response.module;
+      this.relatedClientFormId = response.relatedClientFormId;
+
+      // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
+      if (this.formType === this.$CONST_FORMTYPE_CRNA) {
+        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked});
+        this.current_tab = 'tab-CRNA';
+        if (!this.relatedClientFormId) {
+          // show the 'add sara' btn if the crna form hasn't linked with sara
+          this.items.push({ tab: '', key: 0, id: 'saraBtn', formId: '', relatedClientFormId: '', readonly: false, locked: false});
+        } else {
+          // otherwise, show sara tab
+          this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+        }
+      }
+      // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
+      if (this.formType === this.$CONST_FORMTYPE_SARA) {
+        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked });
+        this.current_tab = 'tab-SARA';
+      }
+
+      // if formType is 'ACUTE', only show ACUTE tab
+      if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
+        this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isReadonly(response), locked: response.locked });
+        this.current_tab = 'tab-ACUTE';
+      }
     },
     async createSARAFormAPI() {
       let formData = {};

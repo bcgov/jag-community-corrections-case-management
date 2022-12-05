@@ -386,8 +386,9 @@ export default {
       this.loadingMsg = "Loading form...";
       const [error, response] = await getFormioTemplate(this.csNumber, this.formId);
       if (error) {
-        console.error(error);
+        console.error(`Failed getting formio template for formID - ${this.formId}, error: `, error);
       } else {
+        //console.log("template: ", response);
         this.loadingMsg = "Setup navigation...";
         this.data_formEntries = response;
         // force FormNavigation to refresh.
@@ -494,7 +495,7 @@ export default {
       completeFormData.clientFormId = Number(this.formId);
       completeFormData.clientNumber = this.csNumber;
       completeFormData.linkedClientFormId = this.relatedClientFormId;
-      
+      console.log("completeFormData: ", completeFormData);
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
