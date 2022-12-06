@@ -623,3 +623,11 @@ legend[ref="header"]{
         margin: 0px!important;
     }
 }
+
+/* Validation error */
+.v-alert {
+    background:  #ff0000!important;
+    margin-top: 20px;
+    content: "";
+    opacity: .56;
+}

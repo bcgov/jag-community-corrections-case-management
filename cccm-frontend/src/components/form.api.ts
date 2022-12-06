@@ -369,12 +369,12 @@ export async function dashboardSupervisorSearch(locationId: number) {
 }
 
 // Supervisor dashboard PO search
-export async function dashboardPODetailsSearch(userId: number) {
+export async function dashboardPODetailsSearch(idirId: String) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/supervisor/details', {
             params: {
-                userId: userId
+                idirId: idirId
             }
         });
         return [null, data];
