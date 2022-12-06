@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.SupervisorDashboard;
 import ca.bc.gov.open.jag.api.model.data.SupervisorDashboardDetails;
 import ca.bc.gov.open.jag.api.model.data.*;
+import ca.bc.gov.open.jag.api.model.data.User;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -267,4 +268,9 @@ public interface ObridgeClientService {
     @PUT
     @Path("/user/{idirId}/login")
     void setLoginDate(@PathParam("idirId") String idirId);
+
+    @GET
+    @Path("/role/group-users")
+    List<User> getUsers(@QueryParam("roleGroupEnum") String roleGroupEnum);
+
 }
