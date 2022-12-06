@@ -189,7 +189,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm, unlockForm } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -502,7 +502,7 @@ export default {
         console.error("Failed completing a form instance", error);
         this.errorOccurred = true;
         this.errorTitle = error.response.data.errorMessage;
-        this.errorText = ['sdfsafd', 'sdfsdaf']; //error.response.data.validationResult;
+        this.errorText = error.response.data.validationResult;
       } else {
         console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
