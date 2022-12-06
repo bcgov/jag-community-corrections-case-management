@@ -28,6 +28,8 @@ tags:
     name: acute-forms
   - description: Endpoints both for all form types
     name: general-forms
+  - description: Endpoints for role sync
+    name: role
   - description: Endpoints for testing
     name: tests
 paths:
@@ -1710,6 +1712,33 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /role/users:
+    get:
+      operationId: GetUsers
+      parameters:
+        - in: query
+          name: group
+          required: true
+          schema:
+            enum:
+              - PO
+              - SUPERVISOR
+              - ADMIN
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: get users and roles
+      summary: get users and roles
+      tags:
+        - role
+      x-accepts: application/json
+      x-tags:
+        - tag: role
 components:
   parameters:
     xLocationId:
@@ -2713,3 +2742,15 @@ components:
           $ref: '#/components/schemas/Code'
         locations:
           $ref: '#/components/schemas/CodeList'
+    User:
+      type: object
+      properties:
+        idirId:
+          type: string
+        oracleId:
+          type: string
+        groupName:
+          type: string
+        groupDescription:
+          type: string
+
