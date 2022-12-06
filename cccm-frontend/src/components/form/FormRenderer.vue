@@ -147,7 +147,7 @@
               :csNumber="csNumber"
               :options="options"/>
 
-            <FormSummary v-if="displaySummary" 
+            <FormSummary v-if="isContainSummary && displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
               :csNumber="csNumber" 
@@ -226,6 +226,7 @@ export default {
   data() {
     return {
       CONST_LABEL_CASEPLAN: "CASE PLAN",
+      CONST_LABEL_SUMMARY: "SUMMARY",
       loadingMsg: "Loading form...",
       loading: false,
       displaySummary: false,
@@ -253,7 +254,8 @@ export default {
       options: {},
       printRequested: false,
       submitBtnData: {},
-      isContainCasePlan: false
+      isContainCasePlan: false,
+      isContainSummary: false
     }
   },
   mounted(){
@@ -398,8 +400,10 @@ export default {
         // force FormNavigation to refresh.
         this.componentKey++;
 
-        this.isContainCasePlan = this.private_isContainCasePlan(response);
-        //console.log("this.isContainCasePlan: ", this.isContainCasePlan);
+        this.isContainCasePlan = this.private_isContainASection(this.CONST_LABEL_CASEPLAN, response);
+        this.isContainSummary = this.private_isContainASection(this.CONST_LABEL_SUMMARY, response);
+
+        console.log("this.isContainCasePlan, this.isContainSummary: ", this.isContainCasePlan, this.isContainSummary);
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
         
         if (this.totalNumParentNav >= this.isContainCasePlan ? 2 : 1) {
@@ -425,12 +429,12 @@ export default {
       }
       this.loading = false;
     },
-    private_isContainCasePlan(template) {
+    private_isContainASection(sectionLabel, template) {
       if (template == null || template.components == null) {
         return false;
       }
       for(let el of template.components) {
-        if (el.label.toUpperCase() == this.CONST_LABEL_CASEPLAN) {
+        if (el.label.toUpperCase() == sectionLabel) {
           return true;
         }
       }
