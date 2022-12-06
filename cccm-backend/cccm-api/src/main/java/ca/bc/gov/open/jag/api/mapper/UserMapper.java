@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.mapper;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -39,5 +40,13 @@ public interface UserMapper {
     @Mapping(target = "notRequired", source = "notRequired")
     @Mapping(target = "adminClosed", source = "adminClosed")
     SupervisorDashboard toSupervisorDashboard(ca.bc.gov.open.jag.api.model.data.SupervisorDashboard supervisorDashboard);
+
+    @Mapping(target = "pcm", source = "PCM")
+    @Mapping(target = "scm", source = "SCM")
+    @Mapping(target = "smo", source = "SMO")
+    @Mapping(target = "closedIncomplete", source = "closedIncomplete")
+    @Mapping(target = "expiringThirty", source = "expiringThirty")
+    @Mapping(target = "dueSeven", source = "notRequired")
+    SupervisorDashboardDetails toSupervisorDashboardDetails(ca.bc.gov.open.jag.api.model.data.SupervisorDashboardDetails supervisorDashboardDetails);
 
 }

@@ -36,8 +36,11 @@ public class DashboardsApiImpl implements DashboardsApi {
     }
 
     @Override
-    public SupervisorDashboardDetails getSupervisorDashboardDetails(String xLocationId, BigDecimal userId) {
-        return null;
+    @RolesAllowed("po-manage")
+    public SupervisorDashboardDetails getSupervisorDashboardDetails(String xLocationId, String idirId) {
+        logger.info("Supervisor dashboard details request");
+        return userDataService.getSupervisorDashboardDetails(idirId, xLocationId);
+
     }
 
     @Override

@@ -66,6 +66,11 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
+    public SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, String location) {
+        return userMapper.toSupervisorDashboardDetails(obridgeClientService.getSupervisorDashboardDetails(userId, new BigDecimal(location)));
+    }
+
+    @Override
     public LogonResult logonUser(String user, String locationType) {
 
         LogonResult logonResult = new LogonResult();
