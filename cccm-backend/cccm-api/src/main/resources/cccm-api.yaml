@@ -289,9 +289,9 @@ paths:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
-          name: userId
+          name: idirId
           schema:
-            type: number
+            type: string
       responses:
         "200":
           content:
@@ -2231,9 +2231,9 @@ components:
       type: object
       properties:
         pcm:
-          type: number
+          type: string
         scm:
-          type: number
+          type: string
         smo:
           type: number
         closedIncomplete:
@@ -2331,7 +2331,6 @@ components:
         sequence:
           type: integer
           format: int32
-
     ClientFormAnswers:
       title: ClientFormAnswers
       type: object
@@ -2423,7 +2422,6 @@ components:
         updatedDate:
           type: string
           format: date
-
     ClientFormAction:
       title: ClientFormAction
       type: object
@@ -2461,7 +2459,6 @@ components:
           type: string
         value:
           type: string
-
     ClientSearchInput:
       title: ClientSearchInput
       type: object
@@ -2482,7 +2479,6 @@ components:
         startDate:
           type: string
           format: date
-
     Comment:
       title: Comment
       type: object
@@ -2545,7 +2541,6 @@ components:
           type: string
         source:
           type: string
-
     TrendFilterInput:
       title: TrendFilterInput
       type: object
@@ -2576,8 +2571,6 @@ components:
         startDate:
           type: string
           format: date
-
-
     Responsivity:
       title: Responsivity
       type: object
@@ -2639,8 +2632,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/PODashboard'
-
-
     FactorConfig:
       title: FactorConfig
       type: object
@@ -2651,7 +2642,6 @@ components:
           type: array
           items:
             type: string
-
     TrendFormData:
       title: TrendFormData
       type: object
@@ -2671,7 +2661,6 @@ components:
             $ref: '#/components/schemas/ChartDataSet'
         formType:
           type: string
-
     TrendAnalysisConfig:
       title: TrendAnalysisConfig
       type: object

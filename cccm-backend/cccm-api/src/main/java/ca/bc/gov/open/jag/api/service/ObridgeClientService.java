@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.SupervisorDashboard;
 import ca.bc.gov.open.jag.api.model.data.*;
+import ca.bc.gov.open.jag.api.model.data.SupervisorDashboardDetails;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
@@ -126,6 +127,11 @@ public interface ObridgeClientService {
     @Path("/user/dashboard/supervisor")
     List<SupervisorDashboard> getSupervisorDashboard(@QueryParam("idirId") String idirId,
                                                      @QueryParam("locationId") BigDecimal locationId);
+
+    @GET
+    @Path("/user/dashboard/supervisor-details")
+    SupervisorDashboardDetails getSupervisorDashboardDetails(@QueryParam("idirId") String idirId,
+                                                             @QueryParam("locationId") BigDecimal locationId);
 
     @GET
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
