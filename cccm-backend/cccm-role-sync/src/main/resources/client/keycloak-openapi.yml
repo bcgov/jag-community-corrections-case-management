@@ -7473,12 +7473,12 @@ components:
         condition:
           type: string
         configuration:
-          $ref: '#/components/schemas/JsonNode'
+          $ref: '#/components/schemas/JsonNodeObj'
     ClientPolicyExecutorRepresentation:
       type: object
       properties:
         configuration:
-          $ref: '#/components/schemas/JsonNode'
+          $ref: '#/components/schemas/JsonNodeObj'
         executor:
           type: string
     ClientPolicyRepresentation:
@@ -7914,7 +7914,7 @@ components:
           type: boolean
         trustEmail:
           type: boolean
-    JsonNode:
+    JsonNodeObj:
       type: object
       properties:
         array:
@@ -8299,9 +8299,9 @@ components:
           type: integer
           format: int32
         clientPolicies:
-          $ref: '#/components/schemas/JsonNode'
+          $ref: '#/components/schemas/JsonNodeObj'
         clientProfiles:
-          $ref: '#/components/schemas/JsonNode'
+          $ref: '#/components/schemas/JsonNodeObj'
         clientScopeMappings:
           type: object
           additionalProperties: true
@@ -8953,6 +8953,8 @@ components:
           type: string
         username:
           type: string
+    InputStream:
+      type: object
 security:
   - access_token: []
 externalDocs:
