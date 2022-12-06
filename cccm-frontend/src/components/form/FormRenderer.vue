@@ -115,7 +115,8 @@
         <div class="columnMain L">
           <div class="menu-Sticky">
             <div class="menuR1">
-              <v-alert v-if="errorOccurred" color="#f81e41" dismissible  elevation="13" prominent>
+              <v-alert v-if="errorOccurred" type="info" prominent dismissible>
+                <h5>{{ errorTitle }}:</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
 
@@ -188,7 +189,7 @@
 
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, validateCRNAForm, validateSARAForm, completeForm, deleteForm, unlockForm } from "@/components/form.api";
+import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
 import FormioSidePanel from "@/components/common/FormioSidePanel.vue";
@@ -245,6 +246,7 @@ export default {
       casePlanDataModel: {"display": "form", "components": []},
       errorOccurred: false,
       errorText: '',
+      errorTitle: '',
       deleteDialog: false,
       saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
@@ -499,7 +501,8 @@ export default {
       if (error) {
         console.error("Failed completing a form instance", error);
         this.errorOccurred = true;
-        this.errorText = error.response.data.errorMessage;
+        this.errorTitle = error.response.data.errorMessage;
+        this.errorText = error.response.data.validationResult;
       } else {
         console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
@@ -576,8 +579,10 @@ export default {
   computed: {
     getErrorText() {
       let error = '';
-      for (let i = 0; i < this.errorText.length; i++) {
-        error += this.errorText[i].message + "<br>";
+      if (this.errorText != null && this.errorText.length > 0) {
+        for (let i = 0; i < this.errorText.length; i++) {
+          error += this.errorText[i].message + "<br>";
+        }
       }
       return error;
     },
