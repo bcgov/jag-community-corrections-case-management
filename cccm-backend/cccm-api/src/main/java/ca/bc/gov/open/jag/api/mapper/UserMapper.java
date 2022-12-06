@@ -1,8 +1,6 @@
 package ca.bc.gov.open.jag.api.mapper;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -48,5 +46,14 @@ public interface UserMapper {
     @Mapping(target = "expiringThirty", source = "expiringThirty")
     @Mapping(target = "dueSeven", source = "notRequired")
     SupervisorDashboardDetails toSupervisorDashboardDetails(ca.bc.gov.open.jag.api.model.data.SupervisorDashboardDetails supervisorDashboardDetails);
+
+    @Mapping(target = "idirId", source = "idirId")
+    @Mapping(target = "oracleId", source = "oracleId")
+    @Mapping(target = "groupName", source = "groupName")
+    @Mapping(target = "groupDescription", source = "groupDescription")
+    User toUser(ca.bc.gov.open.jag.api.model.data.User user);
+
+    List<User> toUserList(List<ca.bc.gov.open.jag.api.model.data.User> users);
+
 
 }
