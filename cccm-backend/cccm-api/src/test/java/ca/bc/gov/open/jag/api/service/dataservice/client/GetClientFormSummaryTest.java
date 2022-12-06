@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.Keys.HIGH;
 
 @QuarkusTest
 public class GetClientFormSummaryTest {
