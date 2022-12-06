@@ -78,37 +78,37 @@
             <td :colspan="1">
               <strong>PCM</strong>
               <br />
-              {{ item.pcm}}
+              {{ item.pcm ? item.pcm : '&nbsp;'}}
             </td>
             <td :colspan="1">
               <strong>SCM</strong>
               <br />
-              {{ item.scm}}
+              {{ item.scm ? item.scm : '&nbsp;'}}
             </td>
             <td :colspan="1">
               <strong>SMO</strong>
               <br />
-              {{ item.smo}}
+              {{ item.smo ? item.smo : 0}}
             </td>
-            <td :colspan="1">
+            <td :colspan="2">
               <strong>Closed/Incomplete Report</strong>
               <br />
-              {{ item.closedIncomplete}}
+              {{ item.closedIncomplete ? item.closedIncomplete : 0 }}
             </td>
-            <td :colspan="1">
+            <td :colspan="2">
               <strong>Expiring 30 Days</strong>
               <br />
-              {{ item.expiringThirty}}
+              {{ item.expiringThirty ? item.expiringThirty : 0 }}
             </td>
             <td :colspan="1">
               <strong>Not Required</strong>
               <br />
-              {{ item.notRequired}}
+              {{ item.notRequired ? item.notRequired : 0 }}
             </td>
             <td :colspan="1">
               <strong>RNA's Due 7 days</strong>
               <br />
-              {{ item.dueSeven}}
+              {{ item.dueSeven ? item.dueSeven : 0}}
             </td>
           </template>
         
@@ -233,30 +233,31 @@ export default {
     },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
-      if (this.officerList != null && this.officerList[item.userId] != null 
-        && this.officerList[item.userId].poDetailFetched) {
+      if (this.officerList != null && this.officerList[item.idirId] != null 
+        && this.officerList[item.idirId].poDetailFetched) {
         return;
       }
-      this.dashboardPODetailsSearchAPI(item.userId);
+      //console.log("item: ", item);
+      this.dashboardPODetailsSearchAPI(item.idirId);
     },
-    async dashboardPODetailsSearchAPI(POUserId) {
-      const [error, response] = await dashboardPODetailsSearch(POUserId);
+    async dashboardPODetailsSearchAPI(POIdirId) {
+      const [error, response] = await dashboardPODetailsSearch(POIdirId);
       if (error) {
         console.error("Supervisor dashboard PO search failed: ", error);
       } else {
-        //console.log("Supervisor dashboard PO search: ", POUserId, response);
+        //console.log("Supervisor dashboard PO search: ", POIdirId, response);
         //Cache the PO details into this.officerList object
         // Set the poDetailFetched flag to true
         if (this.officerList != null && response != null) {
           for (let el of this.officerList) {
             el.poDetailFetched = true;
-            if (el.userId == POUserId) {
-              el.pcm = response.pcm ? response.pcm : 0;
-              el.scm = response.scm ? response.scm : 0;
-              el.smo = response.smo ? response.smo : 0;
-              el.closedIncomplete = response.closedIncomplete ? response.closedIncomplete : 0;
-              el.expiringThirty = response.expiringThirty ? response.expiringThirty : 0;
-              el.dueSeven = response.dueSeven ? response.dueSeven : 0;
+            if (el.idirId == POIdirId) {
+              el.pcm = response.pcm;
+              el.scm = response.scm;
+              el.smo = response.smo;
+              el.closedIncomplete = response.closedIncomplete;
+              el.expiringThirty = response.expiringThirty;
+              el.dueSeven = response.dueSeven;
               break;
             }
           }
@@ -305,14 +306,6 @@ export default {
       } else {
         //console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
-
-        // preset the flag to false; 
-        this.officerList = this.officerList.filter(el => {
-          el.poDetailFetched = false;
-          el.idirId = 'michman';
-          el.userId = '504.0005';
-          return el;
-        });
       }
     }
   },
