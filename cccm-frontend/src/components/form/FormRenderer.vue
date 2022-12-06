@@ -139,7 +139,7 @@
               :options="options"
               :initData="formInitData" />   
       
-            <FormCaseplan v-if="displayCasePlan" 
+            <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
               :clientFormId="formId"
@@ -224,6 +224,7 @@ export default {
   },
   data() {
     return {
+      CONST_LABEL_CASEPLAN: "CASE PLAN",
       loadingMsg: "Loading form...",
       loading: false,
       displaySummary: false,
@@ -249,7 +250,8 @@ export default {
       saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
       printRequested: false,
-      submitBtnData: {}
+      submitBtnData: {},
+      isContainCasePlan: false
     }
   },
   mounted(){
@@ -394,12 +396,18 @@ export default {
         // force FormNavigation to refresh.
         this.componentKey++;
 
+        this.isContainCasePlan = this.private_isContainCasePlan(response);
+        //console.log("this.isContainCasePlan: ", this.isContainCasePlan);
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
-        if (this.totalNumParentNav >= 2) {
-          const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
-          this.casePlanDataModel.components = clone;
-          this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
-          //console.log("this.data_formEntries:", this.data_formEntries);
+        
+        if (this.totalNumParentNav >= this.isContainCasePlan ? 2 : 1) {
+          // setup CasePlan 
+          if (this.isContainCasePlan) {
+            const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.totalNumParentNav - 2].components));
+            this.casePlanDataModel.components = clone;
+            this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
+            //console.log("this.data_formEntries:", this.data_formEntries);
+          }
         }
 
         // Load form data
@@ -414,6 +422,17 @@ export default {
         }
       }
       this.loading = false;
+    },
+    private_isContainCasePlan(template) {
+      if (template == null || template.components == null) {
+        return false;
+      }
+      for(let el of template.components) {
+        if (el.label.toUpperCase() == this.CONST_LABEL_CASEPLAN) {
+          return true;
+        }
+      }
+      return false;
     },
     navToSectionAndQuestion(section: number, question: number) {
       // update the displaySummary flag to hide summary panel
