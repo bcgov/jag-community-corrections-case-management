@@ -116,7 +116,7 @@
           <div class="menu-Sticky">
             <div class="menuR1">
               <v-alert v-if="errorOccurred" type="info" prominent dismissible>
-                <h5>{{ errorTitle }}:</h5>
+                <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
 
