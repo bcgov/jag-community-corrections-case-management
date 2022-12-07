@@ -80,14 +80,18 @@
         </div>
         <div class="col-sm-3">
           <strong>Supervision Periods</strong>
-            <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
-                value="all"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
-                value="current"></v-radio>
-            </v-radio-group>
+          <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
+            <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
+              value="all"></v-radio>
+            <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
+              value="current"></v-radio>
+          </v-radio-group>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+          <div class="rna-overdue-text">RNA form overdue list: </div>
+          <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
+        </div>
+        <div class="col-sm-2"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
@@ -183,7 +187,6 @@ export default {
   data() {
     return {
       //Const
-      const_formstatus_overdue: "OverDue",
       const_rating_low: "Low",
       const_rating_medium: "Medium",
       const_rating_high: "High",
@@ -214,6 +217,7 @@ export default {
       dialog: false,
       readonly: true,
       selectedFormtypeForFormCreate: [],
+      overdueRNAFormtypes: '',
       formToCreate: ''
     }
   },
@@ -361,8 +365,6 @@ export default {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
           //console.log("RNAList search: ", response);
-          // Added Dec 1, 2022
-          // TODO: remove it once stored proc returns correct form status
           this.rnaList = this.rnaList.filter(el => {
             el.status = this.$FORM_STATUS_INCOMPLETE;
             if (el.complete) {
@@ -428,11 +430,13 @@ export default {
     }
   },
   computed: {
+    getOverdueRNAFormtypes() {
+      return this.overdueRNAFormtypes;
+    },
     getFormStatusColor() {
       let colorClass = {};
       colorClass[this.$FORM_STATUS_INCOMPLETE] = 'dashboard-background-color-yellow';
       colorClass[this.$FORM_STATUS_COMPLETE] = 'dashboard-background-color-green';
-      colorClass[this.const_formstatus_overdue] = 'dashboard-background-color-red';
       return colorClass;
     }
   }
