@@ -626,8 +626,19 @@ legend[ref="header"]{
 
 /* Validation error */
 .v-alert {
-    background:  #ff0000!important;
+    background:  #FFB9B9!important;
     margin-top: 20px;
     content: "";
     opacity: .56;
+}
+
+/* RNA status overdue */
+.rna-overdue-text {
+    font-weight: bold;
+    margin-top: -50px;
+}
+
+.rna-overdue-red {
+    color: red;
+    font-weight: bold;
 }
