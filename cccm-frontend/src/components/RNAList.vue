@@ -80,7 +80,7 @@
         </div>
         <div class="col-sm-2">
           <div class="rna-overdue-text">RNA form overdue list: </div>
-          <div class="rna-overdue-red">{{ overdueRNAFormtypes }}</div>
+          <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
         </div>
         <div class="col-sm-2"></div>
         <div class="col-sm-3 text-right pr-4">
@@ -207,7 +207,7 @@ export default {
       dialog: false,
       readonly: true,
       selectedFormtypeForFormCreate: [],
-      overdueRNAFormtypes: 'CRNA, CRNA-SARA'
+      overdueRNAFormtypes: ''
     }
   },
   mounted() {
@@ -432,6 +432,9 @@ export default {
     }
   },
   computed: {
+    getOverdueRNAFormtypes() {
+      return this.overdueRNAFormtypes;
+    },
     getFormStatusColor() {
       let colorClass = {};
       colorClass[this.$FORM_STATUS_INCOMPLETE] = 'dashboard-background-color-yellow';
