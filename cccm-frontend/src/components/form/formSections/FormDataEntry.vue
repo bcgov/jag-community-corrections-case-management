@@ -149,8 +149,8 @@ export default {
         if (clientFormAnswerID) {
           this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
           if (autoSaveNow) {
-              this.autoSave();
-            }
+            this.autoSave();
+          }
         } else {
           // We shouldn't get here, means the question hasn't been answered and user answered interventions.
           // Add question and comment to the autoSaveDataCandidate, this is a heavy save
@@ -186,6 +186,9 @@ export default {
 
           if (clientFormAnswerID) {
             this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
+          }
+          if (autoSaveNow) {
+            this.autoSave();
           }
         }
       }
@@ -232,7 +235,7 @@ export default {
           //console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
           this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data, true);
         } else {
-          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, false);
+          this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, true);
         }
       }
     },
