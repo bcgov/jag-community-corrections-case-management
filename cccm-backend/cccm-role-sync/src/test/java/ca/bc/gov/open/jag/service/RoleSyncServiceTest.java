@@ -1,17 +1,14 @@
 package ca.bc.gov.open.jag.service;
 
 import io.quarkus.test.Mock;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;

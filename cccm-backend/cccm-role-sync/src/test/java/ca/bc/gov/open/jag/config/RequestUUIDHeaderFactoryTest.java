@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.config;
 
 import io.quarkus.oidc.client.OidcClient;
+import io.quarkus.oidc.client.Tokens;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniAwait;
 import io.vertx.core.json.JsonObject;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import io.quarkus.oidc.client.Tokens;
 import org.mockito.MockitoAnnotations;
 
 import javax.ws.rs.core.MultivaluedMap;

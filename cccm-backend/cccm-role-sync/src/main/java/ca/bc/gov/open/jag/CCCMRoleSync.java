@@ -1,9 +1,9 @@
 package ca.bc.gov.open.jag;
 
 import ca.bc.gov.open.jag.service.RoleSyncService;
+import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
-import io.quarkus.runtime.Quarkus;
 
 import javax.enterprise.context.control.ActivateRequestContext;
 import javax.inject.Inject;
