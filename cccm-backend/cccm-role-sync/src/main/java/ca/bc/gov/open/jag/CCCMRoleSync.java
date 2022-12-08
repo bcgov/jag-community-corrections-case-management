@@ -4,6 +4,8 @@ import ca.bc.gov.open.jag.service.RoleSyncService;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.control.ActivateRequestContext;
 import javax.inject.Inject;
@@ -14,23 +16,25 @@ public class CCCMRoleSync {
 
     public static void main(String ... args) {
 
-        Quarkus.run(MyApp.class, args);
+        Quarkus.run(RoleSyncApplication.class, args);
 
     }
 
-    public static class MyApp implements QuarkusApplication {
+    public static class RoleSyncApplication implements QuarkusApplication {
 
         @Inject
         RoleSyncService roleSyncService;
 
+        private static final Logger logger = LoggerFactory.getLogger(RoleSyncApplication.class);
+
         @Override
         @ActivateRequestContext
         public int run(String... args) throws Exception {
-            System.out.println("Running role sync");
+            logger.info("Running role sync");
 
             roleSyncService.syncRoles();
 
-            System.out.println("Role sync complete");
+            logger.info("Role sync complete application is shutting down");
             System.exit(0);
             Quarkus.waitForExit();
             return 0;
