@@ -1,29 +1,40 @@
 package ca.bc.gov.open.jag;
 
+import ca.bc.gov.open.jag.service.RoleSyncService;
+import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
-import io.quarkus.runtime.Quarkus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.TimeUnit;
+import javax.enterprise.context.control.ActivateRequestContext;
+import javax.inject.Inject;
 
 @QuarkusMain  
 public class CCCMRoleSync {
 
-    public static void main(String ... args) throws InterruptedException {
 
-        Quarkus.run(MyApp.class, args);
+    public static void main(String ... args) {
+
+        Quarkus.run(RoleSyncApplication.class, args);
 
     }
 
-    public static class MyApp implements QuarkusApplication {
+    public static class RoleSyncApplication implements QuarkusApplication {
+
+        @Inject
+        RoleSyncService roleSyncService;
+
+        private static final Logger logger = LoggerFactory.getLogger(RoleSyncApplication.class);
 
         @Override
+        @ActivateRequestContext
         public int run(String... args) throws Exception {
-            System.out.println("Running role sync");
+            logger.info("Running role sync");
 
-            TimeUnit.SECONDS.sleep(30);
+            roleSyncService.syncRoles();
 
-            System.out.println("Role sync done after 30 seconds");
+            logger.info("Role sync complete application is shutting down");
             System.exit(0);
             Quarkus.waitForExit();
             return 0;
