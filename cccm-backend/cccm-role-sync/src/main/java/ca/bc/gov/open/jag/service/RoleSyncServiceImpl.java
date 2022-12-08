@@ -3,9 +3,13 @@ package ca.bc.gov.open.jag.service;
 import ca.bc.gov.open.jag.Keys;
 import ca.bc.gov.open.jag.model.RoleGroupEnum;
 import ca.bc.gov.open.jag.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.GroupResource;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,33 +44,42 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private void processRoleGroup(List<User> dbUsers, RoleGroupEnum roleGroup) {
         String processingGroup = roleGroupEnumToKeycloakGroup(roleGroup);
-        List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> user.getGroups().contains(processingGroup)).collect(Collectors.toList());
+        GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
+        List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
         for (User user: dbUsers) {
-            users.removeIf(remUser -> remUser.getUsername().equals(user.getIdirId()));
-            Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(user.getIdirId()).stream().findFirst();
-            if (keyCloakUser.isPresent() && !userInGroup(processingGroup, keyCloakUser.get())) {
+            users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
+            Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(StringUtils.lowerCase(user.getIdirId())).stream().findFirst();
+            Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
+            if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
                 //Add user to role
-                keyCloakUser.get().getGroups().add(processingGroup);
+                keyCloakUserResource.get().joinGroup(representation.getId());
+                //keyCloakUser.get().setGroups(Collections.singletonList(processingGroup));
                 keyCloakUser.get().setEnabled(true);
-                keycloak.realm("").users().create(keyCloakUser.get());
+                keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isEmpty()) {
                 //Add user
                 UserRepresentation newUser = new UserRepresentation();
                 newUser.setUsername(user.getIdirId());
                 newUser.setGroups(Collections.singletonList(processingGroup));
-                keycloak.realm("").users().create(newUser);
+                keycloak.realm(realm).users().create(newUser);
             }
         }
         //Any user left should be removed from group
         for (UserRepresentation user: users) {
-            user.getGroups().removeIf(role -> role.equals(processingGroup));
+            UserResource keyCloakUserResource = keycloak.realm(realm).users().get(user.getId());
+            keyCloakUserResource.leaveGroup(representation.getId());
             //Disable user if there are no groups
-            if (user.getGroups().isEmpty()) {
+            if (keyCloakUserResource.groups().isEmpty()) {
                 user.setEnabled(false);
             }
-            //keycloak.realm("").users().create(user);
+            keycloak.realm(realm).users().get(user.getId()).update(user);
         }
 
+    }
+
+    private Boolean userInGroup(UserRepresentation user, String group) {
+        List<GroupRepresentation> groups = keycloak.realm(realm).users().get(user.getId()).groups();
+        return groups.stream().anyMatch(currentGroup -> currentGroup.getName().equals(group));
     }
 
     private String roleGroupEnumToKeycloakGroup(RoleGroupEnum roleGroup) {
@@ -86,13 +99,6 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 break;
         }
         return role;
-    }
-
-    private Boolean userInGroup(String group, UserRepresentation user) {
-        return user.getGroups().stream().anyMatch(
-                realmGroup -> realmGroup.equals(group)
-        );
-
     }
 
 }
