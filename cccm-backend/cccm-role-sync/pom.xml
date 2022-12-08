@@ -189,52 +189,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.openapitools</groupId>
-        <artifactId>openapi-generator-maven-plugin</artifactId>
-        <version>5.1.1</version>
-        <executions>
-          <execution>
-            <id>quarkus-client</id>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-            <configuration>
-              <inputSpec>${project.basedir}/src/main/resources/client/keycloak-openapi.yml</inputSpec>
-              <generatorName>java</generatorName>
-              <configOptions>
-                <dateLibrary>joda</dateLibrary>
-                <validateSpec>false</validateSpec>
-              </configOptions>
-              <library>jersey2</library>
-              <apiPackage>${default-package}.api</apiPackage>
-              <modelPackage>${default-package}.api.model</modelPackage>
-              <invokerPackage>${default-package}.api.handler</invokerPackage>
-              <generateModelTests>false</generateModelTests>
-              <generateApiTests>false</generateApiTests>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.build.directory}/generated-sources/openapi/src/gen/java</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire-plugin.version}</version>
         <configuration>
@@ -262,6 +216,10 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
       </plugin>
     </plugins>
   </build>

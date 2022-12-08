@@ -53,7 +53,6 @@ public class RoleSyncServiceImpl implements RoleSyncService {
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
                 //Add user to role
                 keyCloakUserResource.get().joinGroup(representation.getId());
-                //keyCloakUser.get().setGroups(Collections.singletonList(processingGroup));
                 keyCloakUser.get().setEnabled(true);
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isEmpty()) {
