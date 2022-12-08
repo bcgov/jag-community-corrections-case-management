@@ -10,6 +10,8 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class RoleSyncServiceImpl implements RoleSyncService {
+
+    private static final Logger logger = LoggerFactory.getLogger(RoleSyncServiceImpl.class);
 
     @Inject
     @RestClient
@@ -36,6 +40,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
         for (RoleGroupEnum roleGroup: RoleGroupEnum.values()) {
             //We need to get the keycloak users every time. If a user is added we want the newly created user not to attempt to create
+            logger.info("processing role group {}", roleGroup);
             processRoleGroup(cccmApiService.getUsers(roleGroup), roleGroup);
         }
 
@@ -46,16 +51,19 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
         for (User user: dbUsers) {
+            logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
             Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(StringUtils.lowerCase(user.getIdirId())).stream().findFirst();
             Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
                 //Add user to role
+                logger.info("adding user {} to group {}", user.getIdirId(), representation.getName());
                 keyCloakUserResource.get().joinGroup(representation.getId());
                 keyCloakUser.get().setEnabled(true);
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isEmpty()) {
                 //Add user
+                logger.info("creating user {} and adding to group {}", user.getIdirId(), representation.getName());
                 UserRepresentation newUser = new UserRepresentation();
                 newUser.setUsername(user.getIdirId());
                 newUser.setGroups(Collections.singletonList(processingGroup));
@@ -64,10 +72,12 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         }
         //Any user left should be removed from group
         for (UserRepresentation user: users) {
+            logger.info("removing user {} from group {}", user.getUsername(), representation.getName());
             UserResource keyCloakUserResource = keycloak.realm(realm).users().get(user.getId());
             keyCloakUserResource.leaveGroup(representation.getId());
             //Disable user if there are no groups
             if (keyCloakUserResource.groups().isEmpty()) {
+                logger.info("user {} will be disabled", user.getUsername());
                 user.setEnabled(false);
             }
             keycloak.realm(realm).users().get(user.getId()).update(user);
