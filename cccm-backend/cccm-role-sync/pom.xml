@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.bc.gov.open.jag</groupId>
   <artifactId>cccm-role-sync</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>0.18.0-SNAPSHOT</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>11</maven.compiler.release>
@@ -32,6 +32,22 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-keycloak-admin-client-reactive</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc-token-propagation-reactive</artifactId>
     </dependency>
     <dependency>
       <groupId>org.openapitools</groupId>
@@ -129,6 +145,16 @@
       <groupId>com.brsanthu</groupId>
       <artifactId>migbase64</artifactId>
       <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.rest.client</groupId>
+      <artifactId>microprofile-rest-client-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-collections4</artifactId>
+      <version>4.4</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
