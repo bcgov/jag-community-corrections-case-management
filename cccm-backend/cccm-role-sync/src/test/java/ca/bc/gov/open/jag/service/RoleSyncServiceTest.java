@@ -53,7 +53,7 @@ public class RoleSyncServiceTest {
         Mockito.when(cccmApiServiceMock.getUsers(any())).thenReturn(createUsers());
         Mockito.when(usersResourceMock.search(any())).thenReturn(new ArrayList<>());
         Mockito.when(usersResourceMock.list()).thenReturn(new ArrayList<>());
-        Mockito.doNothing().when(usersResourceMock).create(any());
+        Mockito.when(usersResourceMock.create(any())).thenReturn(null);
         Mockito.when(usersResourceMock.get(any())).thenReturn(new UserResource() {
             @Override
             public UserRepresentation toRepresentation() {
