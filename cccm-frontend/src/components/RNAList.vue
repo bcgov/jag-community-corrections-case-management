@@ -91,7 +91,7 @@
           <div class="rna-overdue-text">RNA form overdue list: </div>
           <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-sm-1"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
