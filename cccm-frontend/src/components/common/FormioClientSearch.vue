@@ -166,8 +166,7 @@ export default {
         { text: 'Record Sealed?', value: 'sealed' },
       ],
       clients: [],
-      baseURL: import.meta.env.BASE_URL,
-      loading: false,
+      baseURL: import.meta.env.BASE_URL
     }
   },
   components: {
@@ -247,6 +246,7 @@ export default {
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
+      console.log("respose: ", response);
       this.jumpToResult();
       if (error) {
         console.error(error);
