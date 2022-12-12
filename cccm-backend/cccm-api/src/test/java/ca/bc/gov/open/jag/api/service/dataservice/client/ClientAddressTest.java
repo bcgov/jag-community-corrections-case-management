@@ -41,7 +41,7 @@ public class ClientAddressTest {
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(ADDRESS, result.get(0).getFullAddress());
-        Assertions.assertFalse(result.get(0).getExpired());
+        Assertions.assertTrue(result.get(0).getExpired());
 
     }
 
