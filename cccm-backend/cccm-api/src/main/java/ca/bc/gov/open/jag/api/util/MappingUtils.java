@@ -124,7 +124,7 @@ public class MappingUtils {
 
     }
 
-    public static List<Address> stringToAddressList(String address, String addressType, String addressStatus) {
+    public static List<Address> stringToAddressList(String address, String addressType, String addressExpiry) {
 
         if (StringUtils.isBlank(address)) {
             return new ArrayList<>();
@@ -134,7 +134,7 @@ public class MappingUtils {
         address1.setFullAddress(address);
         address1.setType(addressType);
         address1.setPrimary(true);
-        address1.setExpired(StringUtils.isNoneBlank(addressStatus) && !addressStatus.equals(Keys.ADDRESS_STATUS_CURRENT));
+        address1.setExpired(isExpired(addressExpiry));
         return Collections.singletonList(address1);
 
     }

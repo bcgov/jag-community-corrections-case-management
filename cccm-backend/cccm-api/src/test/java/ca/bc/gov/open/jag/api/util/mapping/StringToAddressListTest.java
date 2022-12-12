@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @QuarkusTest
@@ -16,7 +17,10 @@ public class StringToAddressListTest {
     @DisplayName("Success: should return address expired")
     public void testSuccessAddressListExpired() {
 
-        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", "TEST");
+        LocalDate testDate = LocalDate.now();
+        testDate = testDate.plusDays(2);
+
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate.toString());
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());
@@ -30,7 +34,10 @@ public class StringToAddressListTest {
     @DisplayName("Success: should return address")
     public void testSuccessAddressList() {
 
-        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", "Current");
+        LocalDate testDate = LocalDate.now();
+        testDate = testDate.minusYears(1);
+
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate.toString());
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());

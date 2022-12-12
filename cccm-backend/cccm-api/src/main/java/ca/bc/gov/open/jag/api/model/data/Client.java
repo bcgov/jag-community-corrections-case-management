@@ -14,6 +14,7 @@ public class Client {
     private String address;
     private String addressStatus;
     private String addressType;
+    private String addressExpiry;
     private String alias;
     private String sealed;
 
@@ -128,5 +129,12 @@ public class Client {
     public void setAddressType(String addressType) {
         this.addressType = addressType;
     }
-    
+
+    public String getAddressExpiry() {
+        return addressExpiry;
+    }
+
+    public void setAddressExpiry(String addressExpiry) {
+        this.addressExpiry = addressExpiry;
+    }
 }
