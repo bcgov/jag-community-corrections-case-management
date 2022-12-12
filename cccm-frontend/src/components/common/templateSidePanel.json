@@ -61,7 +61,8 @@
 						"input": false,
 						"tableView": false
 					  }
-					]
+					],
+					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
 				},
 				{
 					"title": "Supervision Level Matrix",
@@ -82,7 +83,30 @@
 						"input": false,
 						"tableView": false
 					  }
-					]
+					],
+					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
+				},
+				{
+					"title": "Legend",
+					"collapsible": false,
+					"key": "key_legend_acute",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+						{
+						  "label": "HTML",
+						  "tag": "ol",
+						  "content": "<li>Not present, not a problem, not a topic of ongoing supervision attention.</li> <li>Maybe present, unsure, a minor problem, a secondary topic of sporadic attention during supervision.</li> <li>Present, a concern, a problem worthy of sustained attention, a regular topic in supervision sessions.</li><li> Intervene now; a problem that is sufficiently evident and problematic that it deserves immediate attention and timely resolution.</li> ",
+						  "refreshOnChange": true,
+						  "type": "htmlelement",
+						  "input": false,
+						  "tableView": false
+						}
+					],
+					"customConditional": "show = data.formType === 'ACUTE'"
 				},
 				{
 					"title": "Source Contacted",
