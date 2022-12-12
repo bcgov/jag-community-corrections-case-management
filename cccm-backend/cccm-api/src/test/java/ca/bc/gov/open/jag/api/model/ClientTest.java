@@ -29,7 +29,7 @@ public class ClientTest {
         sut.setAlias(TEST_STRING);
         sut.setSealed(TEST_STRING);
         sut.setAddressStatus(TEST_STRING);
-        sut.getAddressType(TEST_STRING)
+        sut.setAddressType(TEST_STRING);
 
         Assertions.assertEquals(CLIENT_NO, sut.getClientNo());
         Assertions.assertEquals(TEST_STRING, sut.getClientName());
