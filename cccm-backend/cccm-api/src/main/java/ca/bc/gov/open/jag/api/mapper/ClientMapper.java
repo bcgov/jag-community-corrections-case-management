@@ -21,7 +21,7 @@ public interface ClientMapper {
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")
     @Mapping(target = "outstandingWarrants", source = "clientProfile.warrants")
     @Mapping(target = "programs", source = "clientProfile.programs")
-    @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress()))")
+    @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress(), client.getAddressType(), client.getAddressExpiry()))")
     @Mapping(target = "communityAlerts", source="clientProfile.alerts")
     @Mapping(target = "photo", source="photo")
     @Mapping(target = "designations", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.createDesignations(clientProfile.getIaStatus(),clientProfile.getPopDesignation(),clientProfile.getIcayraSecurity(),clientProfile.getIcayraSecurityStatus()))")

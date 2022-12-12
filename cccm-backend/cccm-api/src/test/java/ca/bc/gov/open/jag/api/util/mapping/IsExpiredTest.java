@@ -12,27 +12,27 @@ import java.time.LocalDate;
 public class IsExpiredTest {
 
     @Test
-    @DisplayName("Success: date is not expired should be false")
-    public void testSuccessIsNotExpired() {
+    @DisplayName("Success: date is  expired should be false")
+    public void testSuccessIsExpired() {
 
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(1);
 
         Boolean result = MappingUtils.isExpired(testDate.toString());
 
-        Assertions.assertFalse(result);
+        Assertions.assertTrue(result);
 
     }
 
     @Test
     @DisplayName("Success: date is expired should be true")
-    public void testSuccessIsExpired() {
+    public void testSuccessIsNotExpired() {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.plusDays(2);
 
         Boolean result = MappingUtils.isExpired(testDate.toString());
 
-        Assertions.assertTrue(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
