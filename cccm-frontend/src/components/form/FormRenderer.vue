@@ -1,7 +1,7 @@
 <template>
   <div data-app class="main crna-cmp-form">
-    <!-- CRNA form instance. Delete modal dialog section-->
-    <div v-if="formType === $CONST_FORMTYPE_CRNA">
+    <!-- Form delete modal dialog section-->
+    <div>
       <!-- Form delete modal dialog-->
       <v-btn
         :id="`id_modal_deleteForm_${formType}`"
@@ -13,7 +13,7 @@
           persistent
           max-width="550"
         >
-        <v-card>
+        <v-card v-if="formType === $CONST_FORMTYPE_CRNA">
           <v-card-title class="text-h5">
             <span v-if="relatedClientFormId">
               Are you sure you want to delete?
@@ -52,23 +52,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
-    </div>
-
-    <!-- SARA form instance. Delete modal dialog section-->
-    <div v-if="formType === $CONST_FORMTYPE_SARA">
-      <!--Form delete modal dialog -->
-      <v-btn
-        :id="`id_modal_deleteForm_${formType}`"
-        v-show=false
-        @click.stop="deleteDialog = true"
-      ></v-btn>
-      <v-dialog
-          v-model="deleteDialog"
-          persistent
-          max-width="550"
-        >
-        <v-card>
+        <v-card v-if="formType === $CONST_FORMTYPE_SARA">
           <div class="col-sm-12 m-7">
             <v-card-title >
               Select what you want to delete:
@@ -108,8 +92,34 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+        <v-card v-else>
+          <div class="col-sm-12 m-7">
+            <v-card-title>
+              Are you sure you want to delete?
+            </v-card-title>
+            <v-card-text>
+              The form(s) and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
+            </v-card-text>
+          </div>
+          <v-card-actions>
+            <v-btn
+              @click="deleteDialog = false"
+            >
+            No, I don't want to delete
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="#f81e41"
+              dark
+              @click="handleDeleteSARAFormBtnClick"
+            >
+              Yes, delete form(s)
+            </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-dialog>
     </div>
+
     <div class="wrap">
       <div class="mainRow">
         <div class="columnMain L">
@@ -354,20 +364,16 @@ export default {
         this.formInfoData.data.locked = this.locked;
         
         // set the form title
-        this.formInfoData.data.formTypeCD = this.formType;
-        if (this.formType == this.$CONST_FORMTYPE_CRNA) {
-          this.formInfoData.data.formTitle = "Community Risk Needs Assessment Form (CRNA-CMP)";
-          this.formInfoData.data.formType = "CRNA-CMP Type"
-        } else if (this.formType == this.$CONST_FORMTYPE_SARA) {
-          this.formInfoData.data.formTitle = "SARA (SARA-CMP)";
-          this.formInfoData.data.formType = "SARA-CMP Type"
-        }
+        let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
+        //console.log('form info const:', this.formType, this.$FORM_INFO, theForm);
+
+        this.formInfoData.data.formTitle = theForm[0].formTitle;
+        this.formInfoData.data.formTypeLabel = theForm[0].formTypeLabel;
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
         this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
         this.submitBtnData.data.readonly = this.readonly;
-        //console.log("this.submitBtnData: ", this.submitBtnData);
         
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
@@ -380,6 +386,7 @@ export default {
           //set sources contacted
           this.clientData.data.hideSCInput = true;
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
+          this.clientData.data.formType = this.formType
           //console.log("clientData: ", this.clientData);
         }
         this.formStaticInfoKey++;
@@ -403,7 +410,7 @@ export default {
         this.isContainCasePlan = this.private_isContainASection(this.CONST_LABEL_CASEPLAN, response);
         this.isContainSummary = this.private_isContainASection(this.CONST_LABEL_SUMMARY, response);
 
-        console.log("this.isContainCasePlan, this.isContainSummary: ", this.isContainCasePlan, this.isContainSummary);
+        //console.log("this.isContainCasePlan, this.isContainSummary: ", this.isContainCasePlan, this.isContainSummary);
         this.totalNumParentNav = response == null || response.components == null ? 0 : response.components.length;
         
         if (this.totalNumParentNav >= this.isContainCasePlan ? 2 : 1) {
