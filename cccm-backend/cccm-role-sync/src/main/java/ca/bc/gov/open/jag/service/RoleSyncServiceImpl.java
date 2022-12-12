@@ -8,16 +8,20 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.representations.idm.FederatedIdentityRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
+import org.keycloak.representations.idm.IdentityProviderRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import javax.ws.rs.core.Response;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static ca.bc.gov.open.jag.Keys.IDIR_IDP;
+import static ca.bc.gov.open.jag.Keys.ORACLE_ID;
 
 @ApplicationScoped
 public class RoleSyncServiceImpl implements RoleSyncService {
@@ -53,6 +57,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
     private void processRoleGroup(List<User> dbUsers, RoleGroupEnum roleGroup) {
         String processingGroup = roleGroupEnumToKeycloakGroup(roleGroup);
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
+        List<IdentityProviderRepresentation> idps = keycloak.realm(realm).identityProviders().findAll();
+        List<FederatedIdentityRepresentation> ur = keycloak.realm(realm).users().get("0d4a2436-c5dc-4632-b28b-72bed2a846ca").getFederatedIdentity();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
         for (User user: dbUsers) {
             logger.info("processing user {}", user.getIdirId());
@@ -64,14 +70,22 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 logger.info("adding user {} to group {}", user.getIdirId(), representation.getName());
                 keyCloakUserResource.get().joinGroup(representation.getId());
                 keyCloakUser.get().setEnabled(true);
+                if (keyCloakUser.get().getAttributes() != null) {
+                    keyCloakUser.get().getAttributes().putIfAbsent(ORACLE_ID, Collections.singletonList(user.getOracleId()));
+                } else {
+                    keyCloakUser.get().setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
+                }
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isEmpty()) {
                 //Add user
                 logger.info("creating user {} and adding to group {}", user.getIdirId(), representation.getName());
                 UserRepresentation newUser = new UserRepresentation();
                 newUser.setUsername(user.getIdirId());
+                newUser.setFederatedIdentities(getFederationLink(user.getIdirId()));
+                newUser.setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 newUser.setGroups(Collections.singletonList(processingGroup));
-                keycloak.realm(realm).users().create(newUser);
+                Response result = keycloak.realm(realm).users().create(newUser);
+
             }
         }
         //Any user left should be removed from group
@@ -112,6 +126,17 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 break;
         }
         return role;
+    }
+
+    private List<FederatedIdentityRepresentation> getFederationLink(String idirId) {
+        FederatedIdentityRepresentation idirLink = new FederatedIdentityRepresentation();
+
+        idirLink.setIdentityProvider(IDIR_IDP);
+        idirLink.setUserId("");
+        idirLink.setUserName("");
+
+        return Collections.singletonList(idirLink);
+
     }
 
 }
