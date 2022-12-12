@@ -13,12 +13,27 @@ import java.util.List;
 public class StringToAddressListTest {
 
     @Test
+    @DisplayName("Success: should return address expired")
+    public void testSuccessAddressListExpired() {
+
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", "TEST");
+
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("TEST", result.get(0).getType());
+        Assertions.assertTrue(result.get(0).getPrimary());
+        Assertions.assertTrue(result.get(0).getExpired());
+        Assertions.assertEquals("Test", result.get(0).getFullAddress());
+
+    }
+
+    @Test
     @DisplayName("Success: should return address")
     public void testSuccessAddressList() {
 
-        List<Address> result = MappingUtils.stringToAddressList("Test");
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", "Current");
 
         Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("TEST", result.get(0).getType());
         Assertions.assertTrue(result.get(0).getPrimary());
         Assertions.assertFalse(result.get(0).getExpired());
         Assertions.assertEquals("Test", result.get(0).getFullAddress());
@@ -29,7 +44,7 @@ public class StringToAddressListTest {
     @DisplayName("Success: no address should return empty array")
     public void testSuccessAddressEmpty() {
 
-        List<Address> result = MappingUtils.stringToAddressList(null);
+        List<Address> result = MappingUtils.stringToAddressList(null, null, null);
 
         Assertions.assertEquals(0, result.size());
 
