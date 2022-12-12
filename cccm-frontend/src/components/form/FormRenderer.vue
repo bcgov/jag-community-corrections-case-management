@@ -533,7 +533,7 @@ export default {
         console.error("Failed completing a form instance", error);
         this.errorOccurred = true;
         this.errorTitle = error.response.data.errorMessage;
-        this.errorText = error.response.data.validationResult;
+        this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
       } else {
         console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
