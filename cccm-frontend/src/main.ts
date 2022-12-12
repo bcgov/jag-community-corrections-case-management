@@ -54,6 +54,12 @@ Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
 Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
 Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
 
+Vue.prototype.$FORM_INFO = [
+  { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', formTypeLabel: 'CRNA-CMP Type' },
+  { formType: 'SARA', formTitle: 'SARA (SARA-CMP)', formTypeLabel: 'SARA-CMP Type' },
+  { formType: 'ACUTE', formTitle: 'ACUTE', formTypeLabel: '' }
+],
+
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {

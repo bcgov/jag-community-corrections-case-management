@@ -30,6 +30,16 @@ export default {
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
+
+      if (this.dataModel != null && this.dataModel.data != null) {
+        let formTypeLocation = "";
+        if (this.dataModel.data.formTypeLabel != '') {
+          formTypeLocation = "<div class='mb-3 mt-3'><Strong>{{data.formTypeLabel}}: </Strong>{{data.clientFormType}}</div><div><Strong>Location: </Strong>{{data.location}}</div>";
+        } else {
+          formTypeLocation = "<div class='mb-3 mt-3'><Strong>Location: </Strong>{{data.location}}</div>"
+        }
+        this.dataModel.data.formTypeLocation = formTypeLocation;
+      }
     },
     handleUnlockForm(evt) {
       if (evt != null && evt.type === 'evt_editForm' ) {
