@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -150,7 +151,11 @@ public class MappingUtils {
             return false;
         }
 
-        return Date.valueOf(expiry).toLocalDate().isAfter(LocalDate.now());
+        if (expiry.length() <= 10) {
+            return Date.valueOf(expiry).toLocalDate().isBefore(LocalDate.now());
+        } else {
+            return LocalDate.parse(StringUtils.truncate(expiry, 10)).isBefore(LocalDate.now());
+        }
 
     }
 

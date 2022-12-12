@@ -14,7 +14,7 @@ import java.util.List;
 public class StringToAddressListTest {
 
     @Test
-    @DisplayName("Success: should return address expired")
+    @DisplayName("Success: should return address not expired")
     public void testSuccessAddressListExpired() {
 
         LocalDate testDate = LocalDate.now();
@@ -25,13 +25,13 @@ public class StringToAddressListTest {
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());
         Assertions.assertTrue(result.get(0).getPrimary());
-        Assertions.assertTrue(result.get(0).getExpired());
+        Assertions.assertFalse(result.get(0).getExpired());
         Assertions.assertEquals("Test", result.get(0).getFullAddress());
 
     }
 
     @Test
-    @DisplayName("Success: should return address")
+    @DisplayName("Success: should return address expired")
     public void testSuccessAddressList() {
 
         LocalDate testDate = LocalDate.now();
@@ -42,7 +42,7 @@ public class StringToAddressListTest {
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());
         Assertions.assertTrue(result.get(0).getPrimary());
-        Assertions.assertFalse(result.get(0).getExpired());
+        Assertions.assertTrue(result.get(0).getExpired());
         Assertions.assertEquals("Test", result.get(0).getFullAddress());
 
     }
