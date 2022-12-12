@@ -59,7 +59,7 @@ public class ClientDetailsTest {
         Assertions.assertEquals(BYTES.length, result.getPhoto().getImage().length);
         Assertions.assertEquals(1, result.getAddress().size());
         Assertions.assertEquals(ADDRESS, result.getAddress().get(0).getFullAddress());
-        Assertions.assertFalse(result.getAddress().get(0).getExpired());
+        Assertions.assertTrue(result.getAddress().get(0).getExpired());
 
     }
 
@@ -81,7 +81,7 @@ public class ClientDetailsTest {
         Assertions.assertNull(result.getPhoto());
         Assertions.assertEquals(1, result.getAddress().size());
         Assertions.assertEquals(ADDRESS, result.getAddress().get(0).getFullAddress());
-        Assertions.assertFalse(result.getAddress().get(0).getExpired());
+        Assertions.assertTrue(result.getAddress().get(0).getExpired());
 
     }
 

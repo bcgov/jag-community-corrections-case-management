@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.util;
 
+import ca.bc.gov.open.jag.api.Keys;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Designation;
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -123,7 +125,7 @@ public class MappingUtils {
 
     }
 
-    public static List<Address> stringToAddressList(String address) {
+    public static List<Address> stringToAddressList(String address, String addressType, String addressExpiry) {
 
         if (StringUtils.isBlank(address)) {
             return new ArrayList<>();
@@ -131,8 +133,9 @@ public class MappingUtils {
 
         Address address1 = new Address();
         address1.setFullAddress(address);
+        address1.setType(addressType);
         address1.setPrimary(true);
-        address1.setExpired(false);
+        address1.setExpired(isExpired(addressExpiry));
         return Collections.singletonList(address1);
 
     }
@@ -148,7 +151,11 @@ public class MappingUtils {
             return false;
         }
 
-        return Date.valueOf(expiry).toLocalDate().isAfter(LocalDate.now());
+        if (expiry.length() <= 10) {
+            return Date.valueOf(expiry).toLocalDate().isBefore(LocalDate.now());
+        } else {
+            return LocalDate.parse(StringUtils.truncate(expiry, 10)).isBefore(LocalDate.now());
+        }
 
     }
 

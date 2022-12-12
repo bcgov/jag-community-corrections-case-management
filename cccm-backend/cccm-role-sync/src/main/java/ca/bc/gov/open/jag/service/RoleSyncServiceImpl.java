@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,15 +24,20 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private static final Logger logger = LoggerFactory.getLogger(RoleSyncServiceImpl.class);
 
-    @Inject
-    @RestClient
-    CCCMApiService cccmApiService;
+    private final CCCMApiService cccmApiService;
 
-    @Inject
-    Keycloak keycloak;
+    private final Keycloak keycloak;
 
-    @ConfigProperty(name = "quarkus.keycloak.admin-client.realm")
-    String realm;
+    private final String realm;
+
+    private final Boolean removeRole;
+
+    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole) {
+        this.cccmApiService = cccmApiService;
+        this.keycloak = keycloak;
+        this.realm = realm;
+        this.removeRole = removeRole;
+    }
 
     @Override
     public void syncRoles() {
@@ -71,18 +75,19 @@ public class RoleSyncServiceImpl implements RoleSyncService {
             }
         }
         //Any user left should be removed from group
-        for (UserRepresentation user: users) {
-            logger.info("removing user {} from group {}", user.getUsername(), representation.getName());
-            UserResource keyCloakUserResource = keycloak.realm(realm).users().get(user.getId());
-            keyCloakUserResource.leaveGroup(representation.getId());
-            //Disable user if there are no groups
-            if (keyCloakUserResource.groups().isEmpty()) {
-                logger.info("user {} will be disabled", user.getUsername());
-                user.setEnabled(false);
+        if (removeRole) {
+            for (UserRepresentation user : users) {
+                logger.info("removing user {} from group {}", user.getUsername(), representation.getName());
+                UserResource keyCloakUserResource = keycloak.realm(realm).users().get(user.getId());
+                keyCloakUserResource.leaveGroup(representation.getId());
+                //Disable user if there are no groups
+                if (keyCloakUserResource.groups().isEmpty()) {
+                    logger.info("user {} will be disabled", user.getUsername());
+                    user.setEnabled(false);
+                }
+                keycloak.realm(realm).users().get(user.getId()).update(user);
             }
-            keycloak.realm(realm).users().get(user.getId()).update(user);
         }
-
     }
 
     private Boolean userInGroup(UserRepresentation user, String group) {

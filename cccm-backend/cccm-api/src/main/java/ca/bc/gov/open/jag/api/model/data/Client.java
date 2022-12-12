@@ -12,6 +12,9 @@ public class Client {
     private String communityLocation;
     private String caseManager;
     private String address;
+    private String addressStatus;
+    private String addressType;
+    private String addressExpiry;
     private String alias;
     private String sealed;
 
@@ -110,5 +113,28 @@ public class Client {
     public void setSealed(String sealed) {
         this.sealed = sealed;
     }
-    
+
+    public String getAddressStatus() {
+        return addressStatus;
+    }
+
+    public void setAddressStatus(String addressStatus) {
+        this.addressStatus = addressStatus;
+    }
+
+    public String getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(String addressType) {
+        this.addressType = addressType;
+    }
+
+    public String getAddressExpiry() {
+        return addressExpiry;
+    }
+
+    public void setAddressExpiry(String addressExpiry) {
+        this.addressExpiry = addressExpiry;
+    }
 }
