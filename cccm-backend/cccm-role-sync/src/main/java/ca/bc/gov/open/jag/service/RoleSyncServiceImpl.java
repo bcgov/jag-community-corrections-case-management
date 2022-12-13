@@ -57,8 +57,6 @@ public class RoleSyncServiceImpl implements RoleSyncService {
     private void processRoleGroup(List<User> dbUsers, RoleGroupEnum roleGroup) {
         String processingGroup = roleGroupEnumToKeycloakGroup(roleGroup);
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
-        List<IdentityProviderRepresentation> idps = keycloak.realm(realm).identityProviders().findAll();
-        List<FederatedIdentityRepresentation> ur = keycloak.realm(realm).users().get("0d4a2436-c5dc-4632-b28b-72bed2a846ca").getFederatedIdentity();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
         for (User user: dbUsers) {
             logger.info("processing user {}", user.getIdirId());
@@ -84,8 +82,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 newUser.setFederatedIdentities(getFederationLink(user.getIdirId()));
                 newUser.setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 newUser.setGroups(Collections.singletonList(processingGroup));
-                Response result = keycloak.realm(realm).users().create(newUser);
-
+                keycloak.realm(realm).users().create(newUser);
             }
         }
         //Any user left should be removed from group
@@ -130,7 +127,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private List<FederatedIdentityRepresentation> getFederationLink(String idirId) {
         FederatedIdentityRepresentation idirLink = new FederatedIdentityRepresentation();
-
+        //TODO: this requires user maaping and endpoint to get details
         idirLink.setIdentityProvider(IDIR_IDP);
         idirLink.setUserId("");
         idirLink.setUserName("");
