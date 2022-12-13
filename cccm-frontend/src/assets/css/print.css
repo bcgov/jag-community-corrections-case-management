@@ -76,23 +76,23 @@
     }
 
     /* Hide Right hand side panel */
-    .crna-cmp-form .R{
+    .rna-cmp-form .R{
         display: none;
     }
         
-    .crna-cmp-form .L {
+    .rna-cmp-form .L {
         width:100%;
         box-shadow: none;
     }
 
     /* Display form info section */
-    .crna-cmp-form .crna-formio-metadata-section {
+    .rna-cmp-form .crna-formio-metadata-section {
         background-color: transparent;
         width:100%;
     }
 
     /* Hide form status */
-    .crna-cmp-form .formio-component-key_formStatus .custom_wrap {
+    .rna-cmp-form .formio-component-key_formStatus .custom_wrap {
         visibility: hidden;
     }
 
@@ -105,7 +105,7 @@
     }
 
     /* Display client details */
-    .crna-cmp-form .menuR1 .hide {
+    .rna-cmp-form .menuR1 .hide {
         display: block;
     }
 
@@ -118,11 +118,11 @@
     }
 
     /* Hide navigation */
-    .crna-cmp-form .menuR2 {
+    .rna-cmp-form .menuR2 {
         display:none;
     }
 
-    .crna-cmp-form .menu-Sticky {
+    .rna-cmp-form .menu-Sticky {
         background-color: transparent;
         position: relative;
         top:0;
@@ -160,23 +160,23 @@
         content:""
     }
 
-    .crna-cmp-form .mainContent {
+    .rna-cmp-form .mainContent {
         border: none!important;
         padding: 0;
     }
 
     /* Hide 'Summary' text */
-    .crna-cmp-form .mainContent .sectionTitleClass {
+    .rna-cmp-form .mainContent .sectionTitleClass {
         display: none;
     }
 
     /* Align the Summary form type text */
-    .crna-cmp-form .mainContent>div>div>h2 {
+    .rna-cmp-form .mainContent>div>div>h2 {
         margin-left: 20px;
     }
 
     /* Underline the Summary form type text */
-    .crna-cmp-form .mainContent>div>div>h3:after {
+    .rna-cmp-form .mainContent>div>div>h3:after {
         display: block;
         width: 80px;
         height: 0px;

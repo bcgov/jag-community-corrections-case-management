@@ -1,5 +1,5 @@
 <template>
-  <div data-app class="main crna-cmp-form">
+  <div data-app class="main rna-cmp-form">
     <!-- Form delete modal dialog section-->
     <div>
       <!-- Form delete modal dialog-->
