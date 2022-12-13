@@ -148,7 +148,8 @@
               :formId="formId"
               :dataModel="data_formEntries" 
               :options="options"
-              :initData="formInitData" />   
+              :initData="formInitData"
+              :formType="formType" />   
       
             <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
               :dataModel="casePlanDataModel" 
