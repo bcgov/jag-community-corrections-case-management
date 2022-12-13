@@ -10,14 +10,15 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.FederatedIdentityRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
-import org.keycloak.representations.idm.IdentityProviderRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.Keys.IDIR_IDP;
@@ -126,8 +127,9 @@ public class RoleSyncServiceImpl implements RoleSyncService {
     }
 
     private List<FederatedIdentityRepresentation> getFederationLink(String idirId) {
+
         FederatedIdentityRepresentation idirLink = new FederatedIdentityRepresentation();
-        //TODO: this requires user maaping and endpoint to get details
+        //TODO: this requires user maping and endpoint to get details
         idirLink.setIdentityProvider(IDIR_IDP);
         idirLink.setUserId("");
         idirLink.setUserName("");
