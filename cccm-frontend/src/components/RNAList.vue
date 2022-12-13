@@ -1,8 +1,14 @@
 <template>
   <div data-app class="p-4">
-    <!--Form creation modal dialog-->
+    <!-- Acute Form creation modal dialog-->
     <v-btn
-      id="id_modal_form_creation"
+      :id="`id_modal_form_creation_${$CONST_FORMTYPE_RNA}`"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <!-- RNA Form creation modal dialog-->
+    <v-btn
+      :id="`id_modal_form_creation_${$CONST_FORMTYPE_ACUTE}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
@@ -12,7 +18,7 @@
         max-width="550"
       >
       <v-card>
-        <div class="col-sm-6 m-7">
+        <div v-if="formToCreate == $CONST_FORMTYPE_RNA" class="col-sm-6 m-7">
           <strong>
             Select Form Type
           </strong>
@@ -27,6 +33,9 @@
             label="SARA-CMP"
             :value="$CONST_FORMTYPE_SARA"
           ></v-checkbox>
+        </div>
+        <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
+          <strong>Are you sure you want to create a new acute form?</strong>
         </div>
         <v-card-actions>
           <v-btn
@@ -82,9 +91,12 @@
           <div class="rna-overdue-text">RNA form overdue list: </div>
           <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
         </div>
-        <div class="col-sm-2"></div>
-        <div class="col-sm-3 text-right pr-4">
-          <button class="btn-primary pr-4 pl-4 pt-2 pb-2 text-center" @click="formCreate()">Create New RNA</button>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA</button>
         </div>
       </section>
       <div class="dashboard-v-card text-center">
@@ -150,13 +162,11 @@
     </v-card>
     <br /><br />
   </div>
-
-
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { formSearch, cloneForm, createCRNAForm, createSARAForm } from "@/components/form.api";
+import { formSearch, cloneForm, createForm } from "@/components/form.api";
 
 export default {
   name: 'RNAList',
@@ -207,7 +217,8 @@ export default {
       dialog: false,
       readonly: true,
       selectedFormtypeForFormCreate: [],
-      overdueRNAFormtypes: ''
+      overdueRNAFormtypes: '',
+      formToCreate: ''
     }
   },
   mounted() {
@@ -307,38 +318,20 @@ export default {
       formData.clientNumber = this.clientNum;
       formData.linkedClientFormId = null;
 
-      if (formType == this.$CONST_FORMTYPE_CRNA) {
-        // need to create a new 'CRNA' form instance
-        const [error, CRNAformId] = await createCRNAForm(formData);
-        if (error) {
-          console.error("Failed creating CRNA form instance", error);
-        } else {
-          //Redirect User to the newly created form
-          this.$router.push({
-            name: this.$ROUTER_NAME_CMPFORM,
-            params: {
-              formID: CRNAformId,
-              csNumber: this.clientNum
-            }
-          });
-        }
-      } else if (formType == this.$CONST_FORMTYPE_SARA) {
-        // need to create a new 'SARA' form instance
-        //console.log("create SARA");
-        const [error, SARAformId] = await createSARAForm(formData);
-        if (error) {
-          console.error("Failed creating SARA form instance", error);
-        } else {
-          //console.log ("Newly created formID: ", SARAformId);
-          //Redirect User to the newly created form
-          this.$router.push({
-            name: this.$ROUTER_NAME_CMPFORM,
-            params: {
-              formID: SARAformId,
-              csNumber: this.clientNum
-            }
-          });
-        }
+      // need to create a new form instance
+      //console.log("create {}", formType);
+      const [error, newformId] = await createForm(formType.toLowerCase() , formData);
+      if (error) {
+        console.error("Failed creating a(an) new {} form instance", formType, error);
+      } else {
+        //Redirect User to the newly created form
+        this.$router.push({
+          name: this.$ROUTER_NAME_CMPFORM,
+          params: {
+            formID: newformId,
+            csNumber: this.clientNum
+          }
+        });
       }
     },
     async formCloneAPI(formID) {
@@ -417,15 +410,20 @@ export default {
     async handleFormCreateBtnClick() {
       this.dialog = false;
 
-      let formType = this.$CONST_FORMTYPE_CRNA;
-      if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
-        formType = this.$CONST_FORMTYPE_SARA;
+      if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
+        let formType = this.$CONST_FORMTYPE_CRNA;
+        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
+          formType = this.$CONST_FORMTYPE_SARA;
+        }
+        this.createFormAPI(formType);
+      } else if (this.formToCreate == this.$CONST_FORMTYPE_ACUTE) {
+        this.createFormAPI(this.$CONST_FORMTYPE_ACUTE);
       }
-      this.createFormAPI(formType);
     },
-    formCreate() {
+    formCreate(formType) {
       //console.log("Create form btn click");
-      let modal = document.getElementById("id_modal_form_creation");
+      let modal = document.getElementById("id_modal_form_creation_" + formType);
+      this.formToCreate = formType;
       if (modal != null) {
         modal.click();
       }

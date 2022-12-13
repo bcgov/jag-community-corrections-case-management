@@ -4,6 +4,12 @@
     <meta charset="utf-8"/> 
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <script type="text/javascript">
+      // Notice how this gets configured before we load Font Awesome
+      // Disable Font Awesome to automatically replace <i> tags with the corresponding <svg>; it causes a series of issues 
+      // in html built from formio template
+      window.FontAwesomeConfig = { autoReplaceSvg: false }
+    </script>
     <script src='https://cdn.form.io/formiojs/formio.full.min.js'></script>
     <script src="/config.js"></script>
     <link rel="stylesheet" href="/src/assets/css/fa-all.min.css">

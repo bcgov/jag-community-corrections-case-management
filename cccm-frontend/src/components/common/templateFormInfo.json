@@ -98,7 +98,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>{{data.formType}}: </Strong>{{data.clientFormType}}</div><div><Strong>Location: </Strong>{{data.location}}</div>",
+                                                    "content": "{{ data.formTypeLocation }}",
                                                     "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
