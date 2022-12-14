@@ -55,9 +55,9 @@ Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
 Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', formTypeLabel: 'CRNA-CMP Type' },
-  { formType: 'SARA', formTitle: 'SARA (SARA-CMP)', formTypeLabel: 'SARA-CMP Type' },
-  { formType: 'ACUTE', formTitle: 'ACUTE', formTypeLabel: '' }
+  { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },
+  { formType: 'SARA', formTitle: 'SARA (SARA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'SARA-CMP Type' },
+  { formType: 'ACUTE', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' }
 ],
 
 Vue.$keycloak

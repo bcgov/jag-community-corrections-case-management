@@ -367,9 +367,11 @@ export default {
         // set the form title
         let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
         //console.log('form info const:', this.formType, this.$FORM_INFO, theForm);
-
-        this.formInfoData.data.formTitle = theForm[0].formTitle;
-        this.formInfoData.data.formTypeLabel = theForm[0].formTypeLabel;
+        if (theForm != null && theForm[0] != null) {
+          this.formInfoData.data.formTitle = theForm[0].formTitle;
+          this.formInfoData.data.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
+          this.formInfoData.data.formTypeLabel = theForm[0].formTypeLabel;
+        }
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};

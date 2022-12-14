@@ -33,7 +33,7 @@ export default {
 
       if (this.dataModel != null && this.dataModel.data != null) {
         let formTypeLocation = "";
-        if (this.dataModel.data.formTypeLabel != '') {
+        if (this.dataModel.data.assessmentStatusRequired) {
           formTypeLocation = "<div class='mb-3 mt-3'><Strong>{{data.formTypeLabel}}: </Strong>{{data.clientFormType}}</div><div><Strong>Location: </Strong>{{data.location}}</div>";
         } else {
           formTypeLocation = "<div class='mb-3 mt-3'><Strong>Location: </Strong>{{data.location}}</div>"
