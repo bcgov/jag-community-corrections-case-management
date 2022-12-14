@@ -1,5 +1,5 @@
 <template>
-  <div data-app class="main crna-cmp-form">
+  <div data-app class="main rna-cmp-form">
     <!-- Form delete modal dialog section-->
     <div>
       <!-- Form delete modal dialog-->
@@ -148,7 +148,8 @@
               :formId="formId"
               :dataModel="data_formEntries" 
               :options="options"
-              :initData="formInitData" />   
+              :initData="formInitData"
+              :formType="formType" />   
       
             <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
               :dataModel="casePlanDataModel" 

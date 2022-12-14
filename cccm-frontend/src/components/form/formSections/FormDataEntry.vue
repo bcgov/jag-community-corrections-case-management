@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Form :form="dataModel" 
+    <Form :key="formKey"
+      :form="dataModel" 
       :submission="initData" 
       :options="options"
       v-on:change="handleChangeEvent" 
@@ -24,7 +25,8 @@ export default {
     initData: {},
     csNumber: '',
     formId: '',
-    options: {}
+    options: {},
+    formType: ''
   },
   components: {
     Form
@@ -43,12 +45,11 @@ export default {
       autoSaveData: {},
       autoSaveDataCandidate: {},
       saving: false,
+      formKey: 0
     }
   },
   mounted() {
-    // reset the indicator
-    this.saving = false;
-    //console.log("options: ", this.options);
+    
   },
   methods: {
     async autoSave() {
@@ -69,12 +70,15 @@ export default {
             this.saving = true;
             
             const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
+            //console.log("response: ", response);
             if (error) {
               console.error(error);
             } else {
               this.saving = false;
               // Cache the response to the autosave store
               this.autosaveStore.addArray(response);
+              this.private_refreshAutoCalculatedQuestion();
+              
               break;
             }
           } catch (err) {
@@ -88,6 +92,22 @@ export default {
           this.private_mergePayload(this.autoSaveData);
           this.saving = false;
           console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
+        }
+      }
+    },
+    private_refreshAutoCalculatedQuestion(response) {
+      // Check if autoCalculateQuestionKey is specified
+      let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
+      let autoCalculateQuestionKey = theForm == null || theForm.length == 0 ? '' : theForm[0].autoCalculateQuestionKey;
+
+      // Continue if autoCalculateQuestionKey is specified
+      if (autoCalculateQuestionKey != '') {
+        let preVal = this.initData.data[autoCalculateQuestionKey];
+        let newVal = this.autosaveStore.getValue(autoCalculateQuestionKey);
+        //console.log("preVal, newVal: ", preVal, newVal);
+        if (newVal != null && preVal != newVal) {
+          this.initData.data[autoCalculateQuestionKey] = newVal;
+          this.formKey++;
         }
       }
     },
@@ -198,7 +218,7 @@ export default {
       if (eventData[clientFormAnswerID]) {
         return eventData[clientFormAnswerID];
       }
-      return this.autosaveStore.getValue(questionKey);
+      return this.autosaveStore.getDBId(questionKey);
     },
     handleChangeEvent(event) {
       // datagrid either 'add intervention' or 'delete' icon is clicked
