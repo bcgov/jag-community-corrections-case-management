@@ -1,6 +1,8 @@
 package ca.bc.gov.open.jag.service;
 
 import ca.bc.gov.open.jag.Keys;
+import ca.bc.gov.open.jag.model.Data;
+import ca.bc.gov.open.jag.model.IdirUser;
 import ca.bc.gov.open.jag.model.RoleGroupEnum;
 import ca.bc.gov.open.jag.model.User;
 import org.apache.commons.lang3.StringUtils;
@@ -31,17 +33,23 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private final CCCMApiService cccmApiService;
 
+    private final CSSSSOApiService cssssoApiService;
+
     private final Keycloak keycloak;
 
     private final String realm;
 
     private final Boolean removeRole;
 
-    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole) {
+    private final String env;
+
+    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService,@RestClient CSSSSOApiService cssssoApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole, @ConfigProperty(name = "cccm.env") String env) {
         this.cccmApiService = cccmApiService;
+        this.cssssoApiService = cssssoApiService;
         this.keycloak = keycloak;
         this.realm = realm;
         this.removeRole = removeRole;
+        this.env = env;
     }
 
     @Override
@@ -62,6 +70,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         for (User user: dbUsers) {
             logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
+            IdirUser idirUser = getIdirUser(user);
             Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(StringUtils.lowerCase(user.getIdirId())).stream().findFirst();
             Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
@@ -80,7 +89,14 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 logger.info("creating user {} and adding to group {}", user.getIdirId(), representation.getName());
                 UserRepresentation newUser = new UserRepresentation();
                 newUser.setUsername(user.getIdirId());
-                newUser.setFederatedIdentities(getFederationLink(user.getIdirId()));
+                if (idirUser != null) {
+                    newUser.setFirstName(idirUser.getFirstName());
+                    newUser.setLastName(idirUser.getLastName());
+                    newUser.setEmail(idirUser.getEmail());
+                    newUser.setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                } else {
+                    logger.warn("idirUser not present federation cannot be pre-set {}", user.getIdirId());
+                }
                 newUser.setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 newUser.setGroups(Collections.singletonList(processingGroup));
                 keycloak.realm(realm).users().create(newUser);
@@ -126,16 +142,28 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         return role;
     }
 
-    private List<FederatedIdentityRepresentation> getFederationLink(String idirId) {
+    private List<FederatedIdentityRepresentation> getFederationLink(String idirGuid) {
 
         FederatedIdentityRepresentation idirLink = new FederatedIdentityRepresentation();
-        //TODO: this requires user maping and endpoint to get details
         idirLink.setIdentityProvider(IDIR_IDP);
-        idirLink.setUserId("");
-        idirLink.setUserName("");
+        idirLink.setUserId(idirGuid);
+        idirLink.setUserName(idirGuid);
 
         return Collections.singletonList(idirLink);
 
     }
 
+    private IdirUser getIdirUser(User user) {
+
+        try {
+
+            Data data = cssssoApiService.getIdirUsers(env, user.getFirstName(), user.getLastName());
+
+            return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get("SSO_IDIR_USERNAME_KEY").get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
+
+        } catch (Exception e) {
+            logger.error("Error getting idir information {}", e.getMessage());
+            return null;
+        }
+    }
 }
