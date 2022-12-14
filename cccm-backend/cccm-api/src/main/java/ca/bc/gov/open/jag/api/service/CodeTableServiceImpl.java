@@ -6,6 +6,8 @@ import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -14,8 +16,9 @@ import java.util.Collections;
 import java.util.List;
 
 @RequestScoped
-@Slf4j
 public class CodeTableServiceImpl implements CodeTableService {
+
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(CodeTableServiceImpl.class));
 
     @Inject
     @RestClient
@@ -26,6 +29,8 @@ public class CodeTableServiceImpl implements CodeTableService {
 
     @Override
     public CodeList getCodes(CodeTableType type) {
+
+        logger.info("Getting codes {}", type);
 
         List<CodeTable> codes = new ArrayList<>();
 

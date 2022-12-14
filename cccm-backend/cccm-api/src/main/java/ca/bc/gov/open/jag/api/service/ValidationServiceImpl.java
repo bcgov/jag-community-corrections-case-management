@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import java.io.IOException;
@@ -21,6 +23,8 @@ import static ca.bc.gov.open.jag.api.model.validation.ValidationType.*;
 
 @RequestScoped
 public class ValidationServiceImpl implements ValidationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(ValidationServiceImpl.class));
 
     private Validation crnaValidation;
     private Validation saraValidation;
@@ -38,12 +42,17 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public ValidationResult validateCRNA(String answers) {
 
+        logger.debug("Validate CRNA {}", answers);
+
         return createValidationResult(validate(answers, crnaValidation));
+
 
     }
 
     @Override
     public ValidationResult validateSARA(String answers) {
+
+        logger.debug("Validate SARA {}", answers);
 
         return createValidationResult(validate(answers, saraValidation));
 
@@ -52,6 +61,8 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public ValidationResult validateACUTE(String answers) {
 
+        logger.debug("Validate ACUTE {}", answers);
+        
         return createValidationResult(validate(answers, acuteValidation));
 
     }

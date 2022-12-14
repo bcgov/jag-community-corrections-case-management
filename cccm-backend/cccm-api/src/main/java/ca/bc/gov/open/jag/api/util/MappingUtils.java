@@ -1,9 +1,12 @@
 package ca.bc.gov.open.jag.api.util;
 
 import ca.bc.gov.open.jag.api.Keys;
+import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Address;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Designation;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -15,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 import static ca.bc.gov.open.jag.api.Keys.DAYS_TILL_LOCKED;
 
@@ -24,7 +26,7 @@ public class MappingUtils {
     private MappingUtils() {
     }
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(MappingUtils.class));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(MappingUtils.class));
 
     public static BigDecimal calculateAge(String birthDate) {
         if (StringUtils.isBlank(birthDate)) {
@@ -44,8 +46,8 @@ public class MappingUtils {
             }
 
         } catch (Exception e) {
-            logger.severe("Date mapping error: " + birthDate);
-            logger.severe(e.getMessage());
+            logger.error("Date mapping error: {}", birthDate);
+            logger.error(e.getMessage());
             return BigDecimal.ZERO;
         }
 
@@ -60,8 +62,8 @@ public class MappingUtils {
             return createdDate.plusDays(DAYS_TILL_LOCKED).isBefore(LocalDate.now());
 
         } catch (Exception e) {
-            logger.severe("Locked form calculation error: " + createdDate);
-            logger.severe(e.getMessage());
+            logger.error("Locked form calculation error: {}", createdDate);
+            logger.error(e.getMessage());
             return false;
         }
 
@@ -88,8 +90,8 @@ public class MappingUtils {
         }
 
         } catch (Exception e) {
-            logger.severe("Date formatting error: " + input);
-            logger.severe(e.getMessage());
+            logger.error("Date formatting error: {}", input);
+            logger.error(e.getMessage());
             return "";
         }
 

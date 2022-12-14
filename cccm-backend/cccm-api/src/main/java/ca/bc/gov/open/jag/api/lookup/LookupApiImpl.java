@@ -1,18 +1,21 @@
 package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.api.service.CodeTableService;
+
 import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.logging.Logger;
+
 
 @ApplicationScoped
 public class LookupApiImpl implements LookupApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(LookupApiImpl.class));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(LookupApi.class));
 
     @Inject
     CodeTableService codeTableService;
@@ -21,7 +24,7 @@ public class LookupApiImpl implements LookupApi {
     @RolesAllowed("data-view")
     public CodeList getAddress(String xLocationId) {
 
-        logger.info("Get address types request received");
+        logger.info("Get Address Types Request");
 
         return codeTableService.getCodes(CodeTableType.ADDRESS_TYPE);
 
@@ -32,7 +35,7 @@ public class LookupApiImpl implements LookupApi {
     @RolesAllowed("data-view")
     public CodeList getFormTypes(String xLocationId) {
 
-        logger.info("Get form types request received");
+        logger.info("Get Form Types Request");
 
         return codeTableService.getCodes(CodeTableType.FORM_TYPE);
 
@@ -42,7 +45,7 @@ public class LookupApiImpl implements LookupApi {
     @RolesAllowed("data-view")
     public CodeList getGenders(String xLocationId) {
 
-        logger.info("Get gender types request received");
+        logger.info("Get Gender Types Request");
 
         return codeTableService.getCodes(CodeTableType.GENDER_TYPE);
 
@@ -52,7 +55,7 @@ public class LookupApiImpl implements LookupApi {
     @RolesAllowed("data-view")
     public CodeList getIdentifiers(String xLocationId) {
 
-        logger.info("Get identifier request received");
+        logger.info("Get Identifier Request");
 
         return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
 
@@ -62,7 +65,7 @@ public class LookupApiImpl implements LookupApi {
     @RolesAllowed("data-view")
     public CodeList getLocations(String xLocationId) {
 
-        logger.info("Get location request received");
+        logger.info("Get Location Request");
 
         return codeTableService.getCodes(CodeTableType.LOCATION_TYPE);
 
@@ -71,12 +74,20 @@ public class LookupApiImpl implements LookupApi {
     @Override
     @RolesAllowed("data-view")
     public CodeList getInterventionTypesUsingGET() {
+
+        logger.info("Intervention Types Request");
+
         return codeTableService.getCodes(CodeTableType.INTERVENTION_TYPE);
+
     }
 
     @Override
     @RolesAllowed("data-view")
     public CodeList getResponsivityTypesUsingGET() {
+
+        logger.info("Responsivity Types Request");
+
         return codeTableService.getCodes(CodeTableType.RESPONSIVITY_TYPE);
+
     }
 }
