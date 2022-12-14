@@ -25,6 +25,18 @@
 				<module>cccm-role-sync</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>api</id>
+			<modules>
+				<module>cccm-api</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>role-sync</id>
+			<modules>
+				<module>cccm-role-sync</module>
+			</modules>
+		</profile>
 	</profiles>
 
 </project>
