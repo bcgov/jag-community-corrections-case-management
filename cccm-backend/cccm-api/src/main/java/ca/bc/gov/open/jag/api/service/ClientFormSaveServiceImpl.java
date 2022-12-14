@@ -18,6 +18,8 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -30,6 +32,8 @@ import static ca.bc.gov.open.jag.api.Keys.*;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
+
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(ClientFormSaveServiceImpl.class));
 
     @Inject
     @RestClient
@@ -53,6 +57,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public BigDecimal createCRNA(CreateFormInput createFormInput, BigDecimal locationId) {
 
+        logger.debug("Create CRNA form {} location {}", createFormInput, locationId);
+
         List<CodeTable> codes = obridgeClientService.getFormTypes(CRNA_FORM_TYPE);
         return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
 
@@ -61,18 +67,24 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public BigDecimal createSARA(CreateFormInput createFormInput, BigDecimal locationId) {
 
+        logger.debug("Create SARA form {} location {}", createFormInput, locationId);
+
         BigDecimal formSARATypeId = getCode(SARA_FORM_TYPE, obridgeClientService.getFormTypes(SARA_FORM_TYPE));
         BigDecimal formCRNATypeId = getCode(CRNA_FORM_TYPE, obridgeClientService.getFormTypes(CRNA_FORM_TYPE));
         if (createFormInput.getLinkedClientFormId() == null) {
+            logger.info("Create Linked CRNA Form");
             createFormInput.setLinkedClientFormId(createForm(createFormInput, locationId, formCRNATypeId));
         }
 
+        logger.info("Create SARA Form");
         return createForm(createFormInput, locationId, formSARATypeId);
 
     }
 
     @Override
     public BigDecimal createACUTE(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        logger.debug("Create ACUTE form {} location {}", createFormInput, locationId);
 
         List<CodeTable> codes = obridgeClientService.getFormTypes(ACUTE_FORM_TYPE);
         return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
@@ -81,11 +93,16 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     @Override
     public void updateForm(BigDecimal clientFormId, String updateFormInput) {
+
+        logger.debug("Update form {} formId {}", updateFormInput, clientFormId);
+
         obridgeClientService.updateForm(clientFormId, updateFormInput);
     }
 
     @Override
     public void editForm(UpdateForm updateForm) {
+
+        logger.debug("Edit form {}", updateForm);
 
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
 
@@ -139,7 +156,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
         formInput.setOracleId(oracelId);
-
+        logger.info("Complete Form");
         obridgeClientService.setCompletion(formInput);
 
         if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
@@ -149,7 +166,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             childFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
             childFormInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
             childFormInput.setOracleId(oracelId);
-
+            logger.info("Complete Child Form");
             obridgeClientService.setCompletion(childFormInput);
 
         }
@@ -158,6 +175,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     @Override
     public void linkForm(LinkFormInput linkFormInput, BigDecimal locationId) {
+
+        logger.debug("Link form {} location {}", linkFormInput, locationId);
 
         FormInput formInput = new FormInput();
         formInput.setLocationId(locationId);
@@ -174,6 +193,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId, Boolean hasOverride) {
 
+        logger.debug("Delete form {} client {} location {} user {} hasOverride {}", clientFormId, clientNum, locationId, idirId, hasOverride);
+
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNum, clientFormId);
 
         if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
@@ -188,6 +209,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     @Override
     public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId) {
 
+        logger.debug("Clone request {} user {}", cloneFormRequest, idirId);
+
         //Get Form Details
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
 
@@ -199,6 +222,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         //Add related form when cloning
         if (clientFormSummary.getRelatedClientFormId() != null) {
+            logger.info("Linking cloned form");
             ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId());
             cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId);
         }
