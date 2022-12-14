@@ -62,7 +62,7 @@ public class ValidationServiceImpl implements ValidationService {
     public ValidationResult validateACUTE(String answers) {
 
         logger.debug("Validate ACUTE {}", answers);
-        
+
         return createValidationResult(validate(answers, acuteValidation));
 
     }
