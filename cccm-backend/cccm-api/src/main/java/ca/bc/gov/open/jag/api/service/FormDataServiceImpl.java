@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
 import org.eclipse.microprofile.rest.client.inject.RestClient;

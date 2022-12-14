@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.role;
 
 import ca.bc.gov.open.jag.api.role.service.RoleService;
-import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.RoleApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.User;
 import org.slf4j.Logger;

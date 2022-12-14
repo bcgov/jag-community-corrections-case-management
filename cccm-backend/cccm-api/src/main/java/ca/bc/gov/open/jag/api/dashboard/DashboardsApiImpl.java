@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.dashboard;
 
-import ca.bc.gov.open.jag.api.client.ClientsApiImpl;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.DashboardsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;

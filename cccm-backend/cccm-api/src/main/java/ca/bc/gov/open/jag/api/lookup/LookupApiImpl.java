@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.api.lookup;
 
 import ca.bc.gov.open.jag.api.service.CodeTableService;
-
 import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import org.slf4j.Logger;

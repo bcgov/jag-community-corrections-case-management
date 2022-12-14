@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.user;
 
-import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.UserDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;

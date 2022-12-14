@@ -1,6 +1,9 @@
 package ca.bc.gov.open.jag.api.mapper;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
