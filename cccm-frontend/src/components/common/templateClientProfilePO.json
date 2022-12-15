@@ -541,7 +541,7 @@
                                                                                         "value": ""
                                                                                     }
                                                                                 ],
-                                                                                "content": "<div><Strong>RNA Status </Strong>{{data.rnaStatus}}</div>",
+                                                                                "content": "<div><Strong>RNA Requirement Status </Strong>{{data.rnaStatus}}</div>",
                                                                                 "refreshOnChange": true,
                                                                                 "key": "html5",
                                                                                 "type": "htmlelement",
