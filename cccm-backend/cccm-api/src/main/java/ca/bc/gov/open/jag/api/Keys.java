@@ -13,7 +13,7 @@ public class Keys {
     public static final String CRNA_FORM_TYPE = "CRNA";
     public static final String SARA_FORM_TYPE = "SARA";
     public static final String ACUTE_FORM_TYPE = "ACUTE";
-    public static final String STATIC99R_FORM_TYPE = "STATIC99R";
+    public static final String STATIC99R_FORM_TYPE = "STAT99R";
     public static final String INTERVENTION_DATAGRID = "intervention_datagrid";
     public static final String INTERVENTION_KEY_PATTERN = "{0}_{1}";
     public static final String OUTER_DATA_ELEMENT = "data";
