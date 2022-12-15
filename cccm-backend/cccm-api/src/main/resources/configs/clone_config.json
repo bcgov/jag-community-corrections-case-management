@@ -13,7 +13,7 @@
       "ignoreKeys": ["S01Q01"]
     },
     {
-      "formType": "STATIC99R",
+      "formType": "STAT99R",
       "ignoreKeys": ["S01Q01"]
     }
   ]

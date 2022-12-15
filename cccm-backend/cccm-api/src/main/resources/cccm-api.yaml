@@ -26,7 +26,7 @@ tags:
     name: sara-forms
   - description: Endpoints for acute create/validate
     name: acute-forms
-  - description: Endpoints for static99r create/validate
+  - description: Endpoints for stat99r create/validate
     name: static99r-forms
   - description: Endpoints both for all form types
     name: general-forms
@@ -582,7 +582,7 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client/static99r:
+  /forms/client/stat99r:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
@@ -617,7 +617,7 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/validate/static99r:
+  /forms/client/validate/stat99r:
     post:
       tags:
         - static99r-forms
