@@ -67,7 +67,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         String processingGroup = roleGroupEnumToKeycloakGroup(roleGroup);
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
-        for (User user: dbUsers.stream().filter(user -> !user.getIdirId().isBlank()).collect(Collectors.toList())) {
+        for (User user: dbUsers.stream().filter(user -> StringUtils.isNoneBlank(user.getIdirId())).collect(Collectors.toList())) {
             logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
             Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(StringUtils.lowerCase(user.getIdirId())).stream().findFirst();
