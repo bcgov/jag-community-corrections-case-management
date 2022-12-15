@@ -29,6 +29,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation crnaValidation;
     private Validation saraValidation;
     private Validation acuteValidation;
+    private Validation static99rValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
         objectMapper.findAndRegisterModules();
@@ -36,6 +37,7 @@ public class ValidationServiceImpl implements ValidationService {
         crnaValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/crna_validation_config.json"), Validation.class);
         saraValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/sara_validation_config.json"), Validation.class);
         acuteValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/acute_validation_config.json"), Validation.class);
+        static99rValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/static99r_validation_config.json"), Validation.class);
 
     }
 
@@ -64,6 +66,15 @@ public class ValidationServiceImpl implements ValidationService {
         logger.debug("Validate ACUTE {}", answers);
 
         return createValidationResult(validate(answers, acuteValidation));
+
+    }
+
+    @Override
+    public ValidationResult validateStatic99r(String answers) {
+
+        logger.debug("Validate Static99r {}", answers);
+
+        return createValidationResult(validate(answers, static99rValidation));
 
     }
 
