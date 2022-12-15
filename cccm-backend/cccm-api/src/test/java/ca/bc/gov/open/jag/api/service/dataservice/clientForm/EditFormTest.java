@@ -19,8 +19,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 
-import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
-import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
+import static ca.bc.gov.open.jag.api.Keys.*;
 
 @QuarkusTest
 public class EditFormTest {
@@ -68,6 +67,38 @@ public class EditFormTest {
 
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false)));
+
+    }
+
+    @Test
+    @DisplayName("Success: Form is edited by owner ACUTE")
+    public void testEditFormIsOwnerACUTE() {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput updateFormInput = new UpdateFormInput();
+        updateFormInput.setClientFormId(BigDecimal.ONE);
+        updateFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
+
+    }
+
+    @Test
+    @DisplayName("Success: Form is edited by owner STAT99R")
+    public void testEditFormIsOwnerSTAT99R() {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput updateFormInput = new UpdateFormInput();
+        updateFormInput.setClientFormId(BigDecimal.ONE);
+        updateFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
 
     }
 
