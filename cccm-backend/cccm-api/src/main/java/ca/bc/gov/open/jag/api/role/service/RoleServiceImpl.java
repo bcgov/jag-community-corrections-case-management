@@ -21,7 +21,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<User> userRoles(String group) {
+
         return userMapper.toUserList(obridgeClientService.getUsers(group));
+        
     }
 
 }

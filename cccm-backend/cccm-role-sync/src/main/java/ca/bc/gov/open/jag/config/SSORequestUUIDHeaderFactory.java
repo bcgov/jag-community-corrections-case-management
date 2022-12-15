@@ -19,24 +19,7 @@ public class SSORequestUUIDHeaderFactory implements ClientHeadersFactory {
 
     private final OidcClient client;
 
-   // @ConfigProperty(name = "quarkus.oidc-client.css-sso.auth-server-url")
-    //String keyclaokAuthUrl;
-
-    //@ConfigProperty(name = "quarkus.oidc-client.css-sso.client-id")
-    //String clientId;
-
-    ///@ConfigProperty(name = "quarkus.oidc-client.css-sso.credentials.secret")
-    //String secret;
-
     public SSORequestUUIDHeaderFactory(OidcClients clients) {
-        //OidcClient test = new OidcClientImpl()
-
-        //OidcClientConfig config = new OidcClientConfig();
-        //config.setAuthServerUrl(keyclaokAuthUrl);
-        //config.setClientId(clientId);
-        //config.getCredentials().setSecret(secret);
-
-        //this.client = new OidcClientImpl(null,null,null, null, null, null, config);
 
         this.client = clients.getClient("css-sso");
 
@@ -45,7 +28,7 @@ public class SSORequestUUIDHeaderFactory implements ClientHeadersFactory {
     @Override
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
 
-        logger.info("Getting API token");
+        logger.info("Getting SSO API token");
 
         Tokens tokens = client.getTokens().await().indefinitely();
 

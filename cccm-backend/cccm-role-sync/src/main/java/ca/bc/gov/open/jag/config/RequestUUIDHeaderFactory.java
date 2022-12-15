@@ -27,7 +27,7 @@ public class RequestUUIDHeaderFactory implements ClientHeadersFactory {
     @Override
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incomingHeaders, MultivaluedMap<String, String> clientOutgoingHeaders) {
 
-        logger.info("Getting API token");
+        logger.info("Getting CCCM API token");
         Tokens tokens = client.getTokens().await().indefinitely();
 
         MultivaluedMap<String, String> result = new MultivaluedHashMap<>();
