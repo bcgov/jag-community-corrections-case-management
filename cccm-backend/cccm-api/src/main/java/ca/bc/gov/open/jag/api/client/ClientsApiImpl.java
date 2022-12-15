@@ -9,18 +9,19 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Photo;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RequestScoped
 public class ClientsApiImpl implements ClientsApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(ClientsApiImpl.class));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(ClientsApiImpl.class));
 
     @Inject
     ClientDataService clientDataService;
@@ -33,6 +34,8 @@ public class ClientsApiImpl implements ClientsApi {
     @RolesAllowed("client-search")
     public Client getClient(String clientNum, String xLocationId) {
 
+        logger.info("Client Profile Request");
+
         return clientDataService.clientProfile(clientNum, username, xLocationId);
 
     }
@@ -40,6 +43,8 @@ public class ClientsApiImpl implements ClientsApi {
     @Override
     @RolesAllowed("client-search")
     public Photo getClientPhoto(String clientNum, String xLocationId) {
+
+        logger.info("Client Photo Request");
 
         return clientDataService.clientPhoto(clientNum);
 

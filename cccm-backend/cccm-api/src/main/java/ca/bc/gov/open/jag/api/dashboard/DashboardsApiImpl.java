@@ -7,18 +7,19 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RequestScoped
 public class DashboardsApiImpl implements DashboardsApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(DashboardsApiImpl.class));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(DashboardsApiImpl.class));
 
     @Inject
     UserDataService userDataService;
@@ -30,7 +31,9 @@ public class DashboardsApiImpl implements DashboardsApi {
     @Override
     @RolesAllowed("po-manage")
     public List<SupervisorDashboard> getSupervisorDashboard(String xLocationId, BigDecimal locationId) {
+
         logger.info("Supervisor dashboard request");
+
         return userDataService.getSupervisorDashboard(username, locationId);
 
     }
@@ -38,7 +41,9 @@ public class DashboardsApiImpl implements DashboardsApi {
     @Override
     @RolesAllowed("po-manage")
     public SupervisorDashboardDetails getSupervisorDashboardDetails(String xLocationId, String idirId) {
+
         logger.info("Supervisor dashboard details request");
+
         return userDataService.getSupervisorDashboardDetails(idirId, xLocationId);
 
     }

@@ -7,17 +7,18 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
-import java.util.logging.Logger;
 
 @RequestScoped
 public class UserApiImpl implements UserApi {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(UserApiImpl.class));
+    private static final Logger logger = LoggerFactory.getLogger(String.valueOf(UserApi.class));
 
     @Inject
     UserDataServiceImpl userDataService;
@@ -48,13 +49,21 @@ public class UserApiImpl implements UserApi {
     @Override
     @RolesAllowed("data-view")
     public String getUserId() {
+
+        logger.info("Oracle Id Request");
+
         return userDataService.getOracleId(username);
+
     }
 
     @Override
     @RolesAllowed("data-view")
     public CodeList getUserLocations() {
+
+        logger.info("User Locations Request");
+
         return userDataService.getLocations(username);
+
     }
 
 }

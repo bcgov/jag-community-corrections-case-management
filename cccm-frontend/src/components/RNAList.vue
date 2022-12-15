@@ -106,7 +106,7 @@
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment)}}</div>
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment, item.module)}}</div>
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
@@ -250,7 +250,15 @@ export default {
       }
       return 'Copy form';
     },
-    getAssessmentStatus(isReassessment) {
+    getAssessmentStatus(isReassessment, formType) {
+      if (formType == 'CRNA-SARA') {
+        formType = this.$CONST_FORMTYPE_SARA;
+      }
+      let theForm = this.$FORM_INFO.filter( item => item.formType === formType );
+      //console.log("formType: ", formType);
+      if (theForm != null && theForm[0] != null && !theForm[0].assessmentStatusRequired) {
+        return '';
+      }
       return (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
     getUpdatedDate(item) {
