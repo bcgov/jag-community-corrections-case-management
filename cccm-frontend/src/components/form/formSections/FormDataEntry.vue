@@ -77,8 +77,7 @@ export default {
               this.saving = false;
               // Cache the response to the autosave store
               this.autosaveStore.addArray(response);
-              this.private_refreshAutoCalculatedQuestion();
-              
+              this.private_refreshAutoCalculatedQuestion(response);
               break;
             }
           } catch (err) {
@@ -96,17 +95,19 @@ export default {
       }
     },
     private_refreshAutoCalculatedQuestion(response) {
-      // Check if autoCalculateQuestionKey is specified
-      let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
-      let autoCalculateQuestionKey = theForm == null || theForm.length == 0 ? '' : theForm[0].autoCalculateQuestionKey;
+      let needRefresh = false;
+      if (response != null && response.length > 0) {
+        for(let j = 0; j < response.length; j++){ 
+          let key = response[j].key;
+          let preVal = this.initData.data[key]; 
+          let newVal = this.autosaveStore.getValue(key);
 
-      // Continue if autoCalculateQuestionKey is specified
-      if (autoCalculateQuestionKey != '') {
-        let preVal = this.initData.data[autoCalculateQuestionKey];
-        let newVal = this.autosaveStore.getValue(autoCalculateQuestionKey);
-        //console.log("preVal, newVal: ", preVal, newVal);
-        if (newVal != null && preVal != newVal) {
-          this.initData.data[autoCalculateQuestionKey] = newVal;
+          if (newVal != null && preVal != newVal) {
+            this.initData.data[key] = newVal;
+            needRefresh = true;
+          }
+        }
+        if (needRefresh) {
           this.formKey++;
         }
       }
