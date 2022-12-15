@@ -1,14 +1,20 @@
 <template>
   <div data-app class="p-4">
-    <!-- Acute Form creation modal dialog-->
+    <!-- CRNA/SARA Form creation modal dialog-->
     <v-btn
       :id="`id_modal_form_creation_${$CONST_FORMTYPE_RNA}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
-    <!-- RNA Form creation modal dialog-->
+    <!-- Acute Form creation modal dialog-->
     <v-btn
       :id="`id_modal_form_creation_${$CONST_FORMTYPE_ACUTE}`"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <!-- STAT99R Form creation modal dialog-->
+    <v-btn
+      :id="`id_modal_form_creation_${$CONST_FORMTYPE_STAT99R}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
@@ -35,7 +41,10 @@
           ></v-checkbox>
         </div>
         <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
-          <strong>Are you sure you want to create a new acute form?</strong>
+          <strong>Are you sure you want to create a new Acute form?</strong>
+        </div>
+        <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
+          <strong>Are you sure you want to create a new Static 99R form?</strong>
         </div>
         <v-card-actions>
           <v-btn
@@ -78,7 +87,7 @@
             </v-select>
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
           <strong>Supervision Periods</strong>
           <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
             <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
@@ -91,13 +100,18 @@
           <div class="rna-overdue-text">RNA form overdue list: </div>
           <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
         </div>
-        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static 99R</button>
+        </div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA</button>
         </div>
+      </section>
+      <section>
+        
       </section>
       <div class="dashboard-v-card text-center">
         <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
@@ -417,16 +431,14 @@ export default {
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-
+      let formType = this.formToCreate;
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
-        let formType = this.$CONST_FORMTYPE_CRNA;
+        formType = this.$CONST_FORMTYPE_CRNA;
         if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
           formType = this.$CONST_FORMTYPE_SARA;
         }
-        this.createFormAPI(formType);
-      } else if (this.formToCreate == this.$CONST_FORMTYPE_ACUTE) {
-        this.createFormAPI(this.$CONST_FORMTYPE_ACUTE);
       }
+      this.createFormAPI(formType);
     },
     formCreate(formType) {
       //console.log("Create form btn click");

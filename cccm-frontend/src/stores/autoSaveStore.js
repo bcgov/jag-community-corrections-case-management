@@ -15,7 +15,7 @@ export const useStore = defineStore('autosave', {
                         if(this.keyValueMap[i].key === dataArray[j].key){
                             found = true;
                             this.keyValueMap[i].value = dataArray[j].value;
-                            this.keyValueMap[i].dbID = dataArray[j].dbID;
+                            this.keyValueMap[i].questionId = dataArray[j].questionId;
                             break;
                         }        
                     }
@@ -23,16 +23,16 @@ export const useStore = defineStore('autosave', {
                         let newItem = {};
                         newItem.key = dataArray[j].key;
                         newItem.value = dataArray[j].value;
-                        newItem.dbID = dataArray[j].dbID;
+                        newItem.questionId = dataArray[j].questionId;
                         this.keyValueMap.push(newItem);  
                     }
                 }
             }
         },
-        getDBId(key) {
+        getQuestionId(key) {
             for(let i = 0; i< this.keyValueMap.length; i++){    
                 if(this.keyValueMap[i].key === key){
-                    return this.keyValueMap[i].dbID;
+                    return this.keyValueMap[i].questionId;
                 }        
             }
         },

@@ -219,7 +219,7 @@ export default {
       if (eventData[clientFormAnswerID]) {
         return eventData[clientFormAnswerID];
       }
-      return this.autosaveStore.getDBId(questionKey);
+      return this.autosaveStore.getQuestionId(questionKey);
     },
     handleChangeEvent(event) {
       // datagrid either 'add intervention' or 'delete' icon is clicked
