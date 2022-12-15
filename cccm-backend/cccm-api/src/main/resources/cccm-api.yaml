@@ -2753,4 +2753,8 @@ components:
           type: string
         groupDescription:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
 

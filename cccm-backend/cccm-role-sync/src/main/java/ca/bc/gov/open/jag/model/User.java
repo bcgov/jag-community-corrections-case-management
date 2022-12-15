@@ -6,6 +6,8 @@ public class User {
     private String groupDescription;
     private String oracleId;
     private String idirId;
+    private String firstName;
+    private String lastName;
 
     public String getGroupName() {
         return groupName;
@@ -39,4 +41,19 @@ public class User {
         this.idirId = idirId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }
