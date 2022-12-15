@@ -395,6 +395,29 @@ public class FormsApiImpl implements FormsApi {
 
     }
 
+    @Override
+    @Transactional
+    @RolesAllowed("form-add")
+    public BigDecimal createStatic99rForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
+
+        logger.info("Create Static99r Request");
+
+        return clientFormSaveService.createStatic99r(createFormInput, new BigDecimal(xLocationId));
+
+    }
+
+    @Override
+    @Transactional
+    @RolesAllowed("form-view")
+    public ValidationResult validateStatic99rForm(@Valid @NotNull String body) {
+
+        logger.info("Validate Static99r Request");
+
+        return validationService.validateStatic99r(body);
+
+    }
+
+
     private Boolean hasOverride() {
 
         JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();

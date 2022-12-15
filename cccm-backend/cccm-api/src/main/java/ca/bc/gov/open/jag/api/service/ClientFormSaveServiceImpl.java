@@ -92,6 +92,16 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
+    public BigDecimal createStatic99r(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        logger.debug("Create Static99r form {} location {}", createFormInput, locationId);
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(STATIC99R_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
+
+    }
+
+    @Override
     public void updateForm(BigDecimal clientFormId, String updateFormInput) {
 
         logger.debug("Update form {} formId {}", updateFormInput, clientFormId);
@@ -143,6 +153,13 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 ValidationResult result = validationService.validateACUTE(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("ACUTE form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                }
+            }
+
+            if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
+                ValidationResult result = validationService.validateStatic99r(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
             }
 

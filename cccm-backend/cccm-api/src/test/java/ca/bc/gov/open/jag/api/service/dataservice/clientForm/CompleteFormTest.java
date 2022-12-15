@@ -24,8 +24,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 
-import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
-import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
+import static ca.bc.gov.open.jag.api.Keys.*;
 
 @QuarkusTest
 public class CompleteFormTest {
@@ -193,6 +192,89 @@ public class CompleteFormTest {
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true)));
 
     }
+
+    @Test
+    @DisplayName("Success: Form is completed by owner ACUTE")
+    public void testCompleteFormIsOwnerACUTE() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput completeFormInput = new UpdateFormInput();
+        completeFormInput.setClientFormId(BigDecimal.ONE);
+        completeFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true)));
+
+    }
+
+    @Test
+    @DisplayName("Error ACUTE: with validation error")
+    public void testACUTEWithValidationError() throws IOException {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.setErrors(Collections.singletonList(new ValidationError()));
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput completeFormInput = new UpdateFormInput();
+        completeFormInput.setClientFormId(BigDecimal.ONE);
+        completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
+        completeFormInput.setClientNumber("TEST");
+
+
+        Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true)));
+
+    }
+
+    @Test
+    @DisplayName("Success: Form is completed by owner STAT99r")
+    public void testCompleteFormIsOwnerSTAT99R() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput completeFormInput = new UpdateFormInput();
+        completeFormInput.setClientFormId(BigDecimal.ONE);
+        completeFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true)));
+
+    }
+
+    @Test
+    @DisplayName("Error STAT99R: with validation error")
+    public void testSTAT99RWithValidationError() throws IOException {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.setErrors(Collections.singletonList(new ValidationError()));
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput completeFormInput = new UpdateFormInput();
+        completeFormInput.setClientFormId(BigDecimal.ONE);
+        completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
+        completeFormInput.setClientNumber("TEST");
+
+
+        Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true)));
+
+    }
+
 
     @Test
     @DisplayName("Error: Form Type Invalid")
