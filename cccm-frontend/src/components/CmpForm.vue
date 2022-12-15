@@ -42,9 +42,10 @@
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
-          <span v-if="item.id != 'saraBtn'">{{ item.tab }}</span>
-          <div v-if="item.id === 'saraBtn'" class="p-4">
+          <span v-if="item.id != CONST_CREATE_BTN_SARA">{{ item.tab }}</span>
+          <div v-if="item.id === CONST_CREATE_BTN_SARA" class="p-4">
             <v-btn
+              :disabled="readonly"
               v-show=true
               @click.stop="createSARA"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
@@ -76,6 +77,7 @@ export default {
   },
   data() {
     return {
+      CONST_CREATE_BTN_SARA: 'saraBtn',
       formId: '',
       clientNum: '',
       relatedClientFormId: null,
@@ -84,7 +86,8 @@ export default {
       items: [],
       dialog: false,
       formKey: 0,    
-      printParam: false
+      printParam: false,
+      readonly: false
     }
   },
   mounted(){
@@ -141,6 +144,7 @@ export default {
               isReadonly = false;
           }
         }
+        this.readonly = isReadonly;
         return isReadonly;
       }
     },
@@ -164,7 +168,7 @@ export default {
         this.current_tab = 'tab-CRNA';
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
-          this.items.push({ tab: '', key: 0, id: 'saraBtn', formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA, formId: '', relatedClientFormId: '', readonly: false, locked: false});
         } else {
           // otherwise, show sara tab
           this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
