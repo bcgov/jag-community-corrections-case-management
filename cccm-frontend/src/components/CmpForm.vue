@@ -182,6 +182,12 @@ export default {
         this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isReadonly(response), locked: response.locked });
         this.current_tab = 'tab-ACUTE';
       }
+
+      // if formType is 'STAT99R', only show STAT99R tab
+      if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
+        this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isReadonly(response), locked: response.locked });
+        this.current_tab = 'tab-STAT99R';
+      }
     },
     async createSARAFormAPI() {
       let formData = {};

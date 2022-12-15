@@ -30,6 +30,7 @@ setupInterceptors();
 Vue.prototype.$CONST_FORMTYPE_CRNA = 'CRNA'
 Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
 Vue.prototype.$CONST_FORMTYPE_ACUTE = 'ACUTE'
+Vue.prototype.$CONST_FORMTYPE_STAT99R = 'STAT99R'
 Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
 Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
@@ -37,7 +38,8 @@ Vue.prototype.$CONST_FORM_TYPES = [
   { value: "ALL", key: "ALL"},
   { value: "ACUTE", key: "ACUTE" },
   { value: "CRNA", key: "CRNA" },
-  { value: "CRNA-SARA", key: "SARA" }
+  { value: "CRNA-SARA", key: "SARA" },
+  { value: "STAT99R", key: "STAT99R" }
 ],
 Vue.prototype.$USER_GROUP_PO = 'po'
 Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
@@ -57,7 +59,8 @@ Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },
   { formType: 'SARA', formTitle: 'SARA (SARA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'SARA-CMP Type' },
-  { formType: 'ACUTE', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' }
+  { formType: 'ACUTE', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' },
+  { formType: 'STAT99R', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '' }
 ],
 
 Vue.$keycloak
