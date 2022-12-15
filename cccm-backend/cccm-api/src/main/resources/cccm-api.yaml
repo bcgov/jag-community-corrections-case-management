@@ -26,6 +26,8 @@ tags:
     name: sara-forms
   - description: Endpoints for acute create/validate
     name: acute-forms
+  - description: Endpoints for static99r create/validate
+    name: static99r-forms
   - description: Endpoints both for all form types
     name: general-forms
   - description: Endpoints for role sync
@@ -557,6 +559,70 @@ paths:
         - acute-forms
       summary: validateACUTEForm
       operationId: validateACUTEForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/static99r:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - static99r-forms
+      summary: createNewForm
+      operationId: createStatic99rForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/validate/static99r:
+    post:
+      tags:
+        - static99r-forms
+      summary: validateStatic99rForm
+      operationId: validateStatic99rForm
       requestBody:
         description: answers
         content:

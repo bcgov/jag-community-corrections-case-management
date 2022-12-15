@@ -15,6 +15,8 @@ public interface ClientFormSaveService {
 
     BigDecimal createACUTE(CreateFormInput createFormInput, BigDecimal locationId);
 
+    BigDecimal createStatic99r(CreateFormInput createFormInput, BigDecimal locationId);
+
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 
     void editForm(UpdateForm updateForm);

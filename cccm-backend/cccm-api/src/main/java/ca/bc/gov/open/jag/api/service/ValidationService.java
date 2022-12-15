@@ -25,4 +25,11 @@ public interface ValidationService {
      */
     ValidationResult validateACUTE(String answers);
 
+    /**
+     *
+     * @param answers answers to be validated
+     * @return failed validations for static 99 r
+     */
+    ValidationResult validateStatic99r(String answers);
+
 }
