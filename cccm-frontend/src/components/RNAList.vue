@@ -219,7 +219,7 @@ export default {
         { text: 'Status', value: 'status' },
         { text: 'Updated Date', value: 'updatedDate' },
         { text: 'Created Location', value: 'location' },
-        { text: 'Completed By', value: 'createdBy' },
+        { text: 'Created By', value: 'createdBy' },
         { text: 'Supervision Rating', value: 'supervisionRating' },
         { text: 'CRNA Rating', value: 'crnaRating' },
         { text: 'SARA Rating', value: 'saraRating' },
