@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ca.bc.gov.open.jag.Keys.IDIR_IDP;
-import static ca.bc.gov.open.jag.Keys.ORACLE_ID;
+import static ca.bc.gov.open.jag.Keys.*;
 
 @ApplicationScoped
 public class RoleSyncServiceImpl implements RoleSyncService {
@@ -159,7 +158,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
             Data data = cssssoApiService.getIdirUsers(env, user.getFirstName(), user.getLastName());
 
-            return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get("SSO_IDIR_USERNAME_KEY").get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
+            return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get(SSO_IDIR_USERNAME_KEY).get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
 
         } catch (Exception e) {
             logger.error("Error getting idir information {}", e.getMessage());
