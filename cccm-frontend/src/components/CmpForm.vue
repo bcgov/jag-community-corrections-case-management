@@ -42,8 +42,8 @@
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
-          <span v-if="item.id != 'saraBtn'">{{ item.tab }}</span>
-          <div v-if="item.id === 'saraBtn'" class="p-4">
+          <span v-if="item.id != CONST_CREATE_BTN_SARA">{{ item.tab }}</span>
+          <div v-if="item.id === CONST_CREATE_BTN_SARA" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createSARA"
@@ -76,6 +76,7 @@ export default {
   },
   data() {
     return {
+      CONST_CREATE_BTN_SARA: 'saraBtn',
       formId: '',
       clientNum: '',
       relatedClientFormId: null,
@@ -84,7 +85,8 @@ export default {
       items: [],
       dialog: false,
       formKey: 0,    
-      printParam: false
+      printParam: false,
+      isFormReadonly: false
     }
   },
   mounted(){
@@ -157,14 +159,17 @@ export default {
     private_getTabs(response) {
       this.formType = response.module;
       this.relatedClientFormId = response.relatedClientFormId;
+      this.isFormReadonly = this.isReadonly(response);
 
       // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
       if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked});
+        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked});
         this.current_tab = 'tab-CRNA';
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
-          this.items.push({ tab: '', key: 0, id: 'saraBtn', formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          if (!this.isFormReadonly) {
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA, formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          }
         } else {
           // otherwise, show sara tab
           this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
@@ -173,19 +178,19 @@ export default {
       // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
       if (this.formType === this.$CONST_FORMTYPE_SARA) {
         this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
-        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isReadonly(response), locked: response.locked });
+        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-SARA';
       }
 
       // if formType is 'ACUTE', only show ACUTE tab
       if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
-        this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isReadonly(response), locked: response.locked });
+        this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-ACUTE';
       }
 
       // if formType is 'STAT99R', only show STAT99R tab
       if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
-        this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isReadonly(response), locked: response.locked });
+        this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-STAT99R';
       }
     },
