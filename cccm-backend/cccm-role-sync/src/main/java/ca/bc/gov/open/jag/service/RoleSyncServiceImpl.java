@@ -96,6 +96,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 } else {
                     logger.warn("idirUser not present federation cannot be pre-set {}", user.getIdirId());
                 }
+                newUser.setEnabled(true);
                 newUser.setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 newUser.setGroups(Collections.singletonList(processingGroup));
                 keycloak.realm(realm).users().create(newUser);
