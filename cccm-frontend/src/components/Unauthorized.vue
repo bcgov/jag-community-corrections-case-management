@@ -1,6 +1,7 @@
 <template>
     <div class="unauthorized">
-      <h3>You don't have authorization to access this system. If you believe you should have access, please contact Corrections Branch OSU at OSU@gov.bc.ca or 250-387-1605. </h3>
+      <h3>You don't have authorization to access this system.</h3>
+      <h3>If you believe you should have access, please contact Corrections Branch OSU at OSU@gov.bc.ca or 250-387-1605. </h3>
     </div>
 </template>
 
@@ -10,7 +11,6 @@
     min-height: 50vh;
     display: flex;
     text-align: center;
-    flex-direction: column-reverse;
     align-content: center;
     justify-content: space-around;
     align-items: baseline;
