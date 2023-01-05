@@ -154,6 +154,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("ACUTE form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
+                //TODO: Add new Overall Rating form when scores are not equal
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {

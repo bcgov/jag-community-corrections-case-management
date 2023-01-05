@@ -7,6 +7,14 @@
     {
       "formType": "SARA",
       "ignoreKeys": ["S01Q01"]
+    },
+    {
+      "formType": "ACUTE",
+      "ignoreKeys": []
+    },
+    {
+      "formType": "STAT99R",
+      "ignoreKeys": []
     }
   ]
 

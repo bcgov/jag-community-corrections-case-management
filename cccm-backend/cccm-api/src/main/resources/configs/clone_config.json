@@ -10,11 +10,11 @@
     },
     {
       "formType": "ACUTE",
-      "ignoreKeys": ["S01Q01"]
+      "ignoreKeys": []
     },
     {
       "formType": "STAT99R",
-      "ignoreKeys": ["S01Q01"]
+      "ignoreKeys": []
     }
   ]
 

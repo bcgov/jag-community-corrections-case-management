@@ -2069,6 +2069,8 @@ components:
           type: string
         dueDate:
           type: string
+        rnaStatus:
+          type: string
         communityInformation:
           $ref: "#/components/schemas/CommunityInformation"
         orderInformation:
@@ -2823,4 +2825,3 @@ components:
           type: string
         lastName:
           type: string
-
