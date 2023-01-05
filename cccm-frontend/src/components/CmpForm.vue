@@ -4,7 +4,12 @@
     <div v-if="formType === $CONST_FORMTYPE_CRNA">
       <!--SARA form creation modal dialog-->
       <v-btn
-        id="id_modal_createSARAForm"
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SARA}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
+      <v-btn
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STABLE}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
@@ -14,8 +19,12 @@
           max-width="550"
         >
         <v-card>
-          <v-card-title class="text-h5">
+          <v-card-title v-if="formToCreate == $CONST_FORMTYPE_SARA" class="text-h5">
             Are you sure you want to create SARA form?
+          </v-card-title>
+          <v-card-title v-if="formToCreate == $CONST_FORMTYPE_STABLE" class="text-h5">
+            Are you sure you want to create STABLE form? 
+            An Overall form will also be created.
           </v-card-title>
           <v-card-text>
             <br><br>
@@ -30,7 +39,7 @@
             <v-btn
               color="primary"
               dark
-              @click="handleCreateSARAFormBtnClick"
+              @click="handleCreateChildFormBtnClick"
             >
               Yes, continue
             </v-btn>
@@ -46,10 +55,15 @@
           <div v-if="item.id === CONST_CREATE_BTN_SARA" class="p-4">
             <v-btn
               v-show=true
-              @click.stop="createSARA"
+              @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
-          
+          <div v-if="item.id === CONST_CREATE_BTN_STABLE" class="p-4">
+            <v-btn
+              v-show=true
+              @click.stop="createChildForm($CONST_FORMTYPE_STABLE)"
+            ><i class="fa fa-plus"></i>&nbsp; Add STABLE-CMP Form</v-btn>
+          </div>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
@@ -77,6 +91,8 @@ export default {
   data() {
     return {
       CONST_CREATE_BTN_SARA: 'saraBtn',
+      CONST_CREATE_BTN_STABLE: 'stableBtn',
+      CONST_MODAL_ID_PREFIX: 'id_modal_create',
       formId: '',
       clientNum: '',
       relatedClientFormId: null,
@@ -86,7 +102,8 @@ export default {
       dialog: false,
       formKey: 0,    
       printParam: false,
-      isFormReadonly: false
+      isFormReadonly: false,
+      formToCreate: ''
     }
   },
   mounted(){
@@ -168,7 +185,8 @@ export default {
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
           if (!this.isFormReadonly) {
-            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA, formId: '', relatedClientFormId: '', readonly: false, locked: false});
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA,    formId: '', relatedClientFormId: '', readonly: false, locked: false});
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
           }
         } else {
           // otherwise, show sara tab
@@ -194,27 +212,28 @@ export default {
         this.current_tab = 'tab-STAT99R';
       }
     },
-    async createSARAFormAPI() {
+    async createChildFormAPI() {
       let formData = {};
       // set formData
       formData.clientNumber = this.clientNum;
       formData.linkedClientFormId = this.formId;
-      const [error, SARAFormId] = await createForm(this.$CONST_FORMTYPE_SARA.toLowerCase(), formData);
+
+      const [error, newFormId] = await createForm(this.formToCreate.toLowerCase(), formData);
       if (error) {
-        console.error("Failed creating SARA form instance", error);
+        console.error("Failed creating new form instance: ", this.formToCreate, error);
       } else {
-        //console.info("SARA form instance created: ", SARAFormId);
         this.items = [];
-        this.formId = SARAFormId;
-        this.getClientFormDetailsAPI(this.clientNum, SARAFormId);
+        this.formId = newFormId;
+        this.getClientFormDetailsAPI(this.clientNum, newFormId);
       }
     },
-    handleCreateSARAFormBtnClick() {
+    handleCreateChildFormBtnClick() {
       this.dialog = false;
-      this.createSARAFormAPI();
+      this.createChildFormAPI();
     },
-    createSARA() {
-      let modal = document.getElementById("id_modal_createSARAForm");
+    createChildForm(formType) {
+      let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
+      this.formToCreate = formType;
       if (modal != null) {
         modal.click();
       }
