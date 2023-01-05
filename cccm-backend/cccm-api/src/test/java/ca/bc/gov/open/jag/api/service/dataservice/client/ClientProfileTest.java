@@ -46,6 +46,7 @@ public class ClientProfileTest {
     private static final String TEST = "TEST";
     private static final String OUTCOME = "OUTCOME";
     private static final String STATUS = "STATUS";
+    private static final String RNASTATUS = "RNASTATUS";
 
     @Inject
     ClientDataService sut;
@@ -74,6 +75,7 @@ public class ClientProfileTest {
         Assertions.assertEquals(calculateAge(BIRTH_DATE), result.getClientAge());
         Assertions.assertEquals(GENDER_CODE, result.getGender());
         Assertions.assertEquals(BIRTH_DATE, result.getBirthDate());
+        Assertions.assertEquals(RNASTATUS, result.getRnaStatus());
         Assertions.assertEquals(CUSTODY_LOCATION, result.getCustodyLocation());
         Assertions.assertEquals(CUSTODY_LOCATION, result.getGeneralInformation().getInstitution());
         Assertions.assertEquals(COMMUNITY_LOCATION, result.getCommunityInformation().getCommunityLocation());
@@ -112,6 +114,7 @@ public class ClientProfileTest {
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setClient(createClient());
         clientProfile.setPrograms(Collections.singletonList(createProgram()));
+        clientProfile.setRnaStatus(RNASTATUS);
         return clientProfile;
     }
 
