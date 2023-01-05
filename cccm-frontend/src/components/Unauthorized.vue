@@ -1,15 +1,20 @@
 <template>
-    <div class="about">
-      <h1>You are not permitted to access the application</h1>
+    <div class="unauthorized">
+      <h3>You don't have authorization to access this system.</h3>
+      <h3>If you believe you should have access, please contact Corrections Branch OSU at OSU@gov.bc.ca or 250-387-1605. </h3>
     </div>
 </template>
 
 <style>
 @media screen and (min-width: 768px) {
-  .about {
-    min-height: 100vh;
+  .unauthorized {
+    min-height: 50vh;
     display: flex;
-    align-items: center;
+    text-align: center;
+    align-content: center;
+    justify-content: space-around;
+    align-items: baseline;
+    flex-wrap: wrap;
   }
 }
 </style>
