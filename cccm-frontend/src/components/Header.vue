@@ -49,8 +49,7 @@
         <div class="header-img">
           <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
         </div>
-        <span class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a>
-      </span>
+        <span v-if="mainStore.loginUserGroup != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
         <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
           <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
           <a @click="logout">
@@ -58,7 +57,7 @@
           </a>
         </span>
       </div>
-      <div class="headerNavContainer">
+      <div v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
         <span class="headerNav">
           <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
