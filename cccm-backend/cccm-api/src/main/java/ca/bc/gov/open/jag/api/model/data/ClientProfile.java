@@ -37,6 +37,7 @@ public class ClientProfile {
     private String eServicesStatus;
     private String biometricStatus;
     private String eReporting;
+    private String rnaStatus;
 
     public String getPossibleParoleDt() {
         return possibleParoleDt;
@@ -300,6 +301,14 @@ public class ClientProfile {
 
     public void setOrderEffectiveDt(Date orderEffectiveDt) {
         this.orderEffectiveDt = orderEffectiveDt;
+    }
+
+    public String getRnaStatus() {
+        return rnaStatus;
+    }
+
+    public void setRnaStatus(String rnaStatus) {
+        this.rnaStatus = rnaStatus;
     }
 
 }

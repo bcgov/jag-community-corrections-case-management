@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 
-import static ca.bc.gov.open.jag.api.Keys.CRNA_FORM_TYPE;
-import static ca.bc.gov.open.jag.api.Keys.SARA_FORM_TYPE;
+import static ca.bc.gov.open.jag.api.Keys.*;
 
 @QuarkusTest
 public class CloneFormTest {
@@ -165,6 +164,39 @@ public class CloneFormTest {
 
         Assertions.assertEquals(BigDecimal.ONE, result);
         
+    }
+
+    @Test
+    @DisplayName("Success: Form Acute is cloned")
+    public void testCloneAcuteForm() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(ACUTE_FORM_TYPE, BigDecimal.ONE.toPlainString())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
+
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
+
+    @Test
+    @DisplayName("Success: Form Static99R is cloned")
+    public void testCloneStatic99RChildForm() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(STATIC99R_FORM_TYPE, BigDecimal.ONE.toPlainString())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
+
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
     }
 
     @Test
