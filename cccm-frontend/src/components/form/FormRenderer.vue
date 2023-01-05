@@ -52,7 +52,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-card v-if="formType === $CONST_FORMTYPE_SARA">
+        <v-card v-else-if="formType === $CONST_FORMTYPE_SARA">
           <div class="col-sm-12 m-7">
             <v-card-title >
               Select what you want to delete:
