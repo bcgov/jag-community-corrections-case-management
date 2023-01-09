@@ -73,7 +73,7 @@
             </section>
             <Form :form="formJSON" :submission="initData"/>
           </div>
-          <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient"></RNAListView>
+          <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient" :SMOClient="SMOClient"></RNAListView>
           <TrendAnalysisView v-if="item.id === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
           <span v-else> </span>
         </v-tab-item>
@@ -97,6 +97,7 @@ export default {
     return {
       CONST_DESIGNATION_LOW: 'low',
       CONST_DESIGNATION_IPV: 'ipv',
+      CONST_DESIGNATION_SMO: 'smo',
       theKey: 0,
       current_tab: 'tab-cp',
       items: [
@@ -109,7 +110,8 @@ export default {
       showWarrantDetails: false,
       showAlertDetails: false,
       csNumber: null,
-      IPVClient: false
+      IPVClient: false,
+      SMOClient: false
     }
   },
   components: {
@@ -151,12 +153,15 @@ export default {
             this.initData.data.photo.image = "data:image/png;base64, " + clientProfileResponse.photo.image;
             this.initData.data.photo.photoTakenDate = clientProfileResponse.photo.photoTakenDate;
           }
-          // Build the designations value, set the IPVClient value
+          // Build the designations value, set the IPVClient and SMOClient value
           if (clientProfileResponse.designations != null) {
             let designationsVal = "";
             for (let i = 0; i < clientProfileResponse.designations.length; i++) {
               if (clientProfileResponse.designations[i].type.toLowerCase() === this.CONST_DESIGNATION_IPV.toLowerCase()) {
                 this.IPVClient = true;
+              }
+              if (clientProfileResponse.designations[i].type.toLowerCase() === this.CONST_DESIGNATION_SMO.toLowerCase()) {
+                this.SMOClient = true;
               }
               // (Sep 21, 2022) BA decided to get ride the color scheme for the designation 
               //let colorClass = this.getDesignationColor(this.initData.data.designations[i].rating);

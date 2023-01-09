@@ -2,19 +2,19 @@
   <div data-app class="p-4">
     <!-- CRNA/SARA Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_RNA}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_RNA}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
     <!-- Acute Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_ACUTE}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_ACUTE}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
     <!-- STAT99R Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_STAT99R}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STAT99R}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
@@ -38,6 +38,18 @@
             v-model="selectedFormtypeForFormCreate"
             label="SARA-CMP"
             :value="$CONST_FORMTYPE_SARA"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            label="STABLE"
+            :value="$CONST_FORMTYPE_STABLE"
+            @click="onSTABLESelectionChange"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            :readonly="readonly"
+            label="OVERALL"
+            :value="$CONST_FORMTYPE_OVERALL"
           ></v-checkbox>
         </div>
         <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
@@ -196,6 +208,10 @@ export default {
     IPVClient: {
       type: Boolean,
       default: false,
+    },
+    SMOClient: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -204,6 +220,7 @@ export default {
       const_rating_low: "Low",
       const_rating_medium: "Medium",
       const_rating_high: "High",
+      CONST_MODAL_ID_PREFIX: 'id_modal_form_creation_',
       key_rnalistSearchResult: 0,
       // datatable variables
       items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
@@ -240,6 +257,15 @@ export default {
     this.formSearchAPI(this.selectedFormTypes.key);
   },
   methods: {
+    onSTABLESelectionChange() {
+      // if 'STABLE' is selected, auto select 'OVERALL'
+      if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
+      } else {
+        // remove 'OVERALL' if 'STABLE' is unselected
+        this.selectedFormtypeForFormCreate = this.selectedFormtypeForFormCreate.filter(arrayItem => arrayItem !== this.$CONST_FORMTYPE_OVERALL);
+      }
+    },
     canClone(item) {
       // User cannot clone:
       // 1. another user’s CRNA-SARA-CMP,
@@ -316,6 +342,12 @@ export default {
       // if it's IPVClient, add this.$CONST_FORMTYPE_SARA to this.selectedFormtypeForFormCreate
       if (this.IPVClient) {
         this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
+      }
+
+      // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_OVERALL to this.selectedFormtypeForFormCreate
+      if (this.SMOClient) {
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
       }
     },
     applyPeriodFilter() {
@@ -442,7 +474,7 @@ export default {
     },
     formCreate(formType) {
       //console.log("Create form btn click");
-      let modal = document.getElementById("id_modal_form_creation_" + formType);
+      let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
       this.formToCreate = formType;
       if (modal != null) {
         modal.click();
