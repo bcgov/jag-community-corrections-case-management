@@ -208,6 +208,10 @@ export default {
     IPVClient: {
       type: Boolean,
       default: false,
+    },
+    SMOClient: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -338,6 +342,12 @@ export default {
       // if it's IPVClient, add this.$CONST_FORMTYPE_SARA to this.selectedFormtypeForFormCreate
       if (this.IPVClient) {
         this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
+      }
+
+      // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_OVERALL to this.selectedFormtypeForFormCreate
+      if (this.SMOClient) {
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
       }
     },
     applyPeriodFilter() {
