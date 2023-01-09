@@ -69,7 +69,7 @@
               @click.stop="createChildForm($CONST_FORMTYPE_OVERALL)"
             ><i class="fa fa-plus"></i>&nbsp; Add OVERALL Form</v-btn>
           </div>
-          <span v-else="item.id != CONST_CREATE_BTN_SARA">{{ item.tab }}</span>
+          <span v-else>{{ item.tab }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
@@ -238,7 +238,7 @@ export default {
       }
 
       // if formType is 'OVERALL', only show Overall tab
-      if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
+      if (this.formType === this.$CONST_FORMTYPE_OVERALL) {
         this.items.push({ tab: 'OVERALL', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-OVERALL';
       }
