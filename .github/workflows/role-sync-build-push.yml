@@ -40,7 +40,7 @@ jobs:
 
       - name: Docker Build Role Sync Image
         run: |            
-          docker build -f Dockerfile.rolesync . -t cccm-role-sync
+          docker build -f cccm-backend/cccm-role-sync/Dockerfile.rolesync . -t cccm-role-sync
           
       - name: Docker Tag Version Gold
         run: |
