@@ -3,6 +3,8 @@
 #############################################################################################
 FROM maven:3.6.3-jdk-11 as build
 
+WORKDIR /cccm-role-sync
+
 RUN apt-get update && \
     apt-get -y --allow-unauthenticated upgrade && \
     #apt-get -y install vim procps curl && \
@@ -13,9 +15,7 @@ ARG SKIP_TESTS=false
 
 COPY . .
 
-RUN mvn -B clean install \
-        -P all \
-        -Dmaven.test.skip=${SKIP_TESTS}
+RUN mvn clean install 
 
 #############################################################################################
 
@@ -32,10 +32,11 @@ RUN apt-get update && \
 # ARG MVN_PROFILES
 ARG SERVICE_NAME
 
-COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/lib/ /deployments/lib/
-COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/service.jar
-COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
-COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
+#COPY --from=build ./cccm-role-sync/target/*.jar app.jar
+COPY --from=build ./cccm-role-sync/target/quarkus-app/lib/ /deployments/lib/
+COPY --from=build ./cccm-role-sync/target/quarkus-app/*.jar /deployments/service.jar
+COPY --from=build ./cccm-role-sync/target/quarkus-app/app/ /deployments/app/
+COPY --from=build ./cccm-role-sync/target/quarkus-app/quarkus/ /deployments/quarkus/
 
 CMD ["java", "-jar", "/deployments/service.jar"]
 #############################################################################################

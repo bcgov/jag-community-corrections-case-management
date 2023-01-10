@@ -2,7 +2,7 @@ name: Build & Push Backend Image to Gold and GoldDR cluster
 
 on:
   push:
-    branches: [main]
+    branches: [role-sync-devops]
     paths:
       - 'cccm-backend/cccm-role-sync/**'
   workflow_dispatch:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Docker Build Role Sync Image
         run: |            
-          docker-compose build role-sync
+          docker build -f Dockerfile.rolesync . -t cccm-role-sync
           
       - name: Docker Tag Version Gold
         run: |
