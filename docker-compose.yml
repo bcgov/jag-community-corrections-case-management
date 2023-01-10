@@ -24,6 +24,7 @@ services:
     image: cccm-role-sync
     build:
       context: ./cccm-backend/cccm-role-sync
+      dockerfile: ./Dockerfile.rolesync
       args:
         - SERVICE_NAME=cccm-role-sync
         - SKIP_TESTS=true
