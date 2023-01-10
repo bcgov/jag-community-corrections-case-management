@@ -51,19 +51,25 @@
     <section class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
         <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
-          <span v-if="item.id != CONST_CREATE_BTN_SARA">{{ item.tab }}</span>
           <div v-if="item.id === CONST_CREATE_BTN_SARA" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
-          <div v-if="item.id === CONST_CREATE_BTN_STABLE" class="p-4">
+          <div v-else-if="item.id === CONST_CREATE_BTN_STABLE" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_STABLE)"
             ><i class="fa fa-plus"></i>&nbsp; Add STABLE-CMP Form</v-btn>
           </div>
+          <div v-else-if="item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
+            <v-btn
+              v-show=true
+              @click.stop="createChildForm($CONST_FORMTYPE_OVERALL)"
+            ><i class="fa fa-plus"></i>&nbsp; Add OVERALL Form</v-btn>
+          </div>
+          <span v-else>{{ item.tab }}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
@@ -92,6 +98,7 @@ export default {
     return {
       CONST_CREATE_BTN_SARA: 'saraBtn',
       CONST_CREATE_BTN_STABLE: 'stableBtn',
+      CONST_CREATE_BTN_OVERALL: 'overallBtn',
       CONST_MODAL_ID_PREFIX: 'id_modal_create',
       formId: '',
       clientNum: '',
@@ -204,12 +211,36 @@ export default {
       if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
         this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-ACUTE';
+        if (!this.relatedClientFormId) {
+          // show the 'add overall' btn if the acute form hasn't linked with overall
+          if (!this.isFormReadonly) {
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_OVERALL,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          }
+        } else {
+          // otherwise, show overall tab
+          this.items.push({ tab: 'Overall', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+        }
       }
 
       // if formType is 'STAT99R', only show STAT99R tab
       if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
         this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-STAT99R';
+        if (!this.relatedClientFormId) {
+          // show the 'add overall' btn if the acute form hasn't linked with overall
+          if (!this.isFormReadonly) {
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_OVERALL,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          }
+        } else {
+          // otherwise, show overall tab
+          this.items.push({ tab: 'Overall', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+        }
+      }
+
+      // if formType is 'OVERALL', only show Overall tab
+      if (this.formType === this.$CONST_FORMTYPE_OVERALL) {
+        this.items.push({ tab: 'OVERALL', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
+        this.current_tab = 'tab-OVERALL';
       }
     },
     async createChildFormAPI() {
