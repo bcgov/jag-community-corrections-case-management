@@ -97,12 +97,14 @@ router.beforeEach((to, from, next) => {
       //console.log("Authenticated and has 'client-search' role");
       Vue.$keycloak.updateToken(70)
         .then(() => {
-          // if the login user is supervisor, direct them to dashboardsupervisor view
           if (to.name == Vue.prototype.$ROUTER_NAME_HOME) {
+            // if the login user is supervisor, direct them to dashboardsupervisor view
             if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR ) {
               next({ name: 'dashboardsupervisor' });
+              // if the login user is po, direct them to dashboardpo view
             } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
               next({ name: 'dashboardpo' })
+              // if the login user is IRTP or research or admin, direct them to clientsearch view
             } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
                        store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP || 
                        store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
