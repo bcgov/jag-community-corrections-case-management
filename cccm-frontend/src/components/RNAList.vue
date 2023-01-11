@@ -2,19 +2,25 @@
   <div data-app class="p-4">
     <!-- CRNA/SARA Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_RNA}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_RNA}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
     <!-- Acute Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_ACUTE}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_ACUTE}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
     <!-- STAT99R Form creation modal dialog-->
     <v-btn
-      :id="`id_modal_form_creation_${$CONST_FORMTYPE_STAT99R}`"
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STAT99R}`"
+      v-show=false
+      @click.stop="dialog = true"
+    ></v-btn>
+    <!-- OVERALL Form creation modal dialog-->
+    <v-btn
+      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_OVERALL}`"
       v-show=false
       @click.stop="dialog = true"
     ></v-btn>
@@ -39,12 +45,53 @@
             label="SARA-CMP"
             :value="$CONST_FORMTYPE_SARA"
           ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            label="STABLE"
+            :value="$CONST_FORMTYPE_STABLE"
+            @click="onSTABLESelectionChange"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            :readonly="readonly"
+            label="OVERALL"
+            :value="$CONST_FORMTYPE_OVERALL"
+          ></v-checkbox>
         </div>
         <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
-          <strong>Are you sure you want to create a new Acute form?</strong>
+          <strong>
+            Select Form Type
+          </strong>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            :readonly="readonly"
+            label="ACUTE"
+            :value="$CONST_FORMTYPE_ACUTE"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            label="OVERALL"
+            :value="$CONST_FORMTYPE_OVERALL"
+          ></v-checkbox>
         </div>
         <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
-          <strong>Are you sure you want to create a new Static 99R form?</strong>
+          <strong>
+            Select Form Type
+          </strong>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            :readonly="readonly"
+            label="STATIC 99R"
+            :value="$CONST_FORMTYPE_STAT99R"
+          ></v-checkbox>
+          <v-checkbox
+            v-model="selectedFormtypeForFormCreate"
+            label="OVERALL"
+            :value="$CONST_FORMTYPE_OVERALL"
+          ></v-checkbox>
+        </div>
+        <div v-if="formToCreate == $CONST_FORMTYPE_OVERALL" class="col-sm-10 m-10">
+          <strong>Are you sure you want to create a new Overall form?</strong>
         </div>
         <v-card-actions>
           <v-btn
@@ -72,6 +119,21 @@
     </div>
     <v-card>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA-CMP</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static 99R</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
+        </div>
+        <div class="col-sm-2">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_OVERALL)">Create New Overall</button>
+        </div>
+      </section>
+      <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-2">
           <div class="mt-2 ml-3">
             <strong>Filter RNA Form</strong>
@@ -87,7 +149,7 @@
             </v-select>
           </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
           <strong>Supervision Periods</strong>
           <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
             <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
@@ -97,21 +159,12 @@
           </v-radio-group>
         </div>
         <div class="col-sm-2">
-          <div class="rna-overdue-text">RNA form overdue list: </div>
-          <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
+          <div class="mt-2 ml-3">
+            <div class="rna-overdue-text">RNA form overdue list: </div>
+            <div class="rna-overdue-red">{{ getOverdueRNAFormtypes }}</div>
+          </div>
         </div>
-        <div class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static 99R</button>
-        </div>
-        <div class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
-        </div>
-        <div class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA</button>
-        </div>
-      </section>
-      <section>
-        
+        <div class="col-sm-2"></div>
       </section>
       <div class="dashboard-v-card text-center">
         <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
@@ -196,6 +249,10 @@ export default {
     IPVClient: {
       type: Boolean,
       default: false,
+    },
+    SMOClient: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -204,6 +261,7 @@ export default {
       const_rating_low: "Low",
       const_rating_medium: "Medium",
       const_rating_high: "High",
+      CONST_MODAL_ID_PREFIX: 'id_modal_form_creation_',
       key_rnalistSearchResult: 0,
       // datatable variables
       items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
@@ -236,10 +294,18 @@ export default {
     }
   },
   mounted() {
-    this.initFormCreationSelection();
     this.formSearchAPI(this.selectedFormTypes.key);
   },
   methods: {
+    onSTABLESelectionChange() {
+      // if 'STABLE' is selected, auto select 'OVERALL'
+      if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
+      } else {
+        // remove 'OVERALL' if 'STABLE' is unselected
+        this.selectedFormtypeForFormCreate = this.selectedFormtypeForFormCreate.filter(arrayItem => arrayItem !== this.$CONST_FORMTYPE_OVERALL);
+      }
+    },
     canClone(item) {
       // User cannot clone:
       // 1. another user’s CRNA-SARA-CMP,
@@ -307,15 +373,32 @@ export default {
       return colorClass;
     },
     initFormCreationSelection() {
-      //console.log("this.selectedFormtypeForFormCreate this.IPVClient: ", this.selectedFormtypeForFormCreate, this.IPVClient);
-      this.selectedFormtypeForFormCreate = [];
+      if (this.formToCreate === this.$CONST_FORMTYPE_RNA) {
+        this.selectedFormtypeForFormCreate = [];
 
-      // added $CONST_FORMTYPE_CRNA to this.selectedFormtypeForFormCreate
-      this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_CRNA);
+        // added $CONST_FORMTYPE_CRNA to this.selectedFormtypeForFormCreate
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_CRNA);
 
-      // if it's IPVClient, add this.$CONST_FORMTYPE_SARA to this.selectedFormtypeForFormCreate
-      if (this.IPVClient) {
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
+        // if it's IPVClient, add this.$CONST_FORMTYPE_SARA to this.selectedFormtypeForFormCreate
+        if (this.IPVClient) {
+          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
+        }
+
+        // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_OVERALL to this.selectedFormtypeForFormCreate
+        if (this.SMOClient) {
+          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
+          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
+        }
+      }
+      
+      if (this.formToCreate === this.$CONST_FORMTYPE_ACUTE) {
+        this.selectedFormtypeForFormCreate = [];
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_ACUTE);
+      }
+
+      if (this.formToCreate === this.$CONST_FORMTYPE_STAT99R) {
+        this.selectedFormtypeForFormCreate = [];
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STAT99R);
       }
     },
     applyPeriodFilter() {
@@ -442,8 +525,9 @@ export default {
     },
     formCreate(formType) {
       //console.log("Create form btn click");
-      let modal = document.getElementById("id_modal_form_creation_" + formType);
+      let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
       this.formToCreate = formType;
+      this.initFormCreationSelection();
       if (modal != null) {
         modal.click();
       }
