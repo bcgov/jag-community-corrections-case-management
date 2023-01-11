@@ -19,6 +19,32 @@ services:
     networks:
       - cccm
 
+  role-sync:
+    container_name: cccm-role-sync
+    image: cccm-role-sync
+    build:
+      context: ./cccm-backend/cccm-role-sync
+      dockerfile: ./Dockerfile.rolesync
+      args:
+        - SERVICE_NAME=cccm-role-sync
+        - SKIP_TESTS=true
+    ports:
+      - "8090:8090"
+    environment:
+      - CCCM_API_BASE=${CCCM_API_BASE}
+      - CCCM_KEYCLOAK_BASE=${CCCM_KEYCLOAK_BASE}
+      - CCCM_KEYCLOAK_REALM=${CCCM_KEYCLOAK_REALM}
+      - CCCM_KEYCLOAK_CLIENT=${CCCM_KEYCLOAK_CLIENT}
+      - CCCM_KEYCLOAK_USERNAME=${CCCM_KEYCLOAK_USERNAME}
+      - CCCM_KEYCLOAK_PASSWORD=${CCCM_KEYCLOAK_PASSWORD}
+      - CCCM_KEYCLOAK_URL=${CCCM_KEYCLOAK_URL}
+      - CCCM_KEYCLOAK_SECRET=${CCCM_KEYCLOAK_SECRET}
+      - SPLUNK_ENABLED=${SPLUNK_ENABLED}
+      - SPLUNK_URL=${SPLUNK_URL}
+      - SPLUNK_TOKEN=${SPLUNK_TOKEN}
+    networks:
+      - cccm
+
   frontend:
     container_name: cccm-web
     image: cccm-web

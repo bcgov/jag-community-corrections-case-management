@@ -37,6 +37,13 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
 
+      - name: Login to Openshift Docker Registry GoldDR
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }}
+          
       - name: Pull Dev Image 
         run: |  
           docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
