@@ -127,7 +127,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("form-add")
+    @RolesAllowed("form-clone")
     public BigDecimal cloneClientForm(String xLocationId, @Valid CloneForm cloneForm) {
 
         logger.info("Clone Client Form Request");
@@ -138,7 +138,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("form-add")
+    @RolesAllowed("form-update")
     public void completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
 
         logger.info("Complete Form Request");
@@ -149,7 +149,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("form-add")
+    @RolesAllowed("form-update")
     public void editForm(@Valid @NotNull UpdateFormInput updateFormInput, String xLocationId) {
 
         logger.info("Edit Form Request");
@@ -160,7 +160,7 @@ public class FormsApiImpl implements FormsApi {
 
     @Override
     @Transactional
-    @RolesAllowed("form-add")
+    @RolesAllowed("form-update")
     public void linkForm(@Valid @NotNull LinkFormInput updateFormInput, String xLocationId) {
 
         logger.info("Link Form Request");
