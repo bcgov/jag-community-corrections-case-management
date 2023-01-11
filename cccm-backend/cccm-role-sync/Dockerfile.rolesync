@@ -3,7 +3,7 @@
 #############################################################################################
 FROM maven:3.6.3-jdk-11 as build
 
-#WORKDIR /cccm-role-sync
+WORKDIR /cccm-role-sync
 
 RUN apt-get update && \
     apt-get -y --allow-unauthenticated upgrade && \
