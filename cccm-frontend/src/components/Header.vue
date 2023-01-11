@@ -59,7 +59,7 @@
       </div>
       <div v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
         <span class="headerNav">
-          <a :href="`${baseURL}`" class="headerA">My Dashboard</a> |
+          <a v-if="!hideDashboard" :href="getDashboardURL" class="headerA">My Dashboard</a> <span v-if="!hideDashboard"> | </span>
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
@@ -136,6 +136,21 @@ export default {
   computed: {
     isUserAuthenticated() {
         return Vue.$keycloak.authenticated;
+    },
+    hideDashboard() {
+      return this.mainStore.isHideDashboard();
+    },
+    getDashboardURL() {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+            console.log("url: ", this.baseURL + 'supervisor');
+        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR;
+      } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDPO;
+      } else {
+        return this.baseURL;
+      }
+      
     },
     getUserName() {
         return Vue.$keycloak.tokenParsed.preferred_username;

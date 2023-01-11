@@ -26,7 +26,8 @@ export const useStore = defineStore('main', {
         // po-manage
         getLoginUserGroup() {
             if (this.loginUserGroup == null) {
-                this.loginUserGroup == ''
+                this.loginUserGroup = ''
+                // TODO Add logic to determin the IRTP and Research group
                 if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
                 'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_PO;
@@ -38,6 +39,14 @@ export const useStore = defineStore('main', {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN
                 }
             }
+        },
+        isHideDashboard() {
+            if (this.loginUserGroup == '' ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP || 
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ) {
+                return true;
+            }
+            return false;
         },
         clearAll() {
             this.locationCD = '';

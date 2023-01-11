@@ -98,18 +98,27 @@ router.beforeEach((to, from, next) => {
       Vue.$keycloak.updateToken(70)
         .then(() => {
           // if the login user is supervisor, direct them to dashboardsupervisor view
-          if (to.name == 'home') {
-            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+          if (to.name == Vue.prototype.$ROUTER_NAME_HOME) {
+            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR ) {
               next({ name: 'dashboardsupervisor' });
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
               next({ name: 'dashboardpo' })
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
+                       store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP || 
+                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
+              next({ name: 'clientsearch' })
             }
           } else {
             // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
-            if (to.name == 'dashboardsupervisor' && 
+            if (to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR && 
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
+            // if an user in either IRTP or Researchs group tried to acces any link other than 'clientsearch',
+            // direct him to 'clientsearch' 
+            } else if (to.name != Vue.prototype.$ROUTER_NAME_CLIENTSEARCH && (
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP)) {
+              next({ name: 'clientsearch' })    
             } else {
               // otherwise, direct them to dashboardpo view
               next()

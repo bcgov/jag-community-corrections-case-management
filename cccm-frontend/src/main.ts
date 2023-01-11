@@ -48,6 +48,8 @@ Vue.prototype.$CONST_FORM_TYPES = [
 Vue.prototype.$USER_GROUP_PO = 'po'
 Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
 Vue.prototype.$USER_GROUP_ADMIN = 'admin'
+Vue.prototype.$USER_GROUP_IRTP = 'irtp'
+Vue.prototype.$USER_GROUP_RESEARCHER = 'researcher'
 
 Vue.prototype.$FORM_STATUS_INCOMPLETE='Incomplete'
 Vue.prototype.$FORM_STATUS_COMPLETE='Complete'
@@ -55,8 +57,10 @@ Vue.prototype.$FORM_STATUS_COMPLETE='Complete'
 Vue.prototype.$FORM_TYPE_INITIAL='Initial'
 Vue.prototype.$FORM_TYPE_REASSESSMENT='Reassessment'
 
+Vue.prototype.$ROUTER_NAME_HOME='home'
 Vue.prototype.$ROUTER_NAME_CMPFORM='cmpform'
 Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
+Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR='dashboardsupervisor'
 Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
 Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
 
