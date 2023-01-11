@@ -2,7 +2,7 @@ name: Build & Push Role Sync Image to Gold and GoldDR cluster
 
 on:
   push:
-    branches: [role-sync-devops]
+    branches: [main]
     paths:
       - 'cccm-backend/cccm-role-sync/**'
   workflow_dispatch:
