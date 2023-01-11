@@ -117,7 +117,8 @@ router.beforeEach((to, from, next) => {
               next({ name: 'dashboardpo' })
             // if an user in either IRTP or Researchs group tried to acces any link other than 'clientsearch',
             // direct him to 'clientsearch' 
-            } else if (to.name != Vue.prototype.$ROUTER_NAME_CLIENTSEARCH && (
+            } else if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
+                        to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO) && (
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP)) {
               next({ name: 'clientsearch' })    
