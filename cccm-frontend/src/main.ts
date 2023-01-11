@@ -48,7 +48,7 @@ Vue.prototype.$CONST_FORM_TYPES = [
 Vue.prototype.$USER_GROUP_PO = 'po'
 Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
 Vue.prototype.$USER_GROUP_ADMIN = 'admin'
-Vue.prototype.$USER_GROUP_IRTP = 'irtp'
+Vue.prototype.$USER_GROUP_ITRP = 'itrp'
 Vue.prototype.$USER_GROUP_RESEARCHER = 'researcher'
 
 Vue.prototype.$FORM_STATUS_INCOMPLETE='Incomplete'
@@ -63,6 +63,12 @@ Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
 Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR='dashboardsupervisor'
 Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
 Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
+
+Vue.prototype.$AUTH_ROLE_PO='auth-po'
+Vue.prototype.$AUTH_ROLE_SUPERVISOR='auth-supervisor'
+Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
+Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
+Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },

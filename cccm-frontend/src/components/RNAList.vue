@@ -1,115 +1,117 @@
 <template>
   <div data-app class="p-4">
-    <!-- CRNA/SARA Form creation modal dialog-->
-    <v-btn
-      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_RNA}`"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <!-- Acute Form creation modal dialog-->
-    <v-btn
-      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_ACUTE}`"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <!-- STAT99R Form creation modal dialog-->
-    <v-btn
-      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STAT99R}`"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <!-- OVERALL Form creation modal dialog-->
-    <v-btn
-      :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_OVERALL}`"
-      v-show=false
-      @click.stop="dialog = true"
-    ></v-btn>
-    <v-dialog
-        v-model="dialog"
-        persistent
-        max-width="550"
-      >
-      <v-card>
-        <div v-if="formToCreate == $CONST_FORMTYPE_RNA" class="col-sm-6 m-7">
-          <strong>
-            Select Form Type
-          </strong>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            :readonly="readonly"
-            label="CRNA-CMP"
-            :value="$CONST_FORMTYPE_CRNA"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            label="SARA-CMP"
-            :value="$CONST_FORMTYPE_SARA"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            label="STABLE"
-            :value="$CONST_FORMTYPE_STABLE"
-            @click="onSTABLESelectionChange"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            :readonly="readonly"
-            label="OVERALL"
-            :value="$CONST_FORMTYPE_OVERALL"
-          ></v-checkbox>
-        </div>
-        <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
-          <strong>
-            Select Form Type
-          </strong>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            :readonly="readonly"
-            label="ACUTE"
-            :value="$CONST_FORMTYPE_ACUTE"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            label="OVERALL"
-            :value="$CONST_FORMTYPE_OVERALL"
-          ></v-checkbox>
-        </div>
-        <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
-          <strong>
-            Select Form Type
-          </strong>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            :readonly="readonly"
-            label="STATIC 99R"
-            :value="$CONST_FORMTYPE_STAT99R"
-          ></v-checkbox>
-          <v-checkbox
-            v-model="selectedFormtypeForFormCreate"
-            label="OVERALL"
-            :value="$CONST_FORMTYPE_OVERALL"
-          ></v-checkbox>
-        </div>
-        <div v-if="formToCreate == $CONST_FORMTYPE_OVERALL" class="col-sm-10 m-10">
-          <strong>Are you sure you want to create a new Overall form?</strong>
-        </div>
-        <v-card-actions>
-          <v-btn
-            @click="dialog = false"
-          >
-            No, Exit
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            dark
-            @click="handleFormCreateBtnClick"
-          >
-            Yes, Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <div v-if="showFormCreateButtons">
+      <!-- CRNA/SARA Form creation modal dialog-->
+      <v-btn
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_RNA}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
+      <!-- Acute Form creation modal dialog-->
+      <v-btn
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_ACUTE}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
+      <!-- STAT99R Form creation modal dialog-->
+      <v-btn
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STAT99R}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
+      <!-- OVERALL Form creation modal dialog-->
+      <v-btn
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_OVERALL}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
+      <v-dialog
+          v-model="dialog"
+          persistent
+          max-width="550"
+        >
+        <v-card>
+          <div v-if="formToCreate == $CONST_FORMTYPE_RNA" class="col-sm-6 m-7">
+            <strong>
+              Select Form Type
+            </strong>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              :readonly="readonly"
+              label="CRNA-CMP"
+              :value="$CONST_FORMTYPE_CRNA"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              label="SARA-CMP"
+              :value="$CONST_FORMTYPE_SARA"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              label="STABLE"
+              :value="$CONST_FORMTYPE_STABLE"
+              @click="onSTABLESelectionChange"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              :readonly="readonly"
+              label="OVERALL"
+              :value="$CONST_FORMTYPE_OVERALL"
+            ></v-checkbox>
+          </div>
+          <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
+            <strong>
+              Select Form Type
+            </strong>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              :readonly="readonly"
+              label="ACUTE"
+              :value="$CONST_FORMTYPE_ACUTE"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              label="OVERALL"
+              :value="$CONST_FORMTYPE_OVERALL"
+            ></v-checkbox>
+          </div>
+          <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
+            <strong>
+              Select Form Type
+            </strong>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              :readonly="readonly"
+              label="STATIC 99R"
+              :value="$CONST_FORMTYPE_STAT99R"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              label="OVERALL"
+              :value="$CONST_FORMTYPE_OVERALL"
+            ></v-checkbox>
+          </div>
+          <div v-if="formToCreate == $CONST_FORMTYPE_OVERALL" class="col-sm-10 m-10">
+            <strong>Are you sure you want to create a new Overall form?</strong>
+          </div>
+          <v-card-actions>
+            <v-btn
+              @click="dialog = false"
+            >
+              No, Exit
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              dark
+              @click="handleFormCreateBtnClick"
+            >
+              Yes, Continue
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
 
     <!--RNA List-->
     <div class="row justify-content-between mb-2">
@@ -118,7 +120,7 @@
       </div>
     </div>
     <v-card>
-      <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+      <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-4"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA-CMP</button>
@@ -234,6 +236,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { formSearch, cloneForm, createForm } from "@/components/form.api";
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'RNAList',
@@ -307,18 +311,37 @@ export default {
       }
     },
     canClone(item) {
-      // User cannot clone:
+      // User can clone when:
+      // 1. user is an admin or ITRP
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+        return true;
+      }
+
+      // User cannot clone wher:
+      // 0. user is a researcher
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
+        return false;
+      }
       if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username || 
           !item.complete ||
           !item.mostRecent) {
-        return false
+        return false;
       }
       return true
     },
     getCloneTooltip(item) {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+        return 'Copy form';
+      }
+
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
+        return "User is a researcher";
+      }
       if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
         return "User cannot clone another user's form"
       }
@@ -542,7 +565,13 @@ export default {
       colorClass[this.$FORM_STATUS_INCOMPLETE] = 'dashboard-background-color-yellow';
       colorClass[this.$FORM_STATUS_COMPLETE] = 'dashboard-background-color-green';
       return colorClass;
-    }
+    },
+    showFormCreateButtons() {
+      return this.mainStore.isAllowFormWrite();
+    },
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   }
 }
 </script>

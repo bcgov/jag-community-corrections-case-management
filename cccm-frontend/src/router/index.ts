@@ -104,9 +104,9 @@ router.beforeEach((to, from, next) => {
               // if the login user is po, direct them to dashboardpo view
             } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
               next({ name: 'dashboardpo' })
-              // if the login user is IRTP or research or admin, direct them to clientsearch view
+              // if the login user is ITRP or research or admin, direct them to clientsearch view
             } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
-                       store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP || 
+                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
                        store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
               next({ name: 'clientsearch' })
             }
@@ -115,12 +115,12 @@ router.beforeEach((to, from, next) => {
             if (to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR && 
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
-            // if an user in either IRTP or Researchs group tried to acces any link other than 'clientsearch',
+            // if an user in either ITRP or Researchs group tried to acces 'PO dashboard or Supervisor dashboard',
             // direct him to 'clientsearch' 
             } else if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
                         to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO) && (
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_IRTP)) {
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP)) {
               next({ name: 'clientsearch' })    
             } else {
               // otherwise, direct them to dashboardpo view

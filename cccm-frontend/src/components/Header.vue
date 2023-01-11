@@ -105,7 +105,6 @@ export default {
       }
     },
     handleShowModal() {
-      console.log("Show modal");
       let modal = document.getElementById("id_modal");
       if (modal != null) {
         modal.click();
@@ -143,7 +142,6 @@ export default {
     getDashboardURL() {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
           this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
-            console.log("url: ", this.baseURL + 'supervisor');
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR;
       } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDPO;
