@@ -6,6 +6,7 @@
         <div>
           <Form class="formio-container" 
               :form="formJSON"
+              :submission="initData" 
               v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 
               v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"
               v-on:change="handleChangeEvent"
@@ -133,6 +134,7 @@ export default {
   name: 'FormioClientSearch',
   data() {
     return {
+      CONST_DEFAULT_RANGEYEARS: 2,
       CONST_MIN_AGE: 10,
       CONST_MAX_AGE: 100,
       CONST_CURRENT_YEAR: new Date().getFullYear(),
@@ -145,7 +147,7 @@ export default {
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
-      loading: true,
+      loading: false,
       search: '',
       expanded: [],
       singleExpand: false,
@@ -166,14 +168,16 @@ export default {
         { text: 'Record Sealed?', value: 'sealed' },
       ],
       clients: [],
-      baseURL: import.meta.env.BASE_URL
+      baseURL: import.meta.env.BASE_URL,
+      initData: {'data': {}},
     }
   },
   components: {
     Form
   },
   mounted() {
-    this.buildForm()
+    this.buildForm();
+    this.setInitData();
   },
   methods: {
     expandRow ({ item, value }) {
@@ -235,6 +239,9 @@ export default {
            
       this.formJSON = tmpJSON;
     },
+    setInitData() {
+      this.initData.data.rangeYears = this.CONST_DEFAULT_RANGEYEARS;
+    },
     private_getLimitedToCurrentActiveLocation() {
       let limitedToCurrentActiveLocation = false;
       let checkbox = document.getElementsByName("data[limitedToCurrentActiveLocation]");
@@ -246,7 +253,6 @@ export default {
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
-      console.log("respose: ", response);
       this.jumpToResult();
       if (error) {
         console.error(error);
@@ -290,11 +296,14 @@ export default {
         //clear the previous search results
         this.clients = [];
 
-        //console.log("Search by general info: ", evt, evt.data);
+        let rangeYears = evt.data.rangeYears;
+        if (rangeYears === undefined || rangeYears === null || rangeYears === '') {
+          rangeYears = 0;
+        }
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
-            limitedToCurrentActiveLocation.toString(), evt.data.rangeYears, evt.data.lastNameSoundex);
+            limitedToCurrentActiveLocation.toString(), rangeYears, evt.data.lastNameSoundex);
         this.private_processSearchResults(error, response);
       }
     },
