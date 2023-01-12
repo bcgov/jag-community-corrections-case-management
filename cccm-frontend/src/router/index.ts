@@ -97,19 +97,31 @@ router.beforeEach((to, from, next) => {
       //console.log("Authenticated and has 'client-search' role");
       Vue.$keycloak.updateToken(70)
         .then(() => {
-          // if the login user is supervisor, direct them to dashboardsupervisor view
-          if (to.name == 'home') {
-            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+          if (to.name == Vue.prototype.$ROUTER_NAME_HOME) {
+            // if the login user is supervisor, direct them to dashboardsupervisor view
+            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR ) {
               next({ name: 'dashboardsupervisor' });
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+              // if the login user is po, direct them to dashboardpo view
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
               next({ name: 'dashboardpo' })
+              // if the login user is ITRP or research or admin, direct them to clientsearch view
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
+                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
+                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
+              next({ name: 'clientsearch' })
             }
           } else {
             // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
-            if (to.name == 'dashboardsupervisor' && 
+            if (to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR && 
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
+            // if an user in either ITRP or Researchs group tried to acces 'PO dashboard or Supervisor dashboard',
+            // direct him to 'clientsearch' 
+            } else if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
+                        to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO) && (
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
+                store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP)) {
+              next({ name: 'clientsearch' })    
             } else {
               // otherwise, direct them to dashboardpo view
               next()

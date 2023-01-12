@@ -26,18 +26,39 @@ export const useStore = defineStore('main', {
         // po-manage
         getLoginUserGroup() {
             if (this.loginUserGroup == null) {
-                this.loginUserGroup == ''
-                if (Vue.$keycloak.hasRealmRole('client-search', 'client-view', 
-                'data-view', 'form-add', 'form-delete', 'form-update', 'form-view')) {
+                this.loginUserGroup = ''
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_PO)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_PO;
                 }
-                if (Vue.$keycloak.hasRealmRole('po-manage')) {
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_SUPERVISOR)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_SUPERVISOR
                 }
-                if (Vue.$keycloak.hasRealmRole('form-override')) {
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN
                 }
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
+                }
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_RESEARCHER
+                }
             }
+        },
+        isHideDashboard() {
+            if (this.loginUserGroup == '' ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ) {
+                return true;
+            }
+            return false;
+        },
+        isAllowFormWrite() {
+            // Researcher can only view 
+            if (this.loginUserGroup == '' ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ) {
+                return false;
+            }
+            return true;
         },
         clearAll() {
             this.locationCD = '';
