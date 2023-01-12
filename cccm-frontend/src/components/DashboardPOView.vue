@@ -171,7 +171,7 @@ export default {
       expanded: [],
       singleExpand: false,
       clientList: [],
-      initDataArray: {},
+      initDataArray: [],
       keyExpandRow: 0,
       // calculated val
       numOfGen: 0,
@@ -248,12 +248,18 @@ export default {
             this.initDataArray[clientNum].data.datePhotoTaken = el.photo.photoTakenDate;
           }
 
+          // map birthDate
+          this.initDataArray[clientNum].data.birthDate = el.birthDate;
+          this.initDataArray[clientNum].data.orderEffectiveDate = el.orderInformation == null ? '' : el.orderInformation.effectiveDate;
+          this.initDataArray[clientNum].data.nextCourtDate = el.courtInformation == null ? '' : el.courtInformation.dueDate;
+          this.initDataArray[clientNum].data.rnaStatus = el.rnaStatus;
+
           // Build community alerts, outstanding warrants and programs
           //build communityAlerts
           let caVal = "";
           if (el.communityAlerts != null && el.communityAlerts.length > 0) {
             for (let ca of el.communityAlerts) {
-              caVal += "<li>" + ca.date + ": " + ca.details + "</li>\r\n"
+              caVal += "<li>" + ca.date + ": " + ca.comment + "</li>\r\n"
             }
           } else {
             caVal = "<li>The client doesn't have any community alerts</li>"
@@ -338,12 +344,7 @@ export default {
         //Preset the flag to false;
         dataContent.detailsFetched = false;
         dataContent.fullName = el.clientName;
-        dataContent.clientNum = el.clientNum;
-        dataContent.birthDate = el.birthDate;
-        dataContent.nextAppointmentDate = el.nextAppointmentDate;
-        dataContent.orderEffectiveDate = el.orderEffectiveDate;
-        dataContent.rnaStatus = el.rnaStatus;
-        dataContent.nextCourtDate = el.nextCourtDate;
+        dataContent.csNumber = el.clientNum;
         
         initData.data = dataContent;
         this.initDataArray[el.clientNum] = initData;
