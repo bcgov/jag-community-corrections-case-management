@@ -212,7 +212,10 @@ public class ClientDataServiceImpl implements ClientDataService {
                 }
             } else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
                     (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE)) ||
-                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE))) {
+                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) ||
+                    (formTypeCd.equalsIgnoreCase(SMO_FORM_TYPE) && form.getModule().equalsIgnoreCase(SMO_FORM_TYPE))||
+                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE))||
+                    (formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE))) {
                 logger.info("adding form {}", form.getModule());
                 form.setSupervisionRating(form.getRatings().get(form.getModule()));
                 formsMerged.add(form);
