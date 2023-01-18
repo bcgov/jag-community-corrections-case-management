@@ -294,6 +294,7 @@ paths:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
           name: idirId
+          required: true
           schema:
             type: string
       responses:
@@ -315,10 +316,12 @@ paths:
       parameters:
         - in: query
           name: idirId
+          required: true
           schema:
             type: string
         - in: query
           name: locationId
+          required: true
           schema:
             type: number
       responses:
@@ -2353,14 +2356,6 @@ components:
           items:
             $ref: '#/components/schemas/Code'
           type: array
-    FormQuestionAnswer:
-      properties:
-        formAnswerId:
-          type: number
-        formQuestionId:
-          type: number
-        formAnswer:
-          type: string
     CreateFormInput:
       type: object
       required:
@@ -2403,88 +2398,6 @@ components:
           type: string
         planSummary:
           type: string
-    ClientFormAnswerInput:
-      title: ClientFormAnswerInput
-      type: object
-      properties:
-        answerInputList:
-          type: array
-          items:
-            $ref: '#/components/schemas/AnswerInput'
-        clientFormId:
-          type: number
-    AnswerInput:
-      title: AnswerInput
-      type: object
-      properties:
-        answerText:
-          type: string
-        comment:
-          type: string
-        description:
-          type: string
-        questionId:
-          type: number
-        sequence:
-          type: integer
-          format: int32
-    ClientFormAnswers:
-      title: ClientFormAnswers
-      type: object
-      properties:
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Answer'
-        key:
-          type: string
-        clientFormId:
-          type: number
-        comment:
-          type: string
-        complete:
-          type: boolean
-        completedDate:
-          type: string
-          format: date
-        mostRecent:
-          type: boolean
-        sealed:
-          type: boolean
-
-    Answer:
-      title: Answer
-      type: object
-      properties:
-        comment:
-          type: string
-        createdBy:
-          type: string
-        createdDate:
-          type: string
-          format: date
-        description:
-          type: string
-        id:
-          type: number
-        interventions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Intervention'
-        section:
-          type: integer
-          format: int32
-        sequence:
-          type: integer
-          format: int32
-        text:
-          type: string
-        updatedBy:
-          type: string
-        updatedDate:
-          type: string
-          format: date
-
     Intervention:
       title: Intervention
       type: object
