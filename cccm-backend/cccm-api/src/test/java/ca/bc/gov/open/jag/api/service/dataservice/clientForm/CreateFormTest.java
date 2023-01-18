@@ -109,6 +109,45 @@ public class CreateFormTest {
 
     }
 
+    @Test
+    @DisplayName("Success: Smo Form is created")
+    public void testCreateSMO() throws IOException {
+
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        BigDecimal result = sut.createSmo(createFormInput(null, "TEST"), BigDecimal.ONE);
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
+    @Test
+    @DisplayName("Success: Stable Form is created")
+    public void testCreateSTABLE() throws IOException {
+
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        BigDecimal result = sut.createStable(createFormInput(null, "TEST"), BigDecimal.ONE);
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
+    @Test
+    @DisplayName("Success: Overall Form is created")
+    public void testCreateOverall() throws IOException {
+
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        BigDecimal result = sut.createOverall(createFormInput(null, "TEST"), BigDecimal.ONE);
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
     private CreateFormInput createFormInput(BigDecimal linkedFormId, String clientNumber) {
         CreateFormInput createFormInput = new CreateFormInput();
         createFormInput.setLinkedClientFormId(linkedFormId);

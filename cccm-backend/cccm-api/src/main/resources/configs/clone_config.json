@@ -15,6 +15,18 @@
     {
       "formType": "STAT99R",
       "ignoreKeys": []
+    },
+    {
+      "formType": "SMO",
+      "ignoreKeys": []
+    },
+    {
+      "formType": "STABLE",
+      "ignoreKeys": []
+    },
+    {
+      "formType": "OVERALL",
+      "ignoreKeys": []
     }
   ]
 

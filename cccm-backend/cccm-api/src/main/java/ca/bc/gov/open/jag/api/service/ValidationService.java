@@ -32,4 +32,25 @@ public interface ValidationService {
      */
     ValidationResult validateStatic99r(String answers);
 
+    /**
+     *
+     * @param answers answers to be validated
+     * @return failed validations for smo
+     */
+    ValidationResult validateSmo(String answers);
+
+    /**
+     *
+     * @param answers answers to be validated
+     * @return failed validations for stable
+     */
+    ValidationResult validateStable(String answers);
+
+    /**
+     *
+     * @param answers answers to be validated
+     * @return failed validations for Overall
+     */
+    ValidationResult validateOverall(String answers);
+
 }
