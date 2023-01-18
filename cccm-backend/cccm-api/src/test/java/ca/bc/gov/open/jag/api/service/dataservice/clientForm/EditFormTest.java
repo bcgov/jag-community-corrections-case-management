@@ -103,22 +103,6 @@ public class EditFormTest {
     }
 
     @Test
-    @DisplayName("Success: Form is edited by owner SMO")
-    public void testEditFormIsOwnerSMO() {
-
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SMO_FORM_TYPE, null, "TEST"));
-        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
-        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
-
-        UpdateFormInput updateFormInput = new UpdateFormInput();
-        updateFormInput.setClientFormId(BigDecimal.ONE);
-        updateFormInput.setClientNumber("TEST");
-
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
-
-    }
-
-    @Test
     @DisplayName("Success: Form is edited by owner Stable")
     public void testEditFormIsOwnerStable() {
 

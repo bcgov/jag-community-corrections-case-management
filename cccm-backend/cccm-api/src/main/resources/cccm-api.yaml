@@ -26,12 +26,10 @@ tags:
     name: acute-forms
   - description: Endpoints for stat99r create/validate
     name: static99r-forms
-  - description: Endpoints for stat99r create/validate
-    name: smo-forms
-  - description: Endpoints for stat99r create/validate
+  - description: Endpoints for stable create/validate
     name: stable-forms
-  - description: Endpoints for stat99r create/validate
-    name: overall-forms
+  - description: Endpoints for smo-overall create/validate
+    name: smo-overall-forms
   - description: Endpoints both for all form types
     name: general-forms
   - description: Endpoints for role sync
@@ -653,70 +651,6 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client/smo:
-    post:
-      parameters:
-        - $ref: "#/components/parameters/xLocationId"
-      tags:
-        - smo-forms
-      summary: createNewForm
-      operationId: createSmoForm
-      requestBody:
-        description: createFormInput
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateFormInput'
-        required: true
-      responses:
-        200:
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: number
-        201:
-          description: Created
-          content: {}
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
-      x-codegen-request-body-name: createFormInput
-  /forms/client/validate/smo:
-    post:
-      tags:
-        - smo-forms
-      summary: validateSmoForm
-      operationId: validateSmoForm
-      requestBody:
-        description: answers
-        content:
-          application/json:
-            schema:
-              type: string
-        required: true
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationResult'
-        401:
-          description: Unauthorized
-          content: {}
-        403:
-          description: Forbidden
-          content: {}
-        404:
-          description: Not Found
-          content: {}
   /forms/client/stable:
     post:
       parameters:
@@ -781,12 +715,12 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client/overall:
+  /forms/client/smo-overall:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - overall-forms
+        - smo-overall-forms
       summary: createNewForm
       operationId: createOverallForm
       requestBody:
@@ -816,10 +750,10 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/validate/overall:
+  /forms/client/validate/smo-overall:
     post:
       tags:
-        - overall-forms
+        - smo-overall-forms
       summary: validateOverallForm
       operationId: validateOverallForm
       requestBody:

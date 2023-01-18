@@ -427,15 +427,6 @@ public class FormsApiImpl implements FormsApi {
 
     }
 
-    @Override
-    @RolesAllowed("form-add")
-    public BigDecimal createSmoForm(@Valid @NotNull CreateFormInput createFormInput, String xLocationId) {
-
-        logger.info("Create Smo Request");
-
-        return clientFormSaveService.createSmo(createFormInput, new BigDecimal(xLocationId));
-
-    }
 
     @Override
     @RolesAllowed("form-add")
@@ -454,16 +445,6 @@ public class FormsApiImpl implements FormsApi {
         logger.info("Validate Overall Request");
 
         return validationService.validateOverall(body);
-
-    }
-
-    @Override
-    @RolesAllowed("form-view")
-    public ValidationResult validateSmoForm(@Valid @NotNull String body) {
-
-        logger.info("Validate Smo Request");
-
-        return validationService.validateSmo(body);
 
     }
 

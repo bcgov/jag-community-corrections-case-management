@@ -35,13 +35,6 @@ public interface ValidationService {
     /**
      *
      * @param answers answers to be validated
-     * @return failed validations for smo
-     */
-    ValidationResult validateSmo(String answers);
-
-    /**
-     *
-     * @param answers answers to be validated
      * @return failed validations for stable
      */
     ValidationResult validateStable(String answers);

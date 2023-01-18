@@ -86,15 +86,6 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSmo(String answers) {
-
-        logger.debug("Validate Smo {}", answers);
-
-        return createValidationResult(validate(answers, smoValidation));
-
-    }
-
-    @Override
     public ValidationResult validateStable(String answers) {
 
         logger.debug("Validate Stable {}", answers);

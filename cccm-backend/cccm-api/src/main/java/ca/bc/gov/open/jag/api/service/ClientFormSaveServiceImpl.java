@@ -102,16 +102,6 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public BigDecimal createSmo(CreateFormInput createFormInput, BigDecimal locationId) {
-
-        logger.debug("Create Smo form {} location {}", createFormInput, locationId);
-
-        List<CodeTable> codes = obridgeClientService.getFormTypes(SMO_FORM_TYPE);
-        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
-
-    }
-
-    @Override
     public BigDecimal createStable(CreateFormInput createFormInput, BigDecimal locationId) {
 
         logger.debug("Create Stable form {} location {}", createFormInput, locationId);
@@ -192,13 +182,6 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 ValidationResult result = validationService.validateStatic99r(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
-                }
-            }
-
-            if (clientFormSummary.getModule().equalsIgnoreCase(SMO_FORM_TYPE)) {
-                ValidationResult result = validationService.validateSmo(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
-                if (!result.getErrors().isEmpty()) {
-                    throw new CCCMException("SMO form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
             }
 
