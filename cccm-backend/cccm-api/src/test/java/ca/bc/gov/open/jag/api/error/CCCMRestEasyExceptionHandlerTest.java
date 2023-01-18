@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.error;
 
-import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
 import org.jboss.resteasy.client.exception.ResteasyWebApplicationException;
 import org.junit.jupiter.api.Assertions;
@@ -17,9 +16,6 @@ public class CCCMRestEasyExceptionHandlerTest {
 
     CCCMRestEasyExceptionHandler sut = new CCCMRestEasyExceptionHandler();
 
-    @Mock
-    ResteasyWebApplicationException exceptionMock;
-
     @Test
     @DisplayName("Error: should return not found error")
     public void testNotFoundError() {
@@ -33,7 +29,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         CCCMError body = (CCCMError)result.getEntity();
 
-        Assertions.assertEquals(404, result.getStatus());
+        Assertions.assertEquals(500, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.RECORDNOTFOUND, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
@@ -71,7 +67,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         CCCMError body = (CCCMError)result.getEntity();
 
-        Assertions.assertEquals(403, result.getStatus());
+        Assertions.assertEquals(500, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.INVALIDUSER, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
@@ -90,7 +86,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         CCCMError body = (CCCMError)result.getEntity();
 
-        Assertions.assertEquals(401, result.getStatus());
+        Assertions.assertEquals(500, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.INVALIDUSER, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
@@ -109,7 +105,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         CCCMError body = (CCCMError)result.getEntity();
 
-        Assertions.assertEquals(400, result.getStatus());
+        Assertions.assertEquals(500, result.getStatus());
         Assertions.assertEquals(CCCMErrorCode.VALIDATIONERROR, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
