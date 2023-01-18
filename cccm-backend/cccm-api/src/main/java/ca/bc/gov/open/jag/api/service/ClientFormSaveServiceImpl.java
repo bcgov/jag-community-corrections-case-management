@@ -102,11 +102,32 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
+    public BigDecimal createStable(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        logger.debug("Create Stable form {} location {}", createFormInput, locationId);
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(STABLE_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
+
+    }
+
+    @Override
+    public BigDecimal createOverall(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        logger.debug("Create Overall form {} location {}", createFormInput, locationId);
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(OVERALL_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
+
+    }
+
+    @Override
     public void updateForm(BigDecimal clientFormId, String updateFormInput) {
 
         logger.debug("Update form {} formId {}", updateFormInput, clientFormId);
 
         obridgeClientService.updateForm(clientFormId, updateFormInput);
+
     }
 
     @Override
@@ -161,6 +182,20 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 ValidationResult result = validationService.validateStatic99r(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                }
+            }
+
+            if (clientFormSummary.getModule().equalsIgnoreCase(STABLE_FORM_TYPE)) {
+                ValidationResult result = validationService.validateStable(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("Stable form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                }
+            }
+
+            if (clientFormSummary.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
+                ValidationResult result = validationService.validateOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("Overall form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
             }
 

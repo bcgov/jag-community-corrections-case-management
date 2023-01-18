@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.error;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
+import org.jboss.resteasy.client.exception.ResteasyWebApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

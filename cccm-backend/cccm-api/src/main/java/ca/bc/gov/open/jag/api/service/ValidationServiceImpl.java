@@ -30,14 +30,21 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation saraValidation;
     private Validation acuteValidation;
     private Validation static99rValidation;
+    private Validation smoValidation;
+    private Validation stableValidation;
+    private Validation overallValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
+
         objectMapper.findAndRegisterModules();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         crnaValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/crna_validation_config.json"), Validation.class);
         saraValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/sara_validation_config.json"), Validation.class);
         acuteValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/acute_validation_config.json"), Validation.class);
         static99rValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/static99r_validation_config.json"), Validation.class);
+        smoValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/smo_validation_config.json"), Validation.class);
+        stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
+        overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
 
     }
 
@@ -75,6 +82,24 @@ public class ValidationServiceImpl implements ValidationService {
         logger.debug("Validate Static99r {}", answers);
 
         return createValidationResult(validate(answers, static99rValidation));
+
+    }
+
+    @Override
+    public ValidationResult validateStable(String answers) {
+
+        logger.debug("Validate Stable {}", answers);
+
+        return createValidationResult(validate(answers, stableValidation));
+
+    }
+
+    @Override
+    public ValidationResult validateOverall(String answers) {
+
+        logger.debug("Validate Overall {}", answers);
+
+        return createValidationResult(validate(answers, overallValidation));
 
     }
 

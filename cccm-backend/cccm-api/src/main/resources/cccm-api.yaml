@@ -10,8 +10,6 @@ tags:
     name: clients
   - description: Endpoints for client form data
     name: client-forms
-  - description: Endpoints for form data
-    name: forms
   - description: Endpoints for code tables data
     name: lookups
   - description: Endpoints for dashboards
@@ -28,6 +26,10 @@ tags:
     name: acute-forms
   - description: Endpoints for stat99r create/validate
     name: static99r-forms
+  - description: Endpoints for stable create/validate
+    name: stable-forms
+  - description: Endpoints for smo-overall create/validate
+    name: smo-overall-forms
   - description: Endpoints both for all form types
     name: general-forms
   - description: Endpoints for role sync
@@ -626,6 +628,134 @@ paths:
         - static99r-forms
       summary: validateStatic99rForm
       operationId: validateStatic99rForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/stable:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - stable-forms
+      summary: createNewForm
+      operationId: createStableForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/validate/stable:
+    post:
+      tags:
+        - stable-forms
+      summary: validateStableForm
+      operationId: validateStableForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/smo-overall:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - smo-overall-forms
+      summary: createNewForm
+      operationId: createOverallForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/validate/smo-overall:
+    post:
+      tags:
+        - smo-overall-forms
+      summary: validateOverallForm
+      operationId: validateOverallForm
       requestBody:
         description: answers
         content:
