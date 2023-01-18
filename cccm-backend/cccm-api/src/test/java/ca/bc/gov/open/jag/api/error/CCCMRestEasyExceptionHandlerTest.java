@@ -49,7 +49,7 @@ public class CCCMRestEasyExceptionHandlerTest {
         CCCMError body = (CCCMError)result.getEntity();
 
         Assertions.assertEquals(500, result.getStatus());
-        Assertions.assertEquals(CCCMErrorCode.DATALOADERROR, body.getError());
+        Assertions.assertEquals(CCCMErrorCode.UNKNOWN, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
     }
@@ -106,7 +106,7 @@ public class CCCMRestEasyExceptionHandlerTest {
         CCCMError body = (CCCMError)result.getEntity();
 
         Assertions.assertEquals(500, result.getStatus());
-        Assertions.assertEquals(CCCMErrorCode.VALIDATIONERROR, body.getError());
+        Assertions.assertEquals(CCCMErrorCode.INVALIDREQUEST, body.getError());
         Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
 
     }
