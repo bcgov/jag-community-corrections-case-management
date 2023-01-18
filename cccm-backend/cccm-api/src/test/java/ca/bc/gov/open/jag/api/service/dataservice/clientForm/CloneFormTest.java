@@ -128,7 +128,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -144,7 +144,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -160,7 +160,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
         
@@ -176,7 +176,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -193,11 +193,26 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir");
+        BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
     }
+
+    @Test
+    @DisplayName("Error: Form Type Invalid")
+    public void testCloneCannotClone() throws IOException {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
+
+        Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, false), "NOTTEST@idir"));
+
+    }
+
 
     @Test
     @DisplayName("Error: Form Type Invalid")
@@ -209,7 +224,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
         Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn("");
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE), "TEST@idir"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir"));
 
     }
 
@@ -221,6 +236,7 @@ public class CloneFormTest {
         clientFormSummary.setFormTypeId(BigDecimal.ONE);
         clientFormSummary.setMostRecent(true);
         clientFormSummary.setModule(module);
+        clientFormSummary.setCreatedBy("TEST");
         clientFormSummary.setRelatedClientFormId(relatedFormId);
         return clientFormSummary;
 

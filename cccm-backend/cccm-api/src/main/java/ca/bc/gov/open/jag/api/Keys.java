@@ -26,6 +26,7 @@ public class Keys {
     public static final String JWT_REALM_ACCESS = "realm_access";
     public static final String JWT_REALM_ROLES = "roles";
     public static final String JWT_ROLE = "form-override";
+    public static final String JWT_CLONE_ROLE = "form-clone-override";
     public static final String YES = "Y";
     public static final String NO = "N";
     public static final Integer DAYS_TILL_LOCKED = 60;

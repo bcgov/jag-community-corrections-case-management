@@ -132,7 +132,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Clone Client Form Request");
 
-        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId)), username);
+        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId), hasOverride(JWT_CLONE_ROLE)), username);
 
     }
 
@@ -143,7 +143,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Complete Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(), username, true));
+        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true));
 
     }
 
@@ -154,7 +154,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Edit Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(), username, false));
+        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false));
 
     }
 
@@ -201,7 +201,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Delete Form Request");
 
-        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username, hasOverride());
+        clientFormSaveService.deleteForm(clientFormId, clientNum, new BigDecimal(xLocationId), username, hasOverride(JWT_ROLE));
 
     }
 
@@ -418,7 +418,7 @@ public class FormsApiImpl implements FormsApi {
     }
 
 
-    private Boolean hasOverride() {
+    private Boolean hasOverride(String role) {
 
         JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();
 
@@ -427,7 +427,7 @@ public class FormsApiImpl implements FormsApi {
                 .map(value -> ((JsonString)value).getString())
                 .collect(Collectors.toList());
 
-        return (roles.contains(JWT_ROLE));
+        return (roles.contains(role));
 
     }
 

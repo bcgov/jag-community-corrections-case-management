@@ -7,11 +7,13 @@ public class CloneFormRequest {
     private String clientNumber;
     private BigDecimal clientFormId;
     private BigDecimal locationId;
+    private Boolean hasOverride;
 
-    public CloneFormRequest(String clientNumber, BigDecimal clientFormId, BigDecimal locationId) {
+    public CloneFormRequest(String clientNumber, BigDecimal clientFormId, BigDecimal locationId, Boolean hasOverride) {
         this.clientNumber = clientNumber;
         this.clientFormId = clientFormId;
         this.locationId = locationId;
+        this.hasOverride = hasOverride;
     }
 
     public String getClientNumber() {
@@ -25,4 +27,9 @@ public class CloneFormRequest {
     public BigDecimal getLocationId() {
         return locationId;
     }
+
+    public Boolean getHasOverride() {
+        return hasOverride;
+    }
+
 }
