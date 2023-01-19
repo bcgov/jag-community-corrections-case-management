@@ -30,7 +30,6 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation saraValidation;
     private Validation acuteValidation;
     private Validation static99rValidation;
-    private Validation smoValidation;
     private Validation stableValidation;
     private Validation overallValidation;
 
@@ -42,7 +41,6 @@ public class ValidationServiceImpl implements ValidationService {
         saraValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/sara_validation_config.json"), Validation.class);
         acuteValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/acute_validation_config.json"), Validation.class);
         static99rValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/static99r_validation_config.json"), Validation.class);
-        smoValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/smo_validation_config.json"), Validation.class);
         stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
         overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
 

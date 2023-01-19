@@ -25,6 +25,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,7 +135,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     public void editForm(UpdateForm updateForm) {
 
         logger.debug("Edit form {}", updateForm);
-
+        Boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
 
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
@@ -175,7 +176,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("ACUTE form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
-                //TODO: Add new Overall Rating form when scores are not equal
+                requiresNew = requiresNewForm(updateForm, clientFormSummary);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
@@ -183,6 +184,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
+                requiresNew = requiresNewForm(updateForm, clientFormSummary);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STABLE_FORM_TYPE)) {
@@ -221,6 +223,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             childFormInput.setOracleId(oracelId);
             logger.info("Complete Child Form");
             obridgeClientService.setCompletion(childFormInput);
+
+        }
+
+        if (requiresNew) {
+
+            CreateFormInput createFormInput = new CreateFormInput();
+            createFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
+            createOverall(createFormInput, updateForm.getLocationId());
 
         }
 
@@ -327,6 +337,17 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                .findFirst();
 
        return code.map(codeTable -> new BigDecimal(codeTable.getCode())).orElse(null);
+
+    }
+
+    private Boolean requiresNewForm(UpdateForm updateForm, ClientFormSummary currentForm) {
+
+        List<ClientFormSummary> formSummaryList = obridgeClientService.getClientForms(updateForm.getUpdateFormInput().getClientNumber(), true, currentForm.getModule());
+
+        Optional<ClientFormSummary> lastForm = formSummaryList.stream()
+                .max(Comparator.comparing(ClientFormSummary::getCompletedDate));
+
+        return (lastForm.isPresent() && !currentForm.getSupervisionRating().equals(lastForm.get().getSupervisionRating()));
 
     }
 
