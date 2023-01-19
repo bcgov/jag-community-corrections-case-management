@@ -253,16 +253,16 @@ public class CompleteFormTest {
     }
 
     @Test
-    @DisplayName("Error STAT99R: with validation error")
-    public void testSTAT99RWithValidationError() throws IOException {
+    @DisplayName("Error STABLE: with validation error")
+    public void testSTABLEWithValidationError() throws IOException {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STABLE_FORM_TYPE,null, "TEST"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateStable(Mockito.any())).thenReturn(validationResult);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
@@ -274,8 +274,28 @@ public class CompleteFormTest {
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true)));
 
     }
+    @Test
+    @DisplayName("Error OVERALL: with validation error")
+    public void testOVERALLWithValidationError() throws IOException {
+
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.setErrors(Collections.singletonList(new ValidationError()));
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(OVERALL_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateOverall(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput completeFormInput = new UpdateFormInput();
+        completeFormInput.setClientFormId(BigDecimal.ONE);
+        completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
+        completeFormInput.setClientNumber("TEST");
 
 
+        Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true)));
+
+    }
     @Test
     @DisplayName("Error: Form Type Invalid")
     public void testDoesNotHaveOverrideorOwner() throws IOException {
