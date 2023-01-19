@@ -135,7 +135,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     public void editForm(UpdateForm updateForm) {
 
         logger.debug("Edit form {}", updateForm);
-        Boolean requiresNewForm = false;
+        Boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
 
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedBy())) {
@@ -176,7 +176,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("ACUTE form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
-                requiresNewForm = requiresNewForm(updateForm, clientFormSummary);
+                requiresNew = requiresNewForm(updateForm, clientFormSummary);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
@@ -184,7 +184,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
-                requiresNewForm = requiresNewForm(updateForm, clientFormSummary);
+                requiresNew = requiresNewForm(updateForm, clientFormSummary);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STABLE_FORM_TYPE)) {
@@ -226,7 +226,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         }
 
-        if (requiresNewForm) {
+        if (requiresNew) {
 
             CreateFormInput createFormInput = new CreateFormInput();
             createFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());

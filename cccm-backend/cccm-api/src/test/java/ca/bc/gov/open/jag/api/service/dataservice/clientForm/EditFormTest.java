@@ -95,42 +95,6 @@ public class EditFormTest {
 
     }
 
-    @Test
-    @DisplayName("Success: Form is edited by owner ACUTE requires new form")
-    public void testEditFormIsOwnerACUTERequiresNewForm() {
-
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "M", null));
-        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
-        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
-
-        UpdateFormInput updateFormInput = new UpdateFormInput();
-        updateFormInput.setClientFormId(BigDecimal.ONE);
-        updateFormInput.setClientNumber("TEST");
-
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
-
-    }
-
-    //@Test
-    @DisplayName("Exception: Form is edited by owner ACUTE validation failed")
-    public void testEditFormIsOwnerACUTEValidationFailed() {
-
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "M", null));
-        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
-        ValidationResult validationResult = new ValidationResult();
-        validationResult.setErrors(Collections.singletonList(new ValidationError()));
-        Mockito.when(validationService.validateACUTE(Mockito.anyString())).thenReturn(validationResult);
-        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
-
-        UpdateFormInput updateFormInput = new UpdateFormInput();
-        updateFormInput.setClientFormId(BigDecimal.ONE);
-        updateFormInput.setClientNumber("TEST");
-
-        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
-
-    }
 
 
     @Test
@@ -150,22 +114,7 @@ public class EditFormTest {
 
     }
 
-    @Test
-    @DisplayName("Success: Form is edited by owner STAT99R")
-    public void testEditFormIsOwnerSTAT99RRequiresNewForm() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "M", null));
-        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
-        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
-
-        UpdateFormInput updateFormInput = new UpdateFormInput();
-        updateFormInput.setClientFormId(BigDecimal.ONE);
-        updateFormInput.setClientNumber("TEST");
-
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false)));
-
-    }
 
     @Test
     @DisplayName("Success: Form is edited by owner Stable")

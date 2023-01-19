@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -49,7 +50,7 @@ public class CompleteFormTest {
     @DisplayName("Success: Form is completed by owner")
     public void testCompleteFormIsOwner() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(new ValidationResult());
@@ -67,7 +68,7 @@ public class CompleteFormTest {
     @DisplayName("Success: Form is completed by supervisor")
     public void testCompleteFormIsOwnerHasOverride() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
@@ -85,7 +86,7 @@ public class CompleteFormTest {
     @DisplayName("Success: Form is completed with child instance")
     public void testCompleteWithChild() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(new ValidationResult());
@@ -108,7 +109,7 @@ public class CompleteFormTest {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(validationResult);
@@ -131,7 +132,7 @@ public class CompleteFormTest {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(validationResult);
@@ -153,7 +154,7 @@ public class CompleteFormTest {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, BigDecimal.ONE, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(validationResult);
@@ -177,7 +178,7 @@ public class CompleteFormTest {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, BigDecimal.ONE, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(validationResult);
@@ -197,7 +198,7 @@ public class CompleteFormTest {
     @DisplayName("Success: Form is completed by owner ACUTE")
     public void testCompleteFormIsOwnerACUTE() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
@@ -212,13 +213,31 @@ public class CompleteFormTest {
     }
 
     @Test
+    @DisplayName("Success: Form is edited by owner ACUTE requires new form")
+    public void testEditFormIsOwnerACUTERequiresNewForm() {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "M", null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
+        Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput updateFormInput = new UpdateFormInput();
+        updateFormInput.setClientFormId(BigDecimal.ONE);
+        updateFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", true)));
+
+    }
+
+    @Test
     @DisplayName("Error ACUTE: with validation error")
     public void testACUTEWithValidationError() throws IOException {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE,null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(validationResult);
@@ -238,7 +257,7 @@ public class CompleteFormTest {
     @DisplayName("Success: Form is completed by owner STAT99r")
     public void testCompleteFormIsOwnerSTAT99R() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(new ValidationResult());
@@ -253,13 +272,31 @@ public class CompleteFormTest {
     }
 
     @Test
+    @DisplayName("Success: Form is edited by owner STAT99R")
+    public void testEditFormIsOwnerSTAT99RRequiresNewForm() {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "M", null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput updateFormInput = new UpdateFormInput();
+        updateFormInput.setClientFormId(BigDecimal.ONE);
+        updateFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", true)));
+
+    }
+
+    @Test
     @DisplayName("Error STABLE: with validation error")
     public void testSTABLEWithValidationError() throws IOException {
 
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STABLE_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STABLE_FORM_TYPE,null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateStable(Mockito.any())).thenReturn(validationResult);
@@ -281,7 +318,7 @@ public class CompleteFormTest {
         ValidationResult validationResult = new ValidationResult();
         validationResult.setErrors(Collections.singletonList(new ValidationError()));
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(OVERALL_FORM_TYPE,null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(OVERALL_FORM_TYPE,null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateOverall(Mockito.any())).thenReturn(validationResult);
@@ -300,7 +337,7 @@ public class CompleteFormTest {
     @DisplayName("Error: Form Type Invalid")
     public void testDoesNotHaveOverrideorOwner() throws IOException {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER", null, null));
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
@@ -311,7 +348,7 @@ public class CompleteFormTest {
     }
 
 
-    private ClientFormSummary createClientForm(String module, BigDecimal relatedFormId, String createdBy) {
+    private ClientFormSummary createClientForm(String module, BigDecimal relatedFormId, String createdBy, String superVisionRating, LocalDate completedDate) {
 
         ClientFormSummary clientFormSummary = new ClientFormSummary();
 
@@ -319,6 +356,8 @@ public class CompleteFormTest {
         clientFormSummary.setMostRecent(true);
         clientFormSummary.setModule(module);
         clientFormSummary.setRelatedClientFormId(relatedFormId);
+        clientFormSummary.setSupervisionRating(superVisionRating);
+        clientFormSummary.setCompletedDate(completedDate);
         clientFormSummary.setCreatedBy(createdBy);
         return clientFormSummary;
 
