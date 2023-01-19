@@ -230,11 +230,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
             CreateFormInput createFormInput = new CreateFormInput();
             createFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
-            if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
-                createStatic99r(createFormInput, updateForm.getLocationId());
-            } else if (clientFormSummary.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE)) {
-                createACUTE(createFormInput, updateForm.getLocationId());
-            }
+            createOverall(createFormInput, updateForm.getLocationId());
 
         }
 
