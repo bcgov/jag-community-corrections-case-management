@@ -186,7 +186,7 @@ export default {
     this.clientList = [];
     this.initDataArray = [];
     //data for the expand row
-    this.initData = {},
+    this.initData = {};
   },
   mounted(){
     this.initPage();
