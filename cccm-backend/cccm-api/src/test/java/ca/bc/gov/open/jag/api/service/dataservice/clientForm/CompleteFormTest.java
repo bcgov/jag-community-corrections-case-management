@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
@@ -213,13 +214,15 @@ public class CompleteFormTest {
     }
 
     @Test
-    @DisplayName("Success: Form is edited by owner ACUTE requires new form")
+    @DisplayName("Success: Form is completed by owner ACUTE requires new form")
     public void testEditFormIsOwnerACUTERequiresNewForm() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "M", null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
@@ -272,12 +275,14 @@ public class CompleteFormTest {
     }
 
     @Test
-    @DisplayName("Success: Form is edited by owner STAT99R")
+    @DisplayName("Success: Form is completed by owner STAT99R")
     public void testEditFormIsOwnerSTAT99RRequiresNewForm() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "M", null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(Collections.singletonList(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
