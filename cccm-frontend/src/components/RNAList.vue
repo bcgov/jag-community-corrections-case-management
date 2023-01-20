@@ -277,7 +277,7 @@ export default {
       loading: true,
       headers: [
         { text: 'RNA Form', align: 'start', sortable: true, value: 'module' },
-        { text: 'Assessment Status', sortable: true, value: 'reassessment' },
+        { text: 'Assessment Status', sortable: true, value: 'assessmentStatusDisplay' },
         { text: 'Status', sortable: true, value: 'status' },
         { text: 'Updated Date', sortable: true, value: 'updatedDateDisplay' },
         { text: 'Created Location', sortable: true, value: 'location' },
@@ -514,9 +514,9 @@ export default {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
             el.updatedDateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
+            el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             return el;
           });
-          //console.log("RNAList: ", this.rnaList);
         }
       } finally {
         this.loading = false;
