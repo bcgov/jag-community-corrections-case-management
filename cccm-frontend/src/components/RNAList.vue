@@ -297,6 +297,9 @@ export default {
       formToCreate: ''
     }
   },
+  created() {
+    this.rnaList = [];
+  },
   mounted() {
     this.formSearchAPI(this.selectedFormTypes.key);
   },
