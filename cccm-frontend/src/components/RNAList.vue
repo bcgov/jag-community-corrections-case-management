@@ -48,7 +48,7 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="STABLE"
+              label="STABLE-CMP"
               :value="$CONST_FORMTYPE_STABLE"
               @click="onSTABLESelectionChange"
             ></v-checkbox>
@@ -181,22 +181,18 @@
           <template v-slot:item.status="{ item }">
             <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">{{item.status}}&nbsp;<i :class="[item.locked ? 'fa fa-lock' : '']"></i></div>
           </template>
-          <!--Customize the date field field -->
-          <template v-slot:item.updatedDate="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{ getUpdatedDate(item)}}</div>
-          </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item,'Supervision')}`">
-              {{getRating(item,"Supervision")}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.supervisionRating)}`">
+              {{ getRatingDisplay(item.supervisionRating) }}</div>
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item,'CRNA')}`">{{ getRating(item,"CRNA")}} </div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.CRNA)}`">{{ getRatingDisplay(item.ratings.CRNA) }}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item,'SARA')}`">{{ getRating(item,"SARA")}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SARA)} `">{{ getRatingDisplay(item.ratings.SARA) }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -262,9 +258,13 @@ export default {
   data() {
     return {
       //Const
-      const_rating_low: "Low",
-      const_rating_medium: "Medium",
-      const_rating_high: "High",
+      const_supervision: "Supervision",
+      const_rating_low: "L",
+      const_rating_medium: "M",
+      const_rating_high: "H",
+      const_rating_display_low: "Low",
+      const_rating_display_medium: "Medium",
+      const_rating_display_high: "High",
       CONST_MODAL_ID_PREFIX: 'id_modal_form_creation_',
       key_rnalistSearchResult: 0,
       // datatable variables
@@ -277,14 +277,14 @@ export default {
       loading: true,
       headers: [
         { text: 'RNA Form', align: 'start', sortable: true, value: 'module' },
-        { text: 'Assessment Status', value: 'reassessment' },
-        { text: 'Status', value: 'status' },
-        { text: 'Updated Date', value: 'updatedDate' },
-        { text: 'Created Location', value: 'location' },
-        { text: 'Created By', value: 'createdBy' },
-        { text: 'Supervision Rating', value: 'supervisionRating' },
-        { text: 'CRNA Rating', value: 'crnaRating' },
-        { text: 'SARA Rating', value: 'saraRating' },
+        { text: 'Assessment Status', sortable: true, value: 'reassessment' },
+        { text: 'Status', sortable: true, value: 'status' },
+        { text: 'Updated Date', sortable: true, value: 'updatedDateDisplay' },
+        { text: 'Created Location', sortable: true, value: 'location' },
+        { text: 'Created By', sortable: true, value: 'createdBy' },
+        { text: 'Supervision Rating', sortable: true, value: 'supervisionRating' },
+        { text: 'CRNA Rating', sortable: true, value: 'crnaRating' },
+        { text: 'SARA Rating', sortable: true, value: 'saraRating' },
         { text: 'Actions', value: 'action' },
       ],
       rnaList: [],
@@ -367,21 +367,33 @@ export default {
       }
       return (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
-    getUpdatedDate(item) {
-      return (item.updatedDate) ? item.updatedDate : item.createdDate;
-    },
-    getRating(item, key) {
-      if (item.ratings[key]) {
-        return item.ratings[key];
-      } else {
-        return "Not set";
+    getRatingDisplay(rating) {
+      if (rating == null || rating == '') {
+        return '';
       }
+      let displayText = rating;
+      switch (rating.toUpperCase()) {
+        case this.const_rating_low: {
+          displayText = this.const_rating_display_low;
+          break;
+        }
+        case this.const_rating_medium: {
+          displayText = this.const_rating_display_medium;
+          break;
+        }
+        case this.const_rating_high: {
+          displayText = this.const_rating_display_high;
+          break;
+        }
+      }
+      return displayText;
     },
-    getRatingColor(item, key) {
+    getRatingColor(rating) {
+      if (rating == null || rating == '') {
+        return '';
+      }
       let colorClass = '';
-      let rating = this.getRating(item, key);
-
-      switch (rating) {
+      switch (rating.toUpperCase()) {
         case this.const_rating_low: {
           colorClass = 'dashboard-background-color-green';
           break;
@@ -395,7 +407,6 @@ export default {
           break;
         }
       }
-
       return colorClass;
     },
     initFormCreationSelection() {
@@ -493,6 +504,7 @@ export default {
         if (error) {
           console.error(error);
         } else {
+          console.log("rna list: ", response);
           this.key_rnalistSearchResult++;
           this.rnaList = response;
           //console.log("RNAList search: ", response);
@@ -501,7 +513,8 @@ export default {
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
-            
+            el.updatedDateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
+            el.supervisionRateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
             return el;
           });
           //console.log("RNAList: ", this.rnaList);
