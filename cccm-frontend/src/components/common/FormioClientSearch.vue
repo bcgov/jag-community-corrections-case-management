@@ -167,13 +167,15 @@ export default {
         { text: 'CS#', value: 'clientNum' },
         { text: 'Record Sealed?', value: 'sealed' },
       ],
-      clients: [],
       baseURL: import.meta.env.BASE_URL,
       initData: {'data': {}},
     }
   },
   components: {
     Form
+  },
+  created() {
+    this.clients = [];
   },
   mounted() {
     this.buildForm();

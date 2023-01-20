@@ -79,9 +79,11 @@ export default {
       baseURL: import.meta.env.BASE_URL,
       dialog: false,
       selectedLocation: {key: "", value: ""},
-      locationTypes: [],
       keyPage: 0
     }
+  },
+  created() {
+    this.locationTypes = [];
   },
   mounted() {
     this.getLocationInfo();

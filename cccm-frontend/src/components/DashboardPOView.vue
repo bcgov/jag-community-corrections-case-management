@@ -170,21 +170,23 @@ export default {
       ],
       expanded: [],
       singleExpand: false,
-      clientList: [],
-      initDataArray: [],
       keyExpandRow: 0,
       // calculated val
       numOfGen: 0,
       numOfSMO: 0,
       numOfIPV: 0,
-      //data for the expand row
-      initData: {},
       formJSON: templateClientProfile,
       baseURL: import.meta.env.BASE_URL,
       POIdirId: null,
       POName: null,
       POLocationId: null
     }
+  },
+  created() {
+    this.clientList = [];
+    this.initDataArray = [];
+    //data for the expand row
+    this.initData = {};
   },
   mounted(){
     this.initPage();

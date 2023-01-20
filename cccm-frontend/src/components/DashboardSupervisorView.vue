@@ -180,7 +180,6 @@ export default {
       key_results: 0,
       key_location: 0,
       selectedLocation: {},
-      locationTypes: [],
       // datatable variables
       items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
@@ -202,12 +201,15 @@ export default {
       ],
       expanded: [],
       singleExpand: false,
-      officerList: [],
       search: '',
       baseURL: import.meta.env.BASE_URL,
       keyExpandRow: 0,
       pickedLocationCD : 0
     }
+  },
+  created() {
+    this.officerList = [];
+    this.locationTypes = [];
   },
   mounted(){
     //get PO list
