@@ -514,7 +514,6 @@ export default {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
             el.updatedDateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
-            el.supervisionRateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
             return el;
           });
           //console.log("RNAList: ", this.rnaList);
