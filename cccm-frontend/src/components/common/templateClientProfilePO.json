@@ -26,10 +26,6 @@
                                         {
                                             "attr": "alt",
                                             "value": "Client photo"
-                                        },
-                                        {
-                                            "attr": "width",
-                                            "value": "90%"
                                         }
                                     ],
                                     "content": "",

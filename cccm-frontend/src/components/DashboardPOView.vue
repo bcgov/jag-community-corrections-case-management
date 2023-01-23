@@ -87,14 +87,13 @@
           <template v-slot:item.rnaCompletedDate="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.rnaCompletedDate}}</div>
           </template>
-          <!--Customize the formStatus field -->
+          <!--Customize the dueNext field -->
           <template v-slot:item.dueNext="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueNext)}`">
+              <div :class="`w-100 h-100 text-center ${getColor(item.dueNext)}`">{{item.dueNext}}</div>
             </div>
-
           </template>
-          <!--Customize the supervision rating field -->
+          <!--Customize the dueDate rating field -->
           <template v-slot:item.dueDate="{ item }">
             <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
               <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDate}}</div>
@@ -323,6 +322,9 @@ export default {
       this.loading = false;
     },
     getColor(dueDateStr) {
+      if (dueDateStr == null || dueDateStr == '') {
+        return '';
+      }
       const dueDate = new Date(dueDateStr);
       const dateNow = new Date();
       const diffTime = dueDate - dateNow;
@@ -337,6 +339,7 @@ export default {
       if (diffDays > 14) {
         return 'dashboard-background-color-green';
       }
+      return '';
     },
     getInitData() {
       for (let el of this.clientList) {
