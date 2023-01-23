@@ -24,15 +24,7 @@
                                         },
                                         {
                                             "attr": "alt",
-                                            "value": "Client photo"
-                                        },
-                                        {
-                                            "attr": "width",
-                                            "value": "250"
-                                        },
-                                        {
-                                            "attr": "height",
-                                            "value": "300"
+                                            "value": "Client profile photo"
                                         }
                                     ],
                                     "customClass": "shadow bg-white rounded text-center p-4 mt-4",

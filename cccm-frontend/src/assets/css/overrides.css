@@ -144,9 +144,18 @@ button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:acti
     color: #38598A!important;
 }
 
-img[alt="Client photo"] {
-    padding: 20px;
+img[alt="Client profile photo"] {
+    padding: 10px;
     border: 1px solid #ccc;
+    width: 100%;
+    max-width: 200px;
+}
+
+img[alt="Client photo"] {
+    padding: 2px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 120px;
 }
 
 label.col-form-label {
