@@ -17,7 +17,7 @@ public class ClientSearch {
     private String user;
     private BigDecimal locationId;
 
-    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean location, String gender, String identifier, String identifierType, String user, BigDecimal locationId) {
+    public ClientSearch(String lastName, Boolean soundex, String givenName, Integer birthYear, Integer age, Integer range, Boolean location, String gender, String identifierType, String identifier, String user, BigDecimal locationId) {
         this.lastName = lastName;
         this.soundex = soundex;
         this.givenName = givenName;
