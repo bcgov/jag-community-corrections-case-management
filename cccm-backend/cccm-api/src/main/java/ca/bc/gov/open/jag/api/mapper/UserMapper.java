@@ -22,7 +22,7 @@ public interface UserMapper {
     @Mapping(target = "inCustody", source = "clientIn")
     @Mapping(target = "orderExpiryDate", source = "FOED")
     @Mapping(target = "supervisionRating", source = "supervisionLevel")
-    @Mapping(target = "rnaCompletedDate", source = "completionDate")
+    @Mapping(target = "rnaCompletedDate", source = "RNACompleted")
     @Mapping(target = "dueNext", source = "dueNext")
     @Mapping(target = "dueDate", source = "dueDate")
     PODashboard toPODashboard(ca.bc.gov.open.jag.api.model.data.PODashboard poDashboard);

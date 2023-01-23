@@ -24,7 +24,6 @@ public class GetPoDashboardTest {
     private static final String SUPERVISION_LEVEL = "SUPER_LEVEL";
     private static final String MOED = "MOED";
     private static final String FOED = "FOED";
-    private static final String RNA_COMPLETE = "RNAComplete";
     private static final String CLIENT_NO = "123";
     private static final String CLIENT_NAME = "ClientName";
     private static final String RNA_CD = "RNACD";
@@ -75,7 +74,7 @@ public class GetPoDashboardTest {
         poDashboard.setSupervisionLevel(SUPERVISION_LEVEL);
         poDashboard.setMOED(MOED);
         poDashboard.setFOED(FOED);
-        poDashboard.setRNACompleted(RNA_COMPLETE);
+        poDashboard.setRNACompleted(COMPLETION_DATE);
         poDashboard.setIndiId(BigDecimal.ONE);
         poDashboard.setClientNo(CLIENT_NO);
         poDashboard.setClientId(BigDecimal.ONE);
