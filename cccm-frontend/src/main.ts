@@ -32,7 +32,7 @@ Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
 Vue.prototype.$CONST_FORMTYPE_ACUTE = 'ACUTE'
 Vue.prototype.$CONST_FORMTYPE_STAT99R = 'STAT99R'
 Vue.prototype.$CONST_FORMTYPE_STABLE = 'STABLE'
-Vue.prototype.$CONST_FORMTYPE_OVERALL = 'OVERALL'
+Vue.prototype.$CONST_FORMTYPE_SORA = 'SORA'
 Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
 Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
@@ -41,7 +41,7 @@ Vue.prototype.$CONST_FORM_TYPES = [
   { value: "ACUTE", key: "ACUTE" },
   { value: "CRNA", key: "CRNA" },
   { value: "CRNA-SARA", key: "SARA" },
-  { value: "OVERALL", key: "OVERALL" },
+  { value: "SMO-OVERALL", key: "SORA" },
   { value: "STABLE", key: "STABLE" },
   { value: "STAT99R", key: "STAT99R" }
 ],
@@ -76,7 +76,7 @@ Vue.prototype.$FORM_INFO = [
   { formType: 'ACUTE', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' },
   { formType: 'STABLE', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type' },
   { formType: 'STAT99R', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '' },
-  { formType: 'OVERALL', formTitle: 'OVERALL', assessmentStatusRequired: false, formTypeLabel: '' }
+  { formType: 'SORA', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '' }
 ],
 
 Vue.$keycloak

@@ -24,7 +24,7 @@
           </v-card-title>
           <v-card-title v-if="formToCreate == $CONST_FORMTYPE_STABLE" class="text-h5">
             Are you sure you want to create STABLE form? 
-            An Overall form will also be created.
+            An SMO-OVERALL form will also be created.
           </v-card-title>
           <v-card-text>
             <br><br>
@@ -66,8 +66,8 @@
           <div v-else-if="item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
             <v-btn
               v-show=true
-              @click.stop="createChildForm($CONST_FORMTYPE_OVERALL)"
-            ><i class="fa fa-plus"></i>&nbsp; Add OVERALL Form</v-btn>
+              @click.stop="createChildForm($CONST_FORMTYPE_SORA)"
+            ><i class="fa fa-plus"></i>&nbsp; Add SMO-OVERALL Form</v-btn>
           </div>
           <span v-else>{{ item.tab }}</span>
         </v-tab>
@@ -212,13 +212,13 @@ export default {
         this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-ACUTE';
         if (!this.relatedClientFormId) {
-          // show the 'add overall' btn if the acute form hasn't linked with overall
+          // show the 'add smo-overall' btn if the acute form hasn't linked with smo-overall
           if (!this.isFormReadonly) {
             this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_OVERALL,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'Overall', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
       }
 
@@ -233,13 +233,13 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'Overall', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
       }
 
-      // if formType is 'OVERALL', only show Overall tab
-      if (this.formType === this.$CONST_FORMTYPE_OVERALL) {
-        this.items.push({ tab: 'OVERALL', key: 0, id: this.$CONST_FORMTYPE_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
+      // if formType is 'SMO-OVERALL', only show Overall tab
+      if (this.formType === this.$CONST_FORMTYPE_SORA) {
+        this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-OVERALL';
       }
     },
