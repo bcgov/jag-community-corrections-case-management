@@ -150,7 +150,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 }
 
                 if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
-                    ValidationResult saraResult = validationService.validateSARA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                    ValidationResult saraResult = validationService.validateSARA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId()));
                     if (!saraResult.getErrors().isEmpty()) {
                         throw new CCCMException("SARA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, saraResult);
                     }
@@ -164,7 +164,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 }
 
                 if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
-                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
+                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId()));
                     if (!crnaResult.getErrors().isEmpty()) {
                         throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, crnaResult);
                     }
