@@ -29,7 +29,7 @@ tags:
   - description: Endpoints for stable create/validate
     name: stable-forms
   - description: Endpoints for smo-overall create/validate
-    name: smo-overall-forms
+    name: sora-forms
   - description: Endpoints both for all form types
     name: general-forms
   - description: Endpoints for role sync
@@ -715,12 +715,12 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client/smo-overall:
+  /forms/client/sora:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       tags:
-        - smo-overall-forms
+        - sora-forms
       summary: createNewForm
       operationId: createOverallForm
       requestBody:
@@ -750,10 +750,10 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/validate/smo-overall:
+  /forms/client/validate/sora:
     post:
       tags:
-        - smo-overall-forms
+        - sora-forms
       summary: validateOverallForm
       operationId: validateOverallForm
       requestBody:
