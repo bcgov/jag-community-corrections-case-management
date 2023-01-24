@@ -12,17 +12,23 @@
         max-width="450"
     >
       <v-card>
-        <div class="col-sm-6 m-7">
+        <div class="col-sm-11 m-7">
           <strong>Select a new office</strong>
-          <v-select
-              item-text="value"
-              item-value="key"
-              v-model="selectedLocation"
-              :items="locationTypes"
-              label=""
-              outlined
+          <v-col
+            class="d-flex"
+            cols="12"
+            sm="12"
           >
-          </v-select>
+            <v-select
+                item-text="value"
+                item-value="key"
+                v-model="selectedLocation"
+                :items="locationTypes"
+                label=""
+                outlined
+            >
+            </v-select>
+          </v-col>
         </div>
         <v-card-actions>
           <v-btn

@@ -55,44 +55,45 @@
         </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
-          <td :colspan="1"></td>
-          <td :colspan="1">
-            <figure>
-              <img :src="item.photoData" alt="Client photo" width="132" height="132" />
+          <td width="2%"></td>
+          <td width="10%">
+            <figure v-if="item.photoData">
+              <img :src="item.photoData" alt="Client photo" />
               <figcaption>Photo Taken: {{item.photoDate}}</figcaption>
             </figure>
+            <strong v-else>No photo</strong>
           </td>
-          <td :colspan="1">
+          <td width="10%">
             <strong>Current Name</strong>
             <br />
             {{ item.currentName }}
           </td>
-          <td :colspan="1">
+          <td width="10%">
             <strong>Gender</strong>
             <br />
             {{ item.gender }}
           </td>
-          <td :colspan="1">
+          <td width="10%">
             <strong>Location</strong>
             <br />
             {{ item.custodyLocation }}
           </td>
-          <td :colspan="1">
+          <td width="10%">
             <strong>PCM</strong>
             <br />
             {{ item.communityInformation.caseManager }}
           </td>
-          <td :colspan="2">
+          <td width="10%">
             <strong>Other Aliases</strong>
             <br />
             {{ item.alias }}
           </td>
-          <td :colspan="2">
+          <td :colspan="3" width="40%">
             <strong>Other Addresses</strong>
             <br />
             <ul>
               <li v-for="el in item.address" v-if="!el.primary">
-                {{ el.fullAddress + "(" + el.type + ")" }}
+                {{ el.fullAddress }}
               </li>
             </ul>
           </td>
@@ -136,7 +137,7 @@ export default {
     return {
       CONST_DEFAULT_RANGEYEARS: 2,
       CONST_MIN_AGE: 10,
-      CONST_MAX_AGE: 100,
+      CONST_MIN_DOB: 1880,
       CONST_CURRENT_YEAR: new Date().getFullYear(),
       key_clientsearchresult: 0,
       formInfoTemplate: template,
@@ -152,20 +153,16 @@ export default {
       expanded: [],
       singleExpand: false,
       clientHeaders: [
-        {
-          text: '',
-          align: 'start',
-          value: 'data-table-expand'
-        },
-        { text: 'Name', align: 'start', sortable: true, value: 'clientName' },
-        { text: 'Current Name?', value: 'currentNameYn' },
-        { text: 'Age', value: 'clientAge' },
-        { text: 'Date of Birth', value: 'birthDate' },
-        { text: 'Address', value: 'fullAddress' },
-        { text: 'Address Type', value: 'addressType' },
-        { text: 'Expired?', value: 'expired' },
-        { text: 'CS#', value: 'clientNum' },
-        { text: 'Record Sealed?', value: 'sealed' },
+        { text: '', align: 'start', value: 'data-table-expand', width: '2%' },
+        { text: 'Name', align: 'start', sortable: true, value: 'clientName', width: '10%' },
+        { text: 'Current Name?', value: 'currentNameYn', width: '5%' },
+        { text: 'Age', value: 'clientAge', width: '5%' },
+        { text: 'Date of Birth', value: 'birthDate', width: '10%' },
+        { text: 'Address', value: 'fullAddress', width: '28%' },
+        { text: 'Address Type', value: 'addressType', width: '10%' },
+        { text: 'Expired?', value: 'expired', width: '10%' },
+        { text: 'CS#', value: 'clientNum', width: '10%' },
+        { text: 'Record Sealed?', value: 'sealed', width: '10%' },
       ],
       baseURL: import.meta.env.BASE_URL,
       initData: {'data': {}},
@@ -196,7 +193,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        //console.log("Photo search results: ", response);
+        console.log("Photo search results: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
@@ -224,12 +221,11 @@ export default {
     async buildForm() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
-      //console.log(this.CONST_CURRENT_YEAR, this.CONST_MAX_AGE, this.CONST_MIN_AGE);
       tmpJSONStr = tmpJSONStr.replaceAll('${cccm_api_endpoint}', config.VUE_APP_CCCM_API_ENDPOINT);
-      tmpJSONStr = tmpJSONStr.replaceAll('${min_dob_year}', this.CONST_CURRENT_YEAR - this.CONST_MAX_AGE);
+      tmpJSONStr = tmpJSONStr.replaceAll('${min_dob_year}', this.CONST_MIN_DOB);
       tmpJSONStr = tmpJSONStr.replaceAll('${max_dob_year}', this.CONST_CURRENT_YEAR);
       tmpJSONStr = tmpJSONStr.replaceAll('${min_age}', this.CONST_MIN_AGE);
-      tmpJSONStr = tmpJSONStr.replaceAll('${max_age}', this.CONST_MAX_AGE);
+      tmpJSONStr = tmpJSONStr.replaceAll('${max_age}', this.CONST_CURRENT_YEAR - this.CONST_MIN_DOB);
 
       //Generate the oauth token to authenticate the API call
       const token = await updateToken();
@@ -271,8 +267,8 @@ export default {
           // Map primary address and primary addressType
           if (el.address != null && el.address.length == 1) {
             el.fullAddress = el.address[0].fullAddress;
-            el.addressType = el.address[0].type;
-            el.expired = el.address[0].expired;
+            el.addressType = el.address[0].primary ? 'Primary' : el.address[0].type;
+            el.expired = el.address[0].expired ? 'Y' : 'N';
           } else {
             el.fullAddress = "";
             el.addressType = "";
