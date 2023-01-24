@@ -188,11 +188,15 @@
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.CRNA)}`">{{ getRatingDisplay(item.ratings.CRNA) }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.CRNA)}`">{{ getRatingDisplay(item.crnaRating) }}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SARA)} `">{{ getRatingDisplay(item.ratings.SARA) }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SARA)} `">{{ getRatingDisplay(item.saraRating) }}</div>
+          </template>
+          <!--Customize the smoOverallRating rating field -->
+          <template v-slot:item.smoOverallRating="{ item }">
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.OVERALL)} `">{{ item.smoOverallRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -285,6 +289,7 @@ export default {
         { text: 'Supervision Rating', sortable: true, value: 'supervisionRating' },
         { text: 'CRNA Rating', sortable: true, value: 'crnaRating' },
         { text: 'SARA Rating', sortable: true, value: 'saraRating' },
+        { text: 'SMO Overall Rating', sortable: true, value: 'smoOverallRating' },
         { text: 'Actions', value: 'action' },
       ],
       rnaList: [],
@@ -515,6 +520,9 @@ export default {
             }
             el.updatedDateDisplay = (el.completedDate) ? el.completedDate : el.createdDate;
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
+            el.crnaRating = this.getRatingDisplay(el.ratings.CRNA);
+            el.saraRating = this.getRatingDisplay(el.ratings.SARA);
+            el.smoOverallRating = this.getRatingDisplay(el.ratings.OVERALL);
             return el;
           });
         }
