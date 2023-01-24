@@ -57,10 +57,11 @@
         <template v-slot:expanded-item="{ headers, item }">
           <td width="2%"></td>
           <td width="10%">
-            <figure>
+            <figure v-if="item.photoData">
               <img :src="item.photoData" alt="Client photo" />
               <figcaption>Photo Taken: {{item.photoDate}}</figcaption>
             </figure>
+            <strong v-else>No photo</strong>
           </td>
           <td width="10%">
             <strong>Current Name</strong>
