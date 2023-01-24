@@ -274,6 +274,7 @@
                                                                             "truncateMultipleSpaces": false,
                                                                             "clearOnHide": false,
                                                                             "validate": {
+                                                                                "customMessage": "Invalid DOB year",
                                                                                 "min": "${min_dob_year}",
                                                                                 "max": "${max_dob_year}"
                                                                             },
