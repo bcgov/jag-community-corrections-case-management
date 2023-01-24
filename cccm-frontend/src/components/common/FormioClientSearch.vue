@@ -193,7 +193,6 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("Photo search results: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
