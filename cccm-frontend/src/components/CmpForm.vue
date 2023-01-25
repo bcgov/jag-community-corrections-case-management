@@ -193,20 +193,27 @@ export default {
           // show the 'add sara' btn if the crna form hasn't linked with sara
           if (!this.isFormReadonly) {
             this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA,    formId: '', relatedClientFormId: '', readonly: false, locked: false});
-            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
           }
         } else {
           // otherwise, show sara tab
           this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
-      }
+        // show the 'add STABLE' btn 
+        if (!this.isFormReadonly) {
+          this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
+        }
+      } else
       // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
       if (this.formType === this.$CONST_FORMTYPE_SARA) {
         this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-SARA';
-      }
 
+        // show the 'add STABLE' btn 
+        if (!this.isFormReadonly) {
+          this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
+        }
+      } else
       // if formType is 'ACUTE', only show ACUTE tab
       if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
         this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
@@ -220,8 +227,7 @@ export default {
           // otherwise, show overall tab
           this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
-      }
-
+      } else
       // if formType is 'STAT99R', only show STAT99R tab
       if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
         this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
@@ -235,18 +241,20 @@ export default {
           // otherwise, show overall tab
           this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
-      }
-
+      } else
       // if formType is 'SMO-OVERALL', only show Overall tab
       if (this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
         this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-OVERALL';
-      }
-
+      } else
       // if formType is 'STABLE', only show STABLE tab
       if (this.formType === this.$CONST_FORMTYPE_STABLE) {
         this.items.push({ tab: 'STABLE-CMP', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-STABLE';
+      } else {
+        // unsupported formTypes
+        this.items.push({ tab: this.formType, key: 0, id: this.formId, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
+        this.current_tab = 'tab-' + this.formType;
       }
     },
     async createChildFormAPI() {
