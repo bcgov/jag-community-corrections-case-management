@@ -66,7 +66,7 @@
           <div v-else-if="item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
             <v-btn
               v-show=true
-              @click.stop="createChildForm($CONST_FORMTYPE_SORA)"
+              @click.stop="createChildForm($CONST_FORMTYPE_SO_OVERALL)"
             ><i class="fa fa-plus"></i>&nbsp; Add SMO-OVERALL Form</v-btn>
           </div>
           <span v-else>{{ item.tab }}</span>
@@ -218,7 +218,7 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
       }
 
@@ -233,14 +233,20 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
         }
       }
 
       // if formType is 'SMO-OVERALL', only show Overall tab
-      if (this.formType === this.$CONST_FORMTYPE_SORA) {
-        this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SORA, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
+      if (this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
+        this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
         this.current_tab = 'tab-OVERALL';
+      }
+
+      // if formType is 'STABLE', only show STABLE tab
+      if (this.formType === this.$CONST_FORMTYPE_STABLE) {
+        this.items.push({ tab: 'STABLE-CMP', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked });
+        this.current_tab = 'tab-STABLE';
       }
     },
     async createChildFormAPI() {
