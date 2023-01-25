@@ -715,7 +715,7 @@ paths:
         404:
           description: Not Found
           content: {}
-  /forms/client/so-overall:
+  /forms/client/so_overall:
     post:
       parameters:
         - $ref: "#/components/parameters/xLocationId"
@@ -750,7 +750,7 @@ paths:
           description: Not Found
           content: {}
       x-codegen-request-body-name: createFormInput
-  /forms/client/validate/so-overall:
+  /forms/client/validate/so_overall:
     post:
       tags:
         - so-overall-forms
