@@ -19,7 +19,7 @@ public interface ClientFormSaveService {
 
     BigDecimal createStable(CreateFormInput createFormInput, BigDecimal locationId);
 
-    BigDecimal createOverall(CreateFormInput createFormInput, BigDecimal locationId);
+    BigDecimal createSOOverall(CreateFormInput createFormInput, BigDecimal locationId);
 
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 

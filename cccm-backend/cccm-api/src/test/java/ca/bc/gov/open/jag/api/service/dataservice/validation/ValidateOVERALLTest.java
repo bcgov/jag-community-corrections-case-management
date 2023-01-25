@@ -33,7 +33,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateOverall(DATA_ONE);
+        ValidationResult result = sut.validateSOOverall(DATA_ONE);
 
         Assertions.assertEquals(10, result.getErrors().size());
 
@@ -45,7 +45,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateOverall("{}");
+        ValidationResult result = sut.validateSOOverall("{}");
 
         Assertions.assertEquals(11, result.getErrors().size());
 
@@ -57,7 +57,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateOverall("");
+        ValidationResult result = sut.validateSOOverall("");
 
         Assertions.assertEquals(11, result.getErrors().size());
 

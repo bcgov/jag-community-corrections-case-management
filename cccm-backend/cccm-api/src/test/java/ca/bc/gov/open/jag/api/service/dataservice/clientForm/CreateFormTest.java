@@ -1,15 +1,11 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
-import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -129,7 +125,7 @@ public class CreateFormTest {
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        BigDecimal result = sut.createOverall(createFormInput(null, "TEST"), BigDecimal.ONE);
+        BigDecimal result = sut.createSOOverall(createFormInput(null, "TEST"), BigDecimal.ONE);
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
