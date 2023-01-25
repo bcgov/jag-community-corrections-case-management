@@ -93,7 +93,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateOverall(String answers) {
+    public ValidationResult validateSOOverall(String answers) {
 
         logger.debug("Validate Overall {}", answers);
 

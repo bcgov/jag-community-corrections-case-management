@@ -44,6 +44,6 @@ public interface ValidationService {
      * @param answers answers to be validated
      * @return failed validations for Overall
      */
-    ValidationResult validateOverall(String answers);
+    ValidationResult validateSOOverall(String answers);
 
 }

@@ -326,7 +326,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(OVERALL_FORM_TYPE,null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateOverall(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateSOOverall(Mockito.any())).thenReturn(validationResult);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
