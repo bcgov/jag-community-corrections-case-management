@@ -21,7 +21,7 @@
       ></v-btn>
       <!-- OVERALL Form creation modal dialog-->
       <v-btn
-        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_OVERALL}`"
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
@@ -55,8 +55,8 @@
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
               :readonly="readonly"
-              label="OVERALL"
-              :value="$CONST_FORMTYPE_OVERALL"
+              label="SMO-OVERALL"
+              :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
           <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
@@ -71,8 +71,8 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="OVERALL"
-              :value="$CONST_FORMTYPE_OVERALL"
+              label="SMO-OVERALL"
+              :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
           <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
@@ -87,12 +87,12 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="OVERALL"
-              :value="$CONST_FORMTYPE_OVERALL"
+              label="SMO-OVERALL"
+              :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
-          <div v-if="formToCreate == $CONST_FORMTYPE_OVERALL" class="col-sm-10 m-10">
-            <strong>Are you sure you want to create a new Overall form?</strong>
+          <div v-if="formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
+            <strong>Are you sure you want to create a new SMO-OVERALL form?</strong>
           </div>
           <v-card-actions>
             <v-btn
@@ -132,7 +132,7 @@
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
         <div class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_OVERALL)">Create New Overall</button>
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall</button>
         </div>
       </section>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
@@ -196,7 +196,7 @@
           </template>
           <!--Customize the smoOverallRating rating field -->
           <template v-slot:item.smoOverallRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.OVERALL)} `">{{ item.smoOverallRating }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SO_OVERALL)} `">{{ item.smoOverallRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -310,12 +310,12 @@ export default {
   },
   methods: {
     onSTABLESelectionChange() {
-      // if 'STABLE' is selected, auto select 'OVERALL'
+      // if 'STABLE' is selected, auto select 'SMO-OVERALL'
       if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
       } else {
-        // remove 'OVERALL' if 'STABLE' is unselected
-        this.selectedFormtypeForFormCreate = this.selectedFormtypeForFormCreate.filter(arrayItem => arrayItem !== this.$CONST_FORMTYPE_OVERALL);
+        // remove 'SMO-OVERALL' if 'STABLE' is unselected
+        this.selectedFormtypeForFormCreate = this.selectedFormtypeForFormCreate.filter(arrayItem => arrayItem !== this.$CONST_FORMTYPE_SO_OVERALL);
       }
     },
     canClone(item) {
@@ -426,10 +426,10 @@ export default {
           this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
         }
 
-        // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_OVERALL to this.selectedFormtypeForFormCreate
+        // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_SO_OVERALL to this.selectedFormtypeForFormCreate
         if (this.SMOClient) {
           this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
-          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_OVERALL);
+          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
         }
       }
       
@@ -509,7 +509,6 @@ export default {
         if (error) {
           console.error(error);
         } else {
-          console.log("rna list: ", response);
           this.key_rnalistSearchResult++;
           this.rnaList = response;
           //console.log("RNAList search: ", response);
@@ -522,7 +521,7 @@ export default {
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             el.crnaRating = this.getRatingDisplay(el.ratings.CRNA);
             el.saraRating = this.getRatingDisplay(el.ratings.SARA);
-            el.smoOverallRating = this.getRatingDisplay(el.ratings.OVERALL);
+            el.smoOverallRating = this.getRatingDisplay(el.ratings.SO_OVERALL);
             return el;
           });
         }
@@ -560,14 +559,26 @@ export default {
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      let formType = this.formToCreate;
+      console.log("this.formToCreate: ", this.formToCreate);
+      console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
+      // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
-        formType = this.$CONST_FORMTYPE_CRNA;
+        // if contains SARA, create CRNA-SARA
         if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
-          formType = this.$CONST_FORMTYPE_SARA;
+          this.createFormAPI(this.$CONST_FORMTYPE_SARA);
+        } else {
+          // if doesn't contain SARA, create CRNA
+          this.createFormAPI(this.$CONST_FORMTYPE_CRNA);
         }
+        // if contains STABLE, create STABLE and SMO-Overall
+        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
+          this.createFormAPI(this.$CONST_FORMTYPE_STABLE);
+          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
+        }
+      } else {
+        // Create either ACUTE, STATIC99R, or SMO-Overall
+        this.createFormAPI(this.formToCreate);
       }
-      this.createFormAPI(formType);
     },
     formCreate(formType) {
       //console.log("Create form btn click");
