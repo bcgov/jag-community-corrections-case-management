@@ -72,13 +72,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         BigDecimal formSARATypeId = getCode(SARA_FORM_TYPE, obridgeClientService.getFormTypes(SARA_FORM_TYPE));
         BigDecimal formCRNATypeId = getCode(CRNA_FORM_TYPE, obridgeClientService.getFormTypes(CRNA_FORM_TYPE));
+        BigDecimal returnFormId = null;
         if (createFormInput.getLinkedClientFormId() == null) {
             logger.info("Create Linked CRNA Form");
-            createFormInput.setLinkedClientFormId(createForm(createFormInput, locationId, formCRNATypeId));
+            returnFormId = createForm(createFormInput, locationId, formCRNATypeId);
+            createFormInput.setLinkedClientFormId(returnFormId);
         }
 
         logger.info("Create SARA Form");
-        return createForm(createFormInput, locationId, formSARATypeId);
+
+        if (returnFormId == null) {
+            return createForm(createFormInput, locationId, formSARATypeId);
+        } else {
+            createForm(createFormInput, locationId, formSARATypeId);
+            return returnFormId;
+        }
 
     }
 
