@@ -39,7 +39,7 @@
         :single-expand="singleExpand"
         :expanded.sync="expanded"
         @item-expanded="expandRow"
-        item-key="clientNum"
+        item-key="index"
         no-results-text="No clients found"
         :search="search"
         show-expand
@@ -262,7 +262,9 @@ export default {
         this.clients = response;
 
         // populate primary address info 
+        let index = 0;
         this.clients = this.clients.filter(el => {
+          el.index = index++;
           // Map primary address and primary addressType
           if (el.address != null && el.address.length == 1) {
             el.fullAddress = el.address[0].fullAddress;
