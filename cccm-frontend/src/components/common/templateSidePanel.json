@@ -109,7 +109,7 @@
 					"customConditional": "show = data.formType === 'ACUTE'"
 				},
 				{
-					"title": "Source Contacted",
+					"title": "Sources Contacted",
 					"collapsible": false,
 					"key": "panel_sourceContacted",
 					"customClass": "bg-blue",
