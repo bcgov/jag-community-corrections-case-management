@@ -100,14 +100,6 @@
                     "tableView": false
                 },
                 {
-                    "label": "Limit search to current active location",
-                    "tableView": false,
-                    "key": "limitedToCurrentActiveLocation",
-                    "type": "checkbox",
-                    "input": true,
-                    "defaultValue": false
-                },
-                {
                     "label": "Tabs",
                     "components": [
                         {

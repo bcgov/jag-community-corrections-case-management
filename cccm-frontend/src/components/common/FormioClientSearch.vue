@@ -241,12 +241,11 @@ export default {
     },
     private_getLimitedToCurrentActiveLocation() {
       let limitedToCurrentActiveLocation = false;
-      let checkbox = document.getElementsByName("data[limitedToCurrentActiveLocation]");
-      //console.log("checkbox: ", checkbox, checkbox[0], checkbox[0].checked);
-      if (checkbox != null &&  checkbox[0] != null) {
-        limitedToCurrentActiveLocation = checkbox[0].checked;
-      }
-      //console.log("limitedToCurrentActiveLocation: ", limitedToCurrentActiveLocation);
+      // Commented out on Jan 27, 2023. Will enable it once this option is back.
+      // let checkbox = document.getElementsByName("data[limitedToCurrentActiveLocation]");
+      // if (checkbox != null &&  checkbox[0] != null) {
+      //   limitedToCurrentActiveLocation = checkbox[0].checked;
+      // }
       return limitedToCurrentActiveLocation;
     },
     private_processSearchResults(error, response) {
