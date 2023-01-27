@@ -66,6 +66,7 @@ public interface ClientMapper {
     Client toClientDetails(ca.bc.gov.open.jag.api.model.data.Client client, List<ca.bc.gov.open.jag.api.model.data.Address> address, ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "comment", source = "description")
+    @Mapping(target = "date", source = "effectiveDate")
     Alert toAlert(ca.bc.gov.open.jag.api.model.data.Alert alert);
 
     @Mapping(target = "image", source = "image")
