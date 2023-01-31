@@ -158,7 +158,7 @@ export default {
         // 1. the form was created by someone else; OR
         // 2. the form is completed
         let isReadonly = false;
-        if (response.createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+        if (response.createdBy == this.mainStore.loginUserName) {
           isReadonly = response.complete;
         } else {
           isReadonly = true;

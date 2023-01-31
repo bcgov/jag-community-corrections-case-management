@@ -79,6 +79,7 @@ router.beforeEach((to, from, next) => {
   store.getUserDefaultLocation();
   store.getUserLocations();
   store.getLoginUserGroup();
+  store.getLoginUserName();
 
   //console.log("Store: ", store.locationCD, store.locationDescription, Vue.prototype.$USER_GROUP_SUPERVISOR, store.loginUserGroup);
   

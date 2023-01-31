@@ -321,7 +321,7 @@ export default {
     isShowDeleteButton(createdBy) {
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+          createdBy == this.mainStore.loginUserName) {
         return true;
       }
       return false;
@@ -338,7 +338,7 @@ export default {
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+        if (createdBy != this.mainStore.loginUserName) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
