@@ -72,7 +72,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>{{data.updatedDate}}</div><div><Strong>Completed Date: </Strong>{{data.completedDate}}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>{{data.updatedDate}}</div><div><Strong>Office Location: </Strong>{{data.location}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
@@ -98,7 +98,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "{{ data.formTypeLocation }}",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Completed Date: </Strong>{{data.completedDate}}</div><div><Strong>{{data.assessmentStatusRequired ? data.formTypeLabel : ''}}{{data.assessmentStatusRequired ? ':' : ''}} </Strong>{{data.assessmentStatusRequired ? data.clientFormType : ''}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",
@@ -274,7 +274,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>Active Location: </Strong>{{data.clientData == null || data.clientData.locationInformation == null ? '' : data.clientData.locationInformation.outLocation}}</div><div><Strong>Final Order Exp. Date: </Strong>{{data.clientData == null || data.clientData.orderInformation == null ? '' : data.clientData.orderInformation.expiryDate}}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Current Active Location: </Strong>{{data.clientData == null || data.clientData.communityLocation == null ? '' : data.clientData.communityLocation.communityLocation}}</div><div><Strong>Final Order Exp. Date: </Strong>{{data.clientData == null || data.clientData.orderInformation == null ? '' : data.clientData.orderInformation.expiryDate}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",

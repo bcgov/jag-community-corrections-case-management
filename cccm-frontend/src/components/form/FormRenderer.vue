@@ -125,7 +125,7 @@
         <div class="columnMain L">
           <div class="menu-Sticky">
             <div class="menuR1">
-              <v-alert v-if="errorOccurred" type="info" prominent dismissible>
+              <v-alert :key="errorKey" v-if="errorOccurred" type="info" prominent dismissible>
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
@@ -266,7 +266,8 @@ export default {
       printRequested: false,
       submitBtnData: {},
       isContainCasePlan: false,
-      isContainSummary: false
+      isContainSummary: false,
+      errorKey: 0
     }
   },
   mounted(){
@@ -530,13 +531,13 @@ export default {
       completeFormData.clientFormId = Number(this.formId);
       completeFormData.clientNumber = this.csNumber;
       completeFormData.linkedClientFormId = this.relatedClientFormId;
-      console.log("completeFormData: ", completeFormData);
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
         this.errorOccurred = true;
         this.errorTitle = error.response.data.errorMessage;
         this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
+        this.errorKey++;
       } else {
         console.log("Successfully completed the form: ", this.formId);
         //Redirect User back to clientRecord.RNAList
