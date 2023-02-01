@@ -334,7 +334,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return false;
       }
-      if (item.createdBy != this.mainStore.loginUserName || 
+      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username || 
           !item.complete ||
           !item.mostRecent) {
         return false;
@@ -350,7 +350,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return "User is a researcher";
       }
-      if (item.createdBy != this.mainStore.loginUserName) {
+      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
         return "User cannot clone another user's form"
       }
       if (!item.complete) {
