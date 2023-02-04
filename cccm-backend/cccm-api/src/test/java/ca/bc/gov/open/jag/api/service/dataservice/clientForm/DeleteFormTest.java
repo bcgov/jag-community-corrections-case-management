@@ -79,6 +79,7 @@ public class DeleteFormTest {
         clientFormSummary.setModule(module);
         clientFormSummary.setRelatedClientFormId(relatedFormId);
         clientFormSummary.setCreatedBy(createdBy);
+        clientFormSummary.setCreatedByIdir(createdBy);
         return clientFormSummary;
 
     }

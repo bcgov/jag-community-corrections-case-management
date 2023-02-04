@@ -364,6 +364,7 @@ public class CompleteFormTest {
         clientFormSummary.setSupervisionRating(superVisionRating);
         clientFormSummary.setCompletedDate(completedDate);
         clientFormSummary.setCreatedBy(createdBy);
+        clientFormSummary.setCreatedByIdir(createdBy);
         return clientFormSummary;
 
     }
