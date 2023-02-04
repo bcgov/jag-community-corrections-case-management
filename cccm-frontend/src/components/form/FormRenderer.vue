@@ -135,9 +135,12 @@
             <div class="menuR2" v-if="!loading">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
+                :pageRefreshSectionIndex="pageRefreshSectionIndex"
+                :continueEmitParentNavClicked="continueEmitParentNavClicked"
                 :parentNavMoveToNext="parentNavMoveToNext"
                 :parentNavJumpToPointed="parentNavJumpToPointed"
-                @parentNavClicked="handleNavChildCallback"/>
+                @parentNavClicked="handleNavChildCallback"
+                @refreshPage="handleRefreshPage"/>
             </div>
           </div>
           <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
@@ -267,7 +270,9 @@ export default {
       submitBtnData: {},
       isContainCasePlan: false,
       isContainSummary: false,
-      errorKey: 0
+      errorKey: 0,
+      continueEmitParentNavClicked: true,
+      pageRefreshSectionIndex: ''
     }
   },
   mounted(){
@@ -321,7 +326,7 @@ export default {
     isShowDeleteButton(createdBy) {
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          createdBy == this.mainStore.loginUserName) {
+          createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
         return true;
       }
       return false;
@@ -338,7 +343,7 @@ export default {
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (createdBy != this.mainStore.loginUserName) {
+        if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
@@ -360,7 +365,7 @@ export default {
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
         this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.completedDate);
-        this.formInfoData.data.clientFormType = (this.formInfoData.data.clientFormType) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+        this.formInfoData.data.clientFormType = this.formInfoData.data.clientFormType == null ? '' : this.formInfoData.data.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
 
         // set the form lock 
         this.formInfoData.data.locked = this.locked;
@@ -372,6 +377,8 @@ export default {
           this.formInfoData.data.formTitle = theForm[0].formTitle;
           this.formInfoData.data.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
           this.formInfoData.data.formTypeLabel = theForm[0].formTypeLabel;
+          this.pageRefreshSectionIndex = theForm[0].dataRefreshSectionIndex;
+          //console.log("this.pageRefreshSectionIndex: ", this.pageRefreshSectionIndex);
         }
 
         // set submitBtnData
@@ -452,6 +459,7 @@ export default {
       return false;
     },
     navToSectionAndQuestion(section: number, question: number) {
+      //console.log("Nav to :", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;
@@ -508,11 +516,20 @@ export default {
       //console.log("Delete Form btn clicked");
       this.showDeleteDialog();
     },
+    handleRefreshPage() {
+      //console.log("force page refresh");
+      this.componentKey++;
+      this.continueEmitParentNavClicked = false;
+      setTimeout(() => {
+        this.navToSectionAndQuestion(this.pageRefreshSectionIndex, 1);
+      }, 1);
+    },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-      
+      this.continueEmitParentNavClicked = true;
+
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
         this.displayCasePlan = true;
