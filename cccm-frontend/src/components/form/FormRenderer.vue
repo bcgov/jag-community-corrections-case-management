@@ -326,7 +326,7 @@ export default {
     isShowDeleteButton(createdBy) {
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+          createdBy.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
       return false;
@@ -343,7 +343,7 @@ export default {
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+        if (createdBy.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
@@ -364,7 +364,7 @@ export default {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
-        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdBy, clientFormMeta.completedDate);
+        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdByIdir, clientFormMeta.completedDate);
         this.formInfoData.data.clientFormType = this.formInfoData.data.clientFormType == null ? '' : this.formInfoData.data.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
 
         // set the form lock 
@@ -383,7 +383,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdBy);
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdByIdir);
         this.submitBtnData.data.readonly = this.readonly;
         
         // Client profile search.
