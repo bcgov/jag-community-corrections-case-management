@@ -370,7 +370,7 @@ export default {
       if (theForm != null && theForm[0] != null && !theForm[0].assessmentStatusRequired) {
         return '';
       }
-      return (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+      return isReassessment == null ? "" : (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
     getRatingDisplay(rating) {
       if (rating == null || rating == '') {
