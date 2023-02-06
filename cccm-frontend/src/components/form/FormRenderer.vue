@@ -224,7 +224,8 @@ export default {
     relatedClientFormId: 0,
     readonly: false,
     locked: false,
-    printParam: false
+    printParam: false,
+    createdByIdir: ''
   },
   components: {
     Form,
@@ -364,9 +365,9 @@ export default {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
-        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.createdByIdir, clientFormMeta.completedDate);
+        this.formInfoData.data.showEditBtn = this.isShowEditButton(this.createdByIdir, clientFormMeta.completedDate);
         this.formInfoData.data.clientFormType = this.formInfoData.data.clientFormType == null ? '' : this.formInfoData.data.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
-
+        
         // set the form lock 
         this.formInfoData.data.locked = this.locked;
         
@@ -383,7 +384,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.createdByIdir);
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(this.createdByIdir);
         this.submitBtnData.data.readonly = this.readonly;
         
         // Client profile search.
@@ -442,7 +443,7 @@ export default {
           console.error(error);
         } else {
           this.formInitData = clientFormData;
-          this.formInitData.data.clientFormTypeDesc = (this.formInfoData.data.clientFormType == this.$FORM_TYPE_INITIAL) ? "Assessment": this.$FORM_TYPE_REASSESSMENT;
+          this.formInitData.data.clientFormTypeDesc = this.formInfoData.data.clientFormType == '' ? 'Assessment' : (this.formInfoData.data.clientFormType == this.$FORM_TYPE_INITIAL) ? "Assessment": this.$FORM_TYPE_REASSESSMENT;
         }
       }
       this.loading = false;
