@@ -146,6 +146,106 @@
       "message": "Overall Rating: is required"
     },
     {
+      "key": "S02Q01",
+      "type": "REQUIRED",
+      "message": "1. Past Assault of Family Members: is required"
+    },
+    {
+      "key": "S02Q02",
+      "type": "REQUIRED",
+      "message": "2. Past Assault of Strangers/Acquaintances: is required"
+    },
+    {
+      "key": "S02Q03",
+      "type": "REQUIRED",
+      "message": "3. Past Violation of Cond. Release or Community Supervision: is required"
+    },
+    {
+      "key": "S03Q04",
+      "type": "REQUIRED",
+      "message": "4. Recent Relationship Problems (past year): is required"
+    },
+    {
+      "key": "S03Q05",
+      "type": "REQUIRED",
+      "message": "5. Recent Employment Problems (past year): is required"
+    },
+    {
+      "key": "S03Q06",
+      "type": "REQUIRED",
+      "message": "6. Victim of and/or Witness to Family Violence (Childhood): is required"
+    },
+    {
+      "key": "S03Q07",
+      "type": "REQUIRED",
+      "message": "7. Recent Substance Abuse (past year): is required"
+    },
+    {
+      "key": "S03Q08",
+      "type": "REQUIRED",
+      "message": "8. Recent Suicidal/Homicidal Ideation/Intent (past year): is required"
+    },
+    {
+      "key": "S03Q09",
+      "type": "REQUIRED",
+      "message": "9. Recent Psychotic/Manic Symptoms (past year): is required"
+    },
+    {
+      "key": "S03Q10",
+      "type": "REQUIRED",
+      "message": "10. Personality Disorder with Anger, Impulsivity or Behavioural Instability: is required"
+    },
+    {
+      "key": "S04Q11",
+      "type": "REQUIRED",
+      "message": "11. Past Physical Assault: is required"
+    },
+    {
+      "key": "S04Q12",
+      "type": "REQUIRED",
+      "message": "12. Past Sexual Assault/Sexual Jealousy: is required"
+    },
+    {
+      "key": "S04Q13",
+      "type": "REQUIRED",
+      "message": "13. Past use of Weapons/Credible Threats of Harm: is required"
+    },
+    {
+      "key": "S04Q14",
+      "type": "REQUIRED",
+      "message": "14. Recent Escalation of Frequency/Severity of Assault (past year): is required"
+    },
+    {
+      "key": "S04Q15",
+      "type": "REQUIRED",
+      "message": "15. Past Violation of \"No Contact\" Order (civil or criminal): is required"
+    },
+    {
+      "key": "S04Q16",
+      "type": "REQUIRED",
+      "message": "16. Extreme Minimization/Denial of Spousal Assault History: is required"
+    },
+    {
+      "key": "S04Q17",
+      "type": "REQUIRED",
+      "message": "17. Attitudes that Support or Condone Spousal Assault: is required"
+    },
+    {
+      "key": "S05Q18",
+      "type": "REQUIRED",
+      "message": "18. Severe and/or Sexual Violence: is required"
+    },
+    {
+      "key": "S05Q19",
+      "type": "REQUIRED",
+      "message": "19. Use of Weapons and/or Credible Threats of Harm: is required"
+    },
+    {
+      "key": "S05Q20",
+      "type": "REQUIRED",
+      "message": "20. Violation of \"No Contact\" Order (civil or criminal): is required"
+    },
+    {
       "key": "S06Q01",
       "type": "REQUIRED",
       "message": "1. Current emotional crisis?: is required"
@@ -179,6 +279,11 @@
       "key": "S06Q07",
       "type": "REQUIRED",
       "message": "7. Recent loss of social support network?: is required"
+    },
+    {
+      "key": "S01Q01",
+      "type": "REQUIRED",
+      "message": "1. Overall Rating: is required"
     },
     {
       "key": "intervention_type",
