@@ -324,15 +324,15 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
-    isShowDeleteButton(createdBy) {
+    isShowDeleteButton(createdByIdir) {
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          createdBy.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+          createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
       return false;
     },
-    isShowEditButton(createdBy, completeDate) {
+    isShowEditButton(createdByIdir, completeDate) {
       // When form is locked, hide edit button 
       if (this.locked) {
         if (completeDate != null) {
@@ -344,7 +344,7 @@ export default {
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (createdBy.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        if (createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
