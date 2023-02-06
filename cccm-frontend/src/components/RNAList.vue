@@ -334,7 +334,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return false;
       }
-      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username || 
+      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
           !item.complete ||
           !item.mostRecent) {
         return false;
@@ -350,7 +350,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return "User is a researcher";
       }
-      if (item.createdBy != Vue.$keycloak.tokenParsed.preferred_username) {
+      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return "User cannot clone another user's form"
       }
       if (!item.complete) {
@@ -370,7 +370,7 @@ export default {
       if (theForm != null && theForm[0] != null && !theForm[0].assessmentStatusRequired) {
         return '';
       }
-      return (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+      return isReassessment == null ? "" : (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
     getRatingDisplay(rating) {
       if (rating == null || rating == '') {

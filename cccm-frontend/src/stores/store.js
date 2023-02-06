@@ -9,7 +9,8 @@ export const useStore = defineStore('main', {
         locationCD: useLocalStorage('locationCD', ''),
         locationDescription: useLocalStorage('locationDescription', ''),
         locations: useLocalStorage('locations', []),
-        loginUserGroup: useLocalStorage('loginUserGroup', null)
+        loginUserGroup: useLocalStorage('loginUserGroup', null),
+        loginUserName: useLocalStorage('loginUserName', null),
     }),
 
     // actions
@@ -44,6 +45,11 @@ export const useStore = defineStore('main', {
                 }
             }
         },
+        getLoginUserName() {
+            if (this.loginUserName == null) {
+                this.loginUserName = Vue.$keycloak.tokenParsed.family_name + ', ' + Vue.$keycloak.tokenParsed.given_name;
+            }
+        },
         isHideDashboard() {
             if (this.loginUserGroup == '' ||
                 this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
@@ -65,6 +71,7 @@ export const useStore = defineStore('main', {
             this.locationDescription = '';
             this.locations = [];
             this.loginUserGroup = null;
+            this.loginUserName = null;
         },
         clearCachedUserLocations() {
             //console.info("Clear cached user locations.");

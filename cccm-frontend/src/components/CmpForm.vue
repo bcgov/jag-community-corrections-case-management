@@ -74,7 +74,7 @@
       </v-tabs>
       <v-tabs-items v-model="current_tab">
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer :key="item.key" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :locked="item.locked" :printParam="printParam"></FormRenderer>
+          <FormRenderer :key="item.key" :formType="item.id" :formId="item.formId" :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" :readonly="item.readonly" :locked="item.locked" :printParam="printParam" :createdByIdir="item.createdByIdir"></FormRenderer>
         </v-tab-item>
       </v-tabs-items>
     </section>
@@ -158,7 +158,7 @@ export default {
         // 1. the form was created by someone else; OR
         // 2. the form is completed
         let isReadonly = false;
-        if (response.createdBy == Vue.$keycloak.tokenParsed.preferred_username) {
+        if (response.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
           isReadonly = response.complete;
         } else {
           isReadonly = true;
@@ -187,26 +187,26 @@ export default {
 
       // if formType is 'CRNA', add 'CRNA-CMP' tab, and set the current_tab to 'tab-CRNA'
       if (this.formType === this.$CONST_FORMTYPE_CRNA) {
-        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked});
+        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir});
         this.current_tab = 'tab-CRNA';
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
           if (!this.isFormReadonly) {
-            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA,    formId: '', relatedClientFormId: '', readonly: false, locked: false});
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA,    formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '' });
           }
         } else {
           // otherwise, show sara tab
-          this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
+          this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '' });
         }
         // show the 'add STABLE' btn 
         if (!this.isFormReadonly) {
-          this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false});
+          this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '' });
         }
       } else
       // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
       if (this.formType === this.$CONST_FORMTYPE_SARA) {
-        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false });
-        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked });
+        this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '' });
+        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir });
         this.current_tab = 'tab-SARA';
 
         // show the 'add STABLE' btn 

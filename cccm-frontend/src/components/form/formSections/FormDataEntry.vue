@@ -95,7 +95,6 @@ export default {
       }
     },
     private_refreshAutoCalculatedQuestion(response) {
-      let needRefresh = false;
       if (response != null && response.length > 0) {
         for(let j = 0; j < response.length; j++){ 
           let key = response[j].key;
@@ -104,11 +103,7 @@ export default {
 
           if (newVal != null && preVal != newVal) {
             this.initData.data[key] = newVal;
-            needRefresh = true;
           }
-        }
-        if (needRefresh) {
-          this.formKey++;
         }
       }
     },
@@ -233,7 +228,7 @@ export default {
       if (   event.changed 
           && ( event.changed.component.type === "textfield"
             || event.changed.component.type === "textarea")) {
-        //console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
+        // console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
         // don't trigger the autosave on every key stroke, keep the latest values for now.
         // Trigger the autosave when blur event occurs.
         let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
@@ -246,7 +241,8 @@ export default {
 
       // Trigger autosave
       if (   event.changed 
-          && ( event.changed.component.type === "radio"
+          && ( event.changed.component.type === "number"
+            || event.changed.component.type === "radio"
             || event.changed.component.type === "checkbox"
             || event.changed.component.type === "select")
           ) {

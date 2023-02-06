@@ -71,12 +71,12 @@ Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },
-  { formType: 'SARA', formTitle: 'SARA (SARA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'SARA-CMP Type' },
-  { formType: 'ACUTE', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' },
-  { formType: 'STABLE', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type' },
-  { formType: 'STAT99R', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '' },
-  { formType: 'SO_OVERALL', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '' }
+  { formType: 'CRNA', dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },
+  { formType: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA (SARA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'SARA-CMP Type' },
+  { formType: 'ACUTE', dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' },
+  { formType: 'STABLE', dataRefreshSectionIndex: '', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type' },
+  { formType: 'STAT99R', dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '' },
+  { formType: 'SO_OVERALL', dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '' }
 ],
 
 Vue.$keycloak

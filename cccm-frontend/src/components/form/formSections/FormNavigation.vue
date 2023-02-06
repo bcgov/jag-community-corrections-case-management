@@ -53,7 +53,9 @@ export default {
     parentNavJumpToPointed: {
       type: String,
       default: '0',
-    }
+    },
+    continueEmitParentNavClicked: true,
+    pageRefreshSectionIndex: ''
   },
   data() {
     return {
@@ -142,7 +144,7 @@ export default {
   },
   destroyed(){
     if (this.observer != null) {
-      console.log("Destroyed, disconnect observer");
+      //console.log("Destroyed, disconnect observer");
       this.observer.disconnect();
     }
   },
@@ -181,8 +183,14 @@ export default {
       this.currentSectionChild = posChildNav;
 
       // emit an event, parentNavClicked, to the parent, so parent knows the currentSectionParent
-      this.$emit('parentNavClicked', this.currentSectionParent);
-                    
+      //console.log('parentNavClicked: ', this.currentSectionParent, this.continueEmitParentNavClicked, this.pageRefreshSectionIndex);
+      // if pageRefreshSectionIndex is not set, or currentSection != pageRefreshSectionIndex; then emit the event
+      if (this.pageRefreshSectionIndex == '' || this.currentSectionParent != this.pageRefreshSectionIndex) {
+        this.$emit('parentNavClicked', this.currentSectionParent);
+      } else if (this.currentSectionParent == this.pageRefreshSectionIndex && this.continueEmitParentNavClicked) {
+        this.$emit('refreshPage');
+      } 
+                          
       // show/hide sideCards panels
       //this.showHideRightsidePanels();
 
