@@ -324,15 +324,15 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
-    isShowDeleteButton(createdByIdir) {
+    isShowDeleteButton() {
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+          this.createdByIdir != null && this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
       return false;
     },
-    isShowEditButton(createdByIdir, completeDate) {
+    isShowEditButton(completeDate) {
       // When form is locked, hide edit button 
       if (this.locked) {
         if (completeDate != null) {
@@ -344,7 +344,7 @@ export default {
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        if (this.createdByIdir != null && this.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
@@ -365,7 +365,7 @@ export default {
         //console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
-        this.formInfoData.data.showEditBtn = this.isShowEditButton(this.createdByIdir, clientFormMeta.completedDate);
+        this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.completedDate);
         this.formInfoData.data.clientFormType = this.formInfoData.data.clientFormType == null ? '' : this.formInfoData.data.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
         
         // set the form lock 
@@ -384,7 +384,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(this.createdByIdir);
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton();
         this.submitBtnData.data.readonly = this.readonly;
         
         // Client profile search.
