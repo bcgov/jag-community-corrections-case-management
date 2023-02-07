@@ -15,44 +15,75 @@
                         {
                             "components": [
                                 {
-                                    "label": "HTML",
-                                    "tag": "img",
-                                    "attrs": [
+                                    "key": "fieldSePhoto",
+                                    "type": "fieldset",
+                                    "label": "Field Set",
+                                    "customConditional": "show = data.photo != null;",
+                                    "input": false,
+                                    "tableView": false,
+                                    "components": [
                                         {
-                                            "attr": "src",
-                                            "value": "{{data.photo == null ? '' : data.photo.image}}"
+                                            "label": "HTML",
+                                            "tag": "img",
+                                            "attrs": [
+                                                {
+                                                    "attr": "src",
+                                                    "value": "{{data.photo == null ? '' : data.photo.image}}"
+                                                },
+                                                {
+                                                    "attr": "alt",
+                                                    "value": "Client profile photo"
+                                                }
+                                            ],
+                                            "customClass": "shadow bg-white rounded text-center p-4 mt-4",
+                                            "content": "",
+                                            "refreshOnChange": true,
+                                            "key": "html3",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "tableView": false
                                         },
                                         {
-                                            "attr": "alt",
-                                            "value": "Client profile photo"
+                                            "label": "HTML",
+                                            "tag": "div",
+                                            "className": "profilePhoto ",
+                                            "customClass": "shadow bg-white pb-2",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<p class='font-italic'>Photo Taken: {{data.photo == null ? '' : data.photo.photoTakenDate}}</p>",
+                                            "refreshOnChange": true,
+                                            "key": "html3",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "tableView": false
                                         }
-                                    ],
-                                    "customClass": "shadow bg-white rounded text-center p-4 mt-4",
-                                    "content": "",
-                                    "refreshOnChange": true,
-                                    "key": "html3",
-                                    "type": "htmlelement",
-                                    "input": false,
-                                    "tableView": false
+                                    ]
                                 },
                                 {
-                                    "label": "HTML",
-                                    "tag": "div",
-                                    "className": "profilePhoto ",
-                                    "customClass": "shadow bg-white pb-2",
-                                    "attrs": [
-                                        {
-                                            "attr": "",
-                                            "value": ""
-                                        }
-                                    ],
-                                    "content": "<p class='font-italic'>Photo Taken: {{data.photo == null ? '' : data.photo.photoTakenDate}}</p>",
-                                    "refreshOnChange": true,
-                                    "key": "html3",
-                                    "type": "htmlelement",
+                                    "key": "fieldSetNoPhoto",
+                                    "type": "fieldset",
+                                    "label": "Field Set",
+                                    "customConditional": "show = data.photo == null;",
                                     "input": false,
-                                    "tableView": false
-                                },
+                                    "tableView": false,
+                                    "components": [
+                                        {
+                                            "label": "HTML",
+                                            "tag": "div",
+                                            "content": "<Strong>No photo</Strong>",
+                                            "customClass": "shadow bg-white rounded text-center p-4 mt-4",
+                                            "refreshOnChange": true,
+                                            "key": "html4",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                },                                
                                 {
                                     "label": "HTML",
                                     "tag": "div",
