@@ -563,8 +563,8 @@ export default {
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      console.log("this.formToCreate: ", this.formToCreate);
-      console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
+      //console.log("this.formToCreate: ", this.formToCreate);
+      //console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
       // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
         // if contains STABLE, create STABLE and SMO-Overall
