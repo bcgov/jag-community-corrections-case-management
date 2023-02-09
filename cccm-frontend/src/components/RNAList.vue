@@ -567,17 +567,17 @@ export default {
       //console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
       // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
+        // if contains STABLE, create STABLE and SMO-Overall
+        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
+          this.createFormAPI(this.$CONST_FORMTYPE_STABLE);
+          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
+        }
         // if contains SARA, create CRNA-SARA
         if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
           this.createFormAPI(this.$CONST_FORMTYPE_SARA);
         } else {
           // if doesn't contain SARA, create CRNA
           this.createFormAPI(this.$CONST_FORMTYPE_CRNA);
-        }
-        // if contains STABLE, create STABLE and SMO-Overall
-        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
-          this.createFormAPI(this.$CONST_FORMTYPE_STABLE);
-          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
         }
       } else {
         // Create either ACUTE, STATIC99R, or SMO-Overall
