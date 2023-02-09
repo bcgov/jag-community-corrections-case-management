@@ -115,8 +115,10 @@ export default {
                 idArray = theArray[1].split('Q');
                 if (theArray && theArray.length == 2) {
                   //console.log("show value: ", idArray[0] - 1, idArray[1] - 1);
-                  // the question_panel_S02Q01 is 1 base, need to convert it back to 0 based
-                  this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]), true);
+                  // The question_panel_S02Q01:
+                  // 1. the section is 1 base, need to convert it back to 0 based
+                  // 2. the question id need to add 1 to offset 
+                  this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) + 1, true);
                 }
               }
             }
