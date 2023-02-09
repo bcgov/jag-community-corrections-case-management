@@ -173,6 +173,10 @@
           item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
           :loading="loading"   loading-text="Loading RNA List... Please wait"
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
+          <!-- Customize the module value -->
+          <template v-slot:item.module="{ item }">
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{item.module == $CONST_FORMTYPE_SO_OVERALL ? 'SMO-OVERALL' : item.module}}</div>
+          </template>
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
             <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment, item.module)}}</div>
