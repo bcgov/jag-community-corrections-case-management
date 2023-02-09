@@ -563,8 +563,8 @@ export default {
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      //console.log("this.formToCreate: ", this.formToCreate);
-      //console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
+      console.log("this.formToCreate: ", this.formToCreate);
+      console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
       // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
         // if contains STABLE, create STABLE and SMO-Overall
@@ -579,8 +579,14 @@ export default {
           // if doesn't contain SARA, create CRNA
           this.createFormAPI(this.$CONST_FORMTYPE_CRNA);
         }
+      } else if (this.formToCreate == this.$CONST_FORMTYPE_ACUTE || this.formToCreate === this.$CONST_FORMTYPE_STAT99R) {
+        // Create either ACUTE and/or SMO-Overall
+        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SO_OVERALL)) {
+          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
+        }
+        this.createFormAPI(this.formToCreate);
       } else {
-        // Create either ACUTE, STATIC99R, or SMO-Overall
+        // Create SMO-Overall
         this.createFormAPI(this.formToCreate);
       }
     },
