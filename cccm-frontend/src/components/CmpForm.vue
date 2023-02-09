@@ -312,7 +312,7 @@ export default {
     },
     createChildForm(formType) {
       let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
-      console.log("modal: ", modal, formType);
+      //console.log("modal: ", modal, formType);
       this.formToCreate = formType;
       if (modal != null) {
         modal.click();
