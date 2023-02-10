@@ -35,7 +35,7 @@ public class ValidateOVERALLTest {
 
         ValidationResult result = sut.validateSOOverall(DATA_ONE);
 
-        Assertions.assertEquals(10, result.getErrors().size());
+        Assertions.assertEquals(5, result.getErrors().size());
 
     }
 
@@ -47,7 +47,7 @@ public class ValidateOVERALLTest {
 
         ValidationResult result = sut.validateSOOverall("{}");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(6, result.getErrors().size());
 
     }
 
@@ -59,7 +59,7 @@ public class ValidateOVERALLTest {
 
         ValidationResult result = sut.validateSOOverall("");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(6, result.getErrors().size());
 
     }
 
