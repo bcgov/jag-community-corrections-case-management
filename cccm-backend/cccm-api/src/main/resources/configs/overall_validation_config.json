@@ -1,59 +1,48 @@
 {
   "questions": [
     {
+      "key": "S01Q01",
+      "type": "REQUIRED",
+      "message": "1. SMO Overall Risk Rating: is required"
+    },
+    {
+      "key": "S01Q02",
+      "type": "REQUIRED",
+      "message": "2. Static 99R Rating: is required"
+    },
+    {
+      "key": "S01Q03",
+      "type": "REQUIRED",
+      "message": "3. Stable 2007 Rating: is required"
+    },
+    {
+      "key": "S01Q04",
+      "type": "REQUIRED",
+      "message": "4. Acute 2007 Score: is required"
+    },
+    {
       "key": "S02Q01",
       "type": "REQUIRED",
-      "message": "1. Age at Release from Index Sex Offence: is required"
+      "message": "1. Exceptional circumstances that impact risk?: is required"
     },
     {
       "key": "S02Q02",
       "type": "REQUIRED",
-      "message": "2. Ever lived with lover for at least 2 years?: is required"
+      "message": "2. Sex Offender Supervision / Assessments Required?: is required"
     },
     {
-      "key": "S02Q03",
-      "type": "REQUIRED",
-      "message": "3. Index offence non-sexual violence (convictions only): is required"
+      "key": "S02Q01",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q01_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "1. Exceptional circumstances that impact risk?: requires comment"
     },
     {
-      "key": "S02Q04",
-      "type": "REQUIRED",
-      "message": "4. Prior non-sexual violence (convictions only): is required"
-    },
-    {
-      "key": "S02Q05",
-      "type": "REQUIRED",
-      "message": "5. Prior sex offence convictions (excluding index)</br>Use directions provided on the manual form (e.g., Do not count index offence(s).: is required"
-    },
-    {
-      "key": "S02Q06",
-      "type": "REQUIRED",
-      "message": "6. Prior sentencing dates (excluding index): is required"
-    },
-    {
-      "key": "S02Q07",
-      "type": "REQUIRED",
-      "message": "7. Any convictions for non-contact sex offences: is required"
-    },
-    {
-      "key": "S02Q08",
-      "type": "REQUIRED",
-      "message": "8. Any unrelated victims: is required"
-    },
-    {
-      "key": "S02Q09",
-      "type": "REQUIRED",
-      "message": " 9. Any stranger victims: is required"
-    },
-    {
-      "key": "S02Q10",
-      "type": "REQUIRED",
-      "message": " 10. Any male victims: is required"
-    },
-    {
-      "key": "S01Q01",
-      "type": "REQUIRED",
-      "message": " The Static rating: is required"
+      "key": "S02Q02",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q02_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "2. Sex Offender Supervision / Assessments Required?: requires comment"
     }
   ]
 

@@ -31,9 +31,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall(DATA_ONE);
+        ValidationResult result = sut.validateACUTE(DATA_ONE);
 
-        Assertions.assertEquals(10, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
@@ -43,9 +43,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("{}");
+        ValidationResult result = sut.validateACUTE("{}");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(9, result.getErrors().size());
 
     }
 
@@ -55,9 +55,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("");
+        ValidationResult result = sut.validateACUTE("");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(9, result.getErrors().size());
 
     }
 
