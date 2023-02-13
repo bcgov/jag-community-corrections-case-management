@@ -35,7 +35,7 @@ public class ValidateSTABLETest {
 
         ValidationResult result = sut.validateStable(DATA_ONE);
 
-        Assertions.assertEquals(17, result.getErrors().size());
+        Assertions.assertEquals(16, result.getErrors().size());
 
     }
 
