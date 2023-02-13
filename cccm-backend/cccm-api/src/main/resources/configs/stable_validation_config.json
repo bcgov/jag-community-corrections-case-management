@@ -1,59 +1,103 @@
 {
   "questions": [
     {
-      "key": "S02Q01",
+      "key": "S01Q01",
       "type": "REQUIRED",
-      "message": "1. Age at Release from Index Sex Offence: is required"
+      "message": "1. Number of positive influences: is required"
     },
     {
-      "key": "S02Q02",
+      "key": "S01Q02",
       "type": "REQUIRED",
-      "message": "2. Ever lived with lover for at least 2 years?: is required"
+      "message": "2. Number of negative influences: is required"
     },
     {
-      "key": "S02Q03",
+      "key": "S03Q01",
       "type": "REQUIRED",
-      "message": "3. Index offence non-sexual violence (convictions only): is required"
+      "message": "1. Lived two years with a partner: is required"
     },
     {
-      "key": "S02Q04",
+      "key": "S03Q02",
       "type": "REQUIRED",
-      "message": "4. Prior non-sexual violence (convictions only): is required"
+      "message": "2. Tenor of current relationship: is required"
     },
     {
-      "key": "S02Q05",
+      "key": "S04Q02",
       "type": "REQUIRED",
-      "message": "5. Prior sex offence convictions (excluding index)</br>Use directions provided on the manual form (e.g., Do not count index offence(s).: is required"
+      "message": "2. Hostility towards women: is required"
     },
     {
-      "key": "S02Q06",
+      "key": "S04Q03",
       "type": "REQUIRED",
-      "message": "6. Prior sentencing dates (excluding index): is required"
+      "message": "3. General social rejection /  loneliness: is required"
     },
     {
-      "key": "S02Q07",
+      "key": "S04Q04",
       "type": "REQUIRED",
-      "message": "7. Any convictions for non-contact sex offences: is required"
+      "message": "4. Lack of concern for others: is required"
     },
     {
-      "key": "S02Q08",
+      "key": "S05Q02",
       "type": "REQUIRED",
-      "message": "8. Any unrelated victims: is required"
+      "message": "2. Poor cognitive problem solving skills: is required"
     },
     {
-      "key": "S02Q09",
+      "key": "S05Q03",
       "type": "REQUIRED",
-      "message": " 9. Any stranger victims: is required"
+      "message": "3. Negative emotionality / hostility: is required"
     },
     {
-      "key": "S02Q10",
+      "key": "S06Q01",
       "type": "REQUIRED",
-      "message": " 10. Any male victims: is required"
+      "message": "1. Sexual pre-occupation: is required"
+    },
+    {
+      "key": "S06Q02",
+      "type": "REQUIRED",
+      "message": "2. Sex as coping: is required"
+    },
+    {
+      "key": "S07Q01",
+      "type": "REQUIRED",
+      "message": "1. Number of sex offence victims: is required"
+    },
+    {
+      "key": "S07Q02",
+      "type": "REQUIRED",
+      "message": "2. Number of deviant preference victims: is required"
+    },
+    {
+      "key": "S07Q03",
+      "type": "REQUIRED",
+      "message": "3. Self-report of deviant history / preferences: is required"
+    },
+    {
+      "key": "S07Q04",
+      "type": "REQUIRED",
+      "message": "4. Results of specialized testing: is required"
+    },
+    {
+      "key": "S08Q01",
+      "type": "REQUIRED",
+      "message": "1. Cooperation with supervision: is required"
     },
     {
       "key": "S01Q01",
       "type": "REQUIRED",
-      "message": " The Static rating: is required"
+      "message": "1. Overall Rating: is required"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_desc"],
+      "dependentValues": ["ACVS","ATAS","BEES","COSO","EMPA","FARE","FIMA","LIAR","PRCA","SUMI"],
+      "message": "Intervention is missing description"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_CONDITIONAL",
+      "dependentKeys": ["intervention_specify", "intervention_desc"],
+      "dependentValues": ["OTHR"],
+      "message": "Intervention set to 'Other' is missing a description"
     }
   ]
 
