@@ -66,7 +66,7 @@
       <div v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
         <span class="headerNav">
           <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
-          <a v-if="hasPODash" :href="${baseURL}${$ROUTER_NAME_DASHBOARDPO}" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
+          <a v-if="hasPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
