@@ -65,7 +65,8 @@
       </div>
       <div v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
         <span class="headerNav">
-          <a v-if="!hideDashboard" :href="getDashboardURL" class="headerA">My Dashboard</a> <span v-if="!hideDashboard"> | </span>
+          <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
+          <a v-if="hasPODash" :href="${baseURL}${$ROUTER_NAME_DASHBOARDPO}" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
@@ -146,6 +147,21 @@ export default {
     },
     hideDashboard() {
       return this.mainStore.isHideDashboard();
+    },
+    hasSupervisorDash() {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+        return true;
+      }
+      return false;
+    },
+    hasPODash() {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+        return true;
+      }
+      return false;
     },
     getDashboardURL() {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
