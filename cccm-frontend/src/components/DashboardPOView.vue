@@ -381,9 +381,9 @@ export default {
       return alertWarrant;
     },
     getUserName() {
-      let name = Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+      let name = Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
       //console.log("getUserName: ", this.POName);
-      if (this.POName) {
+      if (!name) {
         name = this.POName;
       }
       return name;
