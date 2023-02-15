@@ -383,7 +383,7 @@ export default {
     getUserName() {
       let name = Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
       //console.log("getUserName: ", this.POName);
-      if (!name) {
+      if (this.POName) {
         name = this.POName;
       }
       return name;
