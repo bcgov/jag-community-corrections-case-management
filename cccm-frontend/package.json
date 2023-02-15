@@ -16,15 +16,16 @@
     "@vue/composition-api": "^1.4.6",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.0",
+    "chart.js": "^3.9.0",
+    "formiojs": "^4.14.8",
+    "izitoast": "^1.4.0",
     "keycloak-js": "^18.0.1",
     "pinia": "^2.0.19",
     "url": "^0.11.0",
     "vue": "^2.6.14",
     "vue-formio": "^4.0.8",
     "vue-router": "^3.5.3",
-    "vuetify": "^2.6.10",
-    "formiojs": "^4.14.8",
-    "chart.js": "^3.9.0"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",
