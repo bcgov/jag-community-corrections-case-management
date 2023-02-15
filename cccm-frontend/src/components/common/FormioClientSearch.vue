@@ -295,7 +295,7 @@ export default {
         if (!(evt.data.idNumber) && !(evt.data.idType ) && !(evt.data.lastName)) {
           iZtoast.warning({
             title: 'Validation',
-            message: 'One of Lastname or Indentifier is required to search',
+            message: 'One of Lastname or Identifier is required to search',
             position: 'center'
           });
            return;
