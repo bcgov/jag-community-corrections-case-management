@@ -141,11 +141,6 @@
                                                                             "tableView": true,
                                                                             "key": "lastName",
                                                                             "type": "textfield",
-                                                                            "validateOn": "blur",
-                                                                            "validate": {
-                                                                                "required": true,
-                                                                                "customMessage": "lastName cannot be left blank"
-                                                                            },
                                                                             "input": true
                                                                         },
                                                                         {
@@ -494,8 +489,6 @@
                                                                 {
                                                                     "label": "Search",
                                                                     "action": "event",
-                                                                    "showValidations": true,
-                                                                    "disableOnInvalid": true,
                                                                     "tableView": false,
                                                                     "key": "search",
                                                                     "type": "button",

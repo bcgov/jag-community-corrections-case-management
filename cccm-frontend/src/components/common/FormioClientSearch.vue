@@ -130,6 +130,8 @@ import {Form} from 'vue-formio';
 import {clientSearchByGeneralInfo, clientSearchByAddressInfo, getClientDetail} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 import updateToken from '@/middleware/update-token';
+import 'izitoast/dist/css/iziToast.min.css';
+import iZtoast from 'izitoast';
 
 export default {
   name: 'FormioClientSearch',
@@ -289,6 +291,16 @@ export default {
     },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
+
+        if (!(evt.data.idNumber) && !(evt.data.idType ) && !(evt.data.lastName)) {
+          iZtoast.warning({
+            title: 'Validation',
+            message: 'One of Lastname or Indentifier is required to search',
+            position: 'center'
+          });
+           return;
+        }
+
         this.jumpToResult();
         this.loading = true;
         //clear the previous search results
@@ -298,6 +310,7 @@ export default {
         if (rangeYears === undefined || rangeYears === null || rangeYears === '') {
           rangeYears = 0;
         }
+
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
         const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
             evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
