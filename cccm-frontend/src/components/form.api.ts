@@ -1,6 +1,10 @@
 import { identifier } from '@babel/types';
+import 'izitoast/dist/css/iziToast.min.css'
+import iZtoast from 'izitoast'
 import axios from 'axios';
+
 import { ScriptableLineSegmentContext } from 'chart.js';
+import { AxiosError } from 'axios';
 
 const axiosClient = axios.create({
     baseURL: config.VUE_APP_CCCM_API_ENDPOINT,
@@ -17,6 +21,7 @@ export async function async_getUserDefaultLocation() {
         const { data } = await axiosClient.get('/user/location');
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -28,6 +33,7 @@ export function getUserDefaultLocation() {
         const data = axiosClient.get('/user/location');
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -39,6 +45,7 @@ export async function async_getUserLocations() {
         const { data } = await axiosClient.get('/user/locations');
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -50,6 +57,7 @@ export function getUserLocations() {
         const data = axiosClient.get('/user/locations');
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -63,6 +71,7 @@ export async function lookupFormTypes() {
         const { data } = await axiosClient.get('/lookup/formtypes');
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -81,6 +90,7 @@ export async function getDataForSummaryView(clientNum: string, formId: number, i
         });
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -98,6 +108,7 @@ export async function getFormioTemplate(clientNum: String, formId: number) {
         //console.log("getFormioTemplate: ", data);
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -109,6 +120,7 @@ export async function updateForm( csNumber: number,clientFormId: number, formDat
         const { data } = await axiosClient.put('/forms/client/answers/' + csNumber + '/' + clientFormId, formData);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -121,6 +133,7 @@ export async function loadFormData(csNumber: number, clientFormId: number) {
         //console.log("load formdata: ", data);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -131,6 +144,7 @@ export async function cloneForm(formData: object) {
         const { data } = await axiosClient.post('/forms/client/clone', formData);
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -141,6 +155,7 @@ export async function deleteForm(clientFormId: number, clientNum: String) {
         const { data } = await axiosClient.delete(`/forms/${clientFormId}/client/${clientNum}/delete`);
         return [null, data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -153,6 +168,7 @@ export async function createForm(formType: String, formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error creating form %o", error);
+        handleError(error);
         return [error];
     }
 }
@@ -164,6 +180,7 @@ export async function validateCRNAForm(formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error validating crna form: %o", error);
+        handleError(error);
         return [error];
     }
 }
@@ -175,6 +192,7 @@ export async function validateSARAForm(formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error validating sara form: %o", error);
+        handleError(error);
         return [error];
     }
 }
@@ -186,6 +204,7 @@ export async function completeForm(formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error completing a form: %o", error);
+        handleError(error);
         return [error];
     }
 }
@@ -197,6 +216,7 @@ export async function unlockForm(formData: object) {
         return [null, data];
     } catch (error) {
         console.error("Error unlocking a form: %o", error);
+        handleError(error);
         return [error];
     }
 }
@@ -212,6 +232,7 @@ export async function getCasePlanIntervention(csNumber: String, clientFormId: nu
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -223,6 +244,7 @@ export async function updateSourcesContacted(clientFormId: number, sourcesContac
         const { data } = await axiosClient.put(`/forms/client/sourcesContacted/${clientFormId}`,  sourcesContacted);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -235,6 +257,7 @@ export async function getClientFormMetaData(csNumber: String, clientFormId: numb
         //console.log("getClientFormMetaData: ", data);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -247,6 +270,7 @@ export async function getClientFormDetails(csNumber: String, clientFormId: numbe
         //console.log("getClientFormDetails: ", data);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -267,6 +291,7 @@ export async function formSearch(clientNum: String, formType: String, currentPer
             });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -292,6 +317,7 @@ export async function clientSearchByGeneralInfo(age: number, birthYear: number, 
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -313,6 +339,7 @@ export async function clientSearchByAddressInfo(address: String, addressType: St
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -324,6 +351,7 @@ export async function getClientDetail(clientNum: String) {
         const { data } = await axiosClient.get(`/clients/${clientNum}/details`);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -335,6 +363,7 @@ export async function getClientAddresses(clientNum: String) {
         const { data } = await axiosClient.get(`/clients/${clientNum}/address`);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -346,6 +375,7 @@ export async function photoSearch(clientNum: String) {
         const { data } = await axiosClient.get(`/clients/${clientNum}/photo`);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -364,6 +394,7 @@ export async function dashboardSupervisorSearch(locationId: number) {
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -379,6 +410,7 @@ export async function dashboardPODetailsSearch(idirId: String) {
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -395,6 +427,7 @@ export async function dashboardPOSearch(userId: String, locationId: number) {
         });
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -407,6 +440,7 @@ export async function clientProfileSearch(clientNum: String) {
         //console.log("ClientProfileSearch: ", data);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -419,6 +453,7 @@ export async function getFormFactors( reportType: string) {
         const { data} = await axiosClient.get('/trend/' + reportType + '/factors');
         return [null,data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -428,6 +463,7 @@ export async function getChartData(payload: Object) {
         const { data } = await axiosClient.post('/trend/client/data', payload);
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -440,6 +476,7 @@ export async function getChartData(payload: Object) {
         const { data } = await axiosClient.get('/trend/types');
         return [null, data];
     } catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -452,6 +489,7 @@ export async function searchClientFormComments( clientNumber:number, payload: ob
         const { data} = await axiosClient.post('/forms/client/comments/' + clientNumber, payload );
         return [null,data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -461,6 +499,7 @@ export async function searchClientInterventions( payload: Object) {
         const { data} = await axiosClient.post('/forms/client/interventions', payload);
         return [null,data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -470,6 +509,7 @@ export async function searchClientResponsivities( payload: Object) {
         const { data} = await axiosClient.post('/forms/client/responsivities', payload);
         return [null,data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
@@ -481,8 +521,19 @@ export async function searchClientComments( payload: Object) {
         const { data} = await axiosClient.post('/forms/client/comments', payload);
         return [null,data];
     }catch (error) {
+        handleError(error);
         return [error];
     }
 }
 
 export default axiosClient;
+
+function handleError(error: AxiosError) {
+    if (error.response) {
+        iZtoast.error({
+          title: 'Error',
+          message: error.response.data.errorMessage || error.message,
+          position: 'center'
+        });
+    }
+}
