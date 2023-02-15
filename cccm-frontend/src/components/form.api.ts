@@ -4,7 +4,6 @@ import iZtoast from 'izitoast'
 import axios from 'axios';
 
 import { ScriptableLineSegmentContext } from 'chart.js';
-import { config } from '@fortawesome/fontawesome-svg-core';
 import { AxiosError } from 'axios';
 
 const axiosClient = axios.create({
