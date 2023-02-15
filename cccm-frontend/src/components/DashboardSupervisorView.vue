@@ -316,7 +316,7 @@ export default {
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore),
     getUserName() {
-        return Vue.$keycloak.tokenParsed.family_name + ", " + Vue.$keycloak.tokenParsed.given_name;
+        return Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
     }
   }
 }
