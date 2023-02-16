@@ -298,6 +298,7 @@ export default {
 
       // search based on the newly selected location
       this.dashboardSupervisorSearch(locationType);
+
       this.key_results++;
     },
     async dashboardSupervisorSearch(locationId) {
@@ -308,6 +309,8 @@ export default {
       } else {
         //console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
+
+        this.key_results++;
       }
     }
   },

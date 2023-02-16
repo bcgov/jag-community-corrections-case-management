@@ -20,6 +20,7 @@ import java.util.List;
 public class GetSupervisorDashboardTest {
 
     private static final String TEST_PO = "TEST_PO";
+    private static final String TEST_IDIR = "TEST_IDIR";
     private static final int INT_TEST = 1;
 
     @Inject
@@ -39,6 +40,7 @@ public class GetSupervisorDashboardTest {
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(TEST_PO, result.get(0).getOfficer());
+        Assertions.assertEquals(TEST_IDIR, result.get(0).getIdirId());
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getActiveAdmin());
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getActiveReports());
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getAdminClosed());
@@ -55,6 +57,7 @@ public class GetSupervisorDashboardTest {
 
         ca.bc.gov.open.jag.api.model.data.SupervisorDashboard supervisorDashboard = new ca.bc.gov.open.jag.api.model.data.SupervisorDashboard();
         supervisorDashboard.setPoName(TEST_PO);
+        supervisorDashboard.setIdirId(TEST_IDIR);
         supervisorDashboard.setActiveAdmin(INT_TEST);
         supervisorDashboard.setActiveReports(INT_TEST);
         supervisorDashboard.setAdminClosed(INT_TEST);
