@@ -34,7 +34,7 @@
       <div :key="keyExpandRow" class="dashboard-v-card">
         <v-data-table
             :loading="loading"   
-              loading-text="Search... Please wait"
+              loading-text="Searching... Please wait"
             :key="key_results"
             :headers="headers"
             :search="search"
