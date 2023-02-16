@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.model.data;
 public class SupervisorDashboard {
 
     private String poName;
+    private String idirId;
     private Integer activeAdmin;
     private Integer adminClosed;
     private Integer bAL;
@@ -100,5 +101,13 @@ public class SupervisorDashboard {
 
     public void setActiveReports(Integer activeReports) {
         this.activeReports = activeReports;
+    }
+
+    public String getIdirId() {
+        return idirId;
+    }
+
+    public void setIdirId(String idirId) {
+        this.idirId = idirId;
     }
 }

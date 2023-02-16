@@ -2,7 +2,7 @@
   <div data-app class="dashboard-po p-4">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>{{getUserName}}'s clients</h1>
+        <h1 class="font-weight-bold">{{getUserName}}'s clients</h1>
       </div>
       <div class="col-sm-4"></div>
       
@@ -260,7 +260,7 @@ export default {
           let caVal = "";
           if (el.communityAlerts != null && el.communityAlerts.length > 0) {
             for (let ca of el.communityAlerts) {
-              caVal += "<li>" + ca.date + ": " + ca.comment + "</li>\r\n"
+              caVal += "<li>" + ca.date ? '' : ca.date + ": " + ca.comment + "</li>\r\n"
             }
           } else {
             caVal = "<li>The client doesn't have any community alerts</li>"

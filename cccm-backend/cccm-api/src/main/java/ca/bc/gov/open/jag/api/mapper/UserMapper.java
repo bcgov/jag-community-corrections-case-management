@@ -30,6 +30,7 @@ public interface UserMapper {
     List<SupervisorDashboard> toSupervisorDashboardList(List<ca.bc.gov.open.jag.api.model.data.SupervisorDashboard> supervisorDashboardList);
 
     @Mapping(target = "officer", source = "poName")
+    @Mapping(target = "idirId", source = "idirId")
     @Mapping(target = "activeAdmin", source = "activeAdmin")
     @Mapping(target = "bal", source = "bAL")
     @Mapping(target = "high", source = "high")
