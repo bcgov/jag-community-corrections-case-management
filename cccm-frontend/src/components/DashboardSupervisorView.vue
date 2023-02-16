@@ -33,6 +33,8 @@
       </div>
       <div :key="keyExpandRow" class="dashboard-v-card">
         <v-data-table
+            :loading="loading"   
+              loading-text="Searching... Please wait"
             :key="key_results"
             :headers="headers"
             :search="search"
@@ -293,6 +295,10 @@ export default {
       return this.officerList.reduce((total, obj) => total + obj[key], 0);
     },
     applyLocationFilter(locationType) {
+      // Clear table and provide loading
+      this.officerList = [];
+      this.key_results++;
+      this.loading = true;
       //console.log("locationType: ", locationType);
       this.pickedLocationCD = locationType;
 
@@ -310,6 +316,7 @@ export default {
         //console.log("Supervisor dashboard search: ", response);
         this.officerList = response;
 
+        this.loading = false;
         this.key_results++;
       }
     }

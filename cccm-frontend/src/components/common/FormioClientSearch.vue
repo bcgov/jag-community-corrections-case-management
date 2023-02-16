@@ -32,7 +32,7 @@
       </v-card-title>
       <v-data-table
         :loading="loading"   
-        loading-text="Search... Please wait"
+        loading-text="Searching... Please wait"
         :key="key_clientsearchresult"
         :headers="clientHeaders"
         :items="clients"
