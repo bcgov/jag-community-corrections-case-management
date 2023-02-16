@@ -260,7 +260,8 @@ export default {
           let caVal = "";
           if (el.communityAlerts != null && el.communityAlerts.length > 0) {
             for (let ca of el.communityAlerts) {
-              caVal += "<li>" + ca.date ? '' : ca.date + ": " + ca.comment + "</li>\r\n"
+              var alertDate = ca.date == null ? '' : ca.date;
+              caVal += "<li>" + alertDate + ": " + ca.comment + "</li>\r\n"
             }
           } else {
             caVal = "<li>The client doesn't have any community alerts</li>"
