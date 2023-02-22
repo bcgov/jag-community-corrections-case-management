@@ -746,7 +746,7 @@
                                                                 {
                                                                     "components": [
                                                                         {
-                                                                            "label": "Clear All",
+                                                                            "label": "Clear",
                                                                             "action": "reset",
                                                                             "showValidations": false,
                                                                             "theme": "secondary",
