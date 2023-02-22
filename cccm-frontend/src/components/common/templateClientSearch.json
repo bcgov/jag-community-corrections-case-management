@@ -466,7 +466,7 @@
                                                         {
                                                             "components": [
                                                                 {
-                                                                    "label": "Clear All",
+                                                                    "label": "Clear",
                                                                     "action": "reset",
                                                                     "theme": "secondary",
                                                                     "tableView": false,
