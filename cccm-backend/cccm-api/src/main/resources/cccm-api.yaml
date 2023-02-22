@@ -2441,6 +2441,8 @@ components:
           type: number
         bal:
           type: number
+        sen:
+          type: number
         high:
           type: number
         medium:

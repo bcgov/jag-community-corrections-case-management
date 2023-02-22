@@ -59,6 +59,7 @@
               <th class="title">{{ sumField('activeAdmin') }}</th>
               <th class="title">{{ sumField('adminClosed') }}</th>
               <th class="title">{{ sumField('bal') }}</th>
+              <th class="title">{{ sumField('sen') }}</th>
               <th class="title">{{ sumField('high') }}</th>
               <th class="title">{{ sumField('medium') }}</th>
               <th class="title">{{ sumField('low') }}</th>
@@ -194,6 +195,7 @@ export default {
         { text: 'Active/Admin', value: 'activeAdmin' },
         { text: 'Admin Closed', value: 'adminClosed' },
         { text: 'BAL', value: 'bal' },
+        { text: 'SEN', value: 'sen' },
         { text: 'High', value: 'high', cellClass: 'p-0 m-0 text-center' },
         { text: 'Medium', value: 'medium', cellClass: 'p-0 m-0 text-center' },
         { text: 'Low', value: 'low', cellClass: 'p-0 m-0 text-center' },

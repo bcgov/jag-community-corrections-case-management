@@ -33,6 +33,7 @@ public interface UserMapper {
     @Mapping(target = "idirId", source = "idirId")
     @Mapping(target = "activeAdmin", source = "activeAdmin")
     @Mapping(target = "bal", source = "bAL")
+    @Mapping(target = "sen",  constant = "0")
     @Mapping(target = "high", source = "high")
     @Mapping(target = "medium", source = "medium")
     @Mapping(target = "low", source = "low")
