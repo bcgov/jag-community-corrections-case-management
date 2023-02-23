@@ -37,8 +37,8 @@
 
 .client-search .formio-container {
     max-width: 100%!important;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: visible;
+    /*overflow-x: hidden;*/
 }
 
 .client-search .sectionTitleClass {

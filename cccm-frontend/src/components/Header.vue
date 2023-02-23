@@ -130,6 +130,7 @@ export default {
             // Store the newly selected location into store
             this.mainStore.locationCD = this.locationTypes[i].key;
             this.mainStore.locationDescription = this.locationTypes[i].value;
+            location.reload();
             break;
           }
         }

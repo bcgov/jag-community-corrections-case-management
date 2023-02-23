@@ -11,7 +11,7 @@
               v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"
               v-on:change="handleChangeEvent"
             />
-            </div>
+        </div>
       </section>
     </div>  
     <div id="id_searchResults" class="container">
