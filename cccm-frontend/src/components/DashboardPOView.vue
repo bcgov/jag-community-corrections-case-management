@@ -4,7 +4,20 @@
       <div class="col-sm-6">
         <h1 class="font-weight-bold">{{getUserName}}'s clients</h1>
       </div>
-      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <strong>PO's</strong>
+          <v-select
+            :key="key_po"
+            item-text="userName"
+            item-value="idirId"
+            v-model="selectedLocation"
+            :items="poList"
+            label=""
+            v-on:change="applyPOFilter"
+            outlined
+          >
+          </v-select>
+      </div>
       
     </div>
     <v-card class="p-3">
@@ -184,6 +197,7 @@ export default {
   created() {
     this.clientList = [];
     this.initDataArray = [];
+    this.poList = [];
     //data for the expand row
     this.initData = {};
   },

@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.PO;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RequestScoped
 public class UserApiImpl implements UserApi {
@@ -66,4 +68,10 @@ public class UserApiImpl implements UserApi {
 
     }
 
+    @Override
+    @RolesAllowed("data-view")
+    public List<PO> getPOs(String xLocationId) {
+        return null;
+    }
+    
 }
