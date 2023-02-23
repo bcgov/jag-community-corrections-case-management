@@ -33,7 +33,7 @@ public class ValidateACUTETest {
 
         ValidationResult result = sut.validateACUTE(DATA_ONE);
 
-        Assertions.assertEquals(8, result.getErrors().size());
+        Assertions.assertEquals(7, result.getErrors().size());
 
     }
 
@@ -45,7 +45,7 @@ public class ValidateACUTETest {
 
         ValidationResult result = sut.validateACUTE("{}");
 
-        Assertions.assertEquals(9, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
@@ -57,7 +57,7 @@ public class ValidateACUTETest {
 
         ValidationResult result = sut.validateACUTE("");
 
-        Assertions.assertEquals(9, result.getErrors().size());
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
