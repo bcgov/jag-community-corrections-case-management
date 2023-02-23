@@ -5,10 +5,10 @@
         <h1 class="font-weight-bold">{{getUserName}}'s clients</h1>
       </div>
       <div class="col-sm-4">
-        <strong>PO's</strong>
+        <strong>Probation Officers Search</strong>
           <v-select
             :key="key_po"
-            item-text="userName"
+            item-text="poName"
             item-value="idirId"
             v-model="selectedLocation"
             :items="poList"

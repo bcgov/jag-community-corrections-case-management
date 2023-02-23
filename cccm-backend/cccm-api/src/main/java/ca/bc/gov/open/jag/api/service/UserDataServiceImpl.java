@@ -119,6 +119,15 @@ public class UserDataServiceImpl implements UserDataService {
         return logonResult;
     }
 
+    @Override
+    public List<PO> getPOList(String user, BigDecimal location) {
+
+        logger.debug("Get po user list {} location {}", user, location);
+
+        return userMapper.toPOList(obridgeClientService.getSupervisorDashboard(user, location));
+
+    }
+
     private Code getCode(String oracleId) {
 
         Location location = obridgeClientService.getLocation(oracleId);

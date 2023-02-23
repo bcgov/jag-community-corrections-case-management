@@ -8,7 +8,7 @@
     <v-card>
       <div class="row justify-content-between">
         <div class="col-sm-5 m-3">
-          <strong>Location</strong>
+          <strong>Search Location</strong>
           <v-select
             :key="key_location"
             item-text="value"
