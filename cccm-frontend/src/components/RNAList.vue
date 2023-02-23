@@ -330,7 +330,7 @@ export default {
         return true;
       }
 
-      // User cannot clone wher:
+      // User cannot clone when:
       // 0. user is a researcher
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
@@ -338,7 +338,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return false;
       }
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
+      if ((item.createdByIdir != null && item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) || 
           !item.complete ||
           !item.mostRecent) {
         return false;
@@ -354,7 +354,7 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return "User is a researcher";
       }
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+      if (item.createdByIdir != null && item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return "User cannot clone another user's form"
       }
       if (!item.complete) {
