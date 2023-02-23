@@ -1,98 +1,93 @@
 {
   "questions": [
     {
-      "key": "S03Q01",
+      "key": "S02Q02",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S03Q01_COMMENT"],
+      "dependentKeys": ["S02Q02_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "1. Victim Access: requires comment"
+      "message": "2. Victim Access: requires comment"
     },
     {
-      "key": "S03Q02",
+      "key": "S02Q03",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S03Q02_COMMENT"],
+      "dependentKeys": ["S02Q03_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "2. Hostility: requires comment"
+      "message": "3. Hostility: requires comment"
     },
     {
-      "key": "S03Q03",
+      "key": "S02Q04",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S03Q03_COMMENT"],
+      "dependentKeys": ["S02Q04_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "3. Sexual Preoccupations: requires comment"
+      "message": "4. Sexual Preoccupation: requires comment"
     },
     {
-      "key": "S03Q04",
+      "key": "S02Q05",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S03Q04_COMMENT"],
+      "dependentKeys": ["S02Q05_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "4. Rejection of Supervision: requires comment"
+      "message": "5. Rejection of Supervision: requires comment"
     },
     {
-      "key": "S04Q01",
+      "key": "S02Q06",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S04Q01_COMMENT"],
+      "dependentKeys": ["S02Q06_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "1. Emotional Collapse: requires comment"
+      "message": "6. Emotional Collapse: requires comment"
     },
     {
-      "key": "S04Q02",
+      "key": "S02Q07",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S04Q02_COMMENT"],
+      "dependentKeys": ["S02Q07_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "2. Collapse of Social Supports: requires comment"
+      "message": "7. Change of Social Supports: requires comment"
     },
     {
-      "key": "S04Q03",
+      "key": "S02Q08",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S04Q02_COMMENT"],
+      "dependentKeys": ["S02Q08_COMMENT"],
       "dependentValues": ["1","2","3"],
-      "message": "3. Substance Abuse: requires comment"
-    },
-    {
-      "key": "S03Q01",
-      "type": "REQUIRED",
-      "message": "1. Victim Access: is required"
-    },
-    {
-      "key": "S03Q02",
-      "type": "REQUIRED",
-      "message": "2. Hostility: is required"
-    },
-    {
-      "key": "S03Q03",
-      "type": "REQUIRED",
-      "message": "3. Sexual Preoccupations: is required"
-    },
-    {
-      "key": "S03Q04",
-      "type": "REQUIRED",
-      "message": "4. Rejection of Supervision: is required"
-    },
-    {
-      "key": "S01Q05",
-      "type": "REQUIRED",
-      "message": "Assessment Comments: is required"
-    },
-    {
-      "key": "S04Q01",
-      "type": "REQUIRED",
-      "message": "1. Emotional Collapse: is required"
-    },
-    {
-      "key": "S04Q02",
-      "type": "REQUIRED",
-      "message": "2. Collapse of Social Supports: is required"
-    },
-    {
-      "key": "S04Q03",
-      "type": "REQUIRED",
-      "message": "3. Substance Abuse: is required"
+      "message": "8. Substance Abuse: requires comment"
     },
     {
       "key": "S02Q01",
       "type": "REQUIRED",
       "message": "1. Sex Offender Treatment: is required"
+    },
+    {
+      "key": "S02Q02",
+      "type": "REQUIRED",
+      "message": "2. Victim Access: is required"
+    },
+    {
+      "key": "S02Q03",
+      "type": "REQUIRED",
+      "message": "3. Hostility: is required"
+    },
+    {
+      "key": "S02Q04",
+      "type": "REQUIRED",
+      "message": "4. Sexual Preoccupation: is required"
+    },
+    {
+      "key": "S02Q05",
+      "type": "REQUIRED",
+      "message": "5. Rejection of Supervision: is required"
+    },
+    {
+      "key": "S02Q06",
+      "type": "REQUIRED",
+      "message": "6. Emotional Collapse: is required"
+    },
+    {
+      "key": "S02Q07",
+      "type": "REQUIRED",
+      "message": "7. Change of Social Supports: is required"
+    },
+    {
+      "key": "S02Q08",
+      "type": "REQUIRED",
+      "message": "8. Substance Abuse: is required"
     }
   ]
 
