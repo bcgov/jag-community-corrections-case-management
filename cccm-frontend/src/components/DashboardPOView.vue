@@ -30,8 +30,8 @@
             </tbody>
           </table>
         </div>
-        <div class="col-sm-4"></div>
-        <div class="col-sm-2">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
           <div class="dashboard-table-header-ul float-right pr-3 mr-3">
             <ul>
               <li>Due today or overdue</li>
