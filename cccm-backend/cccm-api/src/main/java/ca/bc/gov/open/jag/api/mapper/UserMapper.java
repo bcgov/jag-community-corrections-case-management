@@ -1,9 +1,6 @@
 package ca.bc.gov.open.jag.api.mapper;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.User;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -55,6 +52,12 @@ public interface UserMapper {
     User toUser(ca.bc.gov.open.jag.api.model.data.User user);
 
     List<User> toUserList(List<ca.bc.gov.open.jag.api.model.data.User> users);
+
+    List<PO> toPOList(List<ca.bc.gov.open.jag.api.model.data.SupervisorDashboard> supervisorDashboardList);
+
+    @Mapping(target = "poName", source = "poName")
+    @Mapping(target = "idirId", source = "idirId")
+    PO toPO(ca.bc.gov.open.jag.api.model.data.SupervisorDashboard supervisorDashboard);
 
 
 }

@@ -1911,6 +1911,26 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: users
+  /user/PO:
+    get:
+      operationId: GetPOs
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PO'
+          description: get POs
+      summary: get users id
+      tags:
+        - users
+      x-accepts: application/json
+      x-tags:
+        - tag: users
   /role/users:
     get:
       operationId: GetUsers
@@ -2872,3 +2892,11 @@ components:
           type: string
         lastName:
           type: string
+    PO:
+      type: object
+      properties:
+        idirId:
+          type: string
+        poName:
+          type: string
+

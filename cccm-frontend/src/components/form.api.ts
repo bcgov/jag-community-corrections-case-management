@@ -1,6 +1,6 @@
 import { identifier } from '@babel/types';
-import 'izitoast/dist/css/iziToast.min.css'
-import iZtoast from 'izitoast'
+import 'izitoast/dist/css/iziToast.min.css';
+import iZtoast from 'izitoast';
 import axios from 'axios';
 
 import { ScriptableLineSegmentContext } from 'chart.js';
@@ -519,6 +519,16 @@ export async function searchClientResponsivities( payload: Object) {
 export async function searchClientComments( payload: Object) {
     try {
         const { data} = await axiosClient.post('/forms/client/comments', payload);
+        return [null,data];
+    }catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+export async function getPOList( ) {
+    try {
+        const {data} = await axiosClient.get('/user/PO');
         return [null,data];
     }catch (error) {
         handleError(error);

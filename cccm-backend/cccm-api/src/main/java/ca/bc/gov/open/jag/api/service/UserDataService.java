@@ -18,6 +18,8 @@ public interface UserDataService {
 
     List<SupervisorDashboard> getSupervisorDashboard(String user, BigDecimal location);
 
+    List<PO> getPOList(String user, BigDecimal location);
+
     SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, String location);
 
     LogonResult logonUser(String user, String locationType);

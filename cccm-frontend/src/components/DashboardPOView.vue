@@ -4,7 +4,20 @@
       <div class="col-sm-6">
         <h1 class="font-weight-bold">{{getUserName}}'s clients</h1>
       </div>
-      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <strong>Probation Officers Search</strong>
+          <v-select
+            :key="key_po"
+            item-text="poName"
+            item-value="idirId"
+            v-model="selectedLocation"
+            :items="poList"
+            label=""
+            v-on:change="applyPOFilter"
+            outlined
+          >
+          </v-select>
+      </div>
       
     </div>
     <v-card class="p-3">
@@ -30,8 +43,8 @@
             </tbody>
           </table>
         </div>
-        <div class="col-sm-4"></div>
-        <div class="col-sm-2">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
           <div class="dashboard-table-header-ul float-right pr-3 mr-3">
             <ul>
               <li>Due today or overdue</li>
@@ -184,6 +197,7 @@ export default {
   created() {
     this.clientList = [];
     this.initDataArray = [];
+    this.poList = [];
     //data for the expand row
     this.initData = {};
   },
