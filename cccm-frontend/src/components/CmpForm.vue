@@ -189,6 +189,12 @@ export default {
         } 
         return true;
       } else {
+        // Edge case: if user doesn't have idirId, output a warning, and set readonly to true
+        if (response.createdByIdir == null) {
+          console.warn("The login user doesn't have idirId, set the access to readonly.");
+          return true;
+        }
+
         // When form is unlocked, readonly is true when:
         // 1. the form was created by someone else; OR
         // 2. the form is completed

@@ -330,6 +330,11 @@ export default {
         return true;
       }
 
+      // Edge case: if user doesn't have idirId, return false
+      if (item.createdByIdir == null) {
+        return false;
+      }
+
       // User cannot clone when:
       // 0. user is a researcher
       // 1. another user’s CRNA-SARA-CMP,
@@ -338,11 +343,13 @@ export default {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return false;
       }
-      if ((item.createdByIdir != null && item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) || 
+
+      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
           !item.complete ||
           !item.mostRecent) {
         return false;
       }
+
       return true
     },
     getCloneTooltip(item) {
@@ -350,12 +357,8 @@ export default {
           this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
         return 'Copy form';
       }
-
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
         return "User is a researcher";
-      }
-      if (item.createdByIdir != null && item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
-        return "User cannot clone another user's form"
       }
       if (!item.complete) {
         return 'User cannot clone an incomplete form'
@@ -363,6 +366,15 @@ export default {
       if (!item.mostRecent) {
         return 'User cannot clone a previous version of the form'
       }
+
+      // Edge case: if user doesn't have idirId, return false
+      if (item.createdByIdir == null) {
+        return "Login user doesn't contain idirId, cannot determine the ability to clone";
+      }
+      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        return "User cannot clone another user's form"
+      }
+
       return 'Copy form';
     },
     getAssessmentStatus(isReassessment, formType) {
