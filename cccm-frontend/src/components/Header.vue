@@ -130,6 +130,11 @@ export default {
             // Store the newly selected location into store
             this.mainStore.locationCD = this.locationTypes[i].key;
             this.mainStore.locationDescription = this.locationTypes[i].value;
+            
+            // fetch the poList for the selected location
+            this.mainStore.getPOList(this.mainStore.locationCD);
+
+            // force the page to reload
             location.reload();
             break;
           }

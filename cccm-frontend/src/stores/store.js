@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import { defineStore } from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
-import { async_getUserDefaultLocation, async_getUserLocations } from "@/components/form.api";
+import { async_getUserDefaultLocation, async_getUserLocations, getPOList } from "@/components/form.api";
+import { isNull } from 'url/util';
 
 export const useStore = defineStore('main', { 
     // state
@@ -11,6 +12,7 @@ export const useStore = defineStore('main', {
         locations: useLocalStorage('locations', []),
         loginUserGroup: useLocalStorage('loginUserGroup', null),
         loginUserName: useLocalStorage('loginUserName', null),
+        poList: useLocalStorage('poList', new Map()),
     }),
 
     // actions
@@ -67,11 +69,10 @@ export const useStore = defineStore('main', {
             return true;
         },
         clearAll() {
-            this.locationCD = '';
-            this.locationDescription = '';
-            this.locations = [];
-            this.loginUserGroup = null;
-            this.loginUserName = null;
+            this.clearCachedUserLocations();
+            this.clearCachedLocation();
+            this.clearCachedUserInfo();
+            this.clearCachedPOList();
         },
         clearCachedUserLocations() {
             //console.info("Clear cached user locations.");
@@ -81,6 +82,15 @@ export const useStore = defineStore('main', {
             //console.info("Clear cached location.");
             this.locationCD = '';
             this.locationDescription = '';
+        },
+        clearCachedUserInfo() {
+            //console.info("Clear cached user info.");
+            this.loginUserGroup = null;
+            this.loginUserName = null;
+        },
+        clearCachedPOList() {
+            //console.info("Clear cached poList.");
+            this.poList = new Map();
         },
         async getUserLocations() {
             if (this.locations == null || this.locations.length == 0) {
@@ -113,10 +123,33 @@ export const useStore = defineStore('main', {
                         this.locationDescription = response.value;
                         this.locationCD = response.key;
                     }
-                    return [null, response];
+                    return [null, this.locationCD];
                 }
             }
-            return [null, {}];
+            return [null, this.locationCD];
+        },
+        async getPOList(locationCD) {
+            //console.log("get polist for: ", locationCD, this.poList, this.poList.get(locationCD));
+            if (this.poList == null || this.poList.get(locationCD) == null) {
+                if (this.poList == null) {
+                    this.poList = new Map();
+                }
+                if (this.poList.get(locationCD) == null) {
+                    // Obtain list of POs for the default location
+                    const [error, response] = await getPOList(locationCD);
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        //console.log("PO list search: ", response);
+                        if (response != null) {
+                            this.poList.set(locationCD, response);
+                        }
+                        //console.log("this.poList: ", this.poList);
+                        return [null, this.poList.get(locationCD)];
+                    }
+                }
+            }
+            return [null, this.poList.get(locationCD)];
         }
     }
     // getters
