@@ -325,9 +325,15 @@ export default {
       } 
     },
     isShowDeleteButton() {
+      // Edge case: if user doesn't have idirId, output a warning, and hide the delete button
+      if (this.createdByIdir == null) {
+        console.warn("The login user doesn't have idirId, hide the delete button.");
+        return false;
+      }
+
       // Show delete btn is login user is sys admin or login user is the form owner
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          this.createdByIdir != null && this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+          this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
       return false;
@@ -340,11 +346,17 @@ export default {
         }
         return false;
       } else {
+        // Edge case: if user doesn't have idirId, output a warning, and hide the edit button
+        if (this.createdByIdir == null) {
+          console.warn("The login user doesn't have idirId, hide the edit button.");
+          return false;
+        }
+        
         // Show edit button when:
         // 1. The user is an admin
         // 2. The user is the one who created the form
         let showEditBtn = false;
-        if (this.createdByIdir != null && this.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        if (this.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
           showEditBtn = false;
           if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
             completeDate != null) {
