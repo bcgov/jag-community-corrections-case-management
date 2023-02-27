@@ -75,8 +75,11 @@ public class UserDataServiceImpl implements UserDataService {
     public List<PODashboard> getPODashboard(String user, BigDecimal location) {
 
         logger.debug("PO Dashboard user {} location {}", user, location);
+		if(user != null) {
+        	user = user.replace(USERNAME_PREFIX, "");
+        }
 
-        return userMapper.toPODashboardList(obridgeClientService.getPODashboard(user.replace(USERNAME_PREFIX, ""), location));
+        return userMapper.toPODashboardList(obridgeClientService.getPODashboard(user, location));
 
     }
 
