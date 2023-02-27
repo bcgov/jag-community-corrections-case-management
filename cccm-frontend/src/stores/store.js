@@ -136,7 +136,7 @@ export const useStore = defineStore('main', {
                 }
                 if (this.poList.get(locationCD) == null) {
                     // Obtain list of POs for the default location
-                    const [error, response] = await getPOList(locationCD);
+                    const [error, response] = await getPOList();
                     if (error) {
                         console.error(error);
                     } else {
