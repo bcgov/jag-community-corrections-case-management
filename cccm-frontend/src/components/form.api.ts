@@ -427,7 +427,7 @@ export async function dashboardPOSearch(userId: String, locationId: number) {
             });
             return [null, data];
         } else {
-            throw "Cannot perform PO dashboard search, the PO's idirId is null";
+            throw "Cannot perform PO dashboard search, the PO's idirId isn't synced up in the database";
         }
     } catch (error) {
         handleError(error);

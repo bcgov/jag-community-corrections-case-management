@@ -234,7 +234,7 @@ export default {
           this.selectedPO.idirId = this.POIdirId;
           this.selectedPO.poName = this.POName;
           
-          console.log("poIdirId, poName: ", this.POIdirId, this.POName, this.selectedPO);
+          //console.log("poIdirId, poName: ", this.POIdirId, this.POName, this.selectedPO);
           this.key_po++;
           
           //form search from the backend
