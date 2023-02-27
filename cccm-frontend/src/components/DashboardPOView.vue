@@ -1,26 +1,25 @@
 <template>
   <div data-app class="dashboard-po p-4">
-    <div class="row mb-2">
+    <div :key="key_userDisplayName" class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="font-weight-bold">{{getUserName}}'s clients</h1>
+        <h1 class="font-weight-bold">{{ userDisplayName }}'s clients</h1>
       </div>
-      <div class="col-sm-4">
+    </div>
+    <v-card class="p-3">
+      <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
           <v-select
             :key="key_po"
             item-text="poName"
             item-value="idirId"
-            v-model="selectedLocation"
+            v-model="selectedPO"
             :items="poList"
             label=""
             v-on:change="applyPOFilter"
             outlined
           >
-          </v-select>
+        </v-select>
       </div>
-      
-    </div>
-    <v-card class="p-3">
       <div class="row pl-4">
         <div class="col-sm-6">
           <table class="designation-totals">
@@ -146,7 +145,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {dashboardPOSearch, clientProfileSearch} from "@/components/form.api";
+import { dashboardPOSearch, clientProfileSearch, getPOList } from "@/components/form.api";
 import { Form } from 'vue-formio';
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
@@ -191,7 +190,11 @@ export default {
       baseURL: import.meta.env.BASE_URL,
       POIdirId: null,
       POName: null,
-      POLocationId: null
+      POLocationId: null, 
+      key_po: 0,
+      selectedPO: {},
+      userDisplayName: '',
+      key_userDisplayName: 0
     }
   },
   created() {
@@ -215,6 +218,7 @@ export default {
   // },
   methods: {
     async initPage() {
+      this.initPOList();
       let enCoded = this.$route.params.param;
       // User gets here when navigate from supervisor dashboard
       if (enCoded) {
@@ -225,6 +229,13 @@ export default {
           this.POIdirId = POObj.userId;
           this.POName = POObj.userName;
           this.POLocationId = POObj.locationId;
+          
+          // populate the poList
+          this.selectedPO.idirId = this.POIdirId;
+          this.selectedPO.poName = this.POName;
+          
+          console.log("poIdirId, poName: ", this.POIdirId, this.POName, this.selectedPO);
+          this.key_po++;
           
           //form search from the backend
           this.dashboardPOSearch(POObj.userId, POObj.locationId)
@@ -238,9 +249,18 @@ export default {
         if (error1) {
           console.error(error1);
         } else {
-          this.dashboardPOSearch(Vue.$keycloak.tokenParsed.preferred_username, this.mainStore.locationCD)
+          this.selectedPO.idirId = Vue.$keycloak.tokenParsed.preferred_username;
+          this.selectedPO.poName = this.mainStore.loginUserName;
+          this.key_po++;
+
+          // populate the clients data table
+          this.dashboardPOSearch(Vue.$keycloak.tokenParsed.preferred_username, defaultLocation)
         }
       }
+
+      // set the display name
+      this.userDisplayName = this.selectedPO.poName;
+      this.key_userDisplayName++;
     },
     expandRow ({ item, value }) {
       // call searchPhotoAPI only when the photo hasn't loaded.
@@ -249,6 +269,35 @@ export default {
         return;
       }
       this.getClientProfile(item.clientNum);
+    },
+    async initPOList() {
+      const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+      if (error1) {
+        console.error(error1);
+      } else {
+        // populate the poList
+        //console.log("search from podashboard: ", defaultLocation);
+        const [error2, defaultPOList] = await this.mainStore.getPOList(defaultLocation);
+        if (error2) {
+          console.error(error2);
+        } else {
+          this.poList = defaultPOList;
+          //console.log("poList: ", this.poList);
+          this.key_po++;
+        }
+      }
+    },
+    applyPOFilter(idirId) {
+      // search based on the newly selected PO
+      this.clientList = [];
+      this.loading = true;
+      this.dashboardPOSearch(idirId, this.mainStore.locationCD);
+      this.key_results++;
+
+      //update the title
+      let thePO = this.poList.find(item => item.idirId == idirId);
+      this.userDisplayName = thePO == null ? '' : thePO.poName;
+      this.key_userDisplayName++;
     },
     async getClientProfile(clientNum) {
       //console.log("Client profile search for clientNum: ", clientNum);
@@ -400,6 +449,9 @@ export default {
       //console.log("getUserName: ", this.POName);
       if (this.POName) {
         name = this.POName;
+      }
+      if (this.selectedPO && this.selectedPO.poName) {
+        name = this.selectedPO.poName;
       }
       return name;
     }, 

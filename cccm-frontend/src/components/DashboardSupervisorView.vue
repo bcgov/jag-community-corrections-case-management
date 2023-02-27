@@ -217,7 +217,7 @@ export default {
   },
   mounted(){
     //get PO list
-    this.getPOList();
+    this.getSupervisorTeamMembers();
   },
   methods: {
     onSelected(idirId, poName) {
@@ -272,7 +272,7 @@ export default {
         this.keyExpandRow++;
       }
     },
-    async getPOList() {
+    async getSupervisorTeamMembers() {
       const [error, locations] = await this.mainStore.getUserLocations();
       if (error) {
         console.log(error);

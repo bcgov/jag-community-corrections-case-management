@@ -28,7 +28,7 @@
 								"value": ""
 							}
 						],
-						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation.communityLocation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Final Order Exp. Date:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</li> ",
+						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Final Order Exp. Date:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</li> ",
 						"refreshOnChange": true,
 						"type": "htmlelement",
 						"input": false,

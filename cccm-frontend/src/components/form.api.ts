@@ -418,15 +418,33 @@ export async function dashboardPODetailsSearch(idirId: String) {
 // PO dashboard search
 export async function dashboardPOSearch(userId: String, locationId: number) {
     try{
-        //console.log("Officer search by supervisorID: ", supervisorID);
-        const { data } = await axiosClient.get('/dashboards/po', {
+        if (userId) {
+            const { data } = await axiosClient.get('/dashboards/po', {
+                params: {
+                    idirId: userId,
+                    locationId: locationId
+                }
+            });
+            return [null, data];
+        } else {
+            throw "Cannot perform PO dashboard search, the PO's idirId is null";
+        }
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+// Get list of PO for a given location, used in PO dashboard
+export async function getPOList(locationId: number) {
+    try {
+        const {data} = await axiosClient.get('/user/PO', {
             params: {
-                idirId: userId,
                 locationId: locationId
             }
         });
-        return [null, data];
-    } catch (error) {
+        return [null,data];
+    }catch (error) {
         handleError(error);
         return [error];
     }
@@ -526,24 +544,26 @@ export async function searchClientComments( payload: Object) {
     }
 }
 
-export async function getPOList( ) {
-    try {
-        const {data} = await axiosClient.get('/user/PO');
-        return [null,data];
-    }catch (error) {
-        handleError(error);
-        return [error];
-    }
-}
 
+//-------------------------------------
+// API Error handling
+//-------------------------------------
 export default axiosClient;
 
-function handleError(error: AxiosError) {
-    if (error.response) {
+function handleError(error: object) {
+    if (error instanceof AxiosError) {
+        if (error.response) {
+            iZtoast.error({
+              title: 'Error',
+              message: error.response.data.errorMessage || error.message,
+              position: 'center'
+            });
+        }
+    } else {
         iZtoast.error({
-          title: 'Error',
-          message: error.response.data.errorMessage || error.message,
-          position: 'center'
+            title: 'Error',
+            message: error,
+            position: 'center'
         });
     }
 }
