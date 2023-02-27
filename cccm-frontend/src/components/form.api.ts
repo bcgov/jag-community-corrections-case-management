@@ -436,13 +436,9 @@ export async function dashboardPOSearch(userId: String, locationId: number) {
 }
 
 // Get list of PO for a given location, used in PO dashboard
-export async function getPOList(locationId: number) {
+export async function getPOList() {
     try {
-        const {data} = await axiosClient.get('/user/PO', {
-            params: {
-                locationId: locationId
-            }
-        });
+        const {data} = await axiosClient.get('/user/PO');
         return [null,data];
     }catch (error) {
         handleError(error);
