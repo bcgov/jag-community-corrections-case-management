@@ -338,16 +338,16 @@ export default {
         //console.log("textfield or textarea changed: ", event);
         // if dobYear is updated, re-calculate and set the age
         if (event.changed.component.key == "dobYear") {
-          let ele = document.getElementsByName("data[generalInfo][age]");
+          let ele = document.getElementsByName("data[age]");
           if (ele != null && ele.length == 1) {
-            ele[0].value = event.data.generalInfo.dobYear == null ? '' : this.CONST_CURRENT_YEAR - event.data.generalInfo.dobYear;
+            ele[0].value = event.data.dobYear == null ? '' : this.CONST_CURRENT_YEAR - event.data.dobYear;
           }
         }
         // if age is updated, re-calculate and set the dobYear
         if (event.changed.component.key == "age") {
-          let ele = document.getElementsByName("data[generalInfo][dobYear]");
+          let ele = document.getElementsByName("data[dobYear]");
           if (ele != null && ele.length == 1) {
-            ele[0].value = event.data.generalInfo.age == null? '' : this.CONST_CURRENT_YEAR - event.data.generalInfo.age;
+            ele[0].value = event.data.age == null? '' : this.CONST_CURRENT_YEAR - event.data.age;
           }
         }
       }

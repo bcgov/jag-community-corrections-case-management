@@ -181,21 +181,6 @@
       "message": "4. Recent Substance Abuse (past year): is required"
     },
     {
-      "key": "S03Q05",
-      "type": "REQUIRED",
-      "message": "Recent Suicidal/Homicidal Ideation/Intent (past year): is required"
-    },
-    {
-      "key": "S03Q06",
-      "type": "REQUIRED",
-      "message": "Recent Psychotic/Manic Symptoms (past year): is required"
-    },
-    {
-      "key": "S03Q07",
-      "type": "REQUIRED",
-      "message": "Personality Disorder with Anger, Impulsivity or Behavioural Instability: is required"
-    },
-    {
       "key": "S04Q01",
       "type": "REQUIRED",
       "message": "1. Past Physical Assault: is required"
