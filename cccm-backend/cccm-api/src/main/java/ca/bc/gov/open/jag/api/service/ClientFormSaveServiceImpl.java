@@ -190,7 +190,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
                 ValidationResult result = validationService.validateStatic99r(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
-                    throw new CCCMException("Static99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                    throw new CCCMException("Static 99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
                 requiresNew = requiresNewForm(updateForm, clientFormSummary);
             }

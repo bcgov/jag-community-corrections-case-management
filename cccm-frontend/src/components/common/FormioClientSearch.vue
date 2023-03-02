@@ -56,39 +56,39 @@
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-item="{ headers, item }">
           <td width="2%"></td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <figure v-if="item.photoData">
               <img :src="item.photoData" alt="Client photo" />
               <figcaption>Photo Taken: {{item.photoDate}}</figcaption>
             </figure>
             <strong v-else>No photo</strong>
           </td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <strong>Current Name</strong>
             <br />
             {{ item.currentName }}
           </td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <strong>Gender</strong>
             <br />
             {{ item.gender }}
           </td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <strong>Location</strong>
             <br />
             {{ item.custodyLocation }}
           </td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <strong>PCM</strong>
             <br />
             {{ item.communityInformation.caseManager }}
           </td>
-          <td width="10%">
+          <td width="10%" class="innerTableData">
             <strong>Other Aliases</strong>
             <br />
             {{ item.alias }}
           </td>
-          <td :colspan="3" width="40%">
+          <td :colspan="3" width="40%" class="innerTableData">
             <strong>Other Addresses</strong>
             <br />
             <ul>

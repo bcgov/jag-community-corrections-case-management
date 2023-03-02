@@ -142,6 +142,10 @@
             justify-content-center
             dashboard-backgro und-color-green">{{item.low}}</div>
           </template>
+                    <!--Customize the Overdue rating field -->
+          <template v-slot:item.overdue="{ item }">
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getOverdueColor(item.overdue)}`">{{ item.overdue }}</div>
+          </template>
         </v-data-table>
       </div>
       <!--Customize the footer-->
@@ -309,6 +313,19 @@ export default {
 
       this.key_results++;
     },
+    getOverdueColor(overdue) {
+      if (overdue == null) {
+        return '';
+      }
+
+      if (overdue <= 2) {
+        return 'dashboard-background-color-green';
+      } else if (overdue <= 5) {
+        return 'dashboard-background-color-yellow';
+      } else {
+        return 'dashboard-background-color-red';
+      }
+    },
     async dashboardSupervisorSearch(locationId) {
       const [error, response] = await dashboardSupervisorSearch(locationId);
       this.loading = false;
@@ -323,6 +340,7 @@ export default {
       }
     }
   },
+  
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
