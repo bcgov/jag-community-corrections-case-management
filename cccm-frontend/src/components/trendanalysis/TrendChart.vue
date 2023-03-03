@@ -148,7 +148,7 @@ export default {
       lineAtIndex: [2, 4, 8],
       options: {
         responsive: true,
-        spanGaps: false,
+        spanGaps: true,
         datasets: {
           line: 5
         },
