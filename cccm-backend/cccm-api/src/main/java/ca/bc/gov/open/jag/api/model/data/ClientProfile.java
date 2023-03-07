@@ -295,11 +295,11 @@ public class ClientProfile {
         this.programs = programs;
     }
 
-    public Date getOrderEffectiveDt() {
+    public String getOrderEffectiveDt() {
         return orderEffectiveDt;
     }
 
-    public void setOrderEffectiveDt(Date orderEffectiveDt) {
+    public void setOrderEffectiveDt(String orderEffectiveDt) {
         this.orderEffectiveDt = orderEffectiveDt;
     }
 
