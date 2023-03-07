@@ -12,7 +12,7 @@ public class ClientProfile {
     private String supervisionLevel;
     private String orders;
     private String finalOrderExpiryDt;
-    private Date orderEffectiveDt;
+    private String orderEffectiveDt;
     private String releaseReason;
     private String institutionstatus;
     private String clientinoutyn;
