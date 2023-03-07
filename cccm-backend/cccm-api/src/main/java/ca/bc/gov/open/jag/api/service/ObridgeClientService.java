@@ -273,4 +273,8 @@ public interface ObridgeClientService {
     @Path("/role/group-users")
     List<User> getUsers(@QueryParam("roleGroupEnum") String roleGroupEnum);
 
+    @GET
+    @Path("/user/po/list")
+    List<User> getPOUsers(@QueryParam("locationId") BigDecimal location);
+
 }

@@ -53,11 +53,11 @@ public interface UserMapper {
 
     List<User> toUserList(List<ca.bc.gov.open.jag.api.model.data.User> users);
 
-    List<PO> toPOList(List<ca.bc.gov.open.jag.api.model.data.SupervisorDashboard> supervisorDashboardList);
+    List<PO> toPOList(List<ca.bc.gov.open.jag.api.model.data.User> users);
 
-    @Mapping(target = "poName", source = "poName")
+    @Mapping(target = "poName", expression = "java(user.getFirstName() + \" \" + user.getLastName())")
     @Mapping(target = "idirId", source = "idirId")
-    PO toPO(ca.bc.gov.open.jag.api.model.data.SupervisorDashboard supervisorDashboard);
+    PO toPO(ca.bc.gov.open.jag.api.model.data.User user);
 
 
 }
