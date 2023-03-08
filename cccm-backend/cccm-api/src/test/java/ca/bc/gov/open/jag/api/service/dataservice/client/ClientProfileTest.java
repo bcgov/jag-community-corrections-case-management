@@ -66,7 +66,7 @@ public class ClientProfileTest {
 
         Mockito.when(obridgeClientService.getProfileById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
         Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any(), Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
 
         Client result = sut.clientProfile(CLIENT_NUM, TEST_IDIR, LOCATION);
 

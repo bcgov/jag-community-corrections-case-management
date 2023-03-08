@@ -140,11 +140,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
-    public void editForm(UpdateForm updateForm) {
+    public void editForm(UpdateForm updateForm, String location) {
 
         logger.debug("Edit form {}", updateForm);
         Boolean requiresNew = false;
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
 
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only edit or complete", CCCMErrorCode.VALIDATIONERROR);
@@ -184,7 +184,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("ACUTE form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
-                requiresNew = requiresNewForm(updateForm, clientFormSummary);
+                requiresNew = requiresNewForm(updateForm, clientFormSummary, location);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
@@ -192,7 +192,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Static 99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
-                requiresNew = requiresNewForm(updateForm, clientFormSummary);
+                requiresNew = requiresNewForm(updateForm, clientFormSummary, location);
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(STABLE_FORM_TYPE)) {
@@ -267,7 +267,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         logger.debug("Delete form {} client {} location {} user {} hasOverride {}", clientFormId, clientNum, locationId, idirId, hasOverride);
 
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNum, clientFormId);
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNum, clientFormId, locationId);
 
         if (!hasOverride && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only delete", CCCMErrorCode.VALIDATIONERROR);
@@ -279,12 +279,12 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
 
     @Override
-    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId) {
+    public BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId, String location) {
 
         logger.debug("Clone request {} user {}", cloneFormRequest, idirId);
 
         //Get Form Details
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId());
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId(), new BigDecimal(location));
 
         if (!cloneFormRequest.getHasOverride() && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only clone", CCCMErrorCode.VALIDATIONERROR);
@@ -292,20 +292,20 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             throw new CCCMException("Cannot clone form that is not most recent or mismatch type", CCCMErrorCode.CLONEVALIDATIONERROR);
         }
 
-        BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null);
+        BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null, location);
 
         //Add related form when cloning
         if (clientFormSummary.getRelatedClientFormId() != null) {
             logger.info("Linking cloned form");
-            ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId());
-            cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId);
+            ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId(), new BigDecimal(location));
+            cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId, location);
         }
 
         return clientFormId;
 
     }
 
-    private BigDecimal cloneFormAndAnswers(ClientFormSummary clientFormSummary, CloneFormRequest cloneFormRequest, BigDecimal parentId) {
+    private BigDecimal cloneFormAndAnswers(ClientFormSummary clientFormSummary, CloneFormRequest cloneFormRequest, BigDecimal parentId, String location) {
 
         //Create top level form
         FormInput formInput = new FormInput();
@@ -321,7 +321,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormSummary.getId());
         //Insert Answers Use Clone Config for ignore
         String strippedAnswers = stripAnswers(answers, cloneConfig.getForms().stream().filter(cloneForm -> cloneForm.getFormType().equalsIgnoreCase(clientFormSummary.getModule())).findFirst().get());
-        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, false);
+        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, false, new BigDecimal(location));
 
         return clientFormId;
 
@@ -349,9 +349,9 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     }
 
-    private Boolean requiresNewForm(UpdateForm updateForm, ClientFormSummary currentForm) {
+    private Boolean requiresNewForm(UpdateForm updateForm, ClientFormSummary currentForm, String location) {
 
-        List<ClientFormSummary> formSummaryList = obridgeClientService.getClientForms(updateForm.getUpdateFormInput().getClientNumber(), true, currentForm.getModule());
+        List<ClientFormSummary> formSummaryList = obridgeClientService.getClientForms(updateForm.getUpdateFormInput().getClientNumber(), true, currentForm.getModule(), new BigDecimal(location));
 
         Optional<ClientFormSummary> lastForm = formSummaryList.stream()
                 .max(Comparator.comparing(ClientFormSummary::getCompletedDate));

@@ -23,12 +23,12 @@ public interface ClientFormSaveService {
 
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 
-    void editForm(UpdateForm updateForm);
+    void editForm(UpdateForm updateForm, String location);
 
     void linkForm(LinkFormInput linkFormInput, BigDecimal locationId);
 
     void deleteForm(BigDecimal clientFormId, String clientNum, BigDecimal locationId, String idirId, Boolean hasOverride);
 
-    BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId);
+    BigDecimal cloneClientForm(CloneFormRequest cloneFormRequest, String idirId, String location);
 
 }

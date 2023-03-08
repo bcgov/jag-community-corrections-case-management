@@ -37,7 +37,7 @@ public class DeleteFormTest {
     @DisplayName("Success: Form is deleted by owner")
     public void testDeleteFormIsOwner() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Assertions.assertDoesNotThrow(() -> sut.deleteForm(BigDecimal.ONE,"TEST", BigDecimal.ONE,"TEST@idir",false));
@@ -48,7 +48,7 @@ public class DeleteFormTest {
     @DisplayName("Success: Form is deleted by supervisor")
     public void testDeleteFormIsOwnerHasOverride() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         Assertions.assertDoesNotThrow(() -> sut.deleteForm(BigDecimal.ONE,"TEST", BigDecimal.ONE,"TEST@idir",true));
@@ -59,7 +59,7 @@ public class DeleteFormTest {
     @DisplayName("Error: Delete is invalid")
     public void testDoesNotHaveOverrideorOwner() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER"));
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);

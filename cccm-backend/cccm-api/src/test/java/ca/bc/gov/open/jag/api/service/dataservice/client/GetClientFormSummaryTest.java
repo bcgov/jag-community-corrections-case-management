@@ -31,9 +31,9 @@ public class GetClientFormSummaryTest {
     @DisplayName("Success: should return clients form not locked")
     public void testGetClientFormsNoMerge() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(59)));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(59)));
 
-        ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "");
+        ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "", "1");
 
         Assertions.assertEquals("CRNA", result.getModule());
         Assertions.assertFalse(result.getLocked());
@@ -45,9 +45,9 @@ public class GetClientFormSummaryTest {
     @DisplayName("Success: should return clients form locked")
     public void testGetClientFormsMerge() {
 
-        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(61)));
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(61)));
 
-        ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "");
+        ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "", "1");
 
         Assertions.assertEquals("CRNA", result.getModule());
         Assertions.assertTrue(result.getLocked());

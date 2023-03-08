@@ -65,7 +65,7 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/client/{clientNumber}/photo")
-    List<Photo> getPhotosById(@PathParam("clientNumber") String clientNum);
+    List<Photo> getPhotosById(@PathParam("clientNumber") String clientNum, @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/client/address")
@@ -138,7 +138,8 @@ public interface ObridgeClientService {
     @Path("/forms/client/json/{clientNumber}/{clientFormId}")
     String getClientFormAsJSON(@PathParam("clientNumber") String clientNumber,
             @PathParam("clientFormId") BigDecimal clientFormId,
-            @QueryParam("includeValues") boolean includeValues);
+            @QueryParam("includeValues") boolean includeValues,
+            @QueryParam("location") BigDecimal location);
 
     @POST
     @Path("/forms/client")
@@ -157,7 +158,8 @@ public interface ObridgeClientService {
     String saveClientFormAnswers(@PathParam("clientNumber") String clientNumber,
             @PathParam("clientFormId") BigDecimal clientFormId,
             @RequestBody String payload,
-            @QueryParam("loadLatestValues") boolean loadLatestValues);
+            @QueryParam("loadLatestValues") boolean loadLatestValues,
+            @QueryParam("location") BigDecimal location);
 
     @PUT
     @Path("/forms/client/answers/interventions/{clientNumber}/{clientFormId}")
@@ -174,12 +176,14 @@ public interface ObridgeClientService {
     @Path("/forms/client/summary/answers/{clientNumber}/{clientFormId}")
     String getClientFormAnswersSummary(@PathParam("clientNumber") String clientNumber,
             @PathParam("clientFormId") BigDecimal clientFormId,
-            @QueryParam("includeLinkedForm") boolean includeLinkedForm); 
+            @QueryParam("includeLinkedForm") boolean includeLinkedForm,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/forms/client/summary/{clientNumber}/{clientFormId}")
     ClientFormSummary getClientFormSummary(@PathParam("clientNumber") String clientNumber,
-            @PathParam("clientFormId") BigDecimal clientFormId);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}/{sectionSequence}")
@@ -198,7 +202,8 @@ public interface ObridgeClientService {
     @Path("/forms/client/search/{clientId}")
     List<ClientFormSummary> getClientForms(@PathParam("clientId") String clientId,
             @QueryParam("currentPeriod") boolean currentPeriod,
-            @QueryParam("formTypeCd") String formTypeCd);
+            @QueryParam("formTypeCd") String formTypeCd,
+            @QueryParam("location") BigDecimal location);
 
     @POST
     @Path("/forms/client/interventions")
@@ -246,11 +251,14 @@ public interface ObridgeClientService {
     @GET
     @Path("/forms/client/intervention/json/{csNumber}/{clientFormId}")
     String getClientFormInterventionsForCasePlan(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
-            @QueryParam("includeLinkedForm") boolean includeLinkedForm);
+            @QueryParam("includeLinkedForm") boolean includeLinkedForm,
+            @QueryParam("location") BigDecimal location);
     
     @GET
     @Path("/forms/client/meta/json/{csNumber}/{clientFormId}")
-    String getClientFormMetaJson(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId);
+    String getClientFormMetaJson(@PathParam("csNumber") String csNumber,
+                                 @PathParam("clientFormId") BigDecimal clientFormId,
+                                 @QueryParam("location") BigDecimal location);
     
     @PUT
     @Path("/forms/client/sourcesContacted/{clientFormId}")
@@ -272,5 +280,9 @@ public interface ObridgeClientService {
     @GET
     @Path("/role/group-users")
     List<User> getUsers(@QueryParam("roleGroupEnum") String roleGroupEnum);
+
+    @GET
+    @Path("/user/po/list")
+    List<User> getPOUsers(@QueryParam("locationId") BigDecimal location);
 
 }

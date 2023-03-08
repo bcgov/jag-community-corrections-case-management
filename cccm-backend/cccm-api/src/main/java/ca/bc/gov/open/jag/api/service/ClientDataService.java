@@ -15,7 +15,7 @@ public interface ClientDataService {
 
     Client clientProfile(String clientNum, String user, String location);
 
-    Photo clientPhoto(String clientNum);
+    Photo clientPhoto(String clientNum, String location);
 
     List<Address> clientAddress(String clientNum, String user, String location);
 
@@ -30,7 +30,7 @@ public interface ClientDataService {
      *
      * @return {@link String} JSON value of answers if loadLatest is requested
      */
-    String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean loadLatestAnswers);
+    String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean loadLatestAnswers, String location);
 
 
     /**
@@ -49,11 +49,11 @@ public interface ClientDataService {
      */
     String getClientFormAnswers(String clientNumber, BigDecimal clientFormId);
 
-    List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd);
+    List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd, String location);
 
-    String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues);
+    String getClientFormJSON(BigDecimal clientFormId,String clientNumber, boolean includeValues, String location);
 
-    ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber);
+    ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber, String location);
 
     /**
      * Get all client form answers for a client form and section sequence (.e. S03 )
@@ -112,7 +112,7 @@ public interface ClientDataService {
      * @return Submitted answers for a form - server call to ensure latest data always displayed
      * as is saved in the database
      */
-    String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm);
+    String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String location);
     
     
     /**
@@ -123,7 +123,7 @@ public interface ClientDataService {
      * @param includeLinkedForm the include linked form
      * @return the client form intervetion for case plan
      */
-    String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm);
+    String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location);
     
     /**
      * Gets the client form meta json.
@@ -132,7 +132,7 @@ public interface ClientDataService {
      * @param clientFormId the client form id
      * @return the client form meta json
      */
-    String getClientFormMetaJson(String csNumber, BigDecimal clientFormId);
+    String getClientFormMetaJson(String csNumber, BigDecimal clientFormId, String location);
     
     /**
      * Update sources contacted.

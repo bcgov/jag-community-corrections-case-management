@@ -12,7 +12,7 @@ public class ClientProfile {
     private String supervisionLevel;
     private String orders;
     private String finalOrderExpiryDt;
-    private Date orderEffectiveDt;
+    private String orderEffectiveDt;
     private String releaseReason;
     private String institutionstatus;
     private String clientinoutyn;
@@ -295,11 +295,11 @@ public class ClientProfile {
         this.programs = programs;
     }
 
-    public Date getOrderEffectiveDt() {
+    public String getOrderEffectiveDt() {
         return orderEffectiveDt;
     }
 
-    public void setOrderEffectiveDt(Date orderEffectiveDt) {
+    public void setOrderEffectiveDt(String orderEffectiveDt) {
         this.orderEffectiveDt = orderEffectiveDt;
     }
 

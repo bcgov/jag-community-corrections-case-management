@@ -124,7 +124,7 @@ public class UserDataServiceImpl implements UserDataService {
 
         logger.debug("Get po user list {} location {}", user, location);
 
-        return userMapper.toPOList(obridgeClientService.getSupervisorDashboard(user, location));
+        return userMapper.toPOList(obridgeClientService.getPOUsers(location));
 
     }
 
