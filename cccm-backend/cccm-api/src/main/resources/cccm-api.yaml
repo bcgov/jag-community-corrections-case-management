@@ -1036,6 +1036,7 @@ paths:
       summary: Get form data JSON, used in summary view
       operationId: getClientFormAnswersSummaryJSONUsingGET
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: clientFormId
           in: path
           description: clientFormId
@@ -1078,6 +1079,7 @@ paths:
       summary: Get client forms, used for RNA list
       operationId: clientFormSearchUsingGET
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: csNumber
           in: path
           description: csNumber
@@ -1122,6 +1124,7 @@ paths:
       summary: Get from.io template JSON for a client form
       operationId: getFormAsJSONUsingGET
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: clientFormId
           in: path
           description: clientFormId
@@ -1163,6 +1166,7 @@ paths:
       summary: Get form data (full data) JSON for a given client form
       operationId: getClientFormAnswersUsingGET
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: clientFormId
           in: path
           description: clientFormId
@@ -1197,6 +1201,7 @@ paths:
       summary: Update form questions, used in auto save
       operationId: saveClientFormAnswersUsingPUT
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: clientFormId
           in: path
           description: clientFormId
@@ -1630,6 +1635,7 @@ paths:
       summary: Get form details for a client form
       operationId: getClientFormSummaryUsingGET
       parameters:
+        - $ref: "#/components/parameters/xLocationId"
         - name: clientFormId
           in: path
           description: clientFormId
@@ -2643,6 +2649,8 @@ components:
         startDate:
           type: string
           format: date
+        location:
+          type: number
     Comment:
       title: Comment
       type: object

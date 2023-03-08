@@ -97,7 +97,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         final String csNumberPadded = padCsNum(clientNum);
 
         logger.info("Getting Photo for Profile");
-        Photo photo = getPhoto(csNumberPadded);
+        Photo photo = getPhoto(csNumberPadded, new BigDecimal(location));
 
         logger.info("Getting Profile");
         ca.bc.gov.open.jag.api.model.data.ClientProfile result = obridgeClientService.getProfileById(csNumberPadded, stripUserName(user), new BigDecimal(location));
@@ -108,13 +108,13 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(String clientNum) {
+    public ca.bc.gov.open.jag.cccm.api.openapi.model.Photo clientPhoto(String clientNum, String location) {
 
         logger.debug("Client Photo for {}", clientNum);
 
         final String csNumberPadded = padCsNum(clientNum);
 
-        List<Photo> photos = obridgeClientService.getPhotosById(csNumberPadded);
+        List<Photo> photos = obridgeClientService.getPhotosById(csNumberPadded, new BigDecimal(location));
 
         if (!photos.isEmpty()) {
             return clientMapper.toPhoto(photos.stream().findFirst().get());
@@ -147,7 +147,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Get Address Data");
         List<ca.bc.gov.open.jag.api.model.data.Address> address = obridgeClientService.getAddressById(csNumberPadded, stripUserName(user), new BigDecimal(location));
         logger.info("Get Photo Data");
-        Photo photo = getPhoto(csNumberPadded);
+        Photo photo = getPhoto(csNumberPadded, new BigDecimal(location));
 
         return clientMapper.toClientDetails(client, address, photo);
 
@@ -162,12 +162,12 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd) {
+    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd, String location) {
 
         logger.debug("Client Form Search Client {} current period {} formTypeCd {}", clientNum, currentPeriod, formTypeCd);
 
         logger.info("Getting Forms");
-        List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd);
+        List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
 
         for (ClientFormSummary form: forms) {
@@ -225,18 +225,18 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues) {
+    public String getClientFormJSON(BigDecimal clientFormId,String clientNumber,  boolean includeValues, String location) {
         logger.debug("Getting client form JSON {} {} {}", clientFormId, clientNumber, includeValues);
-        return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues );
+        return obridgeClientService.getClientFormAsJSON(clientNumber, clientFormId, includeValues, new BigDecimal(location));
     }
 
 
     @Override
-    public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber) {
+    public ClientFormSummary getClientFormSummary(BigDecimal clientFormId, String clientNumber, String location) {
 
         logger.debug("Client Form Summary for Form {} client {}", clientFormId, clientNumber);
 
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNumber, clientFormId);
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNumber, clientFormId, new BigDecimal(location));
         //Apply locked form logic
         clientFormSummary.setLocked(MappingUtils.calculateLocked(clientFormSummary.getCreatedDate()));
 
@@ -244,9 +244,9 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues) {
+    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues, String location) {
         logger.debug("Saving client form answers {}", clientFormId);
-        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, loadLatestValues);
+        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, loadLatestValues, new BigDecimal(location));
 
     }
 
@@ -265,11 +265,11 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm) {
+    public String getClientFormAnswersSummary(String clientNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String location) {
 
         logger.debug("Client Form Summary Answers for Form {} client {} include linked {}", clientFormId, clientNumber, includeLinkedForm);
 
-        return obridgeClientService.getClientFormAnswersSummary(clientNumber, clientFormId, includeLinkedForm);
+        return obridgeClientService.getClientFormAnswersSummary(clientNumber, clientFormId, includeLinkedForm, new BigDecimal(location));
 
     }
 
@@ -329,20 +329,20 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm) {
+    public String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location) {
 
         logger.debug("Get client form intervention for case plan, clientFormId: {}, includeLinkedForm: {}", clientFormId, includeLinkedForm);
 
-        return obridgeClientService.getClientFormInterventionsForCasePlan(csNumber, clientFormId, includeLinkedForm);
+        return obridgeClientService.getClientFormInterventionsForCasePlan(csNumber, clientFormId, includeLinkedForm, new BigDecimal(location));
 
     }
     
     @Override
-    public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId) {
+    public String getClientFormMetaJson(String csNumber, BigDecimal clientFormId, String location) {
 
         logger.debug("Client Form Meta for form {} client {}", clientFormId, csNumber);
 
-        return obridgeClientService.getClientFormMetaJson(csNumber, clientFormId);
+        return obridgeClientService.getClientFormMetaJson(csNumber, clientFormId, new BigDecimal(location));
 
     }
     
@@ -364,11 +364,11 @@ public class ClientDataServiceImpl implements ClientDataService {
         
     }
     
-    private Photo getPhoto(String clientNum) {
+    private Photo getPhoto(String clientNum, BigDecimal location) {
 
         logger.debug("Get Photo for {}", clientNum);
 
-        List<Photo> photos = obridgeClientService.getPhotosById(clientNum);
+        List<Photo> photos = obridgeClientService.getPhotosById(clientNum, location);
 
         if (!photos.isEmpty()) {
             return photos.stream().findFirst().get();

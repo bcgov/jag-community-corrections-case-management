@@ -34,7 +34,7 @@ public class GetClientPhotoTest {
         Photo mockResult = new Photo();
         mockResult.setImage("blarg".getBytes());
 
-        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenReturn(mockResult);
+        Mockito.when(clientDataService.clientPhoto(Mockito.any(), Mockito.any())).thenReturn(mockResult);
 
         Photo result = sut.getClientPhoto(null, "1");
 
@@ -48,7 +48,7 @@ public class GetClientPhotoTest {
     @DisplayName("404: no photo found should return 404")
     public void testGetClientPhotoNotFoundEndpoint() {
 
-        Mockito.when(clientDataService.clientPhoto(Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
+        Mockito.when(clientDataService.clientPhoto(Mockito.any(), Mockito.any())).thenThrow(new CCCMException("Not found", CCCMErrorCode.RECORDNOTFOUND));
 
         Assertions.assertThrows(CCCMException.class, () -> sut.getClientPhoto(null, "1"));
 

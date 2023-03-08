@@ -33,9 +33,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms")
     public void testGetClientFormsNoMerge() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
 
         Assertions.assertEquals(2, result.size());
 
@@ -45,9 +45,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms with merges")
     public void testGetClientFormsMerge() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
 
         Assertions.assertEquals(5, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
@@ -62,9 +62,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms CRNA no relations")
     public void testGetClientFormsCRNA() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "CRNA");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "CRNA", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -74,9 +74,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms SARA ")
     public void testGetClientFormsSARA() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createNonRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -87,9 +87,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms ACUTE ")
     public void testGetClientFormsACUTE() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ACUTE");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ACUTE", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -99,9 +99,9 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms STAT99R ")
     public void testGetClientFormsSTAT99R() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(createRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R", "1");
 
         Assertions.assertEquals(1, result.size());
 

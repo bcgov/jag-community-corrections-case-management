@@ -57,7 +57,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public String getClientFormAnswersUsingGET(BigDecimal clientFormId, String clientNumber) {
+    public String getClientFormAnswersUsingGET(BigDecimal clientFormId, String clientNumber, String xLocationId) {
 
         logger.info("Client Form Answers Request");
 
@@ -69,7 +69,7 @@ public class FormsApiImpl implements FormsApi {
     @Transactional
     @RolesAllowed("form-update")
     public String saveClientFormAnswersUsingPUT(BigDecimal clientFormId, String clientNumber, Boolean loadLatestValues,
-            String answerPayload) {
+            String answerPayload, String xLocationId) {
 
         logger.info("Save Client Form Answers Request");
 
@@ -77,13 +77,12 @@ public class FormsApiImpl implements FormsApi {
             loadLatestValues = Boolean.FALSE;
         }
 
-        return clientDataService.saveClientFormAnswers(clientNumber, clientFormId, answerPayload, loadLatestValues);
+        return clientDataService.saveClientFormAnswers(clientNumber, clientFormId, answerPayload, loadLatestValues, xLocationId);
     }
 
     @Override
     @Transactional
     @RolesAllowed("form-update")
-
     public void deleteInterventionsExceptUsingPUT(BigDecimal clientFormId, String clientNumber, String updatePayload) {
 
         logger.info("Delete Interventions Request");
@@ -95,11 +94,11 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public String getFormAsJSONUsingGET(BigDecimal clientFormId, String clientNumber, Boolean includeOptionValues) {
+    public String getFormAsJSONUsingGET(BigDecimal clientFormId, String clientNumber, String xLocationId, Boolean includeOptionValues) {
 
         logger.info("Form As Json Request");
 
-        return clientDataService.getClientFormJSON(clientFormId, clientNumber, includeOptionValues);
+        return clientDataService.getClientFormJSON(clientFormId, clientNumber, includeOptionValues, xLocationId);
 
     }
 
@@ -117,11 +116,11 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public List<ClientFormSummary> clientFormSearchUsingGET(String csNumber, Boolean currentPeriod, String formTypeCd) {
+    public List<ClientFormSummary> clientFormSearchUsingGET(String csNumber, Boolean currentPeriod, String formTypeCd, String xLocationId) {
 
         logger.info("Form Search Request");
 
-        return clientDataService.clientFormSearch(csNumber, currentPeriod, formTypeCd);
+        return clientDataService.clientFormSearch(csNumber, currentPeriod, formTypeCd, xLocationId);
 
     }
 
@@ -132,7 +131,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Clone Client Form Request");
 
-        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId), hasOverride(JWT_CLONE_ROLE)), username);
+        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId), hasOverride(JWT_CLONE_ROLE)), username, xLocationId);
 
     }
 
@@ -143,7 +142,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Complete Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true));
+        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true), xLocationId);
 
     }
 
@@ -154,7 +153,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Edit Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false));
+        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false), xLocationId);
 
     }
 
@@ -208,22 +207,22 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public ClientFormSummary getClientFormSummaryUsingGET(BigDecimal clientFormId, String clientNumber) {
+    public ClientFormSummary getClientFormSummaryUsingGET(BigDecimal clientFormId, String clientNumber, String xLocationId) {
 
         logger.info("Client Form Summary Request");
 
-        return clientDataService.getClientFormSummary(clientFormId, clientNumber);
+        return clientDataService.getClientFormSummary(clientFormId, clientNumber, xLocationId);
 
     }
 
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public String getClientFormAnswersSummaryJSONUsingGET(BigDecimal clientFormId, String clientNumber, Boolean includeLinkedForm) {
+    public String getClientFormAnswersSummaryJSONUsingGET(BigDecimal clientFormId, String clientNumber, Boolean includeLinkedForm, String xLocationId) {
 
         logger.info("Client Form Answer Summary Request");
 
-        return clientDataService.getClientFormAnswersSummary(clientNumber, clientFormId, includeLinkedForm);
+        return clientDataService.getClientFormAnswersSummary(clientNumber, clientFormId, includeLinkedForm, xLocationId);
 
     }
 
@@ -325,7 +324,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Client Form Interventions Request");
 
-        return clientDataService.getClientFormIntervetionForCasePlan(csNumber, clientFormId, includeLinkedForm);
+        return clientDataService.getClientFormIntervetionForCasePlan(csNumber, clientFormId, includeLinkedForm, xLocationId);
 
     }
 
@@ -369,7 +368,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Client Form Meta Request");
 
-        return clientDataService.getClientFormMetaJson(csNumber, clientFormId);
+        return clientDataService.getClientFormMetaJson(csNumber, clientFormId, xLocationId);
 
     }
 

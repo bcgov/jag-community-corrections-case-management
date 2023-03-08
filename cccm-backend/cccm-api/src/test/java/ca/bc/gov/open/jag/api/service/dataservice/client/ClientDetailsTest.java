@@ -46,7 +46,7 @@ public class ClientDetailsTest {
 
         Mockito.when(obridgeClientService.getDetailsById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClient());
         Mockito.when(obridgeClientService.getAddressById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.singletonList(createAddress()));
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any(), Mockito.any())).thenReturn(Collections.singletonList(createPhoto()));
 
         Client result = sut.clientDetails(CLIENT_NUM, TEST_IDIR, LOCATION);
 
@@ -69,7 +69,7 @@ public class ClientDetailsTest {
 
         Mockito.when(obridgeClientService.getDetailsById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClient());
         Mockito.when(obridgeClientService.getAddressById(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Collections.singletonList(createAddress()));
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.EMPTY_LIST);
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any(), Mockito.any())).thenReturn(Collections.EMPTY_LIST);
 
         Client result = sut.clientDetails(CLIENT_NUM, TEST_IDIR, LOCATION);
 

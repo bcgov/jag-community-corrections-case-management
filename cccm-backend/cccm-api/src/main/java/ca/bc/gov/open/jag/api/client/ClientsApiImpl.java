@@ -46,7 +46,7 @@ public class ClientsApiImpl implements ClientsApi {
 
         logger.info("Client Photo Request");
 
-        return clientDataService.clientPhoto(clientNum);
+        return clientDataService.clientPhoto(clientNum, xLocationId);
 
     }
 

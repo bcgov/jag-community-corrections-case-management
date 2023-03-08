@@ -36,9 +36,9 @@ public class ClientPhotoTest {
         mockResult.setImage(image);
         List<Photo> photos = Collections.singletonList(mockResult);
 
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(photos);
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any(), Mockito.any())).thenReturn(photos);
 
-        ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto("1");
+        ca.bc.gov.open.jag.cccm.api.openapi.model.Photo result = sut.clientPhoto("1", "1");
 
         Assertions.assertArrayEquals(image, result.getImage());
 
@@ -48,9 +48,9 @@ public class ClientPhotoTest {
     @DisplayName("Exception: no photo found should return 404")
     public void testGetClientPhotoNotFound() {
 
-        Mockito.when(obridgeClientService.getPhotosById(Mockito.any())).thenReturn(Collections.emptyList());
+        Mockito.when(obridgeClientService.getPhotosById(Mockito.any(), Mockito.any())).thenReturn(Collections.emptyList());
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto("1"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.clientPhoto("1", "1"));
 
     }
 
