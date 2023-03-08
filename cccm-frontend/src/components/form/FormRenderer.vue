@@ -132,7 +132,7 @@
 
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
-            <div class="menuR2" v-if="!loading">
+            <div :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :pageRefreshSectionIndex="pageRefreshSectionIndex"
@@ -143,9 +143,9 @@
                 @refreshPage="handleRefreshPage"/>
             </div>
           </div>
-          <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :key="componentKey" :class="loading ? 'hide' : 'mainContent'">
+          <div :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
             <FormDataEntry 
               :csNumber="csNumber"
               :formId="formId"
@@ -244,6 +244,7 @@ export default {
       CONST_LABEL_SUMMARY: "SUMMARY",
       loadingMsg: "Loading form...",
       loading: false,
+      loaded: false,
       displaySummary: false,
       parentNavMoveToNext: 1,
       parentNavJumpToPointed: '',
@@ -292,6 +293,12 @@ export default {
         this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
       }, 5000);
     }
+   
+    setTimeout(() => {
+      this.loaded = true;
+      this.navToSectionAndQuestion(0, 0);
+    }, 1000);
+    
   },
   methods: {
     handleCancelPrintFlag() {
@@ -472,7 +479,7 @@ export default {
       return false;
     },
     navToSectionAndQuestion(section: number, question: number) {
-      //console.log("Nav to :", section, question);
+      // console.log("Nav to :", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;
