@@ -2452,6 +2452,8 @@ components:
         updatedDate:
           type: string
           format: date
+        formTypeExpiryDate:
+          type: string
     SupervisorDashboard:
       type: object
       properties:
