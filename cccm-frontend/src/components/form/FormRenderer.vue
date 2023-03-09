@@ -181,6 +181,7 @@
               <div class="crna-right-panel-button-container">
                 <!--Save Close button group-->
                 <FormioButtonGroupSide v-if="!loading" 
+                  :dataModel="sideBtnData" 
                   @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
@@ -225,7 +226,8 @@ export default {
     readonly: false,
     locked: false,
     printParam: false,
-    createdByIdir: ''
+    createdByIdir: '',
+    canPrint: true,
   },
   components: {
     Form,
@@ -270,6 +272,7 @@ export default {
       options: {},
       printRequested: false,
       submitBtnData: {},
+      sideBtnData: {"data": {}},
       isContainCasePlan: false,
       isContainSummary: false,
       errorKey: 0,
@@ -283,6 +286,10 @@ export default {
     } else {
       this.options = null;
     }
+
+    // set sideBtnData
+    this.sideBtnData.data.showPrintBtn = this.canPrint;
+    
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
