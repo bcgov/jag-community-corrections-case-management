@@ -80,6 +80,17 @@ div.R-Sticky {
 	box-shadow: 0px 3px 6px #00000029;
 }
 
+.mask {  
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 10; /* some high z-index */
+	width: 100vw;
+	height: 100vh;
+	opacity: 0;
+	user-select: none; /* prevents double clicking from highlighting entire page */
+}
+
 * {
 	box-sizing: border-box;
 }

@@ -66,7 +66,7 @@ export default {
       currentSectionChild : '1',
       currentSectionParent : '0',
       indexZero: '1',
-      timeoutDelay: 2000,
+      timeoutDelay: 10,
       initLoad: true,
 
       data_rightPanel: {},
