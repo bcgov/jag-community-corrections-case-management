@@ -214,9 +214,11 @@
               </a>
             </div>
             &nbsp;&nbsp;
-            <a href="#" @click="formPrint(item.id)" title="Print form">
-              <i class="fa fa-print"></i>
-            </a>
+            <div style="display:inline-block" :title="getPrintTooltip(item)">
+              <a href="#" :class="[canPrint(item) ? '' : 'disabled']" @click="formPrint(item.id)" title="Print form">
+                <i class="fa fa-print"></i>
+              </a>
+          </div>
           </template>
         </v-data-table>
       </div>
@@ -376,6 +378,19 @@ export default {
       }
 
       return 'Copy form';
+    },
+    canPrint(item) {
+      let canPrint = true;
+      if (item.formTypeExpiryDate != null) {
+        canPrint = false;
+      }
+      return canPrint;
+    },
+    getPrintTooltip(item) {
+      if (item.formTypeExpiryDate != null) {
+        return 'Print old forms are not supported yet.';
+      }
+      return 'Print form';
     },
     getAssessmentStatus(isReassessment, formType) {
       if (formType == 'CRNA-SARA') {
