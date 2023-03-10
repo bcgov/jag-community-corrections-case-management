@@ -185,12 +185,12 @@
     }
 
     /* Hide sections in print view */
-    .dashboard-v-card .excludedInPrint {
+    .excludedInPrint {
         display: none;
     }
 
     /* Change the section tile underline color */
-    .dashboard-v-card .includedInPrint .subSectionTitleClass:after{
+    .includedInPrint .subSectionTitleClass:after{
         content: "";
         height: 0px;
         width: 50px;
@@ -200,7 +200,7 @@
     }
 
     /* Change the header color - not working */
-    .dashboard-v-card .includedInPrint .v-data-table-header {
+    .includedInPrint .v-data-table-header {
         background-color: #545454!important;
     }
 
