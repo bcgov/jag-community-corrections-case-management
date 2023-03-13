@@ -3,19 +3,27 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
+import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import javax.json.Json;
+import javax.json.JsonObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
+import javax.json.JsonReader;
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
 
@@ -29,11 +37,16 @@ public class ClientFormSearchTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
+    @InjectMock
+    JsonWebToken jsonWebTokenMock;
+
     @Test
     @DisplayName("Success: should return clients forms")
     public void testGetClientFormsNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
+
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
 
@@ -46,7 +59,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
-
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
 
         Assertions.assertEquals(5, result.size());
@@ -63,7 +76,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsCRNA() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
-
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "CRNA", "1");
 
         Assertions.assertEquals(1, result.size());
@@ -75,7 +88,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsSARA() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
-
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA", "1");
 
         Assertions.assertEquals(1, result.size());
@@ -88,7 +101,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsACUTE() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
-
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "ACUTE", "1");
 
         Assertions.assertEquals(1, result.size());
@@ -100,12 +113,26 @@ public class ClientFormSearchTest {
     public void testGetClientFormsSTAT99R() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
-
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R", "1");
 
         Assertions.assertEquals(1, result.size());
 
     }
+
+    @Test
+    @DisplayName("Success: should return clients forms without SMO")
+    public void testGetClientFormsWithoutSMO() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
+
+        Assertions.assertEquals(2, result.size());
+
+    }
+
 
     private List<ClientFormSummary> createNonRelatedList() {
 
@@ -178,5 +205,23 @@ public class ClientFormSearchTest {
 
     }
 
+    private JsonObject getRolesWithSMO() {
+         JsonReader jsonReader = Json.createReader(new StringReader("{\n" +
+                 "\t\"roles\": [\n" +
+                 "\t\t\"smo-forms\",\n" +
+                 "\t\t\"blarg\"\n" +
+                 "\t]\n" +
+                 "}"));
+        return jsonReader.readObject();
+    }
+
+    private JsonObject getRolesWithoutSMO() {
+        JsonReader jsonReader = Json.createReader(new StringReader("{\n" +
+                "\t\"roles\": [\n" +
+                "\t\t\"blarg\"\n" +
+                "\t]\n" +
+                "}"));
+        return jsonReader.readObject();
+    }
 
 }
