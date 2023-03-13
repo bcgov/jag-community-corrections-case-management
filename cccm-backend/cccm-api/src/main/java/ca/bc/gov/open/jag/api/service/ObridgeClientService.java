@@ -285,4 +285,9 @@ public interface ObridgeClientService {
     @Path("/user/po/list")
     List<User> getPOUsers(@QueryParam("locationId") BigDecimal location);
 
+    @GET
+    @Path("/forms/client/answers/{clientNumber}/{clientFormId}/object")
+    ClientFormAnswers getClientFormAnswersObject(@PathParam("clientNumber") String clientNumber,
+                                           @PathParam("clientFormId") BigDecimal clientFormId);
+
 }
