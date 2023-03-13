@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.data.ClientFormAnswers;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
@@ -52,6 +53,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -68,6 +70,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -86,6 +89,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any())).thenReturn(Collections.emptyList());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -105,6 +109,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any())).thenReturn(Collections.emptyList());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -123,6 +128,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(STABLE_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -139,6 +145,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(OVERALL_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -156,6 +163,7 @@ public class EditFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
@@ -171,6 +179,7 @@ public class EditFormTest {
     public void testDoesNotHaveOverrideorOwner() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(SARA_FORM_TYPE, null, "TESTER", null, null));
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
 
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);

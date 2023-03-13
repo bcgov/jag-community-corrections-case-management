@@ -142,7 +142,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         logger.debug("Edit form {}", updateForm);
         Boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
-        ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
+
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only edit or complete", CCCMErrorCode.VALIDATIONERROR);
         }
@@ -216,9 +216,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
-        formInput.setFormLevelComments(existingAnswers.getFormComments());
-        formInput.setPlanSummary(existingAnswers.getPlanSummary());
-        formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
+        if (updateForm.getComplete()) {
+
+            ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
+            formInput.setFormLevelComments(existingAnswers.getFormComments());
+            formInput.setPlanSummary(existingAnswers.getPlanSummary());
+            formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
+
+        }
         formInput.setOracleId(oracelId);
         logger.info("Complete Form");
         obridgeClientService.setCompletion(formInput);
