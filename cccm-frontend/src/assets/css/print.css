@@ -129,12 +129,12 @@
         margin-top:0px;
     }
 
-    .crna-formio-h1 {
+    .rna-formio-h1 {
         padding: 0;
     }
     
     /* Position the form title after the logo */
-    .crna-formio-h1>h2 {
+    .rna-formio-h1>h2 {
         display: inline-block;
         width: calc(100% - 50px);
         text-align: right;
@@ -145,14 +145,14 @@
     }
 
     /* Add logo before the form title text */
-    .crna-formio-h1:before {
+    .rna-formio-h1:before {
         display: inline-block;
         width: 15px;
         content: url("/src/assets/images/justice.png");
     }
 
     /* Underline the logo and form title text */
-    .crna-formio-h1:after {
+    .rna-formio-h1:after {
         display:block;
         width:100%;
         height:0px;
@@ -184,8 +184,13 @@
         content:""
     }
 
+    /* Hide sections in print view */
+    .excludedInPrint {
+        display: none;
+    }
+
     /* Change the section tile underline color */
-    .dashboard-v-card .subSectionTitleClass:after{
+    .includedInPrint .subSectionTitleClass:after{
         content: "";
         height: 0px;
         width: 50px;
@@ -195,7 +200,7 @@
     }
 
     /* Change the header color - not working */
-    .dashboard-v-card .v-data-table-header {
+    .includedInPrint .v-data-table-header {
         background-color: #545454!important;
     }
 

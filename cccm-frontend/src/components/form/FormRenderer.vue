@@ -165,6 +165,7 @@
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
               :csNumber="csNumber" 
+              :formType="formType"
               :printRequested="printRequested"
               @cancelPrintFlag="handleCancelPrintFlag"/>
 

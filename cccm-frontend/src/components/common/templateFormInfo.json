@@ -23,7 +23,7 @@
                     "type": "htmlelement",
                     "input": false,
                     "tableView": false,
-                    "customClass": "crna-formio-h1"
+                    "customClass": "rna-formio-h1"
                 },
                 {
                     "label": "Columns",
@@ -32,7 +32,7 @@
                             "components": [
                                 {
                                     "label": "Columns",
-                                    "customClass": "crna-formio-metadata-section",
+                                    "customClass": "rna-formio-metadata-section",
                                     "columns": [
                                         {
                                             "components": [
@@ -221,7 +221,7 @@
                             "components": [
                                 {
                                     "label": "Columns",
-                                    "customClass": "crna-formio-metadata-section",
+                                    "customClass": "rna-formio-metadata-section",
                                     "columns": [
                                         {
                                             "components": [
