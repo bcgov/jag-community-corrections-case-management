@@ -219,6 +219,9 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+        formInput.setFormLevelComments(updateForm.getUpdateFormInput().getFormLevelComments());
+        formInput.setPlanSummary(updateForm.getUpdateFormInput().getPlanSummary());
+        formInput.setSourcesContacted(updateForm.getUpdateFormInput().getSourcesContacted());
         formInput.setOracleId(oracelId);
         logger.info("Complete Form");
         obridgeClientService.setCompletion(formInput);

@@ -2541,6 +2541,12 @@ components:
         linkedClientFormId:
           type: number
           description: required to link a form
+        formLevelComments:
+          type: string
+        sourcesContacted:
+          type: string
+        planSummary:
+          type: string
     LinkFormInput:
       type: object
       required:
