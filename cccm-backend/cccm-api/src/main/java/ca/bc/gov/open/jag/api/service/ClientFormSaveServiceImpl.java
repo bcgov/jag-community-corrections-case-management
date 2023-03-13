@@ -2,10 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
-import ca.bc.gov.open.jag.api.model.data.CloneFormRequest;
-import ca.bc.gov.open.jag.api.model.data.CodeTable;
-import ca.bc.gov.open.jag.api.model.data.CompleteFormInput;
-import ca.bc.gov.open.jag.api.model.data.FormInput;
+import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.api.model.service.CloneConfig;
 import ca.bc.gov.open.jag.api.model.service.CloneForm;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
@@ -219,6 +216,14 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+        if (updateForm.getComplete()) {
+
+            ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
+            formInput.setFormLevelComments(existingAnswers.getFormComments());
+            formInput.setPlanSummary(existingAnswers.getPlanSummary());
+            formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
+
+        }
         formInput.setOracleId(oracelId);
         logger.info("Complete Form");
         obridgeClientService.setCompletion(formInput);
