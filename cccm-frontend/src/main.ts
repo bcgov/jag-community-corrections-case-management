@@ -36,15 +36,7 @@ Vue.prototype.$CONST_FORMTYPE_SO_OVERALL = 'SO_OVERALL'
 Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
 Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
-Vue.prototype.$CONST_FORM_TYPES = [
-  { value: "ALL", key: "ALL"},
-  { value: "ACUTE", key: "ACUTE" },
-  { value: "CRNA", key: "CRNA" },
-  { value: "CRNA-SARA", key: "SARA" },
-  { value: "SMO-OVERALL", key: "SO_OVERALL" },
-  { value: "STABLE", key: "STABLE" },
-  { value: "STAT99R", key: "STAT99R" }
-],
+
 Vue.prototype.$USER_GROUP_PO = 'po'
 Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
 Vue.prototype.$USER_GROUP_ADMIN = 'admin'
@@ -69,6 +61,7 @@ Vue.prototype.$AUTH_ROLE_SUPERVISOR='auth-supervisor'
 Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
 Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
+Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', sectionsExcludedInPrintView: [0,1], dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },

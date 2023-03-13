@@ -13,6 +13,7 @@ export const useStore = defineStore('main', {
         loginUserGroup: useLocalStorage('loginUserGroup', null),
         loginUserName: useLocalStorage('loginUserName', null),
         poList: useLocalStorage('poList', new Map()),
+        supportedFormTypes: useLocalStorage('supportedFormTypes', [])
     }),
 
     // actions
@@ -68,11 +69,43 @@ export const useStore = defineStore('main', {
             }
             return true;
         },
+        isShowSMOForms() {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SMO_FORMS)) {
+                return true;
+            }
+            return false;
+        },
+        getSupportedFormTypes() {
+            if (this.supportedFormTypes.length > 0) {
+                return this.supportedFormTypes;
+            }
+            // default the supportedFormTypes to include smo formtypes
+            this.supportedFormTypes = [
+                { value: "ALL", key: "ALL"},
+                { value: "ACUTE", key: "ACUTE" },
+                { value: "CRNA", key: "CRNA" },
+                { value: "CRNA-SARA", key: "SARA" },
+                { value: "SMO-OVERALL", key: "SO_OVERALL" },
+                { value: "STABLE", key: "STABLE" },
+                { value: "STAT99R", key: "STAT99R" }
+              ];
+
+            // if login user doesn't have smo_forms role, only include CRNA and CRNA-SARA
+            if (!Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SMO_FORMS)) {
+                this.supportedFormTypes = [
+                    { value: "ALL", key: "ALL"},
+                    { value: "CRNA", key: "CRNA" },
+                    { value: "CRNA-SARA", key: "SARA" }
+                  ]
+            }
+            return this.supportedFormTypes;
+        },
         clearAll() {
             this.clearCachedUserLocations();
             this.clearCachedLocation();
             this.clearCachedUserInfo();
             this.clearCachedPOList();
+            this.clearCachedSupportedFormTypes();
         },
         clearCachedUserLocations() {
             //console.info("Clear cached user locations.");
@@ -91,6 +124,9 @@ export const useStore = defineStore('main', {
         clearCachedPOList() {
             //console.info("Clear cached poList.");
             this.poList = new Map();
+        },
+        clearCachedSupportedFormTypes() {
+            this.supportedFormTypes = [];
         },
         async getUserLocations() {
             if (this.locations == null || this.locations.length == 0) {
