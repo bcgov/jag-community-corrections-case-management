@@ -132,7 +132,7 @@
 
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
-            <div class="menuR2" v-if="!loading">
+            <div :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :pageRefreshSectionIndex="pageRefreshSectionIndex"
@@ -143,9 +143,9 @@
                 @refreshPage="handleRefreshPage"/>
             </div>
           </div>
-          <v-progress-linear v-if="loading" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
+          <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :key="componentKey" :class="loading ? 'hide' : 'mainContent'">
+          <div :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
             <FormDataEntry 
               :csNumber="csNumber"
               :formId="formId"
@@ -165,6 +165,7 @@
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
               :csNumber="csNumber" 
+              :formType="formType"
               :printRequested="printRequested"
               @cancelPrintFlag="handleCancelPrintFlag"/>
 
@@ -181,6 +182,7 @@
               <div class="crna-right-panel-button-container">
                 <!--Save Close button group-->
                 <FormioButtonGroupSide v-if="!loading" 
+                  :dataModel="sideBtnData" 
                   @saveCloseClicked="handleSaveClose" 
                   @printFormClicked="handlePrintForm" />
               </div>
@@ -225,7 +227,8 @@ export default {
     readonly: false,
     locked: false,
     printParam: false,
-    createdByIdir: ''
+    createdByIdir: '',
+    canPrint: true,
   },
   components: {
     Form,
@@ -244,6 +247,7 @@ export default {
       CONST_LABEL_SUMMARY: "SUMMARY",
       loadingMsg: "Loading form...",
       loading: false,
+      loaded: false,
       displaySummary: false,
       parentNavMoveToNext: 1,
       parentNavJumpToPointed: '',
@@ -269,6 +273,7 @@ export default {
       options: {},
       printRequested: false,
       submitBtnData: {},
+      sideBtnData: {"data": {}},
       isContainCasePlan: false,
       isContainSummary: false,
       errorKey: 0,
@@ -282,6 +287,10 @@ export default {
     } else {
       this.options = null;
     }
+
+    // set sideBtnData
+    this.sideBtnData.data.showPrintBtn = this.canPrint;
+    
     //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
     this.getClientAndFormMeta();
     this.getFormioTemplate();
@@ -292,6 +301,12 @@ export default {
         this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
       }, 5000);
     }
+   
+    setTimeout(() => {
+      this.loaded = true;
+      this.navToSectionAndQuestion(0, 0);
+    }, 1000);
+    
   },
   methods: {
     handleCancelPrintFlag() {
@@ -472,7 +487,7 @@ export default {
       return false;
     },
     navToSectionAndQuestion(section: number, question: number) {
-      //console.log("Nav to :", section, question);
+      // console.log("Nav to :", section, question);
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;

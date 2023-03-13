@@ -1,7 +1,8 @@
 <template>
     <Form :form="formJSON" 
       @evt_saveAndClose="handleSaveAndClose" 
-      @evt_print="handlePrint" />
+      @evt_print="handlePrint"
+      :submission="dataModel" />
 </template>
 
 <script lang="ts">
@@ -11,6 +12,9 @@ import templateButtons from '@/components/common/templateButtonGroupSide.json';
 
 export default {
   name: 'FormioSideButton',
+  props: {
+    dataModel: {},
+  },
   data() {
     return {
       templatePanel : templateButtons,
