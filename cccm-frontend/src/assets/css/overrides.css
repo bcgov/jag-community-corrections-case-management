@@ -601,6 +601,15 @@ legend[ref="header"]{
     padding: 20px 10px;
 }
 
+.v-tab {
+    font-size: 1rem!important;
+    text-transform: none!important;
+}
+
+.v-tabs-slider {
+    color: #003366!important;
+}
+
 #trend-analysis-view .v-tab {
     color: #C5C5C5!important;
 }
