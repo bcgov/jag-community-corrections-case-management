@@ -60,6 +60,9 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true), "1"));
 
@@ -78,6 +81,9 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true),"1"));
 
@@ -97,7 +103,10 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
-        completeFormInput.setClientNumber("TEST");;
+        completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true), "1"));
 
@@ -121,6 +130,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true), "1"));
 
@@ -143,6 +155,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true), "1"));
 
@@ -166,6 +181,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true), "1"));
@@ -189,6 +207,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST@idir", true), "1"));
@@ -208,6 +229,9 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true),"1"));
 
@@ -228,6 +252,9 @@ public class CompleteFormTest {
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
+        updateFormInput.setPlanSummary("TEST");
+        updateFormInput.setSourcesContacted("TEST");
+        updateFormInput.setFormLevelComments("TEST");
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", true), "1"));
 
@@ -250,6 +277,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true), "1"));
@@ -269,6 +299,10 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
+
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true), "1"));
 
@@ -289,6 +323,10 @@ public class CompleteFormTest {
         UpdateFormInput updateFormInput = new UpdateFormInput();
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
+        updateFormInput.setPlanSummary("TEST");
+        updateFormInput.setSourcesContacted("TEST");
+        updateFormInput.setFormLevelComments("TEST");
+
 
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", true), "1"));
 
@@ -311,6 +349,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true), "1"));
@@ -333,7 +374,9 @@ public class CompleteFormTest {
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setLinkedClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
-
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertThrows(CCCMException.class, () ->  sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, true,"TEST", true),"1"));
 
@@ -347,6 +390,9 @@ public class CompleteFormTest {
         UpdateFormInput completeFormInput = new UpdateFormInput();
         completeFormInput.setClientFormId(BigDecimal.ONE);
         completeFormInput.setClientNumber("TEST");
+        completeFormInput.setPlanSummary("TEST");
+        completeFormInput.setSourcesContacted("TEST");
+        completeFormInput.setFormLevelComments("TEST");
 
         Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(completeFormInput, BigDecimal.ONE, false,"TEST@idir", true),"1"));
 
