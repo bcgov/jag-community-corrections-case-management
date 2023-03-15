@@ -10,12 +10,15 @@ import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.json.JsonObject;
+import javax.json.JsonString;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.*;
@@ -35,6 +38,9 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     @Inject
     ClientMapper clientMapper;
+
+    @Inject
+    JsonWebToken jwt;
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
@@ -169,6 +175,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Getting Forms");
         List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
+        Boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
@@ -205,14 +212,16 @@ public class ClientDataServiceImpl implements ClientDataService {
                 } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
                         (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && (form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) || form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)))) {
                     logger.info("adding other forms");
-                    form.setSupervisionRating(form.getRatings().get(form.getModule()));
-                    formsMerged.add(form);
+                    if (hasSMOEarlyAdopter || formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE)) {
+                        form.setSupervisionRating(form.getRatings().get(form.getModule()));
+                        formsMerged.add(form);
+                    }
                 }
             } else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
-                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE)) ||
-                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) ||
-                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE))||
-                    (formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE))) {
+                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) && hasSMOEarlyAdopter) ||
+                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE) && hasSMOEarlyAdopter) ||
+                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)||
+                    (formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE) && hasSMOEarlyAdopter)) {
                 logger.info("adding form {}", form.getModule());
                 form.setSupervisionRating(form.getRatings().get(form.getModule()));
                 formsMerged.add(form);
@@ -417,6 +426,21 @@ public class ClientDataServiceImpl implements ClientDataService {
         }
 
         return result;
+    }
+
+    private Boolean hasSMOEarlyAdopter() {
+
+        if (jwt == null || jwt.claim(JWT_REALM_ACCESS).isEmpty()) return false;
+
+        JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();
+
+        List<String> roles = realmAccess.getJsonArray(JWT_REALM_ROLES)
+                .stream()
+                .map(value -> ((JsonString)value).getString())
+                .collect(Collectors.toList());
+
+        return (roles.contains(JWT_SMO_EARLY_ADOPTER_ROLE));
+
     }
 
 }
