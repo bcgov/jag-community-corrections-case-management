@@ -141,7 +141,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, "ALL", "1");
 
-        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(3, result.size());
 
     }
 
