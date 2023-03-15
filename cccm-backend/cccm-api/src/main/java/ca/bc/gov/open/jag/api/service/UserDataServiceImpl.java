@@ -90,11 +90,11 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, String location) {
+    public SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, BigDecimal location) {
 
         logger.debug("Supervisor Dashboard Details user {} location {}", userId, location);
 
-        return userMapper.toSupervisorDashboardDetails(obridgeClientService.getSupervisorDashboardDetails(userId, new BigDecimal(location)));
+        return userMapper.toSupervisorDashboardDetails(obridgeClientService.getSupervisorDashboardDetails(userId, location));
 
     }
 

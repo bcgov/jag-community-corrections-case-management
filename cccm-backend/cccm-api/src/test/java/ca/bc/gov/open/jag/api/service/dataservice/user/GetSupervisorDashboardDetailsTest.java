@@ -32,7 +32,7 @@ public class GetSupervisorDashboardDetailsTest {
 
         Mockito.when(obridgeClientService.getSupervisorDashboardDetails(Mockito.any(), Mockito.any())).thenReturn(createDetails());
 
-        SupervisorDashboardDetails result = sut.getSupervisorDashboardDetails("test@idir", "1");
+        SupervisorDashboardDetails result = sut.getSupervisorDashboardDetails("test@idir", BigDecimal.ONE);
 
         Assertions.assertEquals(BigDecimal.ONE, result.getClosedIncomplete());
         Assertions.assertEquals(BigDecimal.ONE, result.getDueSeven());
