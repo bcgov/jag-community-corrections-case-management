@@ -8,7 +8,7 @@
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
-      <v-btn
+      <v-btn v-if="showSMOForms"
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STABLE}`"
         v-show=false
         @click.stop="dialog = true"
@@ -47,7 +47,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <div v-if="formType === $CONST_FORMTYPE_STAT99R || formType === $CONST_FORMTYPE_ACUTE">
+    <div v-if="showSMOForms && (formType === $CONST_FORMTYPE_STAT99R || formType === $CONST_FORMTYPE_ACUTE)">
       <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
         v-show=false
@@ -92,13 +92,13 @@
               @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
             ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
           </div>
-          <div v-else-if="item.id === CONST_CREATE_BTN_STABLE" class="p-4">
+          <div v-else-if="showSMOForms && item.id === CONST_CREATE_BTN_STABLE" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_STABLE)"
             ><i class="fa fa-plus"></i>&nbsp; Add STABLE-CMP Form</v-btn>
           </div>
-          <div v-else-if="item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
+          <div v-else-if="showSMOForms &&  item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SO_OVERALL)"
@@ -244,7 +244,7 @@ export default {
           this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
         // show the 'add STABLE' btn 
-        if (!this.isFormReadonly) {
+        if (this.showSMOForms && !this.isFormReadonly) {
           this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
@@ -257,12 +257,12 @@ export default {
         this.current_tab = 'tab-SARA';
 
         // show the 'add STABLE' btn 
-        if (!this.isFormReadonly) {
+        if (this.showSMOForms && !this.isFormReadonly) {
           this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
       // if formType is 'ACUTE', only show ACUTE tab
-      if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
+      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_ACUTE) {
         this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-ACUTE';
         if (!this.relatedClientFormId) {
@@ -276,7 +276,7 @@ export default {
         }
       } else
       // if formType is 'STAT99R', only show STAT99R tab
-      if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
+      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STAT99R) {
         this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-STAT99R';
         if (!this.relatedClientFormId) {
@@ -290,12 +290,12 @@ export default {
         }
       } else
       // if formType is 'SMO-OVERALL', only show Overall tab
-      if (this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
+      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
         this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-OVERALL';
       } else
       // if formType is 'STABLE', only show STABLE tab
-      if (this.formType === this.$CONST_FORMTYPE_STABLE) {
+      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STABLE) {
         this.items.push({ tab: 'STABLE-CMP', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-STABLE';
       } else {
@@ -333,6 +333,10 @@ export default {
     }
   },
   computed: {
+    showSMOForms() {
+      return this.mainStore.isShowSMOForms();
+    
+    },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore)
