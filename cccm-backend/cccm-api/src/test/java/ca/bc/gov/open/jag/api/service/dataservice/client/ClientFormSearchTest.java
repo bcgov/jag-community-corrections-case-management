@@ -3,7 +3,6 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
-import io.quarkus.test.Mock;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -124,15 +123,27 @@ public class ClientFormSearchTest {
     @DisplayName("Success: should return clients forms without SMO")
     public void testGetClientFormsWithoutSMO() {
 
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R", "1");
+
+        Assertions.assertEquals(0, result.size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should return clients forms without SMO")
+    public void testGetAllClientFormsWithoutSMO() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ALL", "1");
 
         Assertions.assertEquals(2, result.size());
 
     }
-
 
     private List<ClientFormSummary> createNonRelatedList() {
 
