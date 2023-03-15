@@ -35,7 +35,7 @@ public class GetSupervisorDashboardDetailsTest {
 
         Mockito.when(userDataService.getSupervisorDashboardDetails(any(), any())).thenReturn(createDetails());
 
-        SupervisorDashboardDetails result = sut.getSupervisorDashboardDetails(null, "");
+        SupervisorDashboardDetails result = sut.getSupervisorDashboardDetails(null, "", null);
 
         Assertions.assertEquals(BigDecimal.ONE, result.getClosedIncomplete());
         Assertions.assertEquals(BigDecimal.ONE, result.getDueSeven());
@@ -51,7 +51,7 @@ public class GetSupervisorDashboardDetailsTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboardDetails(null, ""));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.getSupervisorDashboardDetails(null, "", null));
 
     }
 
@@ -59,7 +59,7 @@ public class GetSupervisorDashboardDetailsTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboardDetails(null, ""));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.getSupervisorDashboardDetails(null, "", null));
 
     }
 

@@ -400,12 +400,13 @@ export async function dashboardSupervisorSearch(locationId: number) {
 }
 
 // Supervisor dashboard PO search
-export async function dashboardPODetailsSearch(idirId: String) {
+export async function dashboardPODetailsSearch(idirId: String, locationId: number) {
     try{
         //console.log("Officer search by supervisorID: ", supervisorID);
         const { data } = await axiosClient.get('/dashboards/supervisor/details', {
             params: {
-                idirId: idirId
+                idirId: idirId,
+                locationId: locationId
             }
         });
         return [null, data];

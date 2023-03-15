@@ -20,7 +20,7 @@ public interface UserDataService {
 
     List<PO> getPOList(String user, BigDecimal location);
 
-    SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, String location);
+    SupervisorDashboardDetails getSupervisorDashboardDetails(String userId, BigDecimal location);
 
     LogonResult logonUser(String user, String locationType);
 

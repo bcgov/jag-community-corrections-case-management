@@ -248,10 +248,10 @@ export default {
         return;
       }
       //console.log("item: ", item);
-      this.dashboardPODetailsSearchAPI(item.idirId);
+      this.dashboardPODetailsSearchAPI(item.idirId, this.pickedLocationCD);
     },
-    async dashboardPODetailsSearchAPI(POIdirId) {
-      const [error, response] = await dashboardPODetailsSearch(POIdirId);
+    async dashboardPODetailsSearchAPI(POIdirId, locationId) {
+      const [error, response] = await dashboardPODetailsSearch(POIdirId, locationId);
       if (error) {
         console.error("Supervisor dashboard PO search failed: ", error);
       } else {
