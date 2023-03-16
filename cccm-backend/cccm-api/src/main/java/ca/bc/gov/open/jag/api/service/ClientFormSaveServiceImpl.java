@@ -13,6 +13,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -222,6 +224,29 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             formInput.setFormLevelComments(existingAnswers.getFormComments());
             formInput.setPlanSummary(existingAnswers.getPlanSummary());
             formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
+            if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
+
+                ClientFormSummary childFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location));
+
+                String rating;
+                String formType;
+                //CRNA and SARA could be completed so reverse is applied
+                if (clientFormSummary.getModule().equals(CRNA_FORM_TYPE)) {
+                    formType = MessageFormat.format("{0}-{1}", clientFormSummary.getModule(), childFormSummary.getModule());
+                    rating = (ratingToInteger(childFormSummary.getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(clientFormSummary.getRatings().get(CRNA_FORM_TYPE)) ? childFormSummary.getRatings().get(SARA_FORM_TYPE) : clientFormSummary.getRatings().get(CRNA_FORM_TYPE));
+                } else {
+                    formType = MessageFormat.format("{0}-{1}", childFormSummary.getModule(), clientFormSummary.getModule());
+                    rating = (ratingToInteger(clientFormSummary.getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(childFormSummary.getRatings().get(CRNA_FORM_TYPE)) ? clientFormSummary.getRatings().get(SARA_FORM_TYPE) : childFormSummary.getRatings().get(CRNA_FORM_TYPE));
+                }
+                formInput.setFormType(formType);
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0} Supervision Rating: {1}", clientFormSummary.getSupervisionLevel(), rating));
+
+            } else {
+                formInput.setFormType(clientFormSummary.getModule());
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0} Supervision Rating: {1}", clientFormSummary.getSupervisionLevel(), clientFormSummary.getRatings().get(clientFormSummary.getModule())));
+            }
+
+
 
         }
         formInput.setOracleId(oracelId);
@@ -381,6 +406,32 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         return answerJson.toString();
 
+    }
+
+    private Integer ratingToInteger(String rating) {
+
+        if (StringUtils.isBlank(rating)) {
+            return -1;
+        }
+
+        int result;
+
+        switch (rating) {
+            case HIGH:
+                result = 3;
+                break;
+            case MEDIUM:
+                result = 2;
+                break;
+            case LOW:
+                result = 1;
+                break;
+            default:
+                result = 0;
+                break;
+        }
+
+        return result;
     }
 
     private Boolean validateFormType(BigDecimal formTypeId, String formType) {

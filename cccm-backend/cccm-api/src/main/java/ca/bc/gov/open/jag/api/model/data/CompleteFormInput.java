@@ -12,6 +12,8 @@ public class CompleteFormInput {
     private String formLevelComments;
     private String sourcesContacted;
     private String planSummary;
+    private String formType;
+    private String overallSupervision;
 
     public String getClientNumber() {
         return clientNumber;
@@ -68,4 +70,21 @@ public class CompleteFormInput {
     public void setPlanSummary(String planSummary) {
         this.planSummary = planSummary;
     }
+
+    public String getFormType() {
+        return formType;
+    }
+
+    public void setFormType(String formType) {
+        this.formType = formType;
+    }
+
+    public String getOverallSupervision() {
+        return overallSupervision;
+    }
+
+    public void setOverallSupervision(String overallSupervision) {
+        this.overallSupervision = overallSupervision;
+    }
+    
 }
