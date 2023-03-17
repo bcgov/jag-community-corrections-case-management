@@ -22,11 +22,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
@@ -222,6 +224,34 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             formInput.setFormLevelComments(existingAnswers.getFormComments());
             formInput.setPlanSummary(existingAnswers.getPlanSummary());
             formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
+            if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
+
+                ClientFormAnswers childAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId());
+                String supervisionRating;
+                String needsRating;
+                String riskRating;
+                String formType;
+                //CRNA and SARA could be completed so reverse is applied
+                if (clientFormSummary.getModule().equals(CRNA_FORM_TYPE)) {
+                    formType = MessageFormat.format("{0}-{1}", clientFormSummary.getModule(), SARA_FORM_TYPE);
+                    supervisionRating = (ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) ? getAnswerByKey(childAnswers, SUPERVISION_RATING) : getAnswerByKey(existingAnswers, SUPERVISION_RATING));
+                    needsRating = getAnswerByKey(existingAnswers, NEEDS_RATING);
+                    riskRating = getAnswerByKey(existingAnswers, RISK_RATING);
+                } else {
+                    formType = MessageFormat.format("{0}-{1}", CRNA_FORM_TYPE, clientFormSummary.getModule());
+                    supervisionRating = (ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) ? getAnswerByKey(existingAnswers, SUPERVISION_RATING) : getAnswerByKey(childAnswers, SUPERVISION_RATING));
+                    needsRating = getAnswerByKey(childAnswers, NEEDS_RATING);
+                    riskRating = getAnswerByKey(childAnswers, RISK_RATING);
+                }
+                formInput.setFormType(formType);
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), supervisionRating, System.lineSeparator(), needsRating, riskRating));
+
+            } else {
+                formInput.setFormType(clientFormSummary.getModule());
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
+            }
+
+
 
         }
         formInput.setOracleId(oracelId);
@@ -380,6 +410,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         }
 
         return answerJson.toString();
+
+    }
+
+    private String getAnswerByKey(ClientFormAnswers clientFormAnswers, String key) {
+        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
+
+        Optional<Answer> rating = clientFormAnswers.getAnswers().stream().filter(
+                answer -> answer.getKey().equals(key)
+        ).findFirst();
+
+        if (rating.isPresent()) {
+            return rating.get().getText();
+        }
+
+        return "";
 
     }
 

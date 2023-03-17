@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @RequestScoped
@@ -400,32 +401,6 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     private Optional<ClientFormSummary> getRelatedKey(List<ClientFormSummary> forms, BigDecimal key) {
         return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
-    }
-
-    private Integer ratingToInteger(String rating) {
-
-        if (StringUtils.isBlank(rating)) {
-            return -1;
-        }
-
-        int result;
-
-        switch (rating) {
-            case HIGH:
-                result = 3;
-                break;
-            case MEDIUM:
-                result = 2;
-                break;
-            case LOW:
-                result = 1;
-                break;
-            default:
-                result = 0;
-                break;
-        }
-
-        return result;
     }
 
     private Boolean hasSMOEarlyAdopter() {
