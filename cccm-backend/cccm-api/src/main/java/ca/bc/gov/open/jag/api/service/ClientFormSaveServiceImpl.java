@@ -244,11 +244,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                     riskRating = getAnswerByKey(childAnswers, RISK_RATING);
                 }
                 formInput.setFormType(formType);
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), supervisionRating, System.lineSeparator(), needsRating, riskRating));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating: {4}", clientFormSummary.getSupervisionLevel(), supervisionRating, System.lineSeparator(), needsRating, riskRating));
 
             } else {
                 formInput.setFormType(clientFormSummary.getModule());
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating: {4}", clientFormSummary.getSupervisionLevel(), getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
             }
 
 
