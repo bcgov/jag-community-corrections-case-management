@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.service.dataservice.clientForm;
 
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.model.data.Answer;
 import ca.bc.gov.open.jag.api.model.data.ClientFormAnswers;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.api.model.service.UpdateForm;
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -54,7 +56,7 @@ public class CompleteFormTest {
     public void testCompleteFormIsOwner() throws IOException {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, null, "TEST", null, null));
-        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(createClientFormAnswers());
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(new ValidationResult());
@@ -94,7 +96,7 @@ public class CompleteFormTest {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(CRNA_FORM_TYPE, BigDecimal.ONE, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
-        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(createClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateCRNA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
@@ -402,6 +404,31 @@ public class CompleteFormTest {
         clientFormSummary.setCreatedBy(createdBy);
         clientFormSummary.setCreatedByIdir(createdBy);
         return clientFormSummary;
+
+    }
+
+    private ClientFormAnswers createClientFormAnswers() {
+        ClientFormAnswers clientFormAnswers = new ClientFormAnswers();
+        Answer answerSuper = new Answer();
+        answerSuper.setText("H");
+        answerSuper.setSection(1);
+        answerSuper.setSequence(1);
+        Answer answerRisk = new Answer();
+        answerRisk.setText("M");
+        answerRisk.setSection(1);
+        answerRisk.setSequence(2);
+        Answer answerNeeds = new Answer();
+        answerNeeds.setText("L");
+        answerNeeds.setSection(1);
+        answerNeeds.setSequence(3);
+
+        clientFormAnswers.setClientFormId(BigDecimal.ONE);
+        clientFormAnswers.setFormComments("TEST");
+        clientFormAnswers.setPlanSummary("TEST");
+        clientFormAnswers.setSourcesContacted("TEST");
+        clientFormAnswers.setAnswers(Arrays.asList(answerSuper, answerRisk, answerNeeds));
+
+        return clientFormAnswers;
 
     }
 
