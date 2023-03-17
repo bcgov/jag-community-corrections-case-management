@@ -2,6 +2,8 @@ package ca.bc.gov.open.jag.api.model.data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientFormAnswers {
 
@@ -14,6 +16,8 @@ public class ClientFormAnswers {
     private String planSummary;
     private String formComments;
     private String sourcesContacted;
+
+    private List<Answer> answers = new ArrayList<>();
 
     public BigDecimal getClientFormId() {
         return clientFormId;
@@ -85,5 +89,13 @@ public class ClientFormAnswers {
 
     public void setSourcesContacted(String sourcesContacted) {
         this.sourcesContacted = sourcesContacted;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }

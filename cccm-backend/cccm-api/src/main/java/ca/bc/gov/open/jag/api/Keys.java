@@ -33,4 +33,8 @@ public class Keys {
     public static final String YES = "Y";
     public static final String NO = "N";
     public static final Integer DAYS_TILL_LOCKED = 60;
+    public static final String SUPERVISION_RATING = "S01Q01";
+    public static final String NEEDS_RATING = "S01Q02";
+    public static final String RISK_RATING = "S01Q03";
+
 }

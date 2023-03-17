@@ -227,24 +227,29 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
             if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
 
-                ClientFormSummary childFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location));
-
-                String rating;
+                ClientFormAnswers childAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId());
+                String supervisionRating;
+                String needsRating;
+                String riskRating;
                 String formType;
                 //CRNA and SARA could be completed so reverse is applied
                 if (clientFormSummary.getModule().equals(CRNA_FORM_TYPE)) {
-                    formType = MessageFormat.format("{0}-{1}", clientFormSummary.getModule(), childFormSummary.getModule());
-                    rating = (ratingToInteger(childFormSummary.getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(clientFormSummary.getRatings().get(CRNA_FORM_TYPE)) ? childFormSummary.getRatings().get(SARA_FORM_TYPE) : clientFormSummary.getRatings().get(CRNA_FORM_TYPE));
+                    formType = MessageFormat.format("{0}-{1}", clientFormSummary.getModule(), SARA_FORM_TYPE);
+                    supervisionRating = (ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) ? getAnswerByKey(childAnswers, SUPERVISION_RATING) : getAnswerByKey(existingAnswers, SUPERVISION_RATING));
+                    needsRating = getAnswerByKey(existingAnswers, NEEDS_RATING);
+                    riskRating = getAnswerByKey(existingAnswers, RISK_RATING);
                 } else {
-                    formType = MessageFormat.format("{0}-{1}", childFormSummary.getModule(), clientFormSummary.getModule());
-                    rating = (ratingToInteger(clientFormSummary.getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(childFormSummary.getRatings().get(CRNA_FORM_TYPE)) ? clientFormSummary.getRatings().get(SARA_FORM_TYPE) : childFormSummary.getRatings().get(CRNA_FORM_TYPE));
+                    formType = MessageFormat.format("{0}-{1}", CRNA_FORM_TYPE, clientFormSummary.getModule());
+                    supervisionRating = (ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) ? getAnswerByKey(existingAnswers, SUPERVISION_RATING) : getAnswerByKey(childAnswers, SUPERVISION_RATING));
+                    needsRating = getAnswerByKey(childAnswers, NEEDS_RATING);
+                    riskRating = getAnswerByKey(childAnswers, RISK_RATING);
                 }
                 formInput.setFormType(formType);
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0} Supervision Rating: {1}", clientFormSummary.getSupervisionLevel(), rating));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), supervisionRating, System.lineSeparator(), needsRating, riskRating));
 
             } else {
                 formInput.setFormType(clientFormSummary.getModule());
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0} Supervision Rating: {1}", clientFormSummary.getSupervisionLevel(), clientFormSummary.getRatings().get(clientFormSummary.getModule())));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Level: {0}{2} Supervision Rating: {1}{2} Needs Rating: {3}{2} Risk Rating {4}", clientFormSummary.getSupervisionLevel(), getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
             }
 
 
@@ -406,6 +411,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         }
 
         return answerJson.toString();
+
+    }
+
+    private String getAnswerByKey(ClientFormAnswers clientFormAnswers, String key) {
+        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
+
+        Optional<Answer> rating = clientFormAnswers.getAnswers().stream().filter(
+                answer -> answer.getKey().equals(key)
+        ).findFirst();
+
+        if (rating.isPresent()) {
+            return rating.get().getText();
+        }
+
+        return "";
 
     }
 
