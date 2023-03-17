@@ -341,6 +341,7 @@ export default {
           let ele = document.getElementsByName("data[age]");
           if (ele != null && ele.length == 1) {
             ele[0].value = event.data.dobYear == null ? '' : this.CONST_CURRENT_YEAR - event.data.dobYear;
+            event.data.age = ele[0].value;
           }
         }
         // if age is updated, re-calculate and set the dobYear
@@ -348,6 +349,7 @@ export default {
           let ele = document.getElementsByName("data[dobYear]");
           if (ele != null && ele.length == 1) {
             ele[0].value = event.data.age == null? '' : this.CONST_CURRENT_YEAR - event.data.age;
+            event.data.dobYear = ele[0].value;
           }
         }
       }
