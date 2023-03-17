@@ -255,7 +255,6 @@ export default {
       if (error) {
         console.error(error);
         // clear the previous search result
-        this.clients = [];
         this.key_clientsearchresult++;
         this.loading = false;
       } else {
@@ -263,7 +262,7 @@ export default {
         this.clients = response;
 
         // populate primary address info 
-        let index = 0;
+        let index = Math.random();
         this.clients = this.clients.filter(el => {
           el.index = index++;
           // Map primary address and primary addressType
@@ -291,7 +290,6 @@ export default {
     },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
-
         if (!(evt.data.idNumber) && !(evt.data.idType ) && !(evt.data.lastName)) {
           iZtoast.warning({
             title: 'Validation',
@@ -338,18 +336,27 @@ export default {
         //console.log("textfield or textarea changed: ", event);
         // if dobYear is updated, re-calculate and set the age
         if (event.changed.component.key == "dobYear") {
+          //console.log("textfield or textarea changed: ", event.data.dobYear);
           let ele = document.getElementsByName("data[age]");
           if (ele != null && ele.length == 1) {
-            ele[0].value = event.data.dobYear == null ? '' : this.CONST_CURRENT_YEAR - event.data.dobYear;
-            event.data.age = ele[0].value;
+            let calcVal = null;
+            if (event.data.dobYear != null) {
+              calcVal = this.CONST_CURRENT_YEAR - event.data.dobYear;
+            }
+            ele[0].value = calcVal;
+            event.data.age = calcVal;
           }
         }
         // if age is updated, re-calculate and set the dobYear
         if (event.changed.component.key == "age") {
           let ele = document.getElementsByName("data[dobYear]");
           if (ele != null && ele.length == 1) {
-            ele[0].value = event.data.age == null? '' : this.CONST_CURRENT_YEAR - event.data.age;
-            event.data.dobYear = ele[0].value;
+            let calcVal = null;
+            if (event.data.age != null) {
+              calcVal = this.CONST_CURRENT_YEAR - event.data.age;
+            }
+            ele[0].value = calcVal;
+            event.data.dobYear = calcVal;
           }
         }
       }

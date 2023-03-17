@@ -473,7 +473,7 @@
                                                                     "key": "search",
                                                                     "type": "button",
                                                                     "input": false,
-                                                                    "disableOnInvalid": true,
+                                                                    "disableOnInvalid": false,
                                                                     "event": "evt_clientSearchEvent_generalInfo",
                                                                     "customClass": "formio-search-btn-container"
                                                                 }
@@ -755,6 +755,7 @@
                                                                             "key": "search",
                                                                             "type": "button",
                                                                             "input": false,
+                                                                            "disableOnInvalid": false,
                                                                             "event": "evt_clientSearchEvent_addressInfo",
                                                                             "customClass": "formio-search-btn-container"
                                                                         }
