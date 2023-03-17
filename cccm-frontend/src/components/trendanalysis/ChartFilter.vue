@@ -174,6 +174,7 @@ export default {
         includeComments: true,
         includeInterventions: true
       }
+
       try {
         await getChartData(filter).then(([error, data]) => {
           if (error) {
@@ -339,6 +340,17 @@ export default {
         console.error(error);
       } else {
         this.factorOptions = data;
+        if(this.selectedFactors == null || this.selectedFactors.length == 0) {
+
+          // by default, all should be selected
+          this.selectedFactors = new Array();
+          if(this.factorOptions != null && this.factorOptions.length > 0) {
+            for(let i = 0; i < this.factorOptions.length; i++) {
+              this.selectedFactors.push(this.factorOptions[i].value);
+            }
+          }
+        }
+
       }
     },
     applyAdvancedFilter(datasets) {
