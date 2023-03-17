@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.util.FormUtil.ratingToInteger;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
@@ -406,32 +407,6 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         return answerJson.toString();
 
-    }
-
-    private Integer ratingToInteger(String rating) {
-
-        if (StringUtils.isBlank(rating)) {
-            return -1;
-        }
-
-        int result;
-
-        switch (rating) {
-            case HIGH:
-                result = 3;
-                break;
-            case MEDIUM:
-                result = 2;
-                break;
-            case LOW:
-                result = 1;
-                break;
-            default:
-                result = 0;
-                break;
-        }
-
-        return result;
     }
 
     private Boolean validateFormType(BigDecimal formTypeId, String formType) {
