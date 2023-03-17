@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static ca.bc.gov.open.jag.api.util.FormUtil.ratingToInteger;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 
 
 public class RatingToIntegerTest {

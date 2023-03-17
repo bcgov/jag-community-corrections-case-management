@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
-import static ca.bc.gov.open.jag.api.util.FormUtil.ratingToInteger;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
 @RequestScoped

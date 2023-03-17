@@ -4,9 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
 
-public class FormUtil {
+public class FormUtils {
 
-    private FormUtil() {}
+    private FormUtils() {}
 
     public static Integer ratingToInteger(String rating) {
 

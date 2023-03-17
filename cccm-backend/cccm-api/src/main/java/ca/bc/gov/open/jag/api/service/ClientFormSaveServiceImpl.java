@@ -13,7 +13,6 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
-import static ca.bc.gov.open.jag.api.util.FormUtil.ratingToInteger;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 
 @RequestScoped
 public class ClientFormSaveServiceImpl implements ClientFormSaveService {
