@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { defineStore } from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
-import { async_getUserDefaultLocation, async_getUserLocations, getPOList } from "@/components/form.api";
+import { async_getUserDefaultLocation, async_getUserLocations, getPOList, lookupGender, lookupIdTypes, lookupCityCodes, lookupProvinceCodes, lookupAddressTypes } from "@/components/form.api";
 import { isNull } from 'url/util';
 
 export const useStore = defineStore('main', { 
@@ -13,7 +13,12 @@ export const useStore = defineStore('main', {
         loginUserGroup: useLocalStorage('loginUserGroup', null),
         loginUserName: useLocalStorage('loginUserName', null),
         poList: useLocalStorage('poList', new Map()),
-        supportedFormTypes: useLocalStorage('supportedFormTypes', [])
+        supportedFormTypes: useLocalStorage('supportedFormTypes', []),
+        genderCodes: useLocalStorage('genderCodes', []),
+        idTypeCodes: useLocalStorage('idTypeCodes', []),
+        cityCodes: useLocalStorage('cityCodes', []),
+        provinceCodes: useLocalStorage('provinceCodes', []),
+        addressTypeCodes: useLocalStorage('addressTypeCodes', []),
     }),
 
     // actions
@@ -106,6 +111,14 @@ export const useStore = defineStore('main', {
             this.clearCachedUserInfo();
             this.clearCachedPOList();
             this.clearCachedSupportedFormTypes();
+            this.clearCachedClientSearchLookupCodes();
+        },
+        clearCachedClientSearchLookupCodes() {
+            this.genderCodes = [];
+            this.idTypeCodes = [];
+            this.cityCodes = [];
+            this.provinceCodes = [];
+            this.addressTypeCodes = [];
         },
         clearCachedUserLocations() {
             //console.info("Clear cached user locations.");
@@ -127,6 +140,81 @@ export const useStore = defineStore('main', {
         },
         clearCachedSupportedFormTypes() {
             this.supportedFormTypes = [];
+        },
+        async lookupAddressTypeCodes() {
+            if (this.addressTypeCodes == null || this.addressTypeCodes.length == 0) {
+                const [error, response] = await lookupAddressTypes();
+                if (error) {
+                    console.error(error);
+                    return [error];
+                } else {
+                    if (response != null && response.items != null) {
+                        this.addressTypeCodes = response.items;
+                    }
+                    return [null, this.addressTypeCodes];
+                }
+            }
+            return [null, this.addressTypeCodes];
+        },
+        async lookupGenderCodes() {
+            if (this.genderCodes == null || this.genderCodes.length == 0) {
+                const [error, response] = await lookupGender();
+                if (error) {
+                    console.error(error);
+                    return [error];
+                } else {
+                    if (response != null && response.items != null) {
+                        this.genderCodes = response.items;
+                    }
+                    return [null, this.genderCodes];
+                }
+            }
+            return [null, this.genderCodes];
+        },
+        async lookupIdTypeCodes() {
+            if (this.idTypeCodes == null || this.idTypeCodes.length == 0) {
+                const [error, response] = await lookupIdTypes();
+                if (error) {
+                    console.error(error);
+                    return [error];
+                } else {
+                    if (response != null && response.items != null) {
+                        this.idTypeCodes = response.items;
+                    }
+                    return [null, this.idTypeCodes];
+                }
+            }
+            return [null, this.idTypeCodes];
+        },
+        async lookupCityCodes() {
+            if (this.cityCodes == null || this.cityCodes.length == 0) {
+                const [error, response] = await lookupCityCodes();
+                if (error) {
+                    console.error(error);
+                    return [error];
+                } else {
+                    if (response != null && response.items != null) {
+                        this.cityCodes = response.items;
+                    }
+                    return [null, this.cityCodes];
+                }
+            }
+            return [null, this.cityCodes];
+        },
+        async getProvinceCodes() {
+            if (this.provinceCodes == null || this.provinceCodes.length == 0) {
+                const [error, response] = await lookupProvinceCodes();
+                if (error) {
+                    console.error(error);
+                    return [error];
+                } else {
+                    if (response != null && response.items != null) {
+                        this.provinceCodes = response.items;
+                    }
+                    return [null, this.provinceCodes];
+                }
+            }
+            return [null, this.provinceCodes];
         },
         async getUserLocations() {
             if (this.locations == null || this.locations.length == 0) {
