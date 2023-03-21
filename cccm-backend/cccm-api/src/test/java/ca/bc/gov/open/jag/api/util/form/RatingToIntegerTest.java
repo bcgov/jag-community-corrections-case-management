@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 
-
 public class RatingToIntegerTest {
 
     @Test
@@ -25,8 +24,6 @@ public class RatingToIntegerTest {
 
     }
 
-
-
     @Test
     @DisplayName("Success: should return rating integer L")
     public void testSuccessCalculateRatingLow() {
@@ -34,7 +31,6 @@ public class RatingToIntegerTest {
         Assertions.assertEquals(1, ratingToInteger("L"));
 
     }
-
 
     @Test
     @DisplayName("Success: should return rating integer Default")
@@ -51,6 +47,5 @@ public class RatingToIntegerTest {
         Assertions.assertEquals(-1 , ratingToInteger(null));
 
     }
-
 
 }
