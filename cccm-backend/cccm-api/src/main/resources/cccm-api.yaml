@@ -2727,6 +2727,8 @@ components:
           type: string
         clientId:
           type: number
+        locationId:
+          type: number
         clientNumber:
           type: string
         currentPeriod:
