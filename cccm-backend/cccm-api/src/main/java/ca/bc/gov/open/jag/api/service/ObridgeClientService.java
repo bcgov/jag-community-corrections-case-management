@@ -92,6 +92,14 @@ public interface ObridgeClientService {
     List<CodeTable> getAddressTypes();
 
     @GET
+    @Path("/lookup/provinceTypes")
+    List<CodeTable> getProvinceTypes();
+
+    @GET
+    @Path("/lookup/cityTypes")
+    List<CodeTable> getCityTypes();
+
+    @GET
     @Path("/lookup/genderTypes")
     List<CodeTable> getGenderTypes();
 

@@ -107,6 +107,38 @@ public class GetCodeTableTest {
     }
 
     @Test
+    @DisplayName("Success: should return address")
+    public void testGetProvince() {
+
+        CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
+
+        Mockito.when(obridgeClientService.getProvinceTypes()).thenReturn(Collections.singletonList(codeTable));
+
+        CodeList result = sut.getCodes(CodeTableType.PROVINCE_TYPE);
+
+        Assertions.assertEquals(1, result.getItems().size());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
+
+    }
+
+    @Test
+    @DisplayName("Success: should return city")
+    public void testGetCity() {
+
+        CodeTable codeTable = new CodeTable(TEST_CD, TEST_VALUE);
+
+        Mockito.when(obridgeClientService.getCityTypes()).thenReturn(Collections.singletonList(codeTable));
+
+        CodeList result = sut.getCodes(CodeTableType.CITY_TYPE);
+
+        Assertions.assertEquals(1, result.getItems().size());
+        Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
+
+    }
+
+    @Test
     @DisplayName("Success: should return Intervention")
     public void testGetIntervention() {
 

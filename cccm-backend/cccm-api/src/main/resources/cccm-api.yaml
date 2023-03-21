@@ -1844,6 +1844,42 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: lookups
+  /lookup/province:
+    get:
+      operationId: GetProvince
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get all provinces
+      summary: get all provinces
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
+  /lookup/city:
+    get:
+      operationId: GetCity
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CodeList'
+          description: get all cities
+      summary: get all cities
+      tags:
+        - lookups
+      x-accepts: application/json
+      x-tags:
+        - tag: lookups
   /user/location:
     get:
       operationId: GetUserDefaultLocation
