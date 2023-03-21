@@ -1,6 +1,5 @@
 package ca.bc.gov.open.jag.api.model.data;
 
-import java.util.Date;
 import java.util.List;
 
 public class ClientProfile {

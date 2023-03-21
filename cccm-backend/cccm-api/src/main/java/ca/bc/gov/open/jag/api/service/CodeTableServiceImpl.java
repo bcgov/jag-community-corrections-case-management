@@ -46,6 +46,12 @@ public class CodeTableServiceImpl implements CodeTableService {
             case ADDRESS_TYPE:
                 codes = obridgeClientService.getAddressTypes();
                 break;
+            case PROVINCE_TYPE:
+                codes = obridgeClientService.getProvinceTypes();
+                break;
+            case CITY_TYPE:
+                codes = obridgeClientService.getCityTypes();
+                break;
             case IDENTIFIER_TYPE:
                 codes = obridgeClientService.getIdentifierTypes();
                 break;
