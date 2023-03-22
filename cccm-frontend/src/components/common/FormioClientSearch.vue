@@ -267,11 +267,6 @@ export default {
       tmpJSONStr = tmpJSONStr.replaceAll('${min_age}', this.CONST_MIN_AGE);
       tmpJSONStr = tmpJSONStr.replaceAll('${max_age}', this.CONST_CURRENT_YEAR - this.CONST_MIN_DOB);
 
-      //Generate the oauth token to authenticate the API call
-      const token = await updateToken();
-      if (token) {
-        tmpJSONStr = tmpJSONStr.replaceAll('${authToken}', token);
-      }
       // build crnacmpType DDL
       let tmpJSON = JSON.parse(tmpJSONStr);
            
