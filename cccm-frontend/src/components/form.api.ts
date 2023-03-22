@@ -276,6 +276,65 @@ export async function getClientFormDetails(csNumber: String, clientFormId: numbe
 }
 
 //------------------------------------------
+// Client Search lookup codes APIs
+//------------------------------------------
+
+// function to get addressTypeCodes
+export async function lookupAddressTypes() {
+    try{
+        const { data } = await axiosClient.get('/lookup/address');
+        return [null, data];
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+// function to get gender codes
+export async function lookupGender() {
+    try{
+        const { data } = await axiosClient.get('/lookup/genders');
+        return [null, data];
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+// function to get identifier type codes
+export async function lookupIdTypes() {
+    try{
+        const { data } = await axiosClient.get('/lookup/identifiers');
+        return [null, data];
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+// function to get city codes
+export async function lookupCityCodes() {
+    try{
+        const { data } = await axiosClient.get('/lookup/city');
+        return [null, data];
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+// function to get province codes
+export async function lookupProvinceCodes() {
+    try{
+        const { data } = await axiosClient.get('/lookup/province');
+        return [null, data];
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
+//------------------------------------------
 // Client APIs
 //------------------------------------------
 

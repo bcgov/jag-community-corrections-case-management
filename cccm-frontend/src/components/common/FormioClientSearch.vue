@@ -4,7 +4,7 @@
     <div class="container">
       <section class="paper">
         <div>
-          <Form class="formio-container" 
+          <Form class="formio-container"
               :form="formJSON"
               :submission="initData" 
               v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 
@@ -132,6 +132,8 @@ import template from '@/components/common/templateClientSearch.json';
 import updateToken from '@/middleware/update-token';
 import 'izitoast/dist/css/iziToast.min.css';
 import iZtoast from 'izitoast';
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: 'FormioClientSearch',
@@ -181,6 +183,43 @@ export default {
     this.setInitData();
   },
   methods: {
+    async getLookupCodes() {
+      // lookup addressTypeCodes
+      const [error, addressTypeCodes] = await this.mainStore.lookupAddressTypeCodes();
+      if (error) {
+        console.log(error);
+      } else {
+        this.initData.data.addressTypeCodes = addressTypeCodes;
+      }
+      // lookup genderCodes
+      const [error1, genderCodes] = await this.mainStore.lookupGenderCodes();
+      if (error1) {
+        console.log(error1);
+      } else {
+        this.initData.data.genderCodes = genderCodes;
+      }
+      // lookup idTypeCodes
+      const [error2, idTypeCodes] = await this.mainStore.lookupIdTypeCodes();
+      if (error2) {
+        console.log(error2);
+      } else {
+        this.initData.data.idTypeCodes = idTypeCodes;
+      }
+      // lookup cityCodes
+      const [error3, cityCodes] = await this.mainStore.lookupCityCodes();
+      if (error3) {
+        console.log(error3);
+      } else {
+        this.initData.data.cityCodes = cityCodes;
+      }
+      // lookup provinceCodes
+      const [error4, provinceCodes] = await this.mainStore.getProvinceCodes();
+      if (error4) {
+        console.log(error4);
+      } else {
+        this.initData.data.provinceCodes = provinceCodes;
+      }
+    },
     expandRow ({ item, value }) {
       // When a row is expanded the first time, call getClientDetails to retrive the following info:
       // 1. photo image and photo taken date.
@@ -238,8 +277,9 @@ export default {
            
       this.formJSON = tmpJSON;
     },
-    setInitData() {
+    async setInitData() {
       this.initData.data.rangeYears = this.CONST_DEFAULT_RANGEYEARS;
+      this.getLookupCodes();
     },
     private_getLimitedToCurrentActiveLocation() {
       let limitedToCurrentActiveLocation = false;
@@ -361,6 +401,11 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore)
   }
 }
 </script>
