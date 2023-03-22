@@ -178,7 +178,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Getting Forms");
         List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
-        Boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
+        boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());

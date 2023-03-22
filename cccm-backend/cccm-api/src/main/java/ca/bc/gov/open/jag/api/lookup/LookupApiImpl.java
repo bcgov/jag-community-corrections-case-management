@@ -66,7 +66,7 @@ public class LookupApiImpl implements LookupApi {
 
         logger.info("Get Province List Request");
 
-        return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
+        return codeTableService.getCodes(CodeTableType.PROVINCE_TYPE);
 
     }
 
@@ -76,7 +76,7 @@ public class LookupApiImpl implements LookupApi {
 
         logger.info("Get City List Request");
 
-        return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
+        return codeTableService.getCodes(CodeTableType.CITY_TYPE);
 
     }
 
