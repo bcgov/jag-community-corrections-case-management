@@ -17,7 +17,6 @@ public class TransactionLoggingFilter implements ContainerRequestFilter, Contain
     @Context
     HttpServerRequest request;
 
-
     @Override
     public void filter(ContainerRequestContext context) {
 
@@ -34,7 +33,5 @@ public class TransactionLoggingFilter implements ContainerRequestFilter, Contain
         if (context.getSecurityContext() == null || context.getSecurityContext().getUserPrincipal() == null) return null;
         return context.getSecurityContext().getUserPrincipal().getName();
     }
-
-
 
 }

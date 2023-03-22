@@ -82,6 +82,22 @@ public class CCCMExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("Error: should return invalid request error")
+    public void testCloneRequestError() {
+
+        CCCMException error = new CCCMException(THIS_IS_A_TEST, CCCMErrorCode.CLONEVALIDATIONERROR);
+
+        Response result = sut.toResponse(error);
+
+        CCCMError body = (CCCMError)result.getEntity();
+
+        Assertions.assertEquals(400, result.getStatus());
+        Assertions.assertEquals(CCCMErrorCode.CLONEVALIDATIONERROR, body.getError());
+        Assertions.assertEquals(THIS_IS_A_TEST, body.getErrorMessage());
+
+    }
+
+    @Test
     @DisplayName("Error: should return data load error")
     public void testUnknownError() {
 

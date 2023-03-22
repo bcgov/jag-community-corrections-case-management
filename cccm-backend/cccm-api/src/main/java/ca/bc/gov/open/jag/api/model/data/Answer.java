@@ -1,8 +1,5 @@
 package ca.bc.gov.open.jag.api.model.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Answer {
 
     private String text;

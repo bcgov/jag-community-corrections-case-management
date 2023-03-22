@@ -9,8 +9,6 @@ import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;

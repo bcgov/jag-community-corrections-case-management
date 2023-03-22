@@ -21,7 +21,9 @@ import javax.json.JsonObject;
 import javax.json.JsonString;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -176,7 +178,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Getting Forms");
         List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
-        Boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
+        boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
