@@ -142,7 +142,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     public void editForm(UpdateForm updateForm, String location) {
 
         logger.debug("Edit form {}", updateForm);
-        Boolean requiresNew = false;
+        boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
 
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {

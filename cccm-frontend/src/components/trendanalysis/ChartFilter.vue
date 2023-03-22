@@ -70,6 +70,7 @@
 <script>
 
 import { trendStore } from '@/stores/trendstore';
+import { useStore } from "@/stores/store";
 import { mapStores, mapState, mapWritableState } from "pinia";
 import { getFormFactors, getTrendChartTypes, getChartData } from "@/components/form.api";
 
@@ -87,7 +88,7 @@ export default {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
     // ...mapWritableState(trendStore, ['data','factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
-    ...mapStores(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
+    ...mapStores(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate'], useStore),
 
   },
   data() {
@@ -164,16 +165,21 @@ export default {
     },
     async loadData() {
       console.log("Getting data for %s", this.store.chartType);
+
       this.loading = true;
       let csNumber = this.$route.params.csNumber;
+      let locationCD = this.mainStore.locationCD;
+
       const filter = {
         factors: [],
         chartType: this.store.chartType,
         currentPeriod: this.store.period === 'currentPeriod' ? true : false,
         clientNumber: csNumber,
         includeComments: true,
-        includeInterventions: true
+        includeInterventions: true,
+        locationId: locationCD
       }
+
       try {
         await getChartData(filter).then(([error, data]) => {
           if (error) {
@@ -339,6 +345,17 @@ export default {
         console.error(error);
       } else {
         this.factorOptions = data;
+        if(this.selectedFactors == null || this.selectedFactors.length == 0) {
+
+          // by default, all should be selected
+          this.selectedFactors = new Array();
+          if(this.factorOptions != null && this.factorOptions.length > 0) {
+            for(let i = 0; i < this.factorOptions.length; i++) {
+              this.selectedFactors.push(this.factorOptions[i].value);
+            }
+          }
+        }
+
       }
     },
     applyAdvancedFilter(datasets) {

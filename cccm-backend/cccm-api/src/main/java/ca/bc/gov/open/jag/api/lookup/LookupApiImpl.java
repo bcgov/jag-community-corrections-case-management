@@ -62,6 +62,26 @@ public class LookupApiImpl implements LookupApi {
 
     @Override
     @RolesAllowed("data-view")
+    public CodeList getProvince(String xLocationId) {
+
+        logger.info("Get Province List Request");
+
+        return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
+    public CodeList getCity(String xLocationId) {
+
+        logger.info("Get City List Request");
+
+        return codeTableService.getCodes(CodeTableType.IDENTIFIER_TYPE);
+
+    }
+
+    @Override
+    @RolesAllowed("data-view")
     public CodeList getLocations(String xLocationId) {
 
         logger.info("Get Location Request");
