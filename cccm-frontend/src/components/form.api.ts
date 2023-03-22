@@ -315,7 +315,7 @@ export async function lookupIdTypes() {
 // function to get city codes
 export async function lookupCityCodes() {
     try{
-        const { data } = await axiosClient.get('/lookup/identifiers');
+        const { data } = await axiosClient.get('/lookup/city');
         return [null, data];
     } catch (error) {
         handleError(error);
@@ -326,7 +326,7 @@ export async function lookupCityCodes() {
 // function to get province codes
 export async function lookupProvinceCodes() {
     try{
-        const { data } = await axiosClient.get('/lookup/identifiers');
+        const { data } = await axiosClient.get('/lookup/province');
         return [null, data];
     } catch (error) {
         handleError(error);
