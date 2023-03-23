@@ -76,7 +76,7 @@
           <td width="10%" class="innerTableData">
             <strong>Location</strong>
             <br />
-            {{ item.custodyLocation }}
+            {{ item.communityInformation.communityLocation }}
           </td>
           <td width="10%" class="innerTableData">
             <strong>PCM</strong>
@@ -245,6 +245,7 @@ export default {
               }
               el.currentName = response.clientName;
               el.alias = response.alias;
+              el.communityInformation = response.communityInformation;
               if (el.address == null) {
                 //clone the array
                 el.address = [...response.address];
