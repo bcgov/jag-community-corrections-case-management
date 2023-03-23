@@ -142,6 +142,12 @@ public class RoleSyncServiceImpl implements RoleSyncService {
             case ADMIN:
                 role = Keys.ADMIN;
                 break;
+            case RESEARCHER:
+                role = RESEARCHER;
+                break;
+            case ITRP:
+                role = Keys.ITRP;
+                break;
             default:
                 role = null;
                 break;

@@ -267,7 +267,13 @@ public class RoleSyncServiceTest {
         GroupRepresentation adminGroup = new GroupRepresentation();
         adminGroup.setName(Keys.ADMIN);
 
-        return Arrays.asList(poGroup, supervisorGroup, adminGroup);
+        GroupRepresentation researcherGroup = new GroupRepresentation();
+        researcherGroup.setName(Keys.RESEARCHER);
+
+        GroupRepresentation itrpGroup = new GroupRepresentation();
+        itrpGroup.setName(Keys.ITRP);
+
+        return Arrays.asList(poGroup, supervisorGroup, adminGroup, researcherGroup, itrpGroup);
 
     }
 
