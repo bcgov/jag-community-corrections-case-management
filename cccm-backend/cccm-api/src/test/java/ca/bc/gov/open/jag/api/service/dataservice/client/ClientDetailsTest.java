@@ -91,7 +91,7 @@ public class ClientDetailsTest {
 
         ca.bc.gov.open.jag.api.model.data.Client client1 = new ca.bc.gov.open.jag.api.model.data.Client();
         client1.setClientNo(CLIENT_NO);
-        client1.setCurrentName(TEST_NAME);
+        client1.setClientName(TEST_NAME);
         client1.setGenderCode(GENDER_CODE);
         client1.setAlias(TEST_VALUE);
         client1.setCommunityLocation(COMMUNITY_LOCATION);
