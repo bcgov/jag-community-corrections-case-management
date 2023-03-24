@@ -54,6 +54,7 @@ public class ClientProfileTest {
         sut.setNextCourtDate("TEST");
         sut.setIaClassification("TEST");
         sut.setCustody("TEST");
+        sut.setNextDueDt("TEST");
 
 
         Assertions.assertEquals("TEST", sut.getSecondaryManager());
@@ -89,6 +90,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getCustody());
         Assertions.assertEquals("TEST", sut.getIaClassification());
         Assertions.assertEquals("TEST", sut.getNextCourtDate());
+        Assertions.assertEquals("TEST", sut.getNextDueDt());
 
     }
 
