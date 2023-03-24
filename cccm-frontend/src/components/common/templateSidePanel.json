@@ -37,78 +37,6 @@
 					]
 				},
 				{
-					"title": "Legend",
-					"collapsible": false,
-					"key": "key_legend",
-					"customClass": "bg-blue",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-					  {
-						"label": "HTML",
-						"tag": "ol",
-						"attrs": [
-							{
-								"attr": "type",
-								"value": "A"
-							}
-						],
-						"content": "<li>Factor seen as an asset</li> <li>No immediate need for improvement</li> <li>Some need for improvement</li> <li>Considerable need for improvement</li> ",
-						"refreshOnChange": false,
-						"type": "htmlelement",
-						"input": false,
-						"tableView": false
-					  }
-					],
-					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
-				},
-				{
-					"title": "Supervision Level Matrix",
-					"collapsible": false,
-					"key": "key_supervisionLevelMatrix",
-					"customClass": "bg-blue",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-					  {
-						"label": "",
-						"tag": "div",
-						"content": "<table style='width:100%'><tr><th>Risk/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
-						"refreshOnChange": false,
-						"type": "htmlelement",
-						"input": false,
-						"tableView": false
-					  }
-					],
-					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
-				},
-				{
-					"title": "Legend",
-					"collapsible": false,
-					"key": "key_legend_acute",
-					"customClass": "bg-blue",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-						{
-						  "label": "HTML",
-						  "tag": "ol",
-						  "content": "<li>Not present, not a problem, not a topic of ongoing supervision attention.</li> <li>Maybe present, unsure, a minor problem, a secondary topic of sporadic attention during supervision.</li> <li>Present, a concern, a problem worthy of sustained attention, a regular topic in supervision sessions.</li><li> Intervene now; a problem that is sufficiently evident and problematic that it deserves immediate attention and timely resolution.</li> ",
-						  "refreshOnChange": true,
-						  "type": "htmlelement",
-						  "input": false,
-						  "tableView": false
-						}
-					],
-					"customConditional": "show = data.formType === 'ACUTE'"
-				},
-				{
 					"title": "Sources Contacted",
 					"collapsible": false,
 					"key": "panel_sourceContacted",
@@ -186,6 +114,78 @@
 						  }
 						}
 					  ]
+				},
+				{
+					"title": "Legend",
+					"collapsible": false,
+					"key": "key_legend",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "HTML",
+						"tag": "ol",
+						"attrs": [
+							{
+								"attr": "type",
+								"value": "A"
+							}
+						],
+						"content": "<li>Factor seen as an asset</li> <li>No immediate need for improvement</li> <li>Some need for improvement</li> <li>Considerable need for improvement</li> ",
+						"refreshOnChange": false,
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					],
+					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
+				},
+				{
+					"title": "Supervision Level Matrix",
+					"collapsible": false,
+					"key": "key_supervisionLevelMatrix",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+					  {
+						"label": "",
+						"tag": "div",
+						"content": "<table style='width:100%'><tr><th>Risk/Needs</th><th>Low Needs</th><th>Medium Needs</th><th>High Needs</th></tr><tr><td>Low Risk</td><td>Low</td><td>Low</td><td>Medium</td></tr><tr><td>Medium Risk</td><td>Low</td><td>Medium</td><td>High</td></tr><tr><td>High Risk</td><td>Medium</td><td>High</td><td>High</td></tr></table>",
+						"refreshOnChange": false,
+						"type": "htmlelement",
+						"input": false,
+						"tableView": false
+					  }
+					],
+					"customConditional": "show = data.formType === 'CRNA' || data.formType === 'SARA'"
+				},
+				{
+					"title": "Legend",
+					"collapsible": false,
+					"key": "key_legend_acute",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+						{
+						  "label": "HTML",
+						  "tag": "ol",
+						  "content": "<li>Not present, not a problem, not a topic of ongoing supervision attention.</li> <li>Maybe present, unsure, a minor problem, a secondary topic of sporadic attention during supervision.</li> <li>Present, a concern, a problem worthy of sustained attention, a regular topic in supervision sessions.</li><li> Intervene now; a problem that is sufficiently evident and problematic that it deserves immediate attention and timely resolution.</li> ",
+						  "refreshOnChange": true,
+						  "type": "htmlelement",
+						  "input": false,
+						  "tableView": false
+						}
+					],
+					"customConditional": "show = data.formType === 'ACUTE'"
 				}  
 			]
 		}
