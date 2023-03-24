@@ -37,6 +37,7 @@ public class ClientProfile {
     private String biometricStatus;
     private String eReporting;
     private String rnaStatus;
+    private String nextDueDt;
 
     public String getPossibleParoleDt() {
         return possibleParoleDt;
@@ -310,4 +311,11 @@ public class ClientProfile {
         this.rnaStatus = rnaStatus;
     }
 
+    public String getNextDueDt() {
+        return nextDueDt;
+    }
+
+    public void setNextDueDt(String nextDueDt) {
+        this.nextDueDt = nextDueDt;
+    }
 }
