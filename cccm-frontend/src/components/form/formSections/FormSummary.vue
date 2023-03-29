@@ -9,7 +9,20 @@
                     <div class="subSectionTitleClass">{{ section.section }}</div>
                     <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                         <h5>{{ subSection.title }}</h5>
-                        <v-data-table 
+                        <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                            no-data-text="" 
+                            :items="subSection.answers"
+                            :headers="interventionHeaders" item-key="key" 
+                            no-results-text="No results found" 
+                            hide-default-footer>
+                            <!--Customize the action field, making it clickable-->
+                            <template v-slot:item.editKey="{item}">
+                                <a href="#" @click="editFormItem(item.editKey)">
+                                    <v-icon>fas fa-eye</v-icon>
+                                </a>
+                            </template>
+                        </v-data-table>
+                        <v-data-table v-else
                             no-data-text="No answers for this section" 
                             :items="subSection.answers"
                             :headers="formHeaders" item-key="key" 
@@ -53,6 +66,13 @@ export default {
                 { text: 'Comments', value: 'comment', width: '50%', align:'center' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' },
             ],
+            interventionHeaders: [
+                { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'center' },
+                { text: 'Specific Factor', value: '', width: '10%', align: 'center' },
+                { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'center' },
+                { text: 'Intervention Description', value: 'interventionComment', width: '40%', align: 'center' },
+                { text: 'Action', value: 'editKey', width: '10%', align:'center' }
+            ]
         }
     },
     mounted() {
