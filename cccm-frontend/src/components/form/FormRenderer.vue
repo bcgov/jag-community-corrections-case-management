@@ -25,7 +25,7 @@
           
           <v-card-text >
             <span v-if="relatedClientFormId">
-              The CRNA-CMP and the SARA-CMP forms and all the information you have entered will be deleted. You will be directed to the client's RNA list.
+              The CRNA-CMP and the SARA forms and all the information you have entered will be deleted. You will be directed to the client's RNA list.
             </span>
             <span v-else>
               This form and all the information you have entered will be deleted and you will be directed to the client's RNA list. 
@@ -65,7 +65,7 @@
             <v-checkbox
               v-model="saraDeleteSelectedFormTypeValue"
               :readonly=true
-              label="SARA-CMP"
+              label="SARA"
               value="SARA"
             ></v-checkbox>
             <v-card-title>

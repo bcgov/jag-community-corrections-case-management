@@ -43,7 +43,7 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="SARA-CMP"
+              label="SARA"
               :value="$CONST_FORMTYPE_SARA"
             ></v-checkbox>
             <v-checkbox v-if="showSMOForms"

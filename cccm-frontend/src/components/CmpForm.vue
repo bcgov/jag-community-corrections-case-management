@@ -90,7 +90,7 @@
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
-            ><i class="fa fa-plus"></i>&nbsp; Add SARA-CMP Form</v-btn>
+            ><i class="fa fa-plus"></i>&nbsp; Add SARA Form</v-btn>
           </div>
           <div v-else-if="showSMOForms && item.id === CONST_CREATE_BTN_STABLE" class="p-4">
             <v-btn
@@ -241,18 +241,18 @@ export default {
           }
         } else {
           // otherwise, show sara tab
-          this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          this.items.push({ tab: 'SARA', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
         // show the 'add STABLE' btn 
         if (this.showSMOForms && !this.isFormReadonly) {
           this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_STABLE,  formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
-      // if formType is 'SARA', add 'SARA-CMP' tab, and set the current_tab to 'tab-SARA'
+      // if formType is 'SARA', add 'SARA' tab, and set the current_tab to 'tab-SARA'
       if (this.formType === this.$CONST_FORMTYPE_SARA) {
         this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.relatedClientFormId, relatedClientFormId: this.formId, 
                           readonly: false, locked: false, createdByIdir: '', canPrint: true });
-        this.items.push({ tab: 'SARA-CMP', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, 
+        this.items.push({ tab: 'SARA', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, 
                           readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-SARA';
 
