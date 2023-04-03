@@ -221,6 +221,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         if (updateForm.getComplete()) {
 
             ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
+            //These can probably be deleted. The logs have been removed.
             formInput.setFormLevelComments(existingAnswers.getFormComments());
             formInput.setPlanSummary(existingAnswers.getPlanSummary());
             formInput.setSourcesContacted(existingAnswers.getSourcesContacted());
