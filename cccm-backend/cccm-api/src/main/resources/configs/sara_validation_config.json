@@ -269,20 +269,6 @@
       "key": "S01Q01",
       "type": "REQUIRED",
       "message": "1. SARA Rating: is required"
-    },
-    {
-      "key": "intervention_type",
-      "type": "INTERVENTION_CONDITIONAL",
-      "dependentKeys": ["intervention_desc"],
-      "dependentValues": ["ACVS","ATAS","BEES","COSO","EMPA","FARE","FIMA","LIAR","PRCA","SUMI"],
-      "message": "Intervention is missing description"
-    },
-    {
-      "key": "intervention_type",
-      "type": "INTERVENTION_CONDITIONAL",
-      "dependentKeys": ["intervention_specify", "intervention_desc"],
-      "dependentValues": ["OTHR"],
-      "message": "Intervention set to 'Other' is missing a description"
     }
   ]
 
