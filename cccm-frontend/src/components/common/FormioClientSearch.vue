@@ -225,7 +225,7 @@ export default {
       // 1. photo image and photo taken date.
       // 2. alias
       // 3. other addresses 
-      if (!item.photoFetched) {
+      if (!item.detailsFetched) {
         this.getClientDetails(item.clientNum);
       }
     },
@@ -237,8 +237,8 @@ export default {
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
-            el.photoFetched = true;
             if (el.clientNum == clientNum) {
+              el.detailsFetched = true;
               if (response.photo != null) {
                 el.photoData = "data:image/png;base64, " + response.photo.image;
                 el.photoDate = response.photo.photoTakenDate;
@@ -253,7 +253,8 @@ export default {
                 // append both array
                 el.address = el.address.concat(response.address);
               }
-              break;
+              // Don't break, the list contains records share the same clientNum, need to update all of them
+              //break;
             }
           }
         }
@@ -311,7 +312,7 @@ export default {
             el.addressType = "";
             el.expired = null;
           }
-          el.photoFetched = false;
+          el.detailsFetched = false;
           return el;
         });
         this.key_clientsearchresult++;
