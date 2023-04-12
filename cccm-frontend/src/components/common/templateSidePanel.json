@@ -45,6 +45,11 @@
 					"label": "Panel",
 					"input": false,
 					"tableView": false,
+					"conditional": {
+					  "show": true,
+					  "when": "showSCPanel",
+					  "eq": "true"
+					},
 					"components": [
 						{
 						  "label": "HTML",

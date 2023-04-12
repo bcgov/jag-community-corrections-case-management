@@ -64,12 +64,12 @@ Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', sectionsExcludedInPrintView: [0,1], dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type' },
-  { formType: 'SARA', sectionsExcludedInPrintView: [0,1,2,3,4,6], dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type' },
-  { formType: 'ACUTE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '' },
-  { formType: 'STABLE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '7', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type' },
-  { formType: 'STAT99R', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '' },
-  { formType: 'SO_OVERALL', sectionsxcludedInPrintView: [], dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '' }
+  { formType: 'CRNA', sectionsExcludedInPrintView: [0,1], dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
+  { formType: 'SARA', sectionsExcludedInPrintView: [0,1,2,3,4,6], dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
+  { formType: 'ACUTE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'STABLE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '7', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
+  { formType: 'STAT99R', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'SO_OVERALL', sectionsxcludedInPrintView: [], dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 
 Vue.$keycloak
