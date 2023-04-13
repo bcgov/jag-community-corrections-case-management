@@ -423,6 +423,7 @@ export default {
           this.formInfoData.data.clientData = response;
           
           //set sources contacted
+          this.clientData.data.showSCPanel = theForm != null && theForm[0] != null ? theForm[0].showSourcesContacted : true;
           this.clientData.data.hideSCInput = true;
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
           this.clientData.data.formType = this.formType
