@@ -109,14 +109,6 @@
         display: block;
     }
 
-    .printOnly_formInfo_clientDetails > h3:after {
-        display: block;
-        width: 80px;
-        height: 0px;
-        border-bottom: 5px solid #545454;
-        content:""
-    }
-
     /* Hide navigation */
     .rna-cmp-form .menuR2 {
         display:none;
@@ -183,25 +175,4 @@
         border-bottom: 5px solid #545454;
         content:""
     }
-
-    /* Hide sections in print view */
-    .excludedInPrint {
-        display: none;
-    }
-
-    /* Change the section tile underline color */
-    .includedInPrint .subSectionTitleClass:after{
-        content: "";
-        height: 0px;
-        width: 50px;
-        display: block;
-        border-bottom: 3px solid #545454;
-        margin-bottom: 25px;
-    }
-
-    /* Change the header color - not working */
-    .includedInPrint .v-data-table-header {
-        background-color: #545454!important;
-    }
-
 }

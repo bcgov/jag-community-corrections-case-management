@@ -9,6 +9,7 @@ import Unauthorized from '../components/Unauthorized.vue'
 import DashboardPOView from '../components/DashboardPOView.vue'
 import RNAList from '../components/RNAList.vue'
 import DashboardSupervisorView from '../components/DashboardSupervisorView.vue'
+import PrintView from '../components/PrintView.vue'
 import {useStore} from "@/stores/store";
 
 Vue.use(VueRouter)
@@ -58,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/client/:csNumber/form/:formID/:print?', //param print is optional
+      path: '/client/:csNumber/form/:formID', //param print is optional
       name: 'cmpform',
       component: CmpFormView,
       meta: {
@@ -69,6 +70,11 @@ const router = new VueRouter({
       path: '/',
       name: 'unauthorized',
       component: Unauthorized
+    },
+    {
+      path: '/print/client/:csNumber/form/:formID',
+      name: 'printView',
+      component: PrintView
     }
   ]
 })

@@ -55,6 +55,7 @@ Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
 Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR='dashboardsupervisor'
 Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
 Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
+Vue.prototype.$ROUTER_NAME_PRINT='printView'
 
 Vue.prototype.$AUTH_ROLE_PO='auth-po'
 Vue.prototype.$AUTH_ROLE_SUPERVISOR='auth-supervisor'
@@ -64,12 +65,12 @@ Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', sectionsExcludedInPrintView: [0,1], dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
-  { formType: 'SARA', sectionsExcludedInPrintView: [0,1,2,3,4,6], dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
-  { formType: 'ACUTE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'STABLE', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '7', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
-  { formType: 'STAT99R', sectionsExcludedInPrintView: [], dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'SO_OVERALL', sectionsxcludedInPrintView: [], dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
+  { formType: 'CRNA', dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
+  { formType: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
+  { formType: 'ACUTE', dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'STABLE', dataRefreshSectionIndex: '7', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
+  { formType: 'STAT99R', dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'SO_OVERALL', dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 
 Vue.$keycloak

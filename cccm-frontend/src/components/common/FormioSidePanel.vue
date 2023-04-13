@@ -54,9 +54,6 @@ export default {
           const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
           if (error) {
             console.error("Save source contacted error: ", error);
-          } else {
-            console.log("Save source contacted success");
-            this.$emit('sourcesContactedUpdated', newVal);
           }
         }
       }

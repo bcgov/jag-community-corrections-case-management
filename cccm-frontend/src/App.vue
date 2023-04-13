@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <!--Header section-->
-    <HeaderComponent/>
+    <HeaderComponent v-if="!isPrint" />
 
     <!--Body section-->
     <router-view />
 
     <!--Footer section-->
-    <FooterComponent />
+    <FooterComponent v-if="!isPrint" />
   </div>
 </template>
 
@@ -22,6 +22,15 @@ export default Vue.extend({
   components: {
     HeaderComponent,
     FooterComponent
+  },
+  data() {
+    return {
+      isPrint: false
+    }
+  },
+  mounted(){
+    this.isPrint = this.$route.name === 'printView';
+    console.log("this.$route: ", this.$route, this.isPrint);
   },
   watch: {
     $route() {

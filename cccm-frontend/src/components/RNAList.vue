@@ -580,11 +580,10 @@ export default {
     formPrint(formID) {
       //Bring User to the form instance and trigger the print
       const route = this.$router.resolve({ 
-        name: this.$ROUTER_NAME_CMPFORM,
+        name: this.$ROUTER_NAME_PRINT,
         params: {
           formID: formID,
-          csNumber: this.clientNum,
-          print: true
+          csNumber: this.clientNum
         }
       }); 
       window.open(route.href, '_blank');

@@ -5,7 +5,7 @@
         <div v-for="(formEle, index) in summaryData" :key="index">
             <h3> {{ getFormTypeDesc[formEle.formType] }}</h3>
             <div class="dashboard-v-card" v-if="formEle.data.length > 0">
-                <div :class="`${includeInPrint(formEle.formType, sectionIndex)}`" v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
                     <div class="subSectionTitleClass">{{ section.section }}</div>
                     <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                         <h5>{{ subSection.title }}</h5>
@@ -50,9 +50,7 @@ export default {
     name: 'FormSummary',
     props: {
         clientFormId: 0,
-        csNumber: '',
-        formType: '',
-        printRequested: false
+        csNumber: ''
     },
     data() {
         return {
@@ -77,27 +75,8 @@ export default {
     },
     mounted() {
         this.getSummaryData();
-        //console.log("this.printRequested: ", this.printRequested);
-        if (this.printRequested) { 
-            this.$emit('cancelPrintFlag');
-            setTimeout(() => {
-                window.print();
-            }, 3000);
-        }
     },
     methods: {
-        includeInPrint(formType, sectionIndex) {
-            //console.log('formType sectionIndex: ', formType, sectionIndex);
-            let theForm = this.$FORM_INFO.filter( item => item.formType === formType );
-            if (theForm != null && theForm[0] != null) {
-                let sectionsExcludedFromPrint = theForm[0].sectionsExcludedInPrintView;
-                //console.log("sectionsExcludedFromPrint: ", sectionsExcludedFromPrint);
-                if (sectionsExcludedFromPrint.includes(sectionIndex)) {
-                    return 'excludedInPrint';
-                }
-            }
-            return 'includedInPrint';
-        },
         editFormItem(editKey) {
             // entries are 1-based but tab indexes are zero based (ugh)
             let section = Number.parseInt(editKey.substr(1, 2)) - 1; 
