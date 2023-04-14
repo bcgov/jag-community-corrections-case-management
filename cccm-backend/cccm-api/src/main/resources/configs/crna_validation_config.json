@@ -146,7 +146,6 @@
       "type": "REQUIRED",
       "message": "10. Severity of Violence: is required"
     },
-
     {
       "key": "S01Q02",
       "type": "REQUIRED",
@@ -175,8 +174,12 @@
       "dependentKeys": ["intervention_specify", "intervention_desc"],
       "dependentValues": ["OTHR"],
       "message": "Intervention set to 'Other' is missing a description"
+    },
+    {
+      "key": "Sources_Contacted",
+      "type": "REQUIRED",
+      "message": "Sources Contacted: is required"
     }
-
   ]
 
 }
