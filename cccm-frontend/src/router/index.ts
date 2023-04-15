@@ -59,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/client/:csNumber/form/:formID', //param print is optional
+      path: '/client/:csNumber/form/:formID/:param', 
       name: 'cmpform',
       component: CmpFormView,
       meta: {
@@ -72,7 +72,7 @@ const router = new VueRouter({
       component: Unauthorized
     },
     {
-      path: '/print/client/:csNumber/form/:formID',
+      path: '/print/:param', //client/:csNumber/form/:formID',
       name: 'printView',
       component: PrintView
     }

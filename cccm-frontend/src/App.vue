@@ -30,7 +30,6 @@ export default Vue.extend({
   },
   mounted(){
     this.isPrint = this.$route.name === 'printView';
-    console.log("this.$route: ", this.$route, this.isPrint);
   },
   watch: {
     $route() {

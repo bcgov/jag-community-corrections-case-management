@@ -111,7 +111,9 @@
         <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
           <FormRenderer :key="item.key" :formType="item.id" :formId="item.formId" 
             :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" 
-            :readonly="item.readonly" :locked="item.locked" :printParam="printParam" 
+            :CRNARating="CRNARating"
+            :SARARating="SARARating"
+            :readonly="item.readonly" :locked="item.locked" 
             :createdByIdir="item.createdByIdir"
             :canPrint="item.canPrint"></FormRenderer>
         </v-tab-item>
@@ -141,13 +143,14 @@ export default {
       CONST_MODAL_ID_PREFIX: 'id_modal_create',
       formId: '',
       clientNum: '',
+      CRNARating: '',
+      SARARating: '',
       relatedClientFormId: null,
       formType: '',
       current_tab: 'tab-CRNA',
       items: [],
       dialog: false,
       formKey: 0,    
-      printParam: false,
       isFormReadonly: false,
       formToCreate: ''
     }
@@ -155,8 +158,21 @@ export default {
   mounted(){
     this.formId = this.$route.params.formID;
     this.clientNum = this.$route.params.csNumber;
-    if (this.$route.params.print) {
-      this.printParam = true;
+    let enCoded = this.$route.params.param;
+    // Unpack other params
+    if (enCoded) {
+        try {
+            // base64 decode the string
+            let printParamsString = atob(enCoded);
+            let printParams = JSON.parse(printParamsString);
+            this.CRNARating = printParams.CRNARating;
+            this.SARARating = printParams.SARARating;
+        } catch (err) {
+            console.error("Cannot decode the params: ", err);
+        }
+    } else {
+      this.CRNARating = '';
+      this.SARARating = '';
     }
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },

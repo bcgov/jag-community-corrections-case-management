@@ -1,38 +1,83 @@
 <template>
-  <!--Print view-->
-  <div>
-      <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading print view ...</v-progress-linear>
-      <div v-for="(formEle, index) in summaryData" :key="index">
-          <h3> {{ getFormTypeDesc[formEle.formType] }}</h3>
-          <div class="dashboard-v-card" v-if="formEle.data.length > 0">
-              <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                  <div class="subSectionTitleClass">{{ section.section }}</div>
-                  <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                      <h5>{{ subSection.title }}</h5>
-                      <v-data-table v-if="subSection.title == 'Intervention Plan'"
-                          no-data-text="" 
-                          :items="subSection.answers"
-                          :headers="interventionHeaders" item-key="key" 
-                          no-results-text="No results found" 
-                          hide-default-footer>
-                      </v-data-table>
-                      <v-data-table v-else
-                          no-data-text="No answers for this section" 
-                          :items="subSection.answers"
-                          :headers="formHeaders" item-key="key" 
-                          no-results-text="No results found" 
-                          hide-default-footer>
-                      </v-data-table>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    <!--Print view-->
+    <div class="printview">
+        <v-progress-linear v-if="loading" indeterminate height="50" color="primary">Loading print view ...</v-progress-linear>
+        <div :key="theKey" v-if="!loading">
+            <h3>Case Plan – ({{ getFormTypeDesc }})</h3>
+            <div class="dashboard-v-card">
+                <v-card>
+                    <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+                        <div class='col-sm-4'><Strong>Completed Date: </Strong>{{ formInfoData.completedDate }}</div>
+                        <div class="col-sm-4"><Strong>Created By: </Strong>{{ formInfoData.createdBy }}</div>
+                        <div class="col-sm-4"><Strong>{{ getFormTypeDesc }} Type: </Strong>{{ formInfoData.clientFormType }}</div>
+                    </section>
+                    <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+                        <div class='col-sm-4'><Strong>Office Location: </Strong>{{formInfoData.location }}</div>
+                        <div class="col-sm-4"><Strong>CRNA Rating: </Strong>{{ CRNARating }}</div>
+                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ SARARating }}</div>
+                    </section>
+                </v-card>
+                <br>
+                <div class="subSectionTitleClass">Client Details</div>
+               <v-card>    
+                    <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+                        <div class='col-sm-4'><Strong>Name: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientName : '' }}</div>
+                        <div class="col-sm-4"><Strong>CS#: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientNum : '' }}</div>
+                        <div class="col-sm-4"><Strong>Location: </Strong>{{ formInfoData.clientData != null && formInfoData.clientData.communityLocation != null ? formInfoData.clientData.communityLocation : '' }}</div>
+                    </section>
+                    <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+                        <div class='col-sm-4'><Strong>Order Exp. Date: </Strong>{{ formInfoData.clientData != null && formInfoData.clientData.orderInformation != null ? formInfoData.clientData.orderInformation.expiryDate : '' }}</div>
+                    </section>
+                </v-card>
+            </div>
+            <div v-for="(formEle, index) in formInstanceData" :key="index">
+                <div v-if="formEle.formType === $CONST_FORMTYPE_CRNA">
+                <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                            <div v-if="section.section == 'Case Plan'">
+                                <div class="subSectionTitleClass">{{ section.section }}</div>
+                                <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
+                                    <h5>{{ subSection.title }}</h5>
+                                    <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                                        no-data-text="" 
+                                        :items="subSection.answers"
+                                        :headers="interventionHeaders" item-key="key" 
+                                        no-results-text="No results found" 
+                                        hide-default-footer>
+                                    </v-data-table>
+                                    <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
+                                        no-data-text="" 
+                                        :items="subSection.answers"
+                                        :headers="formHeaders" item-key="key" 
+                                        no-results-text="No results found" 
+                                        hide-default-footer>
+                                    </v-data-table>
+                                    <v-textarea v-else-if="subSection.title == 'Supervision Plan'"
+                                        solo
+                                        label=""
+                                        auto-grow
+                                        :value="subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : ''"
+                                    ></v-textarea>
+                                    <v-textarea v-else-if="subSection.title == 'Assessment Comments'"
+                                        solo
+                                        label=""
+                                        auto-grow
+                                        :value="subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : ''"
+                                    ></v-textarea>
+                                    <br>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { getDataForSummaryView } from "@/components/form.api";
+import { getDataForSummaryView, getClientFormMetaData, clientProfileSearch } from "@/components/form.api";
 
 export default {
   name: 'FormSummary',
@@ -40,51 +85,120 @@ export default {
       return {
         clientFormId: '',
         csNumber: '',
-        summaryData: {},
-        modalEditVisible: false,
-        changeCount: -1,
+        formInfoData: {},
+        formInstanceData: {},
+        CRNARating: '',
+        SARARating: '',
         loading: false,
+        theKey: 0,
         formHeaders: [
-            { text: 'Question', value: 'question', width: '20%', align:'center' },
-            { text: 'Answer', value: 'value', width: '20%', align:'center' },
-            { text: 'Comments', value: 'comment', width: '50%', align:'center' }
+            { text: 'Responsivity Factor', value: 'question', width: '50%', align:'left', sortable: false },
+            { text: 'Comments', value: 'comment', width: '50%', align:'left', sortable: false }
         ],
         interventionHeaders: [
-            { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'center' },
-            { text: 'Specific Factor', value: '', width: '10%', align: 'center' },
-            { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'center' },
-            { text: 'Intervention Description', value: 'interventionComment', width: '40%', align: 'center' }
+            { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'left', sortable: false },
+            { text: 'Specific Factor', value: 'value', width: '10%', align: 'left', sortable: false },
+            { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'left', sortable: false },
+            { text: 'Intervention Description', value: 'interventionComment', width: '50%', align: 'left', sortable: false }
         ]
       }
   },
   mounted() {
-    this.csNumber = this.$route.params.csNumber;
-    this.clientFormId = this.$route.params.formID;
-    this.getSummaryData();
+    let enCoded = this.$route.params.param;
+    // Process params
+    if (enCoded) {
+        try {
+            // base64 decode the string
+            let printParamsString = atob(enCoded);
+            let printParams = JSON.parse(printParamsString);
+            this.csNumber = printParams.csNumber;
+            this.clientFormId = printParams.formID;
+            this.CRNARating = printParams.CRNARating;
+            this.SARARating = printParams.SARARating;
+            this.getPrintData();
+        } catch (err) {
+            console.error("Cannot render the print view: ", err);
+        }
+    }  
   },
   methods: {
-      async getSummaryData() {
-          this.loading = true;
-          const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-          //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
-          if (error) {
-              console.error("Get summary failed: ", error);
-          } else {
-              this.summaryData = response;
-          }
-          this.loading = false;
-      }
+    async getPrintData() {
+        this.loading = true;
+        const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
+        //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+        if (error) {
+            console.error("Get form data failed: ", error);
+        } else {
+            this.formInstanceData = response;
+
+            const [error1, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.clientFormId);
+            //console.log("clientFormMeta: ", clientFormMeta);
+            if (error1) {
+                console.error("Failed getting client form metadata: ", error1);
+            } else {
+                this.formInfoData = clientFormMeta;
+                this.formInfoData.clientFormType = this.formInfoData.clientFormType == null ? '' : this.formInfoData.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+
+                // set the form title
+                let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
+                //console.log('form info const:', this.formType, this.$FORM_INFO, theForm);
+                if (theForm != null && theForm[0] != null) {
+                    this.formInfoData.formTitle = theForm[0].formTitle;
+                    this.formInfoData.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
+                    this.formInfoData.formTypeLabel = theForm[0].formTypeLabel;
+                }
+
+                // Client profile search.
+                const [error2, clientProfile] = await clientProfileSearch(this.csNumber);
+                if (error2) {
+                    console.error("Failed doing client profile search: ", error2);
+                } else {
+                    this.formInfoData.clientData = clientProfile;
+                }
+                this.theKey++;
+            }
+        }
+        this.loading = false;
+    }
   },
   computed: {
       getFormTypeDesc() {
-          let formTypeDesc = [];
-          // set the form title
-          this.$FORM_INFO.forEach((entry) => {
-              formTypeDesc[entry.formType] = entry.formTitle;
-          });
-          return formTypeDesc;
+        // Example print title: Case Plan – (CRNA-CMP)
+        let printTitle = '';
+        if (this.formInstanceData != null && this.formInstanceData.length > 0) {
+            this.formInstanceData.forEach((entry) => {
+                printTitle += entry.formType + '-';
+            });
+        }
+        printTitle += 'CMP';
+        return printTitle;
       }
   }
 }
 </script>
+
+<style scoped>
+    .printview:before {
+        display: inline-block;
+        width: 15px;
+        content: url("/src/assets/images/justice.png");
+    }
+    .printview:after {
+        display:block;
+        width:100%;
+        height:0px;
+        border-bottom: 1px solid #545454;
+        content:""
+    }
+    .printview>div>h3 {
+        display: inline-block;
+        width: calc(100% - 50px);
+        text-align: right;
+        margin: 0;
+        padding-left:350px;
+        padding-bottom:5px;
+        font-size: 25px;
+    }
+
+</style>
 

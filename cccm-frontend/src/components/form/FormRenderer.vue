@@ -219,6 +219,8 @@ export default {
     formType: '',
     formId: 0,
     csNumber: '',
+    CRNARating: '',
+    SARARating: '',
     relatedClientFormId: 0,
     readonly: false,
     locked: false,
@@ -483,14 +485,22 @@ export default {
       this.parentNavJumpToPointed = section + "Q" + question + "_" + this.parentNavJumpToPointed_sufix;
     },
     handlePrintForm(evt) {
-      //Bring User to the form instance and trigger the print
-      const route = this.$router.resolve({ 
-        name: this.$ROUTER_NAME_PRINT,
-        params: {
-          formID: this.formId,
-          csNumber: this.csNumber
-        }
-      }); 
+      let param = {};
+      param.csNumber = this.csNumber;
+      param.formID = this.formId;
+      param.CRNARating = this.CRNARating;
+      param.SARARating = this.SARARating;
+      //console.log("Set PO param: ", param);
+      let base64EncodeParam = btoa(JSON.stringify(param));
+
+      //Bring user to the print view in a new tab
+      const route = this.$router.resolve({
+          name: this.$ROUTER_NAME_PRINT,
+          params: {
+            param: base64EncodeParam
+          }
+        });
+
       window.open(route.href, '_blank');
     },
     handleSaveClose() {

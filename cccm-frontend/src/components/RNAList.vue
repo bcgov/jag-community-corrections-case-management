@@ -565,11 +565,21 @@ export default {
       if (formID != null) {
         formID = formID.toString();
       }
+      let theForm = this.rnaList.filter(item => item.id == formID);
+      if (theForm == null) {
+        console.log("Unexpected error occurred.");
+      }
+      let param = {};
+      param.CRNARating = theForm != null ? this.getRatingDisplay(theForm.crnaRating) : '';
+      param.SARARating = theForm != null ? this.getRatingDisplay(theForm.saraRating) : '';
+      let base64EncodeParam = btoa(JSON.stringify(param));
+
       this.$router.push({
         name: this.$ROUTER_NAME_CMPFORM,
         params: {
           formID: formID,
-          csNumber: this.clientNum
+          csNumber: this.clientNum,
+          param: base64EncodeParam
         }
       });
     },
@@ -578,14 +588,26 @@ export default {
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
     formPrint(formID) {
-      //Bring User to the form instance and trigger the print
-      const route = this.$router.resolve({ 
-        name: this.$ROUTER_NAME_PRINT,
-        params: {
-          formID: formID,
-          csNumber: this.clientNum
-        }
-      }); 
+      let theForm = this.rnaList.filter(item => item.id == formID);
+      if (theForm == null) {
+        console.log("Unexpected error occurred.");
+      }
+      let param = {};
+      param.csNumber = this.clientNum;
+      param.formID = formID;
+      param.CRNARating = theForm != null ? this.getRatingDisplay(theForm.crnaRating) : '';
+      param.SARARating = theForm != null ? this.getRatingDisplay(theForm.saraRating) : '';
+      //console.log("Set PO param: ", param);
+      let base64EncodeParam = btoa(JSON.stringify(param));
+
+      //Bring user to the print view in a new tab
+      const route = this.$router.resolve({
+          name: this.$ROUTER_NAME_PRINT,
+          params: {
+            param: base64EncodeParam
+          }
+        });
+
       window.open(route.href, '_blank');
     },
     async handleFormCreateBtnClick() {
