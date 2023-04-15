@@ -59,7 +59,7 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/client/:csNumber/form/:formID/:param', 
+      path: '/client/:csNumber/form/:formID/:param?', //param is optional 
       name: 'cmpform',
       component: CmpFormView,
       meta: {
