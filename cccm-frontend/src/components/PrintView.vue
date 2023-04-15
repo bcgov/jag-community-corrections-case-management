@@ -14,7 +14,7 @@
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Office Location: </Strong>{{formInfoData.location }}</div>
                         <div class="col-sm-4"><Strong>CRNA Rating: </Strong>{{ CRNARating }}</div>
-                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ SARARating }}</div>
+                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ SARALinked ? SARARating : 'N/A' }}</div>
                     </section>
                 </v-card>
                 <br>
@@ -89,6 +89,7 @@ export default {
         formInstanceData: {},
         CRNARating: '',
         SARARating: '',
+        SARALinked: false,
         loading: false,
         theKey: 0,
         formHeaders: [
@@ -168,6 +169,9 @@ export default {
         if (this.formInstanceData != null && this.formInstanceData.length > 0) {
             this.formInstanceData.forEach((entry) => {
                 printTitle += entry.formType + '-';
+                if (entry.formType === this.$CONST_FORMTYPE_SARA) {
+                    this.SARALinked = true;
+                }
             });
         }
         printTitle += 'CMP';
