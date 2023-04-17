@@ -164,10 +164,7 @@
             <FormSummary v-if="isContainSummary && displaySummary" 
               @viewSectionQuestion="navToSectionAndQuestion" 
               :clientFormId="formId"
-              :csNumber="csNumber" 
-              :formType="formType"
-              :printRequested="printRequested"
-              @cancelPrintFlag="handleCancelPrintFlag"/>
+              :csNumber="csNumber" />
 
             <FormioButtonGroupSubmit 
               :saveBtnLabel="btnSaveContinueText"
@@ -190,8 +187,7 @@
                 <FormioSidePanel :key="formStaticInfoKey" 
                   :dataModel="clientData" 
                   :clientFormId="formId"
-                  :options="options"
-                  @sourcesContactedUpdated="handleSourcesContactedUpdated"/>
+                  :options="options" />
               </div>
             </section>
           </div>
@@ -223,10 +219,11 @@ export default {
     formType: '',
     formId: 0,
     csNumber: '',
+    CRNARating: '',
+    SARARating: '',
     relatedClientFormId: 0,
     readonly: false,
     locked: false,
-    printParam: false,
     createdByIdir: '',
     canPrint: true,
   },
@@ -271,7 +268,6 @@ export default {
       deleteDialog: false,
       saraDeleteSelectedFormTypeValue: ["SARA"],
       options: {},
-      printRequested: false,
       submitBtnData: {},
       sideBtnData: {"data": {}},
       isContainCasePlan: false,
@@ -295,13 +291,6 @@ export default {
     this.getClientAndFormMeta();
     this.getFormioTemplate();
     
-    if (this.printParam) {
-      setTimeout(() => {
-        this.printRequested = true;
-        this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
-      }, 5000);
-    }
-   
     setTimeout(() => {
       this.loaded = true;
       this.navToSectionAndQuestion(0, 0);
@@ -309,14 +298,6 @@ export default {
     
   },
   methods: {
-    handleCancelPrintFlag() {
-      //console.log("cancel print requested");
-      this.printRequested = false;
-    },
-    handleSourcesContactedUpdated(sourcesContacted) {
-      this.formInfoData.data.input_key_sourceContacted = sourcesContacted;
-      this.formStaticInfoKey++;
-    },
     handleChangeFormToIncomplete() {
       this.options = null;
       this.formInfoData.data.showEditBtn = false;
@@ -504,14 +485,23 @@ export default {
       this.parentNavJumpToPointed = section + "Q" + question + "_" + this.parentNavJumpToPointed_sufix;
     },
     handlePrintForm(evt) {
-      // Current on 'Summary', cancel the print flag, and start the print
-      if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
-        window.print();
-      } else {
-        // Navigate to the 'Summary' section, and set the printRequested flag to true
-        this.printRequested = true;
-        this.navToSectionAndQuestion(this.totalNumParentNav - 1, 1);
-      }
+      let param = {};
+      param.csNumber = this.csNumber;
+      param.formID = this.formId;
+      param.CRNARating = this.CRNARating;
+      param.SARARating = this.SARARating;
+      //console.log("Set PO param: ", param);
+      let base64EncodeParam = btoa(JSON.stringify(param));
+
+      //Bring user to the print view in a new tab
+      const route = this.$router.resolve({
+          name: this.$ROUTER_NAME_PRINT,
+          params: {
+            param: base64EncodeParam
+          }
+        });
+
+      window.open(route.href, '_blank');
     },
     handleSaveClose() {
       //console.log("handleSaveClose");
