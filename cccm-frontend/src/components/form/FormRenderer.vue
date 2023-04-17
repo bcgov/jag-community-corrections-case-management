@@ -152,6 +152,8 @@
               :dataModel="data_formEntries" 
               :options="options"
               :initData="formInitData"
+              :sendData="sendData"
+              @formDataCollected="validateAndCompleteForm"
               :formType="formType" />   
       
             <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
@@ -242,6 +244,7 @@ export default {
     return {
       CONST_LABEL_CASEPLAN: "CASE PLAN",
       CONST_LABEL_SUMMARY: "SUMMARY",
+      theFormConfig: {},
       loadingMsg: "Loading form...",
       loading: false,
       loaded: false,
@@ -274,7 +277,8 @@ export default {
       isContainSummary: false,
       errorKey: 0,
       continueEmitParentNavClicked: true,
-      pageRefreshSectionIndex: ''
+      pageRefreshSectionIndex: '',
+      sendData: 0
     }
   },
   mounted(){
@@ -284,6 +288,11 @@ export default {
       this.options = null;
     }
 
+    let configuredFormInfo = this.$FORM_INFO.filter( item => item.formType === this.formType );
+    if (configuredFormInfo != null && configuredFormInfo[0] != null) {
+      this.theFormConfig = configuredFormInfo[0];
+    } 
+    
     // set sideBtnData
     this.sideBtnData.data.showPrintBtn = this.canPrint;
     
@@ -380,14 +389,11 @@ export default {
         this.formInfoData.data.locked = this.locked;
         
         // set the form title
-        let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
-        //console.log('form info const:', this.formType, this.$FORM_INFO, theForm);
-        if (theForm != null && theForm[0] != null) {
-          this.formInfoData.data.formTitle = theForm[0].formTitle;
-          this.formInfoData.data.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
-          this.formInfoData.data.formTypeLabel = theForm[0].formTypeLabel;
-          this.pageRefreshSectionIndex = theForm[0].dataRefreshSectionIndex;
-          //console.log("this.pageRefreshSectionIndex: ", this.pageRefreshSectionIndex);
+        if (this.theFormConfig != null) {
+          this.formInfoData.data.formTitle = this.theFormConfig.formTitle;
+          this.formInfoData.data.assessmentStatusRequired = this.theFormConfig.assessmentStatusRequired;
+          this.formInfoData.data.formTypeLabel = this.theFormConfig.formTypeLabel;
+          this.pageRefreshSectionIndex = this.theFormConfig.dataRefreshSectionIndex;
         }
 
         // set submitBtnData
@@ -404,7 +410,7 @@ export default {
           this.formInfoData.data.clientData = response;
           
           //set sources contacted
-          this.clientData.data.showSCPanel = theForm != null && theForm[0] != null ? theForm[0].showSourcesContacted : true;
+          this.clientData.data.showSCPanel = this.theFormConfig != null ? this.theFormConfig.showSourcesContacted : true;
           this.clientData.data.hideSCInput = true;
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
           this.clientData.data.formType = this.formType
@@ -527,8 +533,8 @@ export default {
 
       // If reaching the last section, time to validate the form and complete the form
       if (continueToNextSection && this.parentNavCurLocation == this.totalNumParentNav - 1) {
-        // Notify child components (dataEntry (section level answers), caseplan(form Level answers) and sidepanel(sourceContacted)) to send their data for validation
-        this.validateAndCompleteForm();
+        // Notify child components (dataEntry (section level answers) to send their data for validation
+        this.sendData++;
       }
     },
     handleDeleteForm() {
@@ -561,29 +567,31 @@ export default {
         this.btnSaveContinueText = "Save and Continue"; 
       }
     },
-    async validateAndCompleteForm() {
-      // build completeFormData
-      let completeFormData = {};
-      completeFormData.clientFormId = Number(this.formId);
-      completeFormData.clientNumber = this.csNumber;
-      completeFormData.linkedClientFormId = this.relatedClientFormId;
-      const [error, completResult] = await completeForm(completeFormData);
-      if (error) {
-        console.error("Failed completing a form instance", error);
-        this.errorOccurred = true;
-        this.errorTitle = error.response.data.errorMessage;
-        this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
-        this.errorKey++;
-      } else {
-        console.log("Successfully completed the form: ", this.formId);
-        //Redirect User back to clientRecord.RNAList
-        this.$router.push({
-          name: this.$ROUTER_NAME_CLIENTRECORD,
-          params: {
-            clientNum: this.csNumber,
-            tabIndex: 'tab-rl'
-          }
-        });
+    async validateAndCompleteForm(formData) {
+      if (formData != null) {
+        // build completeFormData
+        let completeFormData = {};
+        completeFormData.clientFormId = Number(this.formId);
+        completeFormData.clientNumber = this.csNumber;
+        completeFormData.linkedClientFormId = this.relatedClientFormId;
+        const [error, completResult] = await completeForm(completeFormData);
+        if (error) {
+          console.error("Failed completing a form instance", error);
+          this.errorOccurred = true;
+          this.errorTitle = error.response.data.errorMessage;
+          this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
+          this.errorKey++;
+        } else {
+          console.log("Successfully completed the form: ", this.formId);
+          //Redirect User back to clientRecord.RNAList
+          this.$router.push({
+            name: this.$ROUTER_NAME_CLIENTRECORD,
+            params: {
+              clientNum: this.csNumber,
+              tabIndex: 'tab-rl'
+            }
+          });
+        }
       }
     },
     showDeleteDialog() {
@@ -595,7 +603,6 @@ export default {
     },
     async formDeleteHelper(fullDelete) {
       // delete the form instance
-      console.log("Delete form instance: ", fullDelete);
       let redirect = false;
       const [error, response] = await deleteForm(this.formId, this.csNumber);
       if (error) {
@@ -632,7 +639,6 @@ export default {
       this.formDeleteHelper(true);
     },
     async handleDeleteSARAFormBtnClick() {
-      console.log("saraDeleteSelectedFormTypeValue: ", this.saraDeleteSelectedFormTypeValue);
       this.deleteDialog = false;
       
       let fullDelete = false;
