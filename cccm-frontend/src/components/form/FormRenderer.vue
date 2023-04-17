@@ -570,10 +570,12 @@ export default {
     async validateAndCompleteForm(formData) {
       if (formData != null) {
         // build completeFormData
-        let completeFormData = {};
+        let completeFormData = {'data': {}};
         completeFormData.clientFormId = Number(this.formId);
         completeFormData.clientNumber = this.csNumber;
         completeFormData.linkedClientFormId = this.relatedClientFormId;
+        completeFormData.data = formData;
+        //console.log("completeFormData: ", completeFormData);
         const [error, completResult] = await completeForm(completeFormData);
         if (error) {
           console.error("Failed completing a form instance", error);
