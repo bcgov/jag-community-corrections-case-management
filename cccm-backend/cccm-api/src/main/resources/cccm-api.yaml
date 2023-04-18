@@ -2581,6 +2581,18 @@ components:
         linkedClientFormId:
           type: number
           description: required to link a form
+        interventionCheckboxChecked:
+          type: array
+          description: interventions checked
+          items:
+            $ref: '#/components/schemas/InterventionsChecked'
+    InterventionsChecked:
+      type: object
+      description: keys of checked boxes
+      properties:
+        Key:
+          type: string
+          description: keys
     LinkFormInput:
       type: object
       required:
