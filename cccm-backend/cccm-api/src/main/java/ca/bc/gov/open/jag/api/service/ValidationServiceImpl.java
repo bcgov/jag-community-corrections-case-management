@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.List;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -116,6 +117,8 @@ public class ValidationServiceImpl implements ValidationService {
                 }
             } else if (question.getType().equals(INTERVENTION_CONDITIONAL)) {
                 errors.addAll(validationIntervention(answers, question));
+            } else if (question.getType().equals(INTERVENTION_REQUIRED)) {
+                errors.addAll(validationInterventionRequired(answers, question));
             }
         }
 
@@ -214,6 +217,57 @@ public class ValidationServiceImpl implements ValidationService {
 
         return validationErrors;
 
+    }
+
+    private List<ValidationError> validationInterventionRequired(String answers, Question question) {
+
+        if (StringUtils.isBlank(answers)) {
+            return Collections.emptyList();
+        }
+
+        List<ValidationError> validationErrors = new ArrayList<>();
+        JSONObject jsonData = null;
+        JSONObject outerData = new JSONObject(answers);
+        if (outerData.has(OUTER_DATA_ELEMENT)) {
+            jsonData = outerData.getJSONObject(OUTER_DATA_ELEMENT);
+        } else {
+            jsonData = outerData;
+        }
+
+        List<String> keys = getInterventionKeys(jsonData, question);
+
+        for (String key: keys) {
+            if (!hasInterventionGrid(jsonData, MessageFormat.format("{0}_{1}", key, INTERVENTION_DATAGRID))) {
+                ValidationError validationError = new ValidationError();
+                validationError.setAnswerKey(key);
+                validationError.setMessage(question.getMessage());
+                validationErrors.add(validationError);
+            }
+        }
+
+        return validationErrors;
+
+    }
+
+    private List<String> getInterventionKeys(JSONObject jsonData, Question question) {
+
+        List<String> keys = new ArrayList<>();
+
+        for (String key: jsonData.keySet()) {
+            if (key.contains(question.getDependentKeys().get(0))) {
+                String[] keyParts = key.split("_");
+
+                if (jsonData.getBoolean(key)) {
+                    keys.add(keyParts[0]);
+                }
+
+            }
+        }
+        return keys;
+    }
+
+    private boolean hasInterventionGrid(JSONObject jsonData, String key) {
+        return (jsonData.get(key) != null);
     }
 
     private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {

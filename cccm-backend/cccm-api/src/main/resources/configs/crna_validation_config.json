@@ -176,6 +176,13 @@
       "message": "Intervention set to 'Other' is missing a description"
     },
     {
+      "key": "intervention_type",
+      "type": "INTERVENTION_REQUIRED",
+      "dependentKeys": ["intervention_checkbox"],
+      "dependentValues": ["true"],
+      "message": "Intervention set to 'Other' is missing a description"
+    },
+    {
       "key": "Sources_Contacted",
       "type": "REQUIRED",
       "message": "Sources Contacted: is required"
