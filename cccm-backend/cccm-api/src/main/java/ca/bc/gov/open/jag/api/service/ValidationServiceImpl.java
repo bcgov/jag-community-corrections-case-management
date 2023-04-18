@@ -237,7 +237,7 @@ public class ValidationServiceImpl implements ValidationService {
         List<String> keys = getInterventionKeys(jsonData, question);
 
         for (String key: keys) {
-            if (!hasInterventionGrid(jsonData, MessageFormat.format("{0}_{1}", key, INTERVENTION_DATAGRID))) {
+            if (!hasInterventionGrid(jsonData, MessageFormat.format(INTERVENTION_KEY_PATTERN, key, INTERVENTION_DATAGRID))) {
                 ValidationError validationError = new ValidationError();
                 validationError.setAnswerKey(key);
                 validationError.setMessage(question.getMessage());
@@ -267,7 +267,19 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private boolean hasInterventionGrid(JSONObject jsonData, String key) {
-        return (jsonData.get(key) != null);
+        if (jsonData.get(MessageFormat.format(INTERVENTION_KEY_PATTERN, key, INTERVENTION_DATAGRID)) == null) {
+            return false;
+        }
+
+        JSONArray jsonArray = jsonData.getJSONArray(MessageFormat.format(INTERVENTION_KEY_PATTERN, key, INTERVENTION_DATAGRID));
+        for (int i=0; i < jsonArray.length(); i++) {
+
+            if (StringUtils.isBlank(jsonArray.getJSONObject(i).getString(MessageFormat.format(INTERVENTION_KEY_PATTERN, key, "intervention_type")))) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
     private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {

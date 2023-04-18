@@ -180,7 +180,7 @@
       "type": "INTERVENTION_REQUIRED",
       "dependentKeys": ["intervention_checkbox"],
       "dependentValues": ["true"],
-      "message": "Intervention set to 'Other' is missing a description"
+      "message": "Intervention is missing values"
     },
     {
       "key": "Sources_Contacted",
