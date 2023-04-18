@@ -6,6 +6,7 @@
       :options="options"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent"
+      @key_hidden_submit_btn="handleHiddenBtnClick"
     />
   </div>
 </template>
@@ -26,7 +27,13 @@ export default {
     csNumber: '',
     formId: '',
     options: {},
-    formType: ''
+    formType: '',
+    sendData: 0
+  },
+  watch: {
+    sendData() {
+      this.simulateBtnClick();
+    }
   },
   components: {
     Form
@@ -49,9 +56,18 @@ export default {
     }
   },
   mounted() {
-    
   },
   methods: {
+    simulateBtnClick() {
+      let elementName = "data[key_hidden_submit_btn]";
+      let theBtn = document.getElementsByName(elementName);
+      if (theBtn != null && theBtn.length == 1) {
+        theBtn[0].click();
+      }
+    },
+    handleHiddenBtnClick(evt) {
+      this.$emit('formDataCollected', evt.data);
+    },
     async autoSave() {
       //only start saving if previous saving is done
       if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
