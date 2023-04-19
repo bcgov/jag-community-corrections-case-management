@@ -583,8 +583,8 @@ export default {
         completeFormData.clientFormId = Number(this.formId);
         completeFormData.clientNumber = this.csNumber;
         completeFormData.linkedClientFormId = this.relatedClientFormId;
-        completeFormData.intervention_checkbox_checked = this.formatValidationPayload(formData);
-        //console.log("completeFormData: ", completeFormData);
+        completeFormData.interventionCheckboxChecked = this.formatValidationPayload(formData);
+        console.log("completeFormData: ", completeFormData);
         const [error, completResult] = await completeForm(completeFormData);
         if (error) {
           console.error("Failed completing a form instance", error);
