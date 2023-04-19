@@ -23,9 +23,6 @@
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Name: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientName : '' }}</div>
                         <div class="col-sm-4"><Strong>CS#: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientNum : '' }}</div>
-                        <div class="col-sm-4"><Strong>Location: </Strong>{{ formInfoData.clientData != null && formInfoData.clientData.communityLocation != null ? formInfoData.clientData.communityLocation : '' }}</div>
-                    </section>
-                    <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Order Exp. Date: </Strong>{{ formInfoData.clientData != null && formInfoData.clientData.orderInformation != null ? formInfoData.clientData.orderInformation.expiryDate : '' }}</div>
                     </section>
                 </v-card>

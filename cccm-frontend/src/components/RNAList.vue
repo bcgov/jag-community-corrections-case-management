@@ -561,25 +561,27 @@ export default {
         this.loading = false;
       }
     },
-    formView( formID ) {
+    buildPrintParam( formID) {
       if (formID != null) {
         formID = formID.toString();
       }
       let theForm = this.rnaList.filter(item => item.id == formID);
-      if (theForm == null) {
-        console.log("Unexpected error occurred.");
-      }
+      
       let param = {};
-      param.CRNARating = theForm != null ? this.getRatingDisplay(theForm.crnaRating) : '';
-      param.SARARating = theForm != null ? this.getRatingDisplay(theForm.saraRating) : '';
-      let base64EncodeParam = btoa(JSON.stringify(param));
-
+      param.csNumber = this.clientNum;
+      param.formID = formID;
+      param.CRNARating = theForm != null ? theForm[0].crnaRating : '';
+      param.SARARating = theForm != null ? theForm[0].saraRating : '';
+      return btoa(JSON.stringify(param));
+    },
+    formView( formID ) {
+      let printParam = this.buildPrintParam(formID);
       this.$router.push({
         name: this.$ROUTER_NAME_CMPFORM,
         params: {
           formID: formID,
           csNumber: this.clientNum,
-          param: base64EncodeParam
+          param: printParam
         }
       });
     },
@@ -588,23 +590,13 @@ export default {
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
     formPrint(formID) {
-      let theForm = this.rnaList.filter(item => item.id == formID);
-      if (theForm == null) {
-        console.log("Unexpected error occurred.");
-      }
-      let param = {};
-      param.csNumber = this.clientNum;
-      param.formID = formID;
-      param.CRNARating = theForm != null ? this.getRatingDisplay(theForm.crnaRating) : '';
-      param.SARARating = theForm != null ? this.getRatingDisplay(theForm.saraRating) : '';
-      //console.log("Set PO param: ", param);
-      let base64EncodeParam = btoa(JSON.stringify(param));
+      let printParam = this.buildPrintParam(formID);
 
       //Bring user to the print view in a new tab
       const route = this.$router.resolve({
           name: this.$ROUTER_NAME_PRINT,
           params: {
-            param: base64EncodeParam
+            param: printParam
           }
         });
 
