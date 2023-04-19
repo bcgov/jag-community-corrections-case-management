@@ -6,7 +6,6 @@ import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientSearchInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Comment;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,7 +22,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 @QuarkusTest

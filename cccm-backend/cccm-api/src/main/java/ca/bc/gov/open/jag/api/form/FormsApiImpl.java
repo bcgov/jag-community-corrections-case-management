@@ -24,6 +24,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -138,11 +139,11 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-update")
-    public void completeForm(@Valid @NotNull UpdateFormInput createFormInput, String xLocationId) {
+    public void completeForm(@Valid @NotNull UpdateFormInput completeFormInput, String xLocationId) {
 
         logger.info("Complete Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(createFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true), xLocationId);
+        clientFormSaveService.editForm(new UpdateForm(completeFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true, completeFormInput.getInterventionCheckboxChecked()), xLocationId);
 
     }
 
@@ -153,7 +154,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Edit Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false), xLocationId);
+        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false, Collections.EMPTY_LIST), xLocationId);
 
     }
 
@@ -346,7 +347,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate CRNA Request");
 
-        return validationService.validateCRNA(body);
+        return validationService.validateCRNA(body, Collections.EMPTY_LIST);
 
     }
 

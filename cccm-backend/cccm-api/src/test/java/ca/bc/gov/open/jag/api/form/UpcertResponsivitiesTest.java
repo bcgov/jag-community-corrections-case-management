@@ -4,7 +4,6 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -18,8 +17,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @QuarkusTest
 public class UpcertResponsivitiesTest {
