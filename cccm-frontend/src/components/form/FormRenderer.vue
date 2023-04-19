@@ -242,6 +242,7 @@ export default {
   },
   data() {
     return {
+      CONST_INTERVENTION_CHECKBOX_SUFIX:"_intervention_checkbox",
       CONST_LABEL_CASEPLAN: "CASE PLAN",
       CONST_LABEL_SUMMARY: "SUMMARY",
       theFormConfig: {},
@@ -567,14 +568,22 @@ export default {
         this.btnSaveContinueText = "Save and Continue"; 
       }
     },
+    formatValidationPayload(formData) {
+      var result = [];
+      var keys = Object.keys(formData);
+      // extract intervention checkbox value from the formData 
+      Object.keys(formData).filter((key) => key.endsWith(this.CONST_INTERVENTION_CHECKBOX_SUFIX) && formData[key])
+                           .forEach((key) => result.push({"key": key.substring(0, key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFIX))}))
+      return result;
+    },
     async validateAndCompleteForm(formData) {
       if (formData != null) {
         // build completeFormData
-        let completeFormData = {'data': {}};
+        let completeFormData = {};
         completeFormData.clientFormId = Number(this.formId);
         completeFormData.clientNumber = this.csNumber;
         completeFormData.linkedClientFormId = this.relatedClientFormId;
-        completeFormData.data = formData;
+        completeFormData.intervention_checkbox_checked = this.formatValidationPayload(formData);
         //console.log("completeFormData: ", completeFormData);
         const [error, completResult] = await completeForm(completeFormData);
         if (error) {

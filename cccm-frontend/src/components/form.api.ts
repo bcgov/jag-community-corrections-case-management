@@ -607,12 +607,19 @@ export async function searchClientComments( payload: Object) {
 export default axiosClient;
 
 function handleError(error: object) {
+    console.log("error: ", error);
     if (error instanceof AxiosError) {
-        if (error.response) {
+        if (error.response && error.response.data) {
             iZtoast.error({
               title: 'Error',
               message: error.response.data.errorMessage || error.message,
               position: 'center'
+            });
+        } else {
+            iZtoast.error({
+                title: 'Error',
+                message: error.message,
+                position: 'center'
             });
         }
     } else {
