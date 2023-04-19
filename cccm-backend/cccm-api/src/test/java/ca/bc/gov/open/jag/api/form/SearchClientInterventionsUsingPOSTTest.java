@@ -5,6 +5,7 @@ import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientSearchInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Comment;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Intervention;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;

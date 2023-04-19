@@ -57,7 +57,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 
@@ -75,7 +75,7 @@ public class EditFormTest {
         updateFormInput.setClientNumber("TEST");
 
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false), "1"));
 
     }
 
@@ -93,7 +93,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 
@@ -113,7 +113,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 
@@ -132,7 +132,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 
@@ -149,7 +149,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 
@@ -168,7 +168,7 @@ public class EditFormTest {
         updateFormInput.setLinkedClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false), "1"));
 
     }
 
@@ -183,7 +183,7 @@ public class EditFormTest {
         updateFormInput.setClientFormId(BigDecimal.ONE);
         updateFormInput.setClientNumber("TEST");
 
-        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
+        Assertions.assertThrows(CCCMException.class, () -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", false), "1"));
 
     }
 

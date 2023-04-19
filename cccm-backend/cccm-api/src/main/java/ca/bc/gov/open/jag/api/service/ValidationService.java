@@ -1,9 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
-import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
-
-import java.util.List;
 
 public interface ValidationService {
 
@@ -12,7 +9,7 @@ public interface ValidationService {
      * @param answers answers to be validated
      * @return failed validations for crna
      */
-    ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys);
+    ValidationResult validateCRNA(String answers);
 
     /**
      *

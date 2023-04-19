@@ -145,7 +145,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         if (updateForm.getComplete()) {
             if (clientFormSummary.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
-                ValidationResult result = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()), updateForm.getInterventionKeys());
+                ValidationResult result = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
@@ -165,7 +165,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 }
 
                 if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
-                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId()), updateForm.getInterventionKeys());
+                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId()));
                     if (!crnaResult.getErrors().isEmpty()) {
                         throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, crnaResult);
                     }

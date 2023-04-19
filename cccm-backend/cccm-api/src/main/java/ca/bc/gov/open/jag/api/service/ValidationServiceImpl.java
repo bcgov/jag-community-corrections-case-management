@@ -2,7 +2,6 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.validation.Question;
 import ca.bc.gov.open.jag.api.model.validation.Validation;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,11 +47,11 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys) {
+    public ValidationResult validateCRNA(String answers) {
 
         logger.debug("Validate CRNA {}", answers);
 
-        return createValidationResult(validate(answers, crnaValidation, interventionKeys));
+        return createValidationResult(validate(answers, crnaValidation));
 
 
     }
@@ -62,7 +61,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate SARA {}", answers);
 
-        return createValidationResult(validate(answers, saraValidation, Collections.EMPTY_LIST));
+        return createValidationResult(validate(answers, saraValidation));
 
     }
 
@@ -71,7 +70,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate ACUTE {}", answers);
 
-        return createValidationResult(validate(answers, acuteValidation, Collections.EMPTY_LIST));
+        return createValidationResult(validate(answers, acuteValidation));
 
     }
 
@@ -80,7 +79,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate Static99r {}", answers);
 
-        return createValidationResult(validate(answers, static99rValidation, Collections.EMPTY_LIST));
+        return createValidationResult(validate(answers, static99rValidation));
 
     }
 
@@ -89,7 +88,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate Stable {}", answers);
 
-        return createValidationResult(validate(answers, stableValidation, Collections.EMPTY_LIST));
+        return createValidationResult(validate(answers, stableValidation));
 
     }
 
@@ -98,11 +97,11 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate Overall {}", answers);
 
-        return createValidationResult(validate(answers, overallValidation, Collections.EMPTY_LIST));
+        return createValidationResult(validate(answers, overallValidation));
 
     }
 
-    private List<ValidationError> validate(String answers, Validation formValidation, List<InterventionsChecked> interventionKeys) {
+    private List<ValidationError> validate(String answers, Validation formValidation) {
 
         List<ValidationError> errors = new ArrayList<>();
 
@@ -117,8 +116,6 @@ public class ValidationServiceImpl implements ValidationService {
                 }
             } else if (question.getType().equals(INTERVENTION_CONDITIONAL)) {
                 errors.addAll(validationIntervention(answers, question));
-            } else if (question.getType().equals(INTERVENTION_REQUIRED) && !interventionKeys.isEmpty()) {
-                errors.addAll(validationInterventionRequired(answers, question, interventionKeys));
             }
         }
 
@@ -217,39 +214,6 @@ public class ValidationServiceImpl implements ValidationService {
 
         return validationErrors;
 
-    }
-
-    private List<ValidationError> validationInterventionRequired(String answers, Question question, List<InterventionsChecked> interventionKeys) {
-
-        if (StringUtils.isBlank(answers)) {
-            return Collections.emptyList();
-        }
-
-        List<ValidationError> validationErrors = new ArrayList<>();
-        JSONObject jsonData = null;
-        JSONObject outerData = new JSONObject(answers);
-        if (outerData.has(OUTER_DATA_ELEMENT)) {
-            jsonData = outerData.getJSONObject(OUTER_DATA_ELEMENT);
-        } else {
-            jsonData = outerData;
-        }
-
-
-        for (InterventionsChecked key: interventionKeys) {
-            if (!hasInterventionGrid(jsonData, MessageFormat.format(INTERVENTION_KEY_PATTERN, key.getKey(), INTERVENTION_DATAGRID))) {
-                ValidationError validationError = new ValidationError();
-                validationError.setAnswerKey(key.getKey());
-                validationError.setMessage(question.getMessage());
-                validationErrors.add(validationError);
-            }
-        }
-
-        return validationErrors;
-
-    }
-
-    private boolean hasInterventionGrid(JSONObject jsonData, String key) {
-        return (jsonData.has(MessageFormat.format(INTERVENTION_KEY_PATTERN, key, INTERVENTION_DATAGRID)));
     }
 
     private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {

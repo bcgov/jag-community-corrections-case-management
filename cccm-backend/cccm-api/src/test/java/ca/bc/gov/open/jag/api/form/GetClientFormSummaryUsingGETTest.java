@@ -19,7 +19,9 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 @QuarkusTest
 public class GetClientFormSummaryUsingGETTest {
