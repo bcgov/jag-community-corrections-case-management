@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @QuarkusTest
 public class DeleteInterventionsExceptUsingPUTTest {
