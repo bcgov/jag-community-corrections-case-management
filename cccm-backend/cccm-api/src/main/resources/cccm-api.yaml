@@ -2590,7 +2590,7 @@ components:
       type: object
       description: keys of checked boxes
       properties:
-        Key:
+        key:
           type: string
           description: keys
     LinkFormInput:
