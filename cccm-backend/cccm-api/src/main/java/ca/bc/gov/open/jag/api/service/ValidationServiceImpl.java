@@ -249,7 +249,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     private boolean hasInterventionGrid(JSONObject jsonData, String key) {
-        return (jsonData.has(MessageFormat.format(INTERVENTION_KEY_PATTERN, key, INTERVENTION_DATAGRID)));
+        return (jsonData.has(key));
     }
 
     private List<ValidationError> validateInterventionGrid(JSONArray jsonArray, Question question, String keyPart) {
