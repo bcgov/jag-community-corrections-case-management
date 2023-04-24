@@ -14,15 +14,18 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.json.JsonObject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -403,10 +406,29 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         for (String key: cloneForm.getIgnoreKeys()) {
             answerJson.remove(key);
         }
+        List<String> removeKeys = new ArrayList<>();
+        //Strip ids
+        for (String key: answerJson.keySet()) {
+
+            if (key.contains(INTERVENTION_DATAGRID)) {
+                String[] keyParts = key.split("_");
+
+                for (int i = 0; i <= answerJson.getJSONArray(key).length() - 1; i++) {
+                    answerJson.getJSONArray(key).getJSONObject(i).remove(MessageFormat.format(INTERVENTION_KEY_PATTERN,  keyParts[0], INTERVENTION_ID));
+                }
+            } else if (key.contains("ID")) {
+                removeKeys.add(key);
+            }
+        }
+
+        for (String removeKey: removeKeys) {
+            answerJson.remove(removeKey);
+        }
 
         return answerJson.toString();
 
     }
+
 
     private String getAnswerByKey(ClientFormAnswers clientFormAnswers, String key) {
         if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
