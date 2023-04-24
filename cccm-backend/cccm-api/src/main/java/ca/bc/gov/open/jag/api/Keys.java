@@ -17,6 +17,7 @@ public class Keys {
     public static final String STABLE_FORM_TYPE = "STABLE";
     public static final String OVERALL_FORM_TYPE = "SO_OVERALL";
     public static final String INTERVENTION_DATAGRID = "intervention_datagrid";
+    public static final String INTERVENTION_ID = "intervention_id";
     public static final String INTERVENTION_KEY_PATTERN = "{0}_{1}";
     public static final String OUTER_DATA_ELEMENT = "data";
     public static final String CCCM_LOCATION = "OFF";
