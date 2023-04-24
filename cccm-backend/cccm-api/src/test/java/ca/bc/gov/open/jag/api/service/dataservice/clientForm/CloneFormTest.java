@@ -79,12 +79,14 @@ public class CloneFormTest {
             "        \"S03Q10_COMMENT\": \"\",\n" +
             "        \"S03Q11\": \"\",\n" +
             "        \"S01Q03\": \"M\",\n" +
+            "        \"S01Q03_ID\": \"M\",\n" +
             "        \"S01Q03_COMMENT\": \"<p>overall risk rating updates again</p>\",\n" +
             "        \"S01Q01\": \"L\",\n" +
             "        \"S01Q01_COMMENT\": \"<p>supervision rating updates.</p>\",\n" +
             "        \"S02Q01_intervention_datagrid\": [\n" +
             "            {\n" +
             "                \"S02Q01_intervention_desc\": \"aaaaaaa bbb ccc\",\n" +
+            "                \"S02Q01_intervention_id\": \"123\",\n" +
             "                \"S02Q01_intervention_type\": \"EMPA\"\n" +
             "            },\n" +
             "            {\n" +
