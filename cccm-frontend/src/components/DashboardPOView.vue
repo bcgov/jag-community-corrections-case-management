@@ -101,14 +101,14 @@
           </template>
           <!--Customize the dueNext field -->
           <template v-slot:item.dueNext="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueNext)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueNext)}`">{{item.dueNext}}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
+              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
             </div>
           </template>
           <!--Customize the dueDate rating field -->
           <template v-slot:item.dueDate="{ item }">
             <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDate}}</div>
+              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
             </div>
           </template>
           <!--Customize the expanded item to show photo and more-->
@@ -362,6 +362,8 @@ export default {
         //console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
+          el.dueDateStr = el.dueDate;
+          el.dueDate = el.dueDate != null ? new Date(el.dueDate) : null;
           if (el.designations != null) {
             const designationArray = el.designations.split(" ");
             for (let d of designationArray) {
@@ -385,11 +387,10 @@ export default {
       this.key_results++;
       this.loading = false;
     },
-    getColor(dueDateStr) {
-      if (dueDateStr == null || dueDateStr == '') {
+    getColor(dueDate) {
+      if (dueDate == null) {
         return '';
       }
-      const dueDate = new Date(dueDateStr);
       const dateNow = new Date();
       const diffTime = dueDate - dateNow;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
