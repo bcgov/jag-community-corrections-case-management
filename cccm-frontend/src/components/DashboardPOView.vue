@@ -80,10 +80,6 @@
           <template v-slot:item.communityAlerts="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getAlerts[item.clientNum]}}</div>
           </template>
-          <!--Customize the warrant field, show the warrant count -->
-          <template v-slot:item.outstandingWarrants="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getWarrants[item.clientNum]}}</div>
-          </template>
           <template v-slot:item.designations="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getDesignations[item.clientNum]}}</div>
           </template>
@@ -170,7 +166,6 @@ export default {
       headers: [
         { text: 'Client Name', value: 'clientName' },
         { text: 'Alert(s) (Y/N)', value: 'communityAlerts'},
-        { text: 'Outstanding Warrant (Y/N)', value: 'outstandingWarrants' },
         { text: 'Designation', value: 'designations' },
         { text: 'In Custody (Y/N)', value: 'inCustody' },
         { text: 'Order Expiry Date', value: 'orderExpiryDate' },
@@ -331,14 +326,6 @@ export default {
           }
           this.initDataArray[clientNum].data.communityAlerts = caVal;
           
-          //build outstandingWarrants
-          let waVal = "N";
-          if (el.outstandingWarrants != null && el.outstandingWarrants.length > 0) {
-            waVal = "Y";
-          };
-          this.initDataArray[clientNum].data.outstandingWarrants = el.outstandingWarrants;
-          this.initDataArray[clientNum].data.outstandingWarrants_yn = waVal;
-
           //build programs
           let pVal = "N";
           if (el.programs != null && el.programs.length > 0) {
@@ -434,17 +421,17 @@ export default {
       }
       return alertArray;
     },
-    getWarrants() {
-      let alertWarrant = [];
-      for (let el of this.clientList) {
-        let warrant = "N";
-        if (el.warrants > 0) {
-          warrant = "Y (" + el.warrants + ")";
-        }
-        alertWarrant[el.clientNum] = warrant;
-      }
-      return alertWarrant;
-    },
+    // getWarrants() {
+    //   let alertWarrant = [];
+    //   for (let el of this.clientList) {
+    //     let warrant = "N";
+    //     if (el.warrants > 0) {
+    //       warrant = "Y (" + el.warrants + ")";
+    //     }
+    //     alertWarrant[el.clientNum] = warrant;
+    //   }
+    //   return alertWarrant;
+    // },
     getUserName() {
       let name = Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
       //console.log("getUserName: ", this.POName);
