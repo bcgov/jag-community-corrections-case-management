@@ -66,7 +66,7 @@ export default {
       currentSectionChild : '1',
       currentSectionParent : '0',
       indexZero: '1',
-      timeoutDelay: 10,
+      timeoutDelay: 800,
       initLoad: true,
 
       data_rightPanel: {},
@@ -127,18 +127,17 @@ export default {
           }
         })
       }, {
+          root: null,
+          rootMargin: '0px',
           threshold: 1,
           // Track the actual visibility of the element
           trackVisibility: true,
           // Set a minimum delay between notifications
-          delay: 250
+          delay: 100
       });
 
       let className = '[class*="' + this.CUSTOM_QUESTION_PREFIX + '"]';
-      //let className = '[class=wrap]';
-      //this.observer.observe(document.querySelector(className));
-      //console.log("all sections: ", document.querySelector(className));
-      //this.observer.observe(document.querySelectorAll(className));
+      
       document.querySelectorAll(className).forEach((section) => {
         this.observer.observe(section);
       });

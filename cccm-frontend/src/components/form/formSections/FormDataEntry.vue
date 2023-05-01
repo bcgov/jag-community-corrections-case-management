@@ -97,7 +97,7 @@ export default {
               break;
             }
           } catch (err) {
-            console.error("Saving form data failed %o", err);
+            console.error("Saving form data failed: ", err);
           } 
         }
         // Saving failed after CONST_MAX_RETRY where this.saving flag didn't set to true, do the following:
