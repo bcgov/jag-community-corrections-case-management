@@ -13,7 +13,7 @@ import java.util.List;
 public class CreateDesignationsTest {
 
     @Test
-    @DisplayName("Success: should return designations")
+    @DisplayName("Success: should return pop designations")
     public void testSuccessCreateDesignations() {
 
 
@@ -24,6 +24,18 @@ public class CreateDesignationsTest {
         Assertions.assertEquals("2", result.get(1).getType());
         Assertions.assertEquals("3", result.get(2).getType());
         Assertions.assertEquals("4", result.get(3).getType());
+
+    }
+
+    @Test
+    @DisplayName("Success: should return ucmp designations")
+    public void testSuccessCreateUcmpDesignations() {
+
+
+        List<Designation> result = MappingUtils.createUcmpDesignations("1");
+
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("1", result.get(0).getType());
 
     }
 

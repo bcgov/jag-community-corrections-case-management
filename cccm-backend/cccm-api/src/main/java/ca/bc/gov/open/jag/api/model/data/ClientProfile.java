@@ -21,6 +21,7 @@ public class ClientProfile {
     private String outReason;
     private String iaStatus;
     private String popDesignation;
+    private String ucmpDesignation;
     private String icayraSecurity;
     private String icayraSecurityStatus;
     private String federalParolOffice;
@@ -318,4 +319,13 @@ public class ClientProfile {
     public void setNextDueDt(String nextDueDt) {
         this.nextDueDt = nextDueDt;
     }
+
+    public String getUcmpDesignation() {
+        return ucmpDesignation;
+    }
+
+    public void setUcmpDesignation(String ucmpDesignation) {
+        this.ucmpDesignation = ucmpDesignation;
+    }
+
 }

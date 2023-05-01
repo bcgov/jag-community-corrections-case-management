@@ -48,6 +48,8 @@ public class ClientProfileTest {
     private static final String STATUS = "STATUS";
     private static final String RNASTATUS = "RNASTATUS";
 
+    private static final String DESIGNATION = "UCMPDESIGNATION";
+
     @Inject
     ClientDataService sut;
 
@@ -83,6 +85,7 @@ public class ClientProfileTest {
         Assertions.assertEquals(CASE_MANAGER, result.getCommunityInformation().getCaseManager());
         Assertions.assertEquals(PHOTO_TAKEN_DATE, result.getPhoto().getPhotoTakenDate());
         Assertions.assertEquals(BYTES.length, result.getPhoto().getImage().length);
+        Assertions.assertEquals(DESIGNATION, result.getDesignations().get(0).getType());
         //Program
         Assertions.assertEquals(1, result.getPrograms().size());
         Assertions.assertEquals(OUTCOME, result.getPrograms().get(0).getOutcome());
@@ -115,6 +118,7 @@ public class ClientProfileTest {
         clientProfile.setClient(createClient());
         clientProfile.setPrograms(Collections.singletonList(createProgram()));
         clientProfile.setRnaStatus(RNASTATUS);
+        clientProfile.setUcmpDesignation(DESIGNATION);
         return clientProfile;
     }
 
