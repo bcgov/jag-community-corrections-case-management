@@ -65,7 +65,7 @@ Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', dataRefreshSectionIndex: '2', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
+  { formType: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
   { formType: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
   { formType: 'ACUTE', dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
   { formType: 'STABLE', dataRefreshSectionIndex: '7', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
