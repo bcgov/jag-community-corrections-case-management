@@ -15,7 +15,7 @@ public interface UserMapper {
     @Mapping(target = "clientName", source = "clientName")
     @Mapping(target = "alerts", source = "alerts")
     @Mapping(target = "warrants", source = "activeDocuments")
-    @Mapping(target = "designations", source = "popDesignations")
+    @Mapping(target = "designations", source = "ucmpDesignations")
     @Mapping(target = "inCustody", source = "clientIn")
     @Mapping(target = "orderExpiryDate", source = "FOED")
     @Mapping(target = "supervisionRating", source = "supervisionLevel")

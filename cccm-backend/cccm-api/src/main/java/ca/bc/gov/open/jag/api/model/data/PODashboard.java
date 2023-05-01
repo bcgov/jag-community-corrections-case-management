@@ -7,6 +7,7 @@ public class PODashboard {
     private Integer activeDocuments;
     private Integer alerts;
     private String popDesignations;
+    private String ucmpDesignations;
     private String clientIn;
     private String supervisionLevel;
     private String MOED;
@@ -220,4 +221,13 @@ public class PODashboard {
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
+
+    public String getUcmpDesignations() {
+        return ucmpDesignations;
+    }
+
+    public void setUcmpDesignations(String ucmpDesignations) {
+        this.ucmpDesignations = ucmpDesignations;
+    }
+
 }

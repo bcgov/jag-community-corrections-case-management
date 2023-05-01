@@ -20,6 +20,7 @@ import java.util.List;
 public class GetPoDashboardTest {
 
     private static final String POPDESG = "POPDESG";
+    private static final String UCMPPDESG = "UCMPPDESG";
     private static final String CLIENT_IN = "Y";
     private static final String SUPERVISION_LEVEL = "SUPER_LEVEL";
     private static final String MOED = "MOED";
@@ -54,7 +55,7 @@ public class GetPoDashboardTest {
         Assertions.assertEquals(new BigDecimal(2), result.get(0).getAlerts());
         Assertions.assertEquals(CLIENT_NO, result.get(0).getClientNum());
         Assertions.assertEquals(CLIENT_NAME, result.get(0).getClientName());
-        Assertions.assertEquals(POPDESG, result.get(0).getDesignations());
+        Assertions.assertEquals(UCMPPDESG, result.get(0).getDesignations());
         Assertions.assertEquals(CLIENT_IN, result.get(0).getInCustody());
         Assertions.assertEquals(DUE_DATE, result.get(0).getDueDate());
         Assertions.assertEquals(DUE_NEXT, result.get(0).getDueNext());
@@ -70,6 +71,7 @@ public class GetPoDashboardTest {
         poDashboard.setActiveDocuments(1);
         poDashboard.setAlerts(2);
         poDashboard.setPopDesignations(POPDESG);
+        poDashboard.setUcmpDesignations(UCMPPDESG);
         poDashboard.setClientIn(CLIENT_IN);
         poDashboard.setSupervisionLevel(SUPERVISION_LEVEL);
         poDashboard.setMOED(MOED);
