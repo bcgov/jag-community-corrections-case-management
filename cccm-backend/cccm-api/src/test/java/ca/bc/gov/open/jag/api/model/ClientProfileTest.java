@@ -55,6 +55,7 @@ public class ClientProfileTest {
         sut.setIaClassification("TEST");
         sut.setCustody("TEST");
         sut.setNextDueDt("TEST");
+        sut.setUcmpDesignation("TEST");
 
 
         Assertions.assertEquals("TEST", sut.getSecondaryManager());
@@ -91,6 +92,7 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getIaClassification());
         Assertions.assertEquals("TEST", sut.getNextCourtDate());
         Assertions.assertEquals("TEST", sut.getNextDueDt());
+        Assertions.assertEquals("TEST", sut.getUcmpDesignation());
 
     }
 

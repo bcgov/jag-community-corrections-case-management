@@ -124,6 +124,18 @@ public class MappingUtils {
 
     }
 
+    public static List<Designation> createUcmpDesignations(String ucmpDesignation) {
+
+        List<Designation> designations = new ArrayList<>();
+
+        if (StringUtils.isNoneBlank(ucmpDesignation)) {
+            designations.add(createDesignation(ucmpDesignation));
+        }
+
+        return designations;
+
+    }
+
     public static List<Address> stringToAddressList(String address, String addressType, String addressExpiry) {
 
         if (StringUtils.isBlank(address)) {
