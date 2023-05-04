@@ -119,9 +119,13 @@ export default {
 
       this.getFormFactors();
       this.getFilterOptions();
+      this.loadData();
     });
 
     this.store.$subscribe(async (mutation, state) => {
+      //console.log("mutation:" + JSON.stringify(mutation));
+      //console.log("state:" + JSON.stringify(state));
+      console.log('ChartFilter->Subscribe() got new stats and mutation');
 
       // chart type or period changed
       if (mutation.payload) {
@@ -164,7 +168,7 @@ export default {
 
     },
     async loadData() {
-      console.log("Getting data for %s", this.store.chartType);
+      console.log("ChartFilter: Getting data for %s", this.store.chartType);
 
       this.loading = true;
       let csNumber = this.$route.params.csNumber;
@@ -212,6 +216,7 @@ export default {
               this.store.$patch({ data: data, minStartDate: null, maxEndDate: null, interventionCount: 0, commentCount: 0 });
 
             }
+            
           }
         });
       } catch (error) {
@@ -257,12 +262,14 @@ export default {
       return this.maxEndDate;
     },
     applyDateFilters() {
+      //console.log("applyDateFilters...");
       let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
       let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
-      if (this.store.factors === null || this.store.factors.length === 0) {
+
+      if (this.store.factors === null || this.store.factors.length === 0 || this.store.data === null) {
         return;
       }
-      if (this.store.data && this.store.data.dataLabels && startDate && endDate) {
+      if (this.store.data && this.store.data.dataLabels) {
         let labels = [];
         let index = 0;
         let startIndex = 0;
@@ -278,12 +285,38 @@ export default {
           index++;
         });
 
-        let filteredDatasets = this.store.data.datasets.filter((dataset) => {
-          return this.store.factors.includes(dataset.source);
-        });
+        
+        let filteredDatasets = new Array();
+        if(this.store.data.datasets) {
+          if (this.store.factors === null || this.store.factors.length === 0) {
+              filteredDatasets = this.store.data.datasets;
+          } else {
+            let storedDatasets = this.store.data.datasets;
+            
+            if(this.selectedFactors != null && this.selectedFactors.length > 0) {
+              for(let i = 0; i < this.selectedFactors.length; i++) {
+                for(let j = 0; i < storedDatasets.length; j++) {
+                  if(this.selectedFactors[i] == storedDatasets[j].source) {
+                    filteredDatasets.push(storedDatasets[j]);
+                    break;
+                  }
+                }
+              }
+
+            } else {
+              for(let i = 0; i < this.store.factors.length; i++) {
+                for(let j = 0; i < storedDatasets.length; j++) {
+                  if(this.store.factors[i].value == storedDatasets[j].source) {
+                    filteredDatasets.push(storedDatasets[j]);
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
 
         filteredDatasets = this.applyAdvancedFilter(filteredDatasets);
-
 
         let datasets = [];
         filteredDatasets.forEach(ds => {
@@ -345,6 +378,7 @@ export default {
         console.error(error);
       } else {
         this.factorOptions = data;
+        this.store.$patch({ factors: data });
         if(this.selectedFactors == null || this.selectedFactors.length == 0) {
 
           // by default, all should be selected
@@ -355,6 +389,7 @@ export default {
             }
           }
         }
+        this.applyDateFilters();
 
       }
     },
