@@ -352,18 +352,12 @@ export default {
           el.dueDateStr = el.dueDate;
           el.dueDate = el.dueDate != null ? new Date(el.dueDate) : null;
           if (el.designations != null) {
-            const designationArray = el.designations.split(" ");
-            for (let d of designationArray) {
-              d = d.trim();
-              if (d == this.CONST_DESIGNATION_GEN) {
-                this.numOfGen++;
-              }
-              if (d == this.CONST_DESIGNATION_SMO) {
-                this.numOfSMO++;
-              }
-              if (d == this.CONST_DESIGNATION_IPV) {
-                this.numOfIPV++;
-              }
+            if (el.designations.indexOf(this.CONST_DESIGNATION_SMO) >= 0) {
+              this.numOfSMO++;
+            } else if (el.designations.indexOf(this.CONST_DESIGNATION_IPV) >= 0) {
+              this.numOfIPV++;
+            } else if (el.designations.indexOf(this.CONST_DESIGNATION_GEN) >= 0) {
+              this.numOfGen++;
             }
           }
         }
@@ -448,8 +442,11 @@ export default {
       for (let item of this.clientList) {
         let designation = '';
         if (item.designations != null) {
-          const designationArray = item.designations.split(" ");
-          designation = designationArray.reduce((acc, d) => `${acc}, ${d}`);
+          const designationArray = item.designations.split(", ");
+          designation = designationArray.reduce(
+            (accumulator, currentValue) => `${accumulator} ${currentValue.trim() == this.CONST_DESIGNATION_GEN ? '' : currentValue.trim()}`,
+            designationArray != null && designationArray.length == 1 && designationArray[0].trim() == this.CONST_DESIGNATION_GEN ? this.CONST_DESIGNATION_GEN : ''
+          );
         }
         designations[item.clientNum] = designation;
       }
