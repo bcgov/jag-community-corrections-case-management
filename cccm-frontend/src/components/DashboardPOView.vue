@@ -55,6 +55,8 @@
       </div>
       <div class="dashboard-v-card">
         <v-data-table
+            :loading="loading"   
+              loading-text="Searching... Please wait"
             :key="key_results"
             :headers="headers"
             :items="clientList"
@@ -78,10 +80,10 @@
           </template>
           <!--Customize the alerts field, show the alert count -->
           <template v-slot:item.communityAlerts="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getAlerts[item.clientNum]}}</div>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.alertDisplay}}</div>
           </template>
           <template v-slot:item.designations="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{getDesignations[item.clientNum]}}</div>
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designationDisplay}}</div>
           </template>
           <template v-slot:item.inCustody="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
@@ -165,8 +167,8 @@ export default {
       loading: true,
       headers: [
         { text: 'Client Name', value: 'clientName' },
-        { text: 'Alert(s) (Y/N)', value: 'communityAlerts'},
-        { text: 'Designation', value: 'designations' },
+        { text: 'Alert(s) (Y/N)', value: 'alertDisplay'},
+        { text: 'Designation', value: 'designationDisplay' },
         { text: 'In Custody (Y/N)', value: 'inCustody' },
         { text: 'Order Expiry Date', value: 'orderExpiryDate' },
         { text: 'Supervision Rating', value: 'supervisionRating' },
@@ -283,12 +285,17 @@ export default {
       }
     },
     applyPOFilter(idirId) {
-      // search based on the newly selected PO
+      // Clear the previous search results
       this.clientList = [];
       this.loading = true;
-      this.dashboardPOSearch(idirId, this.mainStore.locationCD);
+      this.numOfGen = 0;
+      this.numOfIPV = 0;
+      this.numOfSMO = 0;
       this.key_results++;
 
+      // search based on the newly selected PO
+      this.dashboardPOSearch(idirId, this.mainStore.locationCD);
+      
       //update the title
       let thePO = this.poList.find(item => item.idirId == idirId);
       this.userDisplayName = thePO == null ? '' : thePO.poName;
@@ -352,20 +359,32 @@ export default {
           el.dueDateStr = el.dueDate;
           el.dueDate = el.dueDate != null ? new Date(el.dueDate) : null;
           if (el.designations != null) {
-            const designationArray = el.designations.split(" ");
-            for (let d of designationArray) {
-              d = d.trim();
-              if (d == this.CONST_DESIGNATION_GEN) {
-                this.numOfGen++;
-              }
-              if (d == this.CONST_DESIGNATION_SMO) {
-                this.numOfSMO++;
-              }
-              if (d == this.CONST_DESIGNATION_IPV) {
-                this.numOfIPV++;
-              }
+            if (el.designations.indexOf(this.CONST_DESIGNATION_SMO) >= 0) {
+              this.numOfSMO++;
+            } else if (el.designations.indexOf(this.CONST_DESIGNATION_IPV) >= 0) {
+              this.numOfIPV++;
+            } else if (el.designations.indexOf(this.CONST_DESIGNATION_GEN) >= 0) {
+              this.numOfGen++;
             }
           }
+
+          // Update the alert display
+          let alert = "N";
+          if (el.alerts != null && el.alerts > 0) {
+            alert = "Y (" + el.alerts + ")";
+          }
+          el.alertDisplay = alert;
+
+          // Update the designation display
+          let designation = '';
+          if (el.designations != null) {
+            const designationArray = el.designations.split(", ");
+            designation = designationArray.reduce(
+              (accumulator, currentValue) => `${accumulator} ${currentValue.trim() == this.CONST_DESIGNATION_GEN ? '' : currentValue.trim()}`,
+              designationArray != null && designationArray.length == 1 && designationArray[0].trim() == this.CONST_DESIGNATION_GEN ? this.CONST_DESIGNATION_GEN : ''
+            );
+          }
+          el.designationDisplay = designation;
         }
 
         // populate this.initDataArray
@@ -410,51 +429,6 @@ export default {
   },
   computed: {
     ...mapStores(useStore),
-    getAlerts() {
-      let alertArray = [];
-      for (let el of this.clientList) {
-        let alert = "N";
-        if (el.alerts > 0) {
-          alert = "Y (" + el.alerts + ")";
-        }
-        alertArray[el.clientNum] = alert;
-      }
-      return alertArray;
-    },
-    // getWarrants() {
-    //   let alertWarrant = [];
-    //   for (let el of this.clientList) {
-    //     let warrant = "N";
-    //     if (el.warrants > 0) {
-    //       warrant = "Y (" + el.warrants + ")";
-    //     }
-    //     alertWarrant[el.clientNum] = warrant;
-    //   }
-    //   return alertWarrant;
-    // },
-    getUserName() {
-      let name = Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
-      //console.log("getUserName: ", this.POName);
-      if (this.POName) {
-        name = this.POName;
-      }
-      if (this.selectedPO && this.selectedPO.poName) {
-        name = this.selectedPO.poName;
-      }
-      return name;
-    }, 
-    getDesignations() {
-      let designations = [];
-      for (let item of this.clientList) {
-        let designation = '';
-        if (item.designations != null) {
-          const designationArray = item.designations.split(" ");
-          designation = designationArray.reduce((acc, d) => `${acc}, ${d}`);
-        }
-        designations[item.clientNum] = designation;
-      }
-      return designations;
-    }
   }
 }
 </script>
