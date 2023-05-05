@@ -414,7 +414,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.status}}</div><br><div><Strong>Type of Custody</Strong><br>{{data.generalInformation == null ? '' : data.generalInformation.custody}}</div>",
+                                                                                                "content": "<div><Strong>Status</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.status}}</div><br><div><Strong>Type of Custody</Strong><br>{{data.generalInformation == null ? '' : data.generalInformation.type}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
@@ -439,7 +439,7 @@
                                                                                                         "value": ""
                                                                                                     }
                                                                                                 ],
-                                                                                                "content": "<div><Strong>In/out Custody</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.type}}</div><br><div><Strong>Possible Parole Date</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</div>",
+                                                                                                "content": "<div><Strong>In/out Custody</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.custody}}</div><br><div><Strong>Possible Parole Date</Strong><br/>{{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</div>",
                                                                                                 "refreshOnChange": true,
                                                                                                 "key": "html6",
                                                                                                 "type": "htmlelement",
