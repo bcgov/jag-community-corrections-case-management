@@ -95,7 +95,7 @@ export default {
       let visibleSince = 0;
       this.observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          //console.log("entry: ", entry, entry.target.className, entry.isIntersecting, entry.isVisible, entry.time);
+          //console.log("entry: ", entry.target.className, entry.isIntersecting, entry.isVisible);
           if (typeof entry.isVisible === 'undefined') {
             // The browser doesn't support Intersection Observer v2, falling back to v1 behavior.
             entry.isVisible = true;
@@ -118,7 +118,7 @@ export default {
                   // The question_panel_S02Q01:
                   // 1. the section is 1 base, need to convert it back to 0 based
                   // 2. the question id need to add 1 to offset 
-                  this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]) + 1, true);
+                  this.showHideWrapper(parseInt(idArray[0]) - 1, parseInt(idArray[1]), true);
                 }
               }
             }
@@ -127,9 +127,7 @@ export default {
           }
         })
       }, {
-          root: null,
-          rootMargin: '0px',
-          threshold: 1,
+          threshold: 0.1,
           // Track the actual visibility of the element
           trackVisibility: true,
           // Set a minimum delay between notifications
@@ -251,9 +249,12 @@ export default {
                   let questionClassName = '[class*="' + this.CUSTOM_QUESTION_PREFIX + panelID + "Q" + questionIDIndex + '"]';
                   //console.log("questionClassName: ", questionClassName);
                   let theQuestionPanel = document.querySelector(questionClassName);
+                  const yOffset = -500; 
                   if (theQuestionPanel != null) {
                     //console.log("scroll to view: ", theQuestionPanel);
-                    theQuestionPanel.scrollIntoView(false);
+                    const y = theQuestionPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y});
+                    //theQuestionPanel.scrollIntoView(false);
                   }
                 }
               }
