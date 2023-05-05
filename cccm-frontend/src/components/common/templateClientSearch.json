@@ -427,13 +427,14 @@
                                                             "components": [
                                                                 {
                                                                     "label": "Clear",
-                                                                    "action": "reset",
+                                                                    "action": "event",
                                                                     "theme": "secondary",
                                                                     "tableView": false,
                                                                     "key": "clearAll",
                                                                     "type": "button",
                                                                     "showValidations": false,
                                                                     "input": false,
+                                                                    "event": "evt_clearAll",
                                                                     "customClass": "formio-clear-all-container"
                                                                 }
                                                             ],
@@ -455,7 +456,8 @@
                                                                     "input": false,
                                                                     "disableOnInvalid": false,
                                                                     "event": "evt_clientSearchEvent_generalInfo",
-                                                                    "customClass": "formio-search-btn-container"
+                                                                    "customClass": "formio-search-btn-container",
+                                                                    "saveOnEnter": true
                                                                 }
                                                             ],
                                                             "width": 6,
@@ -714,13 +716,14 @@
                                                                     "components": [
                                                                         {
                                                                             "label": "Clear",
-                                                                            "action": "reset",
+                                                                            "action": "event",
                                                                             "showValidations": false,
                                                                             "theme": "secondary",
                                                                             "tableView": false,
                                                                             "key": "clearAll",
                                                                             "type": "button",
                                                                             "input": false,
+                                                                            "event": "evt_clearAll",
                                                                             "customClass": "formio-clear-all-container"
                                                                         }
                                                                     ],
@@ -743,7 +746,8 @@
                                                                             "input": false,
                                                                             "disableOnInvalid": false,
                                                                             "event": "evt_clientSearchEvent_addressInfo",
-                                                                            "customClass": "formio-search-btn-container"
+                                                                            "customClass": "formio-search-btn-container",
+                                                                            "saveOnEnter": true
                                                                         }
                                                                     ],
                                                                     "width": 6,
