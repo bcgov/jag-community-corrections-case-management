@@ -65,12 +65,12 @@ export default {
 
     this.store.$subscribe((mutation, state) => {
       let changed = false;
-      if (mutation.payload && mutation.payload.hasOwnProperty('filteredData')) {
+
+      if (mutation.payload) {
         if (mutation.payload.filteredData === null) {
           this.chartReady = false;
         } else {
           this.chartReady = true;
-
           this.updateChart(mutation.payload.filteredData);
         }
       }
