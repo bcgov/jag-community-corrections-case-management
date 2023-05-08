@@ -7,6 +7,7 @@
           <Form class="formio-container"
               :form="formJSON"
               :submission="initData" 
+              v-on:evt_clearAll="handleClearAll"
               v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 
               v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"
               v-on:change="handleChangeEvent"
@@ -324,6 +325,13 @@ export default {
       if (jumpAnchor) {
         jumpAnchor.click();
       }
+    },
+    handleClearAll() {
+      this.initData = {'data': {}};
+      this.setInitData();
+
+      this.clients = [];
+      this.key_clientsearchresult++;
     },
     async handleClientSearch_byGeneralInfo(evt) {
       if (evt.data != null) {
