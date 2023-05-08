@@ -22,6 +22,7 @@ import javax.json.JsonString;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -231,7 +232,7 @@ public class ClientDataServiceImpl implements ClientDataService {
             }
         }
         //Add sorting on update date when implemented
-        //formsMerged.sort(Comparator.comparing(ClientFormSummary::getUpdatedDate));
+        formsMerged.sort(Comparator.comparing(ClientFormSummary::getCreatedDate, Comparator.nullsFirst(Comparator.naturalOrder())));
 
         return formsMerged;
     }
