@@ -182,7 +182,7 @@ export default {
     .printview:before {
         display: inline-block;
         width: 15px;
-        content: url("/src/assets/images/BC_PSSG_H_CMYK_pos.jpg");
+        content: url("/src/assets/images/justice.png");
     }
     .printview:after {
         display:block;
