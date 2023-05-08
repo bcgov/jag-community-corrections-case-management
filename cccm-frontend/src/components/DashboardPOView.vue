@@ -1,4 +1,5 @@
 <template>
+
   <div data-app class="dashboard-po p-4">
     <div :key="key_userDisplayName" class="row mb-2">
       <div class="col-sm-6">
@@ -79,10 +80,10 @@
             </div>
           </template>
           <!--Customize the alerts field, show the alert count -->
-          <template v-slot:item.communityAlerts="{ item }">
+          <template v-slot:item.alertDisplay="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.alertDisplay}}</div>
           </template>
-          <template v-slot:item.designations="{ item }">
+          <template v-slot:item.designationDisplay="{ item }">
             <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designationDisplay}}</div>
           </template>
           <template v-slot:item.inCustody="{ item }">
