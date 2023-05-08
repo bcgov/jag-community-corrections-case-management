@@ -141,6 +141,55 @@
       "message": "3. Violation of \\\"No Contact\\\" Order (civil or criminal): requires comment"
     },
     {
+      "key": "S06Q01",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q01_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "1. Current emotional crisis?: requires comment"
+    },
+    {
+      "key": "S06Q02",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q02_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "2. History of torturing or disfiguring intimate partners?: requires comment"
+    },
+    {
+      "key": "S06Q03",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q03_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "3. Victim or witness of political persecution, torture, or violence?: requires comment"
+    },
+    {
+      "key": "S06Q04",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q04_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "4. Sexual sadism?: requires comment"
+    },
+    {
+      "key": "S06Q05",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q05_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "5. Easy access to firearms?: requires comment"
+    },
+    {
+      "key": "S06Q06",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q05_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "6. Stalking?: requires comment"
+    },
+    {
+      "key": "S06Q07",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S06Q07_COMMENT"],
+      "dependentValues": ["Y"],
+      "message": "7. Recent loss of social support network?: requires comment"
+    },
+    {
       "key": "S01Q01",
       "type": "REQUIRED",
       "message": "Overall Rating: is required"
