@@ -64,7 +64,7 @@
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>openapi-generator-core</artifactId>
-      <version>5.1.1</version>
+      <version>6.5.0</version>
     </dependency>
     <dependency>
       <groupId>io.quarkiverse.logging.splunk</groupId>
