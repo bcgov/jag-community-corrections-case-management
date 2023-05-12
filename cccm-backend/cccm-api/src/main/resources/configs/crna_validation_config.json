@@ -33,28 +33,35 @@
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q05_COMMENT"],
       "dependentValues": ["C","D"],
-      "message": "5. Financial Management Skills: requires comment"
+      "message": "5. Employment Pattern: requires comment"
     },
     {
       "key": "S02Q06",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q06_COMMENT"],
       "dependentValues": ["C","D"],
-      "message": "6. Behavioural/Emotional Stability: requires comment"
+      "message": "6. Financial Management: requires comment"
     },
     {
       "key": "S02Q07",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q07_COMMENT"],
       "dependentValues": ["C","D"],
-      "message": "7. Substance Misuse: requires comment"
+      "message": "7. Behavioural/Emotional Stability: requires comment"
     },
     {
       "key": "S02Q08",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q08_COMMENT"],
       "dependentValues": ["C","D"],
-      "message": "8. Attitude: requires comment"
+      "message": "8. Substance Misuse: requires comment"
+    },
+    {
+      "key": "S02Q09",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q09_COMMENT"],
+      "dependentValues": ["C","D"],
+      "message": "9. Attitude: requires comment"
     },
     {
       "key": "S02Q01",
