@@ -29,7 +29,7 @@ public interface UserMapper {
     @Mapping(target = "officer", source = "poName")
     @Mapping(target = "idirId", source = "idirId")
     @Mapping(target = "activeAdmin", source = "activeAdmin")
-    @Mapping(target = "bal", source = "bAL")
+    @Mapping(target = "bal", source = "bal")
     @Mapping(target = "sen",  source = "sent")
     @Mapping(target = "high", source = "high")
     @Mapping(target = "medium", source = "medium")

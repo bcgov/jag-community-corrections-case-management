@@ -6,7 +6,7 @@ public class SupervisorDashboard {
     private String idirId;
     private Integer activeAdmin;
     private Integer adminClosed;
-    private Integer bAL;
+    private Integer bal;
     private Integer sent;
     private Integer high;
     private Integer medium;
@@ -48,12 +48,12 @@ public class SupervisorDashboard {
         this.adminClosed = adminClosed;
     }
 
-    public Integer getbAL() {
-        return bAL;
+    public Integer getBal() {
+        return bal;
     }
 
-    public void setbAL(Integer bAL) {
-        this.bAL = bAL;
+    public void setBal(Integer bal) {
+        this.bal = bal;
     }
 
     public Integer getHigh() {

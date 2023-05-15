@@ -62,7 +62,7 @@ public class GetSupervisorDashboardTest {
         supervisorDashboard.setActiveAdmin(INT_TEST);
         supervisorDashboard.setActiveReports(INT_TEST);
         supervisorDashboard.setAdminClosed(INT_TEST);
-        supervisorDashboard.setbAL(INT_TEST);
+        supervisorDashboard.setBal(INT_TEST);
         supervisorDashboard.setSent(INT_TEST);
         supervisorDashboard.setHigh(INT_TEST);
         supervisorDashboard.setMedium(INT_TEST);
