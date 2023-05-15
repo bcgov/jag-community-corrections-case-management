@@ -21,10 +21,7 @@ import javax.json.JsonObject;
 import javax.json.JsonString;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -233,7 +230,7 @@ public class ClientDataServiceImpl implements ClientDataService {
         }
         //Add sorting on update date when implemented
         formsMerged.sort(Comparator.comparing(ClientFormSummary::getCreatedDate, Comparator.nullsFirst(Comparator.naturalOrder())));
-
+        Collections.reverse(formsMerged);
         return formsMerged;
     }
 

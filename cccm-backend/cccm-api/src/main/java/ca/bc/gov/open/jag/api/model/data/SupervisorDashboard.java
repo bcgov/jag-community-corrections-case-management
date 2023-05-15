@@ -7,6 +7,7 @@ public class SupervisorDashboard {
     private Integer activeAdmin;
     private Integer adminClosed;
     private Integer bAL;
+    private Integer sent;
     private Integer high;
     private Integer medium;
     private Integer low;
@@ -109,5 +110,13 @@ public class SupervisorDashboard {
 
     public void setIdirId(String idirId) {
         this.idirId = idirId;
+    }
+
+    public Integer getSent() {
+        return sent;
+    }
+
+    public void setSent(Integer sent) {
+        this.sent = sent;
     }
 }

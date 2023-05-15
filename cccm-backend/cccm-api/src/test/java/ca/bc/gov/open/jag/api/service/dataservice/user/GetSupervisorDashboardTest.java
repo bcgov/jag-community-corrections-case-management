@@ -50,6 +50,7 @@ public class GetSupervisorDashboardTest {
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getUnknown());
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getOverdue());
         Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getBal());
+        Assertions.assertEquals(new BigDecimal(INT_TEST), result.get(0).getSen());
 
     }
 
@@ -62,6 +63,7 @@ public class GetSupervisorDashboardTest {
         supervisorDashboard.setActiveReports(INT_TEST);
         supervisorDashboard.setAdminClosed(INT_TEST);
         supervisorDashboard.setbAL(INT_TEST);
+        supervisorDashboard.setSent(INT_TEST);
         supervisorDashboard.setHigh(INT_TEST);
         supervisorDashboard.setMedium(INT_TEST);
         supervisorDashboard.setLow(INT_TEST);
