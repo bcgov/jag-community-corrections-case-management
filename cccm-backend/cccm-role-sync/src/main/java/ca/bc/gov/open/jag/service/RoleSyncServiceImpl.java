@@ -143,7 +143,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 role = Keys.ADMIN;
                 break;
             case RESEARCHER:
-                role = RESEARCHER;
+                role = Keys.RESEARCHER;
                 break;
             case ITRP:
                 role = Keys.ITRP;
