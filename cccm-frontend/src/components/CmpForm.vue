@@ -198,38 +198,24 @@ export default {
       }
     },
     isReadonly(response) {
-      //console.log("readonly check: ", response);
-      // When form is locked, readonly is false if login user is sys admin, true otherwise
-      if (response.locked) {
-        if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN) {
-          if (response.complete) {
-            return true;
-          }
-          return false;
-        } 
+      // When form is completed, set readonly to true
+      if (response.complete) {
         return true;
-      } else {
-        // Edge case: if user doesn't have idirId, output a warning, and set readonly to true
-        if (response.createdByIdir == null) {
-          console.warn("The login user doesn't have idirId, set the access to readonly.");
-          return true;
-        }
-
-        // When form is unlocked, readonly is true when:
-        // 1. the form was created by someone else; OR
-        // 2. the form is completed
-        let isReadonly = false;
-        if (response.createdByIdir != null && response.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
-          isReadonly = response.complete;
-        } else {
-          isReadonly = true;
-          if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
-              !response.complete) {
-              isReadonly = false;
-          }
-        }
-        return isReadonly;
       }
+
+      // when form is locked and the user if not admin, set readonly to true
+      if (response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN) {
+        return true;
+      }
+
+      // when form is not locked and the user if not admin nor owner, set readonly to true
+      if (!response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN && 
+           response.createdByIdir != null && 
+           response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        return true;
+      }
+
+      return false;
     },
     async getClientFormDetailsAPI(csNum, clientFormId) {
       const [error, response] = await getClientFormDetails(csNum, clientFormId);

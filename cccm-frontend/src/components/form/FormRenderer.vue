@@ -330,24 +330,21 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
-    isShowDeleteButton() {
-      // Edge case: if user doesn't have idirId, output a warning, and hide the delete button
-      if (this.createdByIdir == null) {
-        console.warn("The login user doesn't have idirId, hide the delete button.");
-        return false;
-      }
-
-      // Show delete btn is login user is sys admin or login user is the form owner
+    isShowDeleteButton(completeDate) {
+      // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+       (this.createdByIdir != null && 
+        this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
+        completeDate == null && !this.locked)) {
         return true;
       }
+      
       return false;
     },
     isShowEditButton(completeDate) {
-      // When form is locked, hide edit button 
+      // When form is locked, show edit button if the form is completed and user is admin
       if (this.locked) {
-        if (completeDate != null) {
+        if (completeDate != null && this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN) {
           return true;
         }
         return false;
@@ -358,20 +355,13 @@ export default {
           return false;
         }
         
-        // Show edit button when:
-        // 1. The user is an admin
-        // 2. The user is the one who created the form
-        let showEditBtn = false;
-        if (this.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
-          showEditBtn = false;
-          if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
-            completeDate != null) {
-            showEditBtn = true;
-          } 
-        } else {
-          showEditBtn = completeDate != null;
-        }
-        return showEditBtn;
+        // Form is unlocked, show edit button when the form is completed and the user is an admin or the form owner
+        if (completeDate != null && 
+            (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
+             this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
+          return true; 
+        } 
+        return false;
       }
     },
     async getClientAndFormMeta() {
@@ -399,7 +389,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton();
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.completedDate);
         this.submitBtnData.data.readonly = this.readonly;
         
         // Client profile search.
