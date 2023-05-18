@@ -330,18 +330,15 @@ export default {
         console.error("Failed unset complete status", error);
       } 
     },
-    isShowDeleteButton() {
-      // Edge case: if user doesn't have idirId, output a warning, and hide the delete button
-      if (this.createdByIdir == null) {
-        console.warn("The login user doesn't have idirId, hide the delete button.");
-        return false;
-      }
-
-      // Show delete btn is login user is sys admin or login user is the form owner
+    isShowDeleteButton(completeDate) {
+      // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
-          this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+       (this.createdByIdir != null && 
+        this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
+        completeDate == null && !this.locked)) {
         return true;
       }
+      
       return false;
     },
     isShowEditButton(completeDate) {
@@ -392,7 +389,7 @@ export default {
 
         // set submitBtnData
         this.submitBtnData = {"data": {}};
-        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton();
+        this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.completedDate);
         this.submitBtnData.data.readonly = this.readonly;
         
         // Client profile search.
