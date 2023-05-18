@@ -198,25 +198,23 @@ export default {
       }
     },
     isReadonly(response) {
-      //console.log("readonly check: ", response);
-      // When form is locked, always readonly
-      if (response.locked) {
-        return true;
-      } 
-      // Edge case: if user doesn't have idirId, output a warning, and set readonly to true
-      if (response.createdByIdir == null) {
-        console.warn("The login user doesn't have idirId, set the access to readonly.");
+      // When form is completed, set readonly to true
+      if (response.complete) {
         return true;
       }
 
-      // When form is unlocked, readonly is true when:
-      // 1. the form was created by someone else; OR
-      // 2. the form is completed
-      if (response.createdByIdir != null && response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+      // when form is locked and the user if not admin, set readonly to true
+      if (response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN) {
         return true;
-      } else {
-        return response.complete;
       }
+
+      // when form is not locked and the user if not admin nor owner, set readonly to true
+      if (!response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN && 
+           response.createdByIdir != null && 
+           response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+        return true;
+      }
+
       return false;
     },
     async getClientFormDetailsAPI(csNum, clientFormId) {
