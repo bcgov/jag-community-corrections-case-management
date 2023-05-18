@@ -345,34 +345,11 @@ export default {
       return false;
     },
     isShowEditButton(completeDate) {
-      // When form is locked, hide edit button 
-      if (this.locked) {
-        if (completeDate != null) {
+      // When form is locked, only show edit button if the user is an admin, otherwise hide edit button 
+      if (this.locked && this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN) {
           return true;
-        }
-        return false;
-      } else {
-        // Edge case: if user doesn't have idirId, output a warning, and hide the edit button
-        if (this.createdByIdir == null) {
-          console.warn("The login user doesn't have idirId, hide the edit button.");
-          return false;
-        }
-        
-        // Show edit button when:
-        // 1. The user is an admin
-        // 2. The user is the one who created the form
-        let showEditBtn = false;
-        if (this.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
-          showEditBtn = false;
-          if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN &&
-            completeDate != null) {
-            showEditBtn = true;
-          } 
-        } else {
-          showEditBtn = completeDate != null;
-        }
-        return showEditBtn;
       }
+      return false;
     },
     async getClientAndFormMeta() {
       // ClientForm Meta data search.
