@@ -110,6 +110,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
             }
         }
         //Any user left should be removed from group
+        logger.info("Role feature is {}", removeRole);
         if (removeRole) {
             for (UserRepresentation user : users) {
                 logger.info("removing user {} from group {}", user.getUsername(), representation.getName());

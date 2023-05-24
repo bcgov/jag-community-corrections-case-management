@@ -14,14 +14,12 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.json.JsonObject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -186,7 +184,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             if (clientFormSummary.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) {
                 ValidationResult result = validationService.validateStatic99r(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId()));
                 if (!result.getErrors().isEmpty()) {
-                    throw new CCCMException("Static 99r form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                    throw new CCCMException("STAT99R form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
                 requiresNew = requiresNewForm(updateForm, clientFormSummary, location);
             }
