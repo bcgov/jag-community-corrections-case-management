@@ -1,11 +1,11 @@
 <template>
-    <!--Case plan section-->
+    <!--Dynamic section-->
     <div>
-        <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading case plan</v-progress-linear>
+        <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading data</v-progress-linear>
         <Form v-if="!loading" 
-          :key="keyCaseplan" 
+          :key="keyDSection" 
           :form="dataModel" 
-          :submission="initData" 
+          :submission="formInitData" 
           v-on:change="handleChangeEvent" 
           v-on:blur="handleBlurEvent" 
           :options="options"/>
@@ -15,15 +15,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getCasePlanIntervention } from "@/components/form.api";
+import { updateForm, loadFormData } from "@/components/form.api";
 import { useStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
 
 export default {
-  name: 'FormCasePlan',
+  name: 'FormDataRefreshSection',
   props: {
     dataModel: {},
-    initData: {},
     clientFormId: 0,
     csNumber: '',
     options: {},
@@ -44,11 +43,9 @@ export default {
   },
   data() {
     return {
-      keyCaseplan: 0,
+      keyDSection: 0,
       loading: false,
-      autoSaveData: {},
-      autoSaveDataCandidate: {},
-      saving: false,
+      formInitData: {}
     }
   },
   mounted() {
@@ -56,29 +53,25 @@ export default {
     this.autosaveStore.setClientNumber(this.csNumber);
     this.autosaveStore.setFormId(this.clientFormId);
 
-    // fetch interventions 
-    this.getCasePlanInterventionAPI();
-    //console.log("caseplan options: ", this.options);
+    // fetch form data
+    this.loadFormData();
   },
   methods: {
-    async getCasePlanInterventionAPI() {
-        this.loading = true;
-        const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
-        if (error) {
-            console.error(error);
-        } else {
-            this.loading = false;
-            // add Intervention data to the initData; refresh the page to show it
-            this.initData.data.interventions = interventionData;
-            //console.log("interventionData; ", this.initData.data.interventions);
-            this.keyCaseplan++;
-        }
+    async loadFormData() {
+      this.loading = true;
+      const [error, clientFormData] = await loadFormData(this.csNumber, this.clientFormId);
+      if (error) {
+        console.error(error);
+      } else {
+        this.loading = false;
+        this.formInitData = clientFormData;
+        this.keyDSection++;
+      }
     },
     handleChangeEvent(event) {
-      this.autosaveStore.handleChangeEvent(event, true);
+      this.autosaveStore.handleChangeEvent(event, false);
     },
     handleBlurEvent(event) {
-      //console.log("From blur event, this.autoSaveDataCandidate: ", this.autoSaveDataCandidate);
       this.autosaveStore.autoSave();
     }
   },

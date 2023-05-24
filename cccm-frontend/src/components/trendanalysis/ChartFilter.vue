@@ -190,7 +190,7 @@ export default {
             console.error(error);
 
           } else {
-            console.log("Got data %o", data);
+            //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
 
             // Get counters
@@ -295,7 +295,7 @@ export default {
             
             if(this.selectedFactors != null && this.selectedFactors.length > 0) {
               for(let i = 0; i < this.selectedFactors.length; i++) {
-                for(let j = 0; i < storedDatasets.length; j++) {
+                for(let j = 0; j < storedDatasets.length; j++) {
                   if(this.selectedFactors[i] == storedDatasets[j].source) {
                     filteredDatasets.push(storedDatasets[j]);
                     break;
@@ -305,7 +305,7 @@ export default {
 
             } else {
               for(let i = 0; i < this.store.factors.length; i++) {
-                for(let j = 0; i < storedDatasets.length; j++) {
+                for(let j = 0; j < storedDatasets.length; j++) {
                   if(this.store.factors[i].value == storedDatasets[j].source) {
                     filteredDatasets.push(storedDatasets[j]);
                     break;
