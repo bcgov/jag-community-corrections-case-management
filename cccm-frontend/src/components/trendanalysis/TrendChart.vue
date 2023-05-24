@@ -50,7 +50,13 @@ export default {
     tooltipEl.remove();
   },
 
+  beforeDestroy: function () {
+    this.$el.removeEventListener('click', this.documentEventListener)
+  },
+
   mounted() {
+    this.$el.addEventListener('click', this.documentEventListener)
+
     let ctx = document.getElementById('justiceChart');
     let vm = this;
     if (this.store && this.store.filteredData) {
@@ -111,38 +117,6 @@ export default {
     }
     Chart.register(...registerables, linePlugin);
 
-    // const drawCustomTooltip = (evt,point, chart) => {
-    //
-    //   let ctx = document.getElementById('justiceChart');
-    //
-    //   let tooltipEl = document.getElementById('chartjs-tooltip');
-    //   if (!tooltipEl) {
-    //     console.log("Drawing tooltip at %o %o %o %o %o",ctx, evt, point, chart, this);
-    //     console.log("Drawing %d %d", evt.native.offsetY, evt.native.offsetX);
-    //
-    //     console.log("location %o", point);
-    //     tooltipEl = document.createElement('div');
-    //     tooltipEl.style.backgroundColor = "white";
-    //     tooltipEl.style.border = "1px black solid";
-    //     tooltipEl.style.padding = "8px";
-    //     tooltipEl.style.borderRadius = "5px";
-    //     tooltipEl.style.width = "100px";
-    //     tooltipEl.style.zIndex = "999";
-    //     tooltipEl.style.height = "100px";
-    //     tooltipEl.style.boxShadow = "5px 5px 5px black";
-    //     tooltipEl.style.position = "absolute";
-    //     tooltipEl.style.top = evt.native.clientY;
-    //     tooltipEl.style.left = evt.native.clientX;
-    //     tooltipEl.id = 'chartjs-tooltip';
-    //     tooltipEl.innerHTML = '<table>Tooltip ' + evt.y + ',' + evt.x  + '</table>';
-    //     tooltipEl.addEventListener('mouseout', function handleClick(event) {
-    //         console.log("Hiding tooltip %o", event);
-    //      // tooltipEl.remove();
-    //     });
-    //     document.body.appendChild(tooltipEl);
-    //   }
-    // }
-
     new Chart(ctx, {
       type: 'line',
       lineAtIndex: [2, 4, 8],
@@ -152,26 +126,24 @@ export default {
         datasets: {
           line: 5
         },
-        // onHover: (evt, chartElement, chart) => {
-        //   let point = chart.getElementsAtEventForMode(evt, 'point', {
-        //     intersect: true
-        //   }, true);
-        //   if (point.length > 0) {
-        //     drawCustomTooltip(evt,point, this);
-        //   }
-        // },
-        // onClick: (evt, el, chart) => {
-        //
-        //   let point = chart.getElementsAtEventForMode(evt, 'point', {
-        //     intersect: true
-        //   }, true);
-        //
-        //   console.log("Point %o", point[0]);
-        //   console.log('Mode point list: ', chart.data.datasets[point[0].datasetIndex].label, chart.data.datasets[point[0].datasetIndex].data[point[0].index]);
-        //   console.log("X value %s", chart.data.labels[point[0].index]);
-        //   this.$store.commit('updatePointDateSelected', chart.data.labels[point[0].index]);
-        //
-        // },
+        onClick: (evt, el, chart) => {
+        
+          let pointArray = chart.getElementsAtEventForMode(evt, 'point', {
+            intersect: false
+            , includeInvisible: true
+          }, true);
+
+          console.log("Point %o", pointArray);
+        
+          if(pointArray == null || pointArray.length == 0) {
+            // Hijacking touchmove event
+            let mouseOutEvent = new MouseEvent('touchmove');
+            console.log("mouseOutEvent %o", mouseOutEvent);
+            return chart.canvas.dispatchEvent(mouseOutEvent);
+          }
+          
+        
+        },
         elements: {
           point: {
             pointStyle: 'rectRounded',
@@ -182,8 +154,11 @@ export default {
         plugins: {
           tooltip: {
             enabled: false,
+            events: ['touchmove', 'click'],
 
             external: function (context) {
+
+              //console.log("tooltip->external: %o", context);
               // Tooltip Element
               let tooltipEl = document.getElementById('chartjs-tooltip');
 
@@ -200,11 +175,16 @@ export default {
                 document.body.appendChild(tooltipEl);
               }
 
-              // Keep the tooltip visible
+              
               const tooltipModel = context.tooltip;
               if (tooltipModel.opacity === 0) {
-                tooltipEl.style.opacity = 1;
+                // Hide if tooltip to be hidden
+                tooltipEl.style.opacity = 0;
+
                 return;
+              } else if (tooltipModel.opacity === 1) {
+                // Keep the tooltip visible
+                tooltipEl.style.opacity = 1;
               }
 
               // Set caret Position
@@ -316,19 +296,24 @@ export default {
   },
 
   methods: {
-
-
-
-
     updateChart(data) {
       if (data) {
 
         const chart = Chart.getChart("justiceChart");
         if (chart) {
-
+          let tooltipEl = document.getElementById('chartjs-tooltip');
+          if(tooltipEl != null && tooltipEl.style != null) {
+            tooltipEl.style.opacity = 0;
+          }
           chart.data = data;
           chart.update();
         }
+      }
+    },
+     documentEventListener: function(ev) {
+      let tooltipEl = document.getElementById('chartjs-tooltip');
+      if(tooltipEl != null && tooltipEl.style != null) {
+        tooltipEl.style.opacity = 0;
       }
     }
   }

@@ -135,12 +135,9 @@
             <div :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
-                :pageRefreshSectionIndex="pageRefreshSectionIndex"
-                :continueEmitParentNavClicked="continueEmitParentNavClicked"
                 :parentNavMoveToNext="parentNavMoveToNext"
                 :parentNavJumpToPointed="parentNavJumpToPointed"
-                @parentNavClicked="handleNavChildCallback"
-                @refreshPage="handleRefreshPage"/>
+                @parentNavClicked="handleNavChildCallback"/>
             </div>
           </div>
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
@@ -156,6 +153,13 @@
               @formDataCollected="validateAndCompleteForm"
               :formType="formType" />   
       
+            <FormDataRefreshSection v-if="pageRefreshSectionIndex != '' && displayDSection" 
+              :dataModel="dynamicSectionModel" 
+              :initData="formInitData"
+              :clientFormId="formId"
+              :csNumber="csNumber"
+              :options="options"/>
+
             <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
               :dataModel="casePlanDataModel" 
               :initData="formInitData"
@@ -212,6 +216,7 @@ import FormioButtonGroupSide from "@/components/common/FormioButtonGroupSide.vue
 import FormioButtonGroupSubmit from "@/components/common/FormioButtonGroupSubmit.vue";
 import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
+import FormDataRefreshSection from '@/components/form/formSections/FormDataRefreshSection.vue';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
@@ -238,7 +243,8 @@ export default {
     FormioButtonGroupSide,
     FormioButtonGroupSubmit,
     FormSummary,
-    FormCaseplan
+    FormCaseplan,
+    FormDataRefreshSection
   },
   data() {
     return {
@@ -277,9 +283,10 @@ export default {
       isContainCasePlan: false,
       isContainSummary: false,
       errorKey: 0,
-      continueEmitParentNavClicked: true,
       pageRefreshSectionIndex: '',
-      sendData: 0
+      sendData: 0,
+      dynamicSectionModel: {"display": "form", "components": []},
+      displayDSection: false,
     }
   },
   mounted(){
@@ -292,6 +299,7 @@ export default {
     let configuredFormInfo = this.$FORM_INFO.filter( item => item.formType === this.formType );
     if (configuredFormInfo != null && configuredFormInfo[0] != null) {
       this.theFormConfig = configuredFormInfo[0];
+      this.pageRefreshSectionIndex = this.theFormConfig.dataRefreshSectionIndex;
     } 
     
     // set sideBtnData
@@ -384,7 +392,6 @@ export default {
           this.formInfoData.data.formTitle = this.theFormConfig.formTitle;
           this.formInfoData.data.assessmentStatusRequired = this.theFormConfig.assessmentStatusRequired;
           this.formInfoData.data.formTypeLabel = this.theFormConfig.formTypeLabel;
-          this.pageRefreshSectionIndex = this.theFormConfig.dataRefreshSectionIndex;
         }
 
         // set submitBtnData
@@ -439,6 +446,11 @@ export default {
             this.data_formEntries.components[this.totalNumParentNav - 2].components = [];
             //console.log("this.data_formEntries:", this.data_formEntries);
           }
+          if (this.pageRefreshSectionIndex != '') {
+            const clone = JSON.parse(JSON.stringify(this.data_formEntries.components[this.pageRefreshSectionIndex].components));
+            this.dynamicSectionModel.components = clone;
+            this.data_formEntries.components[this.pageRefreshSectionIndex].components = [];
+          }
         }
 
         // Load form data
@@ -470,7 +482,8 @@ export default {
       // update the displaySummary flag to hide summary panel
       this.displaySummary = false;
       this.displayCasePlan = false;
-      
+      this.displayDSection = false;
+
       // navigate to the pointed section, 
       // parentNavJumpToPointed_sufix is used to ensure the value of parentNavJumpToPointed is different each time,
       // so it reactively refreshes the FormNavigation component
@@ -519,6 +532,9 @@ export default {
         if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
           this.displayCasePlan = true;
         } 
+        if (this.parentNavCurLocation == this.pageRefreshSectionIndex) {
+          this.displayDSection = true;
+        }
         this.parentNavMoveToNext++;
       }
 
@@ -532,24 +548,22 @@ export default {
       //console.log("Delete Form btn clicked");
       this.showDeleteDialog();
     },
-    handleRefreshPage() {
-      //console.log("force page refresh");
-      this.componentKey++;
-      this.continueEmitParentNavClicked = false;
-      setTimeout(() => {
-        this.navToSectionAndQuestion(this.pageRefreshSectionIndex, 1);
-      }, 1);
-    },
     handleNavChildCallback(parentNavCurLocationFromChild) {
       this.parentNavCurLocation = parentNavCurLocationFromChild;
       this.displaySummary = false;
       this.displayCasePlan = false;
-      this.continueEmitParentNavClicked = true;
-
+      this.displayDSection = false;
+      
       // User clicked 'Case plan' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 2) {
         this.displayCasePlan = true;
       }
+
+      // User clicked on configured dynamic section from the navigation panel
+      if (this.parentNavCurLocation == this.pageRefreshSectionIndex) {
+        this.displayDSection = true;
+      }
+
       // User clicked 'Summary' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
         this.displaySummary = true;
