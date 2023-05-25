@@ -36,6 +36,12 @@ export const useStore = defineStore('main', {
         getLoginUserGroup() {
             if (this.loginUserGroup == null) {
                 this.loginUserGroup = ''
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_RESEARCHER
+                }
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
+                }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_PO)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_PO;
                 }
@@ -44,12 +50,6 @@ export const useStore = defineStore('main', {
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN
-                }
-                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
-                }
-                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_RESEARCHER
                 }
             }
         },
