@@ -171,7 +171,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
         try {
 
-            Data data = cssssoApiService.getIdirUsers(env, user.getFirstName(), user.getLastName());
+            Data data = cssssoApiService.getIdirUsers(env, truncateName(user.getFirstName()), user.getLastName());
 
             return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get(SSO_IDIR_USERNAME_KEY).get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
 
@@ -179,6 +179,14 @@ public class RoleSyncServiceImpl implements RoleSyncService {
             logger.error("Error getting idir information {}", e.getMessage());
             return null;
         }
+    }
+
+    private String truncateName(String name) {
+
+        if (name == null || name.length() <= 2) return name;
+
+        return name.substring(0,1);
+
     }
 
 }
