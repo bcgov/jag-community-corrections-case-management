@@ -81,7 +81,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 } else {
                     keyCloakUser.get().setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 }
-                if (keyCloakUser.get().getFederatedIdentities() != null && keyCloakUser.get().getFederatedIdentities().isEmpty()) {
+                if (keyCloakUser.get().getFederatedIdentities() == null || keyCloakUser.get().getFederatedIdentities().isEmpty()) {
                     IdirUser idirUser = getIdirUser(user);
                     keyCloakUser.get().setFirstName(idirUser.getFirstName());
                     keyCloakUser.get().setLastName(idirUser.getLastName());
