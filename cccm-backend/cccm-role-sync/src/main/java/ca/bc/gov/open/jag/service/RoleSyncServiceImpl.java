@@ -79,16 +79,35 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 if (keyCloakUser.get().getAttributes() != null) {
                     keyCloakUser.get().getAttributes().putIfAbsent(ORACLE_ID, Collections.singletonList(user.getOracleId()));
                 } else {
-                    keyCloakUser.get().setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
+                    keyCloakUser.get().setAttributes(new HashMap<String, List<String>>() {{
+                        put(ORACLE_ID, Collections.singletonList(user.getOracleId()));
+                    }});
                 }
-                if (keyCloakUser.get().getFederatedIdentities() == null || keyCloakUser.get().getFederatedIdentities().isEmpty()) {
+
+                List<FederatedIdentityRepresentation> usersIdp = keycloak.realm(realm).users().get(keyCloakUser.get().getId()).getFederatedIdentity();
+                if (usersIdp == null || usersIdp.isEmpty()) {
                     IdirUser idirUser = getIdirUser(user);
-                    keyCloakUser.get().setFirstName(idirUser.getFirstName());
-                    keyCloakUser.get().setLastName(idirUser.getLastName());
-                    keyCloakUser.get().setEmail(idirUser.getEmail());
-                    keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                    if (idirUser != null) {
+                        keyCloakUser.get().setFirstName(idirUser.getFirstName());
+                        keyCloakUser.get().setLastName(idirUser.getLastName());
+                        keyCloakUser.get().setEmail(idirUser.getEmail());
+                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                    }
                 }
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
+            } else if (keyCloakUser.isPresent()) {
+                List<FederatedIdentityRepresentation> usersIdp = keycloak.realm(realm).users().get(keyCloakUser.get().getId()).getFederatedIdentity();
+                if (usersIdp == null || usersIdp.isEmpty()) {
+                    logger.info("Mapping user with missing idp");
+                    IdirUser idirUser = getIdirUser(user);
+                    if (idirUser != null) {
+                        keyCloakUser.get().setFirstName(idirUser.getFirstName());
+                        keyCloakUser.get().setLastName(idirUser.getLastName());
+                        keyCloakUser.get().setEmail(idirUser.getEmail());
+                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                        keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
+                    }
+                }
             } else if (keyCloakUser.isEmpty()) {
                 //Add user
                 logger.info("creating user {} and adding to group {}", user.getIdirId(), representation.getName());
