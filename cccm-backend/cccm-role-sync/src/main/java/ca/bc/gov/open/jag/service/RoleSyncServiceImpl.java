@@ -204,7 +204,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
         if (name == null || name.length() <= 2) return name;
 
-        return name.substring(0,1);
+        return name.substring(0,2);
 
     }
 
