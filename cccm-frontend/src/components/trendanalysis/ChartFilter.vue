@@ -193,16 +193,18 @@ export default {
             //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
 
+            this.minStartDate = data.startDateRange; 
+            this.maxEndDate = data.endDateRange;
+              
+
             // Get counters
             let commentCount = data.counters.comments ? data.counters.comments : 0;
             let interventionCount = data.counters.interventions ? data.counters.interventions : 0;
 
             if (xSeries.length !== 0) {
 
-              this.maxEndDate = xSeries[xSeries.length - 1];
-              this.minStartDate = xSeries[0];
               // patch the pinia store
-              this.store.$patch({ data: data, minStartDate: xSeries[0], maxEndDate: xSeries[xSeries.length - 1], interventionCount: 0, commentCount: 0, startDate: this.minStartDate, endDate: this.maxEndDate });
+              this.store.$patch({ data: data, minStartDate: this.minStartDate, maxEndDate: this.maxEndDate, interventionCount: 0, commentCount: 0, startDate: this.minStartDate, endDate: this.maxEndDate });
               if (!this.userStartDate) {
                 this.userStartDate = this.minStartDate;
               }
