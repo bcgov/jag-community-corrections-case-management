@@ -2879,6 +2879,10 @@ components:
           additionalProperties:
             type: integer
             format: int64
+        startDateRange:
+          type: string
+        endDateRange:
+          type: string
         dataLabels:
           type: array
           items:
