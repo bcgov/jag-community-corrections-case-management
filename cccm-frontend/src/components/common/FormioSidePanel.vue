@@ -3,7 +3,8 @@
       :form="formJSON" 
       :submission="dataModel" 
       :options="options"
-      @evt_changeButtonLabel="changeButtonLabel"/>
+      @evt_changeButtonLabel="changeButtonLabel"
+      @evt_cancelButtonLabel="changeButtonLabel"/>
 </template>
 
 <script lang="ts">
@@ -24,7 +25,8 @@ export default {
       KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
       templatePanel : templatePanel,
       formJSON : {},
-      formKey: 0
+      formKey: 0,
+      preVal: ''
     }
   },
   components: {
@@ -32,6 +34,9 @@ export default {
   },
   mounted(){
     this.buildFormData();
+    if (this.dataModel != null && this.dataModel.data != null) {
+      this.preVal = this.dataModel.data.input_key_sourceContacted;
+    }
   },
   methods: {
     buildFormData() {
@@ -41,14 +46,19 @@ export default {
       this.formJSON = tmpJSON;
     },
     async changeButtonLabel(evt) {
+      if (evt != null && evt.type === "evt_cancelButtonLabel") {
+        this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
+        this.dataModel.data.input_key_sourceContacted = this.preVal;
+        this.formKey++;
+      }
       if (evt != null && evt.type === "evt_changeButtonLabel" ) {
         this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
         this.formKey++;
 
         // Time to save
         if (this.dataModel.data.hideSCInput) {
-          // Save button clicked, call API to save the data
           let newVal = evt.data[this.KEY_SOURCESCONTACTED];
+          this.preVal = newVal;
           let sourcesContacted = {};
           sourcesContacted[this.KEY_SOURCESCONTACTED] = newVal;
           const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
