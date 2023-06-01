@@ -13,6 +13,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LinkFormInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -385,9 +386,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         List<ClientFormSummary> formSummaryList = obridgeClientService.getClientForms(updateForm.getUpdateFormInput().getClientNumber(), true, currentForm.getModule(), new BigDecimal(location));
 
         Optional<ClientFormSummary> lastForm = formSummaryList.stream()
+                .filter(summary -> summary != null && summary.getCompletedDate() != null)
                 .max(Comparator.comparing(ClientFormSummary::getCompletedDate));
 
-        return (lastForm.isPresent() && !currentForm.getSupervisionRating().equals(lastForm.get().getSupervisionRating()));
+        return (lastForm.isPresent() && !StringUtils.equals(currentForm.getSupervisionRating(), lastForm.get().getSupervisionRating()));
 
     }
 
