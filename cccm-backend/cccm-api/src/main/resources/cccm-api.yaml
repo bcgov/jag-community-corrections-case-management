@@ -2444,6 +2444,9 @@ components:
         completedDate:
           type: string
           format: date
+        osuUpdateDate:
+          type: string
+          format: date
         createdBy:
           type: string
         createdByIdir:
@@ -2967,4 +2970,3 @@ components:
           type: string
         poName:
           type: string
-

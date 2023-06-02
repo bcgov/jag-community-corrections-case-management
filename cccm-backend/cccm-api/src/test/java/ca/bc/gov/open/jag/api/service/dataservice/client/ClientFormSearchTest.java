@@ -164,7 +164,7 @@ public class ClientFormSearchTest {
         form1.setId(BigDecimal.ONE);
         form1.setCreatedDate(LocalDate.now().minusDays(61));
         form1.setRelatedClientFormId(BigDecimal.TEN);
-        form1.setUpdatedDate(LocalDate.now());
+        form1.setOsuUpdateDate(LocalDate.now());
         form1.setSupervisionRating(HIGH);
         form1.getRatings().put("CRNA", HIGH);
         form1.setModule("CRNA");
@@ -172,7 +172,7 @@ public class ClientFormSearchTest {
         ClientFormSummary form2 = new ClientFormSummary();
         form2.setId(BigDecimal.TEN);
         form2.setRelatedClientFormId(BigDecimal.ONE);
-        form2.setUpdatedDate(LocalDate.now().minusDays(1));
+        form2.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form2.setSupervisionRating(MEDIUM);
         form2.getRatings().put("SARA", MEDIUM);
         form2.setModule("SARA");
@@ -184,7 +184,7 @@ public class ClientFormSearchTest {
         ClientFormSummary form4 = new ClientFormSummary();
         form4.setId(BigDecimal.valueOf(123));
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
-        form4.setUpdatedDate(LocalDate.now());
+        form4.setOsuUpdateDate(LocalDate.now());
         form4.setSupervisionRating(MEDIUM);
         form4.getRatings().put("SARA", MEDIUM);
         form4.setModule("SARA");
@@ -192,21 +192,21 @@ public class ClientFormSearchTest {
         ClientFormSummary form5 = new ClientFormSummary();
         form5.setId(BigDecimal.valueOf(321));
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
-        form5.setUpdatedDate(LocalDate.now().minusDays(1));
+        form5.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form5.setSupervisionRating(LOW);
         form5.getRatings().put("CRNA", LOW);
         form5.setModule("CRNA");
 
         ClientFormSummary form6 = new ClientFormSummary();
         form6.setId(BigDecimal.valueOf(321));
-        form6.setUpdatedDate(LocalDate.now().minusDays(1));
+        form6.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form6.setSupervisionRating(LOW);
         form6.getRatings().put("ACUTE", LOW);
         form6.setModule("ACUTE");
 
         ClientFormSummary form7 = new ClientFormSummary();
         form7.setId(BigDecimal.valueOf(321));
-        form7.setUpdatedDate(LocalDate.now().minusDays(1));
+        form7.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form7.setSupervisionRating(LOW);
         form7.getRatings().put("STAT99R", LOW);
         form7.setModule("STAT99R");
