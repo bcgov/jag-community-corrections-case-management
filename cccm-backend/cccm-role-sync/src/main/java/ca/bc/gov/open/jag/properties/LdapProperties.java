@@ -1,13 +1,20 @@
 package ca.bc.gov.open.jag.properties;
 
 import org.eclipse.microprofile.config.inject.ConfigProperties;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-@ConfigProperties(prefix = "cccm.ldap")
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class LdapProperties {
 
+    @ConfigProperty(name = "cccm.ldap.username")
     private String username;
+    @ConfigProperty(name = "cccm.ldap.password")
     private String password;
+    @ConfigProperty(name = "cccm.ldap.server")
     private String server;
+    @ConfigProperty(name = "cccm.ldap.organization")
     private String organization;
 
 

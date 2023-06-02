@@ -13,6 +13,6 @@ public class Keys {
     public static String IDIR_IDP = "idir";
     public static String SSO_IDIR_USERNAME_KEY = "idir_username";
 
-    public static String IDIR_FILTER = "(&(objectClass=person)(cn={0}))";
+    public static String IDIR_FILTER = "(&(objectCategory=person)(objectClass=user)(sAMAccountName={0}))";
 
 }

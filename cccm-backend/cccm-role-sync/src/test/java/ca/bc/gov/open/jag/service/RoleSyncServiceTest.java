@@ -44,12 +44,15 @@ public class RoleSyncServiceTest {
     @Mock
     UsersResource usersResourceMock;
 
+    @Mock
+    LdapService ldapServiceMock;
+
     @BeforeEach
     public void setup() {
 
         MockitoAnnotations.openMocks(this);
 
-        sut = new RoleSyncServiceImpl(cccmApiServiceMock, cssssoApiServiceMock, keycloakMock, "REALM", true, "test");
+        sut = new RoleSyncServiceImpl(cccmApiServiceMock, cssssoApiServiceMock, keycloakMock, "REALM", true, "test", ldapServiceMock);
 
     }
 
