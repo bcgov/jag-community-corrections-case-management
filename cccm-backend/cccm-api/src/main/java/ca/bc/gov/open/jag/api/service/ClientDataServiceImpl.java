@@ -229,7 +229,7 @@ public class ClientDataServiceImpl implements ClientDataService {
             }
         }
         //Add sorting on update date when implemented
-        formsMerged.sort(Comparator.comparing(ClientFormSummary::getCreatedDate, Comparator.nullsFirst(Comparator.naturalOrder())));
+        formsMerged.sort(Comparator.comparing(ClientFormSummary::getOsuUpdateDate, Comparator.nullsFirst(Comparator.naturalOrder())));
         Collections.reverse(formsMerged);
         return formsMerged;
     }
