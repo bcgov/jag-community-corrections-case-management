@@ -80,6 +80,12 @@ export const useStore = defineStore('main', {
             }
             return false;
         },
+        isShowTrendAnalysis() {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_TREND)) {
+                return true;
+            }
+            return false;
+        },
         getSupportedFormTypes() {
             if (this.supportedFormTypes.length > 0) {
                 return this.supportedFormTypes;
