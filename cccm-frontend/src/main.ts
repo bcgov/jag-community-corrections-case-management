@@ -63,6 +63,7 @@ Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
 Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
+Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },

@@ -23,14 +23,14 @@
         </div>
       </div>
     </section>
-    <section class="pr-4 pl-4">
+    <section :key="tabKey" class="pr-4 pl-4">
       <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.tab" :href="'#tab-' + item.id"> 
+        <v-tab v-for="item in showTabs" :key="item.tab" :href="'#tab-' + item.id"> 
           {{ item.tab }}
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="current_tab">
-        <v-tab-item v-for="item in items" :key="item.tab" :id="'tab-' + item.id">
+        <v-tab-item v-for="item in showTabs" :key="item.tab" :id="'tab-' + item.id">
           <div v-if="item.id === 'cp'" class="p-4">
             <section class="mb-3">
               <v-row :key="theKey" class="row">
@@ -59,7 +59,7 @@
             <Form :form="formJSON" :submission="initData"/>
           </div>
           <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient" :SMOClient="SMOClient"></RNAListView>
-          <TrendAnalysisView v-if="item.id === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
+          <TrendAnalysisView v-if="showTrendAnalysis && item.id === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
           <span v-else> </span>
         </v-tab-item>
       </v-tabs-items>
@@ -75,6 +75,8 @@ import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
 import TrendAnalysisView from "@/components/trendanalysis/TrendAnalysisView.vue";
 import templateClientProfile from '@/components/common/templateClientProfile.json';
+import {useStore} from "@/stores/store";
+import {mapStores} from 'pinia';
 
 export default {
   name: "FormioClientRecord",
@@ -84,10 +86,15 @@ export default {
       CONST_DESIGNATION_IPV: 'ipv',
       CONST_DESIGNATION_SMO: 'smo',
       theKey: 0,
+      tabKey: 0,
       current_tab: 'tab-cp',
       items: [
           { tab: 'Community Profile', id: 'cp' },
           { tab: 'Trend Analysis', id: 'ta' },
+          { tab: 'RNA List', id: 'rl' }
+        ],
+      items_noTrend: [
+          { tab: 'Community Profile', id: 'cp' },
           { tab: 'RNA List', id: 'rl' }
         ],
       initData: {"data": {}},
@@ -168,6 +175,18 @@ export default {
     }
   },
   computed: {
+    showTrendAnalysis() {
+      return this.mainStore.isShowTrendAnalysis();
+    },
+    showTabs() {
+      if (this.mainStore.isShowTrendAnalysis()) {
+        return this.items;
+      }
+      return this.items_noTrend;
+    },
+    // note we are not passing an array, just one store after the other
+    // each store will be accessible as its id + 'Store', i.e., mainStore
+    ...mapStores(useStore),
     getNumOfAlerts() {
       let numAlerts = 0;
       if (this.initData != null && this.initData.data != null && this.initData.data.communityAlerts != null) {
