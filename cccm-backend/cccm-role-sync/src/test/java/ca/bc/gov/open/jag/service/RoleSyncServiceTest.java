@@ -30,9 +30,6 @@ public class RoleSyncServiceTest {
     CCCMApiService cccmApiServiceMock;
 
     @Mock
-    CSSSSOApiService cssssoApiServiceMock;
-
-    @Mock
     Keycloak keycloakMock;
 
     @Mock
@@ -52,7 +49,7 @@ public class RoleSyncServiceTest {
 
         MockitoAnnotations.openMocks(this);
 
-        sut = new RoleSyncServiceImpl(cccmApiServiceMock, cssssoApiServiceMock, keycloakMock, "REALM", true, "test", ldapServiceMock);
+        sut = new RoleSyncServiceImpl(cccmApiServiceMock, keycloakMock, "REALM", true, "test", ldapServiceMock);
 
     }
 

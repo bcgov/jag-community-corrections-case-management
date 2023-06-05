@@ -13,7 +13,7 @@ import javax.naming.directory.*;
 import java.text.MessageFormat;
 import java.util.Properties;
 
-import static ca.bc.gov.open.jag.Keys.IDIR_FILTER;
+import static ca.bc.gov.open.jag.Keys.*;
 
 @ApplicationScoped
 public class LdapServiceImpl implements LdapService {
@@ -21,13 +21,15 @@ public class LdapServiceImpl implements LdapService {
     private static final Logger logger = LoggerFactory.getLogger(LdapServiceImpl.class);
 
     @ConfigProperty(name = "cccm.ldap.username")
-    private String username;
+    private String ldapUsername;
     @ConfigProperty(name = "cccm.ldap.password")
     private String password;
     @ConfigProperty(name = "cccm.ldap.server")
     private String server;
     @ConfigProperty(name = "cccm.ldap.organization")
     private String organization;
+    @ConfigProperty(name = "cccm.ldap.distinguishedname")
+    private String distinguishedName;
 
     @Override
     public IdirUser getUserByUsername(String username) {
@@ -36,7 +38,7 @@ public class LdapServiceImpl implements LdapService {
         env.put("com.sun.jndi.ldap.read.timeout", "5000");
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, username + "@" + organization);
+        env.put(Context.SECURITY_PRINCIPAL, MessageFormat.format("{0}@{1}", ldapUsername, organization));
         env.put(Context.SECURITY_CREDENTIALS, password);
         env.put(Context.PROVIDER_URL, server);
         IdirUser idirUser = null;
@@ -44,13 +46,13 @@ public class LdapServiceImpl implements LdapService {
         try {
 
             searchContext = new InitialDirContext(env);
-            String[] attrIDs = { "bcgovGUID", "sn", "givenName", "mail" };
+            String[] attrIDs = { IDIR_GUID, IDIR_SN, IDIR_GIVEN_NAME, IDIR_MAIL };
             SearchControls searchControls = new SearchControls();
             searchControls.setReturningAttributes(attrIDs);
             searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
             NamingEnumeration<SearchResult> searchResults
-                    = searchContext.search("dc=ag,dc=gov", MessageFormat.format(IDIR_FILTER, username), searchControls);
+                    = searchContext.search(distinguishedName, MessageFormat.format(IDIR_FILTER, username), searchControls);
 
             if (searchResults.hasMore()) {
 
@@ -58,13 +60,13 @@ public class LdapServiceImpl implements LdapService {
                 Attributes attrs = result.getAttributes();
 
                 idirUser = new IdirUser();
-                idirUser.setGuid(attrs.get("bcgovGUID").toString());
-                idirUser.setEmail(attrs.get("mail").toString());
-                idirUser.setFirstName(attrs.get("givenName").toString());
-                idirUser.setLastName(attrs.get("sn").toString());
+                idirUser.setGuid(attrs.get(IDIR_GUID).get(0).toString());
+                idirUser.setEmail(attrs.get(IDIR_MAIL).get(0).toString());
+                idirUser.setFirstName(attrs.get(IDIR_GIVEN_NAME).get(0).toString());
+                idirUser.setLastName(attrs.get(IDIR_SN).get(0).toString());
 
             }
-            searchContext.close();
+
         } catch (Exception e) {
             logger.error("Error in idir lookup: ", e);
         } finally {

@@ -32,8 +32,6 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private final CCCMApiService cccmApiService;
 
-    private final CSSSSOApiService cssssoApiService;
-
     private final Keycloak keycloak;
 
     private final String realm;
@@ -44,9 +42,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private final LdapService ldapService;
 
-    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService, @RestClient CSSSSOApiService cssssoApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole, @ConfigProperty(name = "cccm.env") String env, LdapService ldapService) {
+    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole, @ConfigProperty(name = "cccm.env") String env, LdapService ldapService) {
         this.cccmApiService = cccmApiService;
-        this.cssssoApiService = cssssoApiService;
         this.keycloak = keycloak;
         this.realm = realm;
         this.removeRole = removeRole;
@@ -94,7 +91,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keyCloakUser.get().setFirstName(idirUser.getFirstName());
                         keyCloakUser.get().setLastName(idirUser.getLastName());
                         keyCloakUser.get().setEmail(idirUser.getEmail());
-                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                        keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
@@ -107,8 +104,9 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keyCloakUser.get().setFirstName(idirUser.getFirstName());
                         keyCloakUser.get().setLastName(idirUser.getLastName());
                         keyCloakUser.get().setEmail(idirUser.getEmail());
-                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
                         keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
+
+                        keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
             } else if (keyCloakUser.isEmpty()) {
@@ -121,7 +119,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                     newUser.setFirstName(idirUser.getFirstName());
                     newUser.setLastName(idirUser.getLastName());
                     newUser.setEmail(idirUser.getEmail());
-                    newUser.setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                    newUser.setFederatedIdentities(getFederationLink(idirUser.getGuid()));
                 } else {
                     logger.warn("idirUser not present federation cannot be pre-set {}", user.getIdirId());
                 }
@@ -199,22 +197,10 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
             return ldapService.getUserByUsername(user.getIdirId());
 
-            //Data data = cssssoApiService.getIdirUsers(env, truncateName(user.getFirstName()), user.getLastName());
-
-            //return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get(SSO_IDIR_USERNAME_KEY).get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
-
         } catch (Exception e) {
             logger.error("Error getting idir information {}", e.getMessage());
             return null;
         }
-    }
-
-    private String truncateName(String name) {
-
-        if (name == null || name.length() <= 2) return name;
-
-        return name.substring(0,2);
-
     }
 
     private String formatGuid(String guid) {
