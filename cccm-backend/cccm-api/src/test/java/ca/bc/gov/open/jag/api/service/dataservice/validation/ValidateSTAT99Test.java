@@ -35,7 +35,7 @@ public class ValidateSTAT99Test {
 
         ValidationResult result = sut.validateStatic99r(DATA_ONE);
 
-        Assertions.assertEquals(10, result.getErrors().size());
+        Assertions.assertEquals(11, result.getErrors().size());
 
     }
 
@@ -47,7 +47,7 @@ public class ValidateSTAT99Test {
 
         ValidationResult result = sut.validateStatic99r("{}");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(12, result.getErrors().size());
 
     }
 
@@ -59,7 +59,7 @@ public class ValidateSTAT99Test {
 
         ValidationResult result = sut.validateStatic99r("");
 
-        Assertions.assertEquals(11, result.getErrors().size());
+        Assertions.assertEquals(12, result.getErrors().size());
 
     }
 
