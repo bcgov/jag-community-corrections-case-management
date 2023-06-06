@@ -35,7 +35,7 @@ public class ValidateSTABLETest {
 
         ValidationResult result = sut.validateStable(DATA_ONE);
 
-        Assertions.assertEquals(16, result.getErrors().size());
+        Assertions.assertEquals(17, result.getErrors().size());
 
     }
 
@@ -47,7 +47,7 @@ public class ValidateSTABLETest {
 
         ValidationResult result = sut.validateStable("{}");
 
-        Assertions.assertEquals(17, result.getErrors().size());
+        Assertions.assertEquals(18, result.getErrors().size());
 
     }
 
@@ -59,7 +59,7 @@ public class ValidateSTABLETest {
 
         ValidationResult result = sut.validateStable("");
 
-        Assertions.assertEquals(17, result.getErrors().size());
+        Assertions.assertEquals(18, result.getErrors().size());
 
     }
 
