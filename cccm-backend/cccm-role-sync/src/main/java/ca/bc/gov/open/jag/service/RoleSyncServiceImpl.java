@@ -1,7 +1,6 @@
 package ca.bc.gov.open.jag.service;
 
 import ca.bc.gov.open.jag.Keys;
-import ca.bc.gov.open.jag.model.Data;
 import ca.bc.gov.open.jag.model.IdirUser;
 import ca.bc.gov.open.jag.model.RoleGroupEnum;
 import ca.bc.gov.open.jag.model.User;
@@ -23,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ca.bc.gov.open.jag.Keys.*;
+import static ca.bc.gov.open.jag.Keys.IDIR_IDP;
+import static ca.bc.gov.open.jag.Keys.ORACLE_ID;
 
 @ApplicationScoped
 public class RoleSyncServiceImpl implements RoleSyncService {
@@ -31,8 +31,6 @@ public class RoleSyncServiceImpl implements RoleSyncService {
     private static final Logger logger = LoggerFactory.getLogger(RoleSyncServiceImpl.class);
 
     private final CCCMApiService cccmApiService;
-
-    private final CSSSSOApiService cssssoApiService;
 
     private final Keycloak keycloak;
 
@@ -42,13 +40,15 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private final String env;
 
-    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService,@RestClient CSSSSOApiService cssssoApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole, @ConfigProperty(name = "cccm.env") String env) {
+    private final LdapService ldapService;
+
+    public RoleSyncServiceImpl(@RestClient CCCMApiService cccmApiService, Keycloak keycloak, @ConfigProperty(name = "quarkus.keycloak.admin-client.realm") String realm, @ConfigProperty(name = "feature.user.role.removal") Boolean removeRole, @ConfigProperty(name = "cccm.env") String env, LdapService ldapService) {
         this.cccmApiService = cccmApiService;
-        this.cssssoApiService = cssssoApiService;
         this.keycloak = keycloak;
         this.realm = realm;
         this.removeRole = removeRole;
         this.env = env;
+        this.ldapService = ldapService;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keyCloakUser.get().setFirstName(idirUser.getFirstName());
                         keyCloakUser.get().setLastName(idirUser.getLastName());
                         keyCloakUser.get().setEmail(idirUser.getEmail());
-                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                        keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
@@ -104,8 +104,9 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keyCloakUser.get().setFirstName(idirUser.getFirstName());
                         keyCloakUser.get().setLastName(idirUser.getLastName());
                         keyCloakUser.get().setEmail(idirUser.getEmail());
-                        keyCloakUser.get().setFederatedIdentities(getFederationLink(idirUser.getUsername()));
                         keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
+
+                        keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
             } else if (keyCloakUser.isEmpty()) {
@@ -118,7 +119,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                     newUser.setFirstName(idirUser.getFirstName());
                     newUser.setLastName(idirUser.getLastName());
                     newUser.setEmail(idirUser.getEmail());
-                    newUser.setFederatedIdentities(getFederationLink(idirUser.getUsername()));
+                    newUser.setFederatedIdentities(getFederationLink(idirUser.getGuid()));
                 } else {
                     logger.warn("idirUser not present federation cannot be pre-set {}", user.getIdirId());
                 }
@@ -177,10 +178,12 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private List<FederatedIdentityRepresentation> getFederationLink(String idirGuid) {
 
+        String formattedGuid = formatGuid(idirGuid);
+
         FederatedIdentityRepresentation idirLink = new FederatedIdentityRepresentation();
         idirLink.setIdentityProvider(IDIR_IDP);
-        idirLink.setUserId(idirGuid);
-        idirLink.setUserName(idirGuid);
+        idirLink.setUserId(formattedGuid);
+        idirLink.setUserName(formattedGuid);
 
         return Collections.singletonList(idirLink);
 
@@ -188,11 +191,11 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private IdirUser getIdirUser(User user) {
 
+        if (user.getIdirId() == null) return null;
+
         try {
 
-            Data data = cssssoApiService.getIdirUsers(env, truncateName(user.getFirstName()), user.getLastName());
-
-            return data.getData().stream().filter(idirUser -> idirUser.getAttributes().get(SSO_IDIR_USERNAME_KEY).get(0).equalsIgnoreCase(user.getIdirId())).findFirst().get();
+            return ldapService.getUserByUsername(user.getIdirId());
 
         } catch (Exception e) {
             logger.error("Error getting idir information {}", e.getMessage());
@@ -200,12 +203,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         }
     }
 
-    private String truncateName(String name) {
-
-        if (name == null || name.length() <= 2) return name;
-
-        return name.substring(0,2);
-
+    private String formatGuid(String guid) {
+        return guid.toLowerCase().concat("@idir");
     }
 
 }

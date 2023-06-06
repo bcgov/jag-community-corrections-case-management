@@ -5,11 +5,20 @@ import java.util.List;
 
 public class IdirUser {
 
+    private String guid;
     private String username;
     private String firstName;
     private String lastName;
     private String email;
     HashMap<String, List<String>> attributes;
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
 
     public String getUsername() {
         return username;

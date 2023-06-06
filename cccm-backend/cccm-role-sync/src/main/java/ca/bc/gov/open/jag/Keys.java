@@ -11,5 +11,11 @@ public class Keys {
     public static String ITRP = "cccm-itrp";
     public static String ORACLE_ID = "oracleId";
     public static String IDIR_IDP = "idir";
-    public static String SSO_IDIR_USERNAME_KEY = "idir_username";
+    public static String IDIR_FILTER = "(&(objectCategory=person)(objectClass=user)(sAMAccountName={0}))";
+    public static String IDIR_GUID = "bcgovGUID";
+    public static String IDIR_SN = "sn";
+    public static String IDIR_GIVEN_NAME = "givenName";
+    public static String IDIR_MAIL = "mail";
+
+
 }
