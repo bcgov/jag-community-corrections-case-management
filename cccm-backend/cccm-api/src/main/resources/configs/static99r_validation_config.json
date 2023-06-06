@@ -54,6 +54,11 @@
       "key": "S01Q01",
       "type": "REQUIRED",
       "message": " The Static rating: is required"
+    },
+    {
+      "key": "Sources_Contacted",
+      "type": "REQUIRED",
+      "message": "Sources Contacted: is required"
     }
   ]
 

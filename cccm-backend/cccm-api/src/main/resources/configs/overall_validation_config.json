@@ -43,6 +43,11 @@
       "dependentKeys": ["S02Q02_COMMENT"],
       "dependentValues": ["Y"],
       "message": "2. Sex Offender Supervision / Assessments Required?: requires comment"
+    },
+    {
+      "key": "Sources_Contacted",
+      "type": "REQUIRED",
+      "message": "Sources Contacted: is required"
     }
   ]
 

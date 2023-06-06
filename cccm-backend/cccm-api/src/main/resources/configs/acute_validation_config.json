@@ -88,6 +88,11 @@
       "key": "S02Q08",
       "type": "REQUIRED",
       "message": "8. Substance Abuse: is required"
+    },
+    {
+      "key": "Sources_Contacted",
+      "type": "REQUIRED",
+      "message": "Sources Contacted: is required"
     }
   ]
 
