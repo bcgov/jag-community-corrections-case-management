@@ -291,7 +291,7 @@ export default {
       } else
       // if formType is 'STABLE', only show STABLE tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STABLE) {
-        this.items.push({ tab: 'STABLE-CMP', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.items.push({ tab: 'STABLE', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-STABLE';
       } else {
         // unsupported formTypes
