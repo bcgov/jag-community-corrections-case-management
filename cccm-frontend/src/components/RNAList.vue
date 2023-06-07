@@ -19,9 +19,9 @@
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
-      <!-- OVERALL Form creation modal dialog-->
+      <!-- STABLE Form creation modal dialog-->
       <v-btn v-if="showSMOForms"
-        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STABLE}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
@@ -48,14 +48,7 @@
             ></v-checkbox>
             <v-checkbox v-if="showSMOForms"
               v-model="selectedFormtypeForFormCreate"
-              label="STABLE-CMP"
-              :value="$CONST_FORMTYPE_STABLE"
-              @click="onSTABLESelectionChange"
-            ></v-checkbox>
-            <v-checkbox v-if="showSMOForms"
-              v-model="selectedFormtypeForFormCreate"
-              :readonly="readonly"
-              label="SMO-OVERALL"
+              label="SMO-OVERALL-CMP"
               :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
@@ -71,7 +64,7 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="SMO-OVERALL"
+              label="SMO-OVERALL-CMP"
               :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
@@ -87,12 +80,12 @@
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
-              label="SMO-OVERALL"
+              label="SMO-OVERALL-CMP"
               :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
-          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
-            <strong>Are you sure you want to create a new SMO-OVERALL form?</strong>
+          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STABLE" class="col-sm-10 m-10">
+            <strong>Are you sure you want to create a new stable form?</strong>
           </div>
           <v-card-actions>
             <v-btn
@@ -132,7 +125,7 @@
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
         <div v-if="showSMOForms" class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall</button>
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STABLE)">Create New Stable</button>
         </div>
       </section>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
@@ -175,7 +168,7 @@
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{item.module == $CONST_FORMTYPE_SO_OVERALL ? 'SMO-OVERALL' : item.module}}</div>
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{item.module == $CONST_FORMTYPE_SO_OVERALL ? 'SMO-OVERALL-CMP' : item.module}}</div>
           </template>
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
@@ -316,15 +309,6 @@ export default {
     this.formSearchAPI(this.selectedFormTypes.key);
   },
   methods: {
-    onSTABLESelectionChange() {
-      // if 'STABLE' is selected, auto select 'SMO-OVERALL'
-      if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
-      } else {
-        // remove 'SMO-OVERALL' if 'STABLE' is unselected
-        this.selectedFormtypeForFormCreate = this.selectedFormtypeForFormCreate.filter(arrayItem => arrayItem !== this.$CONST_FORMTYPE_SO_OVERALL);
-      }
-    },
     canClone(item) {
       // User can clone when:
       // 1. user is an admin or ITRP
@@ -627,7 +611,7 @@ export default {
         }
         this.createFormAPI(this.formToCreate);
       } else {
-        // Create SMO-Overall
+        // Create STABLE form
         this.createFormAPI(this.formToCreate);
       }
     },
