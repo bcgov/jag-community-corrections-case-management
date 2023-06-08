@@ -78,7 +78,7 @@ public class ValidationServiceImpl implements ValidationService {
     @Override
     public ValidationResult validateStatic99r(String answers) {
 
-        logger.debug("Validate Static99r {}", answers);
+        logger.debug("Validate Static-99r {}", answers);
 
         return createValidationResult(validate(answers, static99rValidation, Collections.EMPTY_LIST));
 
