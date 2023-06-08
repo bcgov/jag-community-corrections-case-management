@@ -70,7 +70,7 @@ Vue.prototype.$FORM_INFO = [
   { formType: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
   { formType: 'ACUTE', dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
   { formType: 'STABLE', dataRefreshSectionIndex: '5', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
-  { formType: 'STAT99R', dataRefreshSectionIndex: '1', formTitle: 'STAT99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'STAT99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
   { formType: 'SO_OVERALL', dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 

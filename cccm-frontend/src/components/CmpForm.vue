@@ -267,12 +267,12 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
       // if formType is 'STAT99R', only show STAT99R tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STAT99R) {
-        this.items.push({ tab: 'STAT99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.items.push({ tab: 'Static-99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-STAT99R';
         if (!this.relatedClientFormId) {
           // show the 'add overall' btn if the acute form hasn't linked with overall
@@ -281,12 +281,12 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
       // if formType is 'SMO-OVERALL', only show Overall tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
-        this.items.push({ tab: 'SMO-OVERALL', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-OVERALL';
       } else
       // if formType is 'STABLE', only show STABLE tab
