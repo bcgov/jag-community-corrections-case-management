@@ -64,8 +64,8 @@ public class ClientFormSearchTest {
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
         Assertions.assertTrue(result.get(0).getLocked());
         Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
-        Assertions.assertEquals("CRNA-SARA", result.get(3).getModule());
-        Assertions.assertEquals(MEDIUM, result.get(3).getSupervisionRating());
+        Assertions.assertEquals("CRNA-SARA", result.get(1).getModule());
+        Assertions.assertEquals(MEDIUM, result.get(1).getSupervisionRating());
 
     }
 
@@ -179,6 +179,7 @@ public class ClientFormSearchTest {
 
         ClientFormSummary form3 = new ClientFormSummary();
         form3.setId(BigDecimal.ZERO);
+        form3.setCreatedDate(LocalDate.now().minusDays(3));
         form3.setModule("CRNA");
 
         ClientFormSummary form4 = new ClientFormSummary();
