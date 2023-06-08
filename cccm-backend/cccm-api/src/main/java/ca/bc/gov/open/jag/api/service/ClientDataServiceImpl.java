@@ -8,6 +8,7 @@ import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.util.MappingUtils;
+import ca.bc.gov.open.jag.api.util.UpdateDateComparator;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -196,8 +197,8 @@ public class ClientDataServiceImpl implements ClientDataService {
                     mergedForm.setLocationId(relatedFrom.get().getLocationId());
                     mergedForm.setLocation(relatedFrom.get().getLocation());
                     mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
-                    if (relatedFrom.get().getUpdatedDate() != null && relatedFrom.get().getUpdatedDate().isAfter(mergedForm.getUpdatedDate())) {
-                        mergedForm.setUpdatedDate(relatedFrom.get().getUpdatedDate());
+                    if (relatedFrom.get().getOsuUpdateDate() != null && relatedFrom.get().getOsuUpdateDate().isAfter(mergedForm.getOsuUpdateDate())) {
+                        mergedForm.setOsuUpdateDate(relatedFrom.get().getOsuUpdateDate());
                     }
 
                     mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(form.getRatings().get(CRNA_FORM_TYPE)) ? relatedFrom.get().getRatings().get(SARA_FORM_TYPE) : form.getRatings().get(CRNA_FORM_TYPE)));
@@ -229,8 +230,7 @@ public class ClientDataServiceImpl implements ClientDataService {
             }
         }
         //Add sorting on update date when implemented
-        formsMerged.sort(Comparator.comparing(ClientFormSummary::getOsuUpdateDate, Comparator.nullsFirst(Comparator.naturalOrder())));
-        Collections.reverse(formsMerged);
+        formsMerged.sort(new UpdateDateComparator());
         return formsMerged;
     }
 
