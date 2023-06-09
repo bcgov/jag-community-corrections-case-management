@@ -96,9 +96,9 @@ export const useStore = defineStore('main', {
                 { value: "ACUTE", key: "ACUTE" },
                 { value: "CRNA", key: "CRNA" },
                 { value: "CRNA-SARA", key: "SARA" },
-                { value: "SMO-OVERALL", key: "SO_OVERALL" },
+                { value: "SMO-OVERALL-CMP", key: "SO_OVERALL-CMP" },
                 { value: "STABLE", key: "STABLE" },
-                { value: "STAT99R", key: "STAT99R" }
+                { value: "Static-99R", key: "STAT99R" }
               ];
 
             // if login user doesn't have smo_forms role, only include CRNA and CRNA-SARA
