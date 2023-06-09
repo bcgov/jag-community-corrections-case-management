@@ -214,6 +214,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientFormId(updateForm.getUpdateFormInput().getClientFormId());
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+        formInput.setLocationId(updateForm.getLocationId());
         if (updateForm.getComplete()) {
 
             ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
@@ -261,6 +262,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             childFormInput.setClientFormId(updateForm.getUpdateFormInput().getLinkedClientFormId());
             childFormInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
             childFormInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
+            childFormInput.setLocationId(updateForm.getLocationId());
             childFormInput.setOracleId(oracelId);
             logger.info("Complete Child Form");
             obridgeClientService.setCompletion(childFormInput);
