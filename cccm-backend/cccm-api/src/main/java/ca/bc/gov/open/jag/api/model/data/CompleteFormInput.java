@@ -14,6 +14,7 @@ public class CompleteFormInput {
     private String planSummary;
     private String formType;
     private String overallSupervision;
+    private BigDecimal locationId;
 
     public String getClientNumber() {
         return clientNumber;
@@ -86,5 +87,13 @@ public class CompleteFormInput {
     public void setOverallSupervision(String overallSupervision) {
         this.overallSupervision = overallSupervision;
     }
-    
+
+    public BigDecimal getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(BigDecimal locationId) {
+        this.locationId = locationId;
+    }
+
 }
