@@ -133,12 +133,12 @@ export default {
             , includeInvisible: true
           }, true);
 
-          console.log("Point %o", pointArray);
+          //console.log("Point %o", pointArray);
         
           if(pointArray == null || pointArray.length == 0) {
             // Hijacking touchmove event
             let mouseOutEvent = new MouseEvent('touchmove');
-            console.log("mouseOutEvent %o", mouseOutEvent);
+            //console.log("mouseOutEvent %o", mouseOutEvent);
             return chart.canvas.dispatchEvent(mouseOutEvent);
           }
           
@@ -157,6 +157,8 @@ export default {
             events: ['touchmove', 'click'],
 
             external: function (context) {
+
+              const {chart, tooltip} = context;
 
               //console.log("tooltip->external: %o", context);
               // Tooltip Element
@@ -205,24 +207,54 @@ export default {
                 const titleLines = tooltipModel.title || [];
                 const bodyLines = tooltipModel.body.map(getBody);
 
+                //console.log("tooltipModel.title: %o", tooltipModel.title);
+
                 let innerHtml = '<tbody>';
 
+                let dataLabel;
                 titleLines.forEach(function (title) {
                   innerHtml += '<tr><td>Date: <b>' + title + '</b></td></tr>';
+                  dataLabel = title;
                 });
 
+                //console.log("chart.data: %o", chart.data);
 
-                bodyLines.forEach(function (body, i) {
-                  const colors = tooltipModel.labelColors[i];
-                  let style = 'background:' + colors.backgroundColor;
-                  style += '; border-color:' + colors.borderColor;
-                  style += '; border-width: 2px';
-                  const span = '<span style="' + style + '"></span>';
-                  innerHtml += '<tr><td>' + span + body + '</td></tr>';
-                  innerHtml += '<tr><td><a class="tooltip-link" id="comment-' + i + '" style="color:#000000" href="#/comments/' + tooltipModel.title[0] + '">nn comment(s)</a></td></tr>';
-                  innerHtml += '<tr><td><a class="tooltip-link" id="intervention=' + i + '" style="cursor:pointer; color:#000000" href="#/interventions/' + tooltipModel.title[0] + '">nn intervention(s)</a></td></tr>';
+                if(tooltipModel.dataPoints) {
+                    for(let j = 0; j < tooltipModel.dataPoints.length; j++) {
+                      let dataIndex = tooltipModel.dataPoints[j].dataIndex;
+                      let datasetIndex = tooltipModel.dataPoints[j].datasetIndex;
 
-                });
+                      let dataset =  tooltipModel.dataPoints[j].dataset;
+
+                      //console.log("dataIndex: " + dataIndex);
+                      //console.log("datasetIndex: " + datasetIndex);
+                      //console.log("dataset: %o", dataset);
+                      //console.log("comments: %o", datasetItems[datasetIndex].comments);
+
+                      
+
+                      const colors = tooltipModel.labelColors[j];
+                      let style = 'background-color:' + colors.backgroundColor;
+                      style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
+                      const span = '<span style="' + style + '"></span>';
+                      innerHtml += '<tr><td>' + span + dataset.label + '</td></tr>';
+                      
+                      if(dataset.comments) {
+                        for(let k = 0; k < dataset.comments.length; k++) {
+                          if(dataLabel == dataset.comments[k].dataLabel) {
+                            innerHtml += '<tr><td>Comment: ' + dataset.comments[k].value+ '</td></tr>';
+                          }
+                        }
+                      }
+                      if(dataset.interventions) {
+                        for(let k = 0; k < dataset.interventions.length; k++) {
+                          if(dataLabel == dataset.interventions[k].dataLabel) {
+                            innerHtml += '<tr><td>Interventions: ' + dataset.interventions[k].comment+ '</td></tr>';
+                          }
+                        }
+                      }
+                    }
+                  }
                 innerHtml += '</tbody>';
 
                 let tableRoot = tooltipEl.querySelector('table');
