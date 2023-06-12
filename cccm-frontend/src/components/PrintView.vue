@@ -49,14 +49,13 @@
                                         no-results-text="No results found" 
                                         hide-default-footer>
                                     </v-data-table>
-                                    <v-textarea v-else-if="subSection.title == 'Supervision Plan' 
+                                    <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
                                                         || subSection.title == 'Assessment Comments'
                                                         || subSection.title == 'Reassessment Comments'"
-                                        solo
-                                        label=""
-                                        auto-grow
-                                        :value="subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : ''"
-                                    ></v-textarea>
+                                        
+                                    >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
+                                    </pre>
+                                    
                                     <br>
                                 </div>
                             </div>
