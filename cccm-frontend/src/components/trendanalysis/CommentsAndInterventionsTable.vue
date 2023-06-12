@@ -51,9 +51,9 @@ export default {
     return {
       data: [],
       headers: [
-        { text: 'Date', value: 'createdDate' },
-        { text: 'Factor', value: 'factor' },
-        { text: 'Rating', value: 'answerValue' },
+        { text: 'Date', value: 'createdDate', width: '10em' },
+        { text: 'Factor', value: 'factor', width: '20%' },
+        { text: 'Rating', value: 'answerValue', width: '8em' },
         { text: 'Comment', value: 'value' },
         { text: 'Interventions', value: 'interventions' },
 
@@ -71,9 +71,14 @@ export default {
             let interventions = dataset.interventions;
 
             comments.forEach(comment => {
-
-              comment.interventions = interventions.filter(intervention => intervention.relatedAnswerId === comment.id) || [];
-              this.data.push(comment);
+              if(comment) {
+                this.data.push(comment);
+                if(interventions) {
+                  comment.interventions = interventions.filter(intervention => intervention.relatedAnswerId === comment.id) || [];
+                }
+              }
+              
+              
 
             });
           }

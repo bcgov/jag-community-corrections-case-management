@@ -2626,6 +2626,8 @@ components:
             - RESPONSIVITY
         comment:
           type: string
+        dataLabel:
+          type: string
         createdBy:
           type: string
         factor:
@@ -2713,6 +2715,8 @@ components:
       type: object
       properties:
         answerValue:
+          type: string
+        dataLabel:
           type: string
         clientFormAnswerId:
           type: number
