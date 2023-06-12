@@ -44,12 +44,6 @@ export default {
     return {
       interventions: [],
       headers: [
-        {
-          text: 'ID (Debug)',
-          align: 'start',
-          sortable: false,
-          value: 'id',
-        },
         { text: 'Entry Date', value: 'createdDate' },
         { text: 'Factor', value: 'factor' },
         { text: 'Intervention Type', value: 'type' },
