@@ -125,7 +125,7 @@ export default {
     this.store.$subscribe(async (mutation, state) => {
       //console.log("mutation:" + JSON.stringify(mutation));
       //console.log("state:" + JSON.stringify(state));
-      console.log('ChartFilter->Subscribe() got new stats and mutation');
+      //console.log('ChartFilter->Subscribe() got new stats and mutation');
 
       // chart type or period changed
       if (mutation.payload) {
@@ -195,8 +195,7 @@ export default {
 
             this.minStartDate = data.startDateRange; 
             this.maxEndDate = data.endDateRange;
-              
-
+ 
             // Get counters
             let commentCount = data.counters.comments ? data.counters.comments : 0;
             let interventionCount = data.counters.interventions ? data.counters.interventions : 0;
@@ -204,7 +203,7 @@ export default {
             if (xSeries.length !== 0) {
 
               // patch the pinia store
-              this.store.$patch({ data: data, minStartDate: this.minStartDate, maxEndDate: this.maxEndDate, interventionCount: 0, commentCount: 0, startDate: this.minStartDate, endDate: this.maxEndDate });
+              this.store.$patch({ data: data, minStartDate: this.minStartDate, maxEndDate: this.maxEndDate, interventionCount: interventionCount, commentCount: commentCount, startDate: this.minStartDate, endDate: this.maxEndDate });
               if (!this.userStartDate) {
                 this.userStartDate = this.minStartDate;
               }
@@ -345,18 +344,18 @@ export default {
         let interventionCount = 0;
         datasets.forEach(dataset => {
           if ( !dataset.hidden) {
-          let filteredComments = dataset.comments.filter( comment => new Date(comment.createdDate) >= startDate && new Date(comment.createdDate) <= endDate);
-          let filteredInterventions = dataset.interventions.filter( intervention => new Date(intervention.createdDate) >= startDate && new Date(intervention.createdDate) <= endDate);
-          dataset.comments = filteredComments;
-          dataset.interventions = filteredInterventions;
-          commentCount += filteredComments.length;
-          interventionCount += filteredInterventions.length;
+            dataset.comments = dataset.comments;
+            dataset.interventions = dataset.interventions;
+            if(dataset.comments) {
+              commentCount += dataset.comments.length;
+            }
+            if(dataset.interventions) {
+              interventionCount += dataset.interventions.length;
+            }
           }
         });
 
-
         this.store.$patch({ filteredData: filtered, commentCount: commentCount, interventionCount: interventionCount });
-
       }
 
     },

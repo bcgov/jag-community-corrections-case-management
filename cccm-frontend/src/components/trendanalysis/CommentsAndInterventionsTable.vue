@@ -51,12 +51,6 @@ export default {
     return {
       data: [],
       headers: [
-        {
-          text: 'ID (Debug)',
-          align: 'start',
-          sortable: false,
-          value: 'id',
-        },
         { text: 'Date', value: 'createdDate' },
         { text: 'Factor', value: 'factor' },
         { text: 'Rating', value: 'answerValue' },
