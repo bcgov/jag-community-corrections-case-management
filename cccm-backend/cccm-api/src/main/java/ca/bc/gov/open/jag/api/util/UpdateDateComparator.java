@@ -9,8 +9,8 @@ public class UpdateDateComparator implements Comparator<ClientFormSummary> {
     @Override
     public int compare(final ClientFormSummary e1, final ClientFormSummary e2) {
 
-        LocalDate dateToCompare1 = (e1.getOsuUpdateDate() == null ? e1.getCreatedDate() : e1.getOsuUpdateDate());
-        LocalDate dateToCompare2 = (e2.getOsuUpdateDate() == null ? e2.getCreatedDate() : e2.getOsuUpdateDate());
+        LocalDate dateToCompare1 = (e1.getOsuUpdateDate() != null ? e1.getOsuUpdateDate() : (e1.getCompletedDate() != null) ? e1.getCompletedDate() : e1.getCreatedDate());
+        LocalDate dateToCompare2 = (e2.getOsuUpdateDate() != null ?  e2.getOsuUpdateDate() : (e2.getCompletedDate() != null) ? e2.getCompletedDate() : e2.getCreatedDate());
 
         if (dateToCompare1 == null && dateToCompare2 == null) {
             return 0;
