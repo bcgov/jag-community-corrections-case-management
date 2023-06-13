@@ -8,7 +8,7 @@
                 <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
                     <div class="subSectionTitleClass">{{ section.section }}</div>
                     <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                        <h5>{{ subSection.title }}</h5>
+                        <h5>{{ subSection.hideTitle ? '' : subSection.title }}</h5>
                         <v-data-table v-if="subSection.title == 'Intervention Plan'"
                             no-data-text="" 
                             :items="subSection.answers"
