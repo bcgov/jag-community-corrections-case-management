@@ -48,7 +48,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+    <div class="header-hidden">
+      <v-idle
+        @idle="onidle"
+        @remind="onremind"
+        :reminders="[60, 300, 600]" 
+        :events="['keypress','mousedown']"
+        :duration="900"
+        />
+    </div>
     <!--Header section-->
     <div class="header">
       <div class="header-section">
@@ -78,6 +86,7 @@
 import Vue from 'vue'
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
+import iZtoast from 'izitoast';
 
 export default {
   name: 'HeaderComponent',
@@ -145,6 +154,21 @@ export default {
       // clear cached location info
       this.mainStore.clearAll();
       Vue.$keycloak.logout({ redirectUri: window.location.origin + import.meta.env.BASE_URL });
+    },
+    onidle() {
+      iZtoast.error({
+          title: 'Session',
+          position: 'center',
+          message: 'Session has expired'
+      });
+      this.logout();
+    },
+    onremind(time) {
+      iZtoast.warning({
+          title: 'Warning',
+          position: 'center',
+          message: 'Session is idle: ' + time / 60 + ' minutes remain'
+      });
     }
   },
   computed: {

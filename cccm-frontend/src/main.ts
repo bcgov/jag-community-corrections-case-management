@@ -14,6 +14,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {faBarChart, faComments, faWarning} from '@fortawesome/free-solid-svg-icons'
+import Vidle from 'v-idle'
+
+Vue.use(Vidle)
 
 library.add(faBarChart, faComments, faWarning);
 
