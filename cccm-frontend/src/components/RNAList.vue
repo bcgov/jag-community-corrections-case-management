@@ -533,7 +533,7 @@ export default {
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
-            el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : el.createdDate;
+            el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             el.crnaRating = this.getRatingDisplay(el.ratings.CRNA);
             el.saraRating = this.getRatingDisplay(el.ratings.SARA);
