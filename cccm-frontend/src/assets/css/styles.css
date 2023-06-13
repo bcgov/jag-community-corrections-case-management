@@ -34,6 +34,9 @@ body {
 	top:10px;
 	font-size: 1.7rem;
 }
+.header-hidden {
+	display: none;
+}
 .usernameText {
 	font-weight: 500;
 	color: #fff;
