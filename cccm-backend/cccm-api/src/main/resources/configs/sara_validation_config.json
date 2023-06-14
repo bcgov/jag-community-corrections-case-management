@@ -178,7 +178,7 @@
     {
       "key": "S06Q06",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S06Q05_COMMENT"],
+      "dependentKeys": ["S06Q06_COMMENT"],
       "dependentValues": ["Y"],
       "message": "6. Stalking?: requires comment"
     },
