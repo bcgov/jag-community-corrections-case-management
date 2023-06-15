@@ -197,7 +197,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                     mergedForm.setLocationId(relatedFrom.get().getLocationId());
                     mergedForm.setLocation(relatedFrom.get().getLocation());
                     mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
-                    if (relatedFrom.get().getOsuUpdateDate() != null && relatedFrom.get().getOsuUpdateDate().isAfter(mergedForm.getOsuUpdateDate())) {
+                    if (relatedFrom.get().getOsuUpdateDate() != null && mergedForm.getOsuUpdateDate() != null && relatedFrom.get().getOsuUpdateDate().isAfter(mergedForm.getOsuUpdateDate())) {
                         mergedForm.setOsuUpdateDate(relatedFrom.get().getOsuUpdateDate());
                     }
 
