@@ -132,7 +132,7 @@
                                 {
                                     "label": "HTML",
                                     "tag": "div",
-                                    "className": "custom_wrap",
+                                    "className": "custom_wrap color_yellow",
                                     "attrs": [
                                         {
                                             "attr": "",
@@ -144,7 +144,34 @@
                                     "key": "key_formStatus",
                                     "type": "htmlelement",
                                     "input": false,
-                                    "tableView": false
+                                    "tableView": false,
+                                    "conditional": {
+                                      "show": true,
+                                      "when": "status",
+                                      "eq": "Incomplete"
+                                    }
+                                },
+                                {
+                                    "label": "HTML",
+                                    "tag": "div",
+                                    "className": "custom_wrap color_green",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "{{data.status}}",
+                                    "refreshOnChange": true,
+                                    "key": "key_formStatus",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false,
+                                    "conditional": {
+                                      "show": true,
+                                      "when": "status",
+                                      "eq": "Complete"
+                                    }
                                 },
                                 {
                                     "label": "",
