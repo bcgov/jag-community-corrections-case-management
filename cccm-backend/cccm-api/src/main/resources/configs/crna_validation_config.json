@@ -86,22 +86,27 @@
     {
       "key": "S02Q05",
       "type": "REQUIRED",
-      "message": "5. Financial Management Skills: is required"
+      "message": "5. Employment Pattern: is required"
     },
     {
       "key": "S02Q06",
       "type": "REQUIRED",
-      "message": "6. Behavioural/Emotional Stability: is required"
+      "message": "6. Financial Management Skills: is required"
     },
     {
       "key": "S02Q07",
       "type": "REQUIRED",
-      "message": "7. Substance Misuse: is required"
+      "message": "7. Behavioural/Emotional Stability: is required"
     },
     {
       "key": "S02Q08",
       "type": "REQUIRED",
-      "message": "8. Attitude: is required"
+      "message": "8. Substance Misuse: is required"
+    },
+    {
+      "key": "S02Q09",
+      "type": "REQUIRED",
+      "message": "9. Attitude: is required"
     },
     {
       "key": "S03Q01",
