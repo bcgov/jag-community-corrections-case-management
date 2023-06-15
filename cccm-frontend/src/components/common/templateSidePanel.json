@@ -60,7 +60,7 @@
 								  "value": ""
 							  }
 						  ],
-						  "content": "{{data.input_key_sourceContacted}}",
+						  "content": "<div class=\"readonly-field-text\">{{data.input_key_sourceContacted}}</div>",
 						  "refreshOnChange": true,
 						  "key": "key_sourceContacted",
 						  "type": "htmlelement",

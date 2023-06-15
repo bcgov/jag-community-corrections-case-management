@@ -22,6 +22,7 @@ export default {
     Form
   },
   mounted(){
+    console.log("data: ", this.dataModel);
     this.buildFormInfoDataEntry()
   },
   methods: {
@@ -42,11 +43,17 @@ export default {
 
 <style>
 .custom_wrap {
-  color: #FCBA19;
   text-align:center;
   margin: 10px;
   padding: 10px;
-  background-color:#FDF4DF;
   font-size: 25px;
+}
+
+.color_yellow {
+  background-color:#FFE5BD;
+}
+
+.color_green {
+  background-color:#c6e8c5;
 }
 </style>
