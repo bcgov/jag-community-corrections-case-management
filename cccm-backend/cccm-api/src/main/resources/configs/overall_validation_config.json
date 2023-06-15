@@ -44,7 +44,6 @@
       "dependentValues": ["Y"],
       "message": "2. Sex Offender Supervision / Assessments Required?: requires comment"
     },
-    
     {
       "key": "Sources_Contacted",
       "type": "REQUIRED",
