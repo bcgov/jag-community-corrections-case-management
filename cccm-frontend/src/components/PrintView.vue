@@ -29,38 +29,38 @@
             </div>
             <div v-for="(formEle, index) in formInstanceData" :key="index">
                 <div v-if="formEle.formType === $CONST_FORMTYPE_CRNA">
-                <div class="dashboard-v-card" v-if="formEle.data.length > 0">
-                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                            <div v-if="section.section == 'Case Plan'">
-                                <div class="subSectionTitleClass">{{ section.section }}</div>
-                                <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                                    <h5>{{ subSection.title }}</h5>
-                                    <v-data-table v-if="subSection.title == 'Intervention Plan'"
-                                        no-data-text="" 
-                                        :items="subSection.answers"
-                                        :headers="interventionHeaders" item-key="key" 
-                                        no-results-text="No results found" 
-                                        hide-default-footer>
-                                    </v-data-table>
-                                    <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
-                                        no-data-text="" 
-                                        :items="subSection.answers"
-                                        :headers="formHeaders" item-key="key" 
-                                        no-results-text="No results found" 
-                                        hide-default-footer>
-                                    </v-data-table>
-                                    <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
-                                                        || subSection.title == 'Assessment Comments'
-                                                        || subSection.title == 'Reassessment Comments'"
+                    <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+                        <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                                <div v-if="section.section == 'Case Plan'">
+                                    <div class="subSectionTitleClass">{{ section.section }}</div>
+                                    <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
+                                        <h5>{{ subSection.title }}</h5>
+                                        <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                                            no-data-text="" 
+                                            :items="subSection.answers"
+                                            :headers="interventionHeaders" item-key="key" 
+                                            no-results-text="No results found" 
+                                            hide-default-footer>
+                                        </v-data-table>
+                                        <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
+                                            no-data-text="" 
+                                            :items="subSection.answers"
+                                            :headers="formHeaders" item-key="key" 
+                                            no-results-text="No results found" 
+                                            hide-default-footer>
+                                        </v-data-table>
+                                        <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
+                                                            || subSection.title == 'Assessment Comments'
+                                                            || subSection.title == 'Reassessment Comments'"
+                                            
+                                        >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
+                                        </pre>
                                         
-                                    >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
-                                    </pre>
-                                    
-                                    <br>
+                                        <br>
+                                    </div>
                                 </div>
-                            </div>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@ export default {
         ],
         interventionHeaders: [
             { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'left', sortable: false },
-            { text: 'Specific Factor', value: 'value', width: '10%', align: 'left', sortable: false },
+            { text: 'Specific Factor', value: 'comment', width: '10%', align: 'left', sortable: false },
             { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'left', sortable: false },
             { text: 'Intervention Description', value: 'interventionComment', width: '50%', align: 'left', sortable: false }
         ]
@@ -118,7 +118,7 @@ export default {
     async getPrintData() {
         this.loading = true;
         const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-        //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+        console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
         if (error) {
             console.error("Get form data failed: ", error);
         } else {

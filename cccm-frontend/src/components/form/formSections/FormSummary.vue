@@ -66,7 +66,7 @@ export default {
             ],
             interventionHeaders: [
                 { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'center' },
-                { text: 'Specific Factor', value: '', width: '10%', align: 'center' },
+                { text: 'Specific Factor', value: 'comment', width: '10%', align: 'center' },
                 { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'center' },
                 { text: 'Intervention Description', value: 'interventionComment', width: '40%', align: 'center' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' }
