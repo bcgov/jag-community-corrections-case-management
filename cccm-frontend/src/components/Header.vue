@@ -54,7 +54,7 @@
         @remind="onremind"
         :reminders="[25000, 25100, 25200]" 
         :events="['keypress','mousedown']"
-        :duration="28800000"
+        :duration="28800"
         />
     </div>
     <!--Header section-->
