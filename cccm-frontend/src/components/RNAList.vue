@@ -25,6 +25,12 @@
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
+      <!-- SMO-Overall-CMP Form creation modal dialog-->
+      <v-btn v-if="showSMOForms"
+        :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
+        v-show=false
+        @click.stop="dialog = true"
+      ></v-btn>
       <v-dialog
           v-model="dialog"
           persistent
@@ -48,25 +54,12 @@
             ></v-checkbox>
             <v-checkbox v-if="showSMOForms"
               v-model="selectedFormtypeForFormCreate"
-              label="SMO-OVERALL-CMP"
+              label="SMO-Overall-CMP"
               :value="$CONST_FORMTYPE_SO_OVERALL"
             ></v-checkbox>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
-            <strong>
-              Select Form Type
-            </strong>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              :readonly="readonly"
-              label="ACUTE"
-              :value="$CONST_FORMTYPE_ACUTE"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              label="SMO-OVERALL-CMP"
-              :value="$CONST_FORMTYPE_SO_OVERALL"
-            ></v-checkbox>
+            <strong>Are you sure you want to create a new Acute form?</strong>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
             <strong>
@@ -75,7 +68,7 @@
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
               :readonly="readonly"
-              label="STATIC 99R"
+              label="Static-99R"
               :value="$CONST_FORMTYPE_STAT99R"
             ></v-checkbox>
             <v-checkbox
@@ -85,7 +78,23 @@
             ></v-checkbox>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STABLE" class="col-sm-10 m-10">
-            <strong>Are you sure you want to create a new stable form?</strong>
+            <strong>
+              Select Form Type
+            </strong>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              :readonly="readonly"
+              label="Stable"
+              :value="$CONST_FORMTYPE_STABLE"
+            ></v-checkbox>
+            <v-checkbox
+              v-model="selectedFormtypeForFormCreate"
+              label="SMO-Overall-CMP"
+              :value="$CONST_FORMTYPE_SO_OVERALL"
+            ></v-checkbox>
+          </div>
+          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
+            <strong>Are you sure you want to create a new SMO-Overall-CMP form?</strong>
           </div>
           <v-card-actions>
             <v-btn
@@ -114,18 +123,24 @@
     </div>
     <v-card>
       <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
-        <div :class="showSMOForms ? 'col-sm-4' : 'col-sm-9'"></div>
+        <div :class="showSMOForms ? 'col-sm-6' : 'col-sm-9'"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA-CMP</button>
         </div>
         <div v-if="showSMOForms" class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static 99R</button>
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static-99R</button>
         </div>
         <div v-if="showSMOForms" class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
+      </section>
+      <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
+        <div :class="showSMOForms ? 'col-sm-6' : 'col-sm-9'"></div>
         <div v-if="showSMOForms" class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STABLE)">Create New Stable</button>
+        </div>
+        <div v-if="showSMOForms" class="col-sm-4">
+          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall-CMP</button>
         </div>
       </section>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
@@ -168,7 +183,7 @@
           :items-per-page="itemsPerPage" @page-count="pageCount = $event">
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{item.module == $CONST_FORMTYPE_SO_OVERALL ? 'SMO-OVERALL-CMP' : item.module == $CONST_FORMTYPE_STAT99R ? 'Static-99R' : item.module}}</div>
+            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getFormTypeDesc(item.module)}}</div>
           </template>
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
@@ -377,6 +392,13 @@ export default {
       }
       return 'Print form';
     },
+    getFormTypeDesc(formType) {
+      let theForm = this.$FORM_INFO.filter( item => item.formType === formType );
+      if (theForm != null && theForm[0] != null) {
+          return theForm[0].formTypeDesc;
+      }
+      return formType;
+    },
     getAssessmentStatus(isReassessment, formType) {
       if (formType == 'CRNA-SARA') {
         formType = this.$CONST_FORMTYPE_SARA;
@@ -443,15 +465,15 @@ export default {
         }
 
         // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_SO_OVERALL to this.selectedFormtypeForFormCreate
-        if (this.SMOClient) {
-          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
-          this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
-        }
+        // if (this.SMOClient) {
+        //   this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
+        //   this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
+        // }
       }
       
-      if (this.formToCreate === this.$CONST_FORMTYPE_ACUTE) {
+      if (this.formToCreate === this.$CONST_FORMTYPE_STABLE) {
         this.selectedFormtypeForFormCreate = [];
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_ACUTE);
+        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
       }
 
       if (this.formToCreate === this.$CONST_FORMTYPE_STAT99R) {
