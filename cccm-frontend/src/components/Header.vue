@@ -52,9 +52,9 @@
       <v-idle
         @idle="onidle"
         @remind="onremind"
-        :reminders="[60, 300, 600]" 
+        :reminders="[25000000, 25100000, 25200000]" 
         :events="['keypress','mousedown']"
-        :duration="900"
+        :duration="28800000"
         />
     </div>
     <!--Header section-->
