@@ -52,7 +52,7 @@
       <v-idle
         @idle="onidle"
         @remind="onremind"
-        :reminders="[25000000, 25100000, 25200000]" 
+        :reminders="[25000, 25100, 25200]" 
         :events="['keypress','mousedown']"
         :duration="28800000"
         />
