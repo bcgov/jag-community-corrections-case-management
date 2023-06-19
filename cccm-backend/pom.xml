@@ -6,7 +6,7 @@
 
 	<groupId>ca.bc.gov.open.jag</groupId>
 	<artifactId>cccm-backend</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 
 	<description>CCCM Service Layer</description>
 
