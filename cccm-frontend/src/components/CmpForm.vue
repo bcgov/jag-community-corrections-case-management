@@ -95,7 +95,7 @@
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SO_OVERALL)"
-            ><i class="fa fa-plus"></i>&nbsp; Add SMO-OVERALL-CMP Form</v-btn>
+            ><i class="fa fa-plus"></i>&nbsp; Add SMO-Overall-CMP Form</v-btn>
           </div>
           <span v-else>{{ item.tab }}</span>
         </v-tab>
@@ -131,7 +131,6 @@ export default {
   data() {
     return {
       CONST_CREATE_BTN_SARA: 'saraBtn',
-      CONST_CREATE_BTN_STABLE: 'stableBtn',
       CONST_CREATE_BTN_OVERALL: 'overallBtn',
       CONST_MODAL_ID_PREFIX: 'id_modal_create',
       formId: '',
@@ -232,7 +231,7 @@ export default {
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
           if (!this.isFormReadonly) {
-            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA,    formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_SARA, formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
           }
         } else {
           // otherwise, show sara tab
@@ -258,7 +257,7 @@ export default {
       } else
       // if formType is 'ACUTE', only show ACUTE tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_ACUTE) {
-        this.items.push({ tab: 'ACUTE', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.items.push({ tab: 'Acute', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-ACUTE';
         if (!this.relatedClientFormId) {
           // show the 'add smo-overall' btn if the acute form hasn't linked with smo-overall
@@ -267,7 +266,7 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
       // if formType is 'STAT99R', only show STAT99R tab
@@ -281,18 +280,28 @@ export default {
           }
         } else {
           // otherwise, show overall tab
-          this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
         }
       } else
       // if formType is 'SMO-OVERALL', only show Overall tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
-        this.items.push({ tab: 'SMO-OVERALL-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
         this.current_tab = 'tab-OVERALL';
       } else
       // if formType is 'STABLE', only show STABLE tab
       if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STABLE) {
-        this.items.push({ tab: 'STABLE', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
-        this.current_tab = 'tab-STABLE';
+        this.items.push({ tab: 'Stable', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });
+        this.current_tab = 'tab-Stable';
+
+        if (!this.relatedClientFormId) {
+          // show the 'add smo-overall' btn if the acute form hasn't linked with smo-overall
+          if (!this.isFormReadonly) {
+            this.items.push({ tab: '', key: 0, id: this.CONST_CREATE_BTN_OVERALL,  formId: '', relatedClientFormId: '', readonly: false, locked: false, createdByIdir: '', canPrint: true });
+          }
+        } else {
+          // otherwise, show overall tab
+          this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.relatedClientFormId, relatedClientFormId: this.formId, readonly: false, locked: false, createdByIdir: '', canPrint: true });
+        }
       } else {
         // unsupported formTypes
         this.items.push({ tab: this.formType, key: 0, id: this.formId, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: response.formTypeExpiryDate == null ? true : false });

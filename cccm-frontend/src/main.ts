@@ -69,12 +69,12 @@ Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
-  { formType: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
-  { formType: 'ACUTE', dataRefreshSectionIndex: '1', formTitle: 'ACUTE', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'STABLE', dataRefreshSectionIndex: '5', formTitle: 'STABLE', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
-  { formType: 'STAT99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'SO_OVERALL', dataRefreshSectionIndex: '', formTitle: 'SMO-OVERALL-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
+  { formType: 'CRNA', formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
+  { formType: 'SARA', formTypeDesc: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
+  { formType: 'ACUTE', formTypeDesc: 'Acute', dataRefreshSectionIndex: '1', formTitle: 'Acute', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'STABLE', formTypeDesc: 'Stable', dataRefreshSectionIndex: '5', formTitle: 'Stable', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
+  { formType: 'STAT99R', formTypeDesc: 'Static-99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'SO_OVERALL', formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 
 Vue.$keycloak

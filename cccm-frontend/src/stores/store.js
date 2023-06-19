@@ -93,11 +93,11 @@ export const useStore = defineStore('main', {
             // default the supportedFormTypes to include smo formtypes
             this.supportedFormTypes = [
                 { value: "ALL", key: "ALL"},
-                { value: "ACUTE", key: "ACUTE" },
+                { value: "Acute", key: "ACUTE" },
                 { value: "CRNA", key: "CRNA" },
                 { value: "CRNA-SARA", key: "SARA" },
-                { value: "SMO-OVERALL-CMP", key: "SO_OVERALL-CMP" },
-                { value: "STABLE", key: "STABLE" },
+                { value: "SMO-Overall-CMP", key: "SO_OVERALL-CMP" },
+                { value: "Stable", key: "STABLE" },
                 { value: "Static-99R", key: "STAT99R" }
               ];
 
