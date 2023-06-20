@@ -90,8 +90,11 @@ export default {
         ],
         interventionHeaders: [
             { text: 'Criminogenic Needs', value: 'question', width: '10%', align: 'left', sortable: false },
+            { text: '', value: '', width: '2%', align: 'left', sortable: false },
             { text: 'Specific Factor', value: 'comment', width: '40%', align: 'left', sortable: false },
+            { text: '', value: '', width: '2%', align: 'left', sortable: false },
             { text: 'Intervention Type', value: 'interventionType', width: '15%', align: 'left', sortable: false },
+            { text: '', value: '', width: '2%', align: 'left', sortable: false },
             { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'left', sortable: false }
         ]
       }
