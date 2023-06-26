@@ -20,13 +20,22 @@ public class TransactionLoggingFilter implements ContainerRequestFilter, Contain
     @Override
     public void filter(ContainerRequestContext context) {
 
+        if (context.getHeaders().containsKey("X-Transaction-Id")) {
+            MDC.put("transaction-id", context.getHeaders().get("X-Transaction-Id").get(0));
+        }
+
+        if (context.getHeaders().containsKey("X-Location-Id")) {
+            MDC.put("location-id", context.getHeaders().get("X-Location-Id").get(0));
+        }
+
         MDC.put("user", getNameFromContext(context));
+        MDC.put("application", "business-api");
 
     }
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        MDC.remove("user");
+        MDC.clear();
     }
 
     private String getNameFromContext(ContainerRequestContext context) {
