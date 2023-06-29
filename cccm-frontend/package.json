@@ -19,7 +19,7 @@
     "chart.js": "^4.3.0",
     "formiojs": "^4.14.8",
     "izitoast": "^1.4.0",
-    "keycloak-js": "^18.0.1",
+    "keycloak-js": "^21.1.2",
     "pinia": "^2.0.36",
     "url": "^0.11.0",
     "uuid": "^9.0.0",
