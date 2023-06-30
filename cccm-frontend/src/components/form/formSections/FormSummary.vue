@@ -45,6 +45,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getDataForSummaryView } from "@/components/form.api";
+import {useStore} from "@/stores/autoSaveStore";
+import {mapStores} from 'pinia';
 
 export default {
     name: 'FormSummary',
@@ -55,6 +57,7 @@ export default {
     data() {
         return {
             summaryData: {},
+            timeoutDelay: 1000,
             modalEditVisible: false,
             changeCount: -1,
             loading: false,
@@ -74,7 +77,16 @@ export default {
         }
     },
     mounted() {
-        this.getSummaryData();
+        if (this.autosaveStore.isSavingInProgress()) { 
+            // Delay loading summary view data
+            console.log("Delay data loading: ");
+            setTimeout(() => {
+                this.getSummaryData();
+            }, this.timeoutDelay)
+        } else {
+            console.log("Prompt data loading: ");
+            this.getSummaryData();
+        }
     },
     methods: {
         editFormItem(editKey) {
@@ -103,7 +115,10 @@ export default {
                 formTypeDesc[entry.formType] = entry.formTitle;
             });
             return formTypeDesc;
-        }
+        },
+        // note we are not passing an array, just one store after the other
+        // each store will be accessible as its id + 'Store', i.e., mainStore
+        ...mapStores(useStore)
     }
 }
 </script>
