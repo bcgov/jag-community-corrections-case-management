@@ -22,7 +22,6 @@ export default {
     Form
   },
   mounted(){
-    console.log("data: ", this.dataModel);
     this.buildFormInfoDataEntry()
   },
   methods: {

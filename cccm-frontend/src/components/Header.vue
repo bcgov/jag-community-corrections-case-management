@@ -65,13 +65,15 @@
         </div>
         <span v-if="mainStore.loginUserGroup != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
         <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
-          <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
+          <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="formExpandToggle"/>
+          <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="formExpandToggle"/>
+           &nbsp;&nbsp; <font-awesome-icon icon="fa fa-user"></font-awesome-icon>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
           <a @click="logout">
             <span>Logout</span>
           </a>
         </span>
       </div>
-      <div v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
+      <div id="div_menu" v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
         <span class="headerNav">
           <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
           <a v-if="hasPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
@@ -95,7 +97,8 @@ export default {
       baseURL: import.meta.env.BASE_URL,
       dialog: false,
       selectedLocation: {key: "", value: ""},
-      keyPage: 0
+      keyPage: 0,
+      formExpanded: false
     }
   },
   created() {
@@ -105,6 +108,34 @@ export default {
     this.getLocationInfo();
   },
   methods: {
+    formExpandToggle() {
+      let scaleDiv = document.getElementById("div_scale");
+      let footerDiv = document.getElementById("id_footer");
+      let infoDiv = document.getElementById("id_infoPanel");
+      let navDiv = document.getElementById("id_navPanel");
+      let sideDiv = document.getElementById("id_sidePanel");
+      let menuDiv = document.getElementById("div_menu");
+
+      if (scaleDiv != null) {
+        if (this.formExpanded) {
+          this.formExpanded = false;
+          scaleDiv.className = "mainContent";
+          footerDiv.setAttribute('style', 'display:block');
+          infoDiv.setAttribute('style', 'display:block');
+          navDiv.setAttribute('style', 'display:block');
+          sideDiv.setAttribute('style', 'display:block');
+          menuDiv.setAttribute('style', 'display:block');
+        } else {
+          this.formExpanded = true;
+          scaleDiv.className = "scales scaleOn";
+          footerDiv.setAttribute('style', 'display:none');
+          infoDiv.setAttribute('style', 'display:none');
+          navDiv.setAttribute('style', 'display:none');
+          sideDiv.setAttribute('style', 'display:none');
+          menuDiv.setAttribute('style', 'display:none');
+        }
+      }
+    },
     async getLocationInfo() {
       const [error, locations] = await this.mainStore.getUserLocations();
       if (error) {

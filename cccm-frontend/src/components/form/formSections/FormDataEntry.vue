@@ -15,7 +15,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import { objectToString } from '@vue/shared';
-import { updateForm } from "@/components/form.api";
 import { useStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
 

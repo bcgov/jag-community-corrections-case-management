@@ -66,8 +66,10 @@ export const useStore = defineStore('autosave', {
             this.formId = formId
         },
         async autoSave() {
+          
             //only start saving if previous saving is done
             if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
+              console.log("Auto saving ....");
               // deep copy of autoSaveDataCandidate, and assign it to autoSaveData 
               this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
               //console.log("autosave: ", this.autoSaveData);
@@ -105,6 +107,9 @@ export const useStore = defineStore('autosave', {
                 console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
               }
             }
+        },
+        isSavingInProgress() {
+          return this.saving;
         },
         handleChangeEvent(event, isCasePlan) {
             if (isCasePlan) {

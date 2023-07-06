@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { updateForm, loadFormData } from "@/components/form.api";
+import { loadFormData } from "@/components/form.api";
 import { useStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
 

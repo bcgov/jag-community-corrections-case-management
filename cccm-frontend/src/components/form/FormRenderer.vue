@@ -124,7 +124,7 @@
       <div class="mainRow">
         <div class="columnMain L">
           <div class="menu-Sticky">
-            <div class="menuR1">
+            <div id="id_infoPanel" class="menuR1">
               <v-alert :key="errorKey" v-if="errorOccurred" type="info" prominent dismissible>
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
@@ -132,7 +132,7 @@
 
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
-            <div :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
+            <div id="id_navPanel" :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
@@ -142,7 +142,7 @@
           </div>
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
+          <div id="div_scale" :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
             <FormDataEntry 
               :csNumber="csNumber"
               :formId="formId"
@@ -179,7 +179,7 @@
               @cancelFormClicked="handleDeleteForm" />
           </div>
         </div>
-        <div class="columnMain R">
+        <div id="id_sidePanel" class="columnMain R">
           <div class="R-Sticky">
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">

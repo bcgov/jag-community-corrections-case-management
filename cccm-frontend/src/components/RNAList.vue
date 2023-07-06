@@ -191,7 +191,10 @@
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">{{item.status}}&nbsp;<i :class="[item.locked ? 'fa fa-lock' : '']"></i></div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">
+              {{item.status}}&nbsp;
+              <font-awesome-icon v-if="item.locked" :icon="['fa', 'fa-lock']" />
+            </div>
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
@@ -213,18 +216,18 @@
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
             <a href="#" @click="formView(item.id)" title="View form">
-              <i class="fa fa-eye"></i>
+              <font-awesome-icon :icon="['fa', 'fa-eye']" />
             </a>
             &nbsp;&nbsp;
             <div style="display:inline-block" :title="getCloneTooltip(item)">
               <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click="formClone(item.id)">
-                <i class="fa fa-copy"></i>
+                <font-awesome-icon :icon="['fa', 'fa-copy']" />
               </a>
             </div>
             &nbsp;&nbsp;
             <div style="display:inline-block" :title="getPrintTooltip(item)">
               <a href="#" :class="[canPrint(item) ? '' : 'disabled']" @click="formPrint(item.id)" title="Print form">
-                <i class="fa fa-print"></i>
+                <font-awesome-icon :icon="['fa', 'fa-print']" />
               </a>
           </div>
           </template>
