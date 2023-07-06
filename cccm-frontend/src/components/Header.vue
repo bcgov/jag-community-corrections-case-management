@@ -65,8 +65,8 @@
         </div>
         <span v-if="mainStore.loginUserGroup != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
         <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
-          <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="expandToggle"/>
-          <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="expandToggle"/>
+          <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="formExpandToggle"/>
+          <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="formExpandToggle"/>
            &nbsp;&nbsp; <font-awesome-icon icon="fa fa-user"></font-awesome-icon>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
           <a @click="logout">
             <span>Logout</span>
@@ -108,7 +108,7 @@ export default {
     this.getLocationInfo();
   },
   methods: {
-    expandToggle() {
+    formExpandToggle() {
       let scaleDiv = document.getElementById("div_scale");
       let footerDiv = document.getElementById("id_footer");
       let infoDiv = document.getElementById("id_infoPanel");
