@@ -124,7 +124,7 @@
       <div class="mainRow">
         <div class="columnMain L">
           <div class="menu-Sticky">
-            <div class="menuR1">
+            <div id="id_infoPanel" class="menuR1">
               <v-alert :key="errorKey" v-if="errorOccurred" type="info" prominent dismissible>
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
@@ -132,7 +132,7 @@
 
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
-            <div :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
+            <div id="id_navPanel" :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
               <FormNavigation :key="componentKey" 
                 :dataModel="data_formEntries" 
                 :parentNavMoveToNext="parentNavMoveToNext"
@@ -142,44 +142,54 @@
           </div>
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
-          <div :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
-            <FormDataEntry 
-              :csNumber="csNumber"
-              :formId="formId"
-              :dataModel="data_formEntries" 
-              :options="options"
-              :initData="formInitData"
-              :sendData="sendData"
-              @formDataCollected="validateAndCompleteForm"
-              :formType="formType" />   
-      
-            <FormDataRefreshSection v-if="pageRefreshSectionIndex != '' && displayDSection" 
-              :dataModel="dynamicSectionModel" 
-              :initData="formInitData"
-              :clientFormId="formId"
-              :csNumber="csNumber"
-              :options="options"/>
+          <div id="div_scale" :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
+            <section class="mb-1">
+              <v-row>
+                <div class="col-11">
+                  <FormDataEntry 
+                    :csNumber="csNumber"
+                    :formId="formId"
+                    :dataModel="data_formEntries" 
+                    :options="options"
+                    :initData="formInitData"
+                    :sendData="sendData"
+                    @formDataCollected="validateAndCompleteForm"
+                    :formType="formType" />   
+            
+                  <FormDataRefreshSection v-if="pageRefreshSectionIndex != '' && displayDSection" 
+                    :dataModel="dynamicSectionModel" 
+                    :initData="formInitData"
+                    :clientFormId="formId"
+                    :csNumber="csNumber"
+                    :options="options"/>
 
-            <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
-              :dataModel="casePlanDataModel" 
-              :initData="formInitData"
-              :clientFormId="formId"
-              :csNumber="csNumber"
-              :options="options"/>
+                  <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
+                    :dataModel="casePlanDataModel" 
+                    :initData="formInitData"
+                    :clientFormId="formId"
+                    :csNumber="csNumber"
+                    :options="options"/>
 
-            <FormSummary v-if="isContainSummary && displaySummary" 
-              @viewSectionQuestion="navToSectionAndQuestion" 
-              :clientFormId="formId"
-              :csNumber="csNumber" />
+                  <FormSummary v-if="isContainSummary && displaySummary" 
+                    @viewSectionQuestion="navToSectionAndQuestion" 
+                    :clientFormId="formId"
+                    :csNumber="csNumber" />
 
-            <FormioButtonGroupSubmit 
-              :saveBtnLabel="btnSaveContinueText"
-              :dataModel="submitBtnData" 
-              @saveContinueClicked="handleSaveContinue"
-              @cancelFormClicked="handleDeleteForm" />
+                  <FormioButtonGroupSubmit 
+                    :saveBtnLabel="btnSaveContinueText"
+                    :dataModel="submitBtnData" 
+                    @saveContinueClicked="handleSaveContinue"
+                    @cancelFormClicked="handleDeleteForm" />
+                </div>
+                <div :class="[formExpanded ? 'scale-icon' : 'scale-icon', 'col-1']">
+                  <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="formExpandToggle"/>
+                  <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="formExpandToggle"/>
+                </div>
+              </v-row>
+            </section>
           </div>
         </div>
-        <div class="columnMain R">
+        <div id="id_sidePanel" class="columnMain R">
           <div class="R-Sticky">
             <section class="crna-right-sticky-panel">
               <div class="crna-right-panel-button-container">
@@ -287,6 +297,9 @@ export default {
       sendData: 0,
       dynamicSectionModel: {"display": "form", "components": []},
       displayDSection: false,
+      showFormExpandedIcon: false,
+      formExpanded: false,
+      key_formExpandIcon: 0,
     }
   },
   mounted(){
@@ -316,6 +329,33 @@ export default {
     
   },
   methods: {
+    formExpandToggle() {
+      let scaleDiv = document.getElementById("div_scale");
+      let footerDiv = document.getElementById("id_footer");
+      let infoDiv = document.getElementById("id_infoPanel");
+      let navDiv = document.getElementById("id_navPanel");
+      let sideDiv = document.getElementById("id_sidePanel");
+      let menuDiv = document.getElementById("div_menu");
+      if (scaleDiv != null) {
+        if (this.formExpanded) {
+          this.formExpanded = false;
+          scaleDiv.className = "mainContent";
+          footerDiv.setAttribute('style', 'display:block');
+          infoDiv.setAttribute('style', 'display:block');
+          navDiv.setAttribute('style', 'display:block');
+          sideDiv.setAttribute('style', 'display:block');
+          menuDiv.setAttribute('style', 'display:block');
+        } else {
+          this.formExpanded = true;
+          scaleDiv.className = "scales scaleOn";
+          footerDiv.setAttribute('style', 'display:none');
+          infoDiv.setAttribute('style', 'display:none');
+          navDiv.setAttribute('style', 'display:none');
+          sideDiv.setAttribute('style', 'display:none');
+          menuDiv.setAttribute('style', 'display:none');
+        }
+      }
+    },
     handleChangeFormToIncomplete() {
       this.options = null;
       this.formInfoData.data.showEditBtn = false;

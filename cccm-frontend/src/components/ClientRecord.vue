@@ -41,7 +41,8 @@
                     <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
                     <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
                       <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
-                      <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
+                      <font-awesome-icon v-if="showAlertDetails" :icon="[ 'fa', 'fa-chevron-down']" style="margin-top:-5px" />
+                      <font-awesome-icon v-else :icon="[ 'fa', 'fa-chevron-up' ]" style="margin-top:-5px" />
                     </span>
                   </div>
                   <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
