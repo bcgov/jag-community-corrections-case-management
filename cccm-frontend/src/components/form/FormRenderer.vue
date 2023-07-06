@@ -143,50 +143,48 @@
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
           <div id="div_scale" :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
-            <section class="mb-1">
-              <v-row>
-                <div class="col-11">
-                  <FormDataEntry 
-                    :csNumber="csNumber"
-                    :formId="formId"
-                    :dataModel="data_formEntries" 
-                    :options="options"
-                    :initData="formInitData"
-                    :sendData="sendData"
-                    @formDataCollected="validateAndCompleteForm"
-                    :formType="formType" />   
-            
-                  <FormDataRefreshSection v-if="pageRefreshSectionIndex != '' && displayDSection" 
-                    :dataModel="dynamicSectionModel" 
-                    :initData="formInitData"
-                    :clientFormId="formId"
-                    :csNumber="csNumber"
-                    :options="options"/>
+            <v-row>
+              <div class="col-11">
+                <FormDataEntry 
+                  :csNumber="csNumber"
+                  :formId="formId"
+                  :dataModel="data_formEntries" 
+                  :options="options"
+                  :initData="formInitData"
+                  :sendData="sendData"
+                  @formDataCollected="validateAndCompleteForm"
+                  :formType="formType" />   
+          
+                <FormDataRefreshSection v-if="pageRefreshSectionIndex != '' && displayDSection" 
+                  :dataModel="dynamicSectionModel" 
+                  :initData="formInitData"
+                  :clientFormId="formId"
+                  :csNumber="csNumber"
+                  :options="options"/>
 
-                  <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
-                    :dataModel="casePlanDataModel" 
-                    :initData="formInitData"
-                    :clientFormId="formId"
-                    :csNumber="csNumber"
-                    :options="options"/>
+                <FormCaseplan v-if="isContainCasePlan && displayCasePlan" 
+                  :dataModel="casePlanDataModel" 
+                  :initData="formInitData"
+                  :clientFormId="formId"
+                  :csNumber="csNumber"
+                  :options="options"/>
 
-                  <FormSummary v-if="isContainSummary && displaySummary" 
-                    @viewSectionQuestion="navToSectionAndQuestion" 
-                    :clientFormId="formId"
-                    :csNumber="csNumber" />
+                <FormSummary v-if="isContainSummary && displaySummary" 
+                  @viewSectionQuestion="navToSectionAndQuestion" 
+                  :clientFormId="formId"
+                  :csNumber="csNumber" />
 
-                  <FormioButtonGroupSubmit 
-                    :saveBtnLabel="btnSaveContinueText"
-                    :dataModel="submitBtnData" 
-                    @saveContinueClicked="handleSaveContinue"
-                    @cancelFormClicked="handleDeleteForm" />
-                </div>
-                <div :class="[formExpanded ? 'scale-icon' : 'scale-icon', 'col-1']">
-                  <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="formExpandToggle"/>
-                  <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="formExpandToggle"/>
-                </div>
-              </v-row>
-            </section>
+                <FormioButtonGroupSubmit 
+                  :saveBtnLabel="btnSaveContinueText"
+                  :dataModel="submitBtnData" 
+                  @saveContinueClicked="handleSaveContinue"
+                  @cancelFormClicked="handleDeleteForm" />
+              </div>
+              <div class="scale-icon col-1">
+                <font-awesome-icon v-if="!formExpanded" :icon="['fas', 'maximize']" title="Maximize form" @click="formExpandToggle"/>
+                <font-awesome-icon v-else :icon="['fas', 'minimize']" title="Minimize form" @click="formExpandToggle"/>
+              </div>
+            </v-row>
           </div>
         </div>
         <div id="id_sidePanel" class="columnMain R">

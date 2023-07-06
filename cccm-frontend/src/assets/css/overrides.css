@@ -680,13 +680,8 @@ legend[ref="header"]{
 
 /*Form data portion scale*/
 .scale-icon {
-    font-size: 35px;
+    font-size: 30px;
     color:#38598a;
-}
-.scale-icon-toggled {
-    font-size: 35px;
-    color:#38598a;
-    margin-top:50px;
 }
 div.scales {
   width:100%;
