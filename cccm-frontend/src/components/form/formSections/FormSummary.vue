@@ -18,7 +18,7 @@
                             <!--Customize the action field, making it clickable-->
                             <template v-slot:item.editKey="{item}">
                                 <a href="#" @click="editFormItem(item.editKey)">
-                                    <v-icon>fas fa-eye</v-icon>
+                                    <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
                                 </a>
                             </template>
                         </v-data-table>
@@ -31,7 +31,7 @@
                             <!--Customize the action field, making it clickable-->
                             <template v-slot:item.editKey="{item}">
                                 <a href="#" @click="editFormItem(item.editKey)">
-                                    <v-icon>fas fa-eye</v-icon>
+                                    <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
                                 </a>
                             </template>
                         </v-data-table>
