@@ -35,14 +35,13 @@
             <section class="mb-3">
               <v-row :key="theKey" class="row">
                 <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
-                <div v-if="getNumOfAlerts > 0" :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" @click="showHideMoreAlerts">
+                <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
                   <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
-                    <font-awesome-icon :icon="[ 'fas', 'fa-exclamation-triangle']" class="mt-1" />
+                    <span class="fas fa-exclamation-triangle mt-1"/>
                     <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
                     <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
                       <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
-                      <font-awesome-icon v-if="showAlertDetails" :icon="[ 'fa', 'fa-chevron-down']" style="margin-top:-5px" />
-                      <font-awesome-icon v-else :icon="[ 'fa', 'fa-chevron-up' ]" style="margin-top:-5px" />
+                      <i :class="[ showWarrantDetails ? 'fa fa-chevron-up' : 'fa fa-chevron-down', 'text-dark']" style="margin-top:-5px" />
                     </span>
                   </div>
                   <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
