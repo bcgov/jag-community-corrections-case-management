@@ -677,28 +677,3 @@ legend[ref="header"]{
 .background-dark-yellow {
     background-color: #FFC000;
 }
-
-/*Form data portion scale*/
-.scale-icon {
-    font-size: 45px;
-    color:#38598a;
-}
-div.scales {
-  width:100%;
-  height:100%;
-  margin-top:-30px;
-  position:absolute;
-  z-index: 100;
-}
-div.scaleOn {
-  /*General*/
-  transform: scale(1, 1);
-  /*Firefox*/
-  -moz-transform: scale(1, 1);
-  /*Microsoft Internet Explorer*/
-  -ms-transform: scale(1, 1);
-  /*Chrome, Safari*/
-  -webkit-transform: scale(1, 1);
-  /*Opera*/
-  -o-transform: scale(1, 1);
-}

@@ -89,13 +89,13 @@
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
-            ><font-awesome-icon :icon="['fa', 'fa-plus']" />&nbsp; Add SARA Form</v-btn>
+            ><i class="fa fa-plus"></i>&nbsp; Add SARA Form</v-btn>
           </div>
           <div v-else-if="showSMOForms &&  item.id === CONST_CREATE_BTN_OVERALL" class="p-4">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SO_OVERALL)"
-            ><font-awesome-icon :icon="['fa', 'fa-plus']" />&nbsp; Add SMO-Overall-CMP Form</v-btn>
+            ><i class="fa fa-plus"></i>&nbsp; Add SMO-Overall-CMP Form</v-btn>
           </div>
           <span v-else>{{ item.tab }}</span>
         </v-tab>

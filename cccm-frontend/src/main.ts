@@ -6,30 +6,23 @@ import router from './router'
 import authentication from '@/plugins/authentication';
 import updateToken from '@/middleware/update-token';
 import setupInterceptors from '@/services/setupAxioInterceptors';
-
-//vuetify
 import vuetify from '@/plugins/vuetify'
-
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 
-//fontawesome
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faBarChart, faComments, faWarning, fas } from '@fortawesome/free-solid-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faBarChart, faComments, faWarning} from '@fortawesome/free-solid-svg-icons'
 import Vidle from 'v-idle'
 
 Vue.use(Vidle)
 
+library.add(faBarChart, faComments, faWarning);
+
 Vue.use(VueCompositionAPI)
 Vue.use(authentication)
 Vue.use(PiniaVuePlugin)
-
-//fontawesome 
-library.add(faBarChart, faComments, faWarning, fas, far, fab)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 const pinia = createPinia()
