@@ -64,99 +64,74 @@
       "message": "9. Attitude: requires comment"
     },
     {
-      "key": "S02Q01",
-      "type": "REQUIRED",
-      "message": "1. Family Relationships: is required"
-    },
-    {
-      "key": "S02Q02",
-      "type": "REQUIRED",
-      "message": "2. Living Arrangements: is required"
-    },
-    {
-      "key": "S02Q03",
-      "type": "REQUIRED",
-      "message": "3. Companion/Significant Others: is required"
-    },
-    {
-      "key": "S02Q04",
-      "type": "REQUIRED",
-      "message": "4. Academic/Vocational Skills: is required"
-    },
-    {
-      "key": "S02Q05",
-      "type": "REQUIRED",
-      "message": "5. Employment Pattern: is required"
-    },
-    {
-      "key": "S02Q06",
-      "type": "REQUIRED",
-      "message": "6. Financial Management Skills: is required"
-    },
-    {
-      "key": "S02Q07",
-      "type": "REQUIRED",
-      "message": "7. Behavioural/Emotional Stability: is required"
-    },
-    {
-      "key": "S02Q08",
-      "type": "REQUIRED",
-      "message": "8. Substance Misuse: is required"
-    },
-    {
-      "key": "S02Q09",
-      "type": "REQUIRED",
-      "message": "9. Attitude: is required"
-    },
-    {
       "key": "S03Q01",
-      "type": "REQUIRED",
-      "message": "1. # of Current Convictions/Peace Bonds: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q01_COMMENT"],
+      "dependentValues": [""],
+      "message": "1. # of Current Convictions/Peace Bonds: requires comment"
     },
     {
       "key": "S03Q02",
-      "type": "REQUIRED",
-      "message": "2. # of Prior Court Dispositions: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q02_COMMENT"],
+      "dependentValues": [""],
+      "message": "2. # of Prior Court Dispositions: requires comment"
     },
     {
       "key": "S03Q03",
-      "type": "REQUIRED",
-      "message": "3. # of Prior Supervision Periods: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q03_COMMENT"],
+      "dependentValues": [""],
+      "message": "3. # of Prior Supervision Periods: requires comment"
     },
     {
       "key": "S03Q04",
-      "type": "REQUIRED",
-      "message": "4. # of Prior Failures to Comply: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q04_COMMENT"],
+      "dependentValues": [""],
+      "message": "4. # of Prior Failures to Comply: requires comment"
     },
     {
       "key": "S03Q05",
-      "type": "REQUIRED",
-      "message": "5. Age at First Arrest / Conviction: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q05_COMMENT"],
+      "dependentValues": [""],
+      "message": "5. Age at First Arrest / Conviction: requires comment"
     },
     {
       "key": "S03Q06",
-      "type": "REQUIRED",
-      "message": "6. Ever Imprisoned After a Conviction: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q06_COMMENT"],
+      "dependentValues": [""],
+      "message": "6. Ever Imprisoned After a Conviction: requires comment"
     },
     {
       "key": "S03Q07",
-      "type": "REQUIRED",
-      "message": "7. Escape History: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q07_COMMENT"],
+      "dependentValues": [""],
+      "message": "7. Escape History: requires comment"
     },
     {
       "key": "S03Q08",
-      "type": "REQUIRED",
-      "message": "8. Weapon Use / Threat: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q08_COMMENT"],
+      "dependentValues": [""],
+      "message": "8. Weapon Use / Threat: requires comment"
     },
     {
       "key": "S03Q09",
-      "type": "REQUIRED",
-      "message": "9. Frequency of Violence: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q09_COMMENT"],
+      "dependentValues": [""],
+      "message": "9. Frequency of Violence: requires comment"
     },
     {
       "key": "S03Q10",
-      "type": "REQUIRED",
-      "message": "10. Severity of Violence: is required"
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q10_COMMENT"],
+      "dependentValues": [""],
+      "message": "10. Severity of Violence: requires comment"
     },
     {
       "key": "S01Q02",
