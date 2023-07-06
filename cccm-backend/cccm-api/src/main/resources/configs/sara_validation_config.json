@@ -4,56 +4,56 @@
       "key": "S02Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q01_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "1. Past Assault of Family Members: requires comment"
     },
     {
       "key": "S02Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q02_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "2. Past Assault of Strangers/Acquaintances: requires comment"
     },
     {
       "key": "S02Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q03_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "3. Past Violation of Cond. Release or Community Supervision: requires comment"
     },
     {
       "key": "S03Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q01_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "1. Recent Relationship Problems (past year): requires comment"
     },
     {
       "key": "S03Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q02_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "2. Recent Employment Problems (past year): requires comment"
     },
     {
       "key": "S03Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q03_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "3. Victim of and/or Witness to Family Violence (Childhood): requires comment"
     },
     {
       "key": "S03Q04",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q04_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "4. Recent Substance Abuse (past year): requires comment"
     },
     {
       "key": "S03Q05",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q05_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "Recent Suicidal/Homicidal Ideation/Intent (past year) -- Requires Clinician's assessment: requires comment"
     },
     {
@@ -67,126 +67,126 @@
       "key": "S03Q07",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q07_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "Personality Disorder with Anger, Impulsivity or Behavioural Instability - requires clinician's assessment: requires comment"
     },
     {
       "key": "S04Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q01_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "1. Past Physical Assault: requires comment"
     },
     {
       "key": "S04Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q02_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "2. Past Sexual Assault/Sexual Jealousy: requires comment"
     },
     {
       "key": "S04Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q03_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "3. Past use of Weapons/Credible Threats of Harm: requires comment"
     },
     {
       "key": "S04Q04",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q04_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "4. Recent Escalation of Frequency/Severity of Assault (past year): requires comment"
     },
     {
       "key": "S04Q05",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q05_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "5. Past Violation of \\\"No Contact\\\" Order (civil or criminal): requires comment"
     },
     {
       "key": "S04Q06",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q06_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "6. Extreme Minimization/Denial of Spousal Assault History: requires comment"
     },
     {
       "key": "S04Q07",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q07_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "7. Attitudes that Support or Condone Spousal Assault: requires comment"
     },
     {
       "key": "S05Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q01_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "1. Severe and/or Sexual Violence: requires comment"
     },
     {
       "key": "S05Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q02_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "2. Use of Weapons and/or Credible Threats of Harm: requires comment"
     },
     {
       "key": "S05Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q03_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "3. Violation of \\\"No Contact\\\" Order (civil or criminal): requires comment"
     },
     {
       "key": "S06Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q01_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "1. Current emotional crisis?: requires comment"
     },
     {
       "key": "S06Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q02_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "2. History of torturing or disfiguring intimate partners?: requires comment"
     },
     {
       "key": "S06Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q03_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "3. Victim or witness of political persecution, torture, or violence?: requires comment"
     },
     {
       "key": "S06Q04",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q04_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "4. Sexual sadism?: requires comment"
     },
     {
       "key": "S06Q05",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q05_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "5. Easy access to firearms?: requires comment"
     },
     {
       "key": "S06Q06",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q06_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "6. Stalking?: requires comment"
     },
     {
       "key": "S06Q07",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q07_COMMENT"],
-      "dependentValues": ["Y",""],
+      "dependentValues": ["Y",null],
       "message": "7. Recent loss of social support network?: requires comment"
     },
     {
