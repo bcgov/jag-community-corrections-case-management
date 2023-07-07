@@ -13,12 +13,15 @@ import {mapStores} from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faBarChart, faComments, faWarning} from '@fortawesome/free-solid-svg-icons'
+import {faBarChart, faComments, faWarning, fas} from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+
 import Vidle from 'v-idle'
 
 Vue.use(Vidle)
 
-library.add(faBarChart, faComments, faWarning);
+library.add(faBarChart, faComments, faWarning, fas, far, fab)
 
 Vue.use(VueCompositionAPI)
 Vue.use(authentication)
