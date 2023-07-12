@@ -53,21 +53,21 @@
       "key": "S03Q05",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q05_COMMENT"],
-      "dependentValues": ["B","C",null],
+      "dependentValues": ["B","C"],
       "message": "Recent Suicidal/Homicidal Ideation/Intent (past year) -- Requires Clinician's assessment: requires comment"
     },
     {
       "key": "S03Q06",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q06_COMMENT"],
-      "dependentValues": ["B","C",""],
+      "dependentValues": ["B","C",null],
       "message": "Recent Psychotic/Manic Symptoms (past year) - Requires clinician's assessment: requires comment"
     },
     {
       "key": "S03Q07",
       "type": "CONDITIONAL",
       "dependentKeys": ["S03Q07_COMMENT"],
-      "dependentValues": ["B","C",null],
+      "dependentValues": ["B","C"],
       "message": "Personality Disorder with Anger, Impulsivity or Behavioural Instability - requires clinician's assessment: requires comment"
     },
     {
