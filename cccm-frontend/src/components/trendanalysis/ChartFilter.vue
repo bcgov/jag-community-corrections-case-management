@@ -129,7 +129,7 @@ export default {
       if (mutation.payload) {
         // chart change or period change reloads back-end data
         if (mutation.payload.chartType) {
-          console.log("Changing chart type");
+          //console.log("Changing chart type");
           this.userStartDate = null;
           this.userEndDate = null;
           this.selectedFilter = null;
@@ -153,8 +153,7 @@ export default {
       this.store.$patch({ startDate: this.userStartDate, endDate: this.userEndDate });
     },
     async loadData() {
-      console.log("ChartFilter: Getting data for %s", this.store.chartType);
-
+      //console.log("ChartFilter: Getting data for %s", this.store.chartType);
       this.loading = true;
       let csNumber = this.$route.params.csNumber;
       let locationCD = this.mainStore.locationCD;
@@ -370,7 +369,6 @@ export default {
     },
     applyAdvancedFilter(datasets) {
       let filter = this.store.advancedFilter;
-      console.log("applyAdvancedFilter filter: ", filter);
       if (filter) {
         datasets.forEach(ds => {
           ds.hidden = false;
@@ -447,6 +445,7 @@ export default {
       this.userEndDate = null;
       this.store.$patch({ chartType: chartType, period: this.period })
       this.getFormFactors();
+      this.getFilterOptions();
     }
   }
 }
