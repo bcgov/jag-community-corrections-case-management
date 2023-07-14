@@ -318,7 +318,7 @@ export default {
                 return response;
               }
             },
-            beginAtZero: true
+            beginAtZero: false
           }
         }
       }
