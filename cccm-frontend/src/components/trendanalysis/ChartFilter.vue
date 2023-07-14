@@ -7,16 +7,20 @@
     </v-tabs>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Date Range</div>
-      <div class="d-flex justify-content-evenly align-items-center pb-3">
-        <input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
-          class="form-control ms-3 me-3 mr-2" type="date" />
-        <small>to</small>
-        <input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
-          class="form-control ms-3 me-3 ml-2" type="date" />
-
-        <v-btn class="ml-1" v-on:click="resetDates" tooltip="test"><a class="fas fa-undo-alt" /></v-btn>
-
-      </div>
+      <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
+        <div class="col-sm-5">
+          <small>Start Date: </small><input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
+            class="form-control ms-3 me-3 mr-2" type="datetime-local" /> 
+        </div> 
+        <div class="col-sm-5">
+          <small>End Date: </small><input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
+            class="form-control ms-3 me-3 ml-2" type="datetime-local" />
+        </div>
+        <div class="col-sm-1">
+          <small>&nbsp; </small><button v-on:click="resetDates" title="Reset Dates"><a class="fas fa-undo-alt" /></button>
+        </div>
+      </section>
+      
     </div>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
@@ -119,20 +123,13 @@ export default {
 
       this.getFormFactors();
       this.getFilterOptions();
-      this.loadData();
     });
-
     this.store.$subscribe(async (mutation, state) => {
-      //console.log("mutation:" + JSON.stringify(mutation));
-      //console.log("state:" + JSON.stringify(state));
-      //console.log('ChartFilter->Subscribe() got new stats and mutation');
-
       // chart type or period changed
       if (mutation.payload) {
-
         // chart change or period change reloads back-end data
         if (mutation.payload.chartType) {
-          console.log("Changing chart type");
+          //console.log("Changing chart type");
           this.userStartDate = null;
           this.userEndDate = null;
           this.selectedFilter = null;
@@ -146,30 +143,17 @@ export default {
         if (mutation.payload.factors || mutation.payload.period || mutation.payload.data || mutation.payload.startDate || mutation.payload.endDate || mutation.payload.advancedFilter) {
           this.applyDateFilters();
         }
-
-
-
       }
-
-
     });
-
   },
-  updated() {
-
-
-  },
-
   methods: {
     resetDates() {
       this.userStartDate = this.store.minStartDate;
       this.userEndDate = this.store.maxEndDate;
       this.store.$patch({ startDate: this.userStartDate, endDate: this.userEndDate });
-
     },
     async loadData() {
-      console.log("ChartFilter: Getting data for %s", this.store.chartType);
-
+      //console.log("ChartFilter: Getting data for %s", this.store.chartType);
       this.loading = true;
       let csNumber = this.$route.params.csNumber;
       let locationCD = this.mainStore.locationCD;
@@ -188,7 +172,6 @@ export default {
         await getChartData(filter).then(([error, data]) => {
           if (error) {
             console.error(error);
-
           } else {
             //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
@@ -201,7 +184,6 @@ export default {
             let interventionCount = data.counters.interventions ? data.counters.interventions : 0;
 
             if (xSeries.length !== 0) {
-
               // patch the pinia store
               this.store.$patch({ data: data, minStartDate: this.minStartDate, maxEndDate: this.maxEndDate, interventionCount: interventionCount, commentCount: commentCount, startDate: this.minStartDate, endDate: this.maxEndDate });
               if (!this.userStartDate) {
@@ -215,9 +197,7 @@ export default {
               this.userStartDate = null;
               this.userEndDate = null;
               this.store.$patch({ data: data, minStartDate: null, maxEndDate: null, interventionCount: 0, commentCount: 0 });
-
             }
-            
           }
         });
       } catch (error) {
@@ -234,7 +214,7 @@ export default {
       this.userEndDate = null;
       this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
-
+      this.getFilterOptions();
     },
     clearSelections() {
 
@@ -245,15 +225,12 @@ export default {
     updateFilter() {
       // get the filter from the store
       let filter = this.reportTypes[this.reportTab].filters.filter(option => option.value === this.selectedFilter)[0];
-
+      console.log("updateFilter: ", filter);
       this.store.$patch({ advancedFilter: filter })
-
-
     },
     changeStartDate() {
       console.log("Start date changed...");
       this.store.$patch({ startDate: this.userStartDate });
-
     },
     changeEndDate() {
       console.log("End date changed...");
@@ -285,7 +262,6 @@ export default {
           }
           index++;
         });
-
         
         let filteredDatasets = new Array();
         if(this.store.data.datasets) {
@@ -318,7 +294,6 @@ export default {
         }
 
         filteredDatasets = this.applyAdvancedFilter(filteredDatasets);
-
         let datasets = [];
         filteredDatasets.forEach(ds => {
           let data = [];
@@ -329,7 +304,6 @@ export default {
 
           copiedDs.data = data;
           datasets.push(copiedDs);
-
         });
         for (let i = startIndex; i <= endIndex; i++) {
           labels.push(this.store.data.dataLabels[i]);
@@ -371,6 +345,7 @@ export default {
     },
     async getFilterOptions() {
       this.filterOptions = this.reportTypes[this.reportTab].filters;
+      this.selectedFilter = this.filterOptions == null ? null : this.filterOptions[0];
     },
     async getFormFactors() {
       let chartType = this.reportTypes[this.reportTab].content;
@@ -381,7 +356,6 @@ export default {
         this.factorOptions = data;
         this.store.$patch({ factors: data });
         if(this.selectedFactors == null || this.selectedFactors.length == 0) {
-
           // by default, all should be selected
           this.selectedFactors = new Array();
           if(this.factorOptions != null && this.factorOptions.length > 0) {
@@ -391,20 +365,14 @@ export default {
           }
         }
         this.applyDateFilters();
-
       }
     },
     applyAdvancedFilter(datasets) {
-
       let filter = this.store.advancedFilter;
-
       if (filter) {
-
         datasets.forEach(ds => {
           ds.hidden = false;
-
           const lastTwo = ds.data.slice(-2);
-
           switch (filter.value) {
             case '': {
               ds.hidden = null;
@@ -453,7 +421,6 @@ export default {
 
           }
         });
-
       }
       return datasets;
     },
@@ -470,7 +437,6 @@ export default {
     },
     updateFactors() {
       this.store.$patch({ factors: this.selectedFactors })
-
     },
     changePeriods() {
       let chartType = this.reportTypes[this.reportTab].content;
@@ -479,14 +445,11 @@ export default {
       this.userEndDate = null;
       this.store.$patch({ chartType: chartType, period: this.period })
       this.getFormFactors();
-
+      this.getFilterOptions();
     }
-
   }
 }
 </script>
-
-
 
 <style scoped>
 .filters {
