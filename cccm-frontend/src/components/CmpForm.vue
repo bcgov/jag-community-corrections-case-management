@@ -23,7 +23,7 @@
             Are you sure you want to create SARA form?
           </v-card-title>
           <v-card-title v-if="formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="text-h5">
-            Are you sure you want to create SMO-OVERALL-CMP form?
+            Are you sure you want to create SMO-Overall-CMP form?
           </v-card-title>
           <v-card-text>
             <br><br>
@@ -46,7 +46,7 @@
         </v-card>
       </v-dialog>
     </div>
-    <div v-if="showSMOForms && (formType === $CONST_FORMTYPE_STAT99R || formType === $CONST_FORMTYPE_ACUTE)">
+    <div v-if="showSMOForms && (formType === $CONST_FORMTYPE_STABLE || formType === $CONST_FORMTYPE_STAT99R || formType === $CONST_FORMTYPE_ACUTE)">
       <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
         v-show=false
@@ -59,7 +59,7 @@
         >
         <v-card>
           <v-card-title v-if="formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="text-h5">
-            Are you sure you want to create SMO-OVERALL-CMP form?
+            Are you sure you want to create SMO-Overall-CMP form?
           </v-card-title>
           <v-card-text>
             <br><br>
@@ -329,7 +329,6 @@ export default {
     },
     createChildForm(formType) {
       let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
-      //console.log("modal: ", modal, formType);
       this.formToCreate = formType;
       if (modal != null) {
         modal.click();
