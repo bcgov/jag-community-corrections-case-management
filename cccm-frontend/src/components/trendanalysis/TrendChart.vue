@@ -18,12 +18,12 @@
 </template>
 
 <script>
-
 import { Chart, registerables } from 'chart.js';
 import axios from "axios";
 import { trendStore } from '@/stores/trendstore';
 import { mapStores, mapState, mapWritableState } from "pinia";
 import { getChartData } from "@/components/form.api";
+
 export default {
   name: "TrendChart",
   data() {
@@ -49,11 +49,9 @@ export default {
     let tooltipEl = document.getElementById('chartjs-tooltip');
     tooltipEl.remove();
   },
-
   beforeDestroy: function () {
     this.$el.removeEventListener('click', this.documentEventListener)
   },
-
   mounted() {
     this.$el.addEventListener('click', this.documentEventListener)
 
@@ -65,13 +63,9 @@ export default {
       setTimeout(function () {
         vm.updateChart(vm.store.filteredData);
       }, 500);
-
-
     }
-
     this.store.$subscribe((mutation, state) => {
       let changed = false;
-
       if (mutation.payload) {
         if (mutation.payload.filteredData === null) {
           this.chartReady = false;
@@ -80,14 +74,10 @@ export default {
           this.updateChart(mutation.payload.filteredData);
         }
       }
-
     });
-
     const linePlugin = {
       id: 'draw_vertical_lines',
-
       afterDatasetsDraw: function (chartInstance) {
-
         // can draw a vertical line for previous assessment if needed
         chartInstance.data.datasets.forEach(dataset => {
           if (dataset.verticalLines) {
@@ -109,10 +99,7 @@ export default {
               ctx.restore();
             }
           }
-
         });
-
-
       },
     }
     Chart.register(...registerables, linePlugin);
@@ -141,8 +128,6 @@ export default {
             //console.log("mouseOutEvent %o", mouseOutEvent);
             return chart.canvas.dispatchEvent(mouseOutEvent);
           }
-          
-        
         },
         elements: {
           point: {
@@ -155,23 +140,16 @@ export default {
           tooltip: {
             enabled: false,
             events: ['touchmove', 'click'],
-
             external: function (context) {
-
               const {chart, tooltip} = context;
-
               //console.log("tooltip->external: %o", context);
-              // Tooltip Element
+              // DataPoint tooltip Element
               let tooltipEl = document.getElementById('chartjs-tooltip');
 
               // Create element on first render
               if (!tooltipEl) {
                 tooltipEl = document.createElement('div');
-                tooltipEl.style.backgroundColor = "white";
-                tooltipEl.style.border = "1px black solid";
-                tooltipEl.style.padding = "8px";
-                tooltipEl.style.borderRadius = "5px";
-                tooltipEl.style.boxShadow = "5px 5px 5px black";
+                tooltipEl.className = "dataPointTooltip";
                 tooltipEl.id = 'chartjs-tooltip';
                 tooltipEl.innerHTML = '<table></table>';
                 document.body.appendChild(tooltipEl);
@@ -182,7 +160,6 @@ export default {
               if (tooltipModel.opacity === 0) {
                 // Hide if tooltip to be hidden
                 tooltipEl.style.opacity = 0;
-
                 return;
               } else if (tooltipModel.opacity === 1) {
                 // Keep the tooltip visible
@@ -213,55 +190,58 @@ export default {
 
                 let dataLabel;
                 titleLines.forEach(function (title) {
-                  innerHtml += '<tr><td>Date: <b>' + title + '</b></td></tr>';
+                  innerHtml += '<tr><td colspan="3"><b>Date: </b>' + title + '</td></tr>';
                   dataLabel = title;
                 });
 
                 //console.log("chart.data: %o", chart.data);
-
+                innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
                 if(tooltipModel.dataPoints) {
                     for(let j = 0; j < tooltipModel.dataPoints.length; j++) {
                       let dataIndex = tooltipModel.dataPoints[j].dataIndex;
                       let datasetIndex = tooltipModel.dataPoints[j].datasetIndex;
-
                       let dataset =  tooltipModel.dataPoints[j].dataset;
-
-                      //console.log("dataIndex: " + dataIndex);
-                      //console.log("datasetIndex: " + datasetIndex);
-                      //console.log("dataset: %o", dataset);
-                      //console.log("comments: %o", datasetItems[datasetIndex].comments);
-
-                      
-
+                      console.log("dataset.data: ", dataset);
                       const colors = tooltipModel.labelColors[j];
                       let style = 'background-color:' + colors.backgroundColor;
                       style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
                       const span = '<span style="' + style + '"></span>';
-                      innerHtml += '<tr><td>' + span + dataset.label + '</td></tr>';
+                      innerHtml += '<tr><td>' + span + dataset.label + '</td>';
                       
                       if(dataset.comments) {
                         for(let k = 0; k < dataset.comments.length; k++) {
                           if(dataLabel == dataset.comments[k].dataLabel) {
-                            innerHtml += '<tr><td>Comment: ' + dataset.comments[k].value+ '</td></tr>';
+                            innerHtml += '<td>' + dataset.comments[k].value+ '</td>';
                           }
                         }
                       }
-                      if(dataset.interventions) {
+                      
+                      if(dataset.interventions && dataset.interventions.length > 0) {
+                        let containItv = dataset.interventions.filter( item => item.dataLabel === dataLabel );
+                        console.log("containItv: ", containItv);
+                        if (containItv != null && containItv[0] != null) {
+                          innerHtml += '<td><table >';
+                          innerHtml += '<tr><th>Type</th><th>Comments</th></tr>'
+                        }
+                        
                         for(let k = 0; k < dataset.interventions.length; k++) {
                           if(dataLabel == dataset.interventions[k].dataLabel) {
-                            innerHtml += '<tr><td>Interventions: ' + dataset.interventions[k].comment+ '</td></tr>';
+                            innerHtml += '<tr>'
+                            innerHtml += '<td>' +  'Intervention Type' + '</td>';
+                            innerHtml += '<td>' + dataset.interventions[k].comment + '</td>';
+                            innerHtml += '</tr>'
                           }
+                        }
+                        if (containItv != null && containItv[0] != null) {
+                          innerHtml += '</table></td></tr>' 
                         }
                       }
                     }
-                  }
+                }
                 innerHtml += '</tbody>';
-
                 let tableRoot = tooltipEl.querySelector('table');
                 tableRoot.innerHTML = innerHtml;
               }
-
-
               const tips = document.querySelectorAll('.tooltip-link');
 
               tips.forEach(tip => {
@@ -275,7 +255,8 @@ export default {
               // Display, position, and set styles for font
               tooltipEl.style.opacity = .7;
               tooltipEl.style.position = 'absolute';
-              tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
+              tooltipEl.style.left = position.left + window.pageXOffset + 250 + tooltipModel.caretX + 'px';
+              //alert("position.left + window.pageXOffset + tooltipModel.caretX: " + position.left + ',' + window.pageXOffset + ', ' + tooltipModel.caretX);
               tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
               tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
               tooltipEl.style.transform = 'translate(-50%, 0)';
@@ -300,21 +281,29 @@ export default {
                 let response = '';
                 switch (value) {
                   case 0:
-                    response = 'D: Considerable improvement needed';
+                    response = 'D';
                     break;
                   case 1:
-                    response = 'C: Some improvement needed';
+                    response = 'C';
                     break;
                   case 2:
-                    response = 'B: No immediate need';
+                    response = 'B';
                     break;
                   case 3:
-                    response = "A: Factor seen as asset";
+                    response = "A";
+                    break;
+                  case 10:
+                    response = 'Low';
+                    break;
+                  case 11:
+                    response = 'Medium';
+                    break;
+                  case 12:
+                    response = 'High';
                     break;
                   default:
                     response = '';
                 }
-
                 return response;
               }
             },
@@ -323,8 +312,6 @@ export default {
         }
       }
     });
-
-
   },
 
   methods: {
@@ -352,7 +339,44 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+.dataPointTooltip {
+  background-color: white;
+  
+  border-radius: 5px;
+  
+  
+  z-index: 10;
+}
+
+.dataPointTooltip>table>tbody>tr>th {
+  border: 1px solid black;
+}
+
+.dataPointTooltip>table>tbody>tr>td {
+  border: 1px solid black;
+  width: 33%
+}
+
+/* .tooltipTable>tbody>tr>td {
+  border: 1px solid black;
+}
+
+.tooltipTable>tbody>tr>td>table>tbody>tr>th {
+  border: 1px solid black;
+} */
+
+.dataPointTooltip>table>tbody>tr>td>table>tbody>tr>th {
+  border: 1px solid black;
+  width: 10%
+}
+
+.dataPointTooltip table tbody tr td table tbody tr td {
+  border: 1px solid black;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
 .chart {
   width: 90%;
 }
@@ -375,7 +399,7 @@ div.chartInactive {
 
 #chartjs-tooltip {
   border: 1px solid black;
-  box-shadow: 5px 5px black;
+  box-shadow: 1px 1px black;
 }
 
 

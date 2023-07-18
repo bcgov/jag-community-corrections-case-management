@@ -374,8 +374,8 @@ export default {
           ds.hidden = false;
           const lastTwo = ds.data.slice(-2);
           switch (filter.value) {
-            case '': {
-              ds.hidden = null;
+            case 'clear': {
+              ds.hidden = false;
               break;
             }
             case 'improved': {
@@ -390,35 +390,62 @@ export default {
             case 'worsened': {
               if (lastTwo[1] < lastTwo[0]) {
                 ds.hidden = false;
-
               } else {
                 ds.hidden = true;
               }
               break;
             }
-            case 'remained-c-d': {
+            case 'remained-0-1': {
               if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
-                ds.hidden = null;
+                ds.hidden = false;
               } else {
                 ds.hidden = true;
               }
-
               break;
             }
-            case 'remained-a-b': {
+            case 'remained-2-3': {
               if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
-                ds.hidden = null;
+                ds.hidden = false;
               } else {
                 ds.hidden = true;
-
               }
-
+              break;
+            }
+            case 'remained-1': {
+              if ((lastTwo[1] === 1 && lastTwo[0] === 1)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-10': {
+              if ((lastTwo[1] === 10 && lastTwo[0] === 10)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-11': {
+              if ((lastTwo[1] === 11 && lastTwo[0] === 11)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-12': {
+              if ((lastTwo[1] === 12 && lastTwo[0] === 12)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
               break;
             }
             default: {
               console.log("Not handling %s", filter.condition);
             }
-
           }
         });
       }
