@@ -355,7 +355,7 @@ export default {
 
 .dataPointTooltip>table>tbody>tr>td {
   border: 1px solid black;
-  width: 25%
+  width: 33%
 }
 
 /* .tooltipTable>tbody>tr>td {
