@@ -190,7 +190,7 @@ export default {
 
                 let dataLabel;
                 titleLines.forEach(function (title) {
-                  innerHtml += '<tr><td colspan="4"><b>Date: </b>' + title + '</td></tr>';
+                  innerHtml += '<tr><td colspan="3"><b>Date: </b>' + title + '</td></tr>';
                   dataLabel = title;
                 });
 
