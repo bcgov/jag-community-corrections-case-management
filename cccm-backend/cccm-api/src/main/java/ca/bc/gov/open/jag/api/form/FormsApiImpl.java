@@ -117,11 +117,11 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public List<ClientFormSummary> clientFormSearchUsingGET(String csNumber, Boolean currentPeriod, String formTypeCd, String xLocationId) {
+    public List<ClientFormSummary> clientFormSearchUsingGET(String csNumber, Boolean currentPeriod, String formTypeCd, String xLocationId, Boolean mostRecent) {
 
         logger.info("Form Search Request");
 
-        return clientDataService.clientFormSearch(csNumber, currentPeriod, formTypeCd, xLocationId);
+        return clientDataService.clientFormSearch(csNumber, currentPeriod,mostRecent, formTypeCd, xLocationId);
 
     }
 
