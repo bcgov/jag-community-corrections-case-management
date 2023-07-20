@@ -80,6 +80,9 @@ Vue.prototype.$FORM_INFO = [
   { formType: 'SO_OVERALL', formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 
+Vue.prototype.$BUTTON_TEXT_SUBMIT='Submit Form'
+Vue.prototype.$BUTTON_TEXT_SAVE_CONTINUE='Save and Continue'
+
 Vue.$keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {

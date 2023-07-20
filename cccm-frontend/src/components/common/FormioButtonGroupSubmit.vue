@@ -15,6 +15,7 @@ export default {
   props: {
     saveBtnLabel: '',
     dataModel: {},
+    submitDone: 0,
   },
   data() {
     return {
@@ -26,7 +27,17 @@ export default {
   watch: {
     saveBtnLabel() {
       this.private_updateSaveBtnLabel();
-    }
+    },
+    submitDone() {
+      let btn = this.private_getSaveBtn();
+      if (btn != null) {
+        // Saving completes, enable the button; and reset the button label
+        btn.disabled = false;
+        if (btn != null && btn.childNodes != null && btn.childNodes[0] != null) {
+          btn.childNodes[0].nodeValue = this.saveBtnLabel;
+        }
+      }
+    },
   },
   components: {
     Form
@@ -41,9 +52,9 @@ export default {
       this.formJSON = JSON.parse(tmpJSONStr);
     },
     private_updateSaveBtnLabel() {
-      let theBtn = this.private_getSaveBtn();
-      if (theBtn != null && theBtn.childNodes != null && theBtn.childNodes[0] != null) {
-        theBtn.childNodes[0].nodeValue = this.saveBtnLabel;
+      let btn = this.private_getSaveBtn();
+      if (btn != null && btn.childNodes != null && btn.childNodes[0] != null) {
+        btn.childNodes[0].nodeValue = this.saveBtnLabel;
       }
     },
     private_getSaveBtn() {
@@ -54,14 +65,27 @@ export default {
         let typeName = '[type=button]';
         theBtn = thePanel.querySelector(typeName);
       }
-      //console.log("save btn: ", theBtn);
       return theBtn;
     },
     handleSave(evt) {
       // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
       if (evt != null && evt.type === 'evt_save' ) {
-        this.$emit('saveContinueClicked', true);
+        if (this.saveBtnLabel == this.$BUTTON_TEXT_SUBMIT) {
+          let btn = this.private_getSaveBtn();
+          if (btn != null) {
+            this.$emit('saveContinueClicked', true);
+            // Prevent double clicking by disable the btn, also change the btn label to 'Saving ...'
+            // The btn will be enabled after form submission completes (either failed or succeeded)
+            btn.disabled = true;
+            if (btn != null && btn.childNodes != null && btn.childNodes[0] != null) {
+              btn.childNodes[0].nodeValue = 'Saving ...';
+            }
+          }
+        } else {
+          this.$emit('saveContinueClicked', true);
+        }
       } 
+      
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form

@@ -176,6 +176,7 @@
 
                 <FormioButtonGroupSubmit 
                   :saveBtnLabel="btnSaveContinueText"
+                  :submitDone="submitDone"
                   :dataModel="submitBtnData" 
                   @saveContinueClicked="handleSaveContinue"
                   @cancelFormClicked="handleDeleteForm" />
@@ -298,6 +299,7 @@ export default {
       showFormExpandedIcon: false,
       formExpanded: false,
       key_formExpandIcon: 0,
+      submitDone: 0,
     }
   },
   mounted(){
@@ -605,9 +607,9 @@ export default {
       // User clicked 'Summary' section from the navigation panel
       if (this.parentNavCurLocation == this.totalNumParentNav - 1) {
         this.displaySummary = true;
-        this.btnSaveContinueText = "Submit Form"; 
+        this.btnSaveContinueText = this.$BUTTON_TEXT_SUBMIT; 
       } else {
-        this.btnSaveContinueText = "Save and Continue"; 
+        this.btnSaveContinueText = this.$BUTTON_TEXT_SAVE_CONTINUE; 
       }
     },
     formatValidationPayload(formData) {
@@ -634,8 +636,10 @@ export default {
           this.errorTitle = error.response.data.errorMessage;
           this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
           this.errorKey++;
+          this.submitDone++;
         } else {
           console.log("Successfully completed the form: ", this.formId);
+          this.submitDone++;
           //Redirect User back to clientRecord.RNAList
           this.$router.push({
             name: this.$ROUTER_NAME_CLIENTRECORD,
