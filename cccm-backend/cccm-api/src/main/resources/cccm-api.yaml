@@ -1096,6 +1096,12 @@ paths:
           required: true
           schema:
             type: boolean
+        - name: mostRecent
+          in: query
+          description: mostRecent
+          schema:
+            type: boolean
+            default: true
         - name: formTypeCd
           in: query
           description: formTypeCd

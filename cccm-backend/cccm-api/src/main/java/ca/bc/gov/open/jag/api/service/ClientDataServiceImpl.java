@@ -170,7 +170,7 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd, String location) {
+    public List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, boolean mostRecent, String formTypeCd, String location) {
 
         logger.debug("Client Form Search Client {} current period {} formTypeCd {}", clientNum, currentPeriod, formTypeCd);
 
@@ -180,6 +180,9 @@ public class ClientDataServiceImpl implements ClientDataService {
         boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
+            //When searching for only most recent skip records that are false
+            if (mostRecent && (form.getMostRecent() == null || !form.getMostRecent())) continue;
+
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
             //Set form locked for all forms
             logger.info("Calculate Locked");
