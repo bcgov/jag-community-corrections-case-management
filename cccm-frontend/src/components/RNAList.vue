@@ -211,7 +211,7 @@
           </template>
           <!--Customize the smoOverallRating rating field -->
           <template v-slot:item.smoOverallRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SO_OVERALL)} `">{{ item.smoOverallRating }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SMO_OVERALL)} `">{{ item.smoOverallRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -562,7 +562,7 @@ export default {
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             el.crnaRating = this.getRatingDisplay(el.ratings.CRNA);
             el.saraRating = this.getRatingDisplay(el.ratings.SARA);
-            el.smoOverallRating = this.getRatingDisplay(el.ratings.SO_OVERALL);
+            el.smoOverallRating = this.getRatingDisplay(el.ratings.SMO_OVERALL);
             return el;
           });
         }

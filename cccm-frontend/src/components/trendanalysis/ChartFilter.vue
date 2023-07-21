@@ -327,8 +327,6 @@ export default {
         console.error(error);
       } else {
         const clone = JSON.parse(JSON.stringify(data));
-        console.log("data: ", data);
-        console.log("clone: ", JSON.stringify(data));
         data.forEach(type => {
           this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype });
         });
