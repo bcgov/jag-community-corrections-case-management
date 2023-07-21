@@ -39,14 +39,28 @@ public class ClientFormSearchTest {
     JsonWebToken jsonWebTokenMock;
 
     @Test
-    @DisplayName("Success: should return clients forms")
+    @DisplayName("Success: should return clients recent forms")
     public void testGetClientFormsNoMerge() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
+
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
+
+        Assertions.assertEquals(3, result.size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should return clients all forms")
+    public void testGetClientFormsAllNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
 
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
         Assertions.assertEquals(2, result.size());
 
@@ -58,7 +72,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "All", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
         Assertions.assertEquals(5, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
@@ -75,7 +89,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "CRNA", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"CRNA", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -87,7 +101,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "SARA", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"SARA", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -100,7 +114,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ACUTE", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"ACUTE", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -112,7 +126,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"STAT99R", "1");
 
         Assertions.assertEquals(1, result.size());
 
@@ -125,7 +139,7 @@ public class ClientFormSearchTest {
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "STAT99R", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"STAT99R", "1");
 
         Assertions.assertEquals(0, result.size());
 
@@ -138,7 +152,7 @@ public class ClientFormSearchTest {
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
 
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, "ALL", "1");
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"ALL", "1");
 
         Assertions.assertEquals(3, result.size());
 
@@ -167,11 +181,13 @@ public class ClientFormSearchTest {
         form1.setOsuUpdateDate(LocalDate.now());
         form1.setSupervisionRating(HIGH);
         form1.getRatings().put("CRNA", HIGH);
+        form1.setMostRecent(false);
         form1.setModule("CRNA");
 
         ClientFormSummary form2 = new ClientFormSummary();
         form2.setId(BigDecimal.TEN);
         form2.setRelatedClientFormId(BigDecimal.ONE);
+        form2.setMostRecent(true);
         form2.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form2.setSupervisionRating(MEDIUM);
         form2.getRatings().put("SARA", MEDIUM);
@@ -179,11 +195,13 @@ public class ClientFormSearchTest {
 
         ClientFormSummary form3 = new ClientFormSummary();
         form3.setId(BigDecimal.ZERO);
+        form3.setMostRecent(true);
         form3.setCreatedDate(LocalDate.now().minusDays(3));
         form3.setModule("CRNA");
 
         ClientFormSummary form4 = new ClientFormSummary();
         form4.setId(BigDecimal.valueOf(123));
+        form4.setMostRecent(false);
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
         form4.setOsuUpdateDate(LocalDate.now());
         form4.setSupervisionRating(MEDIUM);
@@ -192,6 +210,7 @@ public class ClientFormSearchTest {
 
         ClientFormSummary form5 = new ClientFormSummary();
         form5.setId(BigDecimal.valueOf(321));
+        form5.setMostRecent(false);
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
         form5.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form5.setSupervisionRating(LOW);
@@ -203,6 +222,7 @@ public class ClientFormSearchTest {
         form6.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form6.setSupervisionRating(LOW);
         form6.getRatings().put("ACUTE", LOW);
+        form6.setMostRecent(true);
         form6.setModule("ACUTE");
 
         ClientFormSummary form7 = new ClientFormSummary();
@@ -210,6 +230,7 @@ public class ClientFormSearchTest {
         form7.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form7.setSupervisionRating(LOW);
         form7.getRatings().put("STAT99R", LOW);
+        form7.setMostRecent(true);
         form7.setModule("STAT99R");
 
         return Arrays.asList(form1, form2, form3, form4, form5, form6, form7);

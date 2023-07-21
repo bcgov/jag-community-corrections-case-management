@@ -51,9 +51,9 @@ public class ClientFormSearchUsingGETTest {
     @DisplayName("200: should return answers")
     public void testGetAnswersEndpoint() {
 
-        Mockito.when(clientDataService.clientFormSearch(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.anyString())).thenReturn(createClientFormSummary());
+        Mockito.when(clientDataService.clientFormSearch(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.anyString())).thenReturn(createClientFormSummary());
 
-        List<ClientFormSummary> result = sut.clientFormSearchUsingGET("",true, TEST, TEST);
+        List<ClientFormSummary> result = sut.clientFormSearchUsingGET("",true, TEST, TEST, false);
 
         Assertions.assertEquals(1, result.size());
 

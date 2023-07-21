@@ -49,7 +49,7 @@ public interface ClientDataService {
      */
     String getClientFormAnswers(String clientNumber, BigDecimal clientFormId);
 
-    List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, String formTypeCd, String location);
+    List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, boolean mostRecent, String formTypeCd, String location);
 
     String getClientFormJSON(BigDecimal clientFormId,String clientNumber, boolean includeValues, String location);
 
