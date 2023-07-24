@@ -20,7 +20,6 @@
           <small>&nbsp; </small><button v-on:click="resetDates" title="Reset Dates"><a class="fas fa-undo-alt" /></button>
         </div>
       </section>
-      
     </div>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
@@ -31,9 +30,7 @@
           <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Period"
             value="currentPeriod"></v-radio>
         </v-radio-group>
-
       </div>
-
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
@@ -46,15 +43,12 @@
           </span>
         </template>
       </v-select>
-
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
       <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions"
         @change="updateFilter()" :menu-props="{ maxHeight: '400' }" hint="Select a display filter" persistent-hint>
       </v-select>
-
-
     </div>
     <v-overlay :value="loading">
       <v-progress-circular
@@ -62,22 +56,16 @@
         size="200"
       >
       <span class="mt-30">Loading chart data...</span>
-
     </v-progress-circular>
-
     </v-overlay>
-
-
   </div>
 </template>
 
 <script>
-
 import { trendStore } from '@/stores/trendstore';
 import { useStore } from "@/stores/store";
 import { mapStores, mapState, mapWritableState } from "pinia";
 import { getFormFactors, getTrendChartTypes, getChartData } from "@/components/form.api";
-
 
 export default {
   name: "ChartFilter",
@@ -93,7 +81,6 @@ export default {
     // each store will be accessible as its id + 'Store', i.e., mainStore
     // ...mapWritableState(trendStore, ['data','factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
     ...mapStores(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate'], useStore),
-
   },
   data() {
     return {
@@ -109,18 +96,17 @@ export default {
       userEndDate: null,
       selectedFilter: null,
       factorOptions: [],
-      reportTypes: [
-      ],
+      reportTypes: [],
       reportTab: 0,
-
     }
   },
   props: {},
   mounted() {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
+      console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
       this.store.$patch({ chartType: chartType });
-
       this.getFormFactors();
       this.getFilterOptions();
     });
@@ -208,6 +194,8 @@ export default {
     },
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
+      console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
       this.userStartDate = null;
@@ -338,8 +326,11 @@ export default {
       if (error) {
         console.error(error);
       } else {
+        const clone = JSON.parse(JSON.stringify(data));
+        console.log("data: ", data);
+        console.log("clone: ", JSON.stringify(data));
         data.forEach(type => {
-          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype });
         });
       }
     },
@@ -395,7 +386,7 @@ export default {
               }
               break;
             }
-            case 'remained-0-1': {
+            case 'remained-c-d': {
               if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
                 ds.hidden = false;
               } else {
@@ -403,7 +394,7 @@ export default {
               }
               break;
             }
-            case 'remained-2-3': {
+            case 'remained-a-b': {
               if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
                 ds.hidden = false;
               } else {
@@ -411,7 +402,16 @@ export default {
               }
               break;
             }
-            case 'remained-1': {
+            case 'remained-l': {
+              if ((lastTwo[1] === 0 && lastTwo[0] === 0)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-c':
+            case 'remained-m': {
               if ((lastTwo[1] === 1 && lastTwo[0] === 1)) {
                 ds.hidden = false;
               } else {
@@ -419,24 +419,8 @@ export default {
               }
               break;
             }
-            case 'remained-10': {
-              if ((lastTwo[1] === 10 && lastTwo[0] === 10)) {
-                ds.hidden = false;
-              } else {
-                ds.hidden = true;
-              }
-              break;
-            }
-            case 'remained-11': {
-              if ((lastTwo[1] === 11 && lastTwo[0] === 11)) {
-                ds.hidden = false;
-              } else {
-                ds.hidden = true;
-              }
-              break;
-            }
-            case 'remained-12': {
-              if ((lastTwo[1] === 12 && lastTwo[0] === 12)) {
+            case 'remained-h': {
+              if ((lastTwo[1] === 2 && lastTwo[0] === 2)) {
                 ds.hidden = false;
               } else {
                 ds.hidden = true;
