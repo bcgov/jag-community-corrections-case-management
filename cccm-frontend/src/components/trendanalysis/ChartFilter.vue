@@ -10,11 +10,11 @@
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-5">
           <small>Start Date: </small><input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
-            class="form-control ms-3 me-3 mr-2" type="datetime-local" /> 
+            class="form-control ms-3 me-3 mr-2" type="date" /> 
         </div> 
         <div class="col-sm-5">
           <small>End Date: </small><input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
-            class="form-control ms-3 me-3 ml-2" type="datetime-local" />
+            class="form-control ms-3 me-3 ml-2" type="date" />
         </div>
         <div class="col-sm-1">
           <small>&nbsp; </small><button v-on:click="resetDates" title="Reset Dates"><a class="fas fa-undo-alt" /></button>
@@ -133,6 +133,16 @@ export default {
     });
   },
   methods: {
+    convertDateTimeToDate(datetime) {
+      // datetime is in this format: yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28'
+      if (datetime != null && datetime != '') {
+        let dt = datetime.split('T');
+        if (dt != null && dt.length == 2) {
+          return dt[0];
+        }
+      }
+      return null;
+    },
     resetDates() {
       this.userStartDate = this.store.minStartDate;
       this.userEndDate = this.store.maxEndDate;
@@ -162,8 +172,9 @@ export default {
             //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
 
-            this.minStartDate = data.startDateRange; 
-            this.maxEndDate = data.endDateRange;
+            // convert startDateRange from datetime format (i.e. yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28') to date format
+            this.minStartDate = this.convertDateTimeToDate(data.startDateRange); 
+            this.maxEndDate = this.convertDateTimeToDate(data.endDateRange);
  
             // Get counters
             let commentCount = data.counters.comments ? data.counters.comments : 0;
@@ -228,7 +239,6 @@ export default {
       return this.maxEndDate;
     },
     applyDateFilters() {
-      //console.log("applyDateFilters...");
       let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
       let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
 
@@ -241,7 +251,7 @@ export default {
         let startIndex = 0;
         let endIndex = this.store.data.dataLabels.length - 1;
         this.store.data.dataLabels.forEach(label => {
-          let seriesDate = new Date(label);
+          let seriesDate = new Date(this.convertDateTimeToDate(label)); 
           if (startDate != null && seriesDate < startDate) {
             startIndex++;
           }
