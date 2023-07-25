@@ -9,7 +9,8 @@
           <i class="fas fa-chart-bar"> </i> <span class="ms-3 flex-0  ml-3">Graph</span>
           </v-btn>
           <v-btn  @click="activate('combined')"  :class="getActiveClass('combined')">
-            <i class="fas fa-comments"></i> <span class="ms-3 ml-3">Comments ({{ commentCount }}) & Interventions ({{ interventionCount }})</span>
+            <i class="fas fa-comments"></i> 
+            <span class="ms-3 ml-3">{{ getTabLabel }}</span>
           </v-btn>
         </v-btn-toggle>
       </div>
@@ -33,7 +34,15 @@ export default {
   },
 
   computed: {
-    ...mapState(trendStore, ['factors', 'startDate', 'endDate','commentCount','interventionCount'])
+    getTabLabel() {
+      let label = "Comments (" + this.commentCount + ")";
+      let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
+      if (theForm != null && theForm[0] != null && theForm[0].cmp) {
+        label += " & Interventions (" + this.interventionCount + ")";
+      }
+      return label;
+    },
+    ...mapState(trendStore, ['factors', 'startDate', 'endDate','commentCount','interventionCount', 'formType'])
   },
   props: {
     selectedView: {

@@ -51,10 +51,7 @@ export default {
         if (theForm != null && theForm[0] != null) {
             this.showIntervention = theForm[0].cmp;
         }
-
-        console.log("this.newYAxisType, this.newFormType", this.newYAxisType, this.newFormType);
-        console.log('the forminfo:', theForm);
-
+        //console.log("yaxis, showIntervention: ",this.newYAxisType, this.newFormType, this.showIntervention );
         // Destroy the current chart instance
         this.destroyChart();
         //Recreate the chart based on the report type, so the Y-axis value shows properly
@@ -151,6 +148,7 @@ export default {
       let currentYAxisType = this.newYAxisType;
       let showIntervention = this.showIntervention;
       let toolTipID = this.TOOLTIP_ID;
+      //console.log("showIntervention: ", showIntervention);
       new Chart(ctx, {
         type: 'line',
         lineAtIndex: [2, 4, 8],
@@ -191,13 +189,22 @@ export default {
                 // DataPoint tooltip Element
                 let tooltipEl = document.getElementById(toolTipID);
                 
+                let toolTipDeco_outerTableWidth = 700;
+                let toolTipDeco_outerTableColSpan = 2;
+                
+                if (showIntervention) {
+                  toolTipDeco_outerTableWidth = 900;
+                  toolTipDeco_outerTableColSpan = 3;
+                }
                 // Create element on first render
                 if (!tooltipEl) {
                   tooltipEl = document.createElement('div');
                   tooltipEl.className = "dataPointTooltip";
                   tooltipEl.id = toolTipID;
-                  tooltipEl.innerHTML = '<table width="700"></table>';
+                  tooltipEl.innerHTML = '<table width=' + toolTipDeco_outerTableWidth + '></table>';
                   document.body.appendChild(tooltipEl);
+                } else {
+                  tooltipEl.innerHTML = '<table width=' + toolTipDeco_outerTableWidth + '></table>';
                 }
                 
                 const tooltipModel = context.tooltip;
@@ -234,15 +241,15 @@ export default {
 
                   let dataLabel;
                   titleLines.forEach(function (title) {
-                    innerHtml += '<tr><td colspan="3"><b>Date: </b>' + title + '</td></tr>';
+                    innerHtml += '<tr><td colspan=' + toolTipDeco_outerTableColSpan + '><b>Date: </b>' + title + '</td></tr>';
                     dataLabel = title;
                   });
 
                   //console.log("chart.data: %o", chart.data);
                   if (showIntervention){
-                    innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
+                    innerHtml += '<tr><th width="10%">Factors</th><th width="30%">Comments</th><th colspan="2">Interventions</th></tr>'
                   } else {
-                    innerHtml += '<tr><th>Factors</th><th>Comments</th></tr>'
+                    innerHtml += '<tr><th width="10%">Factors</th><th width="30%">Comments</th></tr>'
                   }
                   
                   if(tooltipModel.dataPoints) {
@@ -255,12 +262,12 @@ export default {
                         let style = 'background-color:' + colors.backgroundColor;
                         style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
                         const span = '<span style="' + style + '"></span>';
-                        innerHtml += '<tr><td width="10%">' + span + dataset.label + '</td>';
+                        innerHtml += '<tr><td>' + span + dataset.label + '</td>';
                         
                         if(dataset.comments) {
                           for(let k = 0; k < dataset.comments.length; k++) {
                             if(dataLabel == dataset.comments[k].dataLabel) {
-                              innerHtml += '<td width="30%">' + dataset.comments[k].value+ '</td>';
+                              innerHtml += '<td>' + dataset.comments[k].value+ '</td>';
                             }
                           }
                         }
@@ -274,13 +281,13 @@ export default {
                           
                           for(let k = 0; k < dataset.interventions.length; k++) {
                             if(dataLabel == dataset.interventions[k].dataLabel) {
-                              let itvType = dataset.interventions[k].type;
-                              if (itvType == 'OTHR') {
+                              let itvType = dataset.interventions[k].typeDesc;
+                              if (dataset.interventions[k].type == 'OTHR') {
                                 itvType = dataset.interventions[k].typeOverride;
                               }
                               innerHtml += '<tr>'
-                              innerHtml += '<td width="10%">' +  itvType + '</td>';
-                              innerHtml += '<td width="90% word-wrap: break-word">' + dataset.interventions[k].comment + '</td>';
+                              innerHtml += '<td width="20%">' +  itvType + '</td>';
+                              innerHtml += '<td width="80% word-wrap:break-word">' + dataset.interventions[k].comment + '</td>';
                               innerHtml += '</tr>'
                             }
                           }
@@ -308,7 +315,7 @@ export default {
                 // Display, position, and set styles for font
                 tooltipEl.style.opacity = .7;
                 tooltipEl.style.position = 'absolute';
-                tooltipEl.style.left = position.left + window.pageXOffset + 250 + tooltipModel.caretX + 'px';
+                tooltipEl.style.left = position.left + window.pageXOffset + 450 + tooltipModel.caretX + 'px';
                 //alert("position.left + window.pageXOffset + tooltipModel.caretX: " + position.left + ',' + window.pageXOffset + ', ' + tooltipModel.caretX);
                 tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
                 tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px';
@@ -427,43 +434,34 @@ export default {
 <style >
 .dataPointTooltip {
   background-color: white;
-  
   border-radius: 5px;
-  
-  
   z-index: 10;
 }
 
 .dataPointTooltip>table>tbody>tr>th {
   border: 1px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .dataPointTooltip>table>tbody>tr>td {
-  border: 1px solid black;
-  width: 33%
-}
-
-/* .tooltipTable>tbody>tr>td {
-  border: 1px solid black;
-}
-
-.tooltipTable>tbody>tr>td>table>tbody>tr>th {
-  border: 1px solid black;
-} */
-
-.dataPointTooltip>table>tbody>tr>td>table>tbody>tr>th {
-  border: 1px solid black;
-  width: 10%
-}
-
-.dataPointTooltip table tbody tr td table tbody tr td {
   border: 1px solid black;
   padding-left: 1px;
   padding-right: 1px;
 }
 
+.dataPointTooltip table tbody tr td table tbody tr:nth-child(even)  {
+   background-color:#ddd8d8;
+}
+
+.dataPointTooltip table tbody tr td table tbody tr td {
+  border: 0px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .chart {
-  width: 90%;
+  width: 100%;
 }
 
 div.chartActive {

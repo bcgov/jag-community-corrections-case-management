@@ -2650,6 +2650,8 @@ components:
           format: int32
         type:
           type: string
+        typeDesc:
+          type: string
         typeOverride:
           type: string
         updatedBy:
@@ -2911,6 +2913,10 @@ components:
       type: object
       properties:
         description:
+          type: string
+        yaxistype:
+          type: string
+        formType:
           type: string
         factors:
           $ref: '#/components/schemas/FactorConfig'
