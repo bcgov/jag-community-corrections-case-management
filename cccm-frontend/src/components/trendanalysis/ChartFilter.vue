@@ -105,8 +105,8 @@ export default {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
       console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
-      this.store.$patch({ chartType: chartType });
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType });
       this.getFormFactors();
       this.getFilterOptions();
     });
@@ -206,12 +206,12 @@ export default {
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
       console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
+      this.store.$patch({ chartType: this.chartType, formType: this.reportTypes[this.reportTab].formType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
       this.getFilterOptions();
     },
@@ -327,6 +327,7 @@ export default {
           }
         });
 
+        console.log("filtered: ", filtered);
         this.store.$patch({ filteredData: filtered, commentCount: commentCount, interventionCount: interventionCount });
       }
 
@@ -338,7 +339,7 @@ export default {
       } else {
         const clone = JSON.parse(JSON.stringify(data));
         data.forEach(type => {
-          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype });
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype, formType: type.formType });
         });
       }
     },
@@ -462,7 +463,7 @@ export default {
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: chartType, period: this.period })
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType, period: this.period })
       this.getFormFactors();
       this.getFilterOptions();
     }

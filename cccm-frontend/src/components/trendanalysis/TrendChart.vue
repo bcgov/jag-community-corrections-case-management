@@ -30,17 +30,35 @@ export default {
       chartData: [],
       chartReady: false,
       loading: false,
+      newYAxisType: '',
+      newFormType: '',
+      showIntervention: false
     }
   },
   props: {
-    newYAxisType: '',
+    newYAxisType_formType: '',
   },
   watch: {
-    newYAxisType() {
-      // Destroy the current chart instance
-      this.destroyChart();
-      //Recreate the chart based on the report type, so the Y-axis value shows properly
-      this.instantiateChart();
+    newYAxisType_formType() {
+      // Extract newYAxisType and newFormType from newYAxisType_formType (sample value: 'ABCD~CRNA')
+      let val = this.newYAxisType_formType.split('~');
+      if (val != null && val.length == 2) {
+        this.newYAxisType = val[0];
+        this.newFormType = val[1];
+
+        let theForm = this.$FORM_INFO.filter( item => item.formType === this.newFormType );
+        if (theForm != null && theForm[0] != null) {
+            this.showIntervention = theForm[0].cmp;
+        }
+
+        console.log("this.newYAxisType, this.newFormType", this.newYAxisType, this.newFormType);
+        console.log('the forminfo:', theForm);
+
+        // Destroy the current chart instance
+        this.destroyChart();
+        //Recreate the chart based on the report type, so the Y-axis value shows properly
+        this.instantiateChart();
+      }
     }
   },
   setup() {
@@ -76,11 +94,15 @@ export default {
     },
     instantiateChart() {
       let ctx = document.getElementById(this.CHART_ID);
+
+      // Need to assign this to local var, since this.store.filteredDate isn't accessiable from within the setTimeout function.
+      let vm = this;
       if (this.store && this.store.filteredData) {
         this.chartReady = true;
+        
         // run with timeout to give chart time to display and then render updates
         setTimeout(function () {
-          this.updateChart(this.store.filteredData);
+          vm.updateChart(vm.store.filteredData);
         }, 500);
       }
       this.store.$subscribe((mutation, state) => {
@@ -124,6 +146,7 @@ export default {
       Chart.register(...registerables, linePlugin);
 
       let currentYAxisType = this.newYAxisType;
+      let showIntervention = this.showIntervention;
       new Chart(ctx, {
         type: 'line',
         lineAtIndex: [2, 4, 8],
@@ -215,13 +238,18 @@ export default {
                   });
 
                   //console.log("chart.data: %o", chart.data);
-                  innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
+                  if (showIntervention){
+                    innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
+                  } else {
+                    innerHtml += '<tr><th>Factors</th><th>Comments</th></tr>'
+                  }
+                  
                   if(tooltipModel.dataPoints) {
                       for(let j = 0; j < tooltipModel.dataPoints.length; j++) {
                         let dataIndex = tooltipModel.dataPoints[j].dataIndex;
                         let datasetIndex = tooltipModel.dataPoints[j].datasetIndex;
                         let dataset =  tooltipModel.dataPoints[j].dataset;
-                        console.log("dataset.data: ", dataset);
+                        //console.log("dataset.data: ", dataset);
                         const colors = tooltipModel.labelColors[j];
                         let style = 'background-color:' + colors.backgroundColor;
                         style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
@@ -236,7 +264,7 @@ export default {
                           }
                         }
                         
-                        if(dataset.interventions && dataset.interventions.length > 0) {
+                        if(showIntervention && dataset.interventions && dataset.interventions.length > 0) {
                           let containItv = dataset.interventions.filter( item => item.dataLabel === dataLabel );
                           console.log("containItv: ", containItv);
                           if (containItv != null && containItv[0] != null) {
@@ -253,9 +281,10 @@ export default {
                             }
                           }
                           if (containItv != null && containItv[0] != null) {
-                            innerHtml += '</table></td></tr>' 
+                            innerHtml += '</table></td>' 
                           }
                         }
+                        innerHtml += '</tr>' 
                       }
                   }
                   innerHtml += '</tbody>';
