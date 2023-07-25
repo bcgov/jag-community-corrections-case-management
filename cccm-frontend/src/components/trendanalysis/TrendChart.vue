@@ -26,13 +26,14 @@ export default {
   name: "TrendChart",
   data() {
     return {
+      TOOLTIP_ID: 'chartjs-tooltip',
       CHART_ID: "justiceChart",
       chartData: [],
       chartReady: false,
       loading: false,
       newYAxisType: '',
       newFormType: '',
-      showIntervention: false
+      showIntervention: true
     }
   },
   props: {
@@ -73,11 +74,13 @@ export default {
   created() {
 
   },
-  beforeUnmount() {
-    let tooltipEl = document.getElementById('chartjs-tooltip');
-    tooltipEl.remove();
-  },
   beforeDestroy: function () {
+    // Hide tooltip popup
+    let tooltipEl = document.getElementById(this.TOOLTIP_ID);
+    if(tooltipEl != null && tooltipEl.style != null) {
+      tooltipEl.style.opacity = 0;
+    }
+    
     this.$el.removeEventListener('click', this.documentEventListener)
   },
   mounted() {
@@ -147,6 +150,7 @@ export default {
 
       let currentYAxisType = this.newYAxisType;
       let showIntervention = this.showIntervention;
+      let toolTipID = this.TOOLTIP_ID;
       new Chart(ctx, {
         type: 'line',
         lineAtIndex: [2, 4, 8],
@@ -157,14 +161,12 @@ export default {
             line: 5
           },
           onClick: (evt, el, chart) => {
-          
             let pointArray = chart.getElementsAtEventForMode(evt, 'point', {
               intersect: false
               , includeInvisible: true
             }, true);
 
             //console.log("Point %o", pointArray);
-          
             if(pointArray == null || pointArray.length == 0) {
               // Hijacking touchmove event
               let mouseOutEvent = new MouseEvent('touchmove');
@@ -187,17 +189,16 @@ export default {
                 const {chart, tooltip} = context;
                 //console.log("tooltip->external: %o", context);
                 // DataPoint tooltip Element
-                let tooltipEl = document.getElementById('chartjs-tooltip');
-
+                let tooltipEl = document.getElementById(toolTipID);
+                
                 // Create element on first render
                 if (!tooltipEl) {
                   tooltipEl = document.createElement('div');
                   tooltipEl.className = "dataPointTooltip";
-                  tooltipEl.id = 'chartjs-tooltip';
-                  tooltipEl.innerHTML = '<table></table>';
+                  tooltipEl.id = toolTipID;
+                  tooltipEl.innerHTML = '<table width="700"></table>';
                   document.body.appendChild(tooltipEl);
                 }
-
                 
                 const tooltipModel = context.tooltip;
                 if (tooltipModel.opacity === 0) {
@@ -254,29 +255,32 @@ export default {
                         let style = 'background-color:' + colors.backgroundColor;
                         style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
                         const span = '<span style="' + style + '"></span>';
-                        innerHtml += '<tr><td>' + span + dataset.label + '</td>';
+                        innerHtml += '<tr><td width="10%">' + span + dataset.label + '</td>';
                         
                         if(dataset.comments) {
                           for(let k = 0; k < dataset.comments.length; k++) {
                             if(dataLabel == dataset.comments[k].dataLabel) {
-                              innerHtml += '<td>' + dataset.comments[k].value+ '</td>';
+                              innerHtml += '<td width="30%">' + dataset.comments[k].value+ '</td>';
                             }
                           }
                         }
                         
                         if(showIntervention && dataset.interventions && dataset.interventions.length > 0) {
                           let containItv = dataset.interventions.filter( item => item.dataLabel === dataLabel );
-                          console.log("containItv: ", containItv);
                           if (containItv != null && containItv[0] != null) {
-                            innerHtml += '<td><table >';
-                            innerHtml += '<tr><th>Type</th><th>Comments</th></tr>'
+                            innerHtml += '<td width="60%"><table>';
+                            //innerHtml += '<tr><th>Type</th><th>Comments</th></tr>'
                           }
                           
                           for(let k = 0; k < dataset.interventions.length; k++) {
                             if(dataLabel == dataset.interventions[k].dataLabel) {
+                              let itvType = dataset.interventions[k].type;
+                              if (itvType == 'OTHR') {
+                                itvType = dataset.interventions[k].typeOverride;
+                              }
                               innerHtml += '<tr>'
-                              innerHtml += '<td>' +  'Intervention Type' + '</td>';
-                              innerHtml += '<td>' + dataset.interventions[k].comment + '</td>';
+                              innerHtml += '<td width="10%">' +  itvType + '</td>';
+                              innerHtml += '<td width="90% word-wrap: break-word">' + dataset.interventions[k].comment + '</td>';
                               innerHtml += '</tr>'
                             }
                           }
@@ -401,7 +405,7 @@ export default {
       if (data) {
         const chart = Chart.getChart(this.CHART_ID);
         if (chart) {
-          let tooltipEl = document.getElementById('chartjs-tooltip');
+          let tooltipEl = document.getElementById(this.TOOLTIP_ID);
           if(tooltipEl != null && tooltipEl.style != null) {
             tooltipEl.style.opacity = 0;
           }
@@ -411,7 +415,7 @@ export default {
       }
     },
      documentEventListener: function(ev) {
-      let tooltipEl = document.getElementById('chartjs-tooltip');
+      let tooltipEl = document.getElementById(this.TOOLTIP_ID);
       if(tooltipEl != null && tooltipEl.style != null) {
         tooltipEl.style.opacity = 0;
       }

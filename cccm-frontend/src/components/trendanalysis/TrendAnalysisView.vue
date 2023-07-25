@@ -70,14 +70,14 @@ export default {
   methods: {
     handleChartTypeChanged(newYAxisType, newFormType) {
       this.newYAxisType_formType = newYAxisType + "~" + newFormType;
-      console.log("received: ", this.newYAxisType_formType);
+      //console.log("received: ", this.newYAxisType_formType);
     },
     changeFactors(factors) {
-      console.log("Updating factors %o %o", factors);
+      //console.log("Updating factors %o %o", factors);
       this.filter.factors = factors;
     },
     changeView(view) {
-      console.log("Updating view %o", view);
+      //console.log("Updating view %o", view);
       this.viewType = view;
     },
   }

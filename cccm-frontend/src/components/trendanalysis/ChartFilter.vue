@@ -327,7 +327,6 @@ export default {
           }
         });
 
-        console.log("filtered: ", filtered);
         this.store.$patch({ filteredData: filtered, commentCount: commentCount, interventionCount: interventionCount });
       }
 

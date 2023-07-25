@@ -6,8 +6,8 @@
           <table class="nestedIntervention">
             <tbody>
               <tr v-for="intervention in item.interventions">
-                <td style="width:10%">{{intervention.type}}</td>
-                <td style="width:90% white-space:wrap">{{intervention.comment}}</td>
+                <td style="width:10%">{{intervention.type == 'OTHR' ? intervention.typeOverride : intervention.type}}</td>
+                <td style="width:90% word-wrap:break-word">{{intervention.comment}}</td>
               </tr>
             </tbody>
           </table>
@@ -29,8 +29,7 @@ export default {
   name: "CommentsAndInterventionsTable",
   computed: {
     showIntervention() {
-      console.log("store.formType: ", this.store.formType);
-      let theForm = this.$FORM_INFO.filter( item => item.formType === this.store.formType);
+      let theForm = this.$FORM_INFO.filter( item => item.formType === 'CRNA');
       if (theForm != null && theForm[0] != null) {
           return theForm[0].cmp;
       }
