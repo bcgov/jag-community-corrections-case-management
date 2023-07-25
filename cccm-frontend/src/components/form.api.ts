@@ -339,13 +339,14 @@ export async function lookupProvinceCodes() {
 //------------------------------------------
 
 // function to search for RNA list
-export async function formSearch(clientNum: String, formType: String, currentPeriod: boolean) {
+export async function formSearch(clientNum: String, formType: String, currentPeriod: boolean, mostRecent: boolean) {
     try{
         //console.log("formSearch for RNA List, clientNum: {}, formType: {}, supervisionPeriod: {}", clientNum, formType, currentPeriod);
         const { data } = await axiosClient.get('/forms/client/search/' + clientNum, {
                 params: {
                     formTypeCd: formType,
-                    currentPeriod: currentPeriod
+                    currentPeriod: currentPeriod,
+                    mostRecent: mostRecent
                 }
             });
         return [null, data];
