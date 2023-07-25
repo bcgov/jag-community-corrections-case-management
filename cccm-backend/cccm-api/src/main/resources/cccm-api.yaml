@@ -2650,6 +2650,8 @@ components:
           format: int32
         type:
           type: string
+        typeDesc:
+          type: string
         typeOverride:
           type: string
         updatedBy:

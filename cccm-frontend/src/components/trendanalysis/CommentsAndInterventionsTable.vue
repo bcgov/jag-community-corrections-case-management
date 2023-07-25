@@ -1,13 +1,13 @@
 <template>
-  <div data-app class="row p-4">
-    <div class="justify-content-center mb-2 col-10">
+  <div data-app class="row p-2">
+    <div class="justify-content-center mb-2 col-12">
       <v-data-table v-if="showIntervention" item-key="comment.id" class="elevation-1" :headers="headers" :items="data" :items-per-page="15">
         <template v-slot:item.interventions="{item}">
           <table class="nestedIntervention">
             <tbody>
               <tr v-for="intervention in item.interventions">
-                <td style="width:10%">{{intervention.type == 'OTHR' ? intervention.typeOverride : intervention.type}}</td>
-                <td style="width:90% word-wrap:break-word">{{intervention.comment}}</td>
+                <td style="width:20%">{{intervention.type == 'OTHR' ? intervention.typeOverride : intervention.typeDesc}}</td>
+                <td style="width:80% word-wrap:break-word">{{intervention.comment}}</td>
               </tr>
             </tbody>
           </table>
@@ -29,7 +29,7 @@ export default {
   name: "CommentsAndInterventionsTable",
   computed: {
     showIntervention() {
-      let theForm = this.$FORM_INFO.filter( item => item.formType === 'CRNA');
+      let theForm = this.$FORM_INFO.filter( item => item.formType === this.store.formType);
       if (theForm != null && theForm[0] != null) {
           return theForm[0].cmp;
       }
@@ -60,8 +60,8 @@ export default {
         { text: 'Date', value: 'createdDate', width: '10%' },
         { text: 'Factor', value: 'factor', width: '15%' },
         { text: 'Rating', value: 'answerValue', width: '5%' },
-        { text: 'Comment', value: 'value', width: '30%' },
-        { text: 'Interventions', value: 'interventions', width: '40%' },
+        { text: 'Comment', value: 'value', width: '20%' },
+        { text: 'Interventions', value: 'interventions', width: '50%' },
       ],
       header_noIntervention: [
         { text: 'Date', value: 'createdDate', width: '10%' },
@@ -106,7 +106,12 @@ export default {
   height: 100%;
 }
 .nestedIntervention tr:nth-child(even)  {
-   background-color:#F2F2F2;
+   background-color:#ddd8d8;
+}
+
+.nestedIntervention td  {
+   padding-left: 10px;
+   padding-right: 10px;
 }
 
 .client-comments {

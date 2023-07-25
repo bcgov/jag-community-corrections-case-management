@@ -104,7 +104,7 @@ export default {
   mounted() {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
-      console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType);
+      //console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType });
       this.getFormFactors();
@@ -205,7 +205,7 @@ export default {
     },
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
-      console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType);
+      //console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
@@ -224,7 +224,7 @@ export default {
     updateFilter() {
       // get the filter from the store
       let filter = this.reportTypes[this.reportTab].filters.filter(option => option.value === this.selectedFilter)[0];
-      console.log("updateFilter: ", filter);
+      //console.log("updateFilter: ", filter);
       this.store.$patch({ advancedFilter: filter })
     },
     changeStartDate() {

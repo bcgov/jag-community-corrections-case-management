@@ -165,9 +165,9 @@
             
             <div class="col-sm-4">
               <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
-                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Supervision Period"
+                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current"
                   value="current"></v-radio>
-                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Supervision Periods"
+                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All"
                   value="all"></v-radio>
               </v-radio-group>
             </div>
