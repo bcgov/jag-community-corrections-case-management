@@ -10,11 +10,11 @@
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-5">
           <small>Start Date: </small><input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
-            class="form-control ms-3 me-3 mr-2" type="datetime-local" /> 
+            class="form-control ms-3 me-3 mr-2" type="date" /> 
         </div> 
         <div class="col-sm-5">
           <small>End Date: </small><input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
-            class="form-control ms-3 me-3 ml-2" type="datetime-local" />
+            class="form-control ms-3 me-3 ml-2" type="date" />
         </div>
         <div class="col-sm-1">
           <small>&nbsp; </small><button v-on:click="resetDates" title="Reset Dates"><a class="fas fa-undo-alt" /></button>
@@ -105,8 +105,8 @@ export default {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
       console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
-      this.store.$patch({ chartType: chartType });
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType });
       this.getFormFactors();
       this.getFilterOptions();
     });
@@ -133,6 +133,16 @@ export default {
     });
   },
   methods: {
+    convertDateTimeToDate(datetime) {
+      // datetime is in this format: yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28'
+      if (datetime != null && datetime != '') {
+        let dt = datetime.split('T');
+        if (dt != null && dt.length == 2) {
+          return dt[0];
+        }
+      }
+      return null;
+    },
     resetDates() {
       this.userStartDate = this.store.minStartDate;
       this.userEndDate = this.store.maxEndDate;
@@ -162,8 +172,9 @@ export default {
             //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
 
-            this.minStartDate = data.startDateRange; 
-            this.maxEndDate = data.endDateRange;
+            // convert startDateRange from datetime format (i.e. yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28') to date format
+            this.minStartDate = this.convertDateTimeToDate(data.startDateRange); 
+            this.maxEndDate = this.convertDateTimeToDate(data.endDateRange);
  
             // Get counters
             let commentCount = data.counters.comments ? data.counters.comments : 0;
@@ -195,12 +206,12 @@ export default {
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
       console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
+      this.store.$patch({ chartType: this.chartType, formType: this.reportTypes[this.reportTab].formType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
       this.getFilterOptions();
     },
@@ -228,7 +239,6 @@ export default {
       return this.maxEndDate;
     },
     applyDateFilters() {
-      //console.log("applyDateFilters...");
       let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
       let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
 
@@ -241,7 +251,7 @@ export default {
         let startIndex = 0;
         let endIndex = this.store.data.dataLabels.length - 1;
         this.store.data.dataLabels.forEach(label => {
-          let seriesDate = new Date(label);
+          let seriesDate = new Date(this.convertDateTimeToDate(label)); 
           if (startDate != null && seriesDate < startDate) {
             startIndex++;
           }
@@ -327,10 +337,8 @@ export default {
         console.error(error);
       } else {
         const clone = JSON.parse(JSON.stringify(data));
-        console.log("data: ", data);
-        console.log("clone: ", JSON.stringify(data));
         data.forEach(type => {
-          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype });
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype, formType: type.formType });
         });
       }
     },
@@ -454,7 +462,7 @@ export default {
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: chartType, period: this.period })
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType, period: this.period })
       this.getFormFactors();
       this.getFilterOptions();
     }

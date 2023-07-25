@@ -9,6 +9,7 @@ export const trendStore = defineStore('trend', {
         factors: [],
         period: 'allPeriods',
         chartType: 'line',
+        formType: '',
         userStartDate: null,
         userEndDate: null,
         data: null,

@@ -5,7 +5,7 @@
 
     <DataView @changeView="changeView" :selected-view="this.viewType"/>
 
-    <TrendChart :newYAxisType="newYAxisType" class="mb-4" v-if="this.viewType === 'graph'"/>
+    <TrendChart :newYAxisType_formType="newYAxisType_formType" class="mb-4" v-if="this.viewType === 'graph'"/>
     <InterventionsTable class="mb-4" v-if="this.viewType === 'interventions'"/>
     <CommentsTable class="mb-4" v-if="this.viewType === 'comments'"/>
     <CommentsAndInterventionsTable class="mb-4" v-if="this.viewType === 'combined'"/>
@@ -46,7 +46,7 @@ export default {
       showComments: true,
       viewType: 'graph',
       reportTypes: [],
-      newYAxisType: ''
+      newYAxisType_formType: ''
     }
   },
   setup() {
@@ -68,16 +68,16 @@ export default {
     CommentsAndInterventionsTable
   },
   methods: {
-    handleChartTypeChanged(newYAxisType) {
-      this.newYAxisType = newYAxisType;
-      console.log("received: ", this.newYAxisType);
+    handleChartTypeChanged(newYAxisType, newFormType) {
+      this.newYAxisType_formType = newYAxisType + "~" + newFormType;
+      //console.log("received: ", this.newYAxisType_formType);
     },
     changeFactors(factors) {
-      console.log("Updating factors %o %o", factors);
+      //console.log("Updating factors %o %o", factors);
       this.filter.factors = factors;
     },
     changeView(view) {
-      console.log("Updating view %o", view);
+      //console.log("Updating view %o", view);
       this.viewType = view;
     },
   }

@@ -26,21 +26,40 @@ export default {
   name: "TrendChart",
   data() {
     return {
+      TOOLTIP_ID: 'chartjs-tooltip',
       CHART_ID: "justiceChart",
       chartData: [],
       chartReady: false,
       loading: false,
+      newYAxisType: '',
+      newFormType: '',
+      showIntervention: true
     }
   },
   props: {
-    newYAxisType: '',
+    newYAxisType_formType: '',
   },
   watch: {
-    newYAxisType() {
-      // Destroy the current chart instance
-      this.destroyChart();
-      //Recreate the chart based on the report type, so the Y-axis value shows properly
-      this.instantiateChart();
+    newYAxisType_formType() {
+      // Extract newYAxisType and newFormType from newYAxisType_formType (sample value: 'ABCD~CRNA')
+      let val = this.newYAxisType_formType.split('~');
+      if (val != null && val.length == 2) {
+        this.newYAxisType = val[0];
+        this.newFormType = val[1];
+
+        let theForm = this.$FORM_INFO.filter( item => item.formType === this.newFormType );
+        if (theForm != null && theForm[0] != null) {
+            this.showIntervention = theForm[0].cmp;
+        }
+
+        console.log("this.newYAxisType, this.newFormType", this.newYAxisType, this.newFormType);
+        console.log('the forminfo:', theForm);
+
+        // Destroy the current chart instance
+        this.destroyChart();
+        //Recreate the chart based on the report type, so the Y-axis value shows properly
+        this.instantiateChart();
+      }
     }
   },
   setup() {
@@ -55,11 +74,13 @@ export default {
   created() {
 
   },
-  beforeUnmount() {
-    let tooltipEl = document.getElementById('chartjs-tooltip');
-    tooltipEl.remove();
-  },
   beforeDestroy: function () {
+    // Hide tooltip popup
+    let tooltipEl = document.getElementById(this.TOOLTIP_ID);
+    if(tooltipEl != null && tooltipEl.style != null) {
+      tooltipEl.style.opacity = 0;
+    }
+    
     this.$el.removeEventListener('click', this.documentEventListener)
   },
   mounted() {
@@ -76,11 +97,15 @@ export default {
     },
     instantiateChart() {
       let ctx = document.getElementById(this.CHART_ID);
+
+      // Need to assign this to local var, since this.store.filteredDate isn't accessiable from within the setTimeout function.
+      let vm = this;
       if (this.store && this.store.filteredData) {
         this.chartReady = true;
+        
         // run with timeout to give chart time to display and then render updates
         setTimeout(function () {
-          this.updateChart(this.store.filteredData);
+          vm.updateChart(vm.store.filteredData);
         }, 500);
       }
       this.store.$subscribe((mutation, state) => {
@@ -124,6 +149,8 @@ export default {
       Chart.register(...registerables, linePlugin);
 
       let currentYAxisType = this.newYAxisType;
+      let showIntervention = this.showIntervention;
+      let toolTipID = this.TOOLTIP_ID;
       new Chart(ctx, {
         type: 'line',
         lineAtIndex: [2, 4, 8],
@@ -134,14 +161,12 @@ export default {
             line: 5
           },
           onClick: (evt, el, chart) => {
-          
             let pointArray = chart.getElementsAtEventForMode(evt, 'point', {
               intersect: false
               , includeInvisible: true
             }, true);
 
             //console.log("Point %o", pointArray);
-          
             if(pointArray == null || pointArray.length == 0) {
               // Hijacking touchmove event
               let mouseOutEvent = new MouseEvent('touchmove');
@@ -164,17 +189,16 @@ export default {
                 const {chart, tooltip} = context;
                 //console.log("tooltip->external: %o", context);
                 // DataPoint tooltip Element
-                let tooltipEl = document.getElementById('chartjs-tooltip');
-
+                let tooltipEl = document.getElementById(toolTipID);
+                
                 // Create element on first render
                 if (!tooltipEl) {
                   tooltipEl = document.createElement('div');
                   tooltipEl.className = "dataPointTooltip";
-                  tooltipEl.id = 'chartjs-tooltip';
-                  tooltipEl.innerHTML = '<table></table>';
+                  tooltipEl.id = toolTipID;
+                  tooltipEl.innerHTML = '<table width="700"></table>';
                   document.body.appendChild(tooltipEl);
                 }
-
                 
                 const tooltipModel = context.tooltip;
                 if (tooltipModel.opacity === 0) {
@@ -215,47 +239,56 @@ export default {
                   });
 
                   //console.log("chart.data: %o", chart.data);
-                  innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
+                  if (showIntervention){
+                    innerHtml += '<tr><th>Factors</th><th>Comments</th><th colspan="2">Interventions</th></tr>'
+                  } else {
+                    innerHtml += '<tr><th>Factors</th><th>Comments</th></tr>'
+                  }
+                  
                   if(tooltipModel.dataPoints) {
                       for(let j = 0; j < tooltipModel.dataPoints.length; j++) {
                         let dataIndex = tooltipModel.dataPoints[j].dataIndex;
                         let datasetIndex = tooltipModel.dataPoints[j].datasetIndex;
                         let dataset =  tooltipModel.dataPoints[j].dataset;
-                        console.log("dataset.data: ", dataset);
+                        //console.log("dataset.data: ", dataset);
                         const colors = tooltipModel.labelColors[j];
                         let style = 'background-color:' + colors.backgroundColor;
                         style += ';  min-width: .5em; min-height: .5em;width: .5em; height: .5em; display: block; padding: .5em; float:left; margin-right: .2em;';
                         const span = '<span style="' + style + '"></span>';
-                        innerHtml += '<tr><td>' + span + dataset.label + '</td>';
+                        innerHtml += '<tr><td width="10%">' + span + dataset.label + '</td>';
                         
                         if(dataset.comments) {
                           for(let k = 0; k < dataset.comments.length; k++) {
                             if(dataLabel == dataset.comments[k].dataLabel) {
-                              innerHtml += '<td>' + dataset.comments[k].value+ '</td>';
+                              innerHtml += '<td width="30%">' + dataset.comments[k].value+ '</td>';
                             }
                           }
                         }
                         
-                        if(dataset.interventions && dataset.interventions.length > 0) {
+                        if(showIntervention && dataset.interventions && dataset.interventions.length > 0) {
                           let containItv = dataset.interventions.filter( item => item.dataLabel === dataLabel );
-                          console.log("containItv: ", containItv);
                           if (containItv != null && containItv[0] != null) {
-                            innerHtml += '<td><table >';
-                            innerHtml += '<tr><th>Type</th><th>Comments</th></tr>'
+                            innerHtml += '<td width="60%"><table>';
+                            //innerHtml += '<tr><th>Type</th><th>Comments</th></tr>'
                           }
                           
                           for(let k = 0; k < dataset.interventions.length; k++) {
                             if(dataLabel == dataset.interventions[k].dataLabel) {
+                              let itvType = dataset.interventions[k].type;
+                              if (itvType == 'OTHR') {
+                                itvType = dataset.interventions[k].typeOverride;
+                              }
                               innerHtml += '<tr>'
-                              innerHtml += '<td>' +  'Intervention Type' + '</td>';
-                              innerHtml += '<td>' + dataset.interventions[k].comment + '</td>';
+                              innerHtml += '<td width="10%">' +  itvType + '</td>';
+                              innerHtml += '<td width="90% word-wrap: break-word">' + dataset.interventions[k].comment + '</td>';
                               innerHtml += '</tr>'
                             }
                           }
                           if (containItv != null && containItv[0] != null) {
-                            innerHtml += '</table></td></tr>' 
+                            innerHtml += '</table></td>' 
                           }
                         }
+                        innerHtml += '</tr>' 
                       }
                   }
                   innerHtml += '</tbody>';
@@ -372,7 +405,7 @@ export default {
       if (data) {
         const chart = Chart.getChart(this.CHART_ID);
         if (chart) {
-          let tooltipEl = document.getElementById('chartjs-tooltip');
+          let tooltipEl = document.getElementById(this.TOOLTIP_ID);
           if(tooltipEl != null && tooltipEl.style != null) {
             tooltipEl.style.opacity = 0;
           }
@@ -382,7 +415,7 @@ export default {
       }
     },
      documentEventListener: function(ev) {
-      let tooltipEl = document.getElementById('chartjs-tooltip');
+      let tooltipEl = document.getElementById(this.TOOLTIP_ID);
       if(tooltipEl != null && tooltipEl.style != null) {
         tooltipEl.style.opacity = 0;
       }

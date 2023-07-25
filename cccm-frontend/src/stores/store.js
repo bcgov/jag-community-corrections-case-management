@@ -96,7 +96,7 @@ export const useStore = defineStore('main', {
                 { value: "Acute", key: "ACUTE" },
                 { value: "CRNA", key: "CRNA" },
                 { value: "CRNA-SARA", key: "SARA" },
-                { value: "SMO-Overall-CMP", key: "SO_OVERALL-CMP" },
+                { value: "SMO-Overall-CMP", key: "SMO_OVERALL" },
                 { value: "Stable", key: "STABLE" },
                 { value: "Static-99R", key: "STAT99R" }
               ];
