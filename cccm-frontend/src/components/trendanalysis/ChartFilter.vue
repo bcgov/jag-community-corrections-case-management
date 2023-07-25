@@ -10,17 +10,16 @@
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-5">
           <small>Start Date: </small><input id="startDate" v-model="userStartDate" :min="minStartDate" @change="changeStartDate"
-            class="form-control ms-3 me-3 mr-2" type="datetime-local" /> 
+            class="form-control ms-3 me-3 mr-2" type="date" /> 
         </div> 
         <div class="col-sm-5">
           <small>End Date: </small><input id="endDate" v-model="userEndDate" :max="maxEndDate" @change="changeEndDate"
-            class="form-control ms-3 me-3 ml-2" type="datetime-local" />
+            class="form-control ms-3 me-3 ml-2" type="date" />
         </div>
         <div class="col-sm-1">
           <small>&nbsp; </small><button v-on:click="resetDates" title="Reset Dates"><a class="fas fa-undo-alt" /></button>
         </div>
       </section>
-      
     </div>
     <div class="col-md-3 col-sm-1 divider-right">
       <div class="filter-label">Supervision Periods</div>
@@ -31,9 +30,7 @@
           <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current Period"
             value="currentPeriod"></v-radio>
         </v-radio-group>
-
       </div>
-
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
@@ -46,15 +43,12 @@
           </span>
         </template>
       </v-select>
-
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
       <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions"
         @change="updateFilter()" :menu-props="{ maxHeight: '400' }" hint="Select a display filter" persistent-hint>
       </v-select>
-
-
     </div>
     <v-overlay :value="loading">
       <v-progress-circular
@@ -62,22 +56,16 @@
         size="200"
       >
       <span class="mt-30">Loading chart data...</span>
-
     </v-progress-circular>
-
     </v-overlay>
-
-
   </div>
 </template>
 
 <script>
-
 import { trendStore } from '@/stores/trendstore';
 import { useStore } from "@/stores/store";
 import { mapStores, mapState, mapWritableState } from "pinia";
 import { getFormFactors, getTrendChartTypes, getChartData } from "@/components/form.api";
-
 
 export default {
   name: "ChartFilter",
@@ -93,7 +81,6 @@ export default {
     // each store will be accessible as its id + 'Store', i.e., mainStore
     // ...mapWritableState(trendStore, ['data','factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate']),
     ...mapStores(trendStore, ['factors', 'minStartDate', 'maxEndDate', 'advancedFilterOptions', 'startDate', 'endDate'], useStore),
-
   },
   data() {
     return {
@@ -109,18 +96,17 @@ export default {
       userEndDate: null,
       selectedFilter: null,
       factorOptions: [],
-      reportTypes: [
-      ],
+      reportTypes: [],
       reportTab: 0,
-
     }
   },
   props: {},
   mounted() {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
-      this.store.$patch({ chartType: chartType });
-
+      console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType });
       this.getFormFactors();
       this.getFilterOptions();
     });
@@ -147,6 +133,16 @@ export default {
     });
   },
   methods: {
+    convertDateTimeToDate(datetime) {
+      // datetime is in this format: yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28'
+      if (datetime != null && datetime != '') {
+        let dt = datetime.split('T');
+        if (dt != null && dt.length == 2) {
+          return dt[0];
+        }
+      }
+      return null;
+    },
     resetDates() {
       this.userStartDate = this.store.minStartDate;
       this.userEndDate = this.store.maxEndDate;
@@ -176,8 +172,9 @@ export default {
             //console.log("Got data %o", data);
             let xSeries = data.dataLabels;
 
-            this.minStartDate = data.startDateRange; 
-            this.maxEndDate = data.endDateRange;
+            // convert startDateRange from datetime format (i.e. yyyy-MM-ddThh:mm:ss, e.g., '2023-07-21T15:24:28') to date format
+            this.minStartDate = this.convertDateTimeToDate(data.startDateRange); 
+            this.maxEndDate = this.convertDateTimeToDate(data.endDateRange);
  
             // Get counters
             let commentCount = data.counters.comments ? data.counters.comments : 0;
@@ -208,11 +205,13 @@ export default {
     },
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
+      console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType);
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, factors: [], advancedFilter: null, filteredData: null });
+      this.store.$patch({ chartType: this.chartType, formType: this.reportTypes[this.reportTab].formType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
       this.getFilterOptions();
     },
@@ -240,7 +239,6 @@ export default {
       return this.maxEndDate;
     },
     applyDateFilters() {
-      //console.log("applyDateFilters...");
       let startDate = (this.store.startDate) ? new Date(this.store.startDate) : null;
       let endDate = (this.store.endDate) ? new Date(this.store.endDate) : null;
 
@@ -253,7 +251,7 @@ export default {
         let startIndex = 0;
         let endIndex = this.store.data.dataLabels.length - 1;
         this.store.data.dataLabels.forEach(label => {
-          let seriesDate = new Date(label);
+          let seriesDate = new Date(this.convertDateTimeToDate(label)); 
           if (startDate != null && seriesDate < startDate) {
             startIndex++;
           }
@@ -338,8 +336,9 @@ export default {
       if (error) {
         console.error(error);
       } else {
+        const clone = JSON.parse(JSON.stringify(data));
         data.forEach(type => {
-          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters });
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype, formType: type.formType });
         });
       }
     },
@@ -395,7 +394,7 @@ export default {
               }
               break;
             }
-            case 'remained-0-1': {
+            case 'remained-c-d': {
               if ((lastTwo[1] === 0 && lastTwo[0] === 0) || (lastTwo[1] === 1 && lastTwo[0] === 1)) {
                 ds.hidden = false;
               } else {
@@ -403,7 +402,7 @@ export default {
               }
               break;
             }
-            case 'remained-2-3': {
+            case 'remained-a-b': {
               if ((lastTwo[1] === 2 && lastTwo[0] === 2) || (lastTwo[1] === 3 && lastTwo[0] === 3)) {
                 ds.hidden = false;
               } else {
@@ -411,7 +410,16 @@ export default {
               }
               break;
             }
-            case 'remained-1': {
+            case 'remained-l': {
+              if ((lastTwo[1] === 0 && lastTwo[0] === 0)) {
+                ds.hidden = false;
+              } else {
+                ds.hidden = true;
+              }
+              break;
+            }
+            case 'remained-c':
+            case 'remained-m': {
               if ((lastTwo[1] === 1 && lastTwo[0] === 1)) {
                 ds.hidden = false;
               } else {
@@ -419,24 +427,8 @@ export default {
               }
               break;
             }
-            case 'remained-10': {
-              if ((lastTwo[1] === 10 && lastTwo[0] === 10)) {
-                ds.hidden = false;
-              } else {
-                ds.hidden = true;
-              }
-              break;
-            }
-            case 'remained-11': {
-              if ((lastTwo[1] === 11 && lastTwo[0] === 11)) {
-                ds.hidden = false;
-              } else {
-                ds.hidden = true;
-              }
-              break;
-            }
-            case 'remained-12': {
-              if ((lastTwo[1] === 12 && lastTwo[0] === 12)) {
+            case 'remained-h': {
+              if ((lastTwo[1] === 2 && lastTwo[0] === 2)) {
                 ds.hidden = false;
               } else {
                 ds.hidden = true;
@@ -470,7 +462,7 @@ export default {
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: chartType, period: this.period })
+      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType, period: this.period })
       this.getFormFactors();
       this.getFilterOptions();
     }

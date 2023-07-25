@@ -38,7 +38,7 @@ Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
 Vue.prototype.$CONST_FORMTYPE_ACUTE = 'ACUTE'
 Vue.prototype.$CONST_FORMTYPE_STAT99R = 'STAT99R'
 Vue.prototype.$CONST_FORMTYPE_STABLE = 'STABLE'
-Vue.prototype.$CONST_FORMTYPE_SO_OVERALL = 'SO_OVERALL'
+Vue.prototype.$CONST_FORMTYPE_SO_OVERALL = 'SMO_OVERALL'
 Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
 Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
@@ -72,12 +72,12 @@ Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
 Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
-  { formType: 'SARA', formTypeDesc: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
-  { formType: 'ACUTE', formTypeDesc: 'Acute', dataRefreshSectionIndex: '1', formTitle: 'Acute', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'STABLE', formTypeDesc: 'Stable', dataRefreshSectionIndex: '5', formTitle: 'Stable', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
-  { formType: 'STAT99R', formTypeDesc: 'Static-99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
-  { formType: 'SO_OVERALL', formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
+  { formType: 'CRNA', cmp: true, formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
+  { formType: 'SARA', cmp: false, formTypeDesc: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
+  { formType: 'ACUTE', cmp: false, formTypeDesc: 'Acute', dataRefreshSectionIndex: '1', formTitle: 'Acute', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'STABLE', cmp: true, formTypeDesc: 'Stable', dataRefreshSectionIndex: '5', formTitle: 'Stable', assessmentStatusRequired: true, formTypeLabel: 'STABLE Type', showSourcesContacted: true },
+  { formType: 'STAT99R', cmp: false, formTypeDesc: 'Static-99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true },
+  { formType: 'SMO_OVERALL', cmp: false, formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: false, formTypeLabel: '', showSourcesContacted: true }
 ],
 
 Vue.prototype.$BUTTON_TEXT_SUBMIT='Submit Form'
