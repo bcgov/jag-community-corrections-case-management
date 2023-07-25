@@ -29,7 +29,7 @@ export default {
   name: "CommentsAndInterventionsTable",
   computed: {
     showIntervention() {
-      let theForm = this.$FORM_INFO.filter( item => item.formType === 'CRNA');
+      let theForm = this.$FORM_INFO.filter( item => item.formType === this.store.formType);
       if (theForm != null && theForm[0] != null) {
           return theForm[0].cmp;
       }
