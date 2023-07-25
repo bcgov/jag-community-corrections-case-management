@@ -2912,6 +2912,10 @@ components:
       properties:
         description:
           type: string
+        yaxistype:
+          type: string
+        formType:
+          type: string
         factors:
           $ref: '#/components/schemas/FactorConfig'
         filters:
