@@ -104,10 +104,11 @@ export default {
   mounted() {
     this.getChartTypes().then(() => {
       let chartType = this.reportTypes[this.reportTab].content;
-      //console.log("onmounted emit yAxisType: ", this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
-      this.store.$patch({ chartType: chartType, formType: this.reportTypes[this.reportTab].formType });
-      this.getFormFactors();
+      let showIntervention = this.isShowIntervention(this.reportTypes[this.reportTab].formType);
+      let yaxistype = this.reportTypes[this.reportTab].yaxistype;
+      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].chartType);
+      this.store.$patch({ chartType: chartType, showIntervention: showIntervention, yaxistype: yaxistype, formType: this.reportTypes[this.reportTab].formType });
+	    this.getFormFactors();
       this.getFilterOptions();
     });
     this.store.$subscribe(async (mutation, state) => {
@@ -203,15 +204,23 @@ export default {
         this.loading = false;
       }
     },
+	isShowIntervention(formType) {
+      let theForm = this.$FORM_INFO.filter( item => item.formType === formType );
+      if (theForm != null && theForm[0] != null) {
+        return theForm[0].cmp;
+      }
+      return true;
+    },
     chartTypeChangeHandler() {
       this.chartType = this.reportTypes[this.reportTab].content;
-      //console.log("emit chartTypeChanged: ", this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
-      this.$emit('chartTypeChanged', this.reportTypes[this.reportTab].yAxisType, this.reportTypes[this.reportTab].formType);
+      let showIntervention = this.isShowIntervention(this.reportTypes[this.reportTab].formType);
+      let yaxistype = this.reportTypes[this.reportTab].yaxistype;
+      this.$emit('chartTypeChanged', this.chartType);
       this.filterOptions = this.reportTypes[this.reportTab].filters;
       this.selectedFactors = [];
       this.userStartDate = null;
       this.userEndDate = null;
-      this.store.$patch({ chartType: this.chartType, formType: this.reportTypes[this.reportTab].formType, factors: [], advancedFilter: null, filteredData: null });
+      this.store.$patch({ chartType: this.chartType, showIntervention: showIntervention, yaxistype: yaxistype, formType: this.reportTypes[this.reportTab].formType, factors: [], advancedFilter: null, filteredData: null });
       this.getFormFactors();
       this.getFilterOptions();
     },
@@ -338,7 +347,7 @@ export default {
       } else {
         const clone = JSON.parse(JSON.stringify(data));
         data.forEach(type => {
-          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yAxisType: type.yaxistype, formType: type.formType });
+          this.reportTypes.push({ tab: type.description, content: type.type, filters: type.filters, yaxistype: type.yaxistype, formType: type.formType });
         });
       }
     },
@@ -490,4 +499,3 @@ export default {
   background-color: darkslateblue !important;
 }
 </style>
-

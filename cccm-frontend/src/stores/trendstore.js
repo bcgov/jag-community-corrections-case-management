@@ -10,6 +10,8 @@ export const trendStore = defineStore('trend', {
         period: 'allPeriods',
         chartType: 'line',
         formType: '',
+        showIntervention: null,
+        yaxistype: null,
         userStartDate: null,
         userEndDate: null,
         data: null,
