@@ -37,26 +37,17 @@ export default {
     }
   },
   props: {
-    newYAxisType_formType: '',
+    newChartType: '',
   },
   watch: {
-    newYAxisType_formType() {
-      // Extract newYAxisType and newFormType from newYAxisType_formType (sample value: 'ABCD~CRNA')
-      let val = this.newYAxisType_formType.split('~');
-      if (val != null && val.length == 2) {
-        this.newYAxisType = val[0];
-        this.newFormType = val[1];
-
-        let theForm = this.$FORM_INFO.filter( item => item.formType === this.newFormType );
-        if (theForm != null && theForm[0] != null) {
-            this.showIntervention = theForm[0].cmp;
-        }
-        //console.log("yaxis, showIntervention: ",this.newYAxisType, this.newFormType, this.showIntervention );
-        // Destroy the current chart instance
-        this.destroyChart();
-        //Recreate the chart based on the report type, so the Y-axis value shows properly
-        this.instantiateChart();
-      }
+    newChartType() {
+      this.newYAxisType = this.store.yaxistype;
+      this.showIntervention = this.store.showIntervention;
+      
+      // Destroy the current chart instance
+      this.destroyChart();
+      //Recreate the chart based on the report type, so the Y-axis value shows properly
+      this.instantiateChart();
     }
   },
   setup() {
@@ -81,6 +72,9 @@ export default {
     this.$el.removeEventListener('click', this.documentEventListener)
   },
   mounted() {
+    this.newYAxisType = this.store.yaxistype;
+    this.showIntervention = this.store.showIntervention;
+    
     this.$el.addEventListener('click', this.documentEventListener)
     this.instantiateChart();
   },
