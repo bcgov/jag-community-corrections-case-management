@@ -5,12 +5,14 @@
         <v-btn-toggle
           v-model="toggle_exclusive"
           mandatory
-        ><v-btn @click="activate('graph')" :class="getActiveClass('graph')" >
-          <i class="fas fa-chart-bar"> </i> <span class="ms-3 flex-0  ml-3">Graph</span>
+        >
+          <v-btn @click="activate('graph')" :class="getActiveClass('graph')" >
+            <i class="fas fa-chart-bar labelclass"> </i> 
+            <span class="ms-3 flex-0 ml-3 labelclass">Graph</span>
           </v-btn>
           <v-btn  @click="activate('combined')"  :class="getActiveClass('combined')">
-            <i class="fas fa-comments"></i> 
-            <span class="ms-3 ml-3">{{ getTabLabel }}</span>
+            <i class="fas fa-comments labelclass"></i> 
+            <span class="ms-3 ml-3 labelclass">{{ getTabLabel }}</span>
           </v-btn>
         </v-btn-toggle>
       </div>
@@ -72,5 +74,17 @@ export default {
   position: absolute;
   left: 8px;
   top: 8px;
+}
+
+.labelclass {
+  color: white;
+}
+
+.primary {
+    background: #38598a!important;
+}
+
+.black {
+    background: grey!important;
 }
 </style>
