@@ -117,100 +117,100 @@
       "message": "2. Tenor of current relationship: requires comment"
     },
     {
+      "key": "S03Q04",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q04_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "4. Emotional identification with children (only rate if victim < 14 years old)</br>Only rate if victim is less than 14 years old: requires comment"
+    },
+    {
+      "key": "S03Q05",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q05_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "5. Hostility towards women: requires comment"
+    },
+    {
+      "key": "S03Q06",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q06_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "6. General social rejection / loneliness: requires comment"
+    },
+    {
+      "key": "S03Q07",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S03Q07_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "7. Lack of concern for others: requires comment"
+    },
+    {
       "key": "S04Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q01_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "1. Emotional identification with children (only rate if victim < 14 years old)</br>Only rate if victim is less than 14 years old: requires comment"
+      "message": "1. Impulsive acts: requires comment"
     },
     {
       "key": "S04Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q02_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "2. Hostility towards women: requires comment"
+      "message": "2. Poor cognitive problem solving skills: requires comment"
     },
     {
       "key": "S04Q03",
       "type": "CONDITIONAL",
       "dependentKeys": ["S04Q03_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "3. General social rejection / loneliness: requires comment"
-    },
-    {
-      "key": "S04Q04",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S04Q04_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "4. Lack of concern for others: requires comment"
+      "message": "3. Negative emotionality / hostility: requires comment"
     },
     {
       "key": "S05Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q01_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "1. Impulsive acts: requires comment"
+      "message": "1. Sexual pre-occupation: requires comment"
     },
     {
       "key": "S05Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q02_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "2. Poor cognitive problem solving skills: requires comment"
+      "message": "2. Sex as coping: requires comment"
     },
     {
-      "key": "S05Q03",
+      "key": "S05Q04",
       "type": "CONDITIONAL",
-      "dependentKeys": ["S05Q03_COMMENT"],
+      "dependentKeys": ["S05Q04_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "3. Negative emotionality / hostility: requires comment"
+      "message": "4. Number of sex offence victims: requires comment"
+    },
+    {
+      "key": "S05Q05",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q05_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "5. Number of deviant preference victims: requires comment"
+    },
+    {
+      "key": "S05Q06",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q06_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "6. Self-report of deviant history / preferences: requires comment"
+    },
+    {
+      "key": "S05Q07",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q07_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "7. Results of specialized testing: requires comment"
     },
     {
       "key": "S06Q01",
       "type": "CONDITIONAL",
       "dependentKeys": ["S06Q01_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "1. Sexual pre-occupation: requires comment"
-    },
-    {
-      "key": "S06Q02",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S06Q02_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "2. Sex as coping: requires comment"
-    },
-    {
-      "key": "S07Q01",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S07Q01_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "1. Number of sex offence victims: requires comment"
-    },
-    {
-      "key": "S07Q02",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S07Q02_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "2. Number of deviant preference victims: requires comment"
-    },
-    {
-      "key": "S07Q03",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S07Q03_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "3. Self-report of deviant history / preferences: requires comment"
-    },
-    {
-      "key": "S07Q04",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S07Q04_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "4. Results of specialized testing: requires comment"
-    },
-    {
-      "key": "S08Q01",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S08Q01_COMMENT"],
       "dependentValues": ["1", "2"],
       "message": "1. Cooperation with supervision: requires comment"
     },
