@@ -21,62 +21,72 @@
       "message": "2. Tenor of current relationship: is required"
     },
     {
+      "key": "S03Q04",
+      "type": "REQUIRED",
+      "message": " 4. Emotional identification with children: is required"
+    },
+    {
+      "key": "S03Q05",
+      "type": "REQUIRED",
+      "message": "5. Hostility towards women: is required"
+    },
+    {
+      "key": "S03Q06",
+      "type": "REQUIRED",
+      "message": "6. General social rejection /  loneliness: is required"
+    },
+    {
+      "key": "S03Q07",
+      "type": "REQUIRED",
+      "message": "7. Lack of concern for others: is required"
+    },
+    {
+      "key": "S04Q01",
+      "type": "REQUIRED",
+      "message": "1. Impulsive acts: is required"
+    },
+    {
       "key": "S04Q02",
-      "type": "REQUIRED",
-      "message": "2. Hostility towards women: is required"
-    },
-    {
-      "key": "S04Q03",
-      "type": "REQUIRED",
-      "message": "3. General social rejection /  loneliness: is required"
-    },
-    {
-      "key": "S04Q04",
-      "type": "REQUIRED",
-      "message": "4. Lack of concern for others: is required"
-    },
-    {
-      "key": "S05Q02",
       "type": "REQUIRED",
       "message": "2. Poor cognitive problem solving skills: is required"
     },
     {
-      "key": "S05Q03",
+      "key": "S04Q03",
       "type": "REQUIRED",
       "message": "3. Negative emotionality / hostility: is required"
     },
     {
-      "key": "S06Q01",
+      "key": "S05Q01",
       "type": "REQUIRED",
       "message": "1. Sexual pre-occupation: is required"
     },
     {
-      "key": "S06Q02",
+      "key": "S05Q02",
       "type": "REQUIRED",
       "message": "2. Sex as coping: is required"
     },
     {
-      "key": "S07Q01",
+      "key": "S05Q04",
       "type": "REQUIRED",
-      "message": "1. Number of sex offence victims: is required"
+      "message": "4. Number of sex offence victims: is required"
     },
     {
-      "key": "S07Q02",
+      "key": "S05Q05",
       "type": "REQUIRED",
-      "message": "2. Number of deviant preference victims: is required"
+      "message": "5. Number of deviant preference victims: is required"
     },
     {
-      "key": "S07Q03",
+      "key": "S05Q06",
       "type": "REQUIRED",
-      "message": "3. Self-report of deviant history / preferences: is required"
+      "message": "6. Self-report of deviant history / preferences: is required"
     },
     {
-      "key": "S07Q04",
+      "key": "S05Q07",
       "type": "REQUIRED",
-      "message": "4. Results of specialized testing: is required"
+      "message": "7. Results of specialized testing: is required"
     },
     {
-      "key": "S08Q01",
+      "key": "S06Q01",
       "type": "REQUIRED",
       "message": "1. Cooperation with supervision: is required"
     },
