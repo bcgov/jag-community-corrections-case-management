@@ -2,7 +2,7 @@ import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { updateForm } from "@/components/form.api";
 
-export const useStore = defineStore('autosave', { 
+export const useAutosaveStore = defineStore('autosave', { 
     // state
     state: () =>({
         keyValueMap: [],

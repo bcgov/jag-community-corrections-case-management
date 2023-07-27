@@ -16,7 +16,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
 import { getCasePlanIntervention } from "@/components/form.api";
-import { useStore } from "@/stores/autoSaveStore";
+import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
 
 export default {
@@ -85,7 +85,7 @@ export default {
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapStores(useStore)
+    ...mapStores(useAutosaveStore)
   },
 }
 </script>

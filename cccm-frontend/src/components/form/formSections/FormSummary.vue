@@ -45,8 +45,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getDataForSummaryView } from "@/components/form.api";
-import {useStore} from "@/stores/autoSaveStore";
-import {mapStores} from 'pinia';
+import { useAutosaveStore } from "@/stores/autoSaveStore";
+import { mapStores } from 'pinia';
 
 export default {
     name: 'FormSummary',
@@ -118,7 +118,7 @@ export default {
         },
         // note we are not passing an array, just one store after the other
         // each store will be accessible as its id + 'Store', i.e., mainStore
-        ...mapStores(useStore)
+        ...mapStores(useAutosaveStore)
     }
 }
 </script>
