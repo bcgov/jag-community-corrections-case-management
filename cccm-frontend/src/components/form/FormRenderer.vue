@@ -227,6 +227,7 @@ import FormSummary from '@/components/form/formSections/FormSummary.vue';
 import FormCaseplan from '@/components/form/formSections/FormCasePlan.vue';
 import FormDataRefreshSection from '@/components/form/formSections/FormDataRefreshSection.vue';
 import {useStore} from "@/stores/store";
+import { useAutosaveStore } from "@/stores/autoSaveStore";
 import {mapStores} from 'pinia';
 
 export default {
@@ -257,6 +258,7 @@ export default {
   },
   data() {
     return {
+      CONST_KEY_eventTriggeredAutoCalc: "eventTriggeredAutoCalc",
       CONST_INTERVENTION_CHECKBOX_SUFIX:"_intervention_checkbox",
       CONST_LABEL_CASEPLAN: "CASE PLAN",
       CONST_LABEL_SUMMARY: "SUMMARY",
@@ -299,7 +301,7 @@ export default {
       showFormExpandedIcon: false,
       formExpanded: false,
       key_formExpandIcon: 0,
-      submitDone: 0,
+      submitDone: 0
     }
   },
   mounted(){
@@ -317,18 +319,50 @@ export default {
     
     // set sideBtnData
     this.sideBtnData.data.showPrintBtn = this.canPrint;
-    
-    //console.log("form renderer mounted: ", this.readonly, this.options, this.formType, this.formId , this.relatedClientFormId, this.csNumber);
-    this.getClientAndFormMeta();
-    this.getFormioTemplate();
-    
-    setTimeout(() => {
-      this.loaded = true;
-      this.navToSectionAndQuestion(0, 0);
-    }, 1000);
-    
+    // load the page
+    this.loadPage();
   },
   methods: {
+    doEventTriggerAutoCalc() {
+      // push csNumber and formId to autoSaveStore
+      this.autosaveStore.setClientNumber(this.csNumber);
+      this.autosaveStore.setFormId(this.formId);
+
+      // set true to CONST_KEY_eventTriggeredAutoCalc field
+      this.autosaveStore.autoSaveDataCandidate[this.CONST_KEY_eventTriggeredAutoCalc] = true;
+
+      // Trigger a save
+      console.log("this.autosaveStore.autoSaveDataCandidate: ", this.autosaveStore.autoSaveDataCandidate);
+      this.autosaveStore.autoSave();
+    },
+    pageLoadHelper() {
+      this.getClientAndFormMeta();
+      this.getFormioTemplate();
+      setTimeout(() => {
+        this.loaded = true;
+        this.navToSectionAndQuestion(0, 0);
+      }, 1000);
+    },
+    loadPage() {
+      // check to see if need to trigger an autoCalc before loading the form
+      if (this.theFormConfig.autoCalcOnFormload) {
+        this.doEventTriggerAutoCalc();
+
+        //Redirect User to the newly created form
+        if (this.autosaveStore.isSavingInProgress()) { 
+          // Delay loading summary view data
+          console.log("Event triggered autoCalc done, continue lazy loading the form ");
+          setTimeout(() => {
+            this.pageLoadHelper();
+          }, 1000)
+        } else {
+          console.log("Event triggered autoCalc done, continue prompt loading the form ");
+          this.pageLoadHelper();
+        }
+      } else {
+        this.pageLoadHelper();
+      }
+    },
     formExpandToggle() {
       let scaleDiv = document.getElementById("div_scale");
       let footerDiv = document.getElementById("id_footer");
@@ -553,9 +587,7 @@ export default {
 
       window.open(route.href, '_blank');
     },
-    handleSaveClose() {
-      //console.log("handleSaveClose");
-      //Redirect User back to clientRecord.RNAList
+    redirectOnFormClose(){
       this.$router.push({
         name: this.$ROUTER_NAME_CLIENTRECORD,
         params: {
@@ -563,6 +595,24 @@ export default {
           tabIndex: 'tab-rl'
         }
       });
+    },
+    handleSaveClose() {
+      //console.log("handleSaveClose");
+      if (this.theFormConfig.autoCalcOnFormComplete) {
+        this.doEventTriggerAutoCalc();
+        if (this.autosaveStore.isSavingInProgress()) { 
+          console.log("Event triggered autoCalc done, continue lazy closing form ");
+          setTimeout(() => {
+            this.redirectOnFormClose();
+          }, 1000);
+        } else {
+          console.log("Event triggered autoCalc done, continue prompt closing form ");
+          this.redirectOnFormClose();
+        }
+      } else {
+        //Redirect User back to clientRecord.RNAList
+        this.redirectOnFormClose();
+      }
     },
     handleSaveContinue(continueToNextSection) {
       //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
@@ -620,6 +670,47 @@ export default {
                            .forEach((key) => result.push({"key": key.substring(0, key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFIX))}))
       return result;
     },
+    async completeFormAPI(completeFormData) {
+      const [error, completResult] = await completeForm(completeFormData);
+      if (error) {
+        console.error("Failed completing a form instance", error);
+        this.errorOccurred = true;
+        this.errorTitle = error.response.data.errorMessage;
+        this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
+        this.errorKey++;
+        this.submitDone++;
+      } else {
+        console.log("Successfully completed the form: ", this.formId);
+        this.submitDone++;
+        //Redirect User back to clientRecord.RNAList
+        this.$router.push({
+          name: this.$ROUTER_NAME_CLIENTRECORD,
+          params: {
+            clientNum: this.csNumber,
+            tabIndex: 'tab-rl'
+          }
+        });
+      }
+    },
+    async completeFormWrapper(completeFormData) {
+      if (this.theFormConfig.autoCalcOnFormComplete) {
+        this.doEventTriggerAutoCalc();
+        
+        //Redirect User to the newly created form
+        if (this.autosaveStore.isSavingInProgress()) { 
+          // Delay loading summary view data
+          console.log("Event triggered autoCalc done, continue lazy completing form ");
+          setTimeout(() => {
+            this.completeFormAPI(completeFormData);
+          }, 1000)
+        } else {
+          console.log("Event triggered autoCalc done, continue prompt completing the form ");
+          this.completeFormAPI(completeFormData);
+        }
+      } else {
+        this.completeFormAPI(completeFormData);
+      }
+    },
     async validateAndCompleteForm(formData) {
       if (formData != null) {
         // build completeFormData
@@ -629,26 +720,7 @@ export default {
         completeFormData.linkedClientFormId = this.relatedClientFormId;
         completeFormData.interventionCheckboxChecked = this.formatValidationPayload(formData);
         //console.log("completeFormData: ", completeFormData);
-        const [error, completResult] = await completeForm(completeFormData);
-        if (error) {
-          console.error("Failed completing a form instance", error);
-          this.errorOccurred = true;
-          this.errorTitle = error.response.data.errorMessage;
-          this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
-          this.errorKey++;
-          this.submitDone++;
-        } else {
-          console.log("Successfully completed the form: ", this.formId);
-          this.submitDone++;
-          //Redirect User back to clientRecord.RNAList
-          this.$router.push({
-            name: this.$ROUTER_NAME_CLIENTRECORD,
-            params: {
-              clientNum: this.csNumber,
-              tabIndex: 'tab-rl'
-            }
-          });
-        }
+        this.completeFormWrapper(completeFormData);
       }
     },
     showDeleteDialog() {
@@ -722,7 +794,7 @@ export default {
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapStores(useStore)
+    ...mapStores(useStore, useAutosaveStore)
   }
 }
 </script>
