@@ -344,8 +344,9 @@ export default {
       }, 1000);
     },
     loadPage() {
-      // check to see if need to trigger an autoCalc before loading the form
-      if (this.theFormConfig.autoCalcOnFormload) {
+      // check to see if need to trigger an autoCalc before loading the form,
+      // only do it if the form is not locked
+      if (this.theFormConfig.autoCalcOnFormload && !this.locked) {
         this.doEventTriggerAutoCalc();
 
         //Redirect User to the newly created form
@@ -598,7 +599,7 @@ export default {
     },
     handleSaveClose() {
       //console.log("handleSaveClose");
-      if (this.theFormConfig.autoCalcOnFormComplete) {
+      if (this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
         this.doEventTriggerAutoCalc();
         if (this.autosaveStore.isSavingInProgress()) { 
           console.log("Event triggered autoCalc done, continue lazy closing form ");
@@ -693,7 +694,7 @@ export default {
       }
     },
     async completeFormWrapper(completeFormData) {
-      if (this.theFormConfig.autoCalcOnFormComplete) {
+      if (this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
         this.doEventTriggerAutoCalc();
         
         //Redirect User to the newly created form
