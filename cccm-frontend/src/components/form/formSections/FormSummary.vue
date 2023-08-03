@@ -21,6 +21,10 @@
                                     <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
                                 </a>
                             </template>
+                            <!--Customize the Specific Factor field, show the comments or value if comments aren't present -->
+                            <template v-slot:item.comment="{ item }">
+                                <div>{{ item.comment == null ? item.value : item.comment }}</div>
+                            </template>
                         </v-data-table>
                         <v-data-table v-else
                             no-data-text="No answers for this section" 
@@ -68,10 +72,14 @@ export default {
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' },
             ],
             interventionHeaders: [
-                { text: 'Criminogenic Needs', value: 'question', width: '20%', align: 'center' },
-                { text: 'Specific Factor', value: 'comment', width: '10%', align: 'center' },
-                { text: 'Intervention Type', value: 'interventionType', width: '20%', align: 'center' },
-                { text: 'Intervention Description', value: 'interventionComment', width: '40%', align: 'center' },
+                { text: 'Criminogenic Needs', value: 'question', width: '10%', align: 'center' },
+                { text: '', value: '', width: '1%', align: 'center' },
+                { text: 'Specific Factor', value: 'comment', width: '35%', align: 'center' },
+                { text: '', value: '', width: '1%', align: 'center' },
+                { text: 'Intervention Type', value: 'interventionType', width: '10%', align: 'center' },
+                { text: '', value: '', width: '1%', align: 'center' },
+                { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'center' },
+                { text: '', value: '', width: '1%', align: 'center' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' }
             ]
         }
