@@ -81,11 +81,6 @@
       "message": "6. Self-report of deviant history / preferences: is required"
     },
     {
-      "key": "S05Q07",
-      "type": "REQUIRED",
-      "message": "7. Results of specialized testing: is required"
-    },
-    {
       "key": "S06Q01",
       "type": "REQUIRED",
       "message": "1. Cooperation with supervision: is required"
