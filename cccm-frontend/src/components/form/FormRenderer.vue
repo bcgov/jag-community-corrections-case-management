@@ -675,6 +675,11 @@ export default {
       const [error, completResult] = await completeForm(completeFormData);
       if (error) {
         console.error("Failed completing a form instance", error);
+        if (this.formExpanded) {
+          console.log("form expanded, unexpand it, and show the error");
+          this.formExpandToggle();
+        }
+
         this.errorOccurred = true;
         this.errorTitle = error.response.data.errorMessage;
         this.errorText = error.response.data.validationResult == null ? null : error.response.data.validationResult.errors;
