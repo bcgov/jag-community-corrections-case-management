@@ -28,38 +28,41 @@
                 </v-card>
             </div>
             <div v-for="(formEle, index) in formInstanceData" :key="index">
-                <div v-if="formEle.formType === $CONST_FORMTYPE_CRNA">
-                    <div class="dashboard-v-card" v-if="formEle.data.length > 0">
-                        <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                                <div v-if="section.section == 'Case Plan'">
-                                    <div class="subSectionTitleClass">{{ section.section }}</div>
-                                    <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                                        <h5>{{ subSection.title }}</h5>
-                                        <v-data-table v-if="subSection.title == 'Intervention Plan'"
-                                            no-data-text="" 
-                                            :items="subSection.answers"
-                                            :headers="interventionHeaders" item-key="key" 
-                                            no-results-text="No results found" 
-                                            hide-default-footer>
-                                        </v-data-table>
-                                        <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
-                                            no-data-text="" 
-                                            :items="subSection.answers"
-                                            :headers="formHeaders" item-key="key" 
-                                            no-results-text="No results found" 
-                                            hide-default-footer>
-                                        </v-data-table>
-                                        <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
-                                                            || subSection.title == 'Assessment Comments'
-                                                            || subSection.title == 'Reassessment Comments'"
-                                            
-                                        >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
-                                        </pre>
+                <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                            <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan'">
+                                <div class="subSectionTitleClass">{{ section.section }}</div>
+                                <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
+                                    <h5>{{ subSection.title }}</h5>
+                                    <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                                        no-data-text="" 
+                                        :items="subSection.answers"
+                                        :headers="interventionHeaders" item-key="key" 
+                                        no-results-text="No results found" 
+                                        hide-default-footer>
                                         
-                                        <br>
-                                    </div>
+                                        <!--Customize the Specific Factor field, show the comments or value if comments aren't present -->
+                                        <template v-slot:item.comment="{ item }">
+                                            <div>{{ item.comment == null ? item.value : item.comment }}</div>
+                                        </template>
+                                    </v-data-table>
+                                    <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
+                                        no-data-text="" 
+                                        :items="subSection.answers"
+                                        :headers="formHeaders" item-key="key" 
+                                        no-results-text="No results found" 
+                                        hide-default-footer>
+                                    </v-data-table>
+                                    <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
+                                                        || subSection.title == 'Assessment Comments'
+                                                        || subSection.title == 'Reassessment Comments'"
+                                        
+                                    >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
+                                    </pre>
+                                    
+                                    <br>
                                 </div>
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
