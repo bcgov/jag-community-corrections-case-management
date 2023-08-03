@@ -3,12 +3,12 @@ updates:
   # Mvn dependencies
   - package-ecosystem: "maven"
     directory: "/cccm-backend"
-    open-pull-requests-limit: 50
+    open-pull-requests-limit: 3
     schedule:
       interval: "daily"
   # npm dependencies - frontend
   - package-ecosystem: "npm"
     directory: "/cccm-frontend"
-    open-pull-requests-limit: 50
+    open-pull-requests-limit: 3
     schedule:
       interval: "daily"
