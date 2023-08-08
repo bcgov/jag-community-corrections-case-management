@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Rating;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -180,7 +181,12 @@ public class ClientFormSearchTest {
         form1.setRelatedClientFormId(BigDecimal.TEN);
         form1.setOsuUpdateDate(LocalDate.now());
         form1.setSupervisionRating(HIGH);
-        form1.getRatings().put("CRNA", HIGH);
+
+        Rating rating1 = new Rating();
+        rating1.setFormType("CRNA");
+        rating1.setText(HIGH);
+
+        form1.getRatings().add(rating1);
         form1.setMostRecent(false);
         form1.setModule("CRNA");
 
@@ -190,7 +196,12 @@ public class ClientFormSearchTest {
         form2.setMostRecent(true);
         form2.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form2.setSupervisionRating(MEDIUM);
-        form2.getRatings().put("SARA", MEDIUM);
+
+        Rating rating2 = new Rating();
+        rating2.setFormType("SARA");
+        rating2.setText(MEDIUM);
+
+        form2.getRatings().add(rating2);
         form2.setModule("SARA");
 
         ClientFormSummary form3 = new ClientFormSummary();
@@ -205,7 +216,12 @@ public class ClientFormSearchTest {
         form4.setRelatedClientFormId(BigDecimal.valueOf(321));
         form4.setOsuUpdateDate(LocalDate.now());
         form4.setSupervisionRating(MEDIUM);
-        form4.getRatings().put("SARA", MEDIUM);
+
+        Rating rating4 = new Rating();
+        rating4.setFormType("SARA");
+        rating4.setText(MEDIUM);
+
+        form4.getRatings().add(rating4);
         form4.setModule("SARA");
 
         ClientFormSummary form5 = new ClientFormSummary();
@@ -214,14 +230,25 @@ public class ClientFormSearchTest {
         form5.setRelatedClientFormId(BigDecimal.valueOf(123));
         form5.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form5.setSupervisionRating(LOW);
-        form5.getRatings().put("CRNA", LOW);
+
+        Rating rating5 = new Rating();
+        rating5.setFormType("CRNA");
+        rating5.setText(LOW);
+
+        form5.getRatings().add(rating5);
         form5.setModule("CRNA");
 
         ClientFormSummary form6 = new ClientFormSummary();
         form6.setId(BigDecimal.valueOf(321));
         form6.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form6.setSupervisionRating(LOW);
-        form6.getRatings().put("ACUTE", LOW);
+
+
+        Rating rating6 = new Rating();
+        rating6.setFormType("ACUTE");
+        rating6.setText(LOW);
+
+        form6.getRatings().add(rating6);
         form6.setMostRecent(true);
         form6.setModule("ACUTE");
 
@@ -229,7 +256,12 @@ public class ClientFormSearchTest {
         form7.setId(BigDecimal.valueOf(321));
         form7.setOsuUpdateDate(LocalDate.now().minusDays(1));
         form7.setSupervisionRating(LOW);
-        form7.getRatings().put("STAT99R", LOW);
+
+        Rating rating7 = new Rating();
+        rating7.setFormType("STAT99R");
+        rating7.setText(LOW);
+
+        form7.getRatings().add(rating7);
         form7.setMostRecent(true);
         form7.setModule("STAT99R");
 

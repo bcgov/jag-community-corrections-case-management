@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -79,7 +80,7 @@ public class ClientFormSearchUsingGETTest {
     private List<ClientFormSummary> createClientFormSummary() {
 
         ClientFormSummary clientFormSummary = new ClientFormSummary();
-        clientFormSummary.setRatings(new HashMap<>());
+        clientFormSummary.setRatings(new ArrayList<>());
         clientFormSummary.setCreatedByIdir(TEST);
         clientFormSummary.setCreatedBy(TEST);
         clientFormSummary.setCompletedDate(LocalDate.now());

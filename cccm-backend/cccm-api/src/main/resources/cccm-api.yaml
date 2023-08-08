@@ -2475,9 +2475,9 @@ components:
         mostRecent:
           type: boolean
         ratings:
-          type: object
-          additionalProperties:
-            type: string
+          type: array
+          items:
+            $ref: '#/components/schemas/Rating'
         reassessment:
           type: boolean
         relatedClientFormId:
@@ -2814,6 +2814,16 @@ components:
         startDate:
           type: string
           format: date
+    Rating:
+      title: Rating
+      type: object
+      properties:
+        formType:
+          type: string
+        text:
+          type: string
+        desc:
+          type: string
     Responsivity:
       title: Responsivity
       type: object

@@ -196,29 +196,38 @@ public class ClientDataServiceImpl implements ClientDataService {
                     ClientFormSummary mergedForm = form;
                     mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
                     mergedForm.setStatus(relatedFrom.get().getStatus());
-                    mergedForm.getRatings().putAll(relatedFrom.get().getRatings());
+                    mergedForm.getRatings().addAll(relatedFrom.get().getRatings());
                     mergedForm.setLocationId(relatedFrom.get().getLocationId());
                     mergedForm.setLocation(relatedFrom.get().getLocation());
                     mergedForm.setUpdatedBy(relatedFrom.get().getUpdatedBy());
                     if (relatedFrom.get().getOsuUpdateDate() != null && mergedForm.getOsuUpdateDate() != null && relatedFrom.get().getOsuUpdateDate().isAfter(mergedForm.getOsuUpdateDate())) {
                         mergedForm.setOsuUpdateDate(relatedFrom.get().getOsuUpdateDate());
                     }
-
-                    mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getRatings().get(SARA_FORM_TYPE)) > ratingToInteger(form.getRatings().get(CRNA_FORM_TYPE)) ? relatedFrom.get().getRatings().get(SARA_FORM_TYPE) : form.getRatings().get(CRNA_FORM_TYPE)));
+                    if (!relatedFrom.get().getRatings().isEmpty() && !form.getRatings().isEmpty()) {
+                        mergedForm.setSupervisionRating((ratingToInteger(relatedFrom.get().getRatings().get(0).getText()) > ratingToInteger(form.getRatings().get(0).getText()) ? relatedFrom.get().getRatings().get(0).getText() : form.getRatings().get(0).getText()));
+                    } else if (!relatedFrom.get().getRatings().isEmpty()) {
+                        mergedForm.setSupervisionRating(relatedFrom.get().getRatings().get(0).getText());
+                    } else if (!form.getRatings().isEmpty()) {
+                        mergedForm.setSupervisionRating(form.getRatings().get(0).getText());
+                    }
                     mergedForm.setReassessment(relatedFrom.get().getReassessment());
 
                     formsMerged.add(mergedForm);
                 } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE) && form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
 
                     logger.info("adding stand alone form");
-                    form.setSupervisionRating(form.getRatings().get(SARA_FORM_TYPE));
+                    if (!form.getRatings().isEmpty()) {
+                        form.setSupervisionRating(form.getRatings().get(0).getText());
+                    }
                     formsMerged.add(form);
 
                 } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
                         (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && (form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) || form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)))) {
                     logger.info("adding other forms");
                     if (hasSMOEarlyAdopter || form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
-                        form.setSupervisionRating(form.getRatings().get(form.getModule()));
+                        if (!form.getRatings().isEmpty()) {
+                            form.setSupervisionRating(form.getRatings().get(0).getText());
+                        }
                         formsMerged.add(form);
                     }
                 }
@@ -228,7 +237,9 @@ public class ClientDataServiceImpl implements ClientDataService {
                     (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)||
                     (formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE) && hasSMOEarlyAdopter)) {
                 logger.info("adding form {}", form.getModule());
-                form.setSupervisionRating(form.getRatings().get(form.getModule()));
+                if (!form.getRatings().isEmpty()) {
+                    form.setSupervisionRating(form.getRatings().get(0).getText());
+                }
                 formsMerged.add(form);
             }
         }
