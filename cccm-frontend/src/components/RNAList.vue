@@ -210,20 +210,20 @@
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.supervisionRating)}`">
-              {{ getRatingDisplay(item.supervisionRating) }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.supervisionRating, item.module)}`">
+              {{ getLMHRatingDisplay(item.supervisionRating) }}</div>
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.CRNA)}`">{{ getRatingDisplay(item.crnaRating) }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.crnaRatingVal, item.module)}`">{{ item.crnaRating }}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SARA)} `">{{ getRatingDisplay(item.saraRating) }}</div>
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.saraRatingVal, item.module)} `">{{ item.saraRating }}</div>
           </template>
-          <!--Customize the smoOverallRating rating field -->
-          <template v-slot:item.smoOverallRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.ratings.SMO_OVERALL)} `">{{ item.smoOverallRating }}</div>
+          <!--Customize the smoRating rating field -->
+          <template v-slot:item.smoRating="{ item }">
+            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.smoRatingVal, item.module)} `">{{ item.smoRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -291,6 +291,7 @@ export default {
   data() {
     return {
       //Const
+      const_crna_sara: 'CRNA-SARA',
       const_supervision: "Supervision",
       const_rating_low: "L",
       const_rating_medium: "M",
@@ -315,10 +316,10 @@ export default {
         { text: 'Updated Date', sortable: true, value: 'updatedDateDisplay' },
         { text: 'Created Location', sortable: true, value: 'location' },
         { text: 'Created By', sortable: true, value: 'createdBy' },
-        { text: 'Supervision Rating', sortable: true, value: 'supervisionRating' },
+        { text: 'Supervision Level', sortable: true, value: 'supervisionRating' },
         { text: 'CRNA Rating', sortable: true, value: 'crnaRating' },
         { text: 'SARA Rating', sortable: true, value: 'saraRating' },
-        { text: 'SMO Overall Rating', sortable: true, value: 'smoOverallRating' },
+        { text: 'SMO Ratings', sortable: true, value: 'smoRating' },
         { text: 'Actions', value: 'action' },
       ],
       rnaList: [],
@@ -416,7 +417,7 @@ export default {
       return formType;
     },
     getAssessmentStatus(isReassessment, formType) {
-      if (formType == 'CRNA-SARA') {
+      if (formType == this.const_crna_sara) {
         formType = this.$CONST_FORMTYPE_SARA;
       }
       let theForm = this.$FORM_INFO.filter( item => item.formType === formType );
@@ -426,7 +427,7 @@ export default {
       }
       return isReassessment == null ? "" : (isReassessment) ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
     },
-    getRatingDisplay(rating) {
+    getLMHRatingDisplay(rating) {
       if (rating == null || rating == '') {
         return '';
       }
@@ -447,21 +448,58 @@ export default {
       }
       return displayText;
     },
-    getRatingColor(rating) {
+    getRatingColor(rating, formType) {
       if (rating == null || rating == '') {
         return '';
       }
       let colorClass = '';
       switch (rating.toUpperCase()) {
-        case this.const_rating_low: {
+        case '1': 
+        case '2': 
+          if (formType == this.$CONST_FORMTYPE_STAT99R) {
+            colorClass = 'dashboard-background-color-green';
+            break;
+          } else {
+            colorClass = '';
+            break;
+          }
+        case this.const_rating_low: 
+        case '1AE': 
+        case '1HE': 
+        case '2AE': 
+        case '2HE': {
           colorClass = 'dashboard-background-color-green';
           break;
         }
-        case this.const_rating_medium: {
+        case '3': 
+          if (formType == this.$CONST_FORMTYPE_STAT99R) {
+            colorClass = 'dashboard-background-color-yellow';
+            break;
+          } else {
+            colorClass = '';
+            break;
+          }
+        case this.const_rating_medium: 
+        case '3AE': 
+        case '3HE': {
           colorClass = 'dashboard-background-color-yellow';
           break;
         }
-        case this.const_rating_high: {
+        case '4A': 
+        case '4B': 
+          if (formType == this.$CONST_FORMTYPE_STAT99R) {
+            colorClass = 'dashboard-background-color-red';
+            break;
+          } else {
+            colorClass = '';
+            break;
+          }
+        case this.const_rating_high: 
+        case '4ALE': 
+        case '4AAE': 
+        case '4AHE': 
+        case '4BLE': 
+        case '4BAE': {
           colorClass = 'dashboard-background-color-red';
           break;
         }
@@ -567,15 +605,32 @@ export default {
           this.rnaList = response;
           //console.log("RNAList search: ", response);
           this.rnaList = this.rnaList.filter(el => {
+            console.log("el: ", el);
             el.status = this.$FORM_STATUS_INCOMPLETE;
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
             el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
-            el.crnaRating = this.getRatingDisplay(el.ratings.CRNA);
-            el.saraRating = this.getRatingDisplay(el.ratings.SARA);
-            el.smoOverallRating = this.getRatingDisplay(el.ratings.SMO_OVERALL);
+            
+            // CRNA or SARA form, there should be only CRNA or SARA rating returned
+            // CRNA_SARA form, there should be CRNA and/or SARA rating returned
+            // SMO_Overall form, there should be SMO_Overall, CRNA and/or SARA rating returned
+            // All other form types, there should be only the rating for the specific form type
+            if (el.ratings != null) {
+              el.ratings.filter(rating => {
+                if (rating.formType == this.$CONST_FORMTYPE_CRNA) {
+                  el.crnaRating = rating.desc;
+                  el.crnaRatingVal = rating.text;
+                } else if (rating.formType == this.$CONST_FORMTYPE_SARA) {
+                  el.saraRating = rating.desc;
+                  el.saraRatingVal = rating.text;
+                } else {
+                  el.smoRating = rating.desc;
+                  el.smoRatingVal = rating.text;
+                } 
+              });
+            }
             return el;
           });
         }
