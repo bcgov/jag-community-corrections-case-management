@@ -9,10 +9,7 @@ import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
@@ -398,7 +395,12 @@ public class CompleteFormTest {
         clientFormSummary.setModule(module);
         clientFormSummary.setRelatedClientFormId(relatedFormId);
         clientFormSummary.setSupervisionRating(superVisionRating);
-        clientFormSummary.getRatings().put("CRNA", HIGH);
+
+        Rating rating = new Rating();
+        rating.setFormType("CRNA");
+        rating.setText(HIGH);
+
+        clientFormSummary.getRatings().add(rating);
         clientFormSummary.setCompletedDate(completedDate);
         clientFormSummary.setCreatedBy(createdBy);
         clientFormSummary.setCreatedByIdir(createdBy);

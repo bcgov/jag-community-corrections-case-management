@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @QuarkusTest
@@ -77,7 +78,7 @@ public class GetClientFormSummaryUsingGETTest {
     private ClientFormSummary createClientFormSummary() {
 
         ClientFormSummary clientFormSummary = new ClientFormSummary();
-        clientFormSummary.setRatings(new HashMap<>());
+        clientFormSummary.setRatings(new ArrayList<>());
         clientFormSummary.setCreatedByIdir(TEST);
         clientFormSummary.setCreatedBy(TEST);
         clientFormSummary.setCompletedDate(LocalDate.now());
