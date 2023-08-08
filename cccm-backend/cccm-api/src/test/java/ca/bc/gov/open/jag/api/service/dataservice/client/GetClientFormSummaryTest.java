@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service.dataservice.client;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.Rating;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static ca.bc.gov.open.jag.api.Keys.HIGH;
+import static ca.bc.gov.open.jag.api.Keys.LOW;
 
 @QuarkusTest
 public class GetClientFormSummaryTest {
@@ -63,7 +65,12 @@ public class GetClientFormSummaryTest {
         form1.setRelatedClientFormId(BigDecimal.TEN);
         form1.setUpdatedDate(LocalDate.now());
         form1.setSupervisionRating(HIGH);
-        form1.getRatings().put("CRNA", HIGH);
+
+        Rating rating = new Rating();
+        rating.setFormType("CRNA");
+        rating.setText(HIGH);
+
+        form1.getRatings().add(rating);
         form1.setModule("CRNA");
 
         return form1;
