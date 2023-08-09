@@ -32,6 +32,16 @@
                             :headers="formHeaders" item-key="key" 
                             no-results-text="No results found" 
                             hide-default-footer>
+                            <!--Customize the question field -->
+                            <template v-slot:item.question="{item}">
+                                <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.question }}</div>
+                            </template>
+
+                            <!--Customize the value field -->
+                            <template v-slot:item.value="{item}">
+                                <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.value }}</div>
+                            </template>
+
                             <!--Customize the action field, making it clickable-->
                             <template v-slot:item.editKey="{item}">
                                 <a href="#" @click="editFormItem(item.editKey)">
@@ -106,7 +116,7 @@ export default {
         async getSummaryData() {
             this.loading = true;
             const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-            //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+            console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {
@@ -131,4 +141,9 @@ export default {
 }
 </script>
   
-  
+<style scoped>
+.font_bold {
+    font-weight:bold;
+    font-size: 15px;
+}
+</style>
