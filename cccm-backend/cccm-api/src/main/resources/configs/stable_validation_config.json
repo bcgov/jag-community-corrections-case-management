@@ -21,11 +21,6 @@
       "message": "2. Tenor of current relationship: is required"
     },
     {
-      "key": "S03Q04",
-      "type": "REQUIRED",
-      "message": " 4. Emotional identification with children: is required"
-    },
-    {
       "key": "S03Q05",
       "type": "REQUIRED",
       "message": "5. Hostility towards women: is required"
