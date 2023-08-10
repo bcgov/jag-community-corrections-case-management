@@ -605,7 +605,6 @@ export default {
           this.rnaList = response;
           //console.log("RNAList search: ", response);
           this.rnaList = this.rnaList.filter(el => {
-            console.log("el: ", el);
             el.status = this.$FORM_STATUS_INCOMPLETE;
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
