@@ -14,7 +14,7 @@
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Office Location: </Strong>{{formInfoData.location }}</div>
                         <div class="col-sm-4"><Strong>CRNA Rating: </Strong>{{ CRNARating }}</div>
-                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ printFormType == $CONST_FORMTYPE_SO_OVERALL ? SARARating: SARALinked ? SARARating : 'N/A' }}</div>
+                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ formInfoData.module == $CONST_FORMTYPE_SO_OVERALL ? SARARating: SARALinked ? SARARating : 'N/A' }}</div>
                     </section>
                 </v-card>
                 <br>
@@ -112,7 +112,6 @@ export default {
             { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'left', sortable: false }
         ],
         showSMOOverallBPSection: false,
-        printFormType: ''
       }
   },
   mounted() {
@@ -150,8 +149,7 @@ export default {
             } else {
                 this.formInfoData = clientFormMeta;
                 this.formInfoData.clientFormType = this.formInfoData.clientFormType == null || this.formInfoData.clientFormType == '' ? '' : this.formInfoData.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
-                this.printFormType = this.formInfoData.module;
-
+                
                 // set the form title
                 let theForm = this.$FORM_INFO.filter( item => item.formType === this.formInfoData.module );
                 console.log('form info const:', clientFormMeta, this.formType, this.$FORM_INFO, theForm);
