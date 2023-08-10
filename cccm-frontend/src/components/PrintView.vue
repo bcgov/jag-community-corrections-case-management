@@ -14,7 +14,7 @@
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Office Location: </Strong>{{formInfoData.location }}</div>
                         <div class="col-sm-4"><Strong>CRNA Rating: </Strong>{{ CRNARating }}</div>
-                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ SARALinked ? SARARating : 'N/A' }}</div>
+                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ formInfoData.module == $CONST_FORMTYPE_SO_OVERALL ? SARARating: SARALinked ? SARARating : 'N/A' }}</div>
                     </section>
                 </v-card>
                 <br>
@@ -63,14 +63,14 @@
                                 <br>
                             </div>
                         </div>
-                        <!-- Render SMO-Overall BP section in it's original format (i.e., the table format)-->
-                        <div v-if="formEle.formType == $CONST_FORMTYPE_SO_OVERALL && section.section == $CONST_LABEL_SMO_OVERALL_BP_SECTION">
-                            <div class="subSectionTitleClass">{{ section.section }}</div>
-                            <FormSMOOverallBPSection
-                                :csNumber="csNumber"
-                                :clientFormId="clientFormId">
-                            </FormSMOOverallBPSection>
-                        </div>
+                    </div>
+                    <!-- Render SMO-Overall BP section in it's original format (i.e., the table format) and place it at the end-->
+                    <div v-if="formEle.formType == $CONST_FORMTYPE_SO_OVERALL">
+                        <div class="subSectionTitleClass">{{ $CONST_LABEL_SMO_OVERALL_BP_SECTION }}</div>
+                        <FormSMOOverallBPSection
+                            :csNumber="csNumber"
+                            :clientFormId="clientFormId">
+                        </FormSMOOverallBPSection>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { getDataForSummaryView, getClientFormMetaData, clientProfileSearch } from "@/components/form.api";
+import { getDataForSummaryView, getClientFormMetaData, clientProfileSearch, loadFormData } from "@/components/form.api";
 import FormSMOOverallBPSection from "@/components/form/formSections/FormSMOOverallBPSection.vue";
 
 export default {
@@ -110,7 +110,8 @@ export default {
             { text: 'Intervention Type', value: 'interventionType', width: '15%', align: 'left', sortable: false },
             { text: '', value: '', width: '2%', align: 'left', sortable: false },
             { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'left', sortable: false }
-        ]
+        ],
+        showSMOOverallBPSection: false,
       }
   },
   mounted() {
@@ -147,11 +148,11 @@ export default {
                 console.error("Failed getting client form metadata: ", error1);
             } else {
                 this.formInfoData = clientFormMeta;
-                this.formInfoData.clientFormType = this.formInfoData.clientFormType == null ? '' : this.formInfoData.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
-
+                this.formInfoData.clientFormType = this.formInfoData.clientFormType == null || this.formInfoData.clientFormType == '' ? '' : this.formInfoData.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+                
                 // set the form title
-                let theForm = this.$FORM_INFO.filter( item => item.formType === this.formType );
-                //console.log('form info const:', this.formType, this.$FORM_INFO, theForm);
+                let theForm = this.$FORM_INFO.filter( item => item.formType === this.formInfoData.module );
+                console.log('form info const:', clientFormMeta, this.formType, this.$FORM_INFO, theForm);
                 if (theForm != null && theForm[0] != null) {
                     this.formInfoData.formTitle = theForm[0].formTitle;
                     this.formInfoData.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
@@ -164,6 +165,18 @@ export default {
                     console.error("Failed doing client profile search: ", error2);
                 } else {
                     this.formInfoData.clientData = clientProfile;
+                }
+
+                // If it's SMO-Overall form, get the CRNA and SARA rating
+                if (this.formInfoData.module == this.$CONST_FORMTYPE_SO_OVERALL) {
+                    // Load SMO_Overall form data
+                    const [error, clientFormData] = await loadFormData(this.csNumber, this.clientFormId);
+                    console.log("client form data: ", clientFormData)
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        this.formData = clientFormData;
+                    }
                 }
                 this.theKey++;
             }
