@@ -7,48 +7,55 @@
             <div class="dashboard-v-card" v-if="formEle.data.length > 0">
                 <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
                     <div class="subSectionTitleClass">{{ section.section }}</div>
-                    <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
-                        <h5>{{ subSection.hideTitle ? '' : subSection.title }}</h5>
-                        <v-data-table v-if="subSection.title == 'Intervention Plan'"
-                            no-data-text="" 
-                            :items="subSection.answers"
-                            :headers="interventionHeaders" item-key="key" 
-                            no-results-text="No results found" 
-                            hide-default-footer>
-                            <!--Customize the action field, making it clickable-->
-                            <template v-slot:item.editKey="{item}">
-                                <a href="#" @click="editFormItem(item.editKey)">
-                                    <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
-                                </a>
-                            </template>
-                            <!--Customize the Specific Factor field, show the comments or value if comments aren't present -->
-                            <template v-slot:item.comment="{ item }">
-                                <div>{{ item.comment == null ? item.value : item.comment }}</div>
-                            </template>
-                        </v-data-table>
-                        <v-data-table v-else
-                            no-data-text="No answers for this section" 
-                            :items="subSection.answers"
-                            :headers="formHeaders" item-key="key" 
-                            no-results-text="No results found" 
-                            hide-default-footer>
-                            <!--Customize the question field -->
-                            <template v-slot:item.question="{item}">
-                                <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.question }}</div>
-                            </template>
+                    <!-- Render SMO-Overall BP section in it's original format (i.e., the table format)-->
+                    <FormSMOOverallBPSection v-if="formEle.formType == $CONST_FORMTYPE_SO_OVERALL && section.section == $CONST_LABEL_SMO_OVERALL_BP_SECTION"
+                        :csNumber="csNumber"
+                        :clientFormId="clientFormId">
+                    </FormSMOOverallBPSection>
+                    <div v-else>
+                        <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
+                            <h5>{{ subSection.hideTitle ? '' : subSection.title }}</h5>
+                            <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                                no-data-text="" 
+                                :items="subSection.answers"
+                                :headers="interventionHeaders" item-key="key" 
+                                no-results-text="No results found" 
+                                hide-default-footer>
+                                <!--Customize the action field, making it clickable-->
+                                <template v-slot:item.editKey="{item}">
+                                    <a href="#" @click="editFormItem(item.editKey)">
+                                        <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
+                                    </a>
+                                </template>
+                                <!--Customize the Specific Factor field, show the comments or value if comments aren't present -->
+                                <template v-slot:item.comment="{ item }">
+                                    <div>{{ item.comment == null ? item.value : item.comment }}</div>
+                                </template>
+                            </v-data-table>
+                            <v-data-table v-else
+                                no-data-text="No answers for this section" 
+                                :items="subSection.answers"
+                                :headers="formHeaders" item-key="key" 
+                                no-results-text="No results found" 
+                                hide-default-footer>
+                                <!--Customize the question field -->
+                                <template v-slot:item.question="{item}">
+                                    <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.question }}</div>
+                                </template>
 
-                            <!--Customize the value field -->
-                            <template v-slot:item.value="{item}">
-                                <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.value }}</div>
-                            </template>
+                                <!--Customize the value field -->
+                                <template v-slot:item.value="{item}">
+                                    <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.value }}</div>
+                                </template>
 
-                            <!--Customize the action field, making it clickable-->
-                            <template v-slot:item.editKey="{item}">
-                                <a href="#" @click="editFormItem(item.editKey)">
-                                    <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
-                                </a>
-                            </template>
-                        </v-data-table>
+                                <!--Customize the action field, making it clickable-->
+                                <template v-slot:item.editKey="{item}">
+                                    <a href="#" @click="editFormItem(item.editKey)">
+                                        <font-awesome-icon :icon="['fas', 'fa-eye']"></font-awesome-icon>
+                                    </a>
+                                </template>
+                            </v-data-table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,15 +65,19 @@
   
 <script lang="ts">
 import Vue from 'vue'
-import { getDataForSummaryView } from "@/components/form.api";
+import { getDataForSummaryView, loadFormData, getFormioTemplate } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
+import FormSMOOverallBPSection from "@/components/form/formSections/FormSMOOverallBPSection.vue";
 
 export default {
     name: 'FormSummary',
     props: {
         clientFormId: 0,
         csNumber: ''
+    },
+    components: {
+        FormSMOOverallBPSection
     },
     data() {
         return {
@@ -91,7 +102,7 @@ export default {
                 { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'center' },
                 { text: '', value: '', width: '1%', align: 'center' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' }
-            ]
+            ],
         }
     },
     mounted() {
@@ -116,14 +127,14 @@ export default {
         async getSummaryData() {
             this.loading = true;
             const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-            console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+            //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {
                 this.summaryData = response;
             }
             this.loading = false;
-        }
+        },
     },
     computed: {
         getFormTypeDesc() {
