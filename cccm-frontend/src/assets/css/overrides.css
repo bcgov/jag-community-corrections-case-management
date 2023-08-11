@@ -164,6 +164,19 @@ label.col-form-label {
 
 .tippy-content {
     background-color: #38598A;
+    width: 800px;
+}
+
+.tippy-box {
+    position: relative;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: lighter;
+    line-height: 1.4;
+    white-space: normal;
+    outline: 0;
 }
 
 /*FORM IO CUSTOM CSS CLASSES - TODO: Put in different file*/
