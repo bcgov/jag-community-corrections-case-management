@@ -392,14 +392,6 @@ export default {
       }
     },
     handleChangeFormToIncomplete() {
-      this.options = null;
-      this.formInfoData.data.showEditBtn = false;
-      this.formInfoData.data.status = this.$FORM_STATUS_INCOMPLETE;
-      this.submitBtnData.data.readonly = false;
-      this.componentKey++;
-      this.formStaticInfoKey++;
-
-      // call api to unset the complete flag
       this.unSetCompleteFlag();
     },
     async unSetCompleteFlag() {
@@ -408,10 +400,18 @@ export default {
       unlockFormData.clientNumber = this.csNumber;
       unlockFormData.linkedClientFormId = null;
 
+      // call api to unset the complete flag
       const [error, response] = await unlockForm(unlockFormData);
       if (error) {
         console.error("Failed unset complete status", error);
-      } 
+      } else {
+        this.options = null;
+        this.formInfoData.data.showEditBtn = false;
+        this.formInfoData.data.status = this.$FORM_STATUS_INCOMPLETE;
+        this.submitBtnData.data.readonly = false;
+        this.componentKey++;
+        this.formStaticInfoKey++;
+      }
     },
     isShowDeleteButton(completeDate) {
       // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
