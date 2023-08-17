@@ -6,17 +6,17 @@
       "message": "1. SMO Overall Risk Rating: is required"
     },
     {
-      "key": "S01Q02",
+      "key": "S01Q04",
       "type": "REQUIRED",
       "message": "2. Static 99R Rating: is required"
     },
     {
-      "key": "S01Q03",
+      "key": "S01Q05",
       "type": "REQUIRED",
       "message": "3. Stable 2007 Rating: is required"
     },
     {
-      "key": "S01Q04",
+      "key": "S01Q06",
       "type": "REQUIRED",
       "message": "4. Acute 2007 Score: is required"
     },
