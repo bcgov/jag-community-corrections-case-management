@@ -41,54 +41,13 @@
       "key": "S02Q02",
       "type": "CONDITIONAL",
       "dependentKeys": ["S02Q02_COMMENT"],
-      "dependentValues": ["Y"],
+      "dependentValues": ["N"],
       "message": "2. Sex Offender Supervision / Assessments Required?: requires comment"
     },
     {
       "key": "Sources_Contacted",
       "type": "REQUIRED",
       "message": "Sources Contacted: is required"
-    },
-    {
-      "key": "S03Q01",
-      "type": "REQUIRED",
-      "message": "Static/background factors, dynamic risk factors: is required"
-    },
-    {
-      "key": "S03Q06",
-      "type": "REQUIRED",
-      "message": "Escape plan, skills, and strategies during acute phase: is required"
-    },
-    {
-      "key": "S03Q02",
-      "type": "REQUIRED",
-      "message": "Goals, supports and specific skills to self manage during maintenance phase: is required"
-    },
-    {
-      "key": "S03Q07",
-      "type": "REQUIRED",
-      "message": "Offence behaviour, location, victim type, etc.: is required"
-    },
-    {
-      "key": "S03Q03",
-      "type": "REQUIRED",
-      "message": "Changes to dynamic risk factors, thinking errors: is required"
-    },
-    {
-      "key": "S03Q08",
-      "type": "REQUIRED",
-      "message": "Thoughts, feelings and behaviour following offence: is required"
-    },
-    {
-      "key": "S03Q04",
-      "type": "REQUIRED",
-      "message": "Skills, techniques to self-manage during build-up phase: is required"
-    },
-    {
-      "key": "S03Q05",
-      "type": "REQUIRED",
-      "message": "High risk situations, changes in dynamic risk factors, thinking errors: is required"
     }
   ]
-
 }
