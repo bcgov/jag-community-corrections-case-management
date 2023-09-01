@@ -6,6 +6,7 @@ public enum RoleGroupEnum {
     SUPERVISOR,
     ADMIN,
     RESEARCHER,
-    ITRP
+    ITRP,
+    ADMINCOMM
 
 }
