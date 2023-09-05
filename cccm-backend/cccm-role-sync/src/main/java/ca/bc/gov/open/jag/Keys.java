@@ -9,6 +9,7 @@ public class Keys {
     public static String ADMIN = "cccm-admin";
     public static String RESEARCHER = "cccm-researchers";
     public static String ITRP = "cccm-itrp";
+    public static String ADMINCOMM = "cccm-admin-comm";
     public static String ORACLE_ID = "oracleId";
     public static String IDIR_IDP = "idir";
     public static String IDIR_FILTER = "(&(objectCategory=person)(objectClass=user)(sAMAccountName={0}))";
