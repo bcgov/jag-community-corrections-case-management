@@ -39,6 +39,9 @@ export const useStore = defineStore('main', {
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_RESEARCHER
                 }
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN_COMM)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN_COMM
+                }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
                 }
@@ -58,18 +61,26 @@ export const useStore = defineStore('main', {
                 this.loginUserName = Vue.$keycloak.tokenParsed.family_name + ', ' + Vue.$keycloak.tokenParsed.given_name;
             }
         },
-        isHideDashboard() {
-            if (this.loginUserGroup == '' ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ) {
-                return true;
+        hasSupervisorDash() {
+            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+              return true;
+            }
+            return false;
+        },
+        hasPODash() {
+            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+              return true;
             }
             return false;
         },
         isAllowFormWrite() {
             // Researcher can only view 
             if (this.loginUserGroup == '' ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ) {
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM ) {
                 return false;
             }
             return true;

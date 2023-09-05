@@ -175,23 +175,11 @@ export default {
     isUserAuthenticated() {
         return Vue.$keycloak.authenticated;
     },
-    hideDashboard() {
-      return this.mainStore.isHideDashboard();
-    },
     hasSupervisorDash() {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
-        return true;
-      }
-      return false;
+      return this.mainStore.hasSupervisorDash();
     },
     hasPODash() {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
-        return true;
-      }
-      return false;
+      return this.mainStore.hasPODash();
     },
     getDashboardURL() {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 

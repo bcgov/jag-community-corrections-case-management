@@ -359,7 +359,8 @@ export default {
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ||
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
         return false;
       }
 
@@ -376,8 +377,9 @@ export default {
           this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
         return 'Copy form';
       }
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER) {
-        return "User is a researcher";
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
+          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+        return "User is not allowed to clone form";
       }
       if (!item.complete) {
         return 'User cannot clone an incomplete form'
@@ -397,13 +399,18 @@ export default {
       return 'Copy form';
     },
     canPrint(item) {
-      let canPrint = true;
-      if (item.formTypeExpiryDate != null) {
-        canPrint = false;
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+        return false;
       }
-      return canPrint;
+      if (item.formTypeExpiryDate != null) {
+        return false;
+      }
+      return true;
     },
     getPrintTooltip(item) {
+      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+        return 'User is not allowed to print form';
+      }
       if (item.formTypeExpiryDate != null) {
         return 'Print old forms are not supported yet.';
       }
