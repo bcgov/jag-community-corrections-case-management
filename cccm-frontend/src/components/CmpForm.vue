@@ -207,6 +207,11 @@ export default {
         return true;
       }
 
+      //If login user is in Admin-comm group, set readonly to true
+      if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN_COMM) {
+        return true;
+      }
+      
       return false;
     },
     async getClientFormDetailsAPI(csNum, clientFormId) {

@@ -49,6 +49,7 @@ Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
 Vue.prototype.$USER_GROUP_ADMIN = 'admin'
 Vue.prototype.$USER_GROUP_ITRP = 'itrp'
 Vue.prototype.$USER_GROUP_RESEARCHER = 'researcher'
+Vue.prototype.$USER_GROUP_ADMIN_COMM = 'admin-comm'
 
 Vue.prototype.$FORM_STATUS_INCOMPLETE='Incomplete'
 Vue.prototype.$FORM_STATUS_COMPLETE='Complete'
@@ -69,8 +70,10 @@ Vue.prototype.$AUTH_ROLE_SUPERVISOR='auth-supervisor'
 Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
 Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
+Vue.prototype.$AUTH_ROLE_ADMIN_COMM='auth-admin-comm'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
+
 
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
