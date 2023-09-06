@@ -74,6 +74,7 @@ Vue.prototype.$AUTH_ROLE_ADMIN_COMM='auth-admin-comm'
 Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
+Vue.prototype.$ROLE_PO_MANAGE='po-manage'
 
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },

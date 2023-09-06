@@ -20,7 +20,7 @@ export const useAutosaveStore = defineStore('autosave', {
         autoSaveDataCandidate: {},
         csNumber: '',
         formId: '',
-        saving: false,
+        saving: false
     }),
     actions: {
         addArray(dataArray) {
@@ -65,48 +65,79 @@ export const useAutosaveStore = defineStore('autosave', {
         setFormId(formId) {
             this.formId = formId
         },
-        async autoSave() {
-          
-            //only start saving if previous saving is done
-            if (!this.saving && Object.keys(this.autoSaveDataCandidate).length > 0) {
-              console.log("Auto saving ....");
-              // deep copy of autoSaveDataCandidate, and assign it to autoSaveData 
-              this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
-              //console.log("autosave: ", this.autoSaveData);
-      
-              //clear this.autoSaveDataCandidate, so we are not repeatedly saving it
-              this.autoSaveDataCandidate = {};
-              
-              // Repeat the saving till it succeeds
-              let savingCnt = 0;
-              while(savingCnt < this.CONST_MAX_RETRY) {
-                try {
-                  savingCnt++;
-                  this.saving = true;
-                  
-                  const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
-                  //console.log("response: ", response);
-                  if (error) {
-                    console.error(error);
-                  } else {
-                    this.saving = false;
-                    // Cache the response to the autosave store
-                    this.addArray(response);
-                    break;
-                  }
-                } catch (err) {
-                  console.error("Saving form data failed: ", err);
-                } 
-              }
-              // Saving failed after CONST_MAX_RETRY where this.saving flag didn't set to true, do the following:
-              // 1. Add payload back to the autoSaveDataCandidate, so we don't miss out data saving.
-              // 2. Set the this.saving flag to false so autosave can continue
-              if (this.saving) {
-                this.private_mergePayload(this.autoSaveData);
-                this.saving = false;
-                console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
-              }
+        continueAutoSave() {
+          // if the autoSaveDataCandidate hasn't changed, don't save
+          console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
+          console.log("this.autoSaveData: ", this.autoSaveData);
+          let continueAutoSave = false;
+          if (Object.keys(this.autoSaveData).length > 0) {
+            for (let i = 0; i < Object.keys(this.autoSaveDataCandidate).length; i++) {
+              let key = Object.keys(this.autoSaveDataCandidate)[i];
+              // console.log("key: ", key);
+              // console.log("this.autoSaveData[key]: ", this.autoSaveData[key]);
+              // console.log("this.autoSaveDataCandidate[key]: ", this.autoSaveDataCandidate[key]);
+              if (((this.autoSaveData[key] == null || this.autoSaveData[key] == '') && 
+                  (this.autoSaveDataCandidate[key] == null || this.autoSaveDataCandidate[key] == '')) ||
+                  this.autoSaveDataCandidate[key] == this.autoSaveData[key]) {
+                  continueAutoSave ||= false;
+                  console.log("key, equal: ", key);
+              } else {
+                console.log("key, not equal: ", key);
+                continueAutoSave ||= true;
+                break;
+              } 
             }
+          } else {
+            console.log("continueAutoSave: ", true);
+            return true;
+          }
+          console.log("continueAutoSave: ", continueAutoSave);
+          return continueAutoSave;
+        },
+        async autoSave() {
+          //only start saving if previous saving is done
+          if (!this.saving && this.continueAutoSave()) {
+            console.log("Auto saving ....");
+            // deep copy of autoSaveDataCandidate, and assign it to autoSaveData 
+            this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
+            //console.log("autosave: ", this.autoSaveData);
+    
+            //clear this.autoSaveDataCandidate, so we are not repeatedly saving it
+            this.autoSaveDataCandidate = {};
+            
+            // Repeat the saving till it succeeds
+            let savingCnt = 0;
+            while(savingCnt < this.CONST_MAX_RETRY) {
+              try {
+                savingCnt++;
+                this.saving = true;
+                
+                const [error, response] = await updateForm(this.csNumber, this.formId, this.autoSaveData);
+                //console.log("response: ", response);
+                if (error) {
+                  console.error(error);
+                } else {
+                  this.saving = false;
+                  // Cache the response to the autosave store
+                  this.addArray(response);
+                  break;
+                }
+              } catch (err) {
+                console.error("Saving form data failed: ", err);
+              } 
+            }
+            // Saving failed after CONST_MAX_RETRY where this.saving flag didn't set to true, do the following:
+            // 1. Add payload back to the autoSaveDataCandidate, so we don't miss out data saving.
+            // 2. Set the this.saving flag to false so autosave can continue
+            if (this.saving) {
+              this.private_mergePayload(this.autoSaveData);
+              this.saving = false;
+              console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
+            }
+
+            // clear this.autoSaveData
+            this.autoSaveData = {};
+          }
         },
         isSavingInProgress() {
           return this.saving;

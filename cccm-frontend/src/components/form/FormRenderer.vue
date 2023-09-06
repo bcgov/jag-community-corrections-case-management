@@ -346,7 +346,7 @@ export default {
     loadPage() {
       // check to see if need to trigger an autoCalc before loading the form,
       // only do it if the form is not locked
-      if (this.theFormConfig.autoCalcOnFormload && !this.locked) {
+      if (this.mainStore.isEventTriggerAutoCalcAllowed() && this.theFormConfig.autoCalcOnFormload && !this.locked) {
         this.doEventTriggerAutoCalc();
 
         //Redirect User to the newly created form
@@ -537,6 +537,7 @@ export default {
         } else {
           this.formInitData = clientFormData;
           this.formInitData.data.clientFormTypeDesc = this.formInfoData.data.clientFormType == '' ? 'Assessment' : (this.formInfoData.data.clientFormType == this.$FORM_TYPE_INITIAL) ? "Assessment": this.$FORM_TYPE_REASSESSMENT;
+          this.autosaveStore.autoSaveData = this.formInitData.data;
         }
       }
       this.loading = false;
@@ -599,7 +600,7 @@ export default {
     },
     handleSaveClose() {
       //console.log("handleSaveClose");
-      if (this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
+      if (this.mainStore.isEventTriggerAutoCalcAllowed() && this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
         this.doEventTriggerAutoCalc();
         if (this.autosaveStore.isSavingInProgress()) { 
           console.log("Event triggered autoCalc done, continue lazy closing form ");
@@ -699,7 +700,7 @@ export default {
       }
     },
     async completeFormWrapper(completeFormData) {
-      if (this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
+      if (this.mainStore.isEventTriggerAutoCalcAllowed() && this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
         this.doEventTriggerAutoCalc();
         
         //Redirect User to the newly created form

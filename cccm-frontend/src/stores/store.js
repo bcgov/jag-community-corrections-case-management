@@ -62,10 +62,9 @@ export const useStore = defineStore('main', {
             }
         },
         hasSupervisorDash() {
-            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
-              return true;
+            //User with po-mange role can access the supervisor dashboard
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE)) {
+                return true;
             }
             return false;
         },
@@ -77,8 +76,17 @@ export const useStore = defineStore('main', {
             }
             return false;
         },
+        isEventTriggerAutoCalcAllowed() {
+            // When admin_comm user views forms (e.g., SMO_OVERALL) that requires data refresh before form load,
+            // the data refresh shouldn't be allowed
+            if (this.loginUserGroup == '' ||
+                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM ) {
+                return false;
+            }
+            return true;
+        },
         isAllowFormWrite() {
-            // Researcher can only view 
+            // Admin_comm user can only view 
             if (this.loginUserGroup == '' ||
                 this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM ) {
                 return false;
