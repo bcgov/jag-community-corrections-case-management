@@ -62,10 +62,9 @@ export const useStore = defineStore('main', {
             }
         },
         hasSupervisorDash() {
-            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
-              return true;
+            //User with po-mange role can access the supervisor dashboard
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE)) {
+                return true;
             }
             return false;
         },
