@@ -67,8 +67,8 @@ export const useAutosaveStore = defineStore('autosave', {
         },
         continueAutoSave() {
           // if the autoSaveDataCandidate hasn't changed, don't save
-          console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
-          console.log("this.autoSaveData: ", this.autoSaveData);
+          //console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
+          //console.log("this.autoSaveData: ", this.autoSaveData);
           let continueAutoSave = false;
           if (Object.keys(this.autoSaveData).length > 0) {
             for (let i = 0; i < Object.keys(this.autoSaveDataCandidate).length; i++) {
@@ -80,18 +80,18 @@ export const useAutosaveStore = defineStore('autosave', {
                   (this.autoSaveDataCandidate[key] == null || this.autoSaveDataCandidate[key] == '')) ||
                   this.autoSaveDataCandidate[key] == this.autoSaveData[key]) {
                   continueAutoSave ||= false;
-                  console.log("key, equal: ", key);
+                  //console.log("key, equal: ", key);
               } else {
-                console.log("key, not equal: ", key);
+                //console.log("key, not equal: ", key);
                 continueAutoSave ||= true;
                 break;
               } 
             }
           } else {
-            console.log("continueAutoSave: ", true);
+            //console.log("continueAutoSave: ", true);
             return true;
           }
-          console.log("continueAutoSave: ", continueAutoSave);
+          //console.log("continueAutoSave: ", continueAutoSave);
           return continueAutoSave;
         },
         async autoSave() {
