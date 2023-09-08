@@ -328,11 +328,14 @@ export default {
       this.autosaveStore.setClientNumber(this.csNumber);
       this.autosaveStore.setFormId(this.formId);
 
+      // clear autoSaveDataCandidate
+      this.autosaveStore.autoSaveDataCandidate = {};
+      this.autosaveStore.autoSaveData = {};
+
       // set true to CONST_KEY_eventTriggeredAutoCalc field
       this.autosaveStore.autoSaveDataCandidate[this.CONST_KEY_eventTriggeredAutoCalc] = true;
 
       // Trigger a save
-      console.log("this.autosaveStore.autoSaveDataCandidate: ", this.autosaveStore.autoSaveDataCandidate);
       this.autosaveStore.autoSave();
     },
     pageLoadHelper() {
