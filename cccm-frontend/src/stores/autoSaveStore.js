@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { updateForm } from "@/components/form.api";
@@ -67,8 +68,8 @@ export const useAutosaveStore = defineStore('autosave', {
         },
         continueAutoSave() {
           // if the autoSaveDataCandidate hasn't changed, don't save
-          //console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
-          //console.log("this.autoSaveData: ", this.autoSaveData);
+          console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
+          console.log("this.autoSaveData: ", this.autoSaveData);
           let continueAutoSave = false;
           if (Object.keys(this.autoSaveData).length > 0) {
             for (let i = 0; i < Object.keys(this.autoSaveDataCandidate).length; i++) {
@@ -80,9 +81,9 @@ export const useAutosaveStore = defineStore('autosave', {
                   (this.autoSaveDataCandidate[key] == null || this.autoSaveDataCandidate[key] == '')) ||
                   this.autoSaveDataCandidate[key] == this.autoSaveData[key]) {
                   continueAutoSave ||= false;
-                  //console.log("key, equal: ", key);
+                  console.log("key, equal: ", key);
               } else {
-                //console.log("key, not equal: ", key);
+                console.log("key, not equal: ", key);
                 continueAutoSave ||= true;
                 break;
               } 
@@ -262,8 +263,7 @@ export const useAutosaveStore = defineStore('autosave', {
                         //console.log("not found clientFormAnswerID: ", clientFormAnswerID);
                         // We shouldn't get here, means the question hasn't been answered and user answered interventions.
                         // Add question and comment to the autoSaveDataCandidate, this is a heavy save
-                        this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
-                        this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFFIX] = eventData[questionKey + this.CONST_COMMENT_SUFFIX];
+                        this.privateAddQuestionAndComments(questionKey, eventData);
                         this.autoSave();
                     }
                 } 
@@ -286,8 +286,7 @@ export const useAutosaveStore = defineStore('autosave', {
                 } else {
                     // We shouldn't get here, means the question hasn't been answered and user answered interventions.
                     // Add question and comment to the autoSaveDataCandidate, this is a heavy save
-                    this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
-                    this.autoSaveDataCandidate[questionKey + this.CONST_COMMENT_SUFFIX] = eventData[questionKey + this.CONST_COMMENT_SUFFIX];
+                    this.privateAddQuestionAndComments(questionKey, eventData);
                     if (autoSaveNow) {
                         this.autoSave();
                     }
@@ -309,8 +308,7 @@ export const useAutosaveStore = defineStore('autosave', {
                 } else {
                     // User made an update to the question answer (e.g., select a different radio button)
                     // Add question answer and comment to autoSaveDataCandidate
-                    this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFFIX] = eventData[key + this.CONST_COMMENT_SUFFIX];
-                    this.autoSaveDataCandidate[key] = eventData[key];
+                    this.privateAddQuestionAndComments(key, eventData);
             
                     let questionKey = key;
                     let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
@@ -324,6 +322,12 @@ export const useAutosaveStore = defineStore('autosave', {
                     }
                 }
             }
+        },
+        privateAddQuestionAndComments(key, eventData) {
+          this.autoSaveDataCandidate[key] = eventData[key];
+          if (key != Vue.prototype.$KEY_SOURCES_CONTACTED) {
+            this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFFIX] = eventData[key + this.CONST_COMMENT_SUFFIX];
+          }
         },
         privateGetClientFormAnswerID(questionKey, eventData) {
             let clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
