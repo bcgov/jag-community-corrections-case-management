@@ -22,7 +22,6 @@ export default {
   },
   data() {
     return {
-      KEY_SOURCESCONTACTED: 'input_key_sourceContacted',
       templatePanel : templatePanel,
       formJSON : {},
       formKey: 0,
@@ -57,10 +56,10 @@ export default {
 
         // Time to save
         if (this.dataModel.data.hideSCInput) {
-          let newVal = evt.data[this.KEY_SOURCESCONTACTED];
+          let newVal = evt.data[this.$KEY_SOURCES_CONTACTED];
           this.preVal = newVal;
           let sourcesContacted = {};
-          sourcesContacted[this.KEY_SOURCESCONTACTED] = newVal;
+          sourcesContacted[this.$KEY_SOURCES_CONTACTED] = newVal;
           const [error, response] = await updateSourcesContacted(this.clientFormId, sourcesContacted);
           if (error) {
             console.error("Save source contacted error: ", error);

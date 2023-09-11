@@ -76,6 +76,8 @@ Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
 Vue.prototype.$ROLE_PO_MANAGE='po-manage'
 
+Vue.prototype.$KEY_SOURCES_CONTACTED='input_key_sourceContacted'
+
 Vue.prototype.$FORM_INFO = [
   { formType: 'CRNA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
   { formType: 'SARA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: false, formTypeDesc: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
