@@ -61,19 +61,19 @@
       "message": "2. Sex as coping: is required"
     },
     {
+      "key": "S05Q03",
+      "type": "REQUIRED",
+      "message": "3. Number of sex offence victims: is required"
+    },
+    {
       "key": "S05Q04",
       "type": "REQUIRED",
-      "message": "4. Number of sex offence victims: is required"
+      "message": "4. Number of deviant preference victims: is required"
     },
     {
       "key": "S05Q05",
       "type": "REQUIRED",
-      "message": "5. Number of deviant preference victims: is required"
-    },
-    {
-      "key": "S05Q06",
-      "type": "REQUIRED",
-      "message": "6. Self-report of deviant history / preferences: is required"
+      "message": "5. Self-report of deviant history / preferences: is required"
     },
     {
       "key": "S06Q01",
@@ -170,32 +170,32 @@
       "message": "2. Sex as coping: requires comment"
     },
     {
+      "key": "S05Q03",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S05Q03_COMMENT"],
+      "dependentValues": ["1", "2"],
+      "message": "3. Number of sex offence victims: requires comment"
+    },
+    {
       "key": "S05Q04",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q04_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "4. Number of sex offence victims: requires comment"
+      "message": "4. Number of deviant preference victims: requires comment"
     },
     {
       "key": "S05Q05",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q05_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "5. Number of deviant preference victims: requires comment"
+      "message": "5. Self-report of deviant history / preferences: requires comment"
     },
     {
       "key": "S05Q06",
       "type": "CONDITIONAL",
       "dependentKeys": ["S05Q06_COMMENT"],
       "dependentValues": ["1", "2"],
-      "message": "6. Self-report of deviant history / preferences: requires comment"
-    },
-    {
-      "key": "S05Q07",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S05Q07_COMMENT"],
-      "dependentValues": ["1", "2"],
-      "message": "7. Results of specialized testing: requires comment"
+      "message": "6. Results of specialized testing: requires comment"
     },
     {
       "key": "S06Q01",
