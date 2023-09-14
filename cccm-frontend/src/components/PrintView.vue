@@ -136,7 +136,7 @@ export default {
     async getPrintData() {
         this.loading = true;
         const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-        console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+        //console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
         if (error) {
             console.error("Get form data failed: ", error);
         } else {
@@ -148,11 +148,12 @@ export default {
                 console.error("Failed getting client form metadata: ", error1);
             } else {
                 this.formInfoData = clientFormMeta;
-                this.formInfoData.clientFormType = this.formInfoData.clientFormType == null || this.formInfoData.clientFormType == '' ? '' : this.formInfoData.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
-                
+                //console.log("this.formInfoData: ", this.formInfoData);
+                this.formInfoData.clientFormType = clientFormMeta.clientFormType == null ? '' : clientFormMeta.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
+
                 // set the form title
                 let theForm = this.$FORM_INFO.filter( item => item.formType === this.formInfoData.module );
-                console.log('form info const:', clientFormMeta, this.formType, this.$FORM_INFO, theForm);
+                //console.log('form info const:', clientFormMeta, this.formType, this.$FORM_INFO, theForm);
                 if (theForm != null && theForm[0] != null) {
                     this.formInfoData.formTitle = theForm[0].formTitle;
                     this.formInfoData.assessmentStatusRequired = theForm[0].assessmentStatusRequired;
@@ -171,7 +172,7 @@ export default {
                 if (this.formInfoData.module == this.$CONST_FORMTYPE_SO_OVERALL) {
                     // Load SMO_Overall form data
                     const [error, clientFormData] = await loadFormData(this.csNumber, this.clientFormId);
-                    console.log("client form data: ", clientFormData)
+                    //console.log("client form data: ", clientFormData)
                     if (error) {
                         console.error(error);
                     } else {
