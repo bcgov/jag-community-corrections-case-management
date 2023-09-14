@@ -622,7 +622,7 @@ export default {
             // CRNA or SARA form, there should be only CRNA or SARA rating returned
             // CRNA_SARA form, there should be CRNA and/or SARA rating returned
             // SMO_Overall form, there should be SMO_Overall, CRNA and/or SARA rating returned
-            // All other form types, there should be only the rating for the specific form type
+            // All other SMO form types, there should be only the rating for the specific form type
             if (el.ratings != null) {
               el.ratings.filter(rating => {
                 if (rating.formType == this.$CONST_FORMTYPE_CRNA) {
@@ -634,6 +634,10 @@ export default {
                 } else {
                   el.smoRating = rating.desc;
                   el.smoRatingVal = rating.text;
+                  // Don't show supervisionRating for SMO forms other than SMO_Overall
+                  if (rating.formType != this.$CONST_FORMTYPE_SO_OVERALL) {
+                    el.supervisionRating = '';
+                  }
                 } 
               });
             }
