@@ -39,17 +39,26 @@ public class ClientFormSearchTest {
     @InjectMock
     JsonWebToken jsonWebTokenMock;
 
+    private static final String answersJson = "{\n" +
+            "\t\"data\": {\n" +
+            "\t\t\"S01Q03\": \"L\",\n" +
+            "\t\t\"S01Q02\": \"L\"\n" +
+            "\t},\n" +
+            "\t\"clientFormId\": 392603\n" +
+            "}";
+
     @Test
     @DisplayName("Success: should return clients recent forms")
     public void testGetClientFormsNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
 
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
 
-        Assertions.assertEquals(3, result.size());
+        Assertions.assertEquals(4, result.size());
 
     }
 
@@ -58,6 +67,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsAllNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
 
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
@@ -73,9 +83,11 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
-        Assertions.assertEquals(5, result.size());
+        Assertions.assertEquals(6, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
         Assertions.assertTrue(result.get(0).getLocked());
         Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
@@ -158,6 +170,21 @@ public class ClientFormSearchTest {
         Assertions.assertEquals(3, result.size());
 
     }
+
+    @Test
+    @DisplayName("Success: should return clients forms Overall")
+    public void testGetAllClientFormsOverall() {
+
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
+        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+
+        List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"SMO_OVERALL", "1");
+
+        Assertions.assertEquals(1, result.size());
+
+    }
+
 
     private List<ClientFormSummary> createNonRelatedList() {
 
@@ -265,7 +292,21 @@ public class ClientFormSearchTest {
         form7.setMostRecent(true);
         form7.setModule("STAT99R");
 
-        return Arrays.asList(form1, form2, form3, form4, form5, form6, form7);
+        ClientFormSummary form8 = new ClientFormSummary();
+        form8.setId(BigDecimal.valueOf(329));
+        form8.setOsuUpdateDate(LocalDate.now().minusDays(1));
+        form8.setSupervisionRating(LOW);
+
+        Rating rating8 = new Rating();
+        rating8.setFormType("SMO_OVERALL");
+        rating8.setText(LOW);
+
+        form8.getRatings().add(rating8);
+        form8.setMostRecent(true);
+        form8.setModule("SMO_OVERALL");
+
+
+        return Arrays.asList(form1, form2, form3, form4, form5, form6, form7, form8);
 
     }
 
