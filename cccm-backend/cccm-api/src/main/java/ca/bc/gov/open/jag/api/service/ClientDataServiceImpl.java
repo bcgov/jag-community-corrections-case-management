@@ -453,22 +453,29 @@ public class ClientDataServiceImpl implements ClientDataService {
      */
     private ClientFormSummary populateRatings(ClientFormSummary form, String clientNumber) {
         //Get Answers From CRNA/SARA
-        String answers = getClientFormAnswers(clientNumber, form.getId());
+        try {
+            String answers = getClientFormAnswers(clientNumber, form.getId());
 
-        String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
-        String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
+            String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
+            String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
 
-        Rating crnaRating = new Rating();
-        crnaRating.setFormType(CRNA_FORM_TYPE);
-        crnaRating.setText(crnaRatingAnswer);
-        crnaRating.setDesc(crnaRatingAnswer);
-        form.getRatings().add(crnaRating);
+            Rating crnaRating = new Rating();
+            crnaRating.setFormType(CRNA_FORM_TYPE);
+            crnaRating.setText(crnaRatingAnswer);
+            crnaRating.setDesc(crnaRatingAnswer);
+            form.getRatings().add(crnaRating);
 
-        Rating saraRating = new Rating();
-        saraRating.setFormType(SARA_FORM_TYPE);
-        saraRating.setText(saraRatingAnswer);
-        saraRating.setDesc(saraRatingAnswer);
-        form.getRatings().add(saraRating);
+            Rating saraRating = new Rating();
+            saraRating.setFormType(SARA_FORM_TYPE);
+            saraRating.setText(saraRatingAnswer);
+            saraRating.setDesc(saraRatingAnswer);
+            form.getRatings().add(saraRating);
+
+
+        } catch (Exception e) {
+            // Don't fail to return form but log the issue
+            logger.error("Error mapping ratings: ", e);
+        }
 
         return form;
 
