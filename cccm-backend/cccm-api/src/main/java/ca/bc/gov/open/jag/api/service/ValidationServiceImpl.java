@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.validation.Question;
 import ca.bc.gov.open.jag.api.model.validation.Validation;
+import ca.bc.gov.open.jag.api.util.FormUtils;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
@@ -112,7 +113,7 @@ public class ValidationServiceImpl implements ValidationService {
                     errors.add(createValidationError(question.getKey(), question.getMessage()));
                 }
             } else if (question.getType().equals(REQUIRED)) {
-                if (StringUtils.isBlank(findAnswerByKey(answers, question.getKey()))) {
+                if (StringUtils.isBlank(FormUtils.findAnswerByKey(answers, question.getKey()))) {
                     errors.add(createValidationError(question.getKey(), question.getMessage()));
                 }
             } else if (question.getType().equals(INTERVENTION_CONDITIONAL)) {
@@ -145,7 +146,7 @@ public class ValidationServiceImpl implements ValidationService {
 
     private Boolean isAnswerTriggered(String answers, String key, List<String> possibleResponses) {
 
-        String answer = findAnswerByKey(answers, key);
+        String answer = FormUtils.findAnswerByKey(answers, key);
         return possibleResponses.contains(answer);
 
     }
@@ -159,7 +160,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Boolean isAnswerValid(String answers, List<String> keys) {
 
         for(String key: keys) {
-            String answer = findAnswerByKey(answers, key);
+            String answer = FormUtils.findAnswerByKey(answers, key);
             if (StringUtils.isBlank(answer)) {
                 return true;
             }
@@ -167,28 +168,6 @@ public class ValidationServiceImpl implements ValidationService {
         }
 
         return false;
-
-    }
-
-    private String findAnswerByKey(String answers, String key) {
-
-        if (StringUtils.isBlank(answers)) {
-            return null;
-        }
-
-        JSONObject jsonData = null;
-        JSONObject outerData = new JSONObject(answers);
-        if (outerData.has(OUTER_DATA_ELEMENT)) {
-            jsonData = outerData.getJSONObject(OUTER_DATA_ELEMENT);
-        } else {
-            jsonData = outerData;
-        }
-
-        if (jsonData.has(key)) {
-            return jsonData.getString(key);
-        }
-
-        return null;
 
     }
 
