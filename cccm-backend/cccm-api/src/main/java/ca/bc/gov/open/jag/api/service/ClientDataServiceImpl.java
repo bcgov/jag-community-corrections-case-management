@@ -7,6 +7,7 @@ import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.service.ClientAddressSearch;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
+import ca.bc.gov.open.jag.api.util.FormUtils;
 import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.api.util.UpdateDateComparator;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
@@ -228,19 +229,30 @@ public class ClientDataServiceImpl implements ClientDataService {
                         if (!form.getRatings().isEmpty()) {
                             form.setSupervisionRating(form.getRatings().get(0).getText());
                         }
-                        formsMerged.add(form);
+                        if (form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
+                            formsMerged.add(populateRatings(form, clientNum));
+                        } else {
+                            formsMerged.add(form);
+                        }
+
                     }
                 }
             } else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
                     (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) && hasSMOEarlyAdopter) ||
                     (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE) && hasSMOEarlyAdopter) ||
-                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)||
-                    (formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE) && hasSMOEarlyAdopter)) {
+                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)) {
                 logger.info("adding form {}", form.getModule());
                 if (!form.getRatings().isEmpty()) {
                     form.setSupervisionRating(form.getRatings().get(0).getText());
                 }
                 formsMerged.add(form);
+            } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
+                logger.info("adding form {}", form.getModule());
+                if (!form.getRatings().isEmpty()) {
+                    form.setSupervisionRating(form.getRatings().get(0).getText());
+                }
+
+                formsMerged.add(populateRatings(form, clientNum));
             }
         }
         //Add sorting on update date when implemented
@@ -429,6 +441,36 @@ public class ClientDataServiceImpl implements ClientDataService {
                 .collect(Collectors.toList());
 
         return (roles.contains(JWT_SMO_EARLY_ADOPTER_ROLE));
+
+    }
+
+    /**
+     * Populate the Ratings
+     * @param form
+     * @param clientNumber
+     * @return the form
+     * NOTE this can be done in a void but is clearer with a return
+     */
+    private ClientFormSummary populateRatings(ClientFormSummary form, String clientNumber) {
+        //Get Answers From CRNA/SARA
+        String answers = getClientFormAnswers(clientNumber, form.getId());
+
+        String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
+        String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
+
+        Rating crnaRating = new Rating();
+        crnaRating.setFormType(CRNA_FORM_TYPE);
+        crnaRating.setText(crnaRatingAnswer);
+        crnaRating.setDesc(crnaRatingAnswer);
+        form.getRatings().add(crnaRating);
+
+        Rating saraRating = new Rating();
+        saraRating.setFormType(SARA_FORM_TYPE);
+        saraRating.setText(saraRatingAnswer);
+        saraRating.setDesc(saraRatingAnswer);
+        form.getRatings().add(saraRating);
+
+        return form;
 
     }
 

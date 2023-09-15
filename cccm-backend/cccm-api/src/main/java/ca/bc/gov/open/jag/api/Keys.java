@@ -37,5 +37,8 @@ public class Keys {
     public static final String SUPERVISION_RATING = "S01Q01";
     public static final String NEEDS_RATING = "S01Q02";
     public static final String RISK_RATING = "S01Q03";
+    public static final String OVERALL_CRNA_RATING = "S01Q02";
+    public static final String OVERALL_SARA_RATING = "S01Q03";
+
 
 }
