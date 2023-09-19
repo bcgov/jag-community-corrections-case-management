@@ -248,9 +248,6 @@ public class ClientDataServiceImpl implements ClientDataService {
                 formsMerged.add(form);
             } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
                 logger.info("adding form {}", form.getModule());
-                if (!form.getRatings().isEmpty()) {
-                    form.setSupervisionRating(form.getRatings().get(0).getText());
-                }
 
                 formsMerged.add(populateRatings(form, clientNum));
             }
@@ -458,6 +455,10 @@ public class ClientDataServiceImpl implements ClientDataService {
 
             String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
             String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
+            String smoOverallRatingAnswer = FormUtils.findAnswerByKey(answers, SMO_OVERALL_CRNA_RATING);
+            String staticRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STATIC_RATING);
+            String stableRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STABLE_RATING);
+            String acuteRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_ACUTE_RATING);
 
             Rating crnaRating = new Rating();
             crnaRating.setFormType(CRNA_FORM_TYPE);
@@ -471,6 +472,15 @@ public class ClientDataServiceImpl implements ClientDataService {
             saraRating.setDesc(saraRatingAnswer);
             form.getRatings().add(saraRating);
 
+            form.setSupervisionRating(getHighestRating(Arrays.asList(
+                   crnaRatingAnswer,
+                    saraRatingAnswer,
+                    smoOverallRatingAnswer,
+                    staticRatingAnswer,
+                    stableRatingAnswer,
+                    acuteRatingAnswer
+            )));
+
 
         } catch (Exception e) {
             // Don't fail to return form but log the issue
@@ -479,6 +489,21 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         return form;
 
+    }
+
+    private String getHighestRating(List<String> ratings) {
+        String highestRating = "";
+        Integer highestRatingInt = -1;
+        for (String rating: ratings) {
+            Integer ratingInt = FormUtils.ratingToInteger(rating);
+            if (ratingInt > highestRatingInt) {
+                highestRatingInt = ratingInt;
+                highestRating = rating;
+            }
+
+        }
+
+        return highestRating;
     }
 
 }

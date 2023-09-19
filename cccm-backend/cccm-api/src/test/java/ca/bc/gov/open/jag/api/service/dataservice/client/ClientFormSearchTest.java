@@ -41,7 +41,11 @@ public class ClientFormSearchTest {
 
     private static final String answersJson = "{\n" +
             "\t\"data\": {\n" +
-            "\t\t\"S01Q03\": \"L\",\n" +
+            "\t\t\"S01Q01\": \"2AE\",\n" +
+            "\t\t\"S01Q04\": \"4a\",\n" +
+            "\t\t\"S01Q05\": \"L\",\n" +
+            "\t\t\"S01Q06\": \"10\",\n" +
+            "\t\t\"S01Q03\": \"M\",\n" +
             "\t\t\"S01Q02\": \"L\"\n" +
             "\t},\n" +
             "\t\"clientFormId\": 392603\n" +
@@ -59,6 +63,7 @@ public class ClientFormSearchTest {
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
 
         Assertions.assertEquals(4, result.size());
+        Assertions.assertEquals("4a", result.get(2).getSupervisionRating());
 
     }
 
