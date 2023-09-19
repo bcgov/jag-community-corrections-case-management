@@ -458,7 +458,6 @@ public class ClientDataServiceImpl implements ClientDataService {
             String smoOverallRatingAnswer = FormUtils.findAnswerByKey(answers, SMO_OVERALL_CRNA_RATING);
             String staticRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STATIC_RATING);
             String stableRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STABLE_RATING);
-            String acuteRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_ACUTE_RATING);
 
             Rating crnaRating = new Rating();
             crnaRating.setFormType(CRNA_FORM_TYPE);
@@ -477,8 +476,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                     saraRatingAnswer,
                     smoOverallRatingAnswer,
                     staticRatingAnswer,
-                    stableRatingAnswer,
-                    acuteRatingAnswer
+                    stableRatingAnswer
             )));
 
 
