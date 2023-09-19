@@ -19,12 +19,25 @@ public class FormUtils {
 
         switch (rating) {
             case HIGH:
+            case ABOVE_HIGH:
+            case ABOVE_AVERAGE_HIGH:
+            case AS_EXPECTED_HIGH:
+            case LOWER_EXPECTED_HIGH:
                 result = 3;
                 break;
             case MEDIUM:
+            case AVERAGE_MEDIUM:
+            case AS_EXPECTED_MEDIUM:
+            case AS_EXPECTED_TWO_MEDIUM:
                 result = 2;
                 break;
             case LOW:
+            case VERY_LOW:
+            case LOWER_EXPECTED_LOW:
+            case AS_EXPECTED_LOW:
+            case HIGHER_EXPECTED_LOW:
+            case AS_EXPECTED_TWO_LOW:
+            case HIGHER_EXPECTED_TWO_LOW:
                 result = 1;
                 break;
             default:
