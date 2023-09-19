@@ -44,7 +44,6 @@ public class ClientFormSearchTest {
             "\t\t\"S01Q01\": \"2AE\",\n" +
             "\t\t\"S01Q04\": \"4a\",\n" +
             "\t\t\"S01Q05\": \"L\",\n" +
-            "\t\t\"S01Q06\": \"10\",\n" +
             "\t\t\"S01Q03\": \"M\",\n" +
             "\t\t\"S01Q02\": \"L\"\n" +
             "\t},\n" +

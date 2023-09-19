@@ -56,6 +56,5 @@ public class Keys {
     public static final String OVERALL_SARA_RATING = "S01Q03";
     public static final String OVERALL_STATIC_RATING = "S01Q04";
     public static final String OVERALL_STABLE_RATING = "S01Q05";
-    public static final String OVERALL_ACUTE_RATING = "S01Q06";
 
 }
