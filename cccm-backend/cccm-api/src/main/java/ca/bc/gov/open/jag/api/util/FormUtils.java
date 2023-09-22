@@ -48,6 +48,31 @@ public class FormUtils {
         return result;
     }
 
+    public static String ratingIntToText(Integer rating) {
+
+        if (rating == null || rating <= 0) return "";
+
+        String result;
+
+        switch (rating) {
+            case 1:
+                result = "Low";
+                break;
+            case 2:
+                result = "Medium";
+                break;
+            case 3:
+                result = "High";
+                break;
+            default:
+                result = "";
+                break;
+        }
+
+        return result;
+
+    }
+
     public static String findAnswerByKey(String answers, String key) {
 
         if (StringUtils.isBlank(answers)) {
