@@ -62,7 +62,7 @@ public class ClientFormSearchTest {
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
 
         Assertions.assertEquals(4, result.size());
-        Assertions.assertEquals("4a", result.get(2).getSupervisionRating());
+        Assertions.assertEquals("Medium", result.get(2).getSupervisionRating());
 
     }
 

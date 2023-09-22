@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
+import static ca.bc.gov.open.jag.api.util.FormUtils.ratingIntToText;
 import static ca.bc.gov.open.jag.api.util.FormUtils.ratingToInteger;
 import static ca.bc.gov.open.jag.api.util.JwtUtils.stripUserName;
 
@@ -456,8 +457,6 @@ public class ClientDataServiceImpl implements ClientDataService {
             String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
             String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
             String smoOverallRatingAnswer = FormUtils.findAnswerByKey(answers, SMO_OVERALL_CRNA_RATING);
-            String staticRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STATIC_RATING);
-            String stableRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_STABLE_RATING);
 
             Rating crnaRating = new Rating();
             crnaRating.setFormType(CRNA_FORM_TYPE);
@@ -474,9 +473,7 @@ public class ClientDataServiceImpl implements ClientDataService {
             form.setSupervisionRating(getHighestRating(Arrays.asList(
                    crnaRatingAnswer,
                     saraRatingAnswer,
-                    smoOverallRatingAnswer,
-                    staticRatingAnswer,
-                    stableRatingAnswer
+                    smoOverallRatingAnswer
             )));
 
 
@@ -496,12 +493,13 @@ public class ClientDataServiceImpl implements ClientDataService {
             Integer ratingInt = FormUtils.ratingToInteger(rating);
             if (ratingInt > highestRatingInt) {
                 highestRatingInt = ratingInt;
-                highestRating = rating;
+                highestRating = ratingIntToText(highestRatingInt);
             }
 
         }
 
         return highestRating;
+
     }
 
 }
