@@ -313,7 +313,7 @@ export default {
         { text: 'RNA Form', align: 'start', sortable: true, value: 'module' },
         { text: 'Assessment Status', sortable: true, value: 'assessmentStatusDisplay' },
         { text: 'Status', sortable: true, value: 'status' },
-        { text: 'Updated Date', sortable: true, value: 'updatedDateDisplay' },
+        { text: 'Updated Date', sortable: true, value: 'osuUpdateDate' },
         { text: 'Created Location', sortable: true, value: 'location' },
         { text: 'Created By', sortable: true, value: 'createdBy' },
         { text: 'Supervision Level', sortable: true, value: 'supervisionRating' },
@@ -616,7 +616,7 @@ export default {
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
-            el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
+            //el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             
             // CRNA or SARA form, there should be only CRNA or SARA rating returned
