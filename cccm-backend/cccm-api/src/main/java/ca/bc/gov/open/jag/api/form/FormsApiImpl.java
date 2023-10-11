@@ -62,7 +62,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Client Form Answers Request");
 
-        return clientDataService.getClientFormAnswers(clientNumber, clientFormId);
+        return clientDataService.getClientFormAnswers(clientNumber, clientFormId, xLocationId);
 
     }
 

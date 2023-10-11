@@ -231,7 +231,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                             form.setSupervisionRating(form.getRatings().get(0).getText());
                         }
                         if (form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
-                            formsMerged.add(populateRatings(form, clientNum));
+                            formsMerged.add(populateRatings(form, clientNum, location));
                         } else {
                             formsMerged.add(form);
                         }
@@ -250,7 +250,7 @@ public class ClientDataServiceImpl implements ClientDataService {
             } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
                 logger.info("adding form {}", form.getModule());
 
-                formsMerged.add(populateRatings(form, clientNum));
+                formsMerged.add(populateRatings(form, clientNum, location));
             }
         }
         //Add sorting on update date when implemented
@@ -293,9 +293,9 @@ public class ClientDataServiceImpl implements ClientDataService {
 
 
     @Override
-    public String getClientFormAnswers(String clientNumber,BigDecimal clientFormId) {
+    public String getClientFormAnswers(String clientNumber,BigDecimal clientFormId, String location) {
         logger.debug("Getting form answers {}", clientFormId);
-        return obridgeClientService.getClientFormAnswers(clientNumber,clientFormId);
+        return obridgeClientService.getClientFormAnswers(clientNumber,clientFormId, new BigDecimal(location));
     }
 
     @Override
@@ -449,10 +449,10 @@ public class ClientDataServiceImpl implements ClientDataService {
      * @return the form
      * NOTE this can be done in a void but is clearer with a return
      */
-    private ClientFormSummary populateRatings(ClientFormSummary form, String clientNumber) {
+    private ClientFormSummary populateRatings(ClientFormSummary form, String clientNumber, String location) {
         //Get Answers From CRNA/SARA
         try {
-            String answers = getClientFormAnswers(clientNumber, form.getId());
+            String answers = getClientFormAnswers(clientNumber, form.getId(), location);
 
             String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
             String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
