@@ -44,7 +44,7 @@ public class GetClientFormAnswersUsingGETTest {
     @DisplayName("200: should return answers")
     public void testGetAnswersEndpoint() {
 
-        Mockito.when(clientDataService.getClientFormAnswers(Mockito.any(), Mockito.any())).thenReturn("ANSWERS");
+        Mockito.when(clientDataService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("ANSWERS");
 
         String result = sut.getClientFormAnswersUsingGET(BigDecimal.ONE,"TEST", null);
 

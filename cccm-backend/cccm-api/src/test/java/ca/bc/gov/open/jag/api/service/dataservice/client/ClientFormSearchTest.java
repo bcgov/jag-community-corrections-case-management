@@ -55,7 +55,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
-        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class), Mockito.any())).thenReturn(answersJson);
 
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
@@ -71,7 +71,7 @@ public class ClientFormSearchTest {
     public void testGetClientFormsAllNoMerge() {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createNonRelatedList());
-        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class), Mockito.any())).thenReturn(answersJson);
 
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
 
@@ -87,7 +87,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class), Mockito.any())).thenReturn(answersJson);
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
@@ -181,7 +181,7 @@ public class ClientFormSearchTest {
 
         Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
         Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithSMO()));
-        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(answersJson);
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.anyString(), Mockito.any(BigDecimal.class), Mockito.any())).thenReturn(answersJson);
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"SMO_OVERALL", "1");
 

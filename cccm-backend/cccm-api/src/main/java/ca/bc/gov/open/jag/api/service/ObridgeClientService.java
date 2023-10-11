@@ -178,7 +178,8 @@ public interface ObridgeClientService {
     @GET
     @Path("/forms/client/answers/{clientNumber}/{clientFormId}")
     String getClientFormAnswers(@PathParam("clientNumber") String clientNumber,
-            @PathParam("clientFormId") BigDecimal clientFormId);
+            @PathParam("clientFormId") BigDecimal clientFormId,
+            @QueryParam("location") BigDecimal location);
 
     @GET
     @Path("/forms/client/summary/answers/{clientNumber}/{clientFormId}")

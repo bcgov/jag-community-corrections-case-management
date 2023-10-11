@@ -45,9 +45,10 @@ public interface ClientDataService {
      * Get client form answers
      * @param clientNumber
      * @param clientFormId
+	 * @param location
      * @return {@link String} JSON answer object
      */
-    String getClientFormAnswers(String clientNumber, BigDecimal clientFormId);
+    String getClientFormAnswers(String clientNumber, BigDecimal clientFormId, String location);
 
     List<ClientFormSummary> clientFormSearch(String clientNum, boolean currentPeriod, boolean mostRecent, String formTypeCd, String location);
 
