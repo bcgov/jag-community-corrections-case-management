@@ -95,7 +95,7 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5-mockito</artifactId>
-      <version>1.10.5.Final</version>
+      <version>3.4.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
