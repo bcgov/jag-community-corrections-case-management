@@ -339,7 +339,7 @@ export default {
       this.autosaveStore.autoSave();
     },
     pageLoadHelper() {
-      this.getClientAndFormMeta();
+      this.getClientAndFormMeta(this.readonly);
       this.getFormioTemplate();
       setTimeout(() => {
         this.loaded = true;
@@ -409,11 +409,7 @@ export default {
         console.error("Failed unset complete status", error);
       } else {
         this.options = null;
-        this.formInfoData.data.showEditBtn = false;
-        this.formInfoData.data.status = this.$FORM_STATUS_INCOMPLETE;
-        this.submitBtnData.data.readonly = false;
-        this.componentKey++;
-        this.formStaticInfoKey++;
+        this.getClientAndFormMeta(false);
       }
     },
     isShowDeleteButton(completeDate) {
@@ -450,7 +446,7 @@ export default {
         return false;
       }
     },
-    async getClientAndFormMeta() {
+    async getClientAndFormMeta(readonly) {
       // ClientForm Meta data search.
       const [error, clientFormMeta] = await getClientFormMetaData(this.csNumber, this.formId);
       if (error) {
@@ -475,7 +471,7 @@ export default {
         // set submitBtnData
         this.submitBtnData = {"data": {}};
         this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.completedDate);
-        this.submitBtnData.data.readonly = this.readonly;
+        this.submitBtnData.data.readonly = readonly;
         
         // Client profile search.
         const [error1, response] = await clientProfileSearch(this.csNumber);
