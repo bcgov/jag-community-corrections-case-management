@@ -488,6 +488,7 @@ export default {
           this.clientData.data.formType = this.formType
           //console.log("clientData: ", this.clientData);
         }
+        this.componentKey++;
         this.formStaticInfoKey++;
       };
       
