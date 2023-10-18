@@ -47,7 +47,7 @@ public class SaveClientFormAnswersUsingPUTTest {
     @DisplayName("201: should link form")
     public void testGetSuccess() {
 
-        Mockito.when(clientDataService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(TEST);
+        Mockito.when(clientDataService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(TEST);
 
         LinkFormInput linkFormInput = new LinkFormInput();
         linkFormInput.setClientFormId(BigDecimal.ONE);
