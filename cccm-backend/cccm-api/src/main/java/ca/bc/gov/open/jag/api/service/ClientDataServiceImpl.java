@@ -278,9 +278,9 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean loadLatestValues, String location) {
+    public String saveClientFormAnswers(String clientNumber,BigDecimal clientFormId, String payload, boolean skipAutoCalc, boolean loadLatestValues, String location) {
         logger.debug("Saving client form answers {}", clientFormId);
-        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, loadLatestValues, new BigDecimal(location));
+        return obridgeClientService.saveClientFormAnswers(clientNumber,clientFormId, payload, skipAutoCalc, loadLatestValues, new BigDecimal(location));
 
     }
 

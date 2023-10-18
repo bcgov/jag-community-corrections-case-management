@@ -78,7 +78,7 @@ public class FormsApiImpl implements FormsApi {
             loadLatestValues = Boolean.FALSE;
         }
 
-        return clientDataService.saveClientFormAnswers(clientNumber, clientFormId, answerPayload, loadLatestValues, xLocationId);
+        return clientDataService.saveClientFormAnswers(clientNumber, clientFormId, answerPayload, false, loadLatestValues, xLocationId);
     }
 
     @Override
