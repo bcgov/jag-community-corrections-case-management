@@ -108,7 +108,7 @@ export default {
     mounted() {
         if (this.autosaveStore.isSavingInProgress()) { 
             // Delay loading summary view data
-            console.log("Delay data loading: ");
+            console.log("Delayed data loading: ");
             setTimeout(() => {
                 this.getSummaryData();
             }, this.timeoutDelay)
@@ -127,7 +127,7 @@ export default {
         async getSummaryData() {
             this.loading = true;
             const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-            console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+            // console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {
