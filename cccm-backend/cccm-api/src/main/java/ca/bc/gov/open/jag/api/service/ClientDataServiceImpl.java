@@ -455,26 +455,31 @@ public class ClientDataServiceImpl implements ClientDataService {
             String answers = getClientFormAnswers(clientNumber, form.getId(), location);
 
             String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);
+            String crnaRatingAnswerDesc = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING_DESCRIPTION);
             String saraRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING);
+            String saraRatingAnswerDesc = FormUtils.findAnswerByKey(answers, OVERALL_SARA_RATING_DESCRIPTION);
             String smoOverallRatingAnswer = FormUtils.findAnswerByKey(answers, SMO_OVERALL_CRNA_RATING);
+            String smoOverallRatingAnswerDesc = FormUtils.findAnswerByKey(answers, SMO_OVERALL_CRNA_RATING_DESCRIPTION);
 
             Rating crnaRating = new Rating();
             crnaRating.setFormType(CRNA_FORM_TYPE);
             crnaRating.setText(crnaRatingAnswer);
-            crnaRating.setDesc(crnaRatingAnswer);
+            crnaRating.setDesc(crnaRatingAnswerDesc);
             form.getRatings().add(crnaRating);
 
             Rating saraRating = new Rating();
             saraRating.setFormType(SARA_FORM_TYPE);
             saraRating.setText(saraRatingAnswer);
-            saraRating.setDesc(saraRatingAnswer);
+            saraRating.setDesc(saraRatingAnswerDesc);
             form.getRatings().add(saraRating);
 
-            form.setSupervisionRating(getHighestRating(Arrays.asList(
-                   crnaRatingAnswer,
-                    saraRatingAnswer,
-                    smoOverallRatingAnswer
-            )));
+            Rating smoOverallRating = new Rating();
+            smoOverallRating.setFormType(OVERALL_FORM_TYPE);
+            smoOverallRating.setText(smoOverallRatingAnswer);
+            smoOverallRating.setDesc(smoOverallRatingAnswerDesc);
+            form.getRatings().add(smoOverallRating);
+
+            form.setSupervisionRating(getHighestRating(form.getRatings()));
 
 
         } catch (Exception e) {
@@ -486,11 +491,11 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     }
 
-    private String getHighestRating(List<String> ratings) {
+    private String getHighestRating(List<Rating> ratings) {
         String highestRating = "";
         Integer highestRatingInt = -1;
-        for (String rating: ratings) {
-            Integer ratingInt = FormUtils.ratingToInteger(rating);
+        for (Rating rating: ratings) {
+            Integer ratingInt = FormUtils.ratingToInteger(rating.getText());
             if (ratingInt > highestRatingInt) {
                 highestRatingInt = ratingInt;
                 highestRating = ratingIntToText(highestRatingInt);
