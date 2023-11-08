@@ -128,7 +128,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(CRNA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1");
 
@@ -144,7 +144,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1");
 
@@ -160,7 +160,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1");
 
@@ -176,7 +176,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(ACUTE_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1");
 
@@ -193,7 +193,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(STATIC99R_FORM_TYPE, BigDecimal.ONE.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         BigDecimal result = sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1");
 
@@ -209,7 +209,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, false), "NOTTEST@idir", "1"));
 
@@ -224,7 +224,7 @@ public class CloneFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(createCodeTable(SARA_FORM_TYPE, BigDecimal.TEN.toPlainString())));
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(DATA_ONE);
-        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.saveClientFormAnswers(Mockito.anyString(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.any())).thenReturn("");
 
         Assertions.assertThrows(CCCMException.class, () -> sut.cloneClientForm(new CloneFormRequest("TEST", BigDecimal.ONE, BigDecimal.ONE, true), "TEST@idir", "1"));
 

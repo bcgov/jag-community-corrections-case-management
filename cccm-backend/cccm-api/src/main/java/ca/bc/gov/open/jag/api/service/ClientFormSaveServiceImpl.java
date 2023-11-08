@@ -355,7 +355,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormSummary.getId(), new BigDecimal(location));
         //Insert Answers Use Clone Config for ignore
         String strippedAnswers = stripAnswers(answers, cloneConfig.getForms().stream().filter(cloneForm -> cloneForm.getFormType().equalsIgnoreCase(clientFormSummary.getModule())).findFirst().get());
-        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, false, new BigDecimal(location));
+        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, true, false, new BigDecimal(location));
 
         return clientFormId;
 

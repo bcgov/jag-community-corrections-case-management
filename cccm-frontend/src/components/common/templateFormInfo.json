@@ -72,7 +72,7 @@
                                                             "value": ""
                                                         }
                                                     ],
-                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>{{data.osuUpdateDate}}</div><div><Strong>Office Location: </Strong>{{data.location}}</div>",
+                                                    "content": "<div class='mb-3 mt-3'><Strong>Updated Date: </Strong>{{data.osuUpdatedDate ? data.osuUpdatedDate : data.completedDate ? data.completedDate : data.createdDate}}</div><div><Strong>Office Location: </Strong>{{data.location}}</div>",
                                                     "refreshOnChange": true,
                                                     "key": "html1",
                                                     "type": "htmlelement",

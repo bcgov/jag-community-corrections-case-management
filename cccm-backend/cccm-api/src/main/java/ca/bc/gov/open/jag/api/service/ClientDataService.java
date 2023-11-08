@@ -26,11 +26,12 @@ public interface ClientDataService {
      * @param clientNumber
      * @param clientFormId the form Id
      * @param payload the JSON representation of the form data
+	 * @param skipAutoCalc set true to bypass the autoCalc logic while saving the form answers, e.g., set it to true while cloning form.
      * @param loadLatestAnswers set true to return latest answers - has performance overhead so only use if saving the whole form, not a single question
      *
      * @return {@link String} JSON value of answers if loadLatest is requested
      */
-    String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean loadLatestAnswers, String location);
+    String saveClientFormAnswers(String clientNumber, BigDecimal clientFormId, String payload, boolean skipAutoCalc, boolean loadLatestAnswers, String location);
 
 
     /**

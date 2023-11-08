@@ -166,6 +166,7 @@ public interface ObridgeClientService {
     String saveClientFormAnswers(@PathParam("clientNumber") String clientNumber,
             @PathParam("clientFormId") BigDecimal clientFormId,
             @RequestBody String payload,
+			@QueryParam("skipAutoCalc") boolean skipAutoCalc,
             @QueryParam("loadLatestValues") boolean loadLatestValues,
             @QueryParam("location") BigDecimal location);
 
