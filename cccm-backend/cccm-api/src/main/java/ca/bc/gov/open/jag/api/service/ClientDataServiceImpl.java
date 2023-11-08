@@ -452,6 +452,9 @@ public class ClientDataServiceImpl implements ClientDataService {
     private ClientFormSummary populateRatings(ClientFormSummary form, String clientNumber, String location) {
         //Get Answers From CRNA/SARA
         try {
+
+            form.getRatings().clear();
+
             String answers = getClientFormAnswers(clientNumber, form.getId(), location);
 
             String crnaRatingAnswer = FormUtils.findAnswerByKey(answers, OVERALL_CRNA_RATING);

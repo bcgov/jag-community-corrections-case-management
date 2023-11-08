@@ -25,7 +25,6 @@ public class GetClientAddressSearchTest {
     @InjectMock
     ClientDataService clientDataService;
 
-
     @Test
     @TestSecurity(user = "userOidc", roles = "client-search")
     @DisplayName("200: should return clients")
