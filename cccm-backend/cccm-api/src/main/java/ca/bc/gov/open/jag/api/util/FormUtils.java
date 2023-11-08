@@ -21,8 +21,11 @@ public class FormUtils {
             case HIGH:
             case ABOVE_HIGH:
             case ABOVE_AVERAGE_HIGH:
-            case AS_EXPECTED_HIGH:
             case LOWER_EXPECTED_HIGH:
+            case AS_EXPECTED_HIGH:
+            case AS_EXPECTED_TWO_HIGH:
+            case AS_EXPECTED_THREE_HIGH:
+            case AS_EXPECTED_FOUR_HIGH:
                 result = 3;
                 break;
             case MEDIUM:
