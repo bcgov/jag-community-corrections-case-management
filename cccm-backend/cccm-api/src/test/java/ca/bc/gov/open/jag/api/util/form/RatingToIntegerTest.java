@@ -61,7 +61,7 @@ public class RatingToIntegerTest {
     @DisplayName("Success: should return rating integer 4aAE")
     public void testSuccessCalculateRatingMedium2() {
 
-        Assertions.assertEquals(2, ratingToInteger("4aAE"));
+        Assertions.assertEquals(3, ratingToInteger("4aAE"));
 
     }
 
