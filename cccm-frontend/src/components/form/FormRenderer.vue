@@ -540,7 +540,7 @@ export default {
           // setup autoSaveStore data for the form saving by doing the following:
           // 1. emtpy the autoSaveDataCandidate
           // 2. initialize the autoSaveData to be the initial form data, which is used to avoid unnessisary save upon form load
-          this.autosaveStore.autoSaveData = this.formInitData.data;
+          this.autosaveStore.autoSaveData = JSON.parse(JSON.stringify(this.formInitData.data));
           this.autosaveStore.autoSaveData.input_key_sourceContacted = this.formInitData.data.Sources_Contacted;
           this.autosaveStore.autoSaveDataCandidate = {};
           console.log("form loaded, this.autosaveStore.autoSaveData: this.autosaveStore.autoSaveDataCandidate: ", this.autosaveStore.autoSaveData, this.autosaveStore.autoSaveDataCandidate);

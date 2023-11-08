@@ -456,6 +456,7 @@ export default {
       return displayText;
     },
     getRatingColor(rating, formType) {
+      //console.log("rating, formtype: ", rating, formType);
       if (rating == null || rating == '') {
         return '';
       }
@@ -471,6 +472,7 @@ export default {
             break;
           }
         case this.const_rating_low: 
+        case "LOW":
         case '1AE': 
         case '1HE': 
         case '2AE': 
@@ -487,6 +489,7 @@ export default {
             break;
           }
         case this.const_rating_medium: 
+        case "MEDIUM": 
         case '3AE': 
         case '3HE': {
           colorClass = 'dashboard-background-color-yellow';
@@ -502,6 +505,7 @@ export default {
             break;
           }
         case this.const_rating_high: 
+        case "HIGH": 
         case '4ALE': 
         case '4AAE': 
         case '4AHE': 
