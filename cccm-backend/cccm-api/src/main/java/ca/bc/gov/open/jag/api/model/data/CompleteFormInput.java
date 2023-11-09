@@ -13,6 +13,7 @@ public class CompleteFormInput {
     private String sourcesContacted;
     private String planSummary;
     private String formType;
+    private BigDecimal formTypeId;
     private String overallSupervision;
     private BigDecimal locationId;
 
@@ -96,4 +97,11 @@ public class CompleteFormInput {
         this.locationId = locationId;
     }
 
+    public BigDecimal getFormTypeId() {
+        return formTypeId;
+    }
+
+    public void setFormTypeId(BigDecimal formTypeId) {
+        this.formTypeId = formTypeId;
+    }
 }
