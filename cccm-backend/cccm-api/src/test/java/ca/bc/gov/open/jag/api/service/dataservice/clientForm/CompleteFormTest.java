@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
 
@@ -55,6 +56,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(createClientFormAnswers());
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -74,6 +76,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -94,6 +97,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(createClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
@@ -115,6 +119,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
@@ -231,6 +236,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -293,6 +299,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(STATIC99R_FORM_TYPE, null, "TEST", null, null));
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
         Mockito.when(validationService.validateStatic99r(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
@@ -430,6 +437,12 @@ public class CompleteFormTest {
         clientFormAnswers.setAnswers(Arrays.asList(answerSuper, answerRisk, answerNeeds));
 
         return clientFormAnswers;
+
+    }
+
+    private List<CodeTable> createFormTypes() {
+
+        return Collections.singletonList( new CodeTable("1", "TEST"));
 
     }
 
