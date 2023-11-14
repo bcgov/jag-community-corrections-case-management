@@ -64,10 +64,18 @@ export default {
     async getCasePlanInterventionAPI() {
         this.loading = true;
         const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
+        // console.log("getCasePlanIntervention: {}", interventionData);
         if (error) {
             console.error(error);
         } else {
             this.loading = false;
+            // Deal with special case where intervention is attached to a section comment, rather than a section question.
+            interventionData.forEach(dataset => {
+              if (dataset.comment == null || dataset.comment == '') {
+                dataset.comment = dataset.value;
+              }
+            });
+            
             // add Intervention data to the initData; refresh the page to show it
             this.initData.data.interventions = interventionData;
             //console.log("interventionData; ", this.initData.data.interventions);
