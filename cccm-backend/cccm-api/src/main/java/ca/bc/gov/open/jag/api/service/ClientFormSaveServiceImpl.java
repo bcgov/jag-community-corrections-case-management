@@ -270,10 +270,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             if (updateForm.getComplete()) {
 
                 ClientFormSummary childClientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
-                childFormInput.setFormType(childClientFormSummary.getModule());
-
-                List<CodeTable> childCodes = obridgeClientService.getFormTypes(childClientFormSummary.getModule());
-                childFormInput.setFormTypeId(new BigDecimal(childCodes.get(0).getCode()));
+                childFormInput.setFormTypeId(childClientFormSummary.getFormTypeId());
 
             }
             logger.info("Complete Child Form");
