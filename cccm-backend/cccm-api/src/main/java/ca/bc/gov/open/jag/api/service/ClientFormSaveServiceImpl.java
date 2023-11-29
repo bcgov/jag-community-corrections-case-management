@@ -267,6 +267,15 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             childFormInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
             childFormInput.setLocationId(updateForm.getLocationId());
             childFormInput.setOracleId(oracelId);
+            if (updateForm.getComplete()) {
+
+                ClientFormSummary childClientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
+                childFormInput.setFormType(childClientFormSummary.getModule());
+
+                List<CodeTable> childCodes = obridgeClientService.getFormTypes(childClientFormSummary.getModule());
+                childFormInput.setFormTypeId(new BigDecimal(childCodes.get(0).getCode()));
+
+            }
             logger.info("Complete Child Form");
             obridgeClientService.setCompletion(childFormInput);
 
