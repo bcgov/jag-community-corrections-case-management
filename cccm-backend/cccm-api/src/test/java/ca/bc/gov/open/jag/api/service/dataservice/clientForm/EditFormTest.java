@@ -172,7 +172,7 @@ public class EditFormTest {
         Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, true,"TEST@idir", false, Collections.EMPTY_LIST), "1"));
 
     }
-    
+
     @Test
     @DisplayName("Error: Edit is invalid")
     public void testDoesNotHaveOverrideorOwner() {
