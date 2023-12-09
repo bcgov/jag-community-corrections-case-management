@@ -214,6 +214,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         formInput.setClientNumber(updateForm.getUpdateFormInput().getClientNumber());
         formInput.setCompleteYn((updateForm.getComplete() ? YES : NO));
         formInput.setLocationId(updateForm.getLocationId());
+        //Set form type and module
+        formInput.setFormType(clientFormSummary.getModule());
+        formInput.setFormTypeId(clientFormSummary.getFormTypeId());
+
         if (updateForm.getComplete()) {
 
             ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());
@@ -241,13 +245,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                     riskRating = getAnswerByKey(childAnswers, RISK_RATING);
                 }
                 formInput.setFormType(formType);
-
-                formInput.setFormTypeId(clientFormSummary.getFormTypeId());
                 formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}{1} Needs Rating: {2}{1} Risk Rating: {3}", supervisionRating, System.lineSeparator(), needsRating, riskRating));
 
             } else {
                 formInput.setFormType(clientFormSummary.getModule());
-                formInput.setFormTypeId(clientFormSummary.getFormTypeId());
                 formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}{1} Needs Rating: {2}{1} Risk Rating: {3}", getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
             }
 
