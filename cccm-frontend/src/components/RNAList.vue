@@ -330,7 +330,7 @@ export default {
       selectedFormtypeForFormCreate: [],
       overdueRNAFormtypes: '',
       formToCreate: '',
-      mostRecent: true
+      mostRecent: false
     }
   },
   created() {
