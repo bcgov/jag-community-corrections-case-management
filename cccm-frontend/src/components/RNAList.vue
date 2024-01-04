@@ -52,46 +52,15 @@
               label="SARA"
               :value="$CONST_FORMTYPE_SARA"
             ></v-checkbox>
-            <v-checkbox v-if="showSMOForms"
-              v-model="selectedFormtypeForFormCreate"
-              label="SMO-Overall-CMP"
-              :value="$CONST_FORMTYPE_SO_OVERALL"
-            ></v-checkbox>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new Acute form?</strong>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
-            <strong>
-              Select Form Type
-            </strong>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              :readonly="readonly"
-              label="Static-99R"
-              :value="$CONST_FORMTYPE_STAT99R"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              label="SMO-OVERALL-CMP"
-              :value="$CONST_FORMTYPE_SO_OVERALL"
-            ></v-checkbox>
+            <strong>Are you sure you want to create a new Static-99R form?</strong>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STABLE" class="col-sm-10 m-10">
-            <strong>
-              Select Form Type
-            </strong>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              :readonly="readonly"
-              label="Stable"
-              :value="$CONST_FORMTYPE_STABLE"
-            ></v-checkbox>
-            <v-checkbox
-              v-model="selectedFormtypeForFormCreate"
-              label="SMO-Overall-CMP"
-              :value="$CONST_FORMTYPE_SO_OVERALL"
-            ></v-checkbox>
+            <strong>Are you sure you want to create a new Stable form?</strong>
           </div>
           <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new SMO-Overall-CMP form?</strong>
@@ -528,22 +497,6 @@ export default {
         if (this.IPVClient) {
           this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SARA);
         }
-
-        // if it's SMOClient, add this.$CONST_FORMTYPE_STABLE and this.$CONST_FORMTYPE_SO_OVERALL to this.selectedFormtypeForFormCreate
-        // if (this.SMOClient) {
-        //   this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
-        //   this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_SO_OVERALL);
-        // }
-      }
-      
-      if (this.formToCreate === this.$CONST_FORMTYPE_STABLE) {
-        this.selectedFormtypeForFormCreate = [];
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STABLE);
-      }
-
-      if (this.formToCreate === this.$CONST_FORMTYPE_STAT99R) {
-        this.selectedFormtypeForFormCreate = [];
-        this.selectedFormtypeForFormCreate.push(this.$CONST_FORMTYPE_STAT99R);
       }
     },
     applyPeriodFilter() {
@@ -699,11 +652,6 @@ export default {
       //console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
       // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
-        // if contains STABLE, create STABLE and SMO-Overall
-        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_STABLE)) {
-          this.createFormAPI(this.$CONST_FORMTYPE_STABLE);
-          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
-        }
         // if contains SARA, create CRNA-SARA
         if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SARA)) {
           this.createFormAPI(this.$CONST_FORMTYPE_SARA);
@@ -711,14 +659,7 @@ export default {
           // if doesn't contain SARA, create CRNA
           this.createFormAPI(this.$CONST_FORMTYPE_CRNA);
         }
-      } else if (this.formToCreate == this.$CONST_FORMTYPE_ACUTE || this.formToCreate === this.$CONST_FORMTYPE_STAT99R) {
-        // Create either ACUTE and/or SMO-Overall
-        if (this.selectedFormtypeForFormCreate.includes(this.$CONST_FORMTYPE_SO_OVERALL)) {
-          this.createFormAPI(this.$CONST_FORMTYPE_SO_OVERALL);
-        }
-        this.createFormAPI(this.formToCreate);
       } else {
-        // Create STABLE form
         this.createFormAPI(this.formToCreate);
       }
     },
