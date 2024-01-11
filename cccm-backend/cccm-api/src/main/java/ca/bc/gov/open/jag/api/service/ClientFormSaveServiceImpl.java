@@ -140,7 +140,6 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         logger.debug("Edit form {}", updateForm);
         boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
-
         if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only edit or complete", CCCMErrorCode.VALIDATIONERROR);
         }
@@ -229,27 +228,21 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
                 ClientFormAnswers childAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId());
                 String supervisionRating;
-                String needsRating;
-                String riskRating;
                 String formType;
                 //CRNA and SARA could be completed so reverse is applied
                 if (clientFormSummary.getModule().equals(CRNA_FORM_TYPE)) {
                     formType = MessageFormat.format("{0}-{1}", clientFormSummary.getModule(), SARA_FORM_TYPE);
-                    supervisionRating = (ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) ? getAnswerByKey(childAnswers, SUPERVISION_RATING) : getAnswerByKey(existingAnswers, SUPERVISION_RATING));
-                    needsRating = getAnswerByKey(existingAnswers, NEEDS_RATING);
-                    riskRating = getAnswerByKey(existingAnswers, RISK_RATING);
+                    supervisionRating = (ratingToInteger(getAnswerCodeByKey(childAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerCodeByKey(existingAnswers, SUPERVISION_RATING)) ? getAnswerDescByKey(childAnswers, SUPERVISION_RATING) : getAnswerDescByKey(existingAnswers, SUPERVISION_RATING));
                 } else {
                     formType = MessageFormat.format("{0}-{1}", CRNA_FORM_TYPE, clientFormSummary.getModule());
-                    supervisionRating = (ratingToInteger(getAnswerByKey(existingAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerByKey(childAnswers, SUPERVISION_RATING)) ? getAnswerByKey(existingAnswers, SUPERVISION_RATING) : getAnswerByKey(childAnswers, SUPERVISION_RATING));
-                    needsRating = getAnswerByKey(childAnswers, NEEDS_RATING);
-                    riskRating = getAnswerByKey(childAnswers, RISK_RATING);
+                    supervisionRating = (ratingToInteger(getAnswerCodeByKey(existingAnswers, SUPERVISION_RATING)) > ratingToInteger(getAnswerCodeByKey(childAnswers, SUPERVISION_RATING)) ? getAnswerDescByKey(existingAnswers, SUPERVISION_RATING) : getAnswerDescByKey(childAnswers, SUPERVISION_RATING));
                 }
                 formInput.setFormType(formType);
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}{1} Needs Rating: {2}{1} Risk Rating: {3}", supervisionRating, System.lineSeparator(), needsRating, riskRating));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}", supervisionRating));
 
             } else {
                 formInput.setFormType(clientFormSummary.getModule());
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}{1} Needs Rating: {2}{1} Risk Rating: {3}", getAnswerByKey(existingAnswers, SUPERVISION_RATING), System.lineSeparator(), getAnswerByKey(existingAnswers, NEEDS_RATING), getAnswerByKey(existingAnswers, RISK_RATING)));
+                formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}", getAnswerDescByKey(existingAnswers, SUPERVISION_RATING)));
             }
 
 
@@ -440,13 +433,35 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     }
 
+    private Optional<Answer> getAnswerByKey(ClientFormAnswers clientFormAnswers, String key) {
 
-    private String getAnswerByKey(ClientFormAnswers clientFormAnswers, String key) {
-        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
+        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return Optional.empty();
 
-        Optional<Answer> rating = clientFormAnswers.getAnswers().stream().filter(
+        return clientFormAnswers.getAnswers().stream().filter(
                 answer -> answer.getKey().equals(key)
         ).findFirst();
+
+    }
+
+    private String getAnswerDescByKey(ClientFormAnswers clientFormAnswers, String key) {
+
+        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
+
+        Optional<Answer> rating = getAnswerByKey(clientFormAnswers, key);
+
+        if (rating.isPresent()) {
+            return rating.get().getDescription();
+        }
+
+        return "";
+
+    }
+
+    private String getAnswerCodeByKey(ClientFormAnswers clientFormAnswers, String key) {
+
+        if (clientFormAnswers == null || clientFormAnswers.getAnswers().isEmpty()) return "";
+
+        Optional<Answer> rating = getAnswerByKey(clientFormAnswers, key);
 
         if (rating.isPresent()) {
             return rating.get().getText();
@@ -455,6 +470,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         return "";
 
     }
+
 
     private Boolean validateFormType(BigDecimal formTypeId, String formType) {
 
