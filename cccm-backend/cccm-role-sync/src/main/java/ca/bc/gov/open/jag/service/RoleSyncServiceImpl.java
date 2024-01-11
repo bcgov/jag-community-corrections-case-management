@@ -76,14 +76,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 logger.info("adding user {} to group {}", user.getIdirId(), representation.getName());
                 keyCloakUserResource.get().joinGroup(representation.getId());
                 keyCloakUser.get().setEnabled(true);
-                if (keyCloakUser.get().getAttributes() != null) {
-                    keyCloakUser.get().getAttributes().putIfAbsent(ORACLE_ID, Collections.singletonList(user.getOracleId()));
-                } else {
-                    keyCloakUser.get().setAttributes(new HashMap<String, List<String>>() {{
-                        put(ORACLE_ID, Collections.singletonList(user.getOracleId()));
-                    }});
-                }
-
+                setOracleId(user, keyCloakUser.get());
                 List<FederatedIdentityRepresentation> usersIdp = keycloak.realm(realm).users().get(keyCloakUser.get().getId()).getFederatedIdentity();
                 if (usersIdp == null || usersIdp.isEmpty()) {
                     IdirUser idirUser = getIdirUser(user);
@@ -96,6 +89,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 }
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isPresent()) {
+
                 List<FederatedIdentityRepresentation> usersIdp = keycloak.realm(realm).users().get(keyCloakUser.get().getId()).getFederatedIdentity();
                 if (usersIdp == null || usersIdp.isEmpty()) {
                     logger.info("Mapping user with missing idp");
@@ -109,6 +103,10 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
+                setOracleId(user, keyCloakUser.get());
+
+                keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
+                
             } else if (keyCloakUser.isEmpty()) {
                 //Add user
                 logger.info("creating user {} and adding to group {}", user.getIdirId(), representation.getName());
@@ -124,8 +122,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                     logger.warn("idirUser not present federation cannot be pre-set {}", user.getIdirId());
                 }
                 newUser.setEnabled(true);
-                newUser.setAttributes(new HashMap<String, List<String>>() {{ put(ORACLE_ID, Collections.singletonList(user.getOracleId())); }});
                 newUser.setGroups(Collections.singletonList(processingGroup));
+                setOracleId(user, newUser);
                 keycloak.realm(realm).users().create(newUser);
             }
         }
@@ -208,6 +206,31 @@ public class RoleSyncServiceImpl implements RoleSyncService {
 
     private String formatGuid(String guid) {
         return guid.toLowerCase().concat("@idir");
+    }
+
+    private void setOracleId(User user, UserRepresentation keyCloakUser) {
+
+        if (StringUtils.isBlank(user.getOracleId())) {
+            logger.warn("User {} does not have an oracle id", user.getIdirId());
+            return;
+        }
+
+        if (keyCloakUser.getAttributes() != null) {
+
+            if (keyCloakUser.getAttributes().get(ORACLE_ID).stream().anyMatch(oracleId -> !oracleId.equals(user.getOracleId()))) {
+                //Override existing oracle id if changed
+                keyCloakUser.getAttributes().put(ORACLE_ID, Collections.singletonList(user.getOracleId()));
+            } else {
+                //Set oracle id
+                keyCloakUser.getAttributes().putIfAbsent(ORACLE_ID, Collections.singletonList(user.getOracleId()));
+            }
+
+        } else {
+            keyCloakUser.setAttributes(new HashMap<String, List<String>>() {{
+                put(ORACLE_ID, Collections.singletonList(user.getOracleId()));
+            }});
+        }
+
     }
 
 }
