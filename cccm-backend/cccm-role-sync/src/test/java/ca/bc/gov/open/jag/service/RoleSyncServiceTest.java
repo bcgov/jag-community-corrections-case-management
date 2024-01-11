@@ -284,11 +284,16 @@ public class RoleSyncServiceTest {
 
         User userOne = new User();
         userOne.setIdirId("TESTONE");
+        userOne.setOracleId("TST");
 
         User userTwo = new User();
         userTwo.setIdirId("TESTTWO");
 
-        return Arrays.asList(userOne, userTwo);
+        User userThree = new User();
+        userThree.setIdirId("TESTTHREWW");
+        userOne.setOracleId("TSTTHREE");
+
+        return Arrays.asList(userOne, userTwo, userThree);
 
     }
 
