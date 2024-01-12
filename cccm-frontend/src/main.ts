@@ -71,7 +71,6 @@ Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
 Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_ROLE_ADMIN_COMM='auth-admin-comm'
-Vue.prototype.$AUTH_SMO_FORMS='smo-forms'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
 
 Vue.prototype.$ROLE_PO_MANAGE='po-manage'

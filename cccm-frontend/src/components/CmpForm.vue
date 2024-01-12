@@ -210,22 +210,22 @@ export default {
         this.current_tab = 'tab-SARA';
       } else
       // if formType is 'ACUTE', only show ACUTE tab
-      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_ACUTE) {
+      if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
         this.items.push({ tab: 'Acute', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
         this.current_tab = 'tab-ACUTE';
       } else
       // if formType is 'STAT99R', only show STAT99R tab
-      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STAT99R) {
+      if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
         this.items.push({ tab: 'Static-99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
         this.current_tab = 'tab-STAT99R';
       } else
       // if formType is 'SMO-OVERALL', only show Overall tab
-      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
+      if (this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
         this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
         this.current_tab = 'tab-OVERALL';
       } else
       // if formType is 'STABLE', only show STABLE tab
-      if (this.showSMOForms && this.formType === this.$CONST_FORMTYPE_STABLE) {
+      if (this.formType === this.$CONST_FORMTYPE_STABLE) {
         this.items.push({ tab: 'Stable', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
         this.current_tab = 'tab-Stable';
       } else {
@@ -262,10 +262,6 @@ export default {
     }
   },
   computed: {
-    showSMOForms() {
-      return this.mainStore.isShowSMOForms();
-    
-    },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore)
