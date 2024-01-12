@@ -93,12 +93,7 @@ export const useStore = defineStore('main', {
             }
             return true;
         },
-        isShowSMOForms() {
-            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SMO_FORMS)) {
-                return true;
-            }
-            return false;
-        },
+
         isShowTrendAnalysis() {
             if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_TREND)) {
                 return true;
@@ -120,14 +115,6 @@ export const useStore = defineStore('main', {
                 { value: "Static-99R", key: "STAT99R" }
               ];
 
-            // if login user doesn't have smo_forms role, only include CRNA and CRNA-SARA
-            if (!Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SMO_FORMS)) {
-                this.supportedFormTypes = [
-                    { value: "ALL", key: "ALL"},
-                    { value: "CRNA", key: "CRNA" },
-                    { value: "CRNA-SARA", key: "SARA" }
-                  ]
-            }
             return this.supportedFormTypes;
         },
         clearAll() {

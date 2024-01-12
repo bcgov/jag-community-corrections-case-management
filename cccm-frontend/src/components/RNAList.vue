@@ -8,25 +8,25 @@
         @click.stop="dialog = true"
       ></v-btn>
       <!-- Acute Form creation modal dialog-->
-      <v-btn v-if="showSMOForms"
+      <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_ACUTE}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
       <!-- STAT99R Form creation modal dialog-->
-      <v-btn v-if="showSMOForms"
+      <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STAT99R}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
       <!-- STABLE Form creation modal dialog-->
-      <v-btn v-if="showSMOForms"
+      <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_STABLE}`"
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
       <!-- SMO-Overall-CMP Form creation modal dialog-->
-      <v-btn v-if="showSMOForms"
+      <v-btn
         :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_SO_OVERALL}`"
         v-show=false
         @click.stop="dialog = true"
@@ -53,16 +53,16 @@
               :value="$CONST_FORMTYPE_SARA"
             ></v-checkbox>
           </div>
-          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
+          <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new Acute form?</strong>
           </div>
-          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
+          <div v-if="formToCreate == $CONST_FORMTYPE_STAT99R" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new Static-99R form?</strong>
           </div>
-          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_STABLE" class="col-sm-10 m-10">
+          <div v-if="formToCreate == $CONST_FORMTYPE_STABLE" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new Stable form?</strong>
           </div>
-          <div v-if="showSMOForms && formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
+          <div v-if="formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new SMO-Overall-CMP form?</strong>
           </div>
           <v-card-actions>
@@ -92,23 +92,23 @@
     </div>
     <v-card>
       <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
-        <div :class="showSMOForms ? 'col-sm-6' : 'col-sm-9'"></div>
+        <div class="col-sm-6"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_RNA)">Create New RNA-CMP</button>
         </div>
-        <div v-if="showSMOForms" class="col-sm-2">
+        <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STAT99R)">Create New Static-99R</button>
         </div>
-        <div v-if="showSMOForms" class="col-sm-2">
+        <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
       </section>
       <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
-        <div :class="showSMOForms ? 'col-sm-6' : 'col-sm-9'"></div>
-        <div v-if="showSMOForms" class="col-sm-2">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STABLE)">Create New Stable</button>
         </div>
-        <div v-if="showSMOForms" class="col-sm-4">
+        <div class="col-sm-4">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall-CMP</button>
         </div>
       </section>
@@ -685,10 +685,6 @@ export default {
     },
     showFormCreateButtons() {
       return this.mainStore.isAllowFormWrite();
-    },
-    showSMOForms() {
-      return this.mainStore.isShowSMOForms();
-    
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
