@@ -61,8 +61,8 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
 
-        Assertions.assertEquals(4, result.size());
-        Assertions.assertEquals("Medium", result.get(2).getSupervisionRating());
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals("CRNA", result.get(0).getModule());
 
     }
 
@@ -91,7 +91,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
-        Assertions.assertEquals(6, result.size());
+        Assertions.assertEquals(3, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
         Assertions.assertTrue(result.get(0).getLocked());
         Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
@@ -146,19 +146,6 @@ public class ClientFormSearchTest {
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"STAT99R", "1");
 
         Assertions.assertEquals(1, result.size());
-
-    }
-
-    @Test
-    @DisplayName("Success: should return clients forms without SMO")
-    public void testGetClientFormsWithoutSMO() {
-
-        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any(BigDecimal.class))).thenReturn(createRelatedList());
-        Mockito.when(jsonWebTokenMock.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithoutSMO()));
-
-        List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"STAT99R", "1");
-
-        Assertions.assertEquals(0, result.size());
 
     }
 

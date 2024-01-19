@@ -179,7 +179,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Getting Forms");
         List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
-        boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
             //When searching for only most recent skip records that are false
@@ -229,7 +228,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                 } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
                         (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && (form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) || form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)))) {
                     logger.info("adding other forms");
-                    if (hasSMOEarlyAdopter || form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
+                    if (form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
                         if (!form.getRatings().isEmpty()) {
                             form.setSupervisionRating(form.getRatings().get(0).getText());
                         }
@@ -242,15 +241,15 @@ public class ClientDataServiceImpl implements ClientDataService {
                     }
                 }
             } else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
-                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) && hasSMOEarlyAdopter) ||
-                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE) && hasSMOEarlyAdopter) ||
-                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)) {
+                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE)) ||
+                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) ||
+                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE))) {
                 logger.info("adding form {}", form.getModule());
                 if (!form.getRatings().isEmpty()) {
                     form.setSupervisionRating(form.getRatings().get(0).getText());
                 }
                 formsMerged.add(form);
-            } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
+            } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE))) {
                 logger.info("adding form {}", form.getModule());
 
                 formsMerged.add(populateRatings(form, clientNum, location));
@@ -433,21 +432,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Related Form Result {}", forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)));
 
         return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
-    }
-
-    private Boolean hasSMOEarlyAdopter() {
-
-        if (jwt == null || jwt.claim(JWT_REALM_ACCESS).isEmpty()) return false;
-
-        JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();
-
-        List<String> roles = realmAccess.getJsonArray(JWT_REALM_ROLES)
-                .stream()
-                .map(value -> ((JsonString)value).getString())
-                .collect(Collectors.toList());
-
-        return (roles.contains(JWT_SMO_EARLY_ADOPTER_ROLE));
-
     }
 
     /**
