@@ -434,21 +434,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
     }
 
-    private Boolean hasSMOEarlyAdopter() {
-
-        if (jwt == null || jwt.claim(JWT_REALM_ACCESS).isEmpty()) return false;
-
-        JsonObject realmAccess = (JsonObject)jwt.claim(JWT_REALM_ACCESS).get();
-
-        List<String> roles = realmAccess.getJsonArray(JWT_REALM_ROLES)
-                .stream()
-                .map(value -> ((JsonString)value).getString())
-                .collect(Collectors.toList());
-
-        return (roles.contains(JWT_SMO_EARLY_ADOPTER_ROLE));
-
-    }
-
     /**
      * Populate the Ratings
      * @param form
