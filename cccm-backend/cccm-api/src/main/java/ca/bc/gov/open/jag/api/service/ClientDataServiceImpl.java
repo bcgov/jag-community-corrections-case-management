@@ -241,15 +241,15 @@ public class ClientDataServiceImpl implements ClientDataService {
                     }
                 }
             } else if ((formTypeCd.equalsIgnoreCase(CRNA_FORM_TYPE) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) && form.getRelatedClientFormId() == null) ||
-                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) && hasSMOEarlyAdopter) ||
-                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE) && hasSMOEarlyAdopter) ||
-                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)) {
+                    (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE)) ||
+                    (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)) ||
+                    (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) )) {
                 logger.info("adding form {}", form.getModule());
                 if (!form.getRatings().isEmpty()) {
                     form.setSupervisionRating(form.getRatings().get(0).getText());
                 }
                 formsMerged.add(form);
-            } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
+            } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE))) {
                 logger.info("adding form {}", form.getModule());
 
                 formsMerged.add(populateRatings(form, clientNum, location));
