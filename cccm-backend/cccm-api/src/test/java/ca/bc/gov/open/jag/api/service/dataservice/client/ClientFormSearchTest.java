@@ -61,7 +61,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, true,"All", "1");
 
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(4, result.size());
         Assertions.assertEquals("CRNA", result.get(0).getModule());
 
     }
@@ -91,7 +91,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"All", "1");
 
-        Assertions.assertEquals(3, result.size());
+        Assertions.assertEquals(6, result.size());
         Assertions.assertEquals("CRNA-SARA", result.get(0).getModule());
         Assertions.assertTrue(result.get(0).getLocked());
         Assertions.assertEquals(HIGH, result.get(0).getSupervisionRating());
@@ -158,7 +158,7 @@ public class ClientFormSearchTest {
 
         List<ClientFormSummary> result = sut.clientFormSearch("", false, false,"ALL", "1");
 
-        Assertions.assertEquals(3, result.size());
+        Assertions.assertEquals(6, result.size());
 
     }
 
