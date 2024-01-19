@@ -179,7 +179,6 @@ public class ClientDataServiceImpl implements ClientDataService {
         logger.info("Getting Forms");
         List<ClientFormSummary> forms = obridgeClientService.getClientForms(clientNum, currentPeriod, formTypeCd, new BigDecimal(location));
         List<ClientFormSummary> formsMerged = new ArrayList<>();
-        boolean hasSMOEarlyAdopter = hasSMOEarlyAdopter();
 
         for (ClientFormSummary form: forms) {
             //When searching for only most recent skip records that are false
@@ -229,7 +228,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                 } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
                         (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && (form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) || form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)))) {
                     logger.info("adding other forms");
-                    if (hasSMOEarlyAdopter || form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
+                    if (form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
                         if (!form.getRatings().isEmpty()) {
                             form.setSupervisionRating(form.getRatings().get(0).getText());
                         }
