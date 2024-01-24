@@ -196,7 +196,6 @@ public class ClientDataServiceImpl implements ClientDataService {
                     logger.info("Merging crna and sara");
 
                     logger.info("Merging {} and {}", form.getModule(), relatedFrom.get().getModule());
-                    logger.info("Merging id {} and id {}", form.getId(), relatedFrom.get().getId());
 
                     ClientFormSummary mergedForm = form;
                     mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
@@ -430,9 +429,8 @@ public class ClientDataServiceImpl implements ClientDataService {
 
         logger.info("Mappings for formId {}", key);
 
-        logger.info("Related Form Result {}", forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)));
-
         return forms.stream().filter(clientFormSummary -> clientFormSummary.getRelatedClientFormId() != null && clientFormSummary.getRelatedClientFormId().equals(key)).findFirst();
+
     }
 
     /**
