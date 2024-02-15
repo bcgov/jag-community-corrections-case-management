@@ -41,8 +41,7 @@ export default {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
-      let tmpJSON = JSON.parse(tmpJSONStr);
-      this.formJSON = tmpJSON;
+      this.formJSON = JSON.parse(tmpJSONStr);
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_cancelButtonLabel") {
