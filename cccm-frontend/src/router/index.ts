@@ -9,6 +9,7 @@ import Unauthorized from '../components/Unauthorized.vue'
 import DashboardPOView from '../components/DashboardPOView.vue'
 import RNAList from '../components/RNAList.vue'
 import DashboardSupervisorView from '../components/DashboardSupervisorView.vue'
+import DashboardITRPView from "@/components/DashboardITRPView.vue";
 import PrintView from '../components/PrintView.vue'
 import {useStore} from "@/stores/store";
 
@@ -38,6 +39,14 @@ const router = new VueRouter({
       path: '/dashboardsupervisor',
       name: 'dashboardsupervisor',
       component: DashboardSupervisorView,
+      meta: {
+        isAuthenticated: true
+      }
+    },
+    {
+      path: '/dashboarditrp',
+      name: 'dashboarditrp',
+      component: DashboardITRPView,
       meta: {
         isAuthenticated: true
       }
@@ -111,18 +120,21 @@ router.beforeEach((to, from, next) => {
               // if the login user is po, direct them to dashboardpo view
             } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
               next({ name: 'dashboardpo' })
-              // if the login user is ITRP or research or admin, direct them to clientsearch view
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
-                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
+              // if the login user is ITRP, direct them to dashboarditrp view
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP ) {
+              next({ name: 'dashboarditrp' })
+              // if the login user is research or admin, direct them to clientsearch view
+            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ||
                        store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
               next({ name: 'clientsearch' })
             }
           } else {
-            // if a PO tries to access supervisor dashboard, direct him to PO dashboard.
-            if (to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR && 
+            // if a PO tries to access 'Supervisor dashboard or ITRP dashboard', direct him to PO dashboard.
+            if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
+                to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDITRP) &&
                 store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
               next({ name: 'dashboardpo' })
-            // if an user in either ITRP or Researchs group tried to acces 'PO dashboard or Supervisor dashboard',
+            // if a user in either ITRP or Research group tried to access 'Supervisor dashboard or PO dashboard',
             // direct him to 'clientsearch' 
             } else if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
                         to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO) && (
