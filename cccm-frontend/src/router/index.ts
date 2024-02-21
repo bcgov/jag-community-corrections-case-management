@@ -6,10 +6,10 @@ import CmpFormView from '../components/CmpForm.vue'
 import ClientSearchView from '../components/common/FormioClientSearch.vue'
 import ClientRecordView from '../components/ClientRecord.vue'
 import Unauthorized from '../components/Unauthorized.vue'
-import DashboardPOView from '../components/DashboardPOView.vue'
+import DashboardPOView from '../components/dashboard/DashboardPOView.vue'
 import RNAList from '../components/RNAList.vue'
-import DashboardSupervisorView from '../components/DashboardSupervisorView.vue'
-import DashboardITRPView from "@/components/DashboardITRPView.vue";
+import DashboardSupervisorView from '../components/dashboard/DashboardSupervisorView.vue'
+import DashboardITRPView from "@/components/dashboard/DashboardITRPView.vue";
 import PrintView from '../components/PrintView.vue'
 import {useStore} from "@/stores/store";
 

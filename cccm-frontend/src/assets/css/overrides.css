@@ -162,6 +162,10 @@ label.col-form-label {
     font-weight: bold!important;
 }
 
+.v-input--radio-group label, .v-input--selection-controls label {
+    margin: 0 0 0 4px;
+}
+
 .tippy-content {
     background-color: #38598A;
     width: 800px;
@@ -416,38 +420,6 @@ button.v-pagination__item {
 
 }
 
-.dashboard-table-header-ul ul {
-    list-style:  none;
-}
-
-.dashboard-table-header-ul ul>li {
-    padding:0;
-    margin:0;
-}
-.dashboard-table-header-ul ul>li::before {
-    content: "\2022";
-    color: red;
-    font-weight: bold;
-    display: inline-block;
-    position:relative;
-    width: 1em;
-    font-size:2em;
-    top: 5px;
-    margin-left: -.5em;
-    margin-top: -.25em
-}
-
-.dashboard-table-header-ul ul>li:nth-child(1)::before {
-    color: #FFB9B9;
-}
-
-.dashboard-table-header-ul ul>li:nth-child(2)::before {
-    color: #FFE5BD;
-}
-
-.dashboard-table-header-ul ul>li:nth-child(3)::before {
-    color: #C6E8C5;
-}
 .dashboard-background-color-red {
     background-color: #FFB9B9;
 }

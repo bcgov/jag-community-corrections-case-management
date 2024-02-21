@@ -45,13 +45,7 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3">
-          <div class="dashboard-table-header-ul float-right pr-3 mr-3">
-            <ul>
-              <li>Due today or overdue</li>
-              <li>Due within 1 to 14 days</li>
-              <li>Due in over 14 days</li>
-            </ul>
-          </div>
+          <DashboardDueDateLegend/>
         </div>
       </div>
       <div class="dashboard-v-card">
@@ -149,9 +143,11 @@ import { Form } from 'vue-formio';
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
+import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
 
 export default {
   name: 'RNAList',
+  components: { DashboardDueDateLegend },
   data() {
     return {
       //const designations
