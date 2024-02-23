@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       // datatable variables
-      centreFilter: "all",
+      centreFilter: "revoii",
       // calculated values
       centreDisplayName: "",
       key_centreDisplayName: 0,

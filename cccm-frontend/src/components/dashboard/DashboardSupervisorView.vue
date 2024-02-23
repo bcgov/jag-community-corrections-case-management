@@ -1,11 +1,11 @@
 <template>
   <div data-app class="p-4 dashboard-supervisor">
-    <div class="row mb-4">
-      <div class="col-sm-6 mb-2">
+    <div class="row mb-2">
+      <div class="col-sm-6">
         <h1 class="font-weight-bold">{{getUserName}}'s team</h1>
       </div>
     </div>
-    <v-card>
+    <v-card class="p-2">
       <div class="row justify-content-between">
         <div class="col-sm-5 m-3">
           <strong>Search Location</strong>
@@ -117,34 +117,19 @@
         
           <!--Customize the high field -->
           <template v-slot:item.high="{ item }">
-            <div class="
-              w-100 h-100
-              d-flex
-              align-items-center
-              justify-content-center
-              dashboard-background-color-red">{{item.high}}</div>
+            <div class="dashboard-background-color-red">{{item.high}}</div>
           </template>
           <!--Customize the medium field -->
           <template v-slot:item.medium="{ item }">
-            <div class="
-            w-100 h-100
-            d-flex
-            align-items-center
-            justify-content-center
-            dashboard-background-color-yellow">{{item.medium}}</div>
+            <div class="dashboard-background-color-yellow">{{item.medium}}</div>
           </template>
           <!--Customize the low field -->
           <template v-slot:item.low="{ item }">
-            <div class="
-            w-100 h-100
-            d-flex
-            align-items-center
-            justify-content-center
-            dashboard-backgro und-color-green">{{item.low}}</div>
+            <div class="dashboard-background-color-green">{{item.low}}</div>
           </template>
-                    <!--Customize the Overdue rating field -->
+          <!--Customize the Overdue rating field -->
           <template v-slot:item.overdue="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getOverdueColor(item.overdue)}`">{{ item.overdue }}</div>
+            <div :class="getOverdueColor(item.overdue)">{{ item.overdue }}</div>
           </template>
         </v-data-table>
       </div>
@@ -166,8 +151,6 @@
           </v-col>
         </v-row>
       </div>
-      <!--Add the total -->
-      
     </v-card>
     <br/><br/>
   </div>

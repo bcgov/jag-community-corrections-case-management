@@ -6,7 +6,7 @@
         <h1 class="font-weight-bold">{{ userDisplayName }}'s clients</h1>
       </div>
     </div>
-    <v-card class="p-3">
+    <v-card class="p-2">
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
           <v-select
@@ -61,7 +61,7 @@
             @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
-            class="elevation-1"
+            class="elevation-1 text-center"
             hide-default-footer
             :page.sync="page"
             :items-per-page="itemsPerPage"
@@ -69,40 +69,17 @@
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center">
+            <td class="text-left">
               <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
-            </div>
-          </template>
-          <!--Customize the alerts field, show the alert count -->
-          <template v-slot:item.alertDisplay="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.alertDisplay}}</div>
-          </template>
-          <template v-slot:item.designationDisplay="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designationDisplay}}</div>
-          </template>
-          <template v-slot:item.inCustody="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
-          </template>
-          <template v-slot:item.orderExpiryDate="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.orderExpiryDate}}</div>
-          </template>
-          <template v-slot:item.supervisionRating="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.supervisionRating}}</div>
-          </template>
-          <template v-slot:item.rnaCompletedDate="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.rnaCompletedDate}}</div>
+            </td>
           </template>
           <!--Customize the dueNext field -->
           <template v-slot:item.dueNext="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
-            </div>
+            <div class="`p-2 ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
           </template>
           <!--Customize the dueDate rating field -->
           <template v-slot:item.dueDate="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
-            </div>
+            <div class="`p-2 ${getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
           </template>
           <!--Customize the expanded item to show photo and more-->
           <template v-slot:expanded-item="{ headers, item }">
