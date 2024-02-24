@@ -41,7 +41,7 @@ Vue.prototype.$CONST_FORMTYPE_STABLE = 'STABLE'
 Vue.prototype.$CONST_FORMTYPE_SO_OVERALL = 'SMO_OVERALL'
 Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
 Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
-Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLSIT = [1, 2, 5, 10, 15, 20, 30, 50]
+Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLIST = [1, 2, 5, 10, 15, 20, 30, 50]
 Vue.prototype.$CONST_LABEL_SMO_OVERALL_BP_SECTION = 'Behavioral Progression and Self Management Plan'
 
 Vue.prototype.$USER_GROUP_PO = 'po'

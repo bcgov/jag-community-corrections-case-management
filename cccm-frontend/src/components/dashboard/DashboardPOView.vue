@@ -91,22 +91,8 @@
         </v-data-table>
       </div>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pl-3 pr-3">
-        <v-row>
-          <v-col cols="1" sm="1" class="pr-4">
-            <v-select
-              solo
-              :items="items"
-              v-model="itemsPerPage"
-              dense
-              item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"
-            ></v-select>
-          </v-col>
-          <v-col cols="11" sm="11">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </v-col>
-        </v-row>
+      <div v-if="!loading" class="text-center px-3">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>
@@ -116,15 +102,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { dashboardPOSearch, clientProfileSearch, getPOList } from "@/components/form.api";
-import { Form } from 'vue-formio';
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
 import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: 'RNAList',
-  components: { DashboardDueDateLegend },
+  components: { DatatablePagination, DashboardDueDateLegend },
   data() {
     return {
       //const designations
@@ -133,7 +119,6 @@ export default {
       CONST_DESIGNATION_IPV: "IPV",
       key_results: 0,
       // datatable variables
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,

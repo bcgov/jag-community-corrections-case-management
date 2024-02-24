@@ -133,23 +133,9 @@
           </template>
         </v-data-table>
       </div>
-      <!--Customize the footer-->
-      <div v-if="!loading" class="text-center p-3 pt-2">
-        <v-row class="justify-content-between">
-          <v-col cols="1" sm="1" class="pl-3 pr-2">
-            <v-select
-              solo
-              :items="items"
-              v-model="itemsPerPage"
-              dense
-              item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"
-            ></v-select>
-          </v-col>
-          <v-col cols="10" sm="10">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </v-col>
-        </v-row>
+      <!-- Customize the footer -->
+      <div v-if="!loading" class="text-center px-3">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount" />
       </div>
     </v-card>
     <br/><br/>
@@ -162,16 +148,17 @@ import { Component } from 'vue-property-decorator';
 import { dashboardSupervisorSearch, dashboardPODetailsSearch } from "@/components/form.api";
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: 'OfficerList',
+  components: { DatatablePagination },
   data() {
     return {
       key_results: 0,
       key_location: 0,
       selectedLocation: {},
       // datatable variables
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,

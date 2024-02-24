@@ -21,7 +21,7 @@
       <v-card-title>
         Results
         <v-spacer></v-spacer>
-        <div class="w-25 p-4">
+        <div class="w-25 p-3">
           <v-text-field
               v-model="search"
               append-icon="mdi-magnify"
@@ -102,26 +102,13 @@
       </v-data-table>
       <br/>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pt-2">
-        <v-row class="flex justify-content-between">
-          <v-col cols="1" sm="1">
-            <v-select
-              solo
-              :items="items"
-              v-model="itemsPerPage"
-              dense
-              item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"
-            ></v-select>
-          </v-col>
-          <v-col cols="5" sm="5" class="text-right">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </v-col>
-        </v-row>
+      <div v-if="!loading" class="text-center">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount" />
       </div>
     </v-card>
     </section>
    </div>
+   <br/><br/>
   </div>
 </template>
 
@@ -135,6 +122,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 import iZtoast from 'izitoast';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: 'FormioClientSearch',
@@ -148,7 +136,6 @@ export default {
       formInfoTemplate: template,
       formJSON: {},
       // datatable variables
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
@@ -174,6 +161,7 @@ export default {
     }
   },
   components: {
+    DatatablePagination,
     Form
   },
   created() {
