@@ -4,7 +4,7 @@
         <v-progress-linear v-if="loading" indeterminate height="30" color="primary">Loading summary</v-progress-linear>
         <div v-for="(formEle, index) in summaryData" :key="index">
             <h3> {{ getFormTypeDesc[formEle.formType] }}</h3>
-            <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+            <div class="py-4" v-if="formEle.data.length > 0">
                 <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
                     <div class="subSectionTitleClass">{{ section.section }}</div>
                     <!-- Render SMO-Overall BP section in it's original format (i.e., the table format)-->
@@ -45,7 +45,9 @@
 
                                 <!--Customize the value field -->
                                 <template v-slot:item.value="{item}">
-                                    <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">{{ item.answerDesc == null || item.answerDesc == '' ? item.value : item.value + ' (' + item.answerDesc + ')' }}</div>
+                                    <div :class="`${item.boldQuestion ? 'font_bold' : ''}`">
+                                      {{ item.answerDesc == null || item.answerDesc == '' ? item.value : item.value + ' (' + item.answerDesc + ')' }}
+                                    </div>
                                 </template>
 
                                 <!--Customize the action field, making it clickable-->
@@ -87,20 +89,16 @@ export default {
             changeCount: -1,
             loading: false,
             formHeaders: [
-                { text: 'Question', value: 'question', width: '20%', align:'center' },
-                { text: 'Answer', value: 'value', width: '20%', align:'center' },
-                { text: 'Comments', value: 'comment', width: '50%', align:'center' },
+                { text: 'Question', value: 'question', width: '20%' },
+                { text: 'Answer', value: 'value', width: '20%' },
+                { text: 'Comments', value: 'comment', width: '50%', cellClass: 'readonly-field-text' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' },
             ],
             interventionHeaders: [
-                { text: 'Criminogenic Needs', value: 'question', width: '10%', align: 'center' },
-                { text: '', value: '', width: '1%', align: 'center' },
-                { text: 'Specific Factor', value: 'comment', width: '35%', align: 'center' },
-                { text: '', value: '', width: '1%', align: 'center' },
-                { text: 'Intervention Type', value: 'interventionType', width: '10%', align: 'center' },
-                { text: '', value: '', width: '1%', align: 'center' },
-                { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'center' },
-                { text: '', value: '', width: '1%', align: 'center' },
+                { text: 'Criminogenic Needs', value: 'question', width: '10%' },
+                { text: 'Specific Factor', value: 'comment', width: '35%', cellClass: 'readonly-field-text' },
+                { text: 'Intervention Type', value: 'interventionType', width: '10%' },
+                { text: 'Intervention Description', value: 'interventionComment', width: '35%', cellClass: 'readonly-field-text' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' }
             ],
         }
