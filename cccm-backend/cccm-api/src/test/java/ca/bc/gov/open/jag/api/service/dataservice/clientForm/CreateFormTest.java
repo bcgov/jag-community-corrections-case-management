@@ -131,6 +131,19 @@ public class CreateFormTest {
 
     }
 
+    @Test
+    @DisplayName("Success: CMRP Form is created")
+    public void testCreateCMRP() throws IOException {
+
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        BigDecimal result = sut.createCMRP(createFormInput(null, "TEST"), BigDecimal.ONE);
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
     private CreateFormInput createFormInput(BigDecimal linkedFormId, String clientNumber) {
         CreateFormInput createFormInput = new CreateFormInput();
         createFormInput.setLinkedClientFormId(linkedFormId);

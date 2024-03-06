@@ -352,6 +352,16 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @RolesAllowed("form-view")
+    public ValidationResult validateCmrpForm(String body) {
+
+        logger.info("Validate CMRP Request");
+
+        return validationService.validateCMRP(body);
+
+    }
+
+    @Override
     @Transactional
     @RolesAllowed("form-view")
     public ValidationResult validateSARAForm(@Valid @NotNull String body) {
@@ -381,6 +391,16 @@ public class FormsApiImpl implements FormsApi {
         logger.info("Create ACUTE Request");
 
         return clientFormSaveService.createACUTE(createFormInput, new BigDecimal(xLocationId));
+
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal createCmrpForm(CreateFormInput createFormInput, String xLocationId) {
+
+        logger.info("Create CMRP Request");
+
+        return clientFormSaveService.createCMRP(createFormInput, new BigDecimal(xLocationId));
 
     }
 

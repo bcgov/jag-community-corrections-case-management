@@ -4,7 +4,7 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CloneForm;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -15,18 +15,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @QuarkusTest
-public class CloneClientFormTest {
+public class CreateCmrpFormTest {
+
     private static final String TEST = "TEST";
 
     @Inject
@@ -48,18 +43,17 @@ public class CloneClientFormTest {
     JsonWebToken jwt;
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "form-clone")
-    @DisplayName("200: should return new id")
-    public void testCloneFormEndpoint() {
+    @TestSecurity(user = "userOidc", roles = "form-add")
+    @DisplayName("200: should return answers")
+    public void testSuccess() {
 
-        Mockito.when(clientFormSaveService.cloneClientForm(Mockito.any(), Mockito.anyString(), Mockito.anyString())).thenReturn(BigDecimal.ONE);
-        Mockito.when(jwt.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithOverride()));
+        Mockito.when(clientFormSaveService.createCMRP(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        CloneForm cloneForm = new CloneForm();
-        cloneForm.setClientFormId(BigDecimal.ONE);
-        cloneForm.setClientNumber(TEST);
+        CreateFormInput createFormInput = new CreateFormInput();
+        createFormInput.setClientNumber(TEST);
+        createFormInput.setLinkedClientFormId(BigDecimal.ONE);
 
-        BigDecimal result = sut.cloneClientForm("123", cloneForm);
+        BigDecimal result = sut.createCmrpForm(createFormInput, "123");
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 
@@ -70,7 +64,7 @@ public class CloneClientFormTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.cloneClientForm("123", null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.createCmrpForm(new CreateFormInput(),"TEST"));
 
     }
 
@@ -78,18 +72,8 @@ public class CloneClientFormTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.cloneClientForm("123", null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.createCmrpForm(new CreateFormInput(),"TEST"));
 
-    }
-
-    private JsonObject getRolesWithOverride() {
-        JsonReader jsonReader = Json.createReader(new StringReader("{\n" +
-                "\t\"roles\": [\n" +
-                "\t\t\"form-clone-override\",\n" +
-                "\t\t\"blarg\"\n" +
-                "\t]\n" +
-                "}"));
-        return jsonReader.readObject();
     }
 
 }
