@@ -35,7 +35,7 @@
 						"tableView": false
 					  }
 					],
-                  	"customConditional": "show = data.formType !== 'CUSTODY_CMRP'"
+                  	"customConditional": "show = data.formType !== 'CMRP'"
 				},
 				{
 					"title": "Client Details",
@@ -56,14 +56,14 @@
 							"value": ""
 						  }
 						],
-						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Internal Location:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.internalLocation}}</li> <li><Strong>IA Classification:</Strong> </li> <li><Strong>Population Designation:</Strong> </li> <li><Strong>Custody Status:</Strong> </li> <li><Strong>Next Court Date:</Strong> </li> ",
+						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Internal Location:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.internalLocation}}</li> <li><Strong>IA Classification:</Strong> </li> <li><Strong>Population Designation:</Strong> </li> <li><Strong>Custody Status:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.status}}</li> <li><Strong>Next Court Date:</Strong> </li> ",
 						"refreshOnChange": true,
 						"type": "htmlelement",
 						"input": false,
 						"tableView": false
 					  }
 					],
-                    "customConditional": "show = data.formType === 'CUSTODY_CMRP'"
+                    "customConditional": "show = data.formType === 'CMRP'"
 				},
 				{
 					"title": "Sources Contacted",
@@ -274,62 +274,6 @@
 						}
 					],
 					"customConditional": "show = data.formType === 'ACUTE'"
-				},
-				{
-					"title": "Custody Order",
-					"collapsible": false,
-					"key": "key_custodyOrder",
-					"customClass": "bg-blue",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-						{
-							"label": "HTML",
-							"tag": "ul",
-							"attrs": [
-								{
-									"attr": "",
-									"value": ""
-								}
-							],
-							"content": "<li><Strong>Warrant Type:</Strong> </li><li><Strong>Sentence Length:</Strong> </li><li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> </li> ",
-							"refreshOnChange": true,
-							"type": "htmlelement",
-							"input": false,
-							"tableView": false
-						}
-					],
-					"customConditional": "show = data.formType === 'CUSTODY_CMRP'"
-				},
-				{
-					"title": "Community Order",
-					"collapsible": false,
-					"key": "key_communityOrder",
-					"customClass": "bg-blue",
-					"type": "panel",
-					"label": "Panel",
-					"input": false,
-					"tableView": false,
-					"components": [
-						{
-							"label": "HTML",
-							"tag": "ul",
-							"attrs": [
-								{
-									"attr": "",
-									"value": ""
-								}
-							],
-							"content": "<li><Strong>Order Type:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.orders}}</li><li><Strong>Final Order Expiry Date:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</li> ",
-							"refreshOnChange": true,
-							"type": "htmlelement",
-							"input": false,
-							"tableView": false
-						}
-					],
-					"customConditional": "show = data.formType === 'CUSTODY_CMRP'"
 				}
 			]
 		}
