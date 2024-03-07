@@ -392,6 +392,26 @@ public class CompleteFormTest {
 
     }
 
+    @Test
+    @DisplayName("Success: Form is completed by owner CMRP requires new form")
+    public void testEditFormIsOwnerCMRPRequiresNewForm() {
+
+        Mockito.when(obridgeClientService.getClientFormSummary(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(createClientForm(ACUTE_FORM_TYPE, null, "TEST", "M", null));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+        Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
+        Mockito.when(obridgeClientService.getClientForms(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(), Mockito.any())).thenReturn(Collections.singletonList(createClientForm(CUSTODY_CMRP_FORM_TYPE, null, "TEST", "L", LocalDate.now())));
+        Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
+        Mockito.when(validationService.validateACUTE(Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
+
+        UpdateFormInput updateFormInput = new UpdateFormInput();
+        updateFormInput.setClientFormId(BigDecimal.ONE);
+        updateFormInput.setClientNumber("TEST");
+
+        Assertions.assertDoesNotThrow(() -> sut.editForm(new UpdateForm(updateFormInput, BigDecimal.ONE, false,"TEST@idir", true, Collections.EMPTY_LIST), "1"));
+
+    }
 
     private ClientFormSummary createClientForm(String module, BigDecimal relatedFormId, String createdBy, String superVisionRating, LocalDate completedDate) {
 

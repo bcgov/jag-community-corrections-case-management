@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @QuarkusTest
 public class GetClientFormSummaryUsingGETTest {

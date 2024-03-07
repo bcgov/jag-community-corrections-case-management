@@ -1,0 +1,17 @@
+{
+  "questions": [
+    {
+      "key": "S02Q01",
+      "type": "CONDITIONAL",
+      "dependentKeys": ["S02Q01_COMMENT"],
+      "dependentValues": ["C","D",null],
+      "message": "1. Family Relationships: requires comment"
+    },
+    {
+      "key": "Sources_Contacted",
+      "type": "REQUIRED",
+      "message": "Sources Contacted: is required"
+    }
+  ]
+
+}

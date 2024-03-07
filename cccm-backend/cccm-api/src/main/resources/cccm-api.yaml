@@ -30,6 +30,8 @@ tags:
     name: stable-forms
   - description: Endpoints for smo-overall create/validate
     name: so-overall-forms
+  - description: Endpoints for smo-overall create/validate
+    name: cmrp-forms
   - description: Endpoints both for all form types
     name: general-forms
   - description: Endpoints for role sync
@@ -760,6 +762,70 @@ paths:
         - so-overall-forms
       summary: validateOverallForm
       operationId: validateOverallForm
+      requestBody:
+        description: answers
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResult'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+  /forms/client/cmrp:
+    post:
+      parameters:
+        - $ref: "#/components/parameters/xLocationId"
+      tags:
+        - cmrp-forms
+      summary: createNewForm
+      operationId: createCmrpForm
+      requestBody:
+        description: createFormInput
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFormInput'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: number
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      x-codegen-request-body-name: createFormInput
+  /forms/client/validate/cmrp:
+    post:
+      tags:
+        - cmrp-forms
+      summary: validateCmrpForm
+      operationId: validateCmrpForm
       requestBody:
         description: answers
         content:

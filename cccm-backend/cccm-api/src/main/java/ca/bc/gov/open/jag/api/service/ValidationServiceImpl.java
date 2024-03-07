@@ -34,6 +34,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation static99rValidation;
     private Validation stableValidation;
     private Validation overallValidation;
+    private Validation cmrpValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
 
@@ -45,6 +46,7 @@ public class ValidationServiceImpl implements ValidationService {
         static99rValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/static99r_validation_config.json"), Validation.class);
         stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
         overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
+        cmrpValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_validation_config.json"), Validation.class);
 
     }
 
@@ -100,6 +102,15 @@ public class ValidationServiceImpl implements ValidationService {
         logger.debug("Validate Overall {}", answers);
 
         return createValidationResult(validate(answers, overallValidation, Collections.EMPTY_LIST));
+
+    }
+
+    @Override
+    public ValidationResult validateCMRP(String answers) {
+
+        logger.debug("Validate CMRP {}", answers);
+
+        return createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST));
 
     }
 
