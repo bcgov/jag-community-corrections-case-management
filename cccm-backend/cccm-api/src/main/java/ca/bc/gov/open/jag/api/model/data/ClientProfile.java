@@ -40,6 +40,7 @@ public class ClientProfile {
     private String rnaStatus;
     private String nextDueDt;
 
+
     public String getPossibleParoleDt() {
         return possibleParoleDt;
     }

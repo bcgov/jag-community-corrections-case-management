@@ -2332,6 +2332,8 @@ components:
           type: string
         supervisionLevel:
           type: string
+        iaClassifications:
+          type: string
         sealed:
           type: string
         alias:
@@ -2451,6 +2453,8 @@ components:
         outReason:
           type: string
         warrantExpiryDate:
+          type: string
+        nextCourtDate:
           type: string
     Designation:
       type: object
