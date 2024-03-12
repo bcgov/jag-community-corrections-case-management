@@ -57,7 +57,6 @@ public interface ClientMapper {
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")
     @Mapping(target = "biometric.eServices", source = "clientProfile.eServicesStatus")
     @Mapping(target = "biometric.eReporting", source = "clientProfile.eReporting")
-    //Court Information
     Client toApiClient(ca.bc.gov.open.jag.api.model.data.Client client, ClientProfile clientProfile, ca.bc.gov.open.jag.api.model.data.Photo photo);
 
     @Mapping(target = "clientName", source = "client.clientName")
