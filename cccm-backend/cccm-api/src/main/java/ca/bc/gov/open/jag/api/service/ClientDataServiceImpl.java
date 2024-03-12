@@ -253,6 +253,10 @@ public class ClientDataServiceImpl implements ClientDataService {
                 logger.info("adding form {}", form.getModule());
 
                 formsMerged.add(populateRatings(form, clientNum, location));
+            } else if (formTypeCd.equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE) && form.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
+                logger.info("adding form {}", form.getModule());
+
+                formsMerged.add(form);
             }
         }
         //Add sorting on update date when implemented
