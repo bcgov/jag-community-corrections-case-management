@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.dashboard;
 
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.DashboardsApi;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CentreDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
@@ -55,6 +56,16 @@ public class DashboardsApiImpl implements DashboardsApi {
         logger.info("Dashboard request received");
 
         return userDataService.getPODashboard(idirId, locationId);
+
+    }
+
+    @Override
+    @RolesAllowed("client-search")
+    public List<CentreDashboard> getCentreDashboard(BigDecimal locationId) {
+
+        logger.info("Centre Dashboard request received");
+
+        return userDataService.getCentreDashboard(locationId);
 
     }
 

@@ -25,15 +25,17 @@ public class UserDataServiceImpl implements UserDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(UserDataServiceImpl.class));
 
-    @Inject
-    @RestClient
-    ObridgeClientService obridgeClientService;
+    private final ObridgeClientService obridgeClientService;
 
-    @Inject
-    LocationMapper locationMapper;
+    private final LocationMapper locationMapper;
 
-    @Inject
-    UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserDataServiceImpl(@RestClient ObridgeClientService obridgeClientService, LocationMapper locationMapper, UserMapper userMapper) {
+        this.obridgeClientService = obridgeClientService;
+        this.locationMapper = locationMapper;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public Code getDefaultLocation(String user) {
@@ -80,6 +82,18 @@ public class UserDataServiceImpl implements UserDataService {
         }
 
         return userMapper.toPODashboardList(obridgeClientService.getPODashboard(user, location));
+
+    }
+
+    @Override
+    public List<CentreDashboard> getCentreDashboard(BigDecimal location) {
+
+        logger.debug("Centre Dashboard location {}", location);
+
+        return obridgeClientService.getCentreDashboard(location)
+                .stream()
+                .map(userMapper::toCentreDashboard)
+                .collect(Collectors.toList());
 
     }
 
