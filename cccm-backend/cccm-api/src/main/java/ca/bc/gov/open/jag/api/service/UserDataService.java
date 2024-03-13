@@ -16,6 +16,8 @@ public interface UserDataService {
 
     List<PODashboard> getPODashboard(String user, BigDecimal location);
 
+    List<CentreDashboard> getCentreDashboard(BigDecimal location);
+
     List<SupervisorDashboard> getSupervisorDashboard(String user, BigDecimal location);
 
     List<PO> getPOList(String user, BigDecimal location);

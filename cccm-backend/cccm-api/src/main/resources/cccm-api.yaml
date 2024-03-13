@@ -345,7 +345,28 @@ paths:
       x-accepts: application/json
       x-tags:
         - tag: dashboards
-
+  /dashboards/centre:
+    get:
+      operationId: GetCentreDashboard
+      parameters:
+        - in: query
+          name: locationId
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CentreDashboardList'
+          description: get get centre dahsboard
+      summary: get centre dashboard
+      tags:
+        - dashboards
+      x-accepts: application/json
+      x-tags:
+        - tag: dashboards
 
   #-------------------------------------------------------------------------------------
   #        CLIENT FORMS
@@ -2332,6 +2353,8 @@ components:
           type: string
         supervisionLevel:
           type: string
+        iaClassifications:
+          type: string
         sealed:
           type: string
         alias:
@@ -2451,6 +2474,8 @@ components:
         outReason:
           type: string
         warrantExpiryDate:
+          type: string
+        nextCourtDate:
           type: string
     Designation:
       type: object
@@ -3061,4 +3086,29 @@ components:
         idirId:
           type: string
         poName:
+          type: string
+    CentreDashboardList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CentreDashboard'
+    CentreDashboard:
+      type: object
+      properties:
+        clientNum:
+          type: string
+        clientName:
+          type: string
+        dischargeRtcDate:
+          type: string
+        nextCourtDate:
+          type: string
+        orderStatus:
+          type: string
+        supervisionLevel:
+          type: string
+        CRNACompDate:
+          type: string
+        CMRPCompDate:
+          type: string
+        CMRPDueDate:
           type: string

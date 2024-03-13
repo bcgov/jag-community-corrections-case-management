@@ -19,6 +19,7 @@ public interface ClientMapper {
     @Mapping(target = "clientAge", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge(client.getBirthDate()))")
     @Mapping(target = "custodyLocation", source = "client.custodyLocation")
     @Mapping(target = "supervisionLevel", source = "clientProfile.supervisionLevel")
+    @Mapping(target = "iaClassifications", source = "clientProfile.iaClassification")
     @Mapping(target = "outstandingWarrants", source = "clientProfile.warrants")
     @Mapping(target = "programs", source = "clientProfile.programs")
     @Mapping(target = "address", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.stringToAddressList(client.getAddress(), client.getAddressType(), client.getAddressExpiry()))")
@@ -50,6 +51,7 @@ public interface ClientMapper {
     @Mapping(target = "locationInformation.outLocation", source = "clientProfile.outLocation")
     @Mapping(target = "locationInformation.outReason", source = "clientProfile.outReason")
     @Mapping(target = "locationInformation.warrantExpiryDate", source = "clientProfile.finalWarrantExpiryDt")
+    @Mapping(target = "locationInformation.nextCourtDate", source = "clientProfile.nextCourtDate")
     //Biometric
     @Mapping(target = "biometric.type", source = "clientProfile.isBiometricEnrolled")
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")
