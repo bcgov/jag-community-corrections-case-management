@@ -3,11 +3,6 @@
 #############################################################################################
 FROM maven:3.8.3-openjdk-17 AS build
 
-RUN apt-get update && \
-    apt-get -y --allow-unauthenticated upgrade && \
-    #apt-get -y install vim procps curl && \
-    apt-get -y clean all
-
 ARG SERVICE_NAME
 ARG SKIP_TESTS=false
 
@@ -18,16 +13,10 @@ RUN mvn -B clean install \
         -Dmaven.test.skip=${SKIP_TESTS}
 
 #############################################################################################
-
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
 FROM eclipse-temurin:17-jre-alpine
-
-RUN apt-get update && \
-    apt-get -y --allow-unauthenticated upgrade && \
-    #apt-get -y install vim procps curl && \
-    apt-get -y clean all
 
 # ARG MVN_PROFILES
 ARG SERVICE_NAME
