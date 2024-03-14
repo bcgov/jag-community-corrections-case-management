@@ -58,7 +58,7 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'mandrel'
+          distribution: 'temurin'
           java-version: 17
           
       - uses: actions/cache@v1
