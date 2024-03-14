@@ -256,8 +256,7 @@ paths:
               schema:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '#/components/schemas/FormSummary'
+                  $ref: '#/components/schemas/FormSummary'
           description: get summary details for the form type
       summary: Get forms for a client
       tags:
@@ -2123,6 +2122,10 @@ components:
         expiryDate:
           format: date
           type: string
+    FormSummaries:
+      type: array
+      items:
+        $ref: '#/components/schemas/FormSummary'
     FormDetails:
       description: Client
       properties:
