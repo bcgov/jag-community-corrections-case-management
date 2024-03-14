@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;

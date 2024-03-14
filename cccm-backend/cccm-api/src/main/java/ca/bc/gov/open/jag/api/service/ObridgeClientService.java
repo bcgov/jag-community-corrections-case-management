@@ -14,8 +14,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.*;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.*;
 import java.math.BigDecimal;
 import java.util.List;
 

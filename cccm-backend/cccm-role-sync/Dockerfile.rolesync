@@ -1,7 +1,7 @@
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM maven:3.6.3-jdk-11 as build
+FROM maven:3.8.3-openjdk-17 AS build
 
 WORKDIR /cccm-role-sync
 
@@ -22,7 +22,7 @@ RUN mvn clean install
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 RUN apt-get update && \
     apt-get -y --allow-unauthenticated upgrade && \
