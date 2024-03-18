@@ -12,6 +12,8 @@ import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.api.util.UpdateDateComparator;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -44,7 +46,8 @@ public class ClientDataServiceImpl implements ClientDataService {
     ClientMapper clientMapper;
 
     @Inject
-    JsonWebToken jwt;
+    @Claim(standard = Claims.preferred_username)
+    String username;
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
@@ -279,6 +282,11 @@ public class ClientDataServiceImpl implements ClientDataService {
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNumber, clientFormId, new BigDecimal(location));
         //Apply locked form logic
         clientFormSummary.setLocked(MappingUtils.calculateLocked(clientFormSummary.getCreatedDate()));
+        //Population Custody Location
+        ClientProfile clientProfile = obridgeClientService.getProfileById(clientNumber, username, new BigDecimal(location));
+        if (clientProfile != null && StringUtils.isNoneBlank(clientProfile.getInternalLocation())) {
+            clientFormSummary.setClientCustodyLocation(clientProfile.getInternalLocation());
+        }
 
         return clientFormSummary;
     }

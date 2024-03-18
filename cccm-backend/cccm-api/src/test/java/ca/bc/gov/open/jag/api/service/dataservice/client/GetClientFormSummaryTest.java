@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service.dataservice.client;
 
+import ca.bc.gov.open.jag.api.model.data.ClientProfile;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientFormSummary;
@@ -33,12 +34,14 @@ public class GetClientFormSummaryTest {
     public void testGetClientFormsNoMerge() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(59)));
+        Mockito.when(obridgeClientService.getProfileById(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
 
         ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "", "1");
 
         Assertions.assertEquals("CRNA", result.getModule());
         Assertions.assertFalse(result.getLocked());
         Assertions.assertEquals(HIGH, result.getSupervisionRating());
+        Assertions.assertEquals("TEST", result.getClientCustodyLocation());
 
     }
 
@@ -47,12 +50,14 @@ public class GetClientFormSummaryTest {
     public void testGetClientFormsMerge() {
 
         Mockito.when(obridgeClientService.getClientFormSummary(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createForm(LocalDate.now().minusDays(61)));
+        Mockito.when(obridgeClientService.getProfileById(Mockito.anyString(), Mockito.any(), Mockito.any())).thenReturn(createClientProfile());
 
         ClientFormSummary result = sut.getClientFormSummary(BigDecimal.ONE, "", "1");
 
         Assertions.assertEquals("CRNA", result.getModule());
         Assertions.assertTrue(result.getLocked());
         Assertions.assertEquals(HIGH, result.getSupervisionRating());
+        Assertions.assertEquals("TEST", result.getClientCustodyLocation());
 
     }
 
@@ -74,6 +79,12 @@ public class GetClientFormSummaryTest {
 
         return form1;
 
+    }
+
+    private ClientProfile createClientProfile() {
+        ClientProfile clientProfile = new ClientProfile();
+        clientProfile.setInternalLocation("TEST");
+        return clientProfile;
     }
 
 }

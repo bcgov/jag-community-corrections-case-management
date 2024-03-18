@@ -28,6 +28,7 @@ public interface ClientMapper {
     @Mapping(target = "photo", source="photo")
     //@Mapping(target = "designations", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.createDesignations(clientProfile.getIaStatus(),clientProfile.getPopDesignation(),clientProfile.getIcayraSecurity(),clientProfile.getIcayraSecurityStatus()))")
     @Mapping(target = "designations", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.createUcmpDesignations(clientProfile.getUcmpDesignation()))")
+    @Mapping(target = "populationDesignations", source = "clientProfile.popDesignation")
     //Community Information
     @Mapping(target = "communityInformation.communityLocation", source = "client.communityLocation")
     @Mapping(target = "communityInformation.status", source = "clientProfile.status")

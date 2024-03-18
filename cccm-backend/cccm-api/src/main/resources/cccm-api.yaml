@@ -2390,6 +2390,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Designation"
+        populationDesignations:
+          type: string
         outstandingWarrants:
           type: array
           items:
@@ -2564,6 +2566,8 @@ components:
           type: string
         locationId:
           type: number
+        clientCustodyLocation:
+          type: string
         module:
           type: string
         mostRecent:
