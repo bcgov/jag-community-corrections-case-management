@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.*;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.*;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.attribute.UserPrincipal;

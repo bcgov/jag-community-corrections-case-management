@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.dashboard;
 
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.DashboardsApi;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CentreDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
@@ -9,10 +10,9 @@ import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -55,6 +55,16 @@ public class DashboardsApiImpl implements DashboardsApi {
         logger.info("Dashboard request received");
 
         return userDataService.getPODashboard(idirId, locationId);
+
+    }
+
+    @Override
+    @RolesAllowed("client-search")
+    public List<CentreDashboard> getCentreDashboard(BigDecimal locationId) {
+
+        logger.info("Centre Dashboard request received");
+
+        return userDataService.getCentreDashboard(locationId);
 
     }
 

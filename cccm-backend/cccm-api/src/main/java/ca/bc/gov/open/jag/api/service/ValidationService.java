@@ -49,4 +49,6 @@ public interface ValidationService {
      */
     ValidationResult validateSOOverall(String answers);
 
+    ValidationResult validateCMRP(String answers);
+
 }

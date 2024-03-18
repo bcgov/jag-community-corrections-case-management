@@ -12,18 +12,20 @@ import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.api.util.UpdateDateComparator;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.jwt.Claim;
+import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.json.JsonObject;
-import javax.json.JsonString;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ca.bc.gov.open.jag.api.Keys.*;
@@ -44,7 +46,8 @@ public class ClientDataServiceImpl implements ClientDataService {
     ClientMapper clientMapper;
 
     @Inject
-    JsonWebToken jwt;
+    @Claim(standard = Claims.preferred_username)
+    String username;
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {
@@ -253,6 +256,10 @@ public class ClientDataServiceImpl implements ClientDataService {
                 logger.info("adding form {}", form.getModule());
 
                 formsMerged.add(populateRatings(form, clientNum, location));
+            } else if (formTypeCd.equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE) && form.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
+                logger.info("adding form {}", form.getModule());
+
+                formsMerged.add(form);
             }
         }
         //Add sorting on update date when implemented
@@ -275,6 +282,11 @@ public class ClientDataServiceImpl implements ClientDataService {
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(clientNumber, clientFormId, new BigDecimal(location));
         //Apply locked form logic
         clientFormSummary.setLocked(MappingUtils.calculateLocked(clientFormSummary.getCreatedDate()));
+        //Population Custody Location
+        ClientProfile clientProfile = obridgeClientService.getProfileById(clientNumber, username, new BigDecimal(location));
+        if (clientProfile != null && StringUtils.isNoneBlank(clientProfile.getInternalLocation())) {
+            clientFormSummary.setClientCustodyLocation(clientProfile.getInternalLocation());
+        }
 
         return clientFormSummary;
     }

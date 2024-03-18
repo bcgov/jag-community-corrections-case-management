@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.CentreDashboard;
 import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
@@ -13,8 +14,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.*;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -131,6 +132,10 @@ public interface ObridgeClientService {
     @Path("/user/dashboard/po")
     List<PODashboard> getPODashboard(@QueryParam("idirId") String idirId,
             @QueryParam("locationId") BigDecimal locationId);
+
+    @GET
+    @Path("/user/dashboard/centre")
+    List<CentreDashboard> getCentreDashboard(@QueryParam("locationId") BigDecimal locationId);
 
     @GET
     @Path("/user/dashboard/supervisor")
