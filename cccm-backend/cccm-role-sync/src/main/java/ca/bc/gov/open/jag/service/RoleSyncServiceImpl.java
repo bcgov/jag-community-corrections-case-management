@@ -15,7 +15,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +69,13 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         for (User user: dbUsers.stream().filter(user -> StringUtils.isNoneBlank(user.getIdirId())).collect(Collectors.toList())) {
             logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
-            Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm).users().search(StringUtils.lowerCase(user.getIdirId())).stream().findFirst();
+
+            Optional<UserRepresentation> keyCloakUser = keycloak.realm(realm)
+                    .users()
+                    .searchByUsername(StringUtils.lowerCase(user.getIdirId()), true)
+                    .stream()
+                    .findFirst();
+
             Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
                 //Add user to role

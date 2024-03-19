@@ -4,7 +4,7 @@
         <v-progress-linear v-if="loading" indeterminate height="50" color="primary">Loading print view ...</v-progress-linear>
         <div :key="theKey" v-if="!loading">
             <h3>Case Plan – ({{ getFormTypeDesc }})</h3>
-            <div class="dashboard-v-card">
+            <div class="p-4">
                 <v-card>
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
                         <div class='col-sm-4'><Strong>Completed Date: </Strong>{{ formInfoData.completedDate }}</div>
@@ -28,7 +28,7 @@
                 </v-card>
             </div>
             <div v-for="(formEle, index) in formInstanceData" :key="index">
-                <div class="dashboard-v-card" v-if="formEle.data.length > 0">
+                <div class="p-4" v-if="formEle.data.length > 0">
                     <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
                         <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan'">
                             <div class="subSectionTitleClass">{{ section.section }}</div>
@@ -99,17 +99,14 @@ export default {
         loading: false,
         theKey: 0,
         formHeaders: [
-            { text: 'Responsivity Factor', value: 'question', width: '50%', align:'left', sortable: false },
-            { text: 'Comments', value: 'comment', width: '50%', align:'left', sortable: false }
+            { text: 'Responsivity Factor', value: 'question', width: '50%', sortable: false },
+            { text: 'Comments', value: 'comment', width: '50%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         interventionHeaders: [
-            { text: 'Criminogenic Needs', value: 'question', width: '10%', align: 'left', sortable: false },
-            { text: '', value: '', width: '2%', align: 'left', sortable: false },
-            { text: 'Specific Factor', value: 'comment', width: '40%', align: 'left', sortable: false },
-            { text: '', value: '', width: '2%', align: 'left', sortable: false },
-            { text: 'Intervention Type', value: 'interventionType', width: '15%', align: 'left', sortable: false },
-            { text: '', value: '', width: '2%', align: 'left', sortable: false },
-            { text: 'Intervention Description', value: 'interventionComment', width: '35%', align: 'left', sortable: false }
+            { text: 'Criminogenic Needs', value: 'question', width: '10%', sortable: false },
+            { text: 'Specific Factor', value: 'comment', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { text: 'Intervention Type', value: 'interventionType', width: '15%', sortable: false },
+            { text: 'Intervention Description', value: 'interventionComment', width: '35%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         showSMOOverallBPSection: false,
       }

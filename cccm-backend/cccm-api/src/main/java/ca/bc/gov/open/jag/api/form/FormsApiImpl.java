@@ -15,14 +15,14 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.security.RolesAllowed;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonString;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -352,6 +352,16 @@ public class FormsApiImpl implements FormsApi {
     }
 
     @Override
+    @RolesAllowed("form-view")
+    public ValidationResult validateCmrpForm(String body) {
+
+        logger.info("Validate CMRP Request");
+
+        return validationService.validateCMRP(body);
+
+    }
+
+    @Override
     @Transactional
     @RolesAllowed("form-view")
     public ValidationResult validateSARAForm(@Valid @NotNull String body) {
@@ -381,6 +391,16 @@ public class FormsApiImpl implements FormsApi {
         logger.info("Create ACUTE Request");
 
         return clientFormSaveService.createACUTE(createFormInput, new BigDecimal(xLocationId));
+
+    }
+
+    @Override
+    @RolesAllowed("form-add")
+    public BigDecimal createCmrpForm(CreateFormInput createFormInput, String xLocationId) {
+
+        logger.info("Create CMRP Request");
+
+        return clientFormSaveService.createCMRP(createFormInput, new BigDecimal(xLocationId));
 
     }
 

@@ -13,7 +13,7 @@ import jakarta.inject.Inject;
 import java.io.IOException;
 
 @QuarkusTest
-public class ValidateACUTETest {
+public class ValidateCMRPTest {
 
     private static final String DATA_ONE = "{\n" +
             "    \"data\": {\n" +
@@ -21,6 +21,8 @@ public class ValidateACUTETest {
             "    },\n" +
             "    \"clientFormId\": 389821\n" +
             "}";
+
+
 
     @Inject
     ValidationService sut;
@@ -31,9 +33,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateACUTE(DATA_ONE);
+        ValidationResult result = sut.validateCMRP(DATA_ONE);
 
-        Assertions.assertEquals(8, result.getErrors().size());
+        Assertions.assertEquals(1, result.getErrors().size());
 
     }
 
@@ -43,9 +45,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateACUTE("{}");
+        ValidationResult result = sut.validateCMRP("{}");
 
-        Assertions.assertEquals(9, result.getErrors().size());
+        Assertions.assertEquals(2, result.getErrors().size());
 
     }
 
@@ -55,9 +57,9 @@ public class ValidateACUTETest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateACUTE("");
+        ValidationResult result = sut.validateCMRP("");
 
-        Assertions.assertEquals(9, result.getErrors().size());
+        Assertions.assertEquals(2, result.getErrors().size());
 
     }
 

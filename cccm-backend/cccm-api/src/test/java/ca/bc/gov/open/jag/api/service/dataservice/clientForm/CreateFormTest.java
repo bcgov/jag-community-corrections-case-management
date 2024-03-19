@@ -8,14 +8,14 @@ import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectMock;
+import io.quarkus.test.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -126,6 +126,19 @@ public class CreateFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
 
         BigDecimal result = sut.createSOOverall(createFormInput(null, "TEST"), BigDecimal.ONE);
+
+        Assertions.assertEquals(BigDecimal.ONE, result);
+
+    }
+
+    @Test
+    @DisplayName("Success: CMRP Form is created")
+    public void testCreateCMRP() throws IOException {
+
+        Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(Collections.singletonList(new CodeTable("123", "TEST")));
+        Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
+
+        BigDecimal result = sut.createCMRP(createFormInput(null, "TEST"), BigDecimal.ONE);
 
         Assertions.assertEquals(BigDecimal.ONE, result);
 

@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import javax.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RequestUUIDHeaderFactoryTest {

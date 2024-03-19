@@ -21,6 +21,8 @@ public interface ClientFormSaveService {
 
     BigDecimal createSOOverall(CreateFormInput createFormInput, BigDecimal locationId);
 
+    BigDecimal createCMRP(CreateFormInput createFormInput, BigDecimal locationId);
+
     void updateForm(BigDecimal clientFormId, String updateFormInput);
 
     void editForm(UpdateForm updateForm, String location);

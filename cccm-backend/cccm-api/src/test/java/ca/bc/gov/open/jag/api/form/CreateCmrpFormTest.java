@@ -4,7 +4,7 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.UpdateFormInput;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.CreateFormInput;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -17,15 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import java.io.StringReader;
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @QuarkusTest
-public class EditFormTest {
+public class CreateCmrpFormTest {
 
     private static final String TEST = "TEST";
 
@@ -48,20 +43,19 @@ public class EditFormTest {
     JsonWebToken jwt;
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "form-update")
-    @DisplayName("200: should not throw")
+    @TestSecurity(user = "userOidc", roles = "form-add")
+    @DisplayName("200: should return answers")
     public void testSuccess() {
 
-        Mockito.doNothing().when(clientFormSaveService).editForm(Mockito.any(), Mockito.any());
-        Mockito.when(jwt.claim(Mockito.anyString())).thenReturn(Optional.of(getRolesWithOverride()));
+        Mockito.when(clientFormSaveService.createCMRP(Mockito.any(), Mockito.any())).thenReturn(BigDecimal.ONE);
 
-        UpdateFormInput updateFormInput = new UpdateFormInput();
+        CreateFormInput createFormInput = new CreateFormInput();
+        createFormInput.setClientNumber(TEST);
+        createFormInput.setLinkedClientFormId(BigDecimal.ONE);
 
-        updateFormInput.setClientFormId(BigDecimal.ONE);
-        updateFormInput.setClientNumber(TEST);
-        updateFormInput.setLinkedClientFormId(BigDecimal.ONE);
+        BigDecimal result = sut.createCmrpForm(createFormInput, "123");
 
-        Assertions.assertDoesNotThrow(() ->  sut.editForm(updateFormInput, "123"));
+        Assertions.assertEquals(BigDecimal.ONE, result);
 
     }
 
@@ -70,7 +64,7 @@ public class EditFormTest {
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
 
-        Assertions.assertThrows(ForbiddenException.class, () -> sut.editForm(new UpdateFormInput(),null));
+        Assertions.assertThrows(ForbiddenException.class, () -> sut.createCmrpForm(new CreateFormInput(),"TEST"));
 
     }
 
@@ -78,18 +72,8 @@ public class EditFormTest {
     @DisplayName("401: throw unauthorized exception")
     public void addTestExceptionNoToken() {
 
-        Assertions.assertThrows(UnauthorizedException.class, () -> sut.editForm(new UpdateFormInput(),null));
+        Assertions.assertThrows(UnauthorizedException.class, () -> sut.createCmrpForm(new CreateFormInput(),"TEST"));
 
-    }
-
-    private JsonObject getRolesWithOverride() {
-        JsonReader jsonReader = Json.createReader(new StringReader("{\n" +
-                "\t\"roles\": [\n" +
-                "\t\t\"form-override\",\n" +
-                "\t\t\"blarg\"\n" +
-                "\t]\n" +
-                "}"));
-        return jsonReader.readObject();
     }
 
 }

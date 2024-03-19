@@ -19,8 +19,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
@@ -126,6 +126,16 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
     }
 
     @Override
+    public BigDecimal createCMRP(CreateFormInput createFormInput, BigDecimal locationId) {
+
+        logger.debug("Create CMRP form {} location {}", createFormInput, locationId);
+
+        List<CodeTable> codes = obridgeClientService.getFormTypes(CUSTODY_CMRP_FORM_TYPE);
+        return createForm(createFormInput, locationId, new BigDecimal(codes.get(0).getCode()));
+
+    }
+
+    @Override
     public void updateForm(BigDecimal clientFormId, String updateFormInput) {
 
         logger.debug("Update form {} formId {}", updateFormInput, clientFormId);
@@ -201,6 +211,13 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)));
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Overall form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
+                }
+            }
+
+            if (clientFormSummary.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
+                ValidationResult result = validationService.validateCMRP(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)));
+                if (!result.getErrors().isEmpty()) {
+                    throw new CCCMException("CMRP form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
             }
 

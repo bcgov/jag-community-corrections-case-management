@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,6 +67,11 @@ public class RoleSyncServiceTest {
             }
 
             @Override
+            public UserRepresentation toRepresentation(boolean b) {
+                return null;
+            }
+
+            @Override
             public void update(UserRepresentation userRepresentation) {
 
             }
@@ -93,6 +98,11 @@ public class RoleSyncServiceTest {
 
             @Override
             public List<GroupRepresentation> groups(Integer integer, Integer integer1, boolean b) {
+                return null;
+            }
+
+            @Override
+            public List<GroupRepresentation> groups(String s, boolean b) {
                 return null;
             }
 

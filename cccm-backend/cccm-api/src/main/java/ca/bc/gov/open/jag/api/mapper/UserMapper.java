@@ -24,6 +24,17 @@ public interface UserMapper {
     @Mapping(target = "dueDate", source = "dueDate")
     PODashboard toPODashboard(ca.bc.gov.open.jag.api.model.data.PODashboard poDashboard);
 
+    @Mapping(target = "clientNum", source = "clientNo")
+    @Mapping(target = "clientName", source = "clientName")
+    @Mapping(target = "dischargeRtcDate", source = "dischargeRtcDate")
+    @Mapping(target = "nextCourtDate", source = "nextCourtDate")
+    @Mapping(target = "orderStatus", source = "orderStatus")
+    @Mapping(target = "supervisionLevel", source = "supLevel")
+    @Mapping(target = "crNACompDate", source = "CRNACompDate")
+    @Mapping(target = "cmRPCompDate", source = "CMRPCompDate")
+    @Mapping(target = "cmRPDueDate", source = "CMRPDueDate")
+    CentreDashboard toCentreDashboard(ca.bc.gov.open.jag.api.model.data.CentreDashboard centreDashboard);
+
     List<SupervisorDashboard> toSupervisorDashboardList(List<ca.bc.gov.open.jag.api.model.data.SupervisorDashboard> supervisorDashboardList);
 
     @Mapping(target = "officer", source = "poName")

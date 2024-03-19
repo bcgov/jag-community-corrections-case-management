@@ -11,8 +11,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,15 +25,17 @@ public class UserDataServiceImpl implements UserDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(UserDataServiceImpl.class));
 
-    @Inject
-    @RestClient
-    ObridgeClientService obridgeClientService;
+    private final ObridgeClientService obridgeClientService;
 
-    @Inject
-    LocationMapper locationMapper;
+    private final LocationMapper locationMapper;
 
-    @Inject
-    UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public UserDataServiceImpl(@RestClient ObridgeClientService obridgeClientService, LocationMapper locationMapper, UserMapper userMapper) {
+        this.obridgeClientService = obridgeClientService;
+        this.locationMapper = locationMapper;
+        this.userMapper = userMapper;
+    }
 
     @Override
     public Code getDefaultLocation(String user) {
@@ -80,6 +82,18 @@ public class UserDataServiceImpl implements UserDataService {
         }
 
         return userMapper.toPODashboardList(obridgeClientService.getPODashboard(user, location));
+
+    }
+
+    @Override
+    public List<CentreDashboard> getCentreDashboard(BigDecimal location) {
+
+        logger.debug("Centre Dashboard location {}", location);
+
+        return obridgeClientService.getCentreDashboard(location)
+                .stream()
+                .map(userMapper::toCentreDashboard)
+                .collect(Collectors.toList());
 
     }
 
