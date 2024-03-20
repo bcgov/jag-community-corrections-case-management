@@ -45,16 +45,16 @@ export default {
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_cancelButtonLabel") {
-        this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
+        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
         this.dataModel.data.input_key_sourceContacted = this.preVal;
         this.formKey++;
       }
       if (evt != null && evt.type === "evt_changeButtonLabel" ) {
-        this.dataModel.data.hideSCInput = !evt.data.hideSCInput;
+        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
         this.formKey++;
 
         // Time to save
-        if (this.dataModel.data.hideSCInput) {
+        if (this.dataModel.data.sourcesContacted.hideSCInput) {
           let newVal = evt.data[this.$KEY_SOURCES_CONTACTED];
           this.preVal = newVal;
           let sourcesContacted = {};
