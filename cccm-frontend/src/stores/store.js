@@ -42,11 +42,11 @@ export const useStore = defineStore('main', {
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN_COMM)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN_COMM
                 }
-                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
-                }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_PO)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_PO;
+                }
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
+                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_SUPERVISOR)) {
                     this.loginUserGroup = Vue.prototype.$USER_GROUP_SUPERVISOR
@@ -93,9 +93,15 @@ export const useStore = defineStore('main', {
             }
             return true;
         },
-
         isShowTrendAnalysis() {
             if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_TREND)) {
+                return true;
+            }
+            return false;
+        },
+        // Temporary role to hide CMRP Form before release
+        isShowCmrpForm() {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_CMRP)) {
                 return true;
             }
             return false;
@@ -112,7 +118,8 @@ export const useStore = defineStore('main', {
                 { value: "CRNA-SARA", key: "SARA" },
                 { value: "SMO-Overall-CMP", key: "SMO_OVERALL" },
                 { value: "Stable", key: "STABLE" },
-                { value: "Static-99R", key: "STAT99R" }
+                { value: "Static-99R", key: "STAT99R" },
+                { value: "Custody-CMRP", key: "CMRP" }
               ];
 
             return this.supportedFormTypes;

@@ -121,7 +121,7 @@
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall-CMP</button>
         </div>
         <div class="col-sm-2">
-          <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_CMRP)">Create New Custody-CMRP</button>
+          <button v-if="showCMRPCreateButton" class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_CMRP)">Create New Custody-CMRP</button>
         </div>
       </section>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
@@ -169,42 +169,53 @@
         </div>
         <div class="col-sm-2"></div>
       </section>
-      <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
-          item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
-          :loading="loading"   loading-text="Loading RNA List... Please wait"
-          :items-per-page="itemsPerPage" @page-count="pageCount = $event">
+      <div class="dashboard-v-card">
+        <v-data-table
+            :key="key_rnalistSearchResult"
+            :headers="headers"
+            :formTypes="formTypes"
+            :items="rnaList"
+            item-key="id"
+            no-results-text="No results found"
+            hide-default-footer
+            class="text-center"
+            :page.sync="page"
+            :loading="loading"
+            loading-text="Loading RNA List... Please wait"
+            :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
+        >
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getFormTypeDesc(item.module)}}</div>
+            <div>{{getFormTypeDesc(item.module)}}</div>
           </template>
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment, item.module)}}</div>
+            <div>{{getAssessmentStatus(item.reassessment, item.module)}}</div>
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">
+            <div :class="getFormStatusColor[item.status]">
               {{item.status}}&nbsp;
               <font-awesome-icon v-if="item.locked" :icon="['fa', 'fa-lock']" />
             </div>
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.supervisionRating, item.module)}`">
+            <div :class="getRatingColor(item.supervisionRating, item.module)">
               {{ getLMHRatingDisplay(item.supervisionRating) }}</div>
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.crnaRatingVal, item.module)}`">{{ item.crnaRating }}</div>
+            <div :class="getRatingColor(item.crnaRatingVal, item.module)">{{ item.crnaRating }}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.saraRatingVal, item.module)} `">{{ item.saraRating }}</div>
+            <div :class="getRatingColor(item.saraRatingVal, item.module)">{{ item.saraRating }}</div>
           </template>
           <!--Customize the smoRating rating field -->
           <template v-slot:item.smoRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.smoRatingVal, item.module)} `">{{ item.smoRating }}</div>
+            <div :class="getRatingColor(item.smoRatingVal, item.module)">{{ item.smoRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -698,6 +709,9 @@ export default {
     },
     showFormCreateButtons() {
       return this.mainStore.isAllowFormWrite();
+    },
+    showCMRPCreateButton() {
+      return this.mainStore.loginUserGroup == this.$USER_GROUP_ITRP && this.mainStore.isShowCmrpForm;
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
