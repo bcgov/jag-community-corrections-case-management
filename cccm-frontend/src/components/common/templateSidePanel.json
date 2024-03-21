@@ -274,6 +274,34 @@
 						}
 					],
 					"customConditional": "show = data.formType === 'ACUTE'"
+				},
+				{
+					"title": "Community Order",
+					"collapsible": false,
+					"key": "key_communityOrder",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+						{
+							"label": "HTML",
+							"tag": "ul",
+							"attrs": [
+								{
+									"attr": "",
+									"value": ""
+								}
+							],
+							"content": "<li><Strong>Order Type:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.orders}}</li><li><Strong>Final Order Expiry Date:</Strong> {{data.orderInformation == null ? '' : data.orderInformation.expiryDate}}</li> ",
+							"refreshOnChange": true,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						}
+					],
+					"customConditional": "show = data.formType === 'CMRP'"
 				}
 			]
 		}
