@@ -66,7 +66,7 @@
                     "customConditional": "show = data.formType === 'CMRP'"
 				},
 				{
-					"title": "Sources Contacted",
+					"title": "{{data.sourcesContacted.title}}",
 					"collapsible": false,
 					"key": "panel_sourceContacted",
 					"customClass": "bg-blue",
@@ -76,7 +76,7 @@
 					"tableView": false,
 					"conditional": {
 					  "show": true,
-					  "when": "showSCPanel",
+					  "when": "sourcesContacted.showSCPanel",
 					  "eq": "true"
 					},
 					"components": [
@@ -97,7 +97,7 @@
 						  "tableView": false,
 						  "conditional": {
 							"show": true,
-							"when": "hideSCInput",
+							"when": "sourcesContacted.hideSCInput",
 							"eq": "true"
 						  }
 						},
@@ -107,16 +107,16 @@
 						  "clearOnHide": false,
 						  "key": "input_key_sourceContacted",
 						  "type": "textarea",
-						  "redrawOn": "hideSCInput",
+						  "redrawOn": "sourcesContacted.hideSCInput",
 						  "conditional": {
 							"show": true,
-							"when": "hideSCInput",
+							"when": "sourcesContacted.hideSCInput",
 							"eq": "false"
 						  },
 						  "input": true
 						},
 						{
-						  "label": "Add Source",
+						  "label": "{{data.sourcesContacted.addButtonLabel}}",
 						  "action": "event",
 						  "showValidations": false,
 						  "disableOnInvalid": true,
@@ -127,7 +127,7 @@
 						  "event": "evt_changeButtonLabel",
 						  "conditional": {
 							"show": true,
-							"when": "hideSCInput",
+							"when": "sourcesContacted.hideSCInput",
 							"eq": "true"
 						  }
 						},
@@ -148,7 +148,7 @@
 											"event": "evt_changeButtonLabel",
 											"conditional": {
 											  "show": true,
-											  "when": "hideSCInput",
+											  "when": "sourcesContacted.hideSCInput",
 											  "eq": "false"
 											}
 										  }
@@ -174,7 +174,7 @@
 											"event": "evt_cancelButtonLabel",
 											"conditional": {
 											  "show": true,
-											  "when": "hideSCInput",
+											  "when": "sourcesContacted.hideSCInput",
 											  "eq": "false"
 											}
 										  }
