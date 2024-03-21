@@ -86,7 +86,7 @@ Vue.prototype.$FORM_INFO = [
   { formType: 'STABLE', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'Stable', dataRefreshSectionIndex: '5', formTitle: 'Stable', assessmentStatusRequired: true, formTypeLabel: 'Stable Type', showSourcesContacted: true },
   { formType: 'STAT99R', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: false, formTypeDesc: 'Static-99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: true, formTypeLabel: 'Static-99R Type', showSourcesContacted: true },
   { formType: 'SMO_OVERALL', autoCalcOnFormload: true, autoCalcOnFormComplete: true, autoCalcOnFormClose: true, cmp: false, formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: true, formTypeLabel: 'SMO-Overall-CMP Type', showSourcesContacted: true },
-  { formType: 'CMRP', autoCalcOnFormload: true, autoCalcOnFormComplete: true, autoCalcOnFormClose: true, cmp: false, formTypeDesc: 'Custody-CMRP', dataRefreshSectionIndex: '', formTitle: 'Custody-CMRP', assessmentStatusRequired: true, formTypeLabel: 'Type', showSourcesContacted: false }
+  { formType: 'CMRP', autoCalcOnFormload: true, autoCalcOnFormComplete: true, autoCalcOnFormClose: true, cmp: false, formTypeDesc: 'Custody-CMRP', dataRefreshSectionIndex: '', formTitle: 'Custody-CMRP', assessmentStatusRequired: true, formTypeLabel: 'Type', showSourcesContacted: true }
 ]
 
 Vue.prototype.$BUTTON_TEXT_SUBMIT='Submit Form'
