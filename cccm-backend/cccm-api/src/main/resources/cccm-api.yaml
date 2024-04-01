@@ -2482,6 +2482,10 @@ components:
           type: string
         nextCourtDate:
           type: string
+        warrantType:
+          type: string
+        sentenceLength:
+          type: string
     Designation:
       type: object
       properties:
