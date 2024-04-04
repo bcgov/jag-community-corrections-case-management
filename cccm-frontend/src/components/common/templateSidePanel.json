@@ -276,6 +276,34 @@
 					"customConditional": "show = data.formType === 'ACUTE'"
 				},
 				{
+					"title": "Custody Order",
+					"collapsible": false,
+					"key": "key_custodyOrder",
+					"customClass": "bg-blue",
+					"type": "panel",
+					"label": "Panel",
+					"input": false,
+					"tableView": false,
+					"components": [
+						{
+							"label": "HTML",
+							"tag": "ul",
+							"attrs": [
+								{
+									"attr": "",
+									"value": ""
+								}
+							],
+							"content": "<li><Strong>Warrant Type:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantType}}</li><li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantExpiryDate}}</li> ",
+							"refreshOnChange": true,
+							"type": "htmlelement",
+							"input": false,
+							"tableView": false
+						}
+					],
+					"customConditional": "show = data.formType === 'CMRP'"
+				},
+				{
 					"title": "Community Order",
 					"collapsible": false,
 					"key": "key_communityOrder",
