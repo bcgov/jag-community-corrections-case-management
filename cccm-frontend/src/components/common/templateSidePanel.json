@@ -294,7 +294,7 @@
 									"value": ""
 								}
 							],
-							"content": "<li><Strong>Warrant Type:</Strong> </li><li><Strong>Sentence Length:</Strong> </li><li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> </li> ",
+							"content": "<li><Strong>Warrant Type:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantType}}</li><li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantExpiryDate}}</li> ",
 							"refreshOnChange": true,
 							"type": "htmlelement",
 							"input": false,
