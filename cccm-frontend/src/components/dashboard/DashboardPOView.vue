@@ -45,7 +45,7 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3">
-          <DashboardDueDateLegend/>
+          <DashboardDueDateLegend ref="dashboardDueDate"/>
         </div>
       </div>
       <div class="dashboard-v-card">
@@ -75,11 +75,11 @@
           </template>
           <!--Customize the dueNext field -->
           <template v-slot:item.dueNext="{ item }">
-            <div class="`p-2 ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
+            <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueNext}}</div>
           </template>
           <!--Customize the dueDate rating field -->
           <template v-slot:item.dueDate="{ item }">
-            <div class="`p-2 ${getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
+            <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
           </template>
           <!--Customize the expanded item to show photo and more-->
           <template v-slot:expanded-item="{ headers, item }">
@@ -100,8 +100,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { dashboardPOSearch, clientProfileSearch, getPOList } from "@/components/form.api";
+import { Vue } from 'vue-property-decorator';
+import { clientProfileSearch, dashboardPOSearch } from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
@@ -296,7 +296,7 @@ export default {
           let pVal = "N";
           if (el.programs != null && el.programs.length > 0) {
             pVal = "Y";
-          };
+          }
           this.initDataArray[clientNum].data.programs = el.programs;
           this.initDataArray[clientNum].data.programs_yn = pVal;
           
@@ -352,38 +352,18 @@ export default {
       this.key_results++;
       this.loading = false;
     },
-    getColor(dueDate) {
-      if (dueDate == null) {
-        return '';
-      }
-      const dateNow = new Date();
-      const diffTime = dueDate - dateNow;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      //console.log("diffDays: ", dueDate, dateNow, diffDays);
-      if (diffDays <= 0) {
-        return 'dashboard-background-color-red';
-      }
-      if (diffDays >= 1 && diffDays <= 14) {
-        return 'dashboard-background-color-yellow';
-      }
-      if (diffDays > 14) {
-        return 'dashboard-background-color-green';
-      }
-      return '';
-    },
     getInitData() {
       for (let el of this.clientList) {
         let initData = {"data": {}};
         
-        let dataContent = {};
         //Preset the flag to false;
-        dataContent.detailsFetched = false;
-        dataContent.fullName = el.clientName;
-        dataContent.csNumber = el.clientNum;
-        
-        initData.data = dataContent;
+        initData.data = {
+          detailsFetched: false,
+          fullName: el.clientName,
+          csNumber: el.clientNum
+        };
         this.initDataArray[el.clientNum] = initData;
-      };
+      }
     }
   },
   computed: {

@@ -9,7 +9,7 @@ import Unauthorized from '../components/Unauthorized.vue'
 import DashboardPOView from '../components/dashboard/DashboardPOView.vue'
 import RNAList from '../components/RNAList.vue'
 import DashboardSupervisorView from '../components/dashboard/DashboardSupervisorView.vue'
-import DashboardITRPView from "@/components/dashboard/DashboardITRPView.vue";
+import DashboardITRPView from "../components/dashboard/DashboardITRPView.vue";
 import PrintView from '../components/PrintView.vue'
 import {useStore} from "@/stores/store";
 

@@ -195,10 +195,11 @@ export default {
   },
   methods: {
     onSelected(idirId, poName) {
-      let param = {};
-      param.userId = idirId;
-      param.userName = poName;
-      param.locationId = this.pickedLocationCD;
+      const param = {
+        userId: idirId,
+        userName: poName,
+        locationId: this.pickedLocationCD
+      }
       //console.log("Set PO param: ", param);
       let base64EncodeParam = btoa(JSON.stringify(param));
 

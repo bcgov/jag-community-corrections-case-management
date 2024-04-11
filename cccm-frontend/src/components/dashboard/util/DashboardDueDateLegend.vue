@@ -10,7 +10,26 @@
 
 <script lang="ts">
 export default {
-  name: "DashboardDueDateLegend"
+  name: "DashboardDueDateLegend",
+  methods: {
+    getColor(dueDate: Date) {
+      if (dueDate == null) {
+        return "";
+      }
+      const diffTime = dueDate.getTime() - new Date().getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays <= 0) {
+        return "dashboard-background-color-red";
+      }
+      if (diffDays >= 1 && diffDays <= 14) {
+        return "dashboard-background-color-yellow";
+      }
+      if (diffDays > 14) {
+        return "dashboard-background-color-green";
+      }
+      return "";
+    },
+  }
 }
 </script>
 
