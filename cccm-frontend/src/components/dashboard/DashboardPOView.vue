@@ -6,7 +6,7 @@
         <h1 class="font-weight-bold">{{ userDisplayName }}'s clients</h1>
       </div>
     </div>
-    <v-card class="p-3">
+    <v-card class="p-2">
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
           <v-select
@@ -45,13 +45,7 @@
         </div>
         <div class="col-sm-3"></div>
         <div class="col-sm-3">
-          <div class="dashboard-table-header-ul float-right pr-3 mr-3">
-            <ul>
-              <li>Due today or overdue</li>
-              <li>Due within 1 to 14 days</li>
-              <li>Due in over 14 days</li>
-            </ul>
-          </div>
+          <DashboardDueDateLegend ref="dashboardDueDate"/>
         </div>
       </div>
       <div class="dashboard-v-card">
@@ -67,7 +61,7 @@
             @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
-            class="elevation-1"
+            class="elevation-1 text-center"
             hide-default-footer
             :page.sync="page"
             :items-per-page="itemsPerPage"
@@ -75,40 +69,17 @@
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center">
+            <td class="text-left">
               <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
-            </div>
-          </template>
-          <!--Customize the alerts field, show the alert count -->
-          <template v-slot:item.alertDisplay="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.alertDisplay}}</div>
-          </template>
-          <template v-slot:item.designationDisplay="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.designationDisplay}}</div>
-          </template>
-          <template v-slot:item.inCustody="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.inCustody}}</div>
-          </template>
-          <template v-slot:item.orderExpiryDate="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.orderExpiryDate}}</div>
-          </template>
-          <template v-slot:item.supervisionRating="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.supervisionRating}}</div>
-          </template>
-          <template v-slot:item.rnaCompletedDate="{ item }">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">{{item.rnaCompletedDate}}</div>
+            </td>
           </template>
           <!--Customize the dueNext field -->
           <template v-slot:item.dueNext="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueNext}}</div>
-            </div>
+            <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueNext}}</div>
           </template>
           <!--Customize the dueDate rating field -->
           <template v-slot:item.dueDate="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center p-2 ${getColor(item.dueDate)}`">
-              <div :class="`w-100 h-100 text-center ${getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
-            </div>
+            <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
           </template>
           <!--Customize the expanded item to show photo and more-->
           <template v-slot:expanded-item="{ headers, item }">
@@ -120,22 +91,8 @@
         </v-data-table>
       </div>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pl-3 pr-3">
-        <v-row>
-          <v-col cols="1" sm="1" class="pr-4">
-            <v-select
-              solo
-              :items="items"
-              v-model="itemsPerPage"
-              dense
-              item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"
-            ></v-select>
-          </v-col>
-          <v-col cols="11" sm="11">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </v-col>
-        </v-row>
+      <div v-if="!loading" class="text-center px-3">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>
@@ -143,15 +100,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { dashboardPOSearch, clientProfileSearch, getPOList } from "@/components/form.api";
-import { Form } from 'vue-formio';
+import { Vue } from 'vue-property-decorator';
+import { clientProfileSearch, dashboardPOSearch } from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
+import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: 'RNAList',
+  components: { DatatablePagination, DashboardDueDateLegend },
   data() {
     return {
       //const designations
@@ -160,7 +119,6 @@ export default {
       CONST_DESIGNATION_IPV: "IPV",
       key_results: 0,
       // datatable variables
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
@@ -338,7 +296,7 @@ export default {
           let pVal = "N";
           if (el.programs != null && el.programs.length > 0) {
             pVal = "Y";
-          };
+          }
           this.initDataArray[clientNum].data.programs = el.programs;
           this.initDataArray[clientNum].data.programs_yn = pVal;
           
@@ -394,38 +352,18 @@ export default {
       this.key_results++;
       this.loading = false;
     },
-    getColor(dueDate) {
-      if (dueDate == null) {
-        return '';
-      }
-      const dateNow = new Date();
-      const diffTime = dueDate - dateNow;
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      //console.log("diffDays: ", dueDate, dateNow, diffDays);
-      if (diffDays <= 0) {
-        return 'dashboard-background-color-red';
-      }
-      if (diffDays >= 1 && diffDays <= 14) {
-        return 'dashboard-background-color-yellow';
-      }
-      if (diffDays > 14) {
-        return 'dashboard-background-color-green';
-      }
-      return '';
-    },
     getInitData() {
       for (let el of this.clientList) {
         let initData = {"data": {}};
         
-        let dataContent = {};
         //Preset the flag to false;
-        dataContent.detailsFetched = false;
-        dataContent.fullName = el.clientName;
-        dataContent.csNumber = el.clientNum;
-        
-        initData.data = dataContent;
+        initData.data = {
+          detailsFetched: false,
+          fullName: el.clientName,
+          csNumber: el.clientNum
+        };
         this.initDataArray[el.clientNum] = initData;
-      };
+      }
     }
   },
   computed: {

@@ -76,6 +76,12 @@ export const useStore = defineStore('main', {
             }
             return false;
         },
+        hasITRPDash() {
+            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP) {
+                return true;
+            }
+            return false;
+        },
         isEventTriggerAutoCalcAllowed() {
             // When admin_comm user views forms (e.g., SMO_OVERALL) that requires data refresh before form load,
             // the data refresh shouldn't be allowed

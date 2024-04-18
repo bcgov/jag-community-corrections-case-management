@@ -75,6 +75,7 @@
         <span class="headerNav">
           <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
           <a v-if="hasPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
+          <a v-if="hasITRPDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDITRP}`" class="headerA">My Centre Dashboard</a> <span v-if="hasITRPDash"> | </span>
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
@@ -181,12 +182,17 @@ export default {
     hasPODash() {
       return this.mainStore.hasPODash();
     },
+    hasITRPDash() {
+      return this.mainStore.hasITRPDash();
+    },
     getDashboardURL() {
       if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
           this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR;
       } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDPO;
+      } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP) {
+        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDITRP;
       } else {
         return this.baseURL;
       }

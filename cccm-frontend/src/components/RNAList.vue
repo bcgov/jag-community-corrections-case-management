@@ -95,11 +95,9 @@
 
     <!--RNA List-->
     <div class="row justify-content-between mb-2">
-      <div class="col-sm-6">
         <div class="sectionTitleClass mr-4 col-3 font-weight-bold">RNA List</div>
-      </div>
     </div>
-    <v-card>
+    <v-card class="py-2">
       <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
         <div class="col-sm-6"></div>
         <div class="col-sm-2">
@@ -238,16 +236,8 @@
         </v-data-table>
       </div>
       <!--Customize the footer-->
-      <div v-if="!loading" class="text-center pt-2">
-        <div class="row justify-content-between pl-3 pr-3">
-          <div class="col-sm-1">
-            <v-select solo :items="items" v-model="itemsPerPage" dense item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"></v-select>
-          </div>
-          <div class="col-sm-10">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </div>
-        </div>
+      <div v-if="!loading" class="text-center px-3">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br /><br />
@@ -259,9 +249,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import { formSearch, cloneForm, createForm } from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: 'RNAList',
+  components: { DatatablePagination },
   props: {
     clientID: {
       type: String,
@@ -294,7 +286,6 @@ export default {
       CONST_MODAL_ID_PREFIX: 'id_modal_form_creation_',
       key_rnalistSearchResult: 0,
       // datatable variables
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       page: 1,
       pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,

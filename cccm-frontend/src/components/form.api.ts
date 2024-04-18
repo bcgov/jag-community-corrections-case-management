@@ -496,6 +496,25 @@ export async function dashboardPOSearch(userId: String, locationId: number) {
     }
 }
 
+// ITRP dashboard search
+export async function dashboardCentreSearch(locationId: number) {
+    try{
+        if (locationId) {
+            const { data } = await axiosClient.get('/dashboards/centre', {
+                params: {
+                    locationId: locationId
+                }
+            });
+            return [null, data];
+        } else {
+            throw "Cannot perform Centre dashboard search without a locationId";
+        }
+    } catch (error) {
+        handleError(error);
+        return [error];
+    }
+}
+
 // Get list of PO for a given location, used in PO dashboard
 export async function getPOList() {
     try {

@@ -18,16 +18,8 @@
         hide-default-footer :page.sync="page" :items-per-page="itemsPerPage" @page-count="pageCount = $event">
       </v-data-table>
       <!--Customize the footer-->
-      <div class="text-center pt-2">
-        <div class="row justify-content-between pl-3 pr-3">
-          <div class="col-sm-1">
-            <v-select solo :items="items" v-model="itemsPerPage" dense item-color="primary"
-              @input="itemsPerPage = parseInt($event, 10)"></v-select>
-          </div>
-          <div class="col-sm-10">
-            <v-pagination v-model="page" :total-visible="7" :length="pageCount"></v-pagination>
-          </div>
-        </div>
+      <div class="text-center px-3">
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount" />
       </div>
     </div>
   </div>
@@ -35,12 +27,14 @@
   
 <script>
 import { mapState, mapStores } from "pinia";
-import { trendStore } from '../../stores/trendstore';
+import { trendStore } from '@/stores/trendstore';
 
 import axios from "axios";
+import DatatablePagination from "@/components/common/DatatablePagination.vue";
 
 export default {
   name: "CommentsAndInterventionsTable",
+  components: { DatatablePagination },
   computed: {
     showIntervention() {
       let theForm = this.$FORM_INFO.filter( item => item.formType === this.store.formType);
@@ -83,7 +77,6 @@ export default {
         { text: 'Rating', value: 'answerValue', width: '10%' },
         { text: 'Comment', value: 'value', width: '60%' },
       ],
-      items: this.$CONST_DATATABLE_PAGE_FILTERLSIT,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       page: 1,
       pageCount: 1,
