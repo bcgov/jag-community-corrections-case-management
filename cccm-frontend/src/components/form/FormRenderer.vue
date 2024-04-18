@@ -481,10 +481,15 @@ export default {
           this.clientData.data = response;
           this.formInfoData.data.clientData = response;
           
-          //set sources contacted
-          this.clientData.data.showSCPanel = this.theFormConfig != null ? this.theFormConfig.showSourcesContacted : true;
-          this.clientData.data.hideSCInput = true;
+          // Set sources contacted
+          this.clientData.data.sourcesContacted = {
+            showSCPanel: this.theFormConfig ? this.theFormConfig.showSourcesContacted : true,
+            hideSCInput: true,
+            title: this.formType === this.$CONST_FORMTYPE_CMRP ? "Community Supports" : "Sources Contacted",
+            addButtonLabel: this.formType === this.$CONST_FORMTYPE_CMRP ? "Add Support" : "Add Source",
+          };
           this.clientData.data.input_key_sourceContacted = this.formInfoData.data.input_key_sourceContacted;
+
           this.clientData.data.formType = this.formType
           //console.log("clientData: ", this.clientData);
         }

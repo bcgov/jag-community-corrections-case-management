@@ -228,6 +228,11 @@ export default {
       if (this.formType === this.$CONST_FORMTYPE_STABLE) {
         this.items.push({ tab: 'Stable', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
         this.current_tab = 'tab-Stable';
+      } else
+      // if formType is 'CMRP', only show CMRP tab
+      if (this.formType === this.$CONST_FORMTYPE_CMRP) {
+        this.items.push({ tab: 'Custody-CMRP', key: 0, id: this.$CONST_FORMTYPE_CMRP, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
+        this.current_tab = 'tab-CUSTODY-CMRP';
       } else {
         // unsupported formTypes
         this.items.push({ tab: this.formType, key: 0, id: this.formId, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
@@ -235,10 +240,11 @@ export default {
       }
     },
     async createChildFormAPI() {
-      let formData = {};
       // set formData
-      formData.clientNumber = this.clientNum;
-      formData.linkedClientFormId = this.formId;
+      const formData = {
+        clientNumber: this.clientNum,
+        linkedClientFormId: this.formId
+      };
 
       const [error, newFormId] = await createForm(this.formToCreate.toLowerCase(), formData);
       if (error) {

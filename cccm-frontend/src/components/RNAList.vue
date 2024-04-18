@@ -31,6 +31,12 @@
         v-show=false
         @click.stop="dialog = true"
       ></v-btn>
+      <!-- CMRP Form creation modal dialog-->
+      <v-btn
+          :id="`${CONST_MODAL_ID_PREFIX}${$CONST_FORMTYPE_CMRP}`"
+          v-show=false
+          @click.stop="dialog = true"
+      ></v-btn>
       <v-dialog
           v-model="dialog"
           persistent
@@ -64,6 +70,9 @@
           </div>
           <div v-if="formToCreate == $CONST_FORMTYPE_SO_OVERALL" class="col-sm-10 m-10">
             <strong>Are you sure you want to create a new SMO-Overall-CMP form?</strong>
+          </div>
+          <div v-if="formToCreate == $CONST_FORMTYPE_CMRP" class="col-sm-10 m-10">
+            <strong>Are you sure you want to create a new Custody-CMRP form?</strong>
           </div>
           <v-card-actions>
             <v-btn
@@ -106,8 +115,11 @@
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STABLE)">Create New Stable</button>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_SO_OVERALL)">Create New SMO-Overall-CMP</button>
+        </div>
+        <div class="col-sm-2">
+          <button v-if="showCMRPCreateButton" class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_CMRP)">Create New Custody-CMRP</button>
         </div>
       </section>
       <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
@@ -155,42 +167,53 @@
         </div>
         <div class="col-sm-2"></div>
       </section>
-      <div class="dashboard-v-card text-center">
-        <v-data-table :key="key_rnalistSearchResult" :headers="headers" :formTypes="formTypes" :items="rnaList"
-          item-key="id" no-results-text="No results found" hide-default-footer :page.sync="page"
-          :loading="loading"   loading-text="Loading RNA List... Please wait"
-          :items-per-page="itemsPerPage" @page-count="pageCount = $event">
+      <div class="dashboard-v-card">
+        <v-data-table
+            :key="key_rnalistSearchResult"
+            :headers="headers"
+            :formTypes="formTypes"
+            :items="rnaList"
+            item-key="id"
+            no-results-text="No results found"
+            hide-default-footer
+            class="text-center"
+            :page.sync="page"
+            :loading="loading"
+            loading-text="Loading RNA List... Please wait"
+            :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
+        >
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getFormTypeDesc(item.module)}}</div>
+            <div>{{getFormTypeDesc(item.module)}}</div>
           </template>
           <!-- Customize the assessment status -->
           <template v-slot:item.reassessment="{ item }">
-            <div class="w-100 h-100 d-flex justify-content-center align-items-center">{{getAssessmentStatus(item.reassessment, item.module)}}</div>
+            <div>{{getAssessmentStatus(item.reassessment, item.module)}}</div>
           </template>
           <!--Customize the formStatus field -->
           <template v-slot:item.status="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getFormStatusColor[item.status]}`">
+            <div :class="getFormStatusColor[item.status]">
               {{item.status}}&nbsp;
               <font-awesome-icon v-if="item.locked" :icon="['fa', 'fa-lock']" />
             </div>
           </template>
           <!--Customize the supervision rating field -->
           <template v-slot:item.supervisionRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.supervisionRating, item.module)}`">
+            <div :class="getRatingColor(item.supervisionRating, item.module)">
               {{ getLMHRatingDisplay(item.supervisionRating) }}</div>
           </template>
           <!--Customize the CRNA rating field -->
           <template v-slot:item.crnaRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.crnaRatingVal, item.module)}`">{{ item.crnaRating }}</div>
+            <div :class="getRatingColor(item.crnaRatingVal, item.module)">{{ item.crnaRating }}</div>
           </template>
           <!--Customize the SARA rating field -->
           <template v-slot:item.saraRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.saraRatingVal, item.module)} `">{{ item.saraRating }}</div>
+            <div :class="getRatingColor(item.saraRatingVal, item.module)">{{ item.saraRating }}</div>
           </template>
           <!--Customize the smoRating rating field -->
           <template v-slot:item.smoRating="{ item }">
-            <div :class="`w-100 h-100 d-flex align-items-center justify-content-center ${getRatingColor(item.smoRatingVal, item.module)} `">{{ item.smoRating }}</div>
+            <div :class="getRatingColor(item.smoRatingVal, item.module)">{{ item.smoRating }}</div>
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
@@ -507,10 +530,11 @@ export default {
       this.formSearchAPI(formType);
     },
     async createFormAPI(formType) {
-      let formData = {};
       // set formData
-      formData.clientNumber = this.clientNum;
-      formData.linkedClientFormId = null;
+      const formData = {
+        clientNumber: this.clientNum,
+        linkedClientFormId: null
+      };
 
       // need to create a new form instance
       //console.log("create {}", formType);
@@ -529,10 +553,11 @@ export default {
       }
     },
     async formCloneAPI(formID) {
-      let formData = {};
       // set formData
-      formData.clientNumber = this.clientNum;
-      formData.clientFormId = formID;
+      const formData = {
+        clientNumber: this.clientNum,
+        clientFormId: formID
+      };
 
       const [error, newFormId] = await cloneForm(formData);
       if (error) {
@@ -551,7 +576,7 @@ export default {
     async formSearchAPI(formType) {
       this.loading = true;
       try {
-        let period = (this.currentPeriod === 'current') ? true : false;
+        let period = (this.currentPeriod === 'current');
         const [error, response] = await formSearch(this.clientNum, formType, period, this.mostRecent);
         if (error) {
           console.error(error);
@@ -596,20 +621,21 @@ export default {
         this.loading = false;
       }
     },
-    buildPrintParam( formID) {
+    buildPrintParam(formID) {
       if (formID != null) {
         formID = formID.toString();
       }
       let theForm = this.rnaList.filter(item => item.id == formID);
       
-      let param = {};
-      param.csNumber = this.clientNum;
-      param.formID = formID;
-      param.CRNARating = theForm != null ? theForm[0].crnaRating : '';
-      param.SARARating = theForm != null ? theForm[0].saraRating : '';
+      const param = {
+        csNumber: this.clientNum,
+        formID: formID,
+        CRNARating: theForm != null ? theForm[0].crnaRating : '',
+        SARARating: theForm != null ? theForm[0].saraRating : ''
+      }
       return btoa(JSON.stringify(param));
     },
-    formView( formID ) {
+    formView(formID) {
       let printParam = this.buildPrintParam(formID);
       this.$router.push({
         name: this.$ROUTER_NAME_CMPFORM,
@@ -639,8 +665,6 @@ export default {
     },
     async handleFormCreateBtnClick() {
       this.dialog = false;
-      //console.log("this.formToCreate: ", this.formToCreate);
-      //console.log("this.selectedFormtypeForFormCreate", this.selectedFormtypeForFormCreate);
       // Create RNA-CMP
       if (this.formToCreate == this.$CONST_FORMTYPE_RNA) {
         // if contains SARA, create CRNA-SARA
@@ -656,8 +680,8 @@ export default {
     },
     formCreate(formType) {
       //console.log("Create form btn click");
-      let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + formType);
       this.formToCreate = formType;
+      let modal = document.getElementById(this.CONST_MODAL_ID_PREFIX + this.formToCreate);
       this.initFormCreationSelection();
       if (modal != null) {
         modal.click();
@@ -676,6 +700,9 @@ export default {
     },
     showFormCreateButtons() {
       return this.mainStore.isAllowFormWrite();
+    },
+    showCMRPCreateButton() {
+      return this.mainStore.loginUserGroup == this.$USER_GROUP_ITRP && this.mainStore.isShowCmrpForm;
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
