@@ -11,6 +11,24 @@ public class CentreDashboard {
     private String CRNACompDate;
     private String CMRPCompDate;
     private String CMRPDueDate;
+    private Integer itrp;
+    private Integer rvo;
+
+    public Integer getItrp() {
+        return itrp;
+    }
+
+    public void setItrp(Integer itrp) {
+        this.itrp = itrp;
+    }
+
+    public Integer getRvo() {
+        return rvo;
+    }
+
+    public void setRvo(Integer rvo) {
+        this.rvo = rvo;
+    }
 
     public String getClientName() {
         return clientName;

@@ -33,6 +33,8 @@ public interface UserMapper {
     @Mapping(target = "crNACompDate", source = "CRNACompDate")
     @Mapping(target = "cmRPCompDate", source = "CMRPCompDate")
     @Mapping(target = "cmRPDueDate", source = "CMRPDueDate")
+    @Mapping(target = "rvoCount", source = "rvo")
+    @Mapping(target = "itrpCount", source = "itrp")
     CentreDashboard toCentreDashboard(ca.bc.gov.open.jag.api.model.data.CentreDashboard centreDashboard);
 
     List<SupervisorDashboard> toSupervisorDashboardList(List<ca.bc.gov.open.jag.api.model.data.SupervisorDashboard> supervisorDashboardList);
