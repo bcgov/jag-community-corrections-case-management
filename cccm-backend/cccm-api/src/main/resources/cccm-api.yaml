@@ -3119,3 +3119,7 @@ components:
           type: string
         CMRPDueDate:
           type: string
+        rvoCount:
+          type: number
+        itrpCount:
+          type: number
