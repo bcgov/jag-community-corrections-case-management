@@ -10,7 +10,7 @@
         <div class="col-sm-9 d-flex">
           <section class="d-flex flex-column justify-content-end">
             <strong>Centre Filter</strong>
-            <v-radio-group v-model="centreFilter" row v-on:change="applyCentreFilter">
+            <v-radio-group row v-model="centreFilter">
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ReVOII Alerts" value="revoii"></v-radio>
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ITRP Alerts" value="itrp"></v-radio>
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Individuals" value="all"></v-radio>
@@ -28,6 +28,8 @@
             :key="key_results"
             :headers="headers"
             :items="clientList"
+            :custom-filter="applyCentreFilter"
+            :search="centreFilter"
             item-key="clientNum"
             no-results-text="No results found"
             class="elevation-1 text-center"
@@ -125,9 +127,15 @@ export default {
       this.key_results++;
       this.loading = false;
     },
-    applyCentreFilter() {
-      console.log("Filter", this.centreFilter);
-      // dashboardSearch()
+    applyCentreFilter(value: string, query: string, item: any) {
+      // filter table based on alerts count
+      if (query == "revoii") {
+        return item.rvoCount > 0;
+      } else if (query == "itrp") {
+        return item.itrpCount > 0;
+      } else {
+        return true;
+      }
     },
   },
   computed: {
