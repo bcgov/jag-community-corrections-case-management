@@ -20,9 +20,4 @@ public class Config {
 	public static final int			SLEEP_TIME_FULL_REFRESH		= 3500;							//time used in Thread.sleep() in milliseconds
 	public static final int			SLEEP_TIME_PART_REFRESH		= SLEEP_TIME_FULL_REFRESH/2;	//time used in Thread.sleep() in milliseconds
 
-	//app constants
-	public static BigDecimal 		CLAIM_CREDITS_PER_AREA 		= new BigDecimal("25");
-	public static String			CLIENT_ID 					= Constants.NOT_SET;
-
-
 }

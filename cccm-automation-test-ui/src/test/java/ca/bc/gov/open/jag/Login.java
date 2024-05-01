@@ -32,7 +32,7 @@ public class Login {
 
         CommonUtils.openLogin();
 
-        login(driver);
+        login();
 
     }
 
