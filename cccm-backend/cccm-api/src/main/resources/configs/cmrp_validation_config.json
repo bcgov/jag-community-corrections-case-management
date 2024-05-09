@@ -1,16 +1,21 @@
 {
   "questions": [
     {
-      "key": "S02Q01",
-      "type": "CONDITIONAL",
-      "dependentKeys": ["S02Q01_COMMENT"],
-      "dependentValues": ["C","D",null],
-      "message": "1. Family Relationships: requires comment"
+      "key": "S03Q01",
+      "type": "REQUIRED",
+      "message": "Proposed Residence: is required"
     },
     {
-      "key": "Sources_Contacted",
+      "key": "SUMMARY",
       "type": "REQUIRED",
-      "message": "Sources Contacted: is required"
+      "message": "Summary: is required"
+    },
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_REQUIRED",
+      "dependentKeys": ["intervention_checkbox"],
+      "dependentValues": ["true"],
+      "message": "Intervention is missing values"
     }
   ]
 
