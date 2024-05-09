@@ -46,6 +46,7 @@ public class TestRunner {
 							break;
 						case "regression":
 							if (value) {
+								System.out.println("Started Regression Scope Testing.");
 								result = JUnitCore.runClasses(CreateNewCustodyCMRP.class);
 								printResults(result, "TestSuiteAllTests");
 								if (!result.wasSuccessful()) {

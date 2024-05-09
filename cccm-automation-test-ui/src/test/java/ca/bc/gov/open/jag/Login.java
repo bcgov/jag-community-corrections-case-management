@@ -27,6 +27,8 @@ public class Login {
 
     @Test
     public void test() throws Exception {
+        System.out.println("Started 'Login' Testing.");
+
         driver = CustomWebDriverManager.getDriver();
         CustomWebDriverManager.getElements();
 

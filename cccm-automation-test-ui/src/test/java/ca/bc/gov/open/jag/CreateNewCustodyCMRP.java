@@ -41,6 +41,8 @@ public class CreateNewCustodyCMRP {
 
     @Test
     public void test() throws Exception {
+        System.out.println("Started 'Create New Custody CMRP' Testing.");
+
         driver = CustomWebDriverManager.getDriver();
         CustomWebDriverManager.getElements();
 
