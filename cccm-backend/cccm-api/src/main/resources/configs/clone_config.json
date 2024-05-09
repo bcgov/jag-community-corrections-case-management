@@ -27,6 +27,10 @@
     {
       "formType": "SMO_OVERALL",
       "ignoreKeys": []
+    },
+    {
+      "formType": "CMRP",
+      "ignoreKeys": []
     }
   ]
 

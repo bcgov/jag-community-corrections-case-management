@@ -110,7 +110,14 @@ public class ValidationServiceImpl implements ValidationService {
 
         logger.debug("Validate CMRP {}", answers);
 
-        return createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST));
+        ValidationResult validationResult = new ValidationResult();
+        validationResult = createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST));
+
+        //Add 6 month Check
+
+        //Conditional validation if RTC Date >= 30 use different validation
+
+        return validationResult;
 
     }
 

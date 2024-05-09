@@ -17,7 +17,7 @@ public class ValidateCMRPTest {
 
     private static final String DATA_ONE = "{\n" +
             "    \"data\": {\n" +
-            "        \"S02Q01\": \"A\"\n" +
+            "        \"S03Q01\": \"A\"\n" +
             "    },\n" +
             "    \"clientFormId\": 389821\n" +
             "}";
