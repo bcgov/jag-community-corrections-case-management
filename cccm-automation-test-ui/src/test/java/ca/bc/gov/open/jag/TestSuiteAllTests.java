@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-		Login.class,
+		CreateNewCustodyCMRP.class // need to add all the tests below
 })
 
 

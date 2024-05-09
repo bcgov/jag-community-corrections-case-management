@@ -10,3 +10,26 @@ Environment variables for common tests           Value
 'USERNAME_APP'	                                 User
 'PASSWORD_APP'	                                 Password
 
+Run the tests with command:
+java -jar pathToJar "args", in args you should specify what kind of tests should be run: Login,CreateNewCustodyCMRP,regression.
+Add "true" value for tests that you want to run, "false is optional".
+
+Command which will run one Login test:
+java -jar target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar Login=true
+
+Command which will run Login  and CreateNewCustodyCMRP tests:
+java -jar target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar Login=true,CreateNewCustodyCMRP=true
+
+Command which will run full regression scope:
+java -jar target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar  regression=true
+
+DOCKER:
+
+to build docker:
+docker build --tag 'cccm_at' .    
+
+to run a test in container use command:
+docker run -e USERNAME_APP=USERNAME_APP_VALUE -e PASSWORD_APP=PASSWORD_APP_VALUE 'cccm_at' CreateNewCustodyCMRP=true  
+
+to run a full regression:
+docker run -e USERNAME_APP=USERNAME_APP_VALUE -e PASSWORD_APP=PASSWORD_APP_VALUE 'cccm_at' regression=true  

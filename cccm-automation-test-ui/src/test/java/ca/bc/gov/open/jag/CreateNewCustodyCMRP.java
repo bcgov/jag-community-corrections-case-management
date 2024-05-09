@@ -9,8 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static ca.bc.gov.open.jag.CommonMethods.*;
 
@@ -19,6 +20,7 @@ public class CreateNewCustodyCMRP {
     //    private static final String CSNumber = "06039788"; //Community Client
     private static final String CSNumber = "05873237"; //Custody Client
     private static final String clientName = "CHER, CHER";
+    private static final String createdByName = "null, null";
     private static final String clientGender = "F";
     private static final String clientDateOfBirth = "1965-01-01";
     private static final String clientCurrentActiveLocation = "0451 - Abbotsford Probation";
@@ -61,6 +63,11 @@ public class CreateNewCustodyCMRP {
         validateClientDetailsOnCustodyCMRP("Current Active Location", clientCurrentActiveLocation);
         validateClientDetailsOnCustodyCMRP("Custody Status", clientCustodyStatus);
 
+
+        validatCustodyCMPRDetailsOnCustodyCMRP("Created Date", getTodaysDate());
+        validatCustodyCMPRDetailsOnCustodyCMRP("Updated Date", getTodaysDate());
+        validatCustodyCMPRDetailsOnCustodyCMRP("Created By", createdByName);
+
         textShouldExist("Custody-CMRP");
         clickOnElementByXpath("//*[@data-icon='maximize']"); //maximize screen
         Assert.assertFalse("Client details not hidden, maximize button didn't work" , getElementByTagAndText("span", "Client Details").isDisplayed());
@@ -94,17 +101,17 @@ public class CreateNewCustodyCMRP {
         inputTextByTextAreaIdContainsValue("S03Q01", "Test Proposed Residence");
         clickOnElementByXpath("//input[@value='TERR']"); // Hub Location Terrace
 
-        selectCheckboxByInputNameContainsValue("data[S03Q05]", "Yes"); // Transportation
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q05]", "Yes"); // Transportation
         inputTextByTagAttributeContainsValue("textarea", "id", "S03Q05_COMMENT", "Test Transportation Comment");
 
-        selectCheckboxByInputNameContainsValue("data[S03Q06]", "No"); // Finances N
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q06]", "No"); // Finances N
         inputTextByTagAttributeContainsValue("textarea", "id", "S03Q06_COMMENT", "Test Finances Comment");
 
-        selectCheckboxByInputNameContainsValue("data[S03Q07]", "Yes"); // Health Care Services Y
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q07]", "Yes"); // Health Care Services Y
         inputTextByTextAreaIdContainsValue("S03Q07_COMMENT", "Test Health Care Services Comment");
-        selectCheckboxByInputNameContainsValue("data[S03Q08]", "Yes");  // Other Community Appointments Y
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q08]", "Yes");  // Other Community Appointments Y
         inputTextByTextAreaIdContainsValue("S03Q08_COMMENT", "Test Other Community Appointments Comment");
-        selectCheckboxByInputNameContainsValue("data[S03Q09]", "Yes");  // Post-Release Appointments Y
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q09]", "Yes");  // Post-Release Appointments Y
         inputTextByTextAreaIdContainsValue("S03Q09_COMMENT", "Test Post-Release Appointments Comment");
 
         scrollToBottom();
@@ -134,6 +141,8 @@ public class CreateNewCustodyCMRP {
         textShouldExist("Submit Form");
         clickOnButton("Submit Form");
 
+        textShouldNotExist("CMRP form validation failed");
+
         textShouldExist("Client Record");
         textShouldExist("RNA List");
     }
@@ -148,5 +157,30 @@ public class CreateNewCustodyCMRP {
             result = false;
         }
         Assert.assertTrue("Client details are not correct. " + fieldName + " expected to be " + expectedValue, result);
+    }
+
+    public static void validatCustodyCMPRDetailsOnCustodyCMRP(String fieldName, String expectedValue) {
+        WebDriver driver = CustomWebDriverManager.getDriver();
+        Boolean result = true;
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(
+                    By.xpath("//div[contains(text(), '" + expectedValue + "')]//strong[contains(text(),'" + fieldName + "')]")));
+        } catch (Exception e) {
+            result = false;
+        }
+        Assert.assertTrue("Custody CMRP details are not correct. " + fieldName + " expected to be " + expectedValue, result);
+    }
+
+    public static String getTodaysDate() {
+        // Get today's date
+        LocalDate today = LocalDate.now();
+
+        // Define the desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the date using the formatter
+        String formattedDate = today.format(formatter);
+
+        return formattedDate;
     }
 }

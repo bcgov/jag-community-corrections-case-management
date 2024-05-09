@@ -33,7 +33,30 @@ public class TestRunner {
 							}
 							break;
 
-							// add other options
+						case "CreateNewCustodyCMRP":
+							if (value) {
+								result = JUnitCore.runClasses(CreateNewCustodyCMRP.class);
+								printResults(result, "CreateNewCustodyCMRP");
+								if (!result.wasSuccessful()) {
+									genericResponse = false;
+								}
+							} else {
+								System.out.println("CreateNewCustodyCMRP test skipped");
+							}
+							break;
+						case "regression":
+							if (value) {
+								result = JUnitCore.runClasses(CreateNewCustodyCMRP.class);
+								printResults(result, "TestSuiteAllTests");
+								if (!result.wasSuccessful()) {
+									genericResponse = false;
+								}
+							} else {
+								System.out.println("TestSuiteAllTests skipped");
+							}
+							break;
+						// add other options
+
 					}
 				}
 			}

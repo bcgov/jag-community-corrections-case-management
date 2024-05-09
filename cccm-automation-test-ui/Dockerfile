@@ -33,4 +33,4 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 COPY --from=build ./home/app/target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar  .
 
 #EXPOSE 8080
-ENTRYPOINT ["java","-Xss2048k","-jar","cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "eticket=true"]
+ENTRYPOINT ["java","-Xss2048k","-jar","cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar"]

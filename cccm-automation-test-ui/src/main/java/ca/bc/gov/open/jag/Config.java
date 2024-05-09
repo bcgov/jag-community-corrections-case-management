@@ -10,8 +10,8 @@ public class Config {
 
 	public static final String ENVIROMENT = Constants.DEV;
 	//    public static final String ENVIROMENT = Constants.TST;
-//    public static final Boolean HEADLESS = true;
-	public static final Boolean HEADLESS = false;
+    public static final Boolean HEADLESS = true;
+//	public static final Boolean HEADLESS = false;
 
 	public static String			TEST_SCENARIO						= Constants.NOT_SET;
 	public static boolean			SKIP_SCREENSHOTS_OF_SHOPPING_CART	= false;				//not implemented yet
