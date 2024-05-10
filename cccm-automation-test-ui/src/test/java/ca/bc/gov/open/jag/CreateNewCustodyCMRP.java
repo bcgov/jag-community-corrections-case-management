@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static ca.bc.gov.open.jag.CommonMethods.*;
+import static ca.bc.gov.open.jag.Constants.MAXIMIZE_XPATH;
+import static ca.bc.gov.open.jag.Constants.MINIMIZE_XPATH;
 
 public class CreateNewCustodyCMRP {
 
@@ -44,7 +46,6 @@ public class CreateNewCustodyCMRP {
         System.out.println("Started 'Create New Custody CMRP' Testing.");
 
         driver = CustomWebDriverManager.getDriver();
-        CustomWebDriverManager.getElements();
 
         CommonUtils.openLogin();
 
@@ -71,7 +72,7 @@ public class CreateNewCustodyCMRP {
         validatCustodyCMPRDetailsOnCustodyCMRP("Created By", createdByName);
 
         textShouldExist("Custody-CMRP");
-        clickOnElementByXpath("//*[@data-icon='maximize']"); //maximize screen
+        clickOnElementByXpath(MAXIMIZE_XPATH); //maximize screen
         Assert.assertFalse("Client details not hidden, maximize button didn't work" , getElementByTagAndText("span", "Client Details").isDisplayed());
 
         inputTextByTagAttributeContainsValue("textarea", "id", "COMMENT", "Test Comment");
@@ -132,7 +133,7 @@ public class CreateNewCustodyCMRP {
         clickOnButton("Save and Continue");
 
         textShouldExist("Summary");
-        clickOnElementByXpath("//*[@data-icon='minimize']"); //minimize screen
+        clickOnElementByXpath(MINIMIZE_XPATH); //minimize screen
         Assert.assertTrue("Client details are hidden, minimize button didn't work" , getElementByTagAndText("span", "Client Details").isDisplayed());
 
         clickOnButton("Add Support");

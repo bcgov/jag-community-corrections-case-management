@@ -19,5 +19,6 @@ public class Constants {
     public static final String JDBCURL = "JDBCURL";
 
     // xpath
-    public static final String COURT_1_FINE_REDUCTION_XPATH = "//strong[contains(text(), 'Count 1')]/../../../../../..//span[contains(text(), 'request a fine reduction')]";
+    public static final String MAXIMIZE_XPATH = "//*[@data-icon='maximize']";
+    public static final String MINIMIZE_XPATH = "//*[@data-icon='minimize']";
 }

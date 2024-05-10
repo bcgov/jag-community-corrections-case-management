@@ -34,7 +34,7 @@ public class CommonMethods {
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[contains(text(), 'Logout')]")));
 
-        System.out.println("Logged in succesfully");
+        System.out.println("Logged in successfully");
     }
 
     public static void clientSearchByCSNumber(String CSNumber) {

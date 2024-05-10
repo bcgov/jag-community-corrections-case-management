@@ -30,8 +30,6 @@ public class Login {
         System.out.println("Started 'Login' Testing.");
 
         driver = CustomWebDriverManager.getDriver();
-        CustomWebDriverManager.getElements();
-
         CommonUtils.openLogin();
 
         login();
