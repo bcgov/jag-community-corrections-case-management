@@ -38,7 +38,6 @@ jobs:
         run: |            
           docker build -t ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev .
           
-      
       - name: Vulnerability Scan Frontend
         uses: Azure/container-scan@v0
         continue-on-error: true
@@ -50,3 +49,32 @@ jobs:
           docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
           docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
           docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
+
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
+      # at a later step
+      - name: Get and Store Current Image SHA
+        run: |
+          IMAGE_SHA=$(oc describe istag/automation-test-ui:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
+          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
+        id: image_sha
+
+      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
+      # synced with what is live in openshift in gold and golddr
+      - name: Git Clone Repo
+        run: |
+          git config --global user.name "Github Action - CCCM Repo Automation Test Build/Push"
+          git config --global user.email "cccm-automation-test@githubaction.com"
+          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
+          cd tenant-gitops-abb712/cccm/overlays/gold/dev
+          kustomize edit set image frontend-automation-test-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/${{env.IMAGE_NAME}}@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml
+          cd ../../golddr/dev
+          kustomize edit set image frontend-automation-test-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/${{env.IMAGE_NAME}}@${{ steps.image_sha.outputs.IMAGE_SHA }}
+          git add kustomization.yaml 
+          git commit -m "Updated frontend-automation-test image sha in Kustomization files from CCCM Github Action" 
+          git push
