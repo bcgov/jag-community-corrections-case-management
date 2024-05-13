@@ -3,6 +3,10 @@
 FROM maven:3.6.0-jdk-11-slim AS build
 COPY ./src /home/app/src
 COPY ./pom.xml /home/app
+ARG PASSWORD_APP
+ARG USERNAME_APP
+ENV PASSWORD_APP=$PASSWORD_APP
+ENV USERNAME_APP=$USERNAME_APP
 RUN mvn -f /home/app/pom.xml package
 
 FROM azul/zulu-openjdk:11
