@@ -34,6 +34,7 @@ jobs:
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }} 
       
       - name: Docker Build Frontend Image
+        working-directory: ${{env.WORKING_DIRECTORY}}
         run: |            
           docker build -t ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev .
           
