@@ -1,0 +1,50 @@
+name: Build & Push Frontend Automation Test Image to Gold and GoldDR
+
+on:
+  push:
+    branches: [feature/automation-test]
+    paths:
+      - 'cccm-automation-test-ui/**'
+  workflow_dispatch:
+env:
+  # See https://github.com/goodwithtech/dockle/issues/188
+  DOCKLE_HOST: "unix:///var/run/docker.sock"
+  IMAGE_NAME: automation-test-ui
+  WORKING_DIRECTORY: ./cccm-automation-test-ui
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Openshift Docker Registry Gold
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+
+      - name: Login to Openshift Docker Registry GoldDR
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }} 
+      
+      - name: Docker Build Frontend Image
+        run: |            
+          docker build -t ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev .
+          
+      
+      - name: Vulnerability Scan Frontend
+        uses: Azure/container-scan@v0
+        continue-on-error: true
+        with:
+          image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
+              
+      - name: Docker Push Version to Gold and GoldDR
+        run: |  
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
+          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev
