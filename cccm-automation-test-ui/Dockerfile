@@ -5,8 +5,6 @@ COPY ./src /home/app/src
 COPY ./pom.xml /home/app
 ARG PASSWORD_APP
 ARG USERNAME_APP
-ENV PASSWORD_APP=$PASSWORD_APP
-ENV USERNAME_APP=$USERNAME_APP
 RUN mvn -f /home/app/pom.xml package
 
 FROM azul/zulu-openjdk:11
@@ -34,7 +32,7 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 #COPY ./target/cccm-automation-test-jag-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar .
 
 #copy jar from docker build
-COPY --from=build ./home/app/target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar  .
+COPY --from=build ./home/app/target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar .
 
 #EXPOSE 8080
-ENTRYPOINT ["java","-Xss2048k","-jar","cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar"]
+ENTRYPOINT ["java","-Xss2048k","-jar","cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "regression=true"]
