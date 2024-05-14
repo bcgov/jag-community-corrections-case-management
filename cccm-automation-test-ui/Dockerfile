@@ -34,5 +34,7 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 #copy jar from docker build
 COPY --from=build ./home/app/target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar .
 
+RUN mkdir -v seleniumCache resolutionCache
+
 #EXPOSE 8080
-ENTRYPOINT ["java","-Xss2048k","-jar","cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "regression=true"]
+ENTRYPOINT ["java","-Xss2048k","-jar", "-Dwdm.cachePath=seleniumCache", "-Dwdm.resolutionCachePath=resolutionCache", "cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "regression=true"]
