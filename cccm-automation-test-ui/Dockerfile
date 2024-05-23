@@ -3,8 +3,6 @@
 FROM maven:3.6.0-jdk-11-slim AS build
 COPY ./src /home/app/src
 COPY ./pom.xml /home/app
-ARG PASSWORD_APP
-ARG USERNAME_APP
 RUN mvn -f /home/app/pom.xml package
 
 FROM azul/zulu-openjdk:11
@@ -27,6 +25,10 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
     apt-get update && \
     apt-get install -y microsoft-edge-stable
 
+ARG PASSWORD_APP=$PASSWORD_APP
+ARG USERNAME_APP=$USERNAME_APP
+ENV USERNAME_APP=${USERNAME_APP}
+ENV PASSWORD_APP=${PASSWORD_APP}
 
 # copy local jar
 #COPY ./target/cccm-automation-test-jag-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar .
@@ -37,4 +39,4 @@ COPY --from=build ./home/app/target/cccm-automation-test-ui-0.0.1-SNAPSHOT-test-
 RUN mkdir -v seleniumCache resolutionCache
 
 #EXPOSE 8080
-ENTRYPOINT ["java","-Xss2048k","-jar", "-Dwdm.cachePath=seleniumCache", "-Dwdm.resolutionCachePath=resolutionCache", "cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "regression=true"]
+ENTRYPOINT ["java","-Xss2048k","-jar", "-Dwdm.cachePath=seleniumCache", "-Dwdm.resolutionCachePath=resolutionCache", "cccm-automation-test-ui-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar", "regression=true", "Login=true"]
