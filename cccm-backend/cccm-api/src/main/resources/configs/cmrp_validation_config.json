@@ -6,11 +6,6 @@
       "message": "Proposed Residence: is required"
     },
     {
-      "key": "SUMMARY",
-      "type": "REQUIRED",
-      "message": "Summary: is required"
-    },
-    {
       "key": "intervention_type",
       "type": "INTERVENTION_REQUIRED",
       "dependentKeys": ["intervention_checkbox"],
