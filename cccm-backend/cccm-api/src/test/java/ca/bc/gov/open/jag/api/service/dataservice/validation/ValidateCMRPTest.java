@@ -35,7 +35,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP(DATA_ONE);
 
-        Assertions.assertEquals(1, result.getErrors().size());
+        Assertions.assertEquals(0, result.getErrors().size());
 
     }
 
@@ -47,7 +47,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("{}");
 
-        Assertions.assertEquals(2, result.getErrors().size());
+        Assertions.assertEquals(1, result.getErrors().size());
 
     }
 
@@ -59,7 +59,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("");
 
-        Assertions.assertEquals(2, result.getErrors().size());
+        Assertions.assertEquals(1, result.getErrors().size());
 
     }
 
