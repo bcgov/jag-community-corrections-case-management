@@ -33,12 +33,12 @@ jobs:
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
           password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }} 
       
-      - name: Docker Build Frontend Image
+      - name: Docker Build Frontend Automation Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |            
           docker build -t ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev .
 
-      - name: Docker Build Frontend Image
+      - name: Docker Run Frontend Automation Test Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |            
           docker run -e USERNAME_APP=${{secrets.USERNAME_APP}} -e PASSWORD_APP=${{secrets.PASSWORD_APP}} ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/${{env.IMAGE_NAME}}:dev .
