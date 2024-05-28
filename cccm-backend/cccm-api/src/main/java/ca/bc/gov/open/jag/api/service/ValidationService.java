@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.ClientDates;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 
@@ -49,6 +50,6 @@ public interface ValidationService {
      */
     ValidationResult validateSOOverall(String answers);
 
-    ValidationResult validateCMRP(String answers);
+    ValidationResult validateCMRP(String answers, ClientDates clientDates);
 
 }

@@ -6,11 +6,9 @@
       "message": "Proposed Residence: is required"
     },
     {
-      "key": "intervention_type",
-      "type": "INTERVENTION_REQUIRED",
-      "dependentKeys": ["intervention_checkbox"],
-      "dependentValues": ["true"],
-      "message": "Intervention is missing values"
+      "key": "S04Q01",
+      "type": "REQUIRED",
+      "message": "Summary / Information for Community Probation Office: is required"
     }
   ]
 

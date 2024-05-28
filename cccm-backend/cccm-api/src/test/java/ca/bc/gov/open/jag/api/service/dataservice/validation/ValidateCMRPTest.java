@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service.dataservice.validation;
 
+import ca.bc.gov.open.jag.api.model.data.ClientDates;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.api.service.ValidationServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.inject.Inject;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @QuarkusTest
 public class ValidateCMRPTest {
@@ -33,7 +35,7 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP(DATA_ONE);
+        ValidationResult result = sut.validateCMRP(DATA_ONE, createDates(LocalDate.now().minusMonths(5).toString(), LocalDate.now().minusDays(36).toString()));
 
         Assertions.assertEquals(0, result.getErrors().size());
 
@@ -45,9 +47,9 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("{}");
+        ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8).toString(), LocalDate.now().plusDays(30).toString()));
 
-        Assertions.assertEquals(1, result.getErrors().size());
+        Assertions.assertEquals(3, result.getErrors().size());
 
     }
 
@@ -57,9 +59,43 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("");
+        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()));
+
+        Assertions.assertEquals(2, result.getErrors().size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should validate data")
+    public void testValidationsNullDates() throws IOException {
+
+        sut = new ValidationServiceImpl(new ObjectMapper());
+
+        ValidationResult result = sut.validateCMRP("", createDates(null, null));
 
         Assertions.assertEquals(1, result.getErrors().size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should validate data")
+    public void testValidationsEmptyDates() throws IOException {
+
+        sut = new ValidationServiceImpl(new ObjectMapper());
+
+        ValidationResult result = sut.validateCMRP("", createDates("", ""));
+
+        Assertions.assertEquals(1, result.getErrors().size());
+
+    }
+
+    private ClientDates createDates(String crnaDate, String pddDate) {
+
+        ClientDates clientDates = new ClientDates();
+        clientDates.setPddDate(pddDate);
+        clientDates.setCrnaCompleteDate(crnaDate);
+
+        return clientDates;
 
     }
 

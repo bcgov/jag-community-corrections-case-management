@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.model.data.ClientDates;
 import ca.bc.gov.open.jag.api.model.validation.Question;
 import ca.bc.gov.open.jag.api.model.validation.Validation;
 import ca.bc.gov.open.jag.api.util.FormUtils;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import jakarta.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +37,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation stableValidation;
     private Validation overallValidation;
     private Validation cmrpValidation;
+    private Validation cmrpBasicValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
 
@@ -47,6 +50,7 @@ public class ValidationServiceImpl implements ValidationService {
         stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
         overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
         cmrpValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_validation_config.json"), Validation.class);
+        cmrpBasicValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_basic_validation_config.json"), Validation.class);
 
     }
 
@@ -106,16 +110,27 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateCMRP(String answers) {
+    public ValidationResult validateCMRP(String answers, ClientDates clientDates) {
 
         logger.debug("Validate CMRP {}", answers);
 
         ValidationResult validationResult = new ValidationResult();
-        validationResult = createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST));
+        LocalDate sixMonths = LocalDate.now().minusMonths(6);
+        if (StringUtils.isBlank(clientDates.getCrnaCompleteDate()) || LocalDate.parse(clientDates.getCrnaCompleteDate()).isBefore(sixMonths)) {
+            ValidationError validationError = new ValidationError();
+            validationError.setAnswerKey("CRNA Form");
+            validationError.setMessage("Must have a completed CRNA-CMP within the last 6 months");
+            validationResult.addErrorsItem(validationError);
+        }
 
-        //Add 6 month Check
+        validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpBasicValidation, Collections.EMPTY_LIST)).getErrors());
 
         //Conditional validation if RTC Date >= 30 use different validation
+        if (!StringUtils.isBlank(clientDates.getPddDate()) &&
+                LocalDate.parse(clientDates.getPddDate()).isBefore(LocalDate.now().plusDays(31)) &&
+                LocalDate.parse(clientDates.getPddDate()).isAfter(LocalDate.now())) {
+            validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST)).getErrors());
+        }
 
         return validationResult;
 
