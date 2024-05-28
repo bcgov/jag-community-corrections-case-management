@@ -25,10 +25,10 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
     apt-get update && \
     apt-get install -y microsoft-edge-stable
 
-ARG PASSWORD_APP=$PASSWORD_APP
-ARG USERNAME_APP=$USERNAME_APP
-ENV USERNAME_APP=${USERNAME_APP}
-ENV PASSWORD_APP=${PASSWORD_APP}
+#ARG PASSWORD_APP=$PASSWORD_APP
+#ARG USERNAME_APP=$USERNAME_APP
+#ENV USERNAME_APP=${USERNAME_APP}
+#ENV PASSWORD_APP=${PASSWORD_APP}
 
 # copy local jar
 #COPY ./target/cccm-automation-test-jag-0.0.1-SNAPSHOT-test-jar-with-dependencies.jar .
