@@ -37,7 +37,7 @@ public class CommonMethods {
         System.out.println("Logged in successfully");
     }
 
-    public static void clientSearchByCSNumber(String CSNumber) {
+    public static void clientSearchByCSNumber(String CSNumber) throws InterruptedException {
         WebDriver driver = CustomWebDriverManager.getDriver();
         WebDriverWait driverWait = CustomWebDriverManager.getDriverWait();
 
@@ -46,6 +46,8 @@ public class CommonMethods {
         driver.get("https://dev.jag.gov.bc.ca/cccm/clientsearch");
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[contains(text(), 'Client Search')]")));
+
+        sleep(3);
 
         WebElement element = driverWait.until(ExpectedConditions.presenceOfElementLocated(By.name("data[idNumber]")));
         element.sendKeys(CSNumber);
