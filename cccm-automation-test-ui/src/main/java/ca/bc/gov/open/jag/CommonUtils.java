@@ -1,11 +1,20 @@
 package ca.bc.gov.open.jag;
 
+import ca.bc.gov.open.jag.properties.TestProperties;
 import org.openqa.selenium.*;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+@EnableConfigurationProperties
 public class CommonUtils {
+
+	private static TestProperties testProperties;
+
+	public CommonUtils(TestProperties testProperties) {
+		this.testProperties = testProperties;
+	}
 
 	private static Logger log = Logger.getLogger("CommonUtils.class");
 
@@ -18,11 +27,11 @@ public class CommonUtils {
 
 
 			driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
-			driver.get("https://dev.jag.gov.bc.ca/cccm");
+			driver.get(testProperties.getBaseUrl());
 
 		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			driver.get("https://test.jag.gov.bc.ca/cccm");
-			driver.navigate().to("https://test.jag.gov.bc.ca/cccm");
+			driver.get(testProperties.getBaseUrl());
+			driver.navigate().to(testProperties.getBaseUrl());
 			driver.navigate().refresh();
 
 		}
@@ -32,9 +41,9 @@ public class CommonUtils {
 	public static String getJdbcUrl() {
 		String jdbcUrl = "";
 		if (Config.ENVIROMENT.equals(Constants.DEV)) {
-			jdbcUrl = "jdbc:oracle:thin:@devdb.bcgov:1521:devj";
+			jdbcUrl = testProperties.getDbConnection();
 		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			jdbcUrl = "jdbc:oracle:thin:@testdb.bcgov:1521:tstj";
+			jdbcUrl = testProperties.getDbConnection();
 		}
 
 		String dbName = "";

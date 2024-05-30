@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag;
 
+import ca.bc.gov.open.jag.properties.TestProperties;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -7,15 +8,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.time.Duration;
 
-
+@EnableConfigurationProperties
 public class CommonMethods {
 
+    private static TestProperties testProperties;
+
+    public CommonMethods(TestProperties testProperties) {
+        this.testProperties = testProperties;
+    }
+
     private static int defaultSleepBeforeAction = 1;
-    private static String appUSERNAME = System.getenv("USERNAME_APP");
-    private static String appPASSWORD = System.getenv("PASSWORD_APP");
 
     public static void login() throws Exception {
 
@@ -25,9 +31,9 @@ public class CommonMethods {
         WebDriverWait driverWait = CustomWebDriverManager.getDriverWait();
 
         WebElement element = driverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("username")));
-        element.sendKeys(appUSERNAME);
+        element.sendKeys(testProperties.getUsernameApp());
         element = driverWait.until(ExpectedConditions.presenceOfElementLocated(By.id("password")));
-        element.sendKeys(appPASSWORD);
+        element.sendKeys(testProperties.getPasswordApp());
         element = driverWait.until(ExpectedConditions.presenceOfElementLocated(By.name("login")));
         element.click();
 
@@ -43,7 +49,7 @@ public class CommonMethods {
 
         System.out.println("Client search with CSNumber: '" + CSNumber + "' is started");
 
-        driver.get("https://dev.jag.gov.bc.ca/cccm/clientsearch");
+        driver.get(String.format("%s/%s", testProperties.getBaseUrl(), "clientsearch"));
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[contains(text(), 'Client Search')]")));
 
