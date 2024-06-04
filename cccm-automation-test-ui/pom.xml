@@ -8,16 +8,11 @@
 
 	<name>CCCM-testing</name>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.5.RELEASE</version>
-	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<io.github.bonigarcia.version>5.6.3</io.github.bonigarcia.version>
-		<org.seleniumhq.selenium.version>4.11.0</org.seleniumhq.selenium.version>
+		<org.seleniumhq.selenium.version>4.13.0</org.seleniumhq.selenium.version>
 		<com.microsoft.sqlserver.version>6.4.0.jre8</com.microsoft.sqlserver.version>
 		<junit.version>4.13.1</junit.version>
 		<org.apache.pdfbox.version>2.0.26</org.apache.pdfbox.version>
@@ -28,16 +23,6 @@
 	</properties>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
 
 		<!-- Selenium Drivers -->
 		<dependency>
