@@ -35,7 +35,8 @@
                             <v-data-table v-else
                                 no-data-text="No answers for this section" 
                                 :items="subSection.answers"
-                                :headers="formHeaders" item-key="key" 
+                                :headers="subSection.noComments ? formNoCommentsHeaders : formHeaders"
+                                item-key="key"
                                 no-results-text="No results found" 
                                 hide-default-footer>
                                 <!--Customize the question field -->
@@ -92,6 +93,11 @@ export default {
                 { text: 'Question', value: 'question', width: '20%' },
                 { text: 'Answer', value: 'value', width: '20%' },
                 { text: 'Comments', value: 'comment', width: '50%', cellClass: 'readonly-field-text' },
+                { text: 'Action', value: 'editKey', width: '10%', align:'center' },
+            ],
+            formNoCommentsHeaders: [
+                { text: 'Question', value: 'question', width: '20%' },
+                { text: 'Answer', value: 'value', width: '70%', cellClass: 'readonly-field-text' },
                 { text: 'Action', value: 'editKey', width: '10%', align:'center' },
             ],
             interventionHeaders: [
