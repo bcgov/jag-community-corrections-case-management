@@ -57,7 +57,7 @@
                                                     || subSection.title == 'Assessment Comments'
                                                     || subSection.title == 'Reassessment Comments'"
                                     
-                                >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].comment : '' }}
+                                >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].value : '' }}
                                 </pre>
                                 
                                 <br>
@@ -100,7 +100,7 @@ export default {
         theKey: 0,
         formHeaders: [
             { text: 'Responsivity Factor', value: 'question', width: '50%', sortable: false },
-            { text: 'Comments', value: 'comment', width: '50%', sortable: false, cellClass: 'readonly-field-text' }
+            { text: 'Comments', value: 'value', width: '50%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         interventionHeaders: [
             { text: 'Criminogenic Needs', value: 'question', width: '10%', sortable: false },
