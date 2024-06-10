@@ -30,7 +30,7 @@
             <div v-for="(formEle, index) in formInstanceData" :key="index">
                 <div class="p-4" v-if="formEle.data.length > 0">
                     <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                        <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan'">
+                        <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan' || showCMRPSections(section.section, formEle.formType)">
                             <div class="subSectionTitleClass">{{ section.section }}</div>
                             <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                                 <h5>{{ subSection.title }}</h5>
@@ -46,7 +46,7 @@
                                         <div>{{ item.comment == null ? item.value : item.comment }}</div>
                                     </template>
                                 </v-data-table>
-                                <v-data-table v-else-if="subSection.title == 'Responsivity Factors'"
+                                <v-data-table v-else-if="subSection.title == 'Responsivity Factors' || showCMRPSections(section.section, formEle.formType)"
                                     no-data-text="" 
                                     :items="subSection.answers"
                                     :headers="formHeaders" item-key="key" 
@@ -180,6 +180,10 @@ export default {
             }
         }
         this.loading = false;
+    },
+    showCMRPSections(sectionTitle, formType) {
+      return formType == this.$CONST_FORMTYPE_CMRP
+          && (sectionTitle == 'Custody Transition and Release Plan' || sectionTitle == 'Information for Community Probation Officer');
     }
   },
   computed: {
