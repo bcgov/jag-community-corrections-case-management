@@ -85,6 +85,12 @@ public interface ObridgeClientService {
             @QueryParam("location") BigDecimal location);
 
     @GET
+    @Path("/client/{clientNumber}/client-dates")
+    ClientDates getClientDates(@PathParam("clientNumber") String csNumber,
+                                 @QueryParam("user") String user,
+                                 @QueryParam("location") BigDecimal location);
+
+    @GET
     @Path("/lookup/identifierTypes")
     List<CodeTable> getIdentifierTypes();
 

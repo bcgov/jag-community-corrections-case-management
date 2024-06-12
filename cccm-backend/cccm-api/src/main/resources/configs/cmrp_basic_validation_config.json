@@ -1,0 +1,12 @@
+{
+  "questions": [
+    {
+      "key": "intervention_type",
+      "type": "INTERVENTION_REQUIRED",
+      "dependentKeys": ["intervention_checkbox"],
+      "dependentValues": ["true"],
+      "message": "Intervention is missing values"
+    }
+  ]
+
+}
