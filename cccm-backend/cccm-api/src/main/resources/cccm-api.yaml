@@ -1980,7 +1980,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Code'
+                $ref: '#/components/schemas/LocationCode'
           description: get users default location
       summary: get users default location
       tags:
@@ -1996,7 +1996,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CodeList'
+                $ref: '#/components/schemas/LocationCodeList'
           description: get users locations
       summary: get users locations
       tags:
@@ -2651,6 +2651,20 @@ components:
           type: number
         dueSeven:
           type: number
+    LocationCode:
+      allOf:
+        - $ref: '#/components/schemas/Code'
+        - type: object
+          properties:
+            locationTypeCode:
+              type: string
+    LocationCodeList:
+      properties:
+        items:
+          description: Code Type Results
+          items:
+            $ref: '#/components/schemas/LocationCode'
+          type: array
     Code:
       type: object
       properties:
@@ -3069,7 +3083,7 @@ components:
       type: object
       properties:
         defaultLocation:
-          $ref: '#/components/schemas/Code'
+          $ref: '#/components/schemas/LocationCode'
         locations:
           $ref: '#/components/schemas/CodeList'
     User:

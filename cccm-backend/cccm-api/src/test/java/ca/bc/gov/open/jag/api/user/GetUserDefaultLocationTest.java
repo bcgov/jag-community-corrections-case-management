@@ -1,7 +1,9 @@
 package ca.bc.gov.open.jag.api.user;
 
+import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCode;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -13,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
+
+import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -33,16 +37,18 @@ public class GetUserDefaultLocationTest {
     @DisplayName("200: should return form types")
     public void testGetUserDefaultLocationEndpoint() {
 
-        Code location = new Code();
+        LocationCode location = new LocationCode();
         location.setKey(TEST_CD);
         location.setValue(TEST_VALUE);
+        location.setLocationTypeCode(TEST_CD);
 
         Mockito.when(userDataService.getDefaultLocation(any())).thenReturn(location);
 
-        Code result = sut.getUserDefaultLocation();
+        LocationCode result = sut.getUserDefaultLocation();
 
         Assertions.assertEquals(TEST_CD, result.getKey());
         Assertions.assertEquals(TEST_VALUE, result.getValue());
+        Assertions.assertEquals(TEST_CD, result.getLocationTypeCode());
 
     }
 

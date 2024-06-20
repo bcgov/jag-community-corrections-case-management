@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCode;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -37,13 +38,15 @@ public class GetDefaultLocationTest {
         locationMock.setId(TEST_ID);
         locationMock.setAlternateCd(TEST_CD);
         locationMock.setDsc(TEST_VALUE);
+        locationMock.setlotyCd(TEST_VALUE);
         Mockito.when(obridgeClientService.getOracleId(Mockito.any())).thenReturn(TEST_ID.toPlainString());
         Mockito.when(obridgeClientService.getLocation(Mockito.any())).thenReturn(locationMock);
 
-        Code result = sut.getDefaultLocation("test@idir");
+        LocationCode result = sut.getDefaultLocation("test@idir");
 
         Assertions.assertEquals(TEST_ID.toPlainString(), result.getKey());
         Assertions.assertEquals(TEST_VALUE, result.getValue());
+        Assertions.assertEquals(TEST_VALUE, result.getLocationTypeCode());
 
     }
 
