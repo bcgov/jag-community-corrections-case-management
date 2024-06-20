@@ -38,7 +38,7 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public Code getDefaultLocation(String user) {
+    public LocationCode getDefaultLocation(String user) {
 
         logger.debug("Default Location {}", user);
 
@@ -51,7 +51,7 @@ public class UserDataServiceImpl implements UserDataService {
     }
 
     @Override
-    public CodeList getLocations(String user) {
+    public LocationCodeList getLocations(String user) {
 
         logger.debug("Default Locations {}", user);
 
@@ -61,7 +61,7 @@ public class UserDataServiceImpl implements UserDataService {
         logger.info("Getting Locations Code For Default Locations");
         List<Location> locations = obridgeClientService.getLocations(oracleId);
 
-        return locationMapper.toCodeResult("", locations);
+        return locationMapper.toLocationCodeResult("", locations);
     }
 
     @Override
@@ -145,13 +145,14 @@ public class UserDataServiceImpl implements UserDataService {
 
     }
 
-    private Code getCode(String oracleId) {
+    private LocationCode getCode(String oracleId) {
 
         Location location = obridgeClientService.getLocation(oracleId);
 
-        Code code = new Code();
+        LocationCode code = new LocationCode();
         code.setKey(location.getId().toPlainString());
         code.setValue(location.getDsc());
+        code.setLocationTypeCode(location.getlotyCd());
 
         return code;
 

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface UserDataService {
 
-    Code getDefaultLocation(String user);
+    LocationCode getDefaultLocation(String user);
 
-    CodeList getLocations(String user);
+    LocationCodeList getLocations(String user);
 
     String getOracleId(String user);
 
