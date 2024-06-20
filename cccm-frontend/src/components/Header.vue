@@ -95,7 +95,7 @@ export default {
     return {
       baseURL: import.meta.env.BASE_URL,
       dialog: false,
-      selectedLocation: {key: "", value: ""},
+      selectedLocation: {key: "", value: "", locationTypeCode: ""},
       keyPage: 0
     }
   },
@@ -118,6 +118,7 @@ export default {
         } else {
           this.selectedLocation.key = this.mainStore.locationCD;
           this.selectedLocation.value = this.mainStore.locationDescription;
+          this.selectedLocation.locationTypeCode = this.mainStore.locationTypeCD;
           this.locationTypes = this.mainStore.locations;
           this.keyPage++;
         }
@@ -140,6 +141,7 @@ export default {
             // Store the newly selected location into store
             this.mainStore.locationCD = this.locationTypes[i].key;
             this.mainStore.locationDescription = this.locationTypes[i].value;
+            this.mainStore.locationTypeCD = this.locationTypes[i].locationTypeCode;
             
             // fetch the poList for the selected location
             this.mainStore.getPOList(this.mainStore.locationCD);
