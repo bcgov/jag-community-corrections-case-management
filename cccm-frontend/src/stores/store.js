@@ -9,6 +9,7 @@ export const useStore = defineStore('main', {
     state: () =>({
         locationCD: useLocalStorage('locationCD', ''),
         locationDescription: useLocalStorage('locationDescription', ''),
+        locationTypeCD: useLocalStorage('locationTypeCD', ''),
         locations: useLocalStorage('locations', []),
         loginUserGroup: useLocalStorage('loginUserGroup', null),
         loginUserName: useLocalStorage('loginUserName', null),
@@ -77,7 +78,7 @@ export const useStore = defineStore('main', {
             return false;
         },
         hasITRPDash() {
-            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP) {
+            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP && this.locationTypeCD == 'INST') {
                 return true;
             }
             return false;
@@ -153,6 +154,7 @@ export const useStore = defineStore('main', {
             //console.info("Clear cached location.");
             this.locationCD = '';
             this.locationDescription = '';
+            this.locationTypeCD = '';
         },
         clearCachedUserInfo() {
             //console.info("Clear cached user info.");
@@ -271,6 +273,7 @@ export const useStore = defineStore('main', {
                     if (response != null) {
                         this.locationDescription = response.value;
                         this.locationCD = response.key;
+                        this.locationTypeCD = response.locationTypeCode;
                     }
                     return [null, this.locationCD];
                 }

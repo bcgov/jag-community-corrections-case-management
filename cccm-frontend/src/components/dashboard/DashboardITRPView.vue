@@ -113,8 +113,14 @@ export default {
       if (error1) {
         console.error(error1);
       } else {
-        // populate the clients data table
-        await this.dashboardSearch(defaultLocation)
+        if (this.mainStore.locationTypeCD != 'INST') {
+          // redirect to client search page if location is not a custody centre
+          await this.$router.replace(`${this.$ROUTER_NAME_CLIENTSEARCH}`)
+        }
+        else {
+          // populate the clients data table
+          await this.dashboardSearch(defaultLocation)
+        }
       }
     },
     async dashboardSearch(POLocationId: number) {
