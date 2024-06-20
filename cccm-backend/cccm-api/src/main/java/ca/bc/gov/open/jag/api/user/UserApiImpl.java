@@ -2,10 +2,7 @@ package ca.bc.gov.open.jag.api.user;
 
 import ca.bc.gov.open.jag.api.service.UserDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.PO;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.slf4j.Logger;
@@ -41,7 +38,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     @RolesAllowed("data-view")
-    public Code getUserDefaultLocation() {
+    public LocationCode getUserDefaultLocation() {
 
         logger.info("Default Location Request");
 
@@ -61,7 +58,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     @RolesAllowed("data-view")
-    public CodeList getUserLocations() {
+    public LocationCodeList getUserLocations() {
 
         logger.info("User Locations Request");
 

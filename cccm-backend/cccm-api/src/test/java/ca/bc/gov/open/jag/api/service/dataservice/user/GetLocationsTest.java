@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCodeList;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -47,7 +48,7 @@ public class GetLocationsTest {
         Mockito.when(obridgeClientService.getOracleId(Mockito.any())).thenReturn(TEST_ID.toPlainString());
         Mockito.when(obridgeClientService.getLocations(Mockito.any())).thenReturn(locationListMock);
 
-        CodeList result = sut.getLocations("test@idir");
+        LocationCodeList result = sut.getLocations("test@idir");
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_ID.toPlainString(), result.getItems().get(0).getKey());
