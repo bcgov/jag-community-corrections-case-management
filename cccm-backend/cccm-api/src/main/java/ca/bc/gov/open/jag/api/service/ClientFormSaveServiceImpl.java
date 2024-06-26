@@ -1,5 +1,6 @@
 package ca.bc.gov.open.jag.api.service;
 
+import ca.bc.gov.open.jag.api.Keys;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
 import ca.bc.gov.open.jag.api.model.data.*;
@@ -260,7 +261,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
             } else {
                 formInput.setFormType(clientFormSummary.getModule());
-                formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}", getAnswerDescByKey(existingAnswers, SUPERVISION_RATING)));
+                if (clientFormSummary.getModule().equals(CUSTODY_CMRP_FORM_TYPE)) {
+                    formInput.setOverallSupervision(buildCMRPLogComments(existingAnswers));
+                } else {
+                    formInput.setOverallSupervision(MessageFormat.format("Supervision Rating: {0}", getAnswerDescByKey(existingAnswers, SUPERVISION_RATING)));
+                }
             }
 
 
@@ -497,6 +502,17 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         Optional<CodeTable> code = codes.stream().filter(codeTable -> new BigDecimal(codeTable.getCode()).equals(formTypeId)).findFirst();
 
         return code.isPresent();
+
+    }
+
+    private String buildCMRPLogComments(ClientFormAnswers clientFormAnswers) {
+
+        return  StringUtils.truncate(
+                MessageFormat.format("{0} {1} {2}",
+                        getAnswerDescByKey(clientFormAnswers, CMRP_PROPOSED_RESIDENCE),
+                        getAnswerDescByKey(clientFormAnswers, CMRP_HUB_LOCATION),
+                        clientFormAnswers.getFormComments()
+                ), 4000);
 
     }
 
