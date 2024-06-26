@@ -61,5 +61,8 @@ public class Keys {
     public static final String OVERALL_SARA_RATING_DESCRIPTION = "S01Q03_ANSWERDESC";
     public static final String OVERALL_STATIC_RATING = "S01Q04";
     public static final String OVERALL_STABLE_RATING = "S01Q05";
+    public static final String CMRP_PROPOSED_RESIDENCE = "S03Q01";
+    public static final String CMRP_HUB_LOCATION = "S03Q02";
+    public static final String CMRP_ASSESSMENT_COMMENT = "S02Q04_COMMENT";
 
 }
