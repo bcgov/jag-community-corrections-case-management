@@ -66,7 +66,7 @@
         <span v-if="mainStore.loginUserGroup != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
         <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
           <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
-          <a @click="logout">
+          <a href="#" class="logoutLink" @click="logout">
             <span>Logout</span>
           </a>
         </span>
