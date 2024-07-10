@@ -31,6 +31,7 @@ public class ClientProfile {
     private String probableDischargeDt;
     private String finalWarrantExpiryDt;
     private List<Warrant> warrants;
+    private List<WarrantType> warrantTypes;
     private List<Alert> alerts;
     private List<Program> programs;
     private String isBiometricEnrolled;
@@ -327,6 +328,14 @@ public class ClientProfile {
 
     public void setUcmpDesignation(String ucmpDesignation) {
         this.ucmpDesignation = ucmpDesignation;
+    }
+
+    public List<WarrantType> getWarrantTypes() {
+        return warrantTypes;
+    }
+
+    public void setWarrantTypes(List<WarrantType> warrantTypes) {
+        this.warrantTypes = warrantTypes;
     }
 
 }
