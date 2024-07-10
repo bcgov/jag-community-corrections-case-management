@@ -53,6 +53,7 @@ public interface ClientMapper {
     @Mapping(target = "locationInformation.outReason", source = "clientProfile.outReason")
     @Mapping(target = "locationInformation.warrantExpiryDate", source = "clientProfile.finalWarrantExpiryDt")
     @Mapping(target = "locationInformation.nextCourtDate", source = "clientProfile.nextCourtDate")
+    @Mapping(target = "locationInformation.warrantTypes", source = "clientProfile.warrantTypes")
     //Biometric
     @Mapping(target = "biometric.type", source = "clientProfile.isBiometricEnrolled")
     @Mapping(target = "biometric.status", source = "clientProfile.biometricStatus")

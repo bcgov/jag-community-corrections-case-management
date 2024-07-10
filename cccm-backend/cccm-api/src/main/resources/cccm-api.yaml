@@ -2482,6 +2482,10 @@ components:
           type: string
         nextCourtDate:
           type: string
+        warrantTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/WarrantType"
     Designation:
       type: object
       properties:
@@ -3137,3 +3141,8 @@ components:
           type: number
         itrpCount:
           type: number
+    WarrantType:
+      type: object
+      properties:
+        warrantTypeCode:
+          type: string
