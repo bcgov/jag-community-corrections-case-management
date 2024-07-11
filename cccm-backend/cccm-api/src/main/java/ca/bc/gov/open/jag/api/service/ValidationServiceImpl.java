@@ -110,7 +110,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateCMRP(String answers, ClientDates clientDates) {
+    public ValidationResult validateCMRP(String answers, ClientDates clientDates, List<InterventionsChecked> interventionKeys) {
 
         logger.debug("Validate CMRP {}", answers);
 
@@ -123,7 +123,14 @@ public class ValidationServiceImpl implements ValidationService {
             validationResult.addErrorsItem(validationError);
         }
 
-        validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpBasicValidation, Collections.EMPTY_LIST)).getErrors());
+        if (interventionKeys.isEmpty()) {
+            ValidationError validationError = new ValidationError();
+            validationError.setAnswerKey("Intervention");
+            validationError.setMessage("Form must contain at least one intervention.");
+            validationResult.addErrorsItem(validationError);
+        } else {
+            validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpBasicValidation, interventionKeys)).getErrors());
+        }
 
         //Conditional validation if RTC Date >= 30 use different validation
         if (!StringUtils.isBlank(clientDates.getPddDate()) &&

@@ -217,7 +217,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
             if (clientFormSummary.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
                 ClientDates clientDates = obridgeClientService.getClientDates(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getIdirId(), updateForm.getLocationId());
-                ValidationResult result = validationService.validateCMRP(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), clientDates);
+                ValidationResult result = validationService.validateCMRP(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), clientDates, updateForm.getInterventionKeys());
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("CMRP form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }

@@ -50,6 +50,6 @@ public interface ValidationService {
      */
     ValidationResult validateSOOverall(String answers);
 
-    ValidationResult validateCMRP(String answers, ClientDates clientDates);
+    ValidationResult validateCMRP(String answers, ClientDates clientDates, List<InterventionsChecked> interventionKeys);
 
 }

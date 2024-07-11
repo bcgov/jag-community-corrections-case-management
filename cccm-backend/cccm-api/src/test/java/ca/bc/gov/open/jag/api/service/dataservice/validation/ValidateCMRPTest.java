@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service.dataservice.validation;
 import ca.bc.gov.open.jag.api.model.data.ClientDates;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.api.service.ValidationServiceImpl;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
@@ -13,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import jakarta.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @QuarkusTest
 public class ValidateCMRPTest {
@@ -35,9 +39,12 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP(DATA_ONE, createDates(LocalDate.now().minusMonths(5).toString(), LocalDate.now().minusDays(36).toString()));
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
 
-        Assertions.assertEquals(0, result.getErrors().size());
+        ValidationResult result = sut.validateCMRP(DATA_ONE, createDates(LocalDate.now().minusMonths(5).toString(), LocalDate.now().minusDays(36).toString()), Collections.singletonList(interventionsChecked));
+
+        Assertions.assertEquals(1, result.getErrors().size());
 
     }
 
@@ -47,9 +54,12 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8).toString(), LocalDate.now().plusDays(30).toString()));
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
 
-        Assertions.assertEquals(3, result.getErrors().size());
+        ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8).toString(), LocalDate.now().plusDays(30).toString()), Collections.singletonList(interventionsChecked));
+
+        Assertions.assertEquals(4, result.getErrors().size());
 
     }
 
@@ -59,7 +69,10 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()));
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
+
+        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(2, result.getErrors().size());
 
@@ -71,7 +84,10 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("", createDates(null, null));
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
+
+        ValidationResult result = sut.validateCMRP("", createDates(null, null), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(1, result.getErrors().size());
 
@@ -83,9 +99,24 @@ public class ValidateCMRPTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("", createDates("", ""));
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
+
+        ValidationResult result = sut.validateCMRP("", createDates("", ""), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(1, result.getErrors().size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should validate data")
+    public void testValidationsEmptyIntervention() throws IOException {
+
+        sut = new ValidationServiceImpl(new ObjectMapper());
+
+        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.EMPTY_LIST);
+
+        Assertions.assertEquals(3, result.getErrors().size());
 
     }
 
