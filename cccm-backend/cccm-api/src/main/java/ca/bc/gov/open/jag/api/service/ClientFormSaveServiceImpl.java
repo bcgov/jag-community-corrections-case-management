@@ -507,11 +507,13 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     private String buildCMRPLogComments(ClientFormAnswers clientFormAnswers) {
 
+        Optional<Answer> proposedResidence = getAnswerByKey(clientFormAnswers, CMRP_PROPOSED_RESIDENCE);
+
         return  StringUtils.truncate(
                 MessageFormat.format("{0} {1} {2}",
-                        getAnswerDescByKey(clientFormAnswers, CMRP_PROPOSED_RESIDENCE),
+                        proposedResidence.isPresent() ? proposedResidence.get().getText() : "",
                         getAnswerDescByKey(clientFormAnswers, CMRP_HUB_LOCATION),
-                        clientFormAnswers.getFormComments()
+                        (clientFormAnswers.getFormComments() == null ? "" : clientFormAnswers.getFormComments())
                 ), 4000);
 
     }
