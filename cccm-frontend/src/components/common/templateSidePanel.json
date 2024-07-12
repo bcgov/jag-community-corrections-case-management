@@ -56,7 +56,7 @@
 							"value": ""
 						  }
 						],
-						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Internal Location:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.internalLocation}}</li> <li><Strong>IA Classification:</Strong> {{data.iaClassifications}}</li> <li><Strong>Population Designation:</Strong> {{data.populationDesignations}}</li> <li><Strong>Custody Status:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.status}}</li> ",
+						"content": "<li><Strong>Name:</Strong> {{data.clientName}}</li><li><Strong>CS#:</Strong> {{data.clientNum}}</li><li><Strong>Gender:</Strong> {{data.gender}}</li> <li><Strong>Date of Birth:</Strong> {{data.birthDate}}</li> <li><Strong>Current Active Location:</Strong> {{data.communityInformation == null ? '' : data.communityInformation.communityLocation}}</li> <li><Strong>Internal Location:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.internalLocation}}</li> <li><Strong>IA Classification:</Strong> {{data.iaClassifications}}</li> <li><Strong>Population Designation:</Strong> {{data.populationDesignations}}</li> <li><Strong>Institution:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.institution}}</li> ",
 						"refreshOnChange": true,
 						"type": "htmlelement",
 						"input": false,
