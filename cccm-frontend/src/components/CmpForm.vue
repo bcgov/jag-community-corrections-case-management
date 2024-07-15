@@ -144,19 +144,27 @@ export default {
         return true;
       }
 
-      // when form is locked and the user if not admin, set readonly to true
+      // When form is locked and the user is not admin, set readonly to true
       if (response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN) {
         return true;
       }
 
-      // when form is not locked and the user if not admin nor owner, set readonly to true
-      if (!response.locked && this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN && 
+      // When form is not locked and the user is not admin nor owner, set readonly to true (all forms except Custody-CMRP)
+      if (response.module != this.$CONST_FORMTYPE_CMRP && !response.locked &&
+           this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN &&
            response.createdByIdir != null && 
            response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
 
-      //If login user is in Admin-comm group, set readonly to true
+      // When form is not locked and the user is not admin nor ITRP user, set readonly to true (only Custody-CMRP form)
+      if (response.module == this.$CONST_FORMTYPE_CMRP && !response.locked &&
+           this.mainStore.loginUserGroup != this.$USER_GROUP_ADMIN &&
+           this.mainStore.loginUserGroup != this.$USER_GROUP_ITRP) {
+        return true;
+      }
+
+      // If login user is in Admin-comm group, set readonly to true
       if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN_COMM) {
         return true;
       }
