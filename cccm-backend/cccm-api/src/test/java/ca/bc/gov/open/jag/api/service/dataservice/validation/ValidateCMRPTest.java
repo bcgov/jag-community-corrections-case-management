@@ -59,7 +59,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8).toString(), LocalDate.now().plusDays(30).toString()), Collections.singletonList(interventionsChecked));
 
-        Assertions.assertEquals(4, result.getErrors().size());
+        Assertions.assertEquals(3, result.getErrors().size());
 
     }
 
@@ -74,7 +74,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.singletonList(interventionsChecked));
 
-        Assertions.assertEquals(2, result.getErrors().size());
+        Assertions.assertEquals(1, result.getErrors().size());
 
     }
 
@@ -89,7 +89,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("", createDates(null, null), Collections.singletonList(interventionsChecked));
 
-        Assertions.assertEquals(1, result.getErrors().size());
+        Assertions.assertEquals(2, result.getErrors().size());
 
     }
 
@@ -104,7 +104,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("", createDates("", ""), Collections.singletonList(interventionsChecked));
 
-        Assertions.assertEquals(1, result.getErrors().size());
+        Assertions.assertEquals(2, result.getErrors().size());
 
     }
 
@@ -116,7 +116,7 @@ public class ValidateCMRPTest {
 
         ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.EMPTY_LIST);
 
-        Assertions.assertEquals(3, result.getErrors().size());
+        Assertions.assertEquals(2, result.getErrors().size());
 
     }
 
