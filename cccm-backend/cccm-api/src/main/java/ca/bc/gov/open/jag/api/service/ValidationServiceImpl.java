@@ -49,7 +49,6 @@ public class ValidationServiceImpl implements ValidationService {
         static99rValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/static99r_validation_config.json"), Validation.class);
         stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
         overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
-        cmrpValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_validation_config.json"), Validation.class);
         cmrpBasicValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_basic_validation_config.json"), Validation.class);
 
     }
@@ -128,16 +127,9 @@ public class ValidationServiceImpl implements ValidationService {
             validationError.setAnswerKey("Intervention");
             validationError.setMessage("Form must contain at least one intervention.");
             validationResult.addErrorsItem(validationError);
-        } else {
-            validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpBasicValidation, interventionKeys)).getErrors());
         }
 
-        //Conditional validation if RTC Date >= 30 use different validation
-        if (!StringUtils.isBlank(clientDates.getPddDate()) &&
-                LocalDate.parse(clientDates.getPddDate()).isBefore(LocalDate.now().plusDays(31)) &&
-                LocalDate.parse(clientDates.getPddDate()).isAfter(LocalDate.now())) {
-            validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpValidation, Collections.EMPTY_LIST)).getErrors());
-        }
+        validationResult.getErrors().addAll(createValidationResult(validate(answers, cmrpBasicValidation, interventionKeys)).getErrors());
 
         return validationResult;
 

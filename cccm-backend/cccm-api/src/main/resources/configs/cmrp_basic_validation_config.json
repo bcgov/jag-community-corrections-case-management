@@ -1,6 +1,11 @@
 {
   "questions": [
     {
+      "key": "S03Q01",
+      "type": "REQUIRED",
+      "message": "Proposed Residence: is required"
+    },
+    {
       "key": "intervention_type",
       "type": "INTERVENTION_REQUIRED",
       "dependentKeys": ["intervention_checkbox"],
