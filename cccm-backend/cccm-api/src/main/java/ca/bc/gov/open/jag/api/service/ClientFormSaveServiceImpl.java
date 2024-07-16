@@ -345,7 +345,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         //Get Form Details
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId(), new BigDecimal(location));
 
-        if (!cloneFormRequest.getHasOverride() && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
+        if (!clientFormSummary.getModule().equals(CUSTODY_CMRP_FORM_TYPE) && !cloneFormRequest.getHasOverride() && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only clone", CCCMErrorCode.VALIDATIONERROR);
         } else if (!clientFormSummary.getMostRecent() || !validateFormType(clientFormSummary.getFormTypeId(), clientFormSummary.getModule())) {
             throw new CCCMException("Cannot clone form that is not most recent or mismatch type", CCCMErrorCode.CLONEVALIDATIONERROR);
