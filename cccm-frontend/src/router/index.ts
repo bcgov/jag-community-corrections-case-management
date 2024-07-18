@@ -93,10 +93,10 @@ router.beforeEach((to, from, next) => {
   const store = useStore();
   store.getUserDefaultLocation();
   store.getUserLocations();
-  store.getLoginUserGroup();
+  store.getLoginUserGroups();
   store.getLoginUserName();
 
-  //console.log("Store: ", store.locationCD, store.locationDescription, Vue.prototype.$USER_GROUP_SUPERVISOR, store.loginUserGroup);
+  //console.log("Store: ", store.locationCD, store.locationDescription, Vue.prototype.$USER_GROUP_SUPERVISOR, store.loginUserGroups);
   
   if (to.meta.isAuthenticated) {
     // Get the actual url of the app, it's needed for Keycloak
@@ -107,7 +107,7 @@ router.beforeEach((to, from, next) => {
       // The page is protected and the user is not authenticated. Force a login.
       //console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
-    } else if (store.loginUserGroup != null) {
+    } else if (store.loginUserGroups != null) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
       //console.log("Authenticated and has 'client-search' role");
@@ -115,34 +115,31 @@ router.beforeEach((to, from, next) => {
         .then(() => {
           if (to.name == Vue.prototype.$ROUTER_NAME_HOME) {
             // if the login user is supervisor, direct them to dashboardsupervisor view
-            if (store.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR ) {
+            if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR)) {
               next({ name: 'dashboardsupervisor' });
-              // if the login user is po, direct them to dashboardpo view
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_PO ) {
+            // if the login user is po, direct them to dashboardpo view
+            } else if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
               next({ name: 'dashboardpo' })
-              // if the login user is ITRP, direct them to dashboarditrp view
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP ) {
+            // if the login user is ITRP, direct them to dashboarditrp view
+            } else if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
               next({ name: 'dashboarditrp' })
-              // if the login user is research or admin, direct them to clientsearch view
-            } else if (store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ||
-                       store.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ) {
+            // if the login user is research, direct them to clientsearch view
+            } else if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
+                       store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
               next({ name: 'clientsearch' })
             }
           } else {
-            // if a PO tries to access 'Supervisor dashboard or ITRP dashboard', direct him to PO dashboard.
-            if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
-                to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDITRP) &&
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
-              next({ name: 'dashboardpo' })
-            // if a user in either ITRP or Research group tried to access 'Supervisor dashboard or PO dashboard',
-            // direct him to 'clientsearch' 
-            } else if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR ||
-                        to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO) && (
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
-                store.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP)) {
-              next({ name: 'clientsearch' })    
+            // If an unauthorized user tried to access 'Supervisor dashboard' or 'PO dashboard', direct to their respective homepage
+            if ((to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR && !store.hasSupervisorDash()) ||
+                to.name == Vue.prototype.$ROUTER_NAME_DASHBOARDPO && !store.hasPODash()) {
+              if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
+                next({ name: 'dashboardpo' })
+              } else if (store.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
+                next({ name: 'dashboarditrp' })
+              } else {
+                next({ name: 'clientsearch' })
+              }
             } else {
-              // otherwise, direct them to dashboardpo view
               next()
             }
           }

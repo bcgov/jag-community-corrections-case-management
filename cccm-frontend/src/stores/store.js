@@ -11,7 +11,7 @@ export const useStore = defineStore('main', {
         locationDescription: useLocalStorage('locationDescription', ''),
         locationTypeCD: useLocalStorage('locationTypeCD', ''),
         locations: useLocalStorage('locations', []),
-        loginUserGroup: useLocalStorage('loginUserGroup', null),
+        loginUserGroups: useLocalStorage('loginUserGroup', null),
         loginUserName: useLocalStorage('loginUserName', null),
         poList: useLocalStorage('poList', new Map()),
         supportedFormTypes: useLocalStorage('supportedFormTypes', []),
@@ -34,26 +34,26 @@ export const useStore = defineStore('main', {
         // form-update	
         // form-view
         // po-manage
-        getLoginUserGroup() {
-            if (this.loginUserGroup == null) {
-                this.loginUserGroup = ''
+        getLoginUserGroups() {
+            if (this.loginUserGroups == null) {
+                this.loginUserGroups = ''
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_RESEARCHER
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_RESEARCHER + ',';
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN_COMM)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN_COMM
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ADMIN_COMM + ',';
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_PO)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_PO;
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_PO + ',';
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ITRP
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ITRP + ',';
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_SUPERVISOR)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_SUPERVISOR
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_SUPERVISOR + ',';
                 }
                 if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN)) {
-                    this.loginUserGroup = Vue.prototype.$USER_GROUP_ADMIN
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ADMIN + ',';
                 }
             }
         },
@@ -63,22 +63,22 @@ export const useStore = defineStore('main', {
             }
         },
         hasSupervisorDash() {
-            //User with po-mange role can access the supervisor dashboard
+            // User with po-manage role can access the supervisor dashboard
             if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE)) {
                 return true;
             }
             return false;
         },
         hasPODash() {
-            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
               return true;
             }
             return false;
         },
         hasITRPDash() {
-            if (this.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP && this.locationTypeCD == 'INST') {
+            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) && this.locationTypeCD == 'INST') {
                 return true;
             }
             return false;
@@ -86,16 +86,16 @@ export const useStore = defineStore('main', {
         isEventTriggerAutoCalcAllowed() {
             // When admin_comm user views forms (e.g., SMO_OVERALL) that requires data refresh before form load,
             // the data refresh shouldn't be allowed
-            if (this.loginUserGroup == '' ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM ) {
+            if (this.loginUserGroups == '' ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
                 return false;
             }
             return true;
         },
         isAllowFormWrite() {
             // Admin_comm user can only view 
-            if (this.loginUserGroup == '' ||
-                this.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM ) {
+            if (this.loginUserGroups == '' ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
                 return false;
             }
             return true;
@@ -158,7 +158,7 @@ export const useStore = defineStore('main', {
         },
         clearCachedUserInfo() {
             //console.info("Clear cached user info.");
-            this.loginUserGroup = null;
+            this.loginUserGroups = null;
             this.loginUserName = null;
         },
         clearCachedPOList() {
