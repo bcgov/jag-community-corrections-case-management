@@ -64,15 +64,17 @@ export const useStore = defineStore('main', {
         },
         hasSupervisorDash() {
             // User with po-manage role can access the supervisor dashboard
-            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE)) {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE) && this.locationTypeCD == 'OFF') {
                 return true;
             }
             return false;
         },
         hasPODash() {
-            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
+            if (this.locationTypeCD == 'OFF' && (
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
                 this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) ||
-                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO))
+            ) {
               return true;
             }
             return false;
