@@ -414,7 +414,7 @@ export default {
     },
     isShowDeleteButton(completeDate) {
       // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
-      if (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) ||
        (this.createdByIdir != null && 
         this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
         completeDate == null && !this.locked)) {
@@ -426,7 +426,7 @@ export default {
     isShowEditButton(completeDate) {
       // When form is locked, show edit button if the form is completed and user is admin
       if (this.locked) {
-        if (completeDate != null && this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN) {
+        if (completeDate != null && this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN)) {
           return true;
         }
         return false;
@@ -439,7 +439,7 @@ export default {
         
         // Form is unlocked, show edit button when the form is completed and the user is an admin or the form owner
         if (completeDate != null && 
-            (this.mainStore.loginUserGroup == this.$USER_GROUP_ADMIN ||
+            (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) ||
              this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
           return true; 
         } 

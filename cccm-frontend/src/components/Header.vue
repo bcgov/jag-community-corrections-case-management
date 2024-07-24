@@ -63,7 +63,7 @@
         <div class="header-img">
           <a href="https://gov.bc.ca"><img src="@/assets/gov_bc_logo.svg" width="187px" border="0" /></a>
         </div>
-        <span v-if="mainStore.loginUserGroup != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
+        <span v-if="mainStore.loginUserGroups != null" class="headerText textShadow">BC Corrections - <a href="#" @click="handleShowModal">{{ mainStore.locationDescription }}</a></span>
         <span v-if="isUserAuthenticated" class="header-section usernameText col-sm-4 float-right">
           <i class="fa fa-user"></i>  &nbsp;<strong>{{getUserName}}</strong> &nbsp;|&nbsp;
           <a href="#" class="logoutLink" @click="logout">
@@ -71,7 +71,7 @@
           </a>
         </span>
       </div>
-      <div id="div_menu" v-if="mainStore.loginUserGroup != null" class="headerNavContainer">
+      <div id="div_menu" v-if="mainStore.loginUserGroups != null" class="headerNavContainer">
         <span class="headerNav">
           <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
           <a v-if="hasPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
@@ -188,12 +188,12 @@ export default {
       return this.mainStore.hasITRPDash();
     },
     getDashboardURL() {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_SUPERVISOR || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR;
-      } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_PO) {
+      } else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDPO;
-      } else if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP) {
+      } else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
         return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDITRP;
       } else {
         return this.baseURL;

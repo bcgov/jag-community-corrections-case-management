@@ -327,8 +327,8 @@ export default {
     canClone(item) {
       // User can clone when:
       // 1. user is an admin or ITRP
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) ||
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
         return true;
       }
 
@@ -342,8 +342,8 @@ export default {
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER ||
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
 
@@ -356,12 +356,12 @@ export default {
       return true
     },
     getCloneTooltip(item) {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ITRP || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) ||
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
         return 'Copy form';
       }
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_RESEARCHER || 
-          this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+      else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
         return "User is not allowed to clone form";
       }
       if (!item.complete) {
@@ -382,7 +382,7 @@ export default {
       return 'Copy form';
     },
     canPrint(item) {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
       if (item.formTypeExpiryDate != null) {
@@ -391,7 +391,7 @@ export default {
       return true;
     },
     getPrintTooltip(item) {
-      if (this.mainStore.loginUserGroup == Vue.prototype.$USER_GROUP_ADMIN_COMM) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
         return 'User is not allowed to print form';
       }
       if (item.formTypeExpiryDate != null) {
@@ -702,7 +702,7 @@ export default {
       return this.mainStore.isAllowFormWrite();
     },
     showCMRPCreateButton() {
-      return this.mainStore.loginUserGroup == this.$USER_GROUP_ITRP && this.mainStore.isShowCmrpForm;
+      return this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) && this.mainStore.isShowCmrpForm;
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
