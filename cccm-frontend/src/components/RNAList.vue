@@ -604,7 +604,7 @@ export default {
                 } else if (rating.formType == this.$CONST_FORMTYPE_SARA) {
                   el.saraRating = rating.desc;
                   el.saraRatingVal = rating.text;
-                } else {
+                } else if (rating.formType != this.$CONST_FORMTYPE_CMRP) {
                   el.smoRating = rating.desc;
                   el.smoRatingVal = rating.text;
                   // Don't show supervisionRating for SMO forms other than SMO_Overall

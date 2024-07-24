@@ -258,7 +258,8 @@ public class ClientDataServiceImpl implements ClientDataService {
                 formsMerged.add(populateRatings(form, clientNum, location));
             } else if (formTypeCd.equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE) && form.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
                 logger.info("adding form {}", form.getModule());
-
+                //Required when searching for only cmrp. But is not displayed...
+                form.setSupervisionRating(form.getRatings().get(0).getText());
                 formsMerged.add(form);
             }
         }
