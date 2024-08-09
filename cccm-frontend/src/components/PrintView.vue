@@ -49,7 +49,8 @@
                                 <v-data-table v-else-if="subSection.title == 'Responsivity Factors' || showCMRPSections(section.section, formEle.formType)"
                                     no-data-text="" 
                                     :items="subSection.answers"
-                                    :headers="formHeaders" item-key="key" 
+                                    :headers="subSection.noComments ? formNoCommentsHeaders : formHeaders"
+                                    item-key="key"
                                     no-results-text="No results found" 
                                     hide-default-footer>
                                 </v-data-table>
@@ -57,7 +58,7 @@
                                                     || subSection.title == 'Assessment Comments'
                                                     || subSection.title == 'Reassessment Comments'"
                                     
-                                >{{ subSection.answers != null && subSection.answers.length == 1 ? subSection.answers[0].value : '' }}
+                                >{{ subSection.answers?.length == 1 ? subSection.answers[0].value : '' }}
                                 </pre>
                                 
                                 <br>
@@ -99,8 +100,13 @@ export default {
         loading: false,
         theKey: 0,
         formHeaders: [
-            { text: 'Responsivity Factor', value: 'question', width: '50%', sortable: false },
-            { text: 'Comments', value: 'value', width: '50%', sortable: false, cellClass: 'readonly-field-text' }
+            { text: 'Question', value: 'question', width: '20%', sortable: false },
+            { text: 'Answer', value: 'value', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { text: 'Comments', value: 'comment', width: '40%', cellClass: 'readonly-field-text' }
+        ],
+        formNoCommentsHeaders: [
+          { text: 'Question', value: 'question', width: '20%', sortable: false },
+          { text: 'Answer', value: 'value', width: '80%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         interventionHeaders: [
             { text: 'Criminogenic Needs', value: 'question', width: '10%', sortable: false },

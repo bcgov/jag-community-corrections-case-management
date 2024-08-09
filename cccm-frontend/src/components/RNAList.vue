@@ -598,13 +598,13 @@ export default {
             // All other SMO form types, there should be only the rating for the specific form type
             if (el.ratings != null) {
               el.ratings.filter(rating => {
-                if (rating.formType == this.$CONST_FORMTYPE_CRNA) {
+                if (rating.formType == this.$CONST_FORMTYPE_CRNA || rating.formType == this.$CONST_FORMTYPE_CMRP) {
                   el.crnaRating = rating.desc;
                   el.crnaRatingVal = rating.text;
                 } else if (rating.formType == this.$CONST_FORMTYPE_SARA) {
                   el.saraRating = rating.desc;
                   el.saraRatingVal = rating.text;
-                } else if (rating.formType != this.$CONST_FORMTYPE_CMRP) {
+                } else {
                   el.smoRating = rating.desc;
                   el.smoRatingVal = rating.text;
                   // Don't show supervisionRating for SMO forms other than SMO_Overall
