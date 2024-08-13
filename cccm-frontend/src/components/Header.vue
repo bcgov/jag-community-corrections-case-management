@@ -73,9 +73,9 @@
       </div>
       <div id="div_menu" v-if="mainStore.loginUserGroups != null" class="headerNavContainer">
         <span class="headerNav">
-          <a v-if="hasSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="hasSupervisorDash"> | </span>
-          <a v-if="hasPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="hasPODash"> | </span>
-          <a v-if="hasITRPDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDITRP}`" class="headerA">My Centre Dashboard</a> <span v-if="hasITRPDash"> | </span>
+          <a v-if="showSupervisorDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDSUPERVISOR}`" class="headerA">My Team Dashboard</a> <span v-if="showSupervisorDash"> | </span>
+          <a v-if="showPODash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDPO}`" class="headerA">My Client Dashboard</a> <span v-if="showPODash"> | </span>
+          <a v-if="showITRPDash" :href="`${baseURL}${$ROUTER_NAME_DASHBOARDITRP}`" class="headerA">My Centre Dashboard</a> <span v-if="showITRPDash"> | </span>
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTSEARCH}`" class="headerA">Client Search</a> 
         </span>
       </div>
@@ -178,14 +178,14 @@ export default {
     isUserAuthenticated() {
         return Vue.$keycloak.authenticated;
     },
-    hasSupervisorDash() {
-      return this.mainStore.hasSupervisorDash();
+    showSupervisorDash() {
+      return this.mainStore.hasSupervisorDash() && this.mainStore.locationTypeCD == 'OFF';
     },
-    hasPODash() {
-      return this.mainStore.hasPODash();
+    showPODash() {
+      return this.mainStore.hasPODash() && this.mainStore.locationTypeCD == 'OFF';
     },
-    hasITRPDash() {
-      return this.mainStore.hasITRPDash();
+    showITRPDash() {
+      return this.mainStore.hasITRPDash() && this.mainStore.locationTypeCD == 'INST';
     },
     getDashboardURL() {
       if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||

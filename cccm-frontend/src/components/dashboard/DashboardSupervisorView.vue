@@ -252,18 +252,23 @@ export default {
       if (error) {
         console.log(error);
       } else {
-        this.locationTypes = this.mainStore.locations;
-        const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
-        if (error1) {
-          console.error(error1);
+        if (this.mainStore.locationTypeCD != 'OFF') {
+          // redirect to client search page if location is not an office
+          await this.$router.replace(`${this.$ROUTER_NAME_CLIENTSEARCH}`)
         } else {
-          this.pickedLocationCD = this.mainStore.locationCD;
-          this.selectedLocation.key = this.mainStore.locationCD;
-          this.selectedLocation.value = this.mainStore.locationDescription;
-          this.key_results++;
-          this.key_location++;
+          this.locationTypes = this.mainStore.locations;
+          const [error1, defaultLocation] = await this.mainStore.getUserDefaultLocation();
+          if (error1) {
+            console.error(error1);
+          } else {
+            this.pickedLocationCD = this.mainStore.locationCD;
+            this.selectedLocation.key = this.mainStore.locationCD;
+            this.selectedLocation.value = this.mainStore.locationDescription;
+            this.key_results++;
+            this.key_location++;
 
-          this.dashboardSupervisorSearch(this.selectedLocation.key);
+            this.dashboardSupervisorSearch(this.selectedLocation.key);
+          }
         }
       }
     },
