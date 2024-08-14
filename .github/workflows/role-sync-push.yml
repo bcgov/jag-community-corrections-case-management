@@ -40,7 +40,7 @@ jobs:
 
       - name: Docker Build Role Sync Image
         run: |            
-          docker-compose build role-sync
+          docker compose build role-sync
           
       - name: Docker Tag Version Gold
         run: |

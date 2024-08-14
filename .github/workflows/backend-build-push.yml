@@ -40,7 +40,7 @@ jobs:
 
       - name: Docker Build Backend Image
         run: |            
-          docker-compose build backend
+          docker compose build backend
           
       - name: Docker Tag Version Gold
         run: |
