@@ -78,7 +78,7 @@ export const useStore = defineStore('main', {
             return false;
         },
         hasITRPDash() {
-            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) && this.locationTypeCD == 'INST') {
+            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
                 return true;
             }
             return false;

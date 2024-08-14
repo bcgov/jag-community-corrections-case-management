@@ -231,15 +231,20 @@ export default {
       if (error1) {
         console.error(error1);
       } else {
-        // populate the poList
-        //console.log("search from podashboard: ", defaultLocation);
-        const [error2, defaultPOList] = await this.mainStore.getPOList(defaultLocation);
-        if (error2) {
-          console.error(error2);
+        if (this.mainStore.locationTypeCD != 'OFF') {
+          // redirect to client search page if location is not an office
+          await this.$router.replace(`${this.$ROUTER_NAME_CLIENTSEARCH}`)
         } else {
-          this.poList = defaultPOList;
-          //console.log("poList: ", this.poList);
-          this.key_po++;
+          // populate the poList
+          //console.log("search from podashboard: ", defaultLocation);
+          const [error2, defaultPOList] = await this.mainStore.getPOList(defaultLocation);
+          if (error2) {
+            console.error(error2);
+          } else {
+            this.poList = defaultPOList;
+            //console.log("poList: ", this.poList);
+            this.key_po++;
+          }
         }
       }
     },
