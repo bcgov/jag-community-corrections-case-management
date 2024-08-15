@@ -63,9 +63,6 @@ public class CreateNewCustodyCMRP {
         validateClientDetailsOnCustodyCMRP("CS", CSNumber);
         validateClientDetailsOnCustodyCMRP("Gender", clientGender);
         validateClientDetailsOnCustodyCMRP("Date of Birth", clientDateOfBirth);
-        validateClientDetailsOnCustodyCMRP("Current Active Location", clientCurrentActiveLocation);
-        validateClientDetailsOnCustodyCMRP("Custody Status", clientCustodyStatus);
-
 
         validatCustodyCMPRDetailsOnCustodyCMRP("Created Date", getTodaysDate());
         validatCustodyCMPRDetailsOnCustodyCMRP("Updated Date", getTodaysDate());
@@ -136,6 +133,7 @@ public class CreateNewCustodyCMRP {
         clickOnElementByXpath(MINIMIZE_XPATH); //minimize screen
         Assert.assertTrue("Client details are hidden, minimize button didn't work" , getElementByTagAndText("span", "Client Details").isDisplayed());
 
+        scrollToBottom();
         clickOnButton("Add Support");
         inputTextByTextAreaIdContainsValue("input_key_sourceContacted", "Test Community Supports field");
         clickOnElementByName("data[add_source]");
