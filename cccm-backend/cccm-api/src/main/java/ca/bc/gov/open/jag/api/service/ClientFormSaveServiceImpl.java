@@ -510,10 +510,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         Optional<Answer> proposedResidence = getAnswerByKey(clientFormAnswers, CMRP_PROPOSED_RESIDENCE);
 
         return  StringUtils.truncate(
-                MessageFormat.format("{0} {1} {2} {3} {4}",
-                        proposedResidence.isPresent() ? proposedResidence.get().getText() : "",
-                        System.lineSeparator(),
+                MessageFormat.format("Hub Location: {0} {1}Proposed Residence: {2} {3}Assessment Comments: {4}",
                         getAnswerDescByKey(clientFormAnswers, CMRP_HUB_LOCATION),
+                        System.lineSeparator(),
+                        proposedResidence.isPresent() ? proposedResidence.get().getText() : "",
                         System.lineSeparator(),
                         (clientFormAnswers.getFormComments() == null ? "" : clientFormAnswers.getFormComments())
                 ), 4000);
