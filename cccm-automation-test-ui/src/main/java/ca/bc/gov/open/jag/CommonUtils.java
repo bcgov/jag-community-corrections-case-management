@@ -28,46 +28,4 @@ public class CommonUtils {
 		}
 	}
 
-	// Construct jdbcUrl for Environment
-	public static String getJdbcUrl() {
-		String jdbcUrl = "";
-		if (Config.ENVIROMENT.equals(Constants.DEV)) {
-			jdbcUrl = "jdbc:oracle:thin:@devdb.bcgov:1521:devj";
-		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			jdbcUrl = "jdbc:oracle:thin:@testdb.bcgov:1521:tstj";
-		}
-
-		String dbName = "";
-
-		if (Config.ENVIROMENT.equals(Constants.DEV)) {
-			dbName = "DatabaseName=";
-		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			dbName = "DatabaseName=";
-		}
-
-		return jdbcUrl;
-	}
-
-	// Construct userName for Environment
-	public static String getJdbcUserName() {
-		String userName = "";
-		if (Config.ENVIROMENT.equals(Constants.DEV)) {
-			userName = "jdbcUserName.DEV";
-		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			userName = "jdbcUserName.TST";
-		}
-		return userName;
-	}
-
-	// Construct password for Environment
-	public static String getJdbcPassword() {
-		String password = "";
-		if (Config.ENVIROMENT.equals(Constants.DEV)) {
-			password = "jdbcPassword.DEV";
-		} else if (Config.ENVIROMENT.equals(Constants.TST)) {
-			password = "jdbcPassword.TST";
-		}
-		return password;
-	}
-
 }

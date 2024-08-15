@@ -8,10 +8,11 @@
 
 	<name>CCCM-testing</name>
 
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<io.github.bonigarcia.version>5.6.3</io.github.bonigarcia.version>
-		<org.seleniumhq.selenium.version>4.11.0</org.seleniumhq.selenium.version>
+		<org.seleniumhq.selenium.version>4.13.0</org.seleniumhq.selenium.version>
 		<com.microsoft.sqlserver.version>6.4.0.jre8</com.microsoft.sqlserver.version>
 		<junit.version>4.13.1</junit.version>
 		<org.apache.pdfbox.version>2.0.26</org.apache.pdfbox.version>
@@ -22,6 +23,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- Selenium Drivers -->
 		<dependency>
 			<groupId>io.github.bonigarcia</groupId>
@@ -100,6 +102,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.13.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
 		</dependency>
 	</dependencies>
 

@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-
 public class CommonMethods {
+
 
     private static int defaultSleepBeforeAction = 1;
     private static String appUSERNAME = System.getenv("USERNAME_APP");

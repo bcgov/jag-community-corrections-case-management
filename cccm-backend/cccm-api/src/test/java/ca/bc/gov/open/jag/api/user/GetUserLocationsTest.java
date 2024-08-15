@@ -1,8 +1,11 @@
 package ca.bc.gov.open.jag.api.user;
 
+import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCode;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCodeList;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.junit.QuarkusTest;
@@ -14,7 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
+
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -35,20 +41,22 @@ public class GetUserLocationsTest {
     @DisplayName("200: should return locations")
     public void testGetUserLocationsEndpoint() {
 
-        Code location = new Code();
+        LocationCode location = new LocationCode();
         location.setKey(TEST_CD);
         location.setValue(TEST_VALUE);
+        location.setLocationTypeCode(TEST_VALUE);
 
-        CodeList codeListMock = new CodeList();
-        codeListMock.setItems(Collections.singletonList(location));
+        LocationCodeList codeListMock = new LocationCodeList();
+        codeListMock.addItemsItem(location);
 
         Mockito.when(userDataService.getLocations(any())).thenReturn(codeListMock);
 
-        CodeList result = sut.getUserLocations();
+        LocationCodeList result = sut.getUserLocations();
 
         Assertions.assertEquals(1, result.getItems().size());
         Assertions.assertEquals(TEST_CD, result.getItems().get(0).getKey());
         Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getValue());
+        Assertions.assertEquals(TEST_VALUE, result.getItems().get(0).getLocationTypeCode());
 
     }
 

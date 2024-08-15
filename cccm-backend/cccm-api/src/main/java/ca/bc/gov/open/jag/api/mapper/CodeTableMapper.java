@@ -18,5 +18,4 @@ public interface CodeTableMapper {
     @Mapping(target = "value", source = "value")
     Code toCode(CodeTable codeTable);
 
-
 }
