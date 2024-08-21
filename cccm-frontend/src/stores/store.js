@@ -72,7 +72,8 @@ export const useStore = defineStore('main', {
         hasPODash() {
             if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
                 this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) ||
-                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
               return true;
             }
             return false;
