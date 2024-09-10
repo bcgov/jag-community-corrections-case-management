@@ -25,6 +25,8 @@ public class MappingUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(MappingUtils.class));
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
     public static BigDecimal calculateAge(String birthDate) {
         if (StringUtils.isBlank(birthDate)) {
             return BigDecimal.ZERO;
@@ -33,7 +35,7 @@ public class MappingUtils {
 
             if (birthDate.length() == 10) {
 
-                LocalDate localBirthDate = LocalDate.parse(birthDate);
+                LocalDate localBirthDate = LocalDate.parse(birthDate, DATE_TIME_FORMATTER);
 
                 return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
             } else {
