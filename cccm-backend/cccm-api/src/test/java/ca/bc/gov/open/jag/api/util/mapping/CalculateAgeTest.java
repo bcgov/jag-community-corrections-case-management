@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @QuarkusTest
 public class CalculateAgeTest {
@@ -19,7 +20,7 @@ public class CalculateAgeTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(5);
 
-        BigDecimal result = MappingUtils.calculateAge(testDate.toString());
+        BigDecimal result = MappingUtils.calculateAge(testDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
 
         Assertions.assertEquals(BigDecimal.valueOf(5), result);
 
