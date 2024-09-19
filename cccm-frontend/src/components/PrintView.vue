@@ -30,11 +30,11 @@
             <div v-for="(formEle, index) in formInstanceData" :key="index">
                 <div class="p-4" v-if="formEle.data.length > 0">
                     <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
-                        <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan' || showCMRPSections(section.section, formEle.formType)">
+                        <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan'">
                             <div class="subSectionTitleClass">{{ section.section }}</div>
                             <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                                 <h5>{{ subSection.title }}</h5>
-                                <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                                <v-data-table v-if="subSection.type == $CONST_SUBSECTIONTYPE_INTERVENTION"
                                     no-data-text="" 
                                     :items="subSection.answers"
                                     :headers="interventionHeaders" item-key="key" 
@@ -46,7 +46,7 @@
                                         <div>{{ item.comment == null ? item.value : item.comment }}</div>
                                     </template>
                                 </v-data-table>
-                                <v-data-table v-else-if="subSection.title == 'Responsivity Factors' || showCMRPSections(section.section, formEle.formType)"
+                                <v-data-table v-else-if="subSection.type == $CONST_SUBSECTIONTYPE_RESPONSIVITY"
                                     no-data-text="" 
                                     :items="subSection.answers"
                                     :headers="subSection.noComments ? formNoCommentsHeaders : formHeaders"
@@ -54,13 +54,29 @@
                                     no-results-text="No results found" 
                                     hide-default-footer>
                                 </v-data-table>
-                                <pre class="readonly-field-text" v-else-if="subSection.title == 'Supervision Plan' 
-                                                    || subSection.title == 'Assessment Comments'
+                                <pre class="readonly-field-text" v-else-if="subSection.type == $CONST_SUBSECTIONTYPE_SUPERVISIONPLANCOMMENT
+                                                    || subSection.type == $CONST_SUBSECTIONTYPE_FORMCOMMENT
                                                     || subSection.title == 'Reassessment Comments'"
                                     
                                 >{{ subSection.answers?.length == 1 ? subSection.answers[0].value : '' }}
                                 </pre>
-                                
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex + 'printsection'">
+                        <div v-if="section.includeInPrint">
+                            <div class="subSectionTitleClass">{{ section.section }}</div>
+                            <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex + 'printsection'"> 
+                                <h5>{{ subSection.title }}</h5>
+                                <v-data-table
+                                    no-data-text="" 
+                                    :items="subSection.answers"
+                                    :headers="subSection.noComments ? formNoCommentsHeaders : formHeaders"
+                                    item-key="key"
+                                    no-results-text="No results found" 
+                                    hide-default-footer>
+                                </v-data-table>                                
                                 <br>
                             </div>
                         </div>
@@ -187,10 +203,6 @@ export default {
         }
         this.loading = false;
     },
-    showCMRPSections(sectionTitle, formType) {
-      return formType == this.$CONST_FORMTYPE_CMRP
-          && (sectionTitle == 'Custody Transition and Release Plan' || sectionTitle == 'Information for Community Probation Officer');
-    }
   },
   computed: {
       getFormTypeDesc() {
