@@ -30,7 +30,7 @@ public class ClientDetailsTest {
     private static final String TEST_IDIR = "test@idir";
     private static final String LOCATION = "123";
     private static final String CLIENT_NO = "01";
-    private static final String PHOTO_TAKEN_DATE = "TEST";
+    private static final LocalDate PHOTO_TAKEN_DATE = LocalDate.now();
     private static final byte[] BYTES = "blarg".getBytes();
 
     @Inject
@@ -108,7 +108,7 @@ public class ClientDetailsTest {
 
         Address address = new Address();
         address.setFullAddress(ADDRESS);
-        address.setExpiryDate(testDate.toString());
+        address.setExpiryDate(testDate);
 
         return address;
 

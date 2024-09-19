@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+
 @QuarkusTest
 public class PhotoTest {
 
-    private static final String PHOTO_TAKEN_DATE = "TEST";
+    private static final LocalDate PHOTO_TAKEN_DATE = LocalDate.now();
 
     @Test
     @DisplayName("Test Photo Model")

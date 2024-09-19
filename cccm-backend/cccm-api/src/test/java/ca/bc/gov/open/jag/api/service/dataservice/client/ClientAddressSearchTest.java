@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class ClientAddressSearchTest {
     @RestClient
     ObridgeClientService obridgeClientService;
 
+    private static LocalDate TEST_DATE = LocalDate.now();
+
     @Test
     @DisplayName("Success: exact search should return clients")
     public void testExactGetClients() {
@@ -39,7 +42,7 @@ public class ClientAddressSearchTest {
         Assertions.assertEquals("01", result.get(0).getClientNum());
         Assertions.assertEquals("TEST1, TESTER", result.get(0).getClientName());
         Assertions.assertEquals("M", result.get(0).getGender());
-        Assertions.assertEquals("1961-04-17", result.get(0).getBirthDate());
+        Assertions.assertEquals(TEST_DATE, result.get(0).getBirthDate());
         Assertions.assertEquals("TEST1", result.get(0).getCustodyLocation());
         Assertions.assertEquals("TEST", result.get(0).getCommunityInformation().getCaseManager());
         Assertions.assertEquals("TEST1", result.get(0).getCommunityInformation().getCommunityLocation());
@@ -48,7 +51,7 @@ public class ClientAddressSearchTest {
         Assertions.assertEquals("01", result.get(1).getClientNum());
         Assertions.assertEquals("TEST2, TESTER", result.get(1).getClientName());
         Assertions.assertEquals("F", result.get(1).getGender());
-        Assertions.assertEquals("1961-04-17", result.get(1).getBirthDate());
+        Assertions.assertEquals(TEST_DATE, result.get(1).getBirthDate());
         Assertions.assertEquals("TEST2", result.get(1).getCustodyLocation());
         Assertions.assertEquals("TEST", result.get(1).getCommunityInformation().getCaseManager());
         Assertions.assertEquals("TEST2", result.get(1).getCommunityInformation().getCommunityLocation());
@@ -63,7 +66,7 @@ public class ClientAddressSearchTest {
         client1.setClientName("TEST1, TESTER");
         client1.setCurrentNameYn("N");
         client1.setGenderCode("M");
-        client1.setBirthDate("1961-04-17");
+        client1.setBirthDate(TEST_DATE);
         client1.setCustodyLocation("TEST1");
         client1.setCommunityLocation("TEST1");
         client1.setAddress("TEST");
@@ -74,7 +77,7 @@ public class ClientAddressSearchTest {
         client2.setClientName("TEST2, TESTER");
         client2.setCurrentNameYn("N");
         client2.setGenderCode("F");
-        client2.setBirthDate("1961-04-17");
+        client2.setBirthDate(TEST_DATE);
         client2.setCustodyLocation("TEST2");
         client2.setCommunityLocation("TEST2");
         client2.setAddress("TEST");

@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.model.data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class PODashboard {
 
@@ -11,8 +12,8 @@ public class PODashboard {
     private String clientIn;
     private String supervisionLevel;
     private String MOED;
-    private String FOED;
-    private String RNACompleted;
+    private LocalDate FOED;
+    private LocalDate RNACompleted;
     private BigDecimal indiId;
     private String clientNo;
     private BigDecimal clientId;
@@ -21,14 +22,14 @@ public class PODashboard {
     private String rnaCd;
     private String retyCd;
     private String rnasCd;
-    private String completionDate;
+    private LocalDate completionDate;
     private String comment;
     private String issuesOutstandingYn;
     private BigDecimal comntySprvsrFileReviewId;
     private String fileReviewCompleteYn;
     private BigDecimal  locationId;
     private String dueNext;
-    private String dueDate;
+    private LocalDate dueDate;
 
     public Integer getActiveDocuments() {
         return activeDocuments;
@@ -78,19 +79,19 @@ public class PODashboard {
         this.MOED = MOED;
     }
 
-    public String getFOED() {
+    public LocalDate getFOED() {
         return FOED;
     }
 
-    public void setFOED(String FOED) {
+    public void setFOED(LocalDate FOED) {
         this.FOED = FOED;
     }
 
-    public String getRNACompleted() {
+    public LocalDate getRNACompleted() {
         return RNACompleted;
     }
 
-    public void setRNACompleted(String RNACompleted) {
+    public void setRNACompleted(LocalDate RNACompleted) {
         this.RNACompleted = RNACompleted;
     }
 
@@ -158,11 +159,11 @@ public class PODashboard {
         this.rnasCd = rnasCd;
     }
 
-    public String getCompletionDate() {
+    public LocalDate getCompletionDate() {
         return completionDate;
     }
 
-    public void setCompletionDate(String completionDate) {
+    public void setCompletionDate(LocalDate completionDate) {
         this.completionDate = completionDate;
     }
 
@@ -214,11 +215,11 @@ public class PODashboard {
         this.dueNext = dueNext;
     }
 
-    public String getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 

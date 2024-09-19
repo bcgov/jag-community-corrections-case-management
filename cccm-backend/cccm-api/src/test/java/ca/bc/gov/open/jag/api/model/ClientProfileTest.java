@@ -25,8 +25,8 @@ public class ClientProfileTest {
         sut.setStatus("TEST");
         sut.setSupervisionLevel("TEST");
         sut.setOrders("TEST");
-        sut.setFinalOrderExpiryDt(testDate.toString());
-        sut.setOrderEffectiveDt(testDate.toString());
+        sut.setFinalOrderExpiryDt(testDate);
+        sut.setOrderEffectiveDt(testDate);
         sut.setReleaseReason("TEST");
         sut.setInstitutionstatus("TEST");
         sut.setClientinoutyn("TEST");
@@ -46,15 +46,15 @@ public class ClientProfileTest {
         sut.seteServicesStatus("TEST");
         sut.setBiometricStatus("TEST");
         sut.seteReporting("TEST");
-        sut.setPossibleParoleDt("TEST");
-        sut.setProbableDischargeDt("TEST");
-        sut.setFinalWarrantExpiryDt("TEST");
+        sut.setPossibleParoleDt(testDate);
+        sut.setProbableDischargeDt(testDate);
+        sut.setFinalWarrantExpiryDt(testDate);
         sut.setClient(new Client());
         sut.setOffense("TEST");
-        sut.setNextCourtDate("TEST");
+        sut.setNextCourtDate(testDate);
         sut.setIaClassification("TEST");
         sut.setCustody("TEST");
-        sut.setNextDueDt("TEST");
+        sut.setNextDueDt(testDate);
         sut.setUcmpDesignation("TEST");
 
 
@@ -62,8 +62,8 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.getStatus());
         Assertions.assertEquals("TEST", sut.getSupervisionLevel());
         Assertions.assertEquals("TEST", sut.getOrders());
-        Assertions.assertEquals(testDate.toString(), sut.getFinalOrderExpiryDt());
-        Assertions.assertEquals(testDate.toString(), sut.getOrderEffectiveDt());
+        Assertions.assertEquals(testDate, sut.getFinalOrderExpiryDt());
+        Assertions.assertEquals(testDate, sut.getOrderEffectiveDt());
         Assertions.assertEquals("TEST", sut.getReleaseReason());
         Assertions.assertEquals("TEST", sut.getInstitutionstatus());
         Assertions.assertEquals("TEST", sut.getClientinoutyn());
@@ -83,15 +83,15 @@ public class ClientProfileTest {
         Assertions.assertEquals("TEST", sut.geteServicesStatus());
         Assertions.assertEquals("TEST", sut.getBiometricStatus());
         Assertions.assertEquals("TEST", sut.geteReporting());
-        Assertions.assertEquals("TEST", sut.getPossibleParoleDt());
-        Assertions.assertEquals("TEST", sut.getFinalWarrantExpiryDt());
-        Assertions.assertEquals("TEST", sut.getProbableDischargeDt());
+        Assertions.assertEquals(testDate, sut.getPossibleParoleDt());
+        Assertions.assertEquals(testDate, sut.getFinalWarrantExpiryDt());
+        Assertions.assertEquals(testDate, sut.getProbableDischargeDt());
         Assertions.assertNotNull(sut.getClient());
         Assertions.assertEquals("TEST", sut.getOffense());
         Assertions.assertEquals("TEST", sut.getCustody());
         Assertions.assertEquals("TEST", sut.getIaClassification());
-        Assertions.assertEquals("TEST", sut.getNextCourtDate());
-        Assertions.assertEquals("TEST", sut.getNextDueDt());
+        Assertions.assertEquals(testDate, sut.getNextCourtDate());
+        Assertions.assertEquals(testDate, sut.getNextDueDt());
         Assertions.assertEquals("TEST", sut.getUcmpDesignation());
 
     }

@@ -15,11 +15,14 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 
+import java.time.LocalDate;
+
 @QuarkusTest
 public class GetClientTest {
 
     private static final String CLIENT_NUM = "01";
     private static final String X_LOCATION_ID = "123";
+    private static final LocalDate BIRTH_DATE = LocalDate.now();
 
     @Inject
     ClientsApiImpl sut;
@@ -62,7 +65,7 @@ public class GetClientTest {
         client.setClientNum("01");
         client.setClientName("TEST1, TESTER");
         client.setGender("M");
-        client.setBirthDate("1961-04-17");
+        client.setBirthDate(BIRTH_DATE);
         client.setCustodyLocation("TEST1");
 
         return client;

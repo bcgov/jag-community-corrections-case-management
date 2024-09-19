@@ -115,7 +115,7 @@ public class ValidationServiceImpl implements ValidationService {
 
         ValidationResult validationResult = new ValidationResult();
         LocalDate sixMonths = LocalDate.now().minusMonths(6);
-        if (StringUtils.isBlank(clientDates.getCrnaCompleteDate()) || LocalDate.parse(clientDates.getCrnaCompleteDate()).isBefore(sixMonths)) {
+        if (clientDates.getCrnaCompleteDate() == null || clientDates.getCrnaCompleteDate().isBefore(sixMonths)) {
             ValidationError validationError = new ValidationError();
             validationError.setAnswerKey("CRNA Form");
             validationError.setMessage("Must have a completed CRNA-CMP within the last 6 months");

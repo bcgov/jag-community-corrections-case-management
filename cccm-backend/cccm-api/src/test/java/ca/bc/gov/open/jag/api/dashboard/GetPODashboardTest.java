@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class GetPODashboardTest {
     private static final String CLIENT_NAME = "TEST";
     private static final String DESIGNATIONS = "TEST DESG";
     private static final String IN_CUSTODY = "Y";
-    private static final String DUE_DATE = "DUE";
-    private static final String ORDER_EXPIRY_DATE = "ORDER DATE";
-    private static final String RNA_COMPLETED_DATE = "RNADATE";
+    private static final LocalDate DUE_DATE = LocalDate.now();
+    private static final LocalDate ORDER_EXPIRY_DATE = LocalDate.now();
+    private static final LocalDate RNA_COMPLETED_DATE = LocalDate.now();
     private static final String SUPERVISION_RATING = "SUPERVISIONRATING";
 
     @Inject
@@ -53,7 +54,7 @@ public class GetPODashboardTest {
         Assertions.assertEquals(DESIGNATIONS, result.get(0).getDesignations());
         Assertions.assertEquals(IN_CUSTODY, result.get(0).getInCustody());
         Assertions.assertEquals(DUE_DATE, result.get(0).getDueDate());
-        Assertions.assertEquals(DUE_DATE, result.get(0).getDueNext());
+        Assertions.assertEquals("test", result.get(0).getDueNext());
         Assertions.assertEquals(ORDER_EXPIRY_DATE, result.get(0).getOrderExpiryDate());
         Assertions.assertEquals(RNA_COMPLETED_DATE, result.get(0).getRnaCompletedDate());
         Assertions.assertEquals(SUPERVISION_RATING, result.get(0).getSupervisionRating());
@@ -86,7 +87,7 @@ public class GetPODashboardTest {
         poDashboard.setDesignations(DESIGNATIONS);
         poDashboard.setInCustody(IN_CUSTODY);
         poDashboard.setDueDate(DUE_DATE);
-        poDashboard.setDueNext(DUE_DATE);
+        poDashboard.setDueNext("test");
         poDashboard.setOrderExpiryDate(ORDER_EXPIRY_DATE);
         poDashboard.setRnaCompletedDate(RNA_COMPLETED_DATE);
         poDashboard.setSupervisionRating(SUPERVISION_RATING);

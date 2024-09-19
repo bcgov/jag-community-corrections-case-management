@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,12 +23,12 @@ public class GetCentreDashboardTest {
 
     private static final String CLIENT_NAME = "TEST";
     private static final String CLIENT_NO = "123";
-    private static final String CMRP_COMP_DATE = "CMRP_COMP_DATE";
-    private static final String CMRP_DUE_DATE = "CMRP_DUE_DATE";
-    private static final String CRNA_COMP_DATE = "CRNA_COMP_DATE";
+    private static final LocalDate CMRP_COMP_DATE = LocalDate.now();
+    private static final LocalDate CMRP_DUE_DATE = LocalDate.now();
+    private static final LocalDate CRNA_COMP_DATE = LocalDate.now();
     private static final String SUP_LEVEL = "SUP_LEVEL";
-    private static final String DISCHARGE_DATE = "DISCHARGE_DATE";
-    private static final String NEXT_COURT_DATE = "NEXT_COURT_DATE";
+    private static final LocalDate DISCHARGE_DATE = LocalDate.now();
+    private static final LocalDate NEXT_COURT_DATE = LocalDate.now();
 
     private static final Integer ALERT_COUNT = 1;
     @Inject

@@ -20,33 +20,16 @@ public class CalculateAgeTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(5);
 
-        BigDecimal result = MappingUtils.calculateAge(testDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")));
+        BigDecimal result = MappingUtils.calculateAge(testDate);
 
         Assertions.assertEquals(BigDecimal.valueOf(5), result);
 
     }
 
     @Test
-    @DisplayName("Success: should return age")
-    public void testSuccessCalculateAgeAlternateDate() {
-
-        BigDecimal result = MappingUtils.calculateAge("APRIL     19, 1982");
-
-        Assertions.assertTrue((result.intValue() >= 40));
-
-    }
-
-
-    @Test
     @DisplayName("Success: null date should return zero")
     public void testSuccessNullCalculateAge() {
         Assertions.assertEquals(BigDecimal.ZERO, MappingUtils.calculateAge(null));
-    }
-
-    @Test
-    @DisplayName("Error: invalid date should throw exception")
-    public void testErrorCalculateAge() {
-        Assertions.assertEquals(BigDecimal.ZERO, MappingUtils.calculateAge("GARBAGE"));
     }
 
 }

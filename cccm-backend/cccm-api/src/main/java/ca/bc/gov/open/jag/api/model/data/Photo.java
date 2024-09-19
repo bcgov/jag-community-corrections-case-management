@@ -1,9 +1,11 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class Photo {
 
     private byte[] image;
-    private String photoTakenDate;
+    private LocalDate photoTakenDate;
 
     public byte[] getImage() {
         return image;
@@ -13,11 +15,11 @@ public class Photo {
         this.image = image;
     }
 
-    public String getPhotoTakenDate() {
+    public LocalDate getPhotoTakenDate() {
         return photoTakenDate;
     }
 
-    public void setPhotoTakenDate(String photoTakenDate) {
+    public void setPhotoTakenDate(LocalDate photoTakenDate) {
         this.photoTakenDate = photoTakenDate;
     }
 }

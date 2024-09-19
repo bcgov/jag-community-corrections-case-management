@@ -1,10 +1,12 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class Warrant {
 
     private String courtFileNumber;
     private String charge;
-    private String issuedDate;
+    private LocalDate issuedDate;
 
     public String getCourtFileNumber() {
         return courtFileNumber;
@@ -22,11 +24,11 @@ public class Warrant {
         this.charge = charge;
     }
 
-    public String getIssuedDate() {
+    public LocalDate getIssuedDate() {
         return issuedDate;
     }
 
-    public void setIssuedDate(String issuedDate) {
+    public void setIssuedDate(LocalDate issuedDate) {
         this.issuedDate = issuedDate;
     }
 }

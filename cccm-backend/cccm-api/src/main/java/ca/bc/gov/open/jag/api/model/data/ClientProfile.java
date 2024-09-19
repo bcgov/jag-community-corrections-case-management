@@ -1,17 +1,18 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ClientProfile {
     private Client client;
     private String offense;
-    private String nextCourtDate;
+    private LocalDate nextCourtDate;
     private String secondaryManager;
     private String status;
     private String supervisionLevel;
     private String orders;
-    private String finalOrderExpiryDt;
-    private String orderEffectiveDt;
+    private LocalDate finalOrderExpiryDt;
+    private LocalDate orderEffectiveDt;
     private String releaseReason;
     private String institutionstatus;
     private String clientinoutyn;
@@ -27,9 +28,9 @@ public class ClientProfile {
     private String federalParolOffice;
     private String iaClassification;
     private String custody;
-    private String possibleParoleDt;
-    private String probableDischargeDt;
-    private String finalWarrantExpiryDt;
+    private LocalDate possibleParoleDt;
+    private LocalDate probableDischargeDt;
+    private LocalDate finalWarrantExpiryDt;
     private List<Warrant> warrants;
     private List<WarrantType> warrantTypes;
     private List<Alert> alerts;
@@ -39,31 +40,30 @@ public class ClientProfile {
     private String biometricStatus;
     private String eReporting;
     private String rnaStatus;
-    private String nextDueDt;
+    private LocalDate nextDueDt;
 
-
-    public String getPossibleParoleDt() {
-        return possibleParoleDt;
+    public Client getClient() {
+        return client;
     }
 
-    public void setPossibleParoleDt(String possibleParoleDt) {
-        this.possibleParoleDt = possibleParoleDt;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public String getProbableDischargeDt() {
-        return probableDischargeDt;
+    public String getOffense() {
+        return offense;
     }
 
-    public void setProbableDischargeDt(String probableDischargeDt) {
-        this.probableDischargeDt = probableDischargeDt;
+    public void setOffense(String offense) {
+        this.offense = offense;
     }
 
-    public String getFinalWarrantExpiryDt() {
-        return finalWarrantExpiryDt;
+    public LocalDate getNextCourtDate() {
+        return nextCourtDate;
     }
 
-    public void setFinalWarrantExpiryDt(String finalWarrantExpiryDt) {
-        this.finalWarrantExpiryDt = finalWarrantExpiryDt;
+    public void setNextCourtDate(LocalDate nextCourtDate) {
+        this.nextCourtDate = nextCourtDate;
     }
 
     public String getSecondaryManager() {
@@ -98,12 +98,20 @@ public class ClientProfile {
         this.orders = orders;
     }
 
-    public String getFinalOrderExpiryDt() {
+    public LocalDate getFinalOrderExpiryDt() {
         return finalOrderExpiryDt;
     }
 
-    public void setFinalOrderExpiryDt(String finalOrderExpiryDt) {
+    public void setFinalOrderExpiryDt(LocalDate finalOrderExpiryDt) {
         this.finalOrderExpiryDt = finalOrderExpiryDt;
+    }
+
+    public LocalDate getOrderEffectiveDt() {
+        return orderEffectiveDt;
+    }
+
+    public void setOrderEffectiveDt(LocalDate orderEffectiveDt) {
+        this.orderEffectiveDt = orderEffectiveDt;
     }
 
     public String getReleaseReason() {
@@ -178,6 +186,14 @@ public class ClientProfile {
         this.popDesignation = popDesignation;
     }
 
+    public String getUcmpDesignation() {
+        return ucmpDesignation;
+    }
+
+    public void setUcmpDesignation(String ucmpDesignation) {
+        this.ucmpDesignation = ucmpDesignation;
+    }
+
     public String getIcayraSecurity() {
         return icayraSecurity;
     }
@@ -194,6 +210,54 @@ public class ClientProfile {
         this.icayraSecurityStatus = icayraSecurityStatus;
     }
 
+    public String getFederalParolOffice() {
+        return federalParolOffice;
+    }
+
+    public void setFederalParolOffice(String federalParolOffice) {
+        this.federalParolOffice = federalParolOffice;
+    }
+
+    public String getIaClassification() {
+        return iaClassification;
+    }
+
+    public void setIaClassification(String iaClassification) {
+        this.iaClassification = iaClassification;
+    }
+
+    public String getCustody() {
+        return custody;
+    }
+
+    public void setCustody(String custody) {
+        this.custody = custody;
+    }
+
+    public LocalDate getPossibleParoleDt() {
+        return possibleParoleDt;
+    }
+
+    public void setPossibleParoleDt(LocalDate possibleParoleDt) {
+        this.possibleParoleDt = possibleParoleDt;
+    }
+
+    public LocalDate getProbableDischargeDt() {
+        return probableDischargeDt;
+    }
+
+    public void setProbableDischargeDt(LocalDate probableDischargeDt) {
+        this.probableDischargeDt = probableDischargeDt;
+    }
+
+    public LocalDate getFinalWarrantExpiryDt() {
+        return finalWarrantExpiryDt;
+    }
+
+    public void setFinalWarrantExpiryDt(LocalDate finalWarrantExpiryDt) {
+        this.finalWarrantExpiryDt = finalWarrantExpiryDt;
+    }
+
     public List<Warrant> getWarrants() {
         return warrants;
     }
@@ -202,12 +266,28 @@ public class ClientProfile {
         this.warrants = warrants;
     }
 
-    public String getFederalParolOffice() {
-        return federalParolOffice;
+    public List<WarrantType> getWarrantTypes() {
+        return warrantTypes;
     }
 
-    public void setFederalParolOffice(String federalParolOffice) {
-        this.federalParolOffice = federalParolOffice;
+    public void setWarrantTypes(List<WarrantType> warrantTypes) {
+        this.warrantTypes = warrantTypes;
+    }
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
+    }
+
+    public List<Program> getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(List<Program> programs) {
+        this.programs = programs;
     }
 
     public String getIsBiometricEnrolled() {
@@ -242,70 +322,6 @@ public class ClientProfile {
         this.eReporting = eReporting;
     }
 
-    public String getOffense() {
-        return offense;
-    }
-
-    public void setOffense(String offense) {
-        this.offense = offense;
-    }
-
-    public String getNextCourtDate() {
-        return nextCourtDate;
-    }
-
-    public void setNextCourtDate(String nextCourtDate) {
-        this.nextCourtDate = nextCourtDate;
-    }
-
-    public String getIaClassification() {
-        return iaClassification;
-    }
-
-    public void setIaClassification(String iaClassification) {
-        this.iaClassification = iaClassification;
-    }
-
-    public String getCustody() {
-        return custody;
-    }
-
-    public void setCustody(String custody) {
-        this.custody = custody;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public List<Alert> getAlerts() {
-        return alerts;
-    }
-
-    public void setAlerts(List<Alert> alerts) {
-        this.alerts = alerts;
-    }
-
-    public List<Program> getPrograms() {
-        return programs;
-    }
-
-    public void setPrograms(List<Program> programs) {
-        this.programs = programs;
-    }
-
-    public String getOrderEffectiveDt() {
-        return orderEffectiveDt;
-    }
-
-    public void setOrderEffectiveDt(String orderEffectiveDt) {
-        this.orderEffectiveDt = orderEffectiveDt;
-    }
-
     public String getRnaStatus() {
         return rnaStatus;
     }
@@ -314,28 +330,11 @@ public class ClientProfile {
         this.rnaStatus = rnaStatus;
     }
 
-    public String getNextDueDt() {
+    public LocalDate getNextDueDt() {
         return nextDueDt;
     }
 
-    public void setNextDueDt(String nextDueDt) {
+    public void setNextDueDt(LocalDate nextDueDt) {
         this.nextDueDt = nextDueDt;
     }
-
-    public String getUcmpDesignation() {
-        return ucmpDesignation;
-    }
-
-    public void setUcmpDesignation(String ucmpDesignation) {
-        this.ucmpDesignation = ucmpDesignation;
-    }
-
-    public List<WarrantType> getWarrantTypes() {
-        return warrantTypes;
-    }
-
-    public void setWarrantTypes(List<WarrantType> warrantTypes) {
-        this.warrantTypes = warrantTypes;
-    }
-
 }

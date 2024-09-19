@@ -1,6 +1,7 @@
 package ca.bc.gov.open.jag.api.model.data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Program {
 
@@ -9,16 +10,16 @@ public class Program {
     private String programName;
     private String locationDsc;
     private String status;
-    private String referralDate;
-    private String startDate;
-    private String endDate;
+    private LocalDate referralDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String outcome;
     private String outcomeReason;
     private BigDecimal programAttendanceId;
     private BigDecimal locationId;
     private String lotyCd;
     private BigDecimal  programSessionId;
-    private String programSessionStartDate;
+    private LocalDate programSessionStartDate;
 
     public BigDecimal getClientId() {
         return clientId;
@@ -60,27 +61,27 @@ public class Program {
         this.status = status;
     }
 
-    public String getReferralDate() {
+    public LocalDate getReferralDate() {
         return referralDate;
     }
 
-    public void setReferralDate(String referralDate) {
+    public void setReferralDate(LocalDate referralDate) {
         this.referralDate = referralDate;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -132,11 +133,11 @@ public class Program {
         this.programSessionId = programSessionId;
     }
 
-    public String getProgramSessionStartDate() {
+    public LocalDate getProgramSessionStartDate() {
         return programSessionStartDate;
     }
 
-    public void setProgramSessionStartDate(String programSessionStartDate) {
+    public void setProgramSessionStartDate(LocalDate programSessionStartDate) {
         this.programSessionStartDate = programSessionStartDate;
     }
 }

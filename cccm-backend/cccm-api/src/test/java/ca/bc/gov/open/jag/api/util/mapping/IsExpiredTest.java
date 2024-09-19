@@ -18,7 +18,7 @@ public class IsExpiredTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(1);
 
-        Boolean result = MappingUtils.isExpired(testDate.toString());
+        Boolean result = MappingUtils.isExpired(testDate);
 
         Assertions.assertTrue(result);
 
@@ -30,7 +30,7 @@ public class IsExpiredTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.plusDays(2);
 
-        Boolean result = MappingUtils.isExpired(testDate.toString());
+        Boolean result = MappingUtils.isExpired(testDate);
 
         Assertions.assertFalse(result);
     }
