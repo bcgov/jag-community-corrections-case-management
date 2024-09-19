@@ -9,13 +9,20 @@
 </template>
 
 <script lang="ts">
+import * as DateFns from 'date-fns';
+
 export default {
   name: "DashboardDueDateLegend",
   methods: {
-    getColor(dueDate: Date) {
-      if (dueDate == null) {
+    getColor(dueDateStr: Date) {
+      if (dueDateStr == null) {
         return "";
       }
+      const dueDate = new Date(dueDateStr);
+      if (DateFns.isValid(dueDate) === false) {
+        console.error("invalid dueDateStr");
+        return "";
+      }      
       const diffTime = dueDate.getTime() - new Date().getTime();
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       if (diffDays <= 0) {

@@ -48,7 +48,7 @@
           </template>
           <!--Customize the CMRPDueDate field -->
           <template v-slot:item.CMRPDueDate="{ item }">
-            <div :class="$refs.dashboardDueDate?.getColor(item.CMRPDueDate)">{{item.CMRPDueDate}}</div>
+            <div :class="$refs.dashboardDueDate?.getColor(item.CMRPDueDate)">{{formatCMRPDueDate(item.CMRPDueDate)}}</div>
           </template>
         </v-data-table>
       </div>
@@ -67,6 +67,7 @@ import { mapStores } from "pinia";
 import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dashboardCentreSearch } from "@/components/form.api";
+import { dateToYYYY_MM_DD } from "@/components/dateUtils";
 
 export default {
   name: "DashboardItrpView",
@@ -143,9 +144,12 @@ export default {
         return true;
       }
     },
+    formatCMRPDueDate(dateStr: string) {
+      return dateToYYYY_MM_DD(dateStr);
+    }
   },
   computed: {
     ...mapStores(useStore),
-  }
+  },
 }
 </script>
