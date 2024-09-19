@@ -15,7 +15,7 @@
                     <div v-else>
                         <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
                             <h5>{{ subSection.hideTitle ? '' : subSection.title }}</h5>
-                            <v-data-table v-if="subSection.title == 'Intervention Plan'"
+                            <v-data-table v-if="subSection.type == $CONST_SUBSECTIONTYPE_INTERVENTION"
                                 no-data-text="" 
                                 :items="subSection.answers"
                                 :headers="interventionHeaders" item-key="key" 
@@ -131,7 +131,7 @@ export default {
         async getSummaryData() {
             this.loading = true;
             const [error, response] = await getDataForSummaryView(this.csNumber, this.clientFormId, true);
-            // console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
+             console.log("formSummary, csNumber: {}, formId: {} ", this.csNumber, this.clientFormId, response);
             if (error) {
                 console.error("Get summary failed: ", error);
             } else {
