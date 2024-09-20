@@ -1,23 +1,25 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class ClientDates {
 
-    private String pddDate;
-    private String crnaCompleteDate;
+    private LocalDate pddDate;
+    private LocalDate crnaCompleteDate;
 
-    public String getPddDate() {
+    public LocalDate getPddDate() {
         return pddDate;
     }
 
-    public String getCrnaCompleteDate() {
+    public LocalDate getCrnaCompleteDate() {
         return crnaCompleteDate;
     }
 
-    public void setPddDate(String pddDate) {
+    public void setPddDate(LocalDate pddDate) {
         this.pddDate = pddDate;
     }
 
-    public void setCrnaCompleteDate(String crnaCompleteDate) {
+    public void setCrnaCompleteDate(LocalDate crnaCompleteDate) {
         this.crnaCompleteDate = crnaCompleteDate;
     }
 

@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,18 +25,18 @@ public class GetPoDashboardTest {
     private static final String CLIENT_IN = "Y";
     private static final String SUPERVISION_LEVEL = "SUPER_LEVEL";
     private static final String MOED = "MOED";
-    private static final String FOED = "FOED";
+    private static final LocalDate FOED = LocalDate.now();
     private static final String CLIENT_NO = "123";
     private static final String CLIENT_NAME = "ClientName";
     private static final String RNA_CD = "RNACD";
     private static final String RETY_CD = "RETY_CD";
     private static final String RNAS_CD = "RNASCD";
-    private static final String COMPLETION_DATE = "COMPLETIONDATE";
+    private static final LocalDate COMPLETION_DATE = LocalDate.now();
     private static final String COMMENT = "COMMENT";
     private static final String ISSUES_OUTSTANDING_YN = "ISSUES";
     private static final String FILE_REVIEW_COMPLETE_YN = "Y";
     private static final String DUE_NEXT = "DUENEXT";
-    private static final String DUE_DATE = "DUE_DATE";
+    private static final LocalDate DUE_DATE = LocalDate.now();
     @Inject
     UserDataService sut;
 

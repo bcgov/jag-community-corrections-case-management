@@ -19,10 +19,10 @@ public class AlertTest {
 
         Alert sut = new Alert();
         sut.setDescription("TEST");
-        sut.setEffectiveDate("TEST");
+        sut.setEffectiveDate(testDate);
 
         Assertions.assertEquals("TEST", sut.getDescription());
-        Assertions.assertEquals("TEST", sut.getEffectiveDate());
+        Assertions.assertEquals(testDate, sut.getEffectiveDate());
 
     }
 

@@ -1,9 +1,11 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class Alert {
 
     private String description;
-    private String effectiveDate;
+    private LocalDate effectiveDate;
 
     public String getDescription() {
         return description;
@@ -13,11 +15,11 @@ public class Alert {
         this.description = description;
     }
 
-    public String getEffectiveDate() {
+    public LocalDate getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
+    public void setEffectiveDate(LocalDate effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 

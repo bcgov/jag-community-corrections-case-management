@@ -1,5 +1,7 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class Client {
 
     private String clientNo;
@@ -7,14 +9,14 @@ public class Client {
     private String currentName;
     private String currentNameYn;
     private String genderCode;
-    private String birthDate;
+    private LocalDate birthDate;
     private String custodyLocation;
     private String communityLocation;
     private String caseManager;
     private String address;
     private String addressStatus;
     private String addressType;
-    private String addressExpiry;
+    private LocalDate addressExpiry;
     private String alias;
     private String sealed;
 
@@ -50,11 +52,11 @@ public class Client {
         this.genderCode = genderCode;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -130,11 +132,11 @@ public class Client {
         this.addressType = addressType;
     }
 
-    public String getAddressExpiry() {
+    public LocalDate getAddressExpiry() {
         return addressExpiry;
     }
 
-    public void setAddressExpiry(String addressExpiry) {
+    public void setAddressExpiry(LocalDate addressExpiry) {
         this.addressExpiry = addressExpiry;
     }
 }

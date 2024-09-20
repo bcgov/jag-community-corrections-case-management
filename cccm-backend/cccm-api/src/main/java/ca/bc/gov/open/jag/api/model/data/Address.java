@@ -1,9 +1,11 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class Address {
 
     private String fullAddress;
-    private String expiryDate;
+    private LocalDate expiryDate;
 
     private boolean primary;
 
@@ -15,11 +17,11 @@ public class Address {
         this.fullAddress = fullAddress;
     }
 
-    public String getExpiryDate() {
+    public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(String expiryDate) {
+    public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
 

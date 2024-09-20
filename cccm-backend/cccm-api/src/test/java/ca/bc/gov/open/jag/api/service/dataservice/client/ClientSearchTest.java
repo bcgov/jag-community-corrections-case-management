@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
+
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class ClientSearchTest {
     private static final String CURRENT_NAME_YN = "N";
     private static final String GENDER_M = "M";
     private static final String GENDER_F = "F";
-    private static final String BIRTH_DATE = "1961-04-17";
+    private static final LocalDate BIRTH_DATE = LocalDate.now();
     private static final String TEST_1 = "TEST1";
     private static final String TEST_2 = "TEST2";
     @Inject

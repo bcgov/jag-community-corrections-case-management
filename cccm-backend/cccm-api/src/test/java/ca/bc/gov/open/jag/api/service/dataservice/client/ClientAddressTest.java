@@ -49,11 +49,10 @@ public class ClientAddressTest {
     private ca.bc.gov.open.jag.api.model.data.Address createAddress() {
 
         LocalDate testDate = LocalDate.now();
-        testDate = testDate.minusYears(1);
 
         Address address = new Address();
         address.setFullAddress(ADDRESS);
-        address.setExpiryDate(testDate.toString());
+        address.setExpiryDate(testDate.minusYears(1));
 
         return address;
 

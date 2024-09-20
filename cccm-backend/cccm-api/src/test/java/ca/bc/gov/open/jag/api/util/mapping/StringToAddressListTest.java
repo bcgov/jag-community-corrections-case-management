@@ -20,7 +20,7 @@ public class StringToAddressListTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.plusDays(2);
 
-        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate.toString());
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate);
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());
@@ -37,7 +37,7 @@ public class StringToAddressListTest {
         LocalDate testDate = LocalDate.now();
         testDate = testDate.minusYears(1);
 
-        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate.toString());
+        List<Address> result = MappingUtils.stringToAddressList("Test", "TEST", testDate);
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("TEST", result.get(0).getType());

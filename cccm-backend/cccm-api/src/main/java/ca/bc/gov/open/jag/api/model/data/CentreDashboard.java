@@ -1,34 +1,20 @@
 package ca.bc.gov.open.jag.api.model.data;
 
+import java.time.LocalDate;
+
 public class CentreDashboard {
 
     private String clientName;
     private String clientNo;
-    private String dischargeRtcDate;
-    private String nextCourtDate;
+    private LocalDate dischargeRtcDate;
+    private LocalDate nextCourtDate;
     private String orderStatus;
     private String supLevel;
-    private String CRNACompDate;
-    private String CMRPCompDate;
-    private String CMRPDueDate;
+    private LocalDate CRNACompDate;
+    private LocalDate CMRPCompDate;
+    private LocalDate CMRPDueDate;
     private Integer itrp;
     private Integer rvo;
-
-    public Integer getItrp() {
-        return itrp;
-    }
-
-    public void setItrp(Integer itrp) {
-        this.itrp = itrp;
-    }
-
-    public Integer getRvo() {
-        return rvo;
-    }
-
-    public void setRvo(Integer rvo) {
-        this.rvo = rvo;
-    }
 
     public String getClientName() {
         return clientName;
@@ -46,19 +32,19 @@ public class CentreDashboard {
         this.clientNo = clientNo;
     }
 
-    public String getDischargeRtcDate() {
+    public LocalDate getDischargeRtcDate() {
         return dischargeRtcDate;
     }
 
-    public void setDischargeRtcDate(String dischargeRtcDate) {
+    public void setDischargeRtcDate(LocalDate dischargeRtcDate) {
         this.dischargeRtcDate = dischargeRtcDate;
     }
 
-    public String getNextCourtDate() {
+    public LocalDate getNextCourtDate() {
         return nextCourtDate;
     }
 
-    public void setNextCourtDate(String nextCourtDate) {
+    public void setNextCourtDate(LocalDate nextCourtDate) {
         this.nextCourtDate = nextCourtDate;
     }
 
@@ -78,27 +64,43 @@ public class CentreDashboard {
         this.supLevel = supLevel;
     }
 
-    public String getCRNACompDate() {
+    public LocalDate getCRNACompDate() {
         return CRNACompDate;
     }
 
-    public void setCRNACompDate(String CRNACompDate) {
+    public void setCRNACompDate(LocalDate CRNACompDate) {
         this.CRNACompDate = CRNACompDate;
     }
 
-    public String getCMRPCompDate() {
+    public LocalDate getCMRPCompDate() {
         return CMRPCompDate;
     }
 
-    public void setCMRPCompDate(String CMRPCompDate) {
+    public void setCMRPCompDate(LocalDate CMRPCompDate) {
         this.CMRPCompDate = CMRPCompDate;
     }
 
-    public String getCMRPDueDate() {
+    public LocalDate getCMRPDueDate() {
         return CMRPDueDate;
     }
 
-    public void setCMRPDueDate(String CMRPDueDate) {
+    public void setCMRPDueDate(LocalDate CMRPDueDate) {
         this.CMRPDueDate = CMRPDueDate;
+    }
+
+    public Integer getItrp() {
+        return itrp;
+    }
+
+    public void setItrp(Integer itrp) {
+        this.itrp = itrp;
+    }
+
+    public Integer getRvo() {
+        return rvo;
+    }
+
+    public void setRvo(Integer rvo) {
+        this.rvo = rvo;
     }
 }

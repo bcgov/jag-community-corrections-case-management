@@ -25,22 +25,15 @@ public class MappingUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(MappingUtils.class));
 
-    public static BigDecimal calculateAge(String birthDate) {
-        if (StringUtils.isBlank(birthDate)) {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    public static BigDecimal calculateAge(LocalDate birthDate) {
+        if (birthDate == null) {
             return BigDecimal.ZERO;
         }
         try {
 
-            if (birthDate.length() == 10) {
-
-                LocalDate localBirthDate = LocalDate.parse(birthDate);
-
-                return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
-            } else {
-                DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("MMMM d, u", Locale.ENGLISH);
-                LocalDate localBirthDate = LocalDate.parse(normalizeDate(birthDate), inputDtf);
-                return new BigDecimal(ChronoUnit.YEARS.between(localBirthDate, LocalDate.now()));
-            }
+            return new BigDecimal(ChronoUnit.YEARS.between(birthDate, LocalDate.now()));
 
         } catch (Exception e) {
             logger.error("Date mapping error: {}", birthDate);
@@ -136,7 +129,7 @@ public class MappingUtils {
 
     }
 
-    public static List<Address> stringToAddressList(String address, String addressType, String addressExpiry) {
+    public static List<Address> stringToAddressList(String address, String addressType, LocalDate addressExpiry) {
 
         if (StringUtils.isBlank(address)) {
             return new ArrayList<>();
@@ -157,16 +150,12 @@ public class MappingUtils {
         return designation;
     }
 
-    public static Boolean isExpired(String expiry) {
-        if (StringUtils.isBlank(expiry)) {
+    public static Boolean isExpired(LocalDate expiry) {
+        if (expiry == null) {
             return false;
         }
 
-        if (expiry.length() <= 10) {
-            return Date.valueOf(expiry).toLocalDate().isBefore(LocalDate.now());
-        } else {
-            return LocalDate.parse(StringUtils.truncate(expiry, 10)).isBefore(LocalDate.now());
-        }
+        return Date.valueOf(expiry).toLocalDate().isBefore(LocalDate.now());
 
     }
 

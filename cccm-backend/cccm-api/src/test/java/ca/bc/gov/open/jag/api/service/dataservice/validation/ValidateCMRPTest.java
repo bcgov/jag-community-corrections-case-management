@@ -42,7 +42,7 @@ public class ValidateCMRPTest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCMRP(DATA_ONE, createDates(LocalDate.now().minusMonths(5).toString(), LocalDate.now().minusDays(36).toString()), Collections.singletonList(interventionsChecked));
+        ValidationResult result = sut.validateCMRP(DATA_ONE, createDates(LocalDate.now().minusMonths(5), LocalDate.now().minusDays(36)), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(1, result.getErrors().size());
 
@@ -57,7 +57,7 @@ public class ValidateCMRPTest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8).toString(), LocalDate.now().plusDays(30).toString()), Collections.singletonList(interventionsChecked));
+        ValidationResult result = sut.validateCMRP("{}", createDates(LocalDate.now().minusMonths(8), LocalDate.now().plusDays(30)), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(3, result.getErrors().size());
 
@@ -72,7 +72,7 @@ public class ValidateCMRPTest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.singletonList(interventionsChecked));
+        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now(), LocalDate.now().plusDays(1)), Collections.singletonList(interventionsChecked));
 
         Assertions.assertEquals(1, result.getErrors().size());
 
@@ -95,32 +95,17 @@ public class ValidateCMRPTest {
 
     @Test
     @DisplayName("Success: should validate data")
-    public void testValidationsEmptyDates() throws IOException {
-
-        sut = new ValidationServiceImpl(new ObjectMapper());
-
-        InterventionsChecked interventionsChecked = new InterventionsChecked();
-        interventionsChecked.setKey("S01Q01");
-
-        ValidationResult result = sut.validateCMRP("", createDates("", ""), Collections.singletonList(interventionsChecked));
-
-        Assertions.assertEquals(2, result.getErrors().size());
-
-    }
-
-    @Test
-    @DisplayName("Success: should validate data")
     public void testValidationsEmptyIntervention() throws IOException {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now().toString(), LocalDate.now().plusDays(1).toString()), Collections.EMPTY_LIST);
+        ValidationResult result = sut.validateCMRP("", createDates(LocalDate.now(), LocalDate.now().plusDays(1)), Collections.EMPTY_LIST);
 
         Assertions.assertEquals(2, result.getErrors().size());
 
     }
 
-    private ClientDates createDates(String crnaDate, String pddDate) {
+    private ClientDates createDates(LocalDate crnaDate, LocalDate pddDate) {
 
         ClientDates clientDates = new ClientDates();
         clientDates.setPddDate(pddDate);

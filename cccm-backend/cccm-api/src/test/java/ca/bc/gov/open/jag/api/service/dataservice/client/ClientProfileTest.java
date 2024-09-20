@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 
 import jakarta.inject.Inject;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 
 import static ca.bc.gov.open.jag.api.util.MappingUtils.calculateAge;
@@ -27,7 +28,7 @@ public class ClientProfileTest {
     private static final String TEST_NAME = "TEST1, TESTER";
     private static final String CURRENT_NAME_YN = "N";
     private static final String GENDER_CODE = "M";
-    private static final String BIRTH_DATE = "1961-04-17";
+    private static final LocalDate BIRTH_DATE = LocalDate.now();
     private static final String CUSTODY_LOCATION = "Custody Location";
     private static final String COMMUNITY_LOCATION = "Community Location";
     private static final String ADDRESS = "Address";
@@ -38,16 +39,16 @@ public class ClientProfileTest {
     private static final String CLIENT_NUM = "01";
     private static final String TEST_IDIR = "test@idir";
     private static final String LOCATION = "123";
-    private static final String PHOTO_TAKEN_DATE = "TEST";
+    private static final LocalDate PHOTO_TAKEN_DATE = LocalDate.now();
     private static final byte[] BYTES = "blarg".getBytes();
-    private static final String START_DATE = "STARTDATE";
-    private static final String REFERRAL_DATE = "REFERALDATE";
+    private static final LocalDate START_DATE = LocalDate.now();
+    private static final LocalDate REFERRAL_DATE = LocalDate.now();
     private static final String PROGRAM_NAME = "PROGRAMNAME";
     private static final String TEST = "TEST";
     private static final String OUTCOME = "OUTCOME";
     private static final String STATUS = "STATUS";
     private static final String RNASTATUS = "RNASTATUS";
-
+    private static final LocalDate TEST_DATE = LocalDate.now();
     private static final String DESIGNATION = "UCMPDESIGNATION";
 
     @Inject
@@ -137,7 +138,7 @@ public class ClientProfileTest {
         Program program = new Program();
 
         program.setClientId(TEST_ID);
-        program.setEndDate(TEST);
+        program.setEndDate(TEST_DATE);
         program.setLocationDsc(TEST);
         program.setLocationId(TEST_ID);
         program.setLotyCd(TEST);
@@ -146,7 +147,7 @@ public class ClientProfileTest {
         program.setProgramAttendanceId(TEST_ID);
         program.setProgramName(PROGRAM_NAME);
         program.setProgramSessionId(TEST_ID);
-        program.setProgramSessionStartDate(TEST);
+        program.setProgramSessionStartDate(TEST_DATE);
         program.setProgramTypeCd(TEST);
         program.setReferralDate(REFERRAL_DATE);
         program.setStartDate(START_DATE);
