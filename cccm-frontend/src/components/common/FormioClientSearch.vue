@@ -123,6 +123,7 @@ import iZtoast from 'izitoast';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
+import { dateToCCCMDateformat } from '../dateUtils';
 
 export default {
   name: 'FormioClientSearch',
@@ -291,6 +292,20 @@ export default {
         let index = Math.random();
         this.clients = this.clients.filter(el => {
           el.index = index++;
+          el.birthDate = dateToCCCMDateformat(el.birthDate);
+          el.dueDate = dateToCCCMDateformat(el.dueDate);
+          if (el.orderInformation != null) {
+            el.orderInformation.dueDate = dateToCCCMDateformat(el.orderInformation.dueDate);
+            el.orderInformation.expiryDate = dateToCCCMDateformat(el.orderInformation.expiryDate);
+          }
+          if (el.generalInformation != null) {
+            el.generalInformation.dischargeDate = dateToCCCMDateformat(el.generalInformation.dischargeDate);
+            el.generalInformation.paroleDate = dateToCCCMDateformat(el.generalInformation.paroleDate);
+          }
+          if (el.locationInformation != null) {
+            el.locationInformation.warrantExpiryDate = dateToCCCMDateformat(el.locationInformation.warrantExpiryDate);
+            el.locationInformation.nextCourtDate = dateToCCCMDateformat(el.locationInformation.nextCourtDate);
+          }
           // Map primary address and primary addressType
           if (el.address != null && el.address.length == 1) {
             el.fullAddress = el.address[0].fullAddress;

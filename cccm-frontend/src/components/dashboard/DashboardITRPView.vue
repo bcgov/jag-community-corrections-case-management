@@ -38,6 +38,38 @@
             :items-per-page="itemsPerPage"
             @page-count="pageCount = $event"
         >
+          <!--Customize the RTC date-->
+          <template v-slot:item.dischargeRtcDate="{ item }">
+            <td>
+              <div>
+                {{dateFormatToCCCMDateFormat(item.dischargeRtcDate)}}
+              </div>
+            </td>
+          </template>
+          <!--Customize the court date-->
+          <template v-slot:item.nextCourtDate="{ item }">
+            <td>
+              <div>
+                {{dateFormatToCCCMDateFormat(item.nextCourtDate)}}
+              </div>
+            </td>
+          </template>
+          <!--Customize the crna comp. date-->
+          <template v-slot:item.CRNACompDate="{ item }">
+            <td>
+              <div>
+                {{dateFormatToCCCMDateFormat(item.CRNACompDate)}}
+              </div>
+            </td>
+          </template>
+          <!--Customize the cmrp comp. date-->
+          <template v-slot:item.CMRPCompDate="{ item }">
+            <td>
+              <div>
+                {{dateFormatToCCCMDateFormat(item.CMRPCompDate)}}
+              </div>
+            </td>
+          </template>
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
             <td class="text-left">
@@ -48,7 +80,7 @@
           </template>
           <!--Customize the CMRPDueDate field -->
           <template v-slot:item.CMRPDueDate="{ item }">
-            <div :class="$refs.dashboardDueDate?.getColor(item.CMRPDueDate)">{{formatCMRPDueDate(item.CMRPDueDate)}}</div>
+            <div :class="$refs.dashboardDueDate?.getColor(item.CMRPDueDate)">{{dateFormatToCCCMDateFormat(item.CMRPDueDate)}}</div>
           </template>
         </v-data-table>
       </div>
@@ -67,7 +99,7 @@ import { mapStores } from "pinia";
 import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dashboardCentreSearch } from "@/components/form.api";
-import { dateToYYYY_MM_DD } from "@/components/dateUtils";
+import { dateToCCCMDateformat } from "@/components/dateUtils";
 
 export default {
   name: "DashboardItrpView",
@@ -88,7 +120,7 @@ export default {
         { text: 'Prob. Discharge/RTC Date', value: 'dischargeRtcDate' },
         { text: 'Next Court Date', value: 'nextCourtDate' },
         { text: 'Active Com. Order', value: 'orderStatus' },
-        { text: 'Sup. Level', value: 'supervisionLevel' },
+        { text: 'CRNA Rating', value: 'supervisionLevel' },
         { text: 'CRNA Comp. Dt.', value: 'CRNACompDate' },
         { text: 'C-CMRP Comp. Dt.', value: 'CMRPCompDate' },
         { text: 'C-CMRP Due Dt.', value: 'CMRPDueDate', cellClass: 'p-0 m-0' },
@@ -144,8 +176,8 @@ export default {
         return true;
       }
     },
-    formatCMRPDueDate(dateStr: string) {
-      return dateToYYYY_MM_DD(dateStr);
+    dateFormatToCCCMDateFormat(dateStr: string) {
+      return dateToCCCMDateformat(dateStr);
     }
   },
   computed: {

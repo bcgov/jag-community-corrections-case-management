@@ -78,6 +78,7 @@ import TrendAnalysisView from "@/components/trendanalysis/TrendAnalysisView.vue"
 import templateClientProfile from '@/components/common/templateClientProfile.json';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
+import { dateToCCCMDateformat } from './dateUtils';
 
 export default {
   name: "FormioClientRecord",
@@ -118,6 +119,9 @@ export default {
     this.clientProfileSearchAPI();
   },
   methods: {
+    dateFormatToCCCMDateFormat(dateStr: string) {
+      return dateToCCCMDateformat(dateStr);
+    },
     showHideMoreWarrants() {
       if (this.showWarrantDetails) {
         this.showWarrantDetails = false;
@@ -140,6 +144,7 @@ export default {
       } else {
         this.initData = {"data": {}};
         this.initData.data = clientProfileResponse;
+        console.log("clientProfileResponse: ", clientProfileResponse);
         if (clientProfileResponse != null) {
           //Cache the photoData into this.initData object
           if (clientProfileResponse.photo) {
@@ -163,6 +168,13 @@ export default {
               designationsVal += theVal;
             }
             this.initData.data.designationsVal = designationsVal;
+          }
+          //convert the date format
+          this.initData.data.birthDate = dateToCCCMDateformat(this.initData.data.birthDate);
+          if (this.initData.data.communityAlerts != null) {
+            this.initData.data.communityAlerts.forEach((entry) => {
+                entry.date = dateToCCCMDateformat(entry.date)
+            });
           }
         }
         this.theKey++;

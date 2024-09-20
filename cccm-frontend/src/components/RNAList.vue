@@ -250,6 +250,7 @@ import { formSearch, cloneForm, createForm } from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
+import { dateToCCCMDateformat } from './dateUtils';
 
 export default {
   name: 'RNAList',
@@ -583,13 +584,15 @@ export default {
         } else {
           this.key_rnalistSearchResult++;
           this.rnaList = response;
-          //console.log("RNAList search: ", response);
+          console.log("RNAList search: ", response);
           this.rnaList = this.rnaList.filter(el => {
             el.status = this.$FORM_STATUS_INCOMPLETE;
             if (el.complete) {
               el.status = this.$FORM_STATUS_COMPLETE;
             }
-            el.updatedDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
+            let updDateDisplay = (el.osuUpdateDate) ? el.osuUpdateDate : (el.completedDate) ? el.completedDate : el.createdDate;
+            el.updatedDateDisplay = dateToCCCMDateformat(updDateDisplay);
+            el.createdDate = dateToCCCMDateformat(el.createdDate);
             el.assessmentStatusDisplay = this.getAssessmentStatus(el.reassessment, el.module);
             
             // CRNA or SARA form, there should be only CRNA or SARA rating returned
