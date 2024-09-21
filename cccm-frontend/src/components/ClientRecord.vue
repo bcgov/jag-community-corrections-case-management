@@ -149,7 +149,7 @@ export default {
           //Cache the photoData into this.initData object
           if (clientProfileResponse.photo) {
             this.initData.data.photo.image = "data:image/png;base64, " + clientProfileResponse.photo.image;
-            this.initData.data.photo.photoTakenDate = clientProfileResponse.photo.photoTakenDate;
+            this.initData.data.photo.photoTakenDate = dateToCCCMDateformat(clientProfileResponse.photo.photoTakenDate);
           }
           // Build the designations value, set the IPVClient and SMOClient value
           if (clientProfileResponse.designations != null) {

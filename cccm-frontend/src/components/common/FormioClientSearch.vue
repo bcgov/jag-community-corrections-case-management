@@ -224,6 +224,7 @@ export default {
       if (error) {
         console.error(error);
       } else {
+        console.log("getClientDetail: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
@@ -231,7 +232,8 @@ export default {
               el.detailsFetched = true;
               if (response.photo != null) {
                 el.photoData = "data:image/png;base64, " + response.photo.image;
-                el.photoDate = response.photo.photoTakenDate;
+                const pdate = response.photo.photoTakenDate;
+                el.photoDate = dateToCCCMDateformat(pdate);
               }
               el.currentName = response.clientName;
               el.alias = response.alias;

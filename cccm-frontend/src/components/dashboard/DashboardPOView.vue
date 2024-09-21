@@ -107,6 +107,7 @@ import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
 import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDateLegend.vue";
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
+import { dateToCCCMDateformat } from '../dateUtils';
 
 export default {
   name: 'RNAList',
@@ -289,7 +290,7 @@ export default {
           let caVal = "";
           if (el.communityAlerts != null && el.communityAlerts.length > 0) {
             for (let ca of el.communityAlerts) {
-              var alertDate = ca.date == null ? '' : ca.date;
+              var alertDate = dateToCCCMDateformat(ca.date);
               caVal += "<li>" + alertDate + ": " + ca.comment + "</li>\r\n"
             }
           } else {
@@ -320,7 +321,10 @@ export default {
         //console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
-          el.dueDateStr = el.dueDate;
+          // date conversion
+          el.orderExpiryDate = dateToCCCMDateformat(el.orderExpiryDate);
+          el.rnaCompletedDate = dateToCCCMDateformat(el.rnaCompletedDate);
+          el.dueDateStr = dateToCCCMDateformat(el.dueDate);
           el.dueDate = el.dueDate != null ? new Date(el.dueDate) : null;
           if (el.designations != null) {
             if (el.designations.indexOf(this.CONST_DESIGNATION_SMO) >= 0) {
