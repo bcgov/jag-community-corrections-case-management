@@ -125,7 +125,7 @@ export default {
                 ctx.moveTo(axisPoint, yAxis.top);
                 ctx.lineTo(axisPoint, yAxis.bottom);
                 ctx.lineWidth = 2;
-                let color = dataset.borderColor.match(/^rgb\((([0-9](,)?)*)+\)/);
+                let color = dataset.borderColor.match(/^rgb\((\d+(,\d+)*)\)/);
                 ctx.strokeStyle = 'rgb(' + color[1] + ',0.3)';
                 ctx.stroke();
                 ctx.textAlign = 'center';
