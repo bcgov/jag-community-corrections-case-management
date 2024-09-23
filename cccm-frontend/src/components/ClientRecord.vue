@@ -151,6 +151,28 @@ export default {
             this.initData.data.photo.image = "data:image/png;base64, " + clientProfileResponse.photo.image;
             this.initData.data.photo.photoTakenDate = dateToCCCMDateformat(clientProfileResponse.photo.photoTakenDate);
           }
+
+          // date conversion
+          if (this.initData.data.orderInformation != null) {
+            this.initData.data.orderInformation.effectiveDate = dateToCCCMDateformat(this.initData.data.orderInformation.effectiveDate);
+            this.initData.data.orderInformation.expiryDate = dateToCCCMDateformat(this.initData.data.orderInformation.expiryDate);
+            this.initData.data.orderInformation.dueDate = dateToCCCMDateformat(this.initData.data.orderInformation.dueDate);
+          }
+
+          if (this.initData.data.courtInformation != null) {
+            this.initData.data.courtInformation.dueDate = dateToCCCMDateformat(this.initData.data.courtInformation.dueDate);
+          }
+
+          if (this.initData.data.generalInformation != null) {
+            this.initData.data.generalInformation.dischargeDate = dateToCCCMDateformat(this.initData.data.generalInformation.dischargeDate);
+            this.initData.data.generalInformation.paroleDate = dateToCCCMDateformat(this.initData.data.generalInformation.paroleDate);
+          }
+
+          if (this.initData.data.locationInformation != null) {
+            this.initData.data.locationInformation.warrantExpiryDate = dateToCCCMDateformat(this.initData.data.locationInformation.warrantExpiryDate);
+            this.initData.data.locationInformation.nextCourtDate = dateToCCCMDateformat(this.initData.data.locationInformation.nextCourtDate);
+          }
+
           // Build the designations value, set the IPVClient and SMOClient value
           if (clientProfileResponse.designations != null) {
             let designationsVal = "";
