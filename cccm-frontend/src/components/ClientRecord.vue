@@ -78,6 +78,7 @@ import TrendAnalysisView from "@/components/trendanalysis/TrendAnalysisView.vue"
 import templateClientProfile from '@/components/common/templateClientProfile.json';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
+import { dateToCCCMDateformat } from './dateUtils';
 
 export default {
   name: "FormioClientRecord",
@@ -118,6 +119,9 @@ export default {
     this.clientProfileSearchAPI();
   },
   methods: {
+    dateFormatToCCCMDateFormat(dateStr: string) {
+      return dateToCCCMDateformat(dateStr);
+    },
     showHideMoreWarrants() {
       if (this.showWarrantDetails) {
         this.showWarrantDetails = false;
@@ -140,12 +144,35 @@ export default {
       } else {
         this.initData = {"data": {}};
         this.initData.data = clientProfileResponse;
+        console.log("clientProfileResponse: ", clientProfileResponse);
         if (clientProfileResponse != null) {
           //Cache the photoData into this.initData object
           if (clientProfileResponse.photo) {
             this.initData.data.photo.image = "data:image/png;base64, " + clientProfileResponse.photo.image;
-            this.initData.data.photo.photoTakenDate = clientProfileResponse.photo.photoTakenDate;
+            this.initData.data.photo.photoTakenDate = dateToCCCMDateformat(clientProfileResponse.photo.photoTakenDate);
           }
+
+          // date conversion
+          if (this.initData.data.orderInformation != null) {
+            this.initData.data.orderInformation.effectiveDate = dateToCCCMDateformat(this.initData.data.orderInformation.effectiveDate);
+            this.initData.data.orderInformation.expiryDate = dateToCCCMDateformat(this.initData.data.orderInformation.expiryDate);
+            this.initData.data.orderInformation.dueDate = dateToCCCMDateformat(this.initData.data.orderInformation.dueDate);
+          }
+
+          if (this.initData.data.courtInformation != null) {
+            this.initData.data.courtInformation.dueDate = dateToCCCMDateformat(this.initData.data.courtInformation.dueDate);
+          }
+
+          if (this.initData.data.generalInformation != null) {
+            this.initData.data.generalInformation.dischargeDate = dateToCCCMDateformat(this.initData.data.generalInformation.dischargeDate);
+            this.initData.data.generalInformation.paroleDate = dateToCCCMDateformat(this.initData.data.generalInformation.paroleDate);
+          }
+
+          if (this.initData.data.locationInformation != null) {
+            this.initData.data.locationInformation.warrantExpiryDate = dateToCCCMDateformat(this.initData.data.locationInformation.warrantExpiryDate);
+            this.initData.data.locationInformation.nextCourtDate = dateToCCCMDateformat(this.initData.data.locationInformation.nextCourtDate);
+          }
+
           // Build the designations value, set the IPVClient and SMOClient value
           if (clientProfileResponse.designations != null) {
             let designationsVal = "";
@@ -163,6 +190,13 @@ export default {
               designationsVal += theVal;
             }
             this.initData.data.designationsVal = designationsVal;
+          }
+          //convert the date format
+          this.initData.data.birthDate = dateToCCCMDateformat(this.initData.data.birthDate);
+          if (this.initData.data.communityAlerts != null) {
+            this.initData.data.communityAlerts.forEach((entry) => {
+                entry.date = dateToCCCMDateformat(entry.date)
+            });
           }
         }
         this.theKey++;

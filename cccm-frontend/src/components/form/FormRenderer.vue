@@ -229,6 +229,7 @@ import FormDataRefreshSection from '@/components/form/formSections/FormDataRefre
 import {useStore} from "@/stores/store";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import {mapStores} from 'pinia';
+import { dateToCCCMDateformat } from '../dateUtils';
 
 export default {
   name: 'FormRenderer',
@@ -452,7 +453,7 @@ export default {
       if (error) {
         console.error("Failed getting client form metadata: ", error);
       } else {
-        //console.log("clientFormMeta: ", clientFormMeta);
+        console.log("clientFormMeta: ", clientFormMeta);
         this.formInfoData.data = clientFormMeta;
         this.formInfoData.data.status = this.formInfoData.data.completedDate == null ? this.$FORM_STATUS_INCOMPLETE : this.$FORM_STATUS_COMPLETE;
         this.formInfoData.data.showEditBtn = this.isShowEditButton(clientFormMeta.completedDate);
@@ -468,6 +469,25 @@ export default {
           this.formInfoData.data.formTypeLabel = this.theFormConfig.formTypeLabel;
         }
 
+        // convert dates
+        this.formInfoData.data.createdDate = dateToCCCMDateformat(this.formInfoData.data.createdDate);
+        this.formInfoData.data.osuUpdatedDate = dateToCCCMDateformat(this.formInfoData.data.osuUpdatedDate);
+        if (this.formInfoData.clientData != null) {
+          this.formInfoData.data.clientData.birthDate = dateToCCCMDateformat(this.formInfoData.data.clientData.birthDate);
+          this.formInfoData.data.clientData.dueDate = dateToCCCMDateformat(this.formInfoData.data.clientData.dueDate);
+          if (this.formInfoData.data.clientData.orderInformation) {
+            this.formInfoData.data.clientData.orderInformation.dueDate = dateToCCCMDateformat(this.formInfoData.data.clientData.orderInformation.dueDate);
+            this.formInfoData.data.clientData.orderInformation.effectiveDate = dateToCCCMDateformat(this.formInfoData.data.clientData.orderInformation.effectiveDate);
+          }
+          if (this.formInfoData.data.clientData.generalInformation) {
+            this.formInfoData.data.clientData.generalInformation.dischargeDate = dateToCCCMDateformat(this.formInfoData.data.clientData.generalInformation.dischargeDate);
+          }
+          if (this.formInfoData.data.clientData.locationInformation) {
+            this.formInfoData.data.clientData.locationInformation.warrantExpiryDate = dateToCCCMDateformat(this.formInfoData.data.clientData.locationInformation.warrantExpiryDate);
+            this.formInfoData.data.clientData.locationInformation.nextCourtDate = dateToCCCMDateformat(this.formInfoData.data.clientData.locationInformation.nextCourtDate);
+          }
+        }        
+        
         // set submitBtnData
         this.submitBtnData = {"data": {}};
         this.submitBtnData.data.showDeleteBtn = this.isShowDeleteButton(clientFormMeta.completedDate);
@@ -478,9 +498,27 @@ export default {
         if (error1) {
           console.error("Failed doing client profile search: ", error1);
         } else {
+          console.log("clientData: ", response);
           this.clientData.data = response;
           this.formInfoData.data.clientData = response;
           
+          // convert dates
+          this.clientData.data.birthDate = dateToCCCMDateformat(this.clientData.data.birthDate);
+          this.clientData.data.dueDate = dateToCCCMDateformat(this.clientData.data.dueDate);
+          this.clientData.data.completedDate = dateToCCCMDateformat(this.clientData.data.completedDate);
+          if (this.clientData.data.orderInformation) {
+            this.clientData.data.orderInformation.dueDate = dateToCCCMDateformat(this.clientData.data.orderInformation.dueDate);
+            this.clientData.data.orderInformation.effectiveDate = dateToCCCMDateformat(this.clientData.data.orderInformation.effectiveDate);
+            this.clientData.data.orderInformation.expiryDate = dateToCCCMDateformat(this.clientData.data.orderInformation.expiryDate);
+          }
+          if (this.clientData.data.generalInformation) {
+            this.clientData.data.generalInformation.dischargeDate = dateToCCCMDateformat(this.clientData.data.generalInformation.dischargeDate);
+            this.clientData.data.generalInformation.paroleDate = dateToCCCMDateformat(this.clientData.data.generalInformation.paroleDate);
+          }
+          if (this.clientData.data.locationInformation) {
+            this.clientData.data.locationInformation.warrantExpiryDate = dateToCCCMDateformat(this.clientData.data.locationInformation.warrantExpiryDate);
+            this.clientData.data.locationInformation.nextCourtDate = dateToCCCMDateformat(this.clientData.data.locationInformation.nextCourtDate);
+          }
           // Set sources contacted
           this.clientData.data.sourcesContacted = {
             showSCPanel: this.theFormConfig ? this.theFormConfig.showSourcesContacted : true,

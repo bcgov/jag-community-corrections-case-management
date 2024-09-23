@@ -98,6 +98,7 @@
 <script lang="ts">
 import { getDataForSummaryView, getClientFormMetaData, clientProfileSearch, loadFormData } from "@/components/form.api";
 import FormSMOOverallBPSection from "@/components/form/formSections/FormSMOOverallBPSection.vue";
+import { dateToCCCMDateformat } from "./dateUtils";
 
 export default {
   name: 'FormSummary',
@@ -170,6 +171,9 @@ export default {
                 //console.log("this.formInfoData: ", this.formInfoData);
                 this.formInfoData.clientFormType = clientFormMeta.clientFormType == null ? '' : clientFormMeta.clientFormType ? this.$FORM_TYPE_REASSESSMENT : this.$FORM_TYPE_INITIAL;
 
+                // convert date
+                this.formInfoData.completedDate = dateToCCCMDateformat(this.formInfoData.completedDate);
+
                 // set the form title
                 let theForm = this.$FORM_INFO.filter( item => item.formType === this.formInfoData.module );
                 //console.log('form info const:', clientFormMeta, this.formType, this.$FORM_INFO, theForm);
@@ -185,6 +189,12 @@ export default {
                     console.error("Failed doing client profile search: ", error2);
                 } else {
                     this.formInfoData.clientData = clientProfile;
+
+                    // convert date
+                    if (this.formInfoData.clientData.orderInformation != null) {
+                        this.formInfoData.clientData.orderInformation.expiryDate = dateToCCCMDateformat(this.formInfoData.clientData.orderInformation.expiryDate);
+                    }
+                    
                 }
 
                 // If it's SMO-Overall form, get the CRNA and SARA rating
