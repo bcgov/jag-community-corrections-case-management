@@ -31,7 +31,7 @@
     "vuetify": "^2.6.10"
   },
   "devDependencies": {
-    "@types/node": "^16.11.10",
+    "@types/node": "^22.7.3",
     "@vitejs/plugin-legacy": "^1.7.1",
     "@vue/runtime-dom": "^3.3.2",
     "sass": "~1.32.0",
