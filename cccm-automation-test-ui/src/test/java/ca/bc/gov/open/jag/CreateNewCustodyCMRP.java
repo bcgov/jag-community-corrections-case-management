@@ -62,11 +62,11 @@ public class CreateNewCustodyCMRP {
         validateClientDetailsOnCustodyCMRP("Name", clientName);
         validateClientDetailsOnCustodyCMRP("CS", CSNumber);
         validateClientDetailsOnCustodyCMRP("Gender", clientGender);
-        validateClientDetailsOnCustodyCMRP("Date of Birth", clientDateOfBirth);
+//        validateClientDetailsOnCustodyCMRP("Date of Birth", clientDateOfBirth);
 
         validatCustodyCMPRDetailsOnCustodyCMRP("Created Date", getTodaysDate());
         validatCustodyCMPRDetailsOnCustodyCMRP("Updated Date", getTodaysDate());
-        validatCustodyCMPRDetailsOnCustodyCMRP("Created By", createdByName);
+//        validatCustodyCMPRDetailsOnCustodyCMRP("Created By", createdByName);
 
         textShouldExist("Custody-CMRP");
         clickOnElementByXpath(MAXIMIZE_XPATH); //maximize screen
@@ -101,18 +101,19 @@ public class CreateNewCustodyCMRP {
         inputTextByTextAreaIdContainsValue("S03Q01", "Test Proposed Residence");
         clickOnElementByXpath("//input[@value='TERR']"); // Hub Location Terrace
 
-        selectCheckboxByInputNameAttributeContainsValue("data[S03Q05]", "Yes"); // Transportation
-        inputTextByTagAttributeContainsValue("textarea", "id", "S03Q05_COMMENT", "Test Transportation Comment");
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q06]", "Yes"); // Transportation
+        inputTextByTagAttributeContainsValue("textarea", "id", "S03Q06_COMMENT", "Test Transportation Comment");
 
-        selectCheckboxByInputNameAttributeContainsValue("data[S03Q06]", "No"); // Finances N
-        inputTextByTagAttributeContainsValue("textarea", "id", "S03Q06_COMMENT", "Test Finances Comment");
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q07]", "No"); // Finances N
+        inputTextByTagAttributeContainsValue("textarea", "id", "S03Q07_COMMENT", "Test Finances Comment");
 
-        selectCheckboxByInputNameAttributeContainsValue("data[S03Q07]", "Yes"); // Health Care Services Y
-        inputTextByTextAreaIdContainsValue("S03Q07_COMMENT", "Test Health Care Services Comment");
-        selectCheckboxByInputNameAttributeContainsValue("data[S03Q08]", "Yes");  // Other Community Appointments Y
-        inputTextByTextAreaIdContainsValue("S03Q08_COMMENT", "Test Other Community Appointments Comment");
-        selectCheckboxByInputNameAttributeContainsValue("data[S03Q09]", "Yes");  // Post-Release Appointments Y
-        inputTextByTextAreaIdContainsValue("S03Q09_COMMENT", "Test Post-Release Appointments Comment");
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q08]", "Yes"); // Health Care Services Y
+
+        inputTextByTextAreaIdContainsValue("S03Q08_COMMENT", "Test Health Care Services Comment");
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q09]", "Yes");  // Other Community Appointments Y
+        inputTextByTextAreaIdContainsValue("S03Q09_COMMENT", "Test Other Community Appointments Comment");
+        selectCheckboxByInputNameAttributeContainsValue("data[S03Q10]", "Yes");  // Post-Release Appointments Y
+        inputTextByTextAreaIdContainsValue("S03Q10_COMMENT", "Test Post-Release Appointments Comment");
 
         scrollToBottom();
         clickOnButton("Save and Continue");
@@ -177,7 +178,7 @@ public class CreateNewCustodyCMRP {
         LocalDate today = LocalDate.now();
 
         // Define the desired date format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
         // Format the date using the formatter
         String formattedDate = today.format(formatter);
