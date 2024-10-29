@@ -46,13 +46,9 @@
               </div>
             </td>
           </template>
-          <!--Customize the court date-->
+          <!--Customize the court date -->
           <template v-slot:item.nextCourtDate="{ item }">
-            <td>
-              <div>
-                {{dateFormatToCCCMDateFormat(item.nextCourtDate)}}
-              </div>
-            </td>
+            <div :class="$refs.dashboardDueDate?.getColor(item.nextCourtDate)">{{dateFormatToCCCMDateFormat(item.nextCourtDate)}}</div>
           </template>
           <!--Customize the crna comp. date-->
           <template v-slot:item.CRNACompDate="{ item }">
