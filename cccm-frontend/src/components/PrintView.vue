@@ -29,7 +29,7 @@
             </div>
             <div v-for="(formEle, index) in formInstanceData" :key="index">
                 <div class="p-4" v-if="formEle.data.length > 0">
-                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex"> 
+                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex + 'printsection'">
                         <div v-if="section.section == 'Case Plan' || section.section == 'Intervention Plan'">
                             <div class="subSectionTitleClass">{{ section.section }}</div>
                             <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex"> 
@@ -63,8 +63,6 @@
                                 <br/>
                             </div>
                         </div>
-                    </div>
-                    <div v-for="(section, sectionIndex) in formEle.data" :key="sectionIndex + 'printsection'">
                         <div v-if="section.includeInPrint">
                             <div class="subSectionTitleClass">{{ section.section }}</div>
                             <div v-for="(subSection, ssIndex) in section.subSection" :key="ssIndex + 'printsection'"> 
