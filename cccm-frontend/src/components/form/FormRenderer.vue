@@ -438,9 +438,14 @@ export default {
           return false;
         }
         
-        // Form is unlocked, show edit button when the form is completed and the user is an admin or the form owner
+        let groupCheckedAgainst = this.$USER_GROUP_ADMIN;
+        if (this.formType === this.$CONST_FORMTYPE_CMRP) {
+          groupCheckedAgainst = this.$USER_GROUP_ITRP;
+        }
+        console.log("groupCheckedAgainst: ", groupCheckedAgainst);
+        // Form is unlocked but completed, show edit button when the form is completed and the user is an admin or the form owner
         if (completeDate != null && 
-            (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) ||
+            (this.mainStore.loginUserGroups.includes(groupCheckedAgainst) ||
              this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
           return true; 
         } 
