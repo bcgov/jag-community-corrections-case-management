@@ -402,6 +402,7 @@ export default {
       let unlockFormData = {};
       unlockFormData.clientFormId = Number(this.formId);
       unlockFormData.clientNumber = this.csNumber;
+      unlockFormData.module = this.formType;
       unlockFormData.linkedClientFormId = null;
 
       // call api to unset the complete flag
@@ -778,6 +779,7 @@ export default {
         let completeFormData = {};
         completeFormData.clientFormId = Number(this.formId);
         completeFormData.clientNumber = this.csNumber;
+        completeFormData.module = this.formType;
         completeFormData.linkedClientFormId = this.relatedClientFormId;
         completeFormData.interventionCheckboxChecked = this.formatValidationPayload(formData);
         //console.log("completeFormData: ", completeFormData);
