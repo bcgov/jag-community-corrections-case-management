@@ -9,6 +9,7 @@ import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.cccm.api.openapi.FormsApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -142,7 +143,6 @@ public class FormsApiImpl implements FormsApi {
     public void completeForm(@Valid @NotNull UpdateFormInput completeFormInput, String xLocationId) {
 
         logger.info("Complete Form Request");
-
 
         clientFormSaveService.editForm(new UpdateForm(completeFormInput, new BigDecimal(xLocationId), checkOverride(completeFormInput.getModule()), username, true, completeFormInput.getInterventionCheckboxChecked()), xLocationId);
 
@@ -494,10 +494,9 @@ public class FormsApiImpl implements FormsApi {
 
     private Boolean checkOverride(String module) {
 
-        boolean override = false;
         if (hasOverride(JWT_ROLE)) {
             return true;
-        } else if (hasOverride(CMRP_OVERRIDE_ROLE) && module.equals(CUSTODY_CMRP_FORM_TYPE)) {
+        } else if (hasOverride(CMRP_OVERRIDE_ROLE) && StringUtils.equals(module, CUSTODY_CMRP_FORM_TYPE)) {
             return true;
         }
 

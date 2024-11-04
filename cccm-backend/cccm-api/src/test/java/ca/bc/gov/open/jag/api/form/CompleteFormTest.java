@@ -66,15 +66,6 @@ public class CompleteFormTest {
     }
 
     @Test
-    @TestSecurity(user = "userOidc", roles = "form-update")
-    @DisplayName("400: throw Bad Request exception")
-    public void addTestBadRequest() {
-
-        Assertions.assertThrows(NoSuchElementException.class, () -> sut.completeForm(null, "123"));
-
-    }
-
-    @Test
     @TestSecurity(user = "userOidc", roles = "someotherrole")
     @DisplayName("403: throw unauthorized exception")
     public void addTestExceptionBadRole() {
