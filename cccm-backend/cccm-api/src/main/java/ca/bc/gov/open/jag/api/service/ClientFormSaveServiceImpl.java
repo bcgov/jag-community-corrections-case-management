@@ -151,7 +151,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         logger.debug("Edit form {}", updateForm);
         boolean requiresNew = false;
         ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location));
-        if (!updateForm.getHasOverride() && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
+        if (!updateForm.getHasOverride()
+                && !JwtUtils.stripUserName(updateForm.getIdirId()).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only edit or complete", CCCMErrorCode.VALIDATIONERROR);
         }
 

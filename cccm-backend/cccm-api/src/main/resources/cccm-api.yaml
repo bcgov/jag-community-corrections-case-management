@@ -2721,6 +2721,8 @@ components:
           type: number
         clientNumber:
           type: string
+        module:
+          type: string
         linkedClientFormId:
           type: number
           description: required to link a form
@@ -3087,6 +3089,8 @@ components:
       type: object
       properties:
         clientNumber:
+          type: string
+        module:
           type: string
         clientFormId:
           type: number
