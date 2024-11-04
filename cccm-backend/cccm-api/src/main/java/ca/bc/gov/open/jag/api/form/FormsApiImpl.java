@@ -132,7 +132,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Clone Client Form Request");
 
-        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId), hasOverride(JWT_CLONE_ROLE)), username, xLocationId);
+        return clientFormSaveService.cloneClientForm(new CloneFormRequest(cloneForm.getClientNumber(), cloneForm.getClientFormId(), new BigDecimal(xLocationId), checkOverride(cloneForm.getModule())), username, xLocationId);
 
     }
 
@@ -143,7 +143,8 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Complete Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(completeFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, true, completeFormInput.getInterventionCheckboxChecked()), xLocationId);
+
+        clientFormSaveService.editForm(new UpdateForm(completeFormInput, new BigDecimal(xLocationId), checkOverride(completeFormInput.getModule()), username, true, completeFormInput.getInterventionCheckboxChecked()), xLocationId);
 
     }
 
@@ -154,7 +155,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Edit Form Request");
 
-        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId), hasOverride(JWT_ROLE), username, false, Collections.EMPTY_LIST), xLocationId);
+        clientFormSaveService.editForm(new UpdateForm(updateFormInput, new BigDecimal(xLocationId),  checkOverride(updateFormInput.getModule()), username, false, Collections.EMPTY_LIST), xLocationId);
 
     }
 
@@ -488,6 +489,19 @@ public class FormsApiImpl implements FormsApi {
                 .collect(Collectors.toList());
 
         return (roles.contains(role));
+
+    }
+
+    private Boolean checkOverride(String module) {
+
+        boolean override = false;
+        if (hasOverride(JWT_ROLE)) {
+            return true;
+        } else if (hasOverride(CMRP_OVERRIDE_ROLE) && module.equals(CUSTODY_CMRP_FORM_TYPE)) {
+            return true;
+        }
+
+        return false;
 
     }
 
