@@ -222,7 +222,7 @@
             </a>
             &nbsp;&nbsp;
             <div style="display:inline-block" :title="getCloneTooltip(item)">
-              <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click="formClone(item.id)">
+              <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click="formClone(item.id, item.module)">
                 <font-awesome-icon :icon="['fa', 'fa-copy']" />
               </a>
             </div>
@@ -327,9 +327,10 @@ export default {
   methods: {
     canClone(item) {
       // User can clone when:
-      // 1. user is an admin or ITRP
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
+      // User is an admin or the form is CMRP and use is in ITRP group
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+          item.module === this.$CONST_FORMTYPE_CMRP )) {
         return true;
       }
 
@@ -357,11 +358,13 @@ export default {
       return true
     },
     getCloneTooltip(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+          item.module === this.$CONST_FORMTYPE_CMRP )) {
         return 'Copy form';
       }
-      else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
+      
+      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
           this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
         return "User is not allowed to clone form";
       }
@@ -553,11 +556,12 @@ export default {
         });
       }
     },
-    async formCloneAPI(formID) {
+    async formCloneAPI(formID, formType) {
       // set formData
       const formData = {
         clientNumber: this.clientNum,
-        clientFormId: formID
+        clientFormId: formID, 
+        module: formType
       };
 
       const [error, newFormId] = await cloneForm(formData);
@@ -649,8 +653,8 @@ export default {
         }
       });
     },
-    async formClone(formID) {
-      this.formCloneAPI(formID);
+    async formClone(formID, formType) {
+      this.formCloneAPI(formID, formType);
       this.formSearchAPI(this.$CONST_FORMTYPE_RNA);
     },
     formPrint(formID) {
