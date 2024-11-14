@@ -608,6 +608,10 @@ export default {
                 if (rating.formType == this.$CONST_FORMTYPE_CRNA || rating.formType == this.$CONST_FORMTYPE_CMRP) {
                   el.crnaRating = rating.desc;
                   el.crnaRatingVal = rating.text;
+                  // CBCCCM-1114: don't show supervisionRating for CMRP form
+                  if (rating.formType == this.$CONST_FORMTYPE_CMRP) {
+                    el.supervisionRating = '';
+                  }
                 } else if (rating.formType == this.$CONST_FORMTYPE_SARA) {
                   el.saraRating = rating.desc;
                   el.saraRatingVal = rating.text;
