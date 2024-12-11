@@ -54,9 +54,15 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys) {
+    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, String casePlanValidation) {
 
         logger.debug("Validate CRNA {}", answers);
+
+        ValidationResult validationResult = new ValidationResult();
+
+        if (StringUtils.equalsIgnoreCase(casePlanValidation, NO)) {
+
+        }
 
         return createValidationResult(validate(answers, crnaValidation, interventionKeys));
 
@@ -100,9 +106,13 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSOOverall(String answers) {
+    public ValidationResult validateSOOverall(String answers, String casePlanValidation) {
 
         logger.debug("Validate Overall {}", answers);
+
+        if (StringUtils.equalsIgnoreCase(casePlanValidation, NO)) {
+
+        }
 
         return createValidationResult(validate(answers, overallValidation, Collections.EMPTY_LIST));
 

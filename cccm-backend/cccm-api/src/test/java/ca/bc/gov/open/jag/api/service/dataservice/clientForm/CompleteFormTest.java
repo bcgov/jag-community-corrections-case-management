@@ -57,7 +57,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
@@ -98,7 +98,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(createClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -120,7 +120,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(obridgeClientService.getFormTypes(Mockito.any())).thenReturn(createFormTypes());
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -144,7 +144,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(validationResult);
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
@@ -192,7 +192,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
         Mockito.when(validationService.validateSARA(Mockito.any())).thenReturn(validationResult);
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(new ValidationResult());
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
@@ -216,7 +216,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateCRNA(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(validationResult);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
@@ -366,7 +366,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateSOOverall(Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateSOOverall(Mockito.any(), Mockito.any())).thenReturn(validationResult);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();

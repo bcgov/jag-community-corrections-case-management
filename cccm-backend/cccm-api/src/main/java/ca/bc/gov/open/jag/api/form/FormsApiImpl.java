@@ -348,7 +348,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate CRNA Request");
 
-        return validationService.validateCRNA(body, Collections.EMPTY_LIST);
+        return validationService.validateCRNA(body, Collections.EMPTY_LIST, NO);
 
     }
 
