@@ -2623,6 +2623,8 @@ components:
           format: date
         formTypeExpiryDate:
           type: string
+        casePlanNotRequiredYn:
+          type: string
     SupervisorDashboard:
       type: object
       properties:
