@@ -158,7 +158,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         if (updateForm.getComplete()) {
             if (clientFormSummary.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
-                ValidationResult result = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys());
+                ValidationResult result = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys(), clientFormSummary.getCasePlanNotRequiredYn());
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
@@ -178,7 +178,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 }
 
                 if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
-                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys());
+                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys(), clientFormSummary.getCasePlanNotRequiredYn());
                     if (!crnaResult.getErrors().isEmpty()) {
                         throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, crnaResult);
                     }
@@ -210,7 +210,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
-                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)));
+                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), clientFormSummary.getCasePlanNotRequiredYn());
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Overall form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }

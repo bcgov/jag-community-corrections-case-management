@@ -348,7 +348,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate CRNA Request");
 
-        return validationService.validateCRNA(body, Collections.EMPTY_LIST);
+        return validationService.validateCRNA(body, Collections.EMPTY_LIST, NO);
 
     }
 
@@ -465,7 +465,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate Overall Request");
 
-        return validationService.validateSOOverall(body);
+        return validationService.validateSOOverall(body, NO);
 
     }
 
