@@ -422,7 +422,7 @@ public class CompleteFormTest {
         clientFormSummary.setModule(module);
         clientFormSummary.setRelatedClientFormId(relatedFormId);
         clientFormSummary.setSupervisionRating(superVisionRating);
-
+        clientFormSummary.setCasePlanNotRequiredYn(false);
         Rating rating = new Rating();
         rating.setFormType("CRNA");
         rating.setText(HIGH);

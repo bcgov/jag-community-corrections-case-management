@@ -236,7 +236,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         //Set form type and module
         formInput.setFormType(clientFormSummary.getModule());
         formInput.setFormTypeId(clientFormSummary.getFormTypeId());
-
+        //Set case plan omissable
+        formInput.setCasePlanOmissable(clientFormSummary.getCasePlanNotRequiredYn());
         if (updateForm.getComplete()) {
 
             ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());

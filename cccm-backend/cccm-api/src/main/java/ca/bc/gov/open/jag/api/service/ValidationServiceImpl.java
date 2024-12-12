@@ -56,14 +56,22 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, String casePlanOmissable) {
+    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, Boolean casePlanOmissable) {
 
         logger.debug("Validate CRNA {}", answers);
 
         ValidationResult validationResult = new ValidationResult();
 
-        if (StringUtils.equalsIgnoreCase(casePlanOmissable, NO)) {
+        if (!casePlanOmissable) {
+
             validationResult.setErrors(validate(answers, casePlanValidation, null));
+
+            if (interventionKeys.isEmpty()) {
+                ValidationError validationError = new ValidationError();
+                validationError.setMessage("At least one intervention is required");
+                validationResult.getErrors().add(validationError);
+            }
+
         }
         validationResult.getErrors().addAll(validate(answers, crnaValidation, interventionKeys));
 
@@ -109,13 +117,13 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSOOverall(String answers, String casePlanOmissable) {
+    public ValidationResult validateSOOverall(String answers, Boolean casePlanOmissable) {
 
         logger.debug("Validate Overall {}", answers);
 
         ValidationResult validationResult = new ValidationResult();
 
-        if (StringUtils.equalsIgnoreCase(casePlanOmissable, NO)) {
+        if (!casePlanOmissable) {
             validationResult.setErrors(validate(answers, casePlanValidation, null));
         }
         validationResult.getErrors().addAll(validate(answers, overallValidation, Collections.EMPTY_LIST));

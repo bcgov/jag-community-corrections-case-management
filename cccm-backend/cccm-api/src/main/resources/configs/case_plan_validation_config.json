@@ -4,11 +4,6 @@
       "key": "PLAN_SUMMARY_TXT",
       "type": "REQUIRED",
       "message": "Plan Summary: is required"
-    },
-    {
-      "key": "COMMENT_TXT",
-      "type": "REQUIRED",
-      "message": "Comments: are required"
     }
 
   ]

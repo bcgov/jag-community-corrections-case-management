@@ -2624,7 +2624,7 @@ components:
         formTypeExpiryDate:
           type: string
         casePlanNotRequiredYn:
-          type: string
+          type: boolean
     SupervisorDashboard:
       type: object
       properties:

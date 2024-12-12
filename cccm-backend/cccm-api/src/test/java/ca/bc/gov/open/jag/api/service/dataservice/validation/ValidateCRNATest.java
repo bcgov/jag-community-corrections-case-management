@@ -213,7 +213,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA(DATA_ONE, Collections.singletonList(interventionsChecked), YES);
+        ValidationResult result = sut.validateCRNA(DATA_ONE, Collections.singletonList(interventionsChecked), true);
 
         Assertions.assertEquals(16, result.getErrors().size());
 
@@ -228,7 +228,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.singletonList(interventionsChecked), NO);
+        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.singletonList(interventionsChecked), false);
 
         Assertions.assertEquals(20, result.getErrors().size());
 
@@ -240,7 +240,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.EMPTY_LIST, YES);
+        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.EMPTY_LIST, true);
 
         Assertions.assertEquals(18, result.getErrors().size());
 
@@ -252,7 +252,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("{}", Collections.EMPTY_LIST, YES);
+        ValidationResult result = sut.validateCRNA("{}", Collections.EMPTY_LIST, true);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
@@ -268,7 +268,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA("", Collections.singletonList(interventionsChecked), YES);
+        ValidationResult result = sut.validateCRNA("", Collections.singletonList(interventionsChecked), true);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
@@ -284,7 +284,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA("{}", Collections.singletonList(interventionsChecked), YES);
+        ValidationResult result = sut.validateCRNA("{}", Collections.singletonList(interventionsChecked), true);
 
         Assertions.assertEquals(22, result.getErrors().size());
 
@@ -296,7 +296,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("", Collections.EMPTY_LIST, YES);
+        ValidationResult result = sut.validateCRNA("", Collections.EMPTY_LIST, true);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
