@@ -713,7 +713,7 @@ export default {
       return this.mainStore.isAllowFormWrite();
     },
     showCMRPCreateButton() {
-      return this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) && this.mainStore.isShowCmrpForm();
+      return this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP);
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore

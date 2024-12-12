@@ -79,7 +79,6 @@ Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
 Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
 Vue.prototype.$AUTH_ROLE_ADMIN_COMM='auth-admin-comm'
 Vue.prototype.$AUTH_SHOW_TREND='show-trend'
-Vue.prototype.$AUTH_SHOW_CMRP='show-cmrp'
 
 Vue.prototype.$ROLE_PO_MANAGE='po-manage'
 
