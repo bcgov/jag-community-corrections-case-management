@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import jakarta.inject.Inject;
 import java.io.IOException;
 
+import static ca.bc.gov.open.jag.api.Keys.NO;
+import static ca.bc.gov.open.jag.api.Keys.YES;
+
 @QuarkusTest
 public class ValidateOVERALLTest {
 
@@ -33,9 +36,21 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall(DATA_ONE);
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, YES);
 
         Assertions.assertEquals(6, result.getErrors().size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should validate data")
+    public void testValidationsWithCasePlan() throws IOException {
+
+        sut = new ValidationServiceImpl(new ObjectMapper());
+
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, NO);
+
+        Assertions.assertEquals(8, result.getErrors().size());
 
     }
 
@@ -45,7 +60,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("{}");
+        ValidationResult result = sut.validateSOOverall("{}", YES);
 
         Assertions.assertEquals(7, result.getErrors().size());
 
@@ -57,7 +72,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("");
+        ValidationResult result = sut.validateSOOverall("", YES);
 
         Assertions.assertEquals(7, result.getErrors().size());
 

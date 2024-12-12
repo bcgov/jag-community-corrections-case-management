@@ -38,6 +38,7 @@ public class ValidationServiceImpl implements ValidationService {
     private Validation overallValidation;
     private Validation cmrpValidation;
     private Validation cmrpBasicValidation;
+    private Validation casePlanValidation;
 
     public ValidationServiceImpl(ObjectMapper objectMapper) throws IOException {
 
@@ -50,21 +51,23 @@ public class ValidationServiceImpl implements ValidationService {
         stableValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/stable_validation_config.json"), Validation.class);
         overallValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/overall_validation_config.json"), Validation.class);
         cmrpBasicValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/cmrp_basic_validation_config.json"), Validation.class);
+        casePlanValidation = objectMapper.readValue(loader.getResourceAsStream("/configs/case_plan_validation_config.json"), Validation.class);
 
     }
 
     @Override
-    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, String casePlanValidation) {
+    public ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, String casePlanOmissable) {
 
         logger.debug("Validate CRNA {}", answers);
 
         ValidationResult validationResult = new ValidationResult();
 
-        if (StringUtils.equalsIgnoreCase(casePlanValidation, NO)) {
-
+        if (StringUtils.equalsIgnoreCase(casePlanOmissable, NO)) {
+            validationResult.setErrors(validate(answers, casePlanValidation, null));
         }
+        validationResult.getErrors().addAll(validate(answers, crnaValidation, interventionKeys));
 
-        return createValidationResult(validate(answers, crnaValidation, interventionKeys));
+        return validationResult;
 
 
     }
@@ -106,15 +109,17 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSOOverall(String answers, String casePlanValidation) {
+    public ValidationResult validateSOOverall(String answers, String casePlanOmissable) {
 
         logger.debug("Validate Overall {}", answers);
 
-        if (StringUtils.equalsIgnoreCase(casePlanValidation, NO)) {
+        ValidationResult validationResult = new ValidationResult();
 
+        if (StringUtils.equalsIgnoreCase(casePlanOmissable, NO)) {
+            validationResult.setErrors(validate(answers, casePlanValidation, null));
         }
-
-        return createValidationResult(validate(answers, overallValidation, Collections.EMPTY_LIST));
+        validationResult.getErrors().addAll(validate(answers, overallValidation, Collections.EMPTY_LIST));
+        return validationResult;
 
     }
 

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static ca.bc.gov.open.jag.api.Keys.NO;
+import static ca.bc.gov.open.jag.api.Keys.YES;
 
 @QuarkusTest
 public class ValidateCRNATest {
@@ -197,8 +198,7 @@ public class ValidateCRNATest {
             "        \"MHCF\": true,\n" +
             "        \"MHCF_desc\": \" safsdfsdafsdafsdfasdf\",\n" +
             "        \"BACO_desc\": \"Barriers\"\n" +
-            "    },\n" +
-            "    \"PLAN_SUMMARY_TXT\": \"sdfsdfasd 1\"\n" +
+            "    }\n" +
             "}";
 
     @Inject
@@ -213,9 +213,24 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA(DATA_ONE, Collections.singletonList(interventionsChecked), NO);
+        ValidationResult result = sut.validateCRNA(DATA_ONE, Collections.singletonList(interventionsChecked), YES);
 
         Assertions.assertEquals(16, result.getErrors().size());
+
+    }
+
+    @Test
+    @DisplayName("Success: should validate data")
+    public void testValidationsCasePlan() throws IOException {
+
+        sut = new ValidationServiceImpl(new ObjectMapper());
+
+        InterventionsChecked interventionsChecked = new InterventionsChecked();
+        interventionsChecked.setKey("S01Q01");
+
+        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.singletonList(interventionsChecked), NO);
+
+        Assertions.assertEquals(20, result.getErrors().size());
 
     }
 
@@ -225,7 +240,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.EMPTY_LIST, NO);
+        ValidationResult result = sut.validateCRNA(DATA_TWO, Collections.EMPTY_LIST, YES);
 
         Assertions.assertEquals(18, result.getErrors().size());
 
@@ -237,7 +252,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("{}", Collections.EMPTY_LIST, NO);
+        ValidationResult result = sut.validateCRNA("{}", Collections.EMPTY_LIST, YES);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
@@ -253,7 +268,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA("", Collections.singletonList(interventionsChecked), NO);
+        ValidationResult result = sut.validateCRNA("", Collections.singletonList(interventionsChecked), YES);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
@@ -269,7 +284,7 @@ public class ValidateCRNATest {
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
 
-        ValidationResult result = sut.validateCRNA("{}", Collections.singletonList(interventionsChecked), NO);
+        ValidationResult result = sut.validateCRNA("{}", Collections.singletonList(interventionsChecked), YES);
 
         Assertions.assertEquals(22, result.getErrors().size());
 
@@ -281,7 +296,7 @@ public class ValidateCRNATest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateCRNA("", Collections.EMPTY_LIST, NO);
+        ValidationResult result = sut.validateCRNA("", Collections.EMPTY_LIST, YES);
 
         Assertions.assertEquals(21, result.getErrors().size());
 
