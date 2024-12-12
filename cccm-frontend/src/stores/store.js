@@ -107,13 +107,6 @@ export const useStore = defineStore('main', {
             }
             return false;
         },
-        // Temporary role to hide CMRP Form before release
-        isShowCmrpForm() {
-            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_CMRP)) {
-                return true;
-            }
-            return false;
-        },
         getSupportedFormTypes() {
             if (this.supportedFormTypes.length > 0) {
                 return this.supportedFormTypes;
