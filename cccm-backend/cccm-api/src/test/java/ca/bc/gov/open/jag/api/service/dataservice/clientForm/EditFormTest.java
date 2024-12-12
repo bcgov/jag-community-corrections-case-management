@@ -200,6 +200,7 @@ public class EditFormTest {
         clientFormSummary.setCompletedDate(completedDate);
         clientFormSummary.setCreatedBy(createdBy);
         clientFormSummary.setCreatedByIdir(createdBy);
+        clientFormSummary.setCasePlanNotRequiredYn(false);
         return clientFormSummary;
 
     }

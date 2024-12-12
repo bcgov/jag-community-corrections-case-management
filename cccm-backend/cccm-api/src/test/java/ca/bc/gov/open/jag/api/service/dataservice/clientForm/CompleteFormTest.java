@@ -366,7 +366,7 @@ public class CompleteFormTest {
         Mockito.when(obridgeClientService.createForm(Mockito.any())).thenReturn(BigDecimal.ONE);
         Mockito.when(obridgeClientService.getClientFormAnswersObject(Mockito.any(), Mockito.any())).thenReturn(new ClientFormAnswers());
         Mockito.when(obridgeClientService.getClientFormAnswers(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn("");
-        Mockito.when(validationService.validateSOOverall(Mockito.any(), Mockito.any())).thenReturn(validationResult);
+        Mockito.when(validationService.validateSOOverall(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(validationResult);
         Mockito.when(userDataService.getOracleId(Mockito.any())).thenReturn("TEST");
 
         UpdateFormInput completeFormInput = new UpdateFormInput();
@@ -422,7 +422,7 @@ public class CompleteFormTest {
         clientFormSummary.setModule(module);
         clientFormSummary.setRelatedClientFormId(relatedFormId);
         clientFormSummary.setSupervisionRating(superVisionRating);
-
+        clientFormSummary.setCasePlanNotRequiredYn(false);
         Rating rating = new Rating();
         rating.setFormType("CRNA");
         rating.setText(HIGH);

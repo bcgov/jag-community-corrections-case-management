@@ -210,7 +210,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
-                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), clientFormSummary.getCasePlanNotRequiredYn());
+                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys(), clientFormSummary.getCasePlanNotRequiredYn());
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Overall form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
@@ -236,7 +236,8 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         //Set form type and module
         formInput.setFormType(clientFormSummary.getModule());
         formInput.setFormTypeId(clientFormSummary.getFormTypeId());
-
+        //Set case plan omissable
+        formInput.setCasePlanOmissable(clientFormSummary.getCasePlanNotRequiredYn());
         if (updateForm.getComplete()) {
 
             ClientFormAnswers existingAnswers = obridgeClientService.getClientFormAnswersObject(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId());

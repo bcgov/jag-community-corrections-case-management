@@ -13,7 +13,7 @@ public interface ValidationService {
      * @param answers answers to be validated
      * @return failed validations for crna
      */
-    ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, String casePlanNotRequired);
+    ValidationResult validateCRNA(String answers, List<InterventionsChecked> interventionKeys, Boolean casePlanNotRequired);
 
     /**
      *
@@ -48,7 +48,7 @@ public interface ValidationService {
      * @param answers answers to be validated
      * @return failed validations for Overall
      */
-    ValidationResult validateSOOverall(String answers, String casePlanNotRequired);
+    ValidationResult validateSOOverall(String answers, List<InterventionsChecked> interventionKeys, Boolean casePlanNotRequired);
 
     ValidationResult validateCMRP(String answers, ClientDates clientDates, List<InterventionsChecked> interventionKeys);
 

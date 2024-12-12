@@ -16,6 +16,7 @@ public class CompleteFormInput {
     private BigDecimal formTypeId;
     private String overallSupervision;
     private BigDecimal locationId;
+    private boolean casePlanOmissable;
 
     public String getClientNumber() {
         return clientNumber;
@@ -104,4 +105,13 @@ public class CompleteFormInput {
     public void setFormTypeId(BigDecimal formTypeId) {
         this.formTypeId = formTypeId;
     }
+
+    public Boolean getCasePlanOmissable() {
+        return casePlanOmissable;
+    }
+
+    public void setCasePlanOmissable(Boolean casePlanOmissable) {
+        this.casePlanOmissable = casePlanOmissable;
+    }
+
 }
