@@ -121,3 +121,12 @@ div.R-Sticky {
 	box-shadow: 0px 3px 6px #00000029;
 	opacity: 1;
 }
+
+.caseplanBypassCheckbox {
+    font-weight: 600;
+	font-size: 16px;
+    float: left;
+    margin-left: 200px;
+    margin-top: -40px;
+    font-display: swap;
+  }
