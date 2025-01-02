@@ -16,7 +16,7 @@
     <quarkus.platform.version>3.8.2</quarkus.platform.version>
     <surefire-plugin.version>3.1.2</surefire-plugin.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
-    <org.json.version>20231013</org.json.version>
+    <org.json.version>20241224</org.json.version>
     <default-package>ca.bc.gov.open.jag.cccm.api</default-package>
   </properties>
   <dependencyManagement>
