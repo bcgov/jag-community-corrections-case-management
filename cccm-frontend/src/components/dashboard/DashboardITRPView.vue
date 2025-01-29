@@ -12,7 +12,7 @@
             <strong>Centre Filter</strong>
             <v-radio-group row v-model="centreFilter">
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ReVOII Alerts" value="revoii"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ITRP Alerts" value="itrp"></v-radio>
+              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="CRP-1 Alerts" value="itrp"></v-radio>
               <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Individuals" value="all"></v-radio>
             </v-radio-group>
           </section>
