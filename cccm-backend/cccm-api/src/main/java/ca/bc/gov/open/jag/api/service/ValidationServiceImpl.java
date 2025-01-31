@@ -117,7 +117,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSOOverall(String answers, List<InterventionsChecked> interventionKeys, Boolean casePlanOmissable) {
+    public ValidationResult validateSOOverall(String answers, String interventions, Boolean casePlanOmissable) {
 
         logger.debug("Validate Overall {}", answers);
 
@@ -127,7 +127,9 @@ public class ValidationServiceImpl implements ValidationService {
 
             validationResult.setErrors(validate(answers, casePlanValidation, null));
 
-            if (interventionKeys.isEmpty()) {
+            JSONArray interventionsArray = new JSONArray(interventions);
+
+            if (interventionsArray.isEmpty()) {
                 ValidationError validationError = new ValidationError();
                 validationError.setMessage("At least one intervention is required");
                 validationResult.getErrors().add(validationError);

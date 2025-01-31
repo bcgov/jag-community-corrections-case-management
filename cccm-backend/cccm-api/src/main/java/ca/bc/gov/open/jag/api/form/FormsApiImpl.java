@@ -465,7 +465,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate Overall Request");
 
-        return validationService.validateSOOverall(body, Collections.EMPTY_LIST,true);
+        return validationService.validateSOOverall(body, "",true);
 
     }
 
