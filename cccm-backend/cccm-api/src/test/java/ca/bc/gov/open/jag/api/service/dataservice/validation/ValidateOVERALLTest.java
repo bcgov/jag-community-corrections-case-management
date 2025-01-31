@@ -38,7 +38,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall(DATA_ONE, Collections.EMPTY_LIST, true);
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, "", true);
 
         Assertions.assertEquals(6, result.getErrors().size());
 
@@ -51,7 +51,7 @@ public class ValidateOVERALLTest {
         sut = new ValidationServiceImpl(new ObjectMapper());
         InterventionsChecked interventionsChecked = new InterventionsChecked();
         interventionsChecked.setKey("S01Q01");
-        ValidationResult result = sut.validateSOOverall(DATA_ONE, Collections.singletonList(interventionsChecked), false);
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, "[{}]", false);
 
         Assertions.assertEquals(7, result.getErrors().size());
 
@@ -63,7 +63,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("{}", Collections.EMPTY_LIST, true);
+        ValidationResult result = sut.validateSOOverall("{}", "", true);
 
         Assertions.assertEquals(7, result.getErrors().size());
 
@@ -75,7 +75,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("", Collections.EMPTY_LIST, true);
+        ValidationResult result = sut.validateSOOverall("", "", true);
 
         Assertions.assertEquals(7, result.getErrors().size());
 

@@ -210,7 +210,7 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             }
 
             if (clientFormSummary.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) {
-                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys(), clientFormSummary.getCasePlanNotRequiredYn());
+                ValidationResult result = validationService.validateSOOverall(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), new BigDecimal(location)), obridgeClientService.getClientFormInterventionsForCasePlan(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), true, new BigDecimal(location)), clientFormSummary.getCasePlanNotRequiredYn());
                 if (!result.getErrors().isEmpty()) {
                     throw new CCCMException("Overall form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, result);
                 }
