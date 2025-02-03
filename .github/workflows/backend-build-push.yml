@@ -63,7 +63,7 @@ jobs:
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.CCCM_PAT }}
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
 
       # Getting the SHA from the latest image in the image stream and setting it to a variable to use
       # at a later step
