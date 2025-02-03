@@ -2,9 +2,10 @@ name: Build & Push Backend Image to Gold and GoldDR cluster
 
 on:
   push:
-    branches: [main]
+    branches: [newpat]
     paths:
       - 'cccm-backend/**'
+      - '.github/workflows/backend-build-push.yml'
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
@@ -62,7 +63,7 @@ jobs:
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+          ssh-private-key: ${{ secrets.CCCM_PAT }}
 
       # Getting the SHA from the latest image in the image stream and setting it to a variable to use
       # at a later step
