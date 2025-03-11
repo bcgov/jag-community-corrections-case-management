@@ -66,7 +66,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         String processingGroup = roleGroupEnumToKeycloakGroup(roleGroup);
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
-        logger.info("Current user count {}", users.size());
+        logger.info("Current group user count {}", users.size());
         for (User user: dbUsers.stream().filter(user -> StringUtils.isNoneBlank(user.getIdirId())).collect(Collectors.toList())) {
             logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
@@ -76,6 +76,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                     .searchByUsername(StringUtils.lowerCase(user.getIdirId()), true)
                     .stream()
                     .findFirst();
+
+            logger.debug("user {}", keyCloakUser);
 
             Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
@@ -94,6 +96,9 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
+
+                logger.debug("update user {}", keyCloakUser);
+
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isPresent()) {
 
