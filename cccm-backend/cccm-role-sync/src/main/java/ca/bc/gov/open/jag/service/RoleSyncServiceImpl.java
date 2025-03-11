@@ -77,6 +77,8 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                     .stream()
                     .findFirst();
 
+            logger.debug("user {}", keyCloakUser);
+
             Optional<UserResource> keyCloakUserResource = (keyCloakUser.isPresent() ? Optional.of(keycloak.realm(realm).users().get(keyCloakUser.get().getId())) : Optional.empty());
             if (keyCloakUser.isPresent() && keyCloakUserResource.get().groups().stream().noneMatch(innerGroup -> innerGroup.getName().equals(processingGroup))) {
                 //Add user to role
@@ -94,6 +96,9 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                         keycloak.realm(realm).users().get(keyCloakUser.get().getId()).addFederatedIdentity("idir", getFederationLink(idirUser.getGuid()).get(0));
                     }
                 }
+
+                logger.debug("update user {}", keyCloakUser);
+
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
             } else if (keyCloakUser.isPresent()) {
 
