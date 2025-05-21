@@ -105,7 +105,7 @@ router.beforeEach((to, from, next) => {
     //console.log("Vue.$keycloak: ", Vue.$keycloak);
     if (!Vue.$keycloak.authenticated) {
       // The page is protected and the user is not authenticated. Force a login.
-      //console.log("Not authenticated");
+      console.log("Not authenticated");
       Vue.$keycloak.login({ redirectUri: basePath.slice(0, -to.path.length) + to.path })
     } else if (store.loginUserGroups != null) {
       // The user was authenticated, and has the app role

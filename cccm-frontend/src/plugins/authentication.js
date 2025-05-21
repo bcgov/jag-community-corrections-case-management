@@ -11,10 +11,10 @@ const _keycloak = new Keycloak(options)
 console.log('Keycloak options:', options, _keycloak)
 const kcLogin = _keycloak.login;
 _keycloak.login = (options) => {
-  console.log('Keycloak login options:', options)
-  Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});
-  console.log('Keycloak login options after merge:', options)
-  kcLogin(options);
+   console.log('Keycloak login options:', options)
+  // Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});
+  // console.log('Keycloak login options after merge:', options)
+   kcLogin(options);
 };
 
 const Plugin = {

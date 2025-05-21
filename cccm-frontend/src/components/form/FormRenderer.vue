@@ -580,7 +580,7 @@ export default {
         // Load form data
         this.loadingMsg = "Loading client form data...";
         const [error, clientFormData] = await loadFormData(this.csNumber, this.formId);
-        //console.log("client form data: ", clientFormData)
+        console.log("client form data: ", clientFormData)
         if (error) {
           console.error(error);
         } else {
