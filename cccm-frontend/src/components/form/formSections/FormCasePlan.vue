@@ -15,7 +15,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Form } from 'vue-formio';
-import { getCasePlanIntervention } from "@/components/form.api";
+import { getCasePlanIntervention, loadFormData } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
 
@@ -63,24 +63,34 @@ export default {
   methods: {
     async getCasePlanInterventionAPI() {
         this.loading = true;
-        const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
-        // console.log("getCasePlanIntervention: {}", interventionData);
+        const [error, clientFormData] = await loadFormData(this.csNumber, this.clientFormId);
+        //console.log("client form data fetched from caseplan tab: ", clientFormData)
         if (error) {
-            console.error(error);
+          console.error(error);
         } else {
-            this.loading = false;
-            // Deal with special case where intervention is attached to a section comment, rather than a section question.
-            interventionData.forEach(dataset => {
-              if (dataset.comment == null || dataset.comment == '') {
-                dataset.comment = dataset.value;
-              }
-            });
-            
-            // add Intervention data to the initData; refresh the page to show it
-            this.initData.data.interventions = interventionData;
-            //console.log("interventionData; ", this.initData.data.interventions);
-            this.keyCaseplan++;
+          this.initData = clientFormData;
+
+          // get the intervention data
+          const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
+          // console.log("getCasePlanIntervention: {}", interventionData);
+          if (error) {
+              console.error(error);
+          } else {
+              this.loading = false;
+              // Deal with special case where intervention is attached to a section comment, rather than a section question.
+              interventionData.forEach(dataset => {
+                if (dataset.comment == null || dataset.comment == '') {
+                  dataset.comment = dataset.value;
+                }
+              });
+              
+              // add Intervention data to the initData; refresh the page to show it
+              this.initData.data.interventions = interventionData;
+              //console.log("interventionData; ", this.initData.data.interventions);
+              this.keyCaseplan++;
+          }
         }
+        
     },
     handleChangeEvent(event) {
       this.autosaveStore.handleChangeEvent(event, true);
