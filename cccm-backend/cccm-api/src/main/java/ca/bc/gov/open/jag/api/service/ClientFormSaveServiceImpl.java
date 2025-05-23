@@ -3,6 +3,7 @@ package ca.bc.gov.open.jag.api.service;
 import ca.bc.gov.open.jag.api.Keys;
 import ca.bc.gov.open.jag.api.error.CCCMErrorCode;
 import ca.bc.gov.open.jag.api.error.CCCMException;
+import ca.bc.gov.open.jag.api.mapper.ClientMapper;
 import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.api.model.service.CloneConfig;
 import ca.bc.gov.open.jag.api.model.service.CloneForm;
@@ -16,6 +17,7 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,9 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
     @Inject
     ValidationService validationService;
+
+    @Inject
+    ClientMapper clientMapper;
 
     private CloneConfig cloneConfig;
 
@@ -178,7 +183,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
                 }
 
                 if (updateForm.getUpdateFormInput().getLinkedClientFormId() != null) {
-                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location)), updateForm.getInterventionKeys(), clientFormSummary.getCasePlanNotRequiredYn());
+
+                    List<Intervention> interventions = obridgeClientService.getClientFormInterventionsForCasePlanStructure(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getClientFormId(), true, new BigDecimal(location));
+
+                    ValidationResult crnaResult = validationService.validateCRNA(obridgeClientService.getClientFormAnswers(updateForm.getUpdateFormInput().getClientNumber(), updateForm.getUpdateFormInput().getLinkedClientFormId(), new BigDecimal(location)), clientMapper.toInterventionsChecked(interventions), clientFormSummary.getCasePlanNotRequiredYn());
                     if (!crnaResult.getErrors().isEmpty()) {
                         throw new CCCMException("CRNA form validation failed:", CCCMErrorCode.VALIDATIONERRORWITHRESULT, crnaResult);
                     }

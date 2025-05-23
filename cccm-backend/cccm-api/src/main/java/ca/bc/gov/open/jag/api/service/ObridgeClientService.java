@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.CentreDashboard;
 import ca.bc.gov.open.jag.api.model.data.Client;
+import ca.bc.gov.open.jag.api.model.data.Intervention;
 import ca.bc.gov.open.jag.api.model.data.PODashboard;
 import ca.bc.gov.open.jag.api.model.data.Photo;
 import ca.bc.gov.open.jag.api.model.data.SupervisorDashboard;
@@ -228,7 +229,7 @@ public interface ObridgeClientService {
 
     @POST
     @Path("/forms/client/interventions")
-    List<Intervention> searchClientInterventions(@RequestBody ClientSearchInput searchInput);
+    List<ca.bc.gov.open.jag.cccm.api.openapi.model.Intervention> searchClientInterventions(@RequestBody ClientSearchInput searchInput);
 
     @POST
     @Path("/forms/client/comments")
@@ -274,6 +275,12 @@ public interface ObridgeClientService {
     String getClientFormInterventionsForCasePlan(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
             @QueryParam("includeLinkedForm") boolean includeLinkedForm,
             @QueryParam("location") BigDecimal location);
+
+    @GET
+    @Path("/forms/client/intervention/json/{csNumber}/{clientFormId}")
+    List<Intervention> getClientFormInterventionsForCasePlanStructure(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
+                                                             @QueryParam("includeLinkedForm") boolean includeLinkedForm,
+                                                             @QueryParam("location") BigDecimal location);
     
     @GET
     @Path("/forms/client/meta/json/{csNumber}/{clientFormId}")
