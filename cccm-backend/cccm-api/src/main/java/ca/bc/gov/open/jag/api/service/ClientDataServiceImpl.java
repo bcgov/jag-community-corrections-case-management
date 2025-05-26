@@ -11,16 +11,15 @@ import ca.bc.gov.open.jag.api.util.FormUtils;
 import ca.bc.gov.open.jag.api.util.MappingUtils;
 import ca.bc.gov.open.jag.api.util.UpdateDateComparator;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
-import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;

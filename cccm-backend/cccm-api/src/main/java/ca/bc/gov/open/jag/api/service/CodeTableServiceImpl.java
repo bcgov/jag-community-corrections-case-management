@@ -4,12 +4,12 @@ import ca.bc.gov.open.jag.api.lookup.CodeTableType;
 import ca.bc.gov.open.jag.api.mapper.CodeTableMapper;
 import ca.bc.gov.open.jag.api.model.data.CodeTable;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

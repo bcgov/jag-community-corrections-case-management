@@ -11,12 +11,12 @@ import ca.bc.gov.open.jag.api.model.data.User;
 import ca.bc.gov.open.jag.api.model.data.*;
 import ca.bc.gov.open.jag.api.model.service.DeleteRequest;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.*;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.rest.client.annotation.RegisterClientHeaders;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.ws.rs.*;
 import java.math.BigDecimal;
 import java.util.List;
 

@@ -2,12 +2,12 @@ package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormDetails;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.FormSummary;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
 

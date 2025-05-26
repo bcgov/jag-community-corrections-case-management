@@ -1,13 +1,12 @@
 package ca.bc.gov.open.jag.api.error;
 
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.client.exception.ResteasyWebApplicationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import jakarta.ws.rs.core.Response;
 
 @QuarkusTest
 public class CCCMRestEasyExceptionHandlerTest {

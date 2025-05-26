@@ -6,16 +6,12 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import jakarta.inject.Inject;
 import java.io.IOException;
-import java.util.Collections;
-
-import static ca.bc.gov.open.jag.api.Keys.NO;
-import static ca.bc.gov.open.jag.api.Keys.YES;
 
 @QuarkusTest
 public class ValidateOVERALLTest {

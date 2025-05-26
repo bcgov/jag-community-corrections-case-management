@@ -1,22 +1,17 @@
 package ca.bc.gov.open.jag.api.user;
 
-import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.UserDataService;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.Code;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCode;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
+import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import jakarta.inject.Inject;
-
-import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.any;
 

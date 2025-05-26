@@ -4,12 +4,12 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.LabelValuePair;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendAnalysisConfig;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFilterInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFormData;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.util.List;
 
 @RequestScoped

@@ -3,11 +3,11 @@ package ca.bc.gov.open.jag.api.error;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import jakarta.ws.rs.core.Response;
 import java.util.Collections;
 
 @QuarkusTest

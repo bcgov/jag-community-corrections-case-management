@@ -98,7 +98,7 @@ public interface ClientMapper {
     @Mapping(target = "primary", defaultValue = "false")
     Address toAddress(ca.bc.gov.open.jag.api.model.data.Address address);
 
-    @Mapping(target = "key", source = "key")
+    @Mapping(target = "key", expression = "java(ca.bc.gov.open.jag.api.util.MappingUtils.cleanInterventionKey(intervention.getKey()))")
     InterventionsChecked toInterventionChecked(ca.bc.gov.open.jag.api.model.data.Intervention intervention);
 
     List<InterventionsChecked> toInterventionsChecked(List<ca.bc.gov.open.jag.api.model.data.Intervention> interventions);

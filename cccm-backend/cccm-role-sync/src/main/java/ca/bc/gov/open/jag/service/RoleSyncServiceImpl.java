@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.Keys;
 import ca.bc.gov.open.jag.model.IdirUser;
 import ca.bc.gov.open.jag.model.RoleGroupEnum;
 import ca.bc.gov.open.jag.model.User;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
@@ -15,7 +16,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

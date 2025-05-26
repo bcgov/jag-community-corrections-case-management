@@ -6,13 +6,14 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.CentreDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.PODashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboard;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.SupervisorDashboardDetails;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
+
 import java.math.BigDecimal;
 import java.util.List;
 
