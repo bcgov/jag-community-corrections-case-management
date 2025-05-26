@@ -8,13 +8,13 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.enterprise.context.RequestScoped;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.RequestScoped;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDate;

@@ -2,6 +2,7 @@ package ca.bc.gov.open.jag.service;
 
 import ca.bc.gov.open.jag.Keys;
 import ca.bc.gov.open.jag.model.User;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

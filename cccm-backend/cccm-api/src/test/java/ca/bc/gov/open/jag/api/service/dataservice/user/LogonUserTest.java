@@ -6,15 +6,15 @@ import ca.bc.gov.open.jag.api.model.data.Location;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.api.service.UserDataService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;

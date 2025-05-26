@@ -8,13 +8,13 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.LabelValuePair;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendAnalysisConfig;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFilterInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.TrendFormData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 @ApplicationScoped

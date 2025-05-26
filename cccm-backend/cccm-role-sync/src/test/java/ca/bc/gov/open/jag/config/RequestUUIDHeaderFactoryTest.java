@@ -5,6 +5,7 @@ import io.quarkus.oidc.client.Tokens;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniAwait;
 import io.vertx.core.json.JsonObject;
+import jakarta.ws.rs.core.MultivaluedMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +13,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
-import jakarta.ws.rs.core.MultivaluedMap;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RequestUUIDHeaderFactoryTest {

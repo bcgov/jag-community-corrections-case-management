@@ -3,12 +3,11 @@ package ca.bc.gov.open.jag.api.lookup;
 import ca.bc.gov.open.jag.api.service.CodeTableService;
 import ca.bc.gov.open.jag.cccm.api.openapi.LookupApi;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.CodeList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @ApplicationScoped

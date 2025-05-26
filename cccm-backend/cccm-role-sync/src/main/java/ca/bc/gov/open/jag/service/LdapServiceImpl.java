@@ -1,11 +1,10 @@
 package ca.bc.gov.open.jag.service;
 
 import ca.bc.gov.open.jag.model.IdirUser;
+import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.enterprise.context.ApplicationScoped;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;

@@ -2,16 +2,19 @@ package ca.bc.gov.open.jag.api.user;
 
 import ca.bc.gov.open.jag.api.service.UserDataServiceImpl;
 import ca.bc.gov.open.jag.cccm.api.openapi.UserApi;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.*;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCode;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LocationCodeList;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.LogonResult;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.PO;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 

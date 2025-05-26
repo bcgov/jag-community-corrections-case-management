@@ -1,12 +1,12 @@
 package ca.bc.gov.open.jag.api.config;
 
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.*;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.attribute.UserPrincipal;

@@ -2,13 +2,13 @@ package ca.bc.gov.open.jag.config;
 
 import io.quarkus.oidc.client.OidcClient;
 import io.quarkus.oidc.client.Tokens;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
 import org.eclipse.microprofile.rest.client.ext.ClientHeadersFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.core.MultivaluedHashMap;
-import jakarta.ws.rs.core.MultivaluedMap;
 import java.text.MessageFormat;
 
 @ApplicationScoped

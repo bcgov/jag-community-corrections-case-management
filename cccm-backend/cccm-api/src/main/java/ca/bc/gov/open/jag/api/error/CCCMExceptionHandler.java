@@ -1,12 +1,11 @@
 package ca.bc.gov.open.jag.api.error;
 
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Provider
 public class CCCMExceptionHandler implements ExceptionMapper<CCCMException> {

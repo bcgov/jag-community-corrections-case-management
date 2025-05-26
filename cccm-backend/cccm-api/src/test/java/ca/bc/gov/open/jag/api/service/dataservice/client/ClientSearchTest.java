@@ -4,15 +4,14 @@ import ca.bc.gov.open.jag.api.model.data.Client;
 import ca.bc.gov.open.jag.api.model.service.ClientSearch;
 import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ObridgeClientService;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import jakarta.inject.Inject;
 
 import java.time.LocalDate;
 import java.util.Arrays;

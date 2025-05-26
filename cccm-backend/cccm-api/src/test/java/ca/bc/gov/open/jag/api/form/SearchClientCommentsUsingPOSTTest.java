@@ -8,16 +8,16 @@ import ca.bc.gov.open.jag.cccm.api.openapi.model.ClientSearchInput;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Comment;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
-import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.InjectMock;
+import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.security.TestSecurity;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import jakarta.inject.Inject;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;

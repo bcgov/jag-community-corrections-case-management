@@ -163,4 +163,12 @@ public class MappingUtils {
         return StringUtils.normalizeSpace(StringUtils.capitalize(input.toLowerCase()));
     }
 
+    public static String cleanInterventionKey(String input) {
+
+        if (input == null) return null;
+        if (!input.contains("_")) return input;
+        return input.split("_")[0];
+
+    }
+
 }
