@@ -67,7 +67,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         GroupRepresentation representation = keycloak.realm(realm).groups().groups().stream().filter(groupRepresentation -> groupRepresentation.getName().equals(processingGroup)).findFirst().get();
         List<UserRepresentation> users = keycloak.realm(realm).users().list().stream().filter(user -> userInGroup(user, processingGroup)).collect(Collectors.toList());
         logger.info("Current group user count {}", users.size());
-        for (User user: dbUsers.stream().filter(user -> StringUtils.isNoneBlank(user.getIdirId())).collect(Collectors.toList())) {
+        for (User user: dbUsers.stream().filter(user -> StringUtils.isNoneBlank(user.getIdirId())).toList()) {
             logger.info("processing user {}", user.getIdirId());
             users.removeIf(remUser -> remUser.getUsername().equals(StringUtils.lowerCase(user.getIdirId())));
             logger.info("Current user count after removal {}", users.size());
@@ -141,7 +141,7 @@ public class RoleSyncServiceImpl implements RoleSyncService {
         }
         //Any user left should be removed from group
         logger.info("Role feature is {}. # of user to remove {}", removeRole , users.size());
-        if (removeRole) {
+        if (removeRole.equals(Boolean.TRUE)) {
             for (UserRepresentation user : users) {
                 logger.info("removing user {} from group {}", user.getUsername(), representation.getName());
                 UserResource keyCloakUserResource = keycloak.realm(realm).users().get(user.getId());
@@ -162,31 +162,28 @@ public class RoleSyncServiceImpl implements RoleSyncService {
     }
 
     private String roleGroupEnumToKeycloakGroup(RoleGroupEnum roleGroup) {
-        String role;
-        switch (roleGroup) {
-            case PO:
-                role = Keys.PO;
-                break;
-            case SUPERVISOR:
-                role = Keys.SUPERVISOR;
-                break;
-            case ADMIN:
-                role = Keys.ADMIN;
-                break;
-            case RESEARCHER:
-                role = Keys.RESEARCHER;
-                break;
-            case ITRP:
-                role = Keys.ITRP;
-                break;
-            case ADMINCOMM:
-                role = Keys.ADMINCOMM;
-                break;
-            default:
-                role = null;
-                break;
-        }
-        return role;
+        return switch (roleGroup) {
+            case PO -> Keys.PO;
+            case SUPERVISOR -> Keys.SUPERVISOR;
+            case ADMIN -> Keys.ADMIN;
+            case RESEARCHER -> Keys.RESEARCHER;
+            case ITRP -> Keys.ITRP;
+            case ADMINCOMM -> Keys.ADMINCOMM;
+            case AUDITQUERY -> Keys.AUDITQUERY;
+            case PO14 -> Keys.PO14;
+            case PO14QUERY -> Keys.PO14QUERY;
+            case SPO26 -> Keys.SPO26;
+            case LM -> Keys.LM;
+            case RM -> Keys.RM;
+            case CORRECTIONS -> Keys.CORRECTIONS;
+            case SSU -> Keys.SSU;
+            case DEVMAINT -> Keys.DEVMAINT;
+            case JIA -> Keys.JIA;
+            case PORVO -> Keys.PORVO;
+            case SSUACCESS -> Keys.SSUACCESS;
+            case SYSADMIN -> Keys.SYSADMIN;
+            default -> null;
+        };
     }
 
     private List<FederatedIdentityRepresentation> getFederationLink(String idirGuid) {
