@@ -21,7 +21,7 @@ public class Keys {
     public static String SSU = "ssu";
     public static String DEVMAINT = "devmaint";
     public static String JIA = "jia";
-    public static String PORVO = "pr-rvo";
+    public static String PORVO = "po-rvo";
     public static String SSUACCESS = "ssu-access";
     public static String SYSADMIN = "sysadmin";
     public static String ORACLE_ID = "oracleId";
