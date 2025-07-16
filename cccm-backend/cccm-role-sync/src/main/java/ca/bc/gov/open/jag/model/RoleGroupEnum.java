@@ -7,6 +7,19 @@ public enum RoleGroupEnum {
     ADMIN,
     RESEARCHER,
     ITRP,
-    ADMINCOMM
+    ADMINCOMM,
+    AUDITQUERY,
+    PO14,
+    PO14QUERY,
+    SPO26,
+    LM,
+    RM,
+    CORRECTIONS,
+    SSU,
+    DEVMAINT,
+    JIA,
+    PORVO,
+    SSUACCESS,
+    SYSADMIN
 
 }
