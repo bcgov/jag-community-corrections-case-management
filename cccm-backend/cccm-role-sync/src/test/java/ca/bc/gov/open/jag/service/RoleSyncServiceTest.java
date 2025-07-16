@@ -286,7 +286,65 @@ public class RoleSyncServiceTest {
         GroupRepresentation adminComm = new GroupRepresentation();
         adminComm.setName(Keys.ADMINCOMM);
 
-        return Arrays.asList(poGroup, supervisorGroup, adminGroup, researcherGroup, itrpGroup, adminComm);
+        GroupRepresentation auditQuery = new GroupRepresentation();
+        auditQuery.setName(Keys.AUDITQUERY);
+
+        GroupRepresentation po14 = new GroupRepresentation();
+        po14.setName(Keys.PO14);
+
+        GroupRepresentation po14Query = new GroupRepresentation();
+        po14Query.setName(Keys.PO14QUERY);
+
+        GroupRepresentation spo26 = new GroupRepresentation();
+        spo26.setName(Keys.SPO26);
+
+        GroupRepresentation lm = new GroupRepresentation();
+        lm.setName(Keys.LM);
+
+        GroupRepresentation rm = new GroupRepresentation();
+        rm.setName(Keys.RM);
+
+        GroupRepresentation corrections = new GroupRepresentation();
+        corrections.setName(Keys.CORRECTIONS);
+
+        GroupRepresentation ssu = new GroupRepresentation();
+        ssu.setName(Keys.SSU);
+
+        GroupRepresentation devmaint = new GroupRepresentation();
+        devmaint.setName(Keys.DEVMAINT);
+
+        GroupRepresentation jia = new GroupRepresentation();
+        jia.setName(Keys.JIA);
+
+        GroupRepresentation porvo = new GroupRepresentation();
+        porvo.setName(Keys.PORVO);
+
+        GroupRepresentation ssuaccess = new GroupRepresentation();
+        ssuaccess.setName(Keys.SSUACCESS);
+
+        GroupRepresentation sysadmin = new GroupRepresentation();
+        sysadmin.setName(Keys.SYSADMIN);
+
+        return Arrays.asList(
+                poGroup,
+                supervisorGroup,
+                adminGroup,
+                researcherGroup,
+                itrpGroup,
+                adminComm,
+                auditQuery,
+                po14,
+                po14Query,
+                spo26,
+                lm,
+                rm,
+                corrections,
+                ssu,
+                devmaint,
+                jia,
+                porvo,
+                ssuaccess,
+                sysadmin);
 
     }
 
