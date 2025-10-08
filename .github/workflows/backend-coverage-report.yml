@@ -13,7 +13,7 @@ jobs:
     env:
       CC_TEST_REPORTER_ID: 889fcd8abd72cd5fd355c136d4b143130731fb7052aa9442f57a30ce0d482701
 
-    name: Create, format and upload Java coverage artifact
+    name: Build/Test Java Project
     runs-on: ubuntu-latest
 
     steps:
@@ -22,31 +22,6 @@ jobs:
       - name: Checkout CCCM Repository
         uses: actions/checkout@v4
 
-      # Get Code Climate binary
-      - name: Download Code Climate Binary
-        run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-
-      # Permissions applied to the Code Climate Executable
-      - name: Apply executable perms to Code Climate Binary
-        run: chmod +x ./cc-test-reporter
-
-      # Before build
-      - name: Before build
-        run: ./cc-test-reporter before-build
-
-      # Set required Git env vars for either pull request
-      - name: Set ENV for codeclimate (pull_request)
-        run: |
-          echo "GIT_BRANCH=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
-          echo "GIT_COMMIT_SHA=${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
-        if: github.event_name == 'pull_request'
-
-      # Set required Git env vars for a push to main
-      - name: Set ENV for codeclimate (push)
-        run: |
-          echo "GIT_BRANCH=$GITHUB_REF" >> $GITHUB_ENV
-          echo "GIT_COMMIT_SHA=$GITHUB_SHA" >> $GITHUB_ENV
-        if: github.event_name == 'push'
 
       # Trimming the ref to main in order to publish correct report
       - name: Set ref/head/main to main
@@ -71,25 +46,3 @@ jobs:
       # Run Maven Verify to generate all jacoco reports
       - name: Build with Maven
         run: mvn -B verify -P all -f cccm-backend/pom.xml
-
-      # Formatting the coverage reports generated (dynamically)
-      - name: Format coverage reports
-        run: |
-          JACOCO_SOURCE_PATH=cccm-backend/cccm-api/src/main/java ./cc-test-reporter format-coverage cccm-backend/cccm-api/target/jacoco-report/jacoco.xml --input-type jacoco --output coverage/cccm-codeclimate.json;
-               
-      # Count of all total coverage files available
-      - name: Debug Count files present
-        run: |
-          echo "FILE_COUNTER=$(ls -1q ./coverage | wc -l )" >> $GITHUB_ENV
-          #echo "::set-env name=FILE_COUNTER::$(ls -1q ./coverage | wc -l )"
-    
-      # Upload JSON for debugging purposes
-      - name: Upload JSON for debugging purposes
-        uses: actions/upload-artifact@v4
-        with:
-          name: summed-java-coverage-report
-          path: coverage/cccm-codeclimate.json
-    
-      # Upload total coverage report to Code Climate
-      - name: Upload coverage report to Code Climate
-        run: ./cc-test-reporter upload-coverage -i coverage/cccm-codeclimate.json
