@@ -117,6 +117,10 @@ public class RoleSyncServiceImpl implements RoleSyncService {
                 }
                 setOracleId(user, keyCloakUser.get());
 
+                if (Boolean.FALSE.equals(keyCloakUser.get().isEnabled())) {
+                    keyCloakUser.get().setEnabled(true);
+                }
+
                 keycloak.realm(realm).users().get(keyCloakUser.get().getId()).update(keyCloakUser.get());
                 
             } else if (keyCloakUser.isEmpty()) {
