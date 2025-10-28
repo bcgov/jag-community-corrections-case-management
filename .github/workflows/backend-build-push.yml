@@ -1,4 +1,4 @@
-name: Build & Push Backend Image to Gold and GoldDR cluster
+name: Build & Push Backend Image to Artifactory
 
 on:
   push:
@@ -7,83 +7,85 @@ on:
       - 'cccm-backend/**'
   workflow_dispatch:
 env:
-  # See https://github.com/goodwithtech/dockle/issues/188
-  DOCKLE_HOST: "unix:///var/run/docker.sock"
+  IMAGE_NAME: ucmp-api
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Cluster Login Gold
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
-          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
-          cmd: |
-            'version'
-
-      - name: Login to Openshift Docker Registry Gold
+      - name: Login to Artifactory
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
-      
-      - name: Login to Openshift Docker Registry GoldDR
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }}  
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
-      - name: Docker Build Backend Image
-        run: |            
-          docker compose build backend
-          
-      - name: Docker Tag Version Gold
+      - name: Build Image
+        #working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          docker compose build backend
+          docker tag cccm-api artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
+      
+      - name: Docker Push to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
 
       - name: Vulnerability Scan Backend
         uses: Azure/container-scan@v0
         continue-on-error: true
         with:
-          image-name: ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-         
-      - name: Docker Push Version to Gold and GoldDR
-        run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
 
-
+      # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+      
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
 
-      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
-      # at a later step
-      - name: Get and Store Current Image SHA
+      - name: Update Helm Values and Commit
+        id: helm
+        if: steps.gitops.outcome == 'success'  # Only run if the previous step (publish) was successful
         run: |
-          IMAGE_SHA=$(oc describe istag/cccm-api:dev -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
-          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-        id: image_sha
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b develop --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
 
-      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
-      # synced with what is live in openshift in gold and golddr
-      - name: Git Clone Repo
-        run: |
-          git config --global user.name "Github Action - CCCM Repo Backend Build/Push"
-          git config --global user.email "cccm-backend@githubaction.com"
-          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/gold/dev
-          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml
-          cd ../../golddr/dev
-          kustomize edit set image cccm-api-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-api@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml 
-          git commit -m "Updated cccm-api image sha in Kustomization files from CCCM Github Action" 
-          git push
+          cd gitops/charts/ucmp-gitops
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/apitag: .*/apitag: dev # Image Updated on $DATETIME/" ../deploy/dev_values.yaml
+
+          sed -i "s/apiversion: .*/apiversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/dev_values.yaml
+          
+          git add .
+          
+          git add ../deploy/dev_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Dev WEB image tag"
+          git push origin develop  # Update the branch name as needed
+     
