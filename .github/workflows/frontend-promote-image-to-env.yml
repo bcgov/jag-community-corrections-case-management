@@ -22,70 +22,73 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cluster Login
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
-          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
-          cmd: |
-            'version'
-
-      - name: Login to Openshift Docker Registry
+     - name: Login to Artifactory
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
-
-      - name: Login to Openshift Docker Registry GoldDR
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }}  
-
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      
       - name: Pull Dev Image 
         run: |  
-          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
+          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:dev
 
       - name: Docker Tag Version Test
         run: |  
-          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+          docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:dev artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
           
-      - name: Docker Push Version Test to Gold and GoldDR
+      - name: Docker Push Version Test to Artifactory
         run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
-          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
-
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
+         
+       # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+      
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-      
-      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
-      # at a later step
-      - name: Get and Store Current Image SHA
-        run: |
-          IMAGE_SHA=$(oc describe istag/cccm-web:test -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
-          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-        id: image_sha
 
-      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
-      # synced with what is live in openshift
-      - name: Git Clone Repo
+      - name: Update Helm Values and Commit
+        id: helm
         run: |
-          git config --global user.name "Github Action - CCCM Repo Frontend Promote Dev Image to Test"
-          git config --global user.email "cccm-frontend@githubaction.com"
-          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/gold/test
-          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml 
-          cd ../../golddr/test
-          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml
-          git commit -m "Updated cccm-web image sha in Kustomization file from CCCM Github Action" 
-          git push
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b test --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
+
+          cd tenant-gitops-ed5723/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/webtag: .*/webtag: dev # Image Updated on $DATETIME/" ../deploy/test_values.yaml
+
+          sed -i "s/webversion: .*/webversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/test_values.yaml
+          
+          git add .
+          
+          git add ../deploy/test_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update TEST web image tag"
+          git push origin test  # Update the branch name as needed
 
   run-prod:
     runs-on: ubuntu-latest
@@ -95,69 +98,80 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cluster Login
-        uses: redhat-developer/openshift-actions@v1.1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
-          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
-          cmd: |
-            'version'
-
-      - name: Login to Openshift Docker Registry
+      - name: Login to Artifactory
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
       
-      - name: Login to Openshift Docker Registry GoldDR
-        uses: docker/login-action@v1
-        with:
-          registry: ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}
-          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD_GOLDDR }} 
+      - name: Pull Dev Image 
+        run: |  
+          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
 
+      #- name: Docker Tag Prod Backup
+      #  run: |
+      #    docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod 
+      #    docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod-backup
+      #    docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod-backup
+          
       - name: Pull Test Image
         run: |  
-          docker pull ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test
+          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
       
       - name: Docker Tag Version Prod
         run: |  
-          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:test ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
+          docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
           
       - name: Docker Push Version Prod to Gold and GoldDR
         run: |  
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
-          docker tag ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
-          docker push ${{ secrets.OPENSHIFT4_REGISTRY_GOLDDR }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:prod
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
 
+       # Get SHORT_SHA for the version
+      - name: Get short SHA
+        id: short_sha
+        run: |
+          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
+          echo "Short SHA: $SHORT_SHA"
+      
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
-      
-      # Getting the SHA from the latest image in the image stream and setting it to a variable to use
-      # at a later step
-      - name: Get and Store Current Image SHA
-        run: |
-          IMAGE_SHA=$(oc describe istag/cccm-web:prod -n abb712-tools | grep 'Image Name' | awk '{ print $3 }')
-          echo "::set-output name=IMAGE_SHA::$IMAGE_SHA"
-        id: image_sha
 
-      # Cloning the GitOps repo so that the kutomization file that holds the image tag information can be 
-      # synced with what is live in openshift
-      - name: Git Clone Repo
+      - name: Update Helm Values and Commit
+        id: helm
         run: |
-          git config --global user.name "Github Action - CCCM Repo Frontend Promote Test Image to Prod"
-          git config --global user.email "cccm-frontend@githubaction.com"
-          git clone git@github.com:bcgov-c/tenant-gitops-abb712.git
-          cd tenant-gitops-abb712/cccm/overlays/gold/prod
-          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml
-          cd ../../golddr/prod
-          kustomize edit set image cccm-web-image=image-registry.openshift-image-registry.svc:5000/abb712-tools/cccm-web@${{ steps.image_sha.outputs.IMAGE_SHA }}
-          git add kustomization.yaml
-          git commit -m "Updated cccm-web image sha in Kustomization file from CCCM Github Action" 
-          git push
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b main --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
 
-      
+          cd tenant-gitops-ed5723/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/webtag: .*/webtag: dev # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
+
+          sed -i "s/webversion: .*/webversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
+          
+          git add .
+          
+          git add ../deploy/prod_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Prod web image tag"
+          git push origin main  # Update the branch name as needed

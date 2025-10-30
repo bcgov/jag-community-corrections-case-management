@@ -23,7 +23,6 @@ jobs:
           password: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
       - name: Build Image
-        #working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker compose build frontend
           docker tag cccm-web artifacts.developer.gov.bc.ca/ced5-ucmp-web/${{env.IMAGE_NAME}}:dev
@@ -52,7 +51,6 @@ jobs:
 
       - name: Update Helm Values and Commit
         id: helm
-        if: steps.gitops.outcome == 'success'  # Only run if the previous step (publish) was successful
         run: |
           # Clone the GitOps deployment configuration repository
           # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
@@ -62,7 +60,7 @@ jobs:
           git config --global user.name "UCMP GitHub Actions"
           git clone -b develop --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
 
-          cd gitops/charts/ucmp-gitops
+          cd tenant-gitops-ed5723/charts
 
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
