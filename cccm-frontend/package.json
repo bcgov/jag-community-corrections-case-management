@@ -18,7 +18,7 @@
     "axios": "^0.27.0",
     "chart.js": "^4.3.0",
     "date-fns": "^4.1.0",
-    "formiojs": "^4.14.8",
+    "formiojs": "^4.21.7",
     "izitoast": "^1.4.0",
     "keycloak-js": "^26.1.4",
     "pinia": "^2.0.36",
