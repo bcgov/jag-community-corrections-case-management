@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-     - name: Login to Artifactory
+      - name: Login to Artifactory
         uses: docker/login-action@v1
         with:
           registry: artifacts.developer.gov.bc.ca
