@@ -14,13 +14,14 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<profiles>
 		<profile>
 			<id>all</id>
 			<modules>
+				<module>libs/cccm-openapi-starter</module>
 				<module>cccm-api</module>
 				<module>cccm-role-sync</module>
 			</modules>
@@ -28,6 +29,7 @@
 		<profile>
 			<id>api</id>
 			<modules>
+				<module>libs/cccm-openapi-starter</module>
 				<module>cccm-api</module>
 			</modules>
 		</profile>
@@ -35,6 +37,12 @@
 			<id>role-sync</id>
 			<modules>
 				<module>cccm-role-sync</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>libs</id>
+			<modules>
+				<module>libs/cccm-openapi-starter</module>
 			</modules>
 		</profile>
 	</profiles>

@@ -1,8 +1,8 @@
 package ca.bc.gov.open.jag.api.error;
 
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.ws.rs.ClientErrorException;
 import jakarta.ws.rs.core.Response;
-import org.jboss.resteasy.client.exception.ResteasyWebApplicationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(404).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);
@@ -40,7 +40,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(500).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);
@@ -59,7 +59,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(403).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);
@@ -78,7 +78,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(401).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);
@@ -97,7 +97,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(400).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);
@@ -116,7 +116,7 @@ public class CCCMRestEasyExceptionHandlerTest {
 
         Response testResponse = Response.status(418).entity(THIS_IS_A_TEST).build();
 
-        ResteasyWebApplicationException error = Mockito.mock(ResteasyWebApplicationException.class);
+        ClientErrorException error = Mockito.mock(ClientErrorException.class);
         Mockito.when(error.getResponse()).thenReturn(testResponse);
         Mockito.when(error.getMessage()).thenReturn(THIS_IS_A_TEST);
         Response result = sut.toResponse(error);

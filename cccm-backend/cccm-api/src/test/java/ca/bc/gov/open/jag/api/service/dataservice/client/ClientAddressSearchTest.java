@@ -6,6 +6,7 @@ import ca.bc.gov.open.jag.api.service.ObridgeClientService;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.Client;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.enterprise.context.control.ActivateRequestContext;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Assertions;
@@ -25,10 +26,9 @@ public class ClientAddressSearchTest {
     ClientDataService sut;
 
     @InjectMock
-    @RestClient
     ObridgeClientService obridgeClientService;
 
-    private static LocalDate TEST_DATE = LocalDate.now();
+    private static final LocalDate TEST_DATE = LocalDate.now();
 
     @Test
     @DisplayName("Success: exact search should return clients")
