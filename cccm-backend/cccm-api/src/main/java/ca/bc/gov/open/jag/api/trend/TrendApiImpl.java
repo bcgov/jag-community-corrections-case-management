@@ -18,12 +18,17 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @ApplicationScoped
+@io.quarkus.arc.Unremovable
 public class TrendApiImpl implements TrendApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(TrendApi.class));
 
+    private final TrendDataService trendDataService;
+
     @Inject
-    TrendDataService trendDataService;
+    public TrendApiImpl(TrendDataService trendDataService) {
+        this.trendDataService = trendDataService;
+    }
 
     @Override
     @Transactional

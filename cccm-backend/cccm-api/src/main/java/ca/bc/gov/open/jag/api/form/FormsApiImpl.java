@@ -33,28 +33,32 @@ import static ca.bc.gov.open.jag.api.Keys.*;
 import static ca.bc.gov.open.jag.api.error.CCCMErrorCode.VALIDATIONERROR;
 
 @RequestScoped
+@io.quarkus.arc.Unremovable
 public class FormsApiImpl implements FormsApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(FormsApiImpl.class));
 
-    @Inject
-    FormDataService formDataService;
+    private final FormDataService formDataService;
+
+    private final ClientDataService clientDataService;
+
+    private final ClientFormSaveService clientFormSaveService;
+
+    private final ValidationService validationService;
+
+    private final JsonWebToken jwt;
+
+    private final String username;
 
     @Inject
-    ClientDataService clientDataService;
-
-    @Inject
-    ClientFormSaveService clientFormSaveService;
-
-    @Inject
-    ValidationService validationService;
-
-    @Inject
-    JsonWebToken jwt;
-
-    @Inject
-    @Claim(standard = Claims.preferred_username)
-    String username;
+    public FormsApiImpl(FormDataService formDataService, ClientDataService clientDataService, ClientFormSaveService clientFormSaveService, ValidationService validationService, JsonWebToken jwt,@Claim(standard = Claims.preferred_username) String username) {
+        this.formDataService = formDataService;
+        this.clientDataService = clientDataService;
+        this.clientFormSaveService = clientFormSaveService;
+        this.validationService = validationService;
+        this.jwt = jwt;
+        this.username = username;
+    }
 
     @Override
     @Transactional

@@ -18,16 +18,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RequestScoped
+@io.quarkus.arc.Unremovable
 public class DashboardsApiImpl implements DashboardsApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(DashboardsApiImpl.class));
 
-    @Inject
-    UserDataService userDataService;
+    private final UserDataService userDataService;
+
+    private final String username;
 
     @Inject
-    @Claim(standard = Claims.preferred_username)
-    String username;
+    public DashboardsApiImpl(UserDataService userDataService, @Claim(standard = Claims.preferred_username) String username) {
+        this.userDataService = userDataService;
+        this.username = username;
+    }
 
     @Override
     @RolesAllowed("po-manage")

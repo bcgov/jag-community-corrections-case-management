@@ -13,12 +13,18 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @RequestScoped
+@io.quarkus.arc.Unremovable
 public class RoleApiImpl implements RoleApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(RoleApi.class));
 
+
+    private final RoleService roleService;
+
     @Inject
-    RoleService roleService;
+    public RoleApiImpl(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Override
     @RolesAllowed("role-sync")

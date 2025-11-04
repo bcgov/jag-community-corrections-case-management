@@ -19,16 +19,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RequestScoped
+@io.quarkus.arc.Unremovable
 public class ClientsApiImpl implements ClientsApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(ClientsApiImpl.class));
 
-    @Inject
-    ClientDataService clientDataService;
+    private final ClientDataService clientDataService;
+
+    private final String username;
 
     @Inject
-    @Claim(standard = Claims.preferred_username)
-    String username;
+    public ClientsApiImpl(ClientDataService clientDataService, @Claim(standard = Claims.preferred_username) String username) {
+        this.clientDataService = clientDataService;
+        this.username = username;
+    }
 
     @Override
     @RolesAllowed("client-search")

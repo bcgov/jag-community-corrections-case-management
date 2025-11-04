@@ -11,12 +11,18 @@ import org.slf4j.LoggerFactory;
 
 
 @ApplicationScoped
+@io.quarkus.arc.Unremovable
 public class LookupApiImpl implements LookupApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(LookupApi.class));
 
+
+    private final CodeTableService codeTableService;
+
     @Inject
-    CodeTableService codeTableService;
+    public LookupApiImpl(CodeTableService codeTableService) {
+        this.codeTableService = codeTableService;
+    }
 
     @Override
     @RolesAllowed("data-view")
