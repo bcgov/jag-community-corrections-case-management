@@ -26,6 +26,7 @@ public class ClientAddressSearchTest {
     ClientDataService sut;
 
     @InjectMock
+    @RestClient
     ObridgeClientService obridgeClientService;
 
     private static final LocalDate TEST_DATE = LocalDate.now();
