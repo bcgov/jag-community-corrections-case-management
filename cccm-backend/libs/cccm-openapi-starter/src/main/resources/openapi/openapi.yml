@@ -46,7 +46,7 @@ paths:
 
   /clients:
     get:
-      operationId: SearchClients
+      operationId: searchClients
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
@@ -63,14 +63,17 @@ paths:
             type: string
         - in: query
           name: birthYear
+          required: false
           schema:
             type: integer
         - in: query
           name: age
+          required: false
           schema:
             type: integer
         - in: query
           name: range
+          required: false
           schema:
             type: integer
         - in: query
@@ -104,7 +107,7 @@ paths:
         - tag: clients
   /clients/addressSearch:
     get:
-      operationId: SearchClientAddress
+      operationId: searchClientAddress
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
@@ -150,7 +153,7 @@ paths:
         - tag: clients
   /clients/{clientNum}/photo:
     get:
-      operationId: GetClientPhoto
+      operationId: getClientPhoto
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - explode: false
@@ -171,7 +174,7 @@ paths:
         - clients
   /clients/{clientNum}:
     get:
-      operationId: GetClient
+      operationId: getClient
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - explode: false
@@ -192,7 +195,7 @@ paths:
         - clients
   /clients/{clientNum}/address:
     get:
-      operationId: GetClientAddress
+      operationId: getClientAddress
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - explode: false
@@ -213,7 +216,7 @@ paths:
         - clients
   /clients/{clientNum}/details:
     get:
-      operationId: GetClientDetails
+      operationId: getClientDetails
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - explode: false
@@ -237,7 +240,7 @@ paths:
   #-------------------------------------------------------------------------------------
   /forms/summaries:
     get:
-      operationId: GetFormSummaries
+      operationId: getFormSummaries
       parameters:
         - in: query
           name: module
@@ -270,7 +273,7 @@ paths:
 
   /dashboards/supervisor:
     get:
-      operationId: GetSupervisorDashboard
+      operationId: getSupervisorDashboard
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
@@ -292,7 +295,7 @@ paths:
         - tag: dashboards
   /dashboards/supervisor/details:
     get:
-      operationId: GetSupervisorDashboardDetails
+      operationId: getSupervisorDashboardDetails
       parameters:
         - $ref: "#/components/parameters/xLocationId"
         - in: query
@@ -319,7 +322,7 @@ paths:
         - tag: dashboards
   /dashboards/po:
     get:
-      operationId: GetPODashboard
+      operationId: getPODashboard
       parameters:
         - in: query
           name: idirId
@@ -346,7 +349,7 @@ paths:
         - tag: dashboards
   /dashboards/centre:
     get:
-      operationId: GetCentreDashboard
+      operationId: getCentreDashboard
       parameters:
         - in: query
           name: locationId
@@ -1848,7 +1851,7 @@ paths:
 
   /lookup/formtypes:
     get:
-      operationId: GetFormTypes
+      operationId: getFormTypes
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1866,7 +1869,7 @@ paths:
         - tag: lookups
   /lookup/locations:
     get:
-      operationId: GetLocations
+      operationId: getLocations
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1884,7 +1887,7 @@ paths:
         - tag: lookups
   /lookup/genders:
     get:
-      operationId: GetGenders
+      operationId: getGenders
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1902,7 +1905,7 @@ paths:
         - tag: lookups
   /lookup/identifiers:
     get:
-      operationId: GetIdentifiers
+      operationId: getIdentifiers
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1920,7 +1923,7 @@ paths:
         - tag: lookups
   /lookup/address:
     get:
-      operationId: GetAddress
+      operationId: getAddress
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1938,7 +1941,7 @@ paths:
         - tag: lookups
   /lookup/province:
     get:
-      operationId: GetProvince
+      operationId: getProvince
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1956,7 +1959,7 @@ paths:
         - tag: lookups
   /lookup/city:
     get:
-      operationId: GetCity
+      operationId: getCity
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -1974,7 +1977,7 @@ paths:
         - tag: lookups
   /user/location:
     get:
-      operationId: GetUserDefaultLocation
+      operationId: getUserDefaultLocation
       responses:
         "200":
           content:
@@ -1990,7 +1993,7 @@ paths:
         - tag: users
   /user/locations:
     get:
-      operationId: GetUserLocations
+      operationId: getUserLocations
       responses:
         "200":
           content:
@@ -2006,7 +2009,7 @@ paths:
         - tag: users
   /user/logon:
     get:
-      operationId: GetLogon
+      operationId: getLogon
       parameters:
         - in: query
           name: locationType
@@ -2035,7 +2038,7 @@ paths:
         - tag: users
   /user/id:
     get:
-      operationId: GetUserId
+      operationId: getUserId
       responses:
         "200":
           content:
@@ -2051,7 +2054,7 @@ paths:
         - tag: users
   /user/PO:
     get:
-      operationId: GetPOs
+      operationId: getPOs
       parameters:
         - $ref: "#/components/parameters/xLocationId"
       responses:
@@ -2071,12 +2074,13 @@ paths:
         - tag: users
   /role/users:
     get:
-      operationId: GetUsers
+      operationId: getUsers
       parameters:
         - in: query
           name: group
           required: true
           schema:
+            type: string
             enum:
               - PO
               - SUPERVISOR
