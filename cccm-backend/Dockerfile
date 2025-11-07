@@ -26,5 +26,5 @@ COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/servic
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
 
-CMD ["java", "-jar", "/deployments/service.jar"]
+CMD ["/entrypoint.sh"]
 #############################################################################################
