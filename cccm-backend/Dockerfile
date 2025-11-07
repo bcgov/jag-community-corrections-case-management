@@ -26,5 +26,8 @@ COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/servic
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
 
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 CMD ["/entrypoint.sh"]
 #############################################################################################
