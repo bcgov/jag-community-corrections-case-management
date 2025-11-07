@@ -1,2 +1,2 @@
 #!/bin/bash
-exec java -jar /deployments/service.jar
+exec java -jar "/deployments/service.jar"
