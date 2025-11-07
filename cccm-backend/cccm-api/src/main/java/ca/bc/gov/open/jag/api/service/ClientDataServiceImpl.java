@@ -37,16 +37,19 @@ public class ClientDataServiceImpl implements ClientDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(ClientDataServiceImpl.class));
 
-    @Inject
-    @RestClient
+
     ObridgeClientService obridgeClientService;
 
-    @Inject
     ClientMapper clientMapper;
 
-    @Inject
-    @Claim(standard = Claims.preferred_username)
     String username;
+
+    @Inject
+    public  ClientDataServiceImpl(@RestClient ObridgeClientService obridgeClientService, ClientMapper clientMapper, @Claim(standard = Claims.preferred_username) String username) {
+        this.obridgeClientService = obridgeClientService;
+        this.clientMapper = clientMapper;
+        this.username = username;
+    }
 
     @Override
     public List<Client> clientSearch(ClientSearch clientSearch) {

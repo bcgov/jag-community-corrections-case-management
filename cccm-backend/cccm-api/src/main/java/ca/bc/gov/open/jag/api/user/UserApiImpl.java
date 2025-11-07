@@ -19,16 +19,20 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RequestScoped
+@io.quarkus.arc.Unremovable
 public class UserApiImpl implements UserApi {
 
     private static final Logger logger = LoggerFactory.getLogger(String.valueOf(UserApi.class));
 
-    @Inject
-    UserDataServiceImpl userDataService;
+    private final UserDataServiceImpl userDataService;
+
+    private final String username;
 
     @Inject
-    @Claim(standard = Claims.preferred_username)
-    String username;
+    public UserApiImpl(UserDataServiceImpl userDataService,@Claim(standard = Claims.preferred_username) String username) {
+        this.userDataService = userDataService;
+        this.username = username;
+    }
 
     @Override
     public LogonResult getLogon(@NotNull String locationType) {
