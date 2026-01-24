@@ -27,11 +27,6 @@ setupInterceptors(pinia);
 keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {
-    if (!authenticated) {
-      window.location.reload();
-      return;
-    }
-
     const app = createApp(App);
     app.use(authentication);
     app.use(pinia);
@@ -40,6 +35,18 @@ keycloak
     app.use(Vidle);
     installGlobals(app);
     app.component('font-awesome-icon', FontAwesomeIcon);
+
+    if (!authenticated) {
+      const loginAttemptKey = 'kc-login-attempt';
+      if (!sessionStorage.getItem(loginAttemptKey)) {
+        sessionStorage.setItem(loginAttemptKey, '1');
+        keycloak.login({ redirectUri: window.location.href });
+        return;
+      }
+    } else {
+      sessionStorage.removeItem('kc-login-attempt');
+    }
+
     app.mount('#app');
 
     window.onfocus = () => {
