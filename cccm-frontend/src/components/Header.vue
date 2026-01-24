@@ -84,7 +84,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 import iZtoast from 'izitoast';
@@ -156,7 +155,7 @@ export default {
     logout () {
       // clear cached location info
       this.mainStore.clearAll();
-      Vue.$keycloak.logout({ redirectUri: window.location.origin + import.meta.env.BASE_URL });
+      this.$keycloak.logout({ redirectUri: window.location.origin + import.meta.env.BASE_URL });
     },
     onidle() {
       iZtoast.error({
@@ -176,7 +175,7 @@ export default {
   },
   computed: {
     isUserAuthenticated() {
-        return Vue.$keycloak.authenticated;
+        return this.$keycloak.authenticated;
     },
     showSupervisorDash() {
       return this.mainStore.hasSupervisorDash() && this.mainStore.locationTypeCD == 'OFF';
@@ -188,20 +187,20 @@ export default {
       return this.mainStore.hasITRPDash() && this.mainStore.locationTypeCD == 'INST';
     },
     getDashboardURL() {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN)) {
-        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR;
-      } else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO)) {
-        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDPO;
-      } else if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
-        return this.baseURL + Vue.prototype.$ROUTER_NAME_DASHBOARDITRP;
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_SUPERVISOR) ||
+        this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN)) {
+        return this.baseURL + this.$ROUTER_NAME_DASHBOARDSUPERVISOR;
+      } else if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_PO)) {
+        return this.baseURL + this.$ROUTER_NAME_DASHBOARDPO;
+      } else if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP)) {
+        return this.baseURL + this.$ROUTER_NAME_DASHBOARDITRP;
       } else {
         return this.baseURL;
       }
       
     },
     getUserName() {
-        return Vue.$keycloak.tokenParsed.preferred_username;
+        return this.$keycloak.tokenParsed.preferred_username;
     },
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore

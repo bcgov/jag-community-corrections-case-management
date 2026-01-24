@@ -6,8 +6,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import templateButtons from '@/components/common/templateButtonGroupSubmit.json';
 
 export default {

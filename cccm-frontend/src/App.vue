@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 import HeaderComponent from '@/components/Header.vue'
 import FooterComponent from '@/components/Footer.vue'
 import updateToken from '@/middleware/update-token';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'app',
   components: {
     HeaderComponent,

@@ -1,7 +1,7 @@
-import Vue from 'vue'
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { updateForm } from "@/components/form.api";
+import { APP_GLOBALS } from '@/constants/appGlobals';
 
 export const useAutosaveStore = defineStore('autosave', { 
     // state
@@ -325,7 +325,7 @@ export const useAutosaveStore = defineStore('autosave', {
         },
         privateAddQuestionAndComments(key, eventData) {
           this.autoSaveDataCandidate[key] = eventData[key];
-          if (key != Vue.prototype.$KEY_SOURCES_CONTACTED) {
+          if (key != APP_GLOBALS.$KEY_SOURCES_CONTACTED) {
             this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFFIX] = eventData[key + this.CONST_COMMENT_SUFFIX];
           }
         },

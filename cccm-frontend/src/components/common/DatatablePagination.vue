@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { APP_GLOBALS } from '@/constants/appGlobals';
 
 export default {
   name: "DatatablePagination",
@@ -37,14 +37,14 @@ export default {
     },
     itemsPerPage: {
       type: Number,
-      default: Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE
+      default: APP_GLOBALS.$CONST_DATATABLE_ITEMS_PER_PAGE
     }
   },
   data() {
     return {
       currentPage: this.page,
       pageItems: this.itemsPerPage,
-      pageFilterList: Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLIST
+      pageFilterList: APP_GLOBALS.$CONST_DATATABLE_PAGE_FILTERLIST
     };
   },
   methods: {

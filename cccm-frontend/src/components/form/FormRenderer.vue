@@ -214,8 +214,7 @@
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
@@ -418,7 +417,7 @@ export default {
       // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
       if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) ||
        (this.createdByIdir != null && 
-        this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
+        this.createdByIdir.toUpperCase() == this.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
         completeDate == null && !this.locked)) {
         return true;
       }
@@ -447,7 +446,7 @@ export default {
         // Form is unlocked but completed, show edit button when the form is completed and the user is an admin or the form owner
         if (completeDate != null && 
             (this.mainStore.loginUserGroups.includes(groupCheckedAgainst) ||
-             this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
+             this.createdByIdir.toUpperCase() == this.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
           return true; 
         } 
         return false;

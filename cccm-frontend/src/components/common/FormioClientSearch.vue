@@ -113,8 +113,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {Form} from 'vue-formio';
+import { Form } from '@formio/vue';
 import {clientSearchByGeneralInfo, clientSearchByAddressInfo, getClientDetail} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
 import updateToken from '@/middleware/update-token';

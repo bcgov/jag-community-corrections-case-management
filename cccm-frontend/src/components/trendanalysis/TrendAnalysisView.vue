@@ -15,8 +15,6 @@
 </template>
 
 <script lang="ts">
-import CommentsAndInterventionsTable from "./CommentsAndInterventionsTable.vue";
-
 import CommentsTable from "./CommentsTable.vue";
 import ChartFilter from "./ChartFilter.vue";
 import DataView from "./DataView.vue";

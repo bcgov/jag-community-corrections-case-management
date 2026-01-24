@@ -143,8 +143,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator';
 import { dashboardSupervisorSearch, dashboardPODetailsSearch } from "@/components/form.api";
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
@@ -322,7 +320,7 @@ export default {
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore),
     getUserName() {
-        return Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
+        return this.$keycloak.tokenParsed.given_name + " " + this.$keycloak.tokenParsed.family_name;
     }
   }
 }

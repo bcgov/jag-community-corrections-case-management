@@ -245,7 +245,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import { formSearch, cloneForm, createForm } from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
@@ -328,8 +327,8 @@ export default {
     canClone(item) {
       // User can clone when:
       // User is an admin or the form is CMRP and use is in ITRP group
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) &&
           item.module === this.$CONST_FORMTYPE_CMRP )) {
         return true;
       }
@@ -344,12 +343,12 @@ export default {
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
 
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
+      if (item.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
           !item.complete ||
           !item.mostRecent) {
         return false;
@@ -358,14 +357,14 @@ export default {
       return true
     },
     getCloneTooltip(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) &&
           item.module === this.$CONST_FORMTYPE_CMRP )) {
         return 'Copy form';
       }
       
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return "User is not allowed to clone form";
       }
       if (!item.complete) {
@@ -379,14 +378,14 @@ export default {
       if (item.createdByIdir == null) {
         return "Login user doesn't contain idirId, cannot determine the ability to clone";
       }
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+      if (item.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return "User cannot clone another user's form"
       }
 
       return 'Copy form';
     },
     canPrint(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
       if (item.formTypeExpiryDate != null) {
@@ -395,7 +394,7 @@ export default {
       return true;
     },
     getPrintTooltip(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return 'User is not allowed to print form';
       }
       if (item.formTypeExpiryDate != null) {

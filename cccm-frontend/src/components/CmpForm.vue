@@ -66,8 +66,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
 import { createForm, getClientFormDetails } from "@/components/form.api";
 import {useStore} from "@/stores/store";
@@ -153,7 +151,7 @@ export default {
       if (response.module != this.$CONST_FORMTYPE_CMRP && !response.locked &&
            !this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) &&
            response.createdByIdir != null && 
-           response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+           response.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
 

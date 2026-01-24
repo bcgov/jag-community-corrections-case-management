@@ -8,8 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import { updateSourcesContacted } from "@/components/form.api";
 import templatePanel from '@/components/common/templateSidePanel.json';
 

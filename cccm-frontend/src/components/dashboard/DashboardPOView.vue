@@ -100,7 +100,6 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
 import { clientProfileSearch, dashboardPOSearch } from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
@@ -206,12 +205,12 @@ export default {
         if (error1) {
           console.error(error1);
         } else {
-          this.selectedPO.idirId = Vue.$keycloak.tokenParsed.preferred_username;
+          this.selectedPO.idirId = this.$keycloak.tokenParsed.preferred_username;
           this.selectedPO.poName = this.mainStore.loginUserName;
           this.key_po++;
 
           // populate the clients data table
-          this.dashboardPOSearch(Vue.$keycloak.tokenParsed.preferred_username, defaultLocation)
+          this.dashboardPOSearch(this.$keycloak.tokenParsed.preferred_username, defaultLocation)
         }
       }
 

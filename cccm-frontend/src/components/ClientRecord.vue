@@ -70,8 +70,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
 import TrendAnalysisView from "@/components/trendanalysis/TrendAnalysisView.vue";

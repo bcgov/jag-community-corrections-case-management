@@ -67,7 +67,6 @@
 </template>
   
 <script lang="ts">
-import Vue from 'vue'
 import { getDataForSummaryView, loadFormData, getFormioTemplate } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
