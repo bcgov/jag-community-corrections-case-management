@@ -10,10 +10,10 @@
         <div class="col-sm-9 d-flex">
           <section class="d-flex flex-column justify-content-end">
             <strong>Centre Filter</strong>
-            <v-radio-group row v-model="centreFilter">
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ReVOII Alerts" value="revoii"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="CRP-1 Alerts" value="itrp"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Individuals" value="all"></v-radio>
+            <v-radio-group v-model="centreFilter" inline>
+              <v-radio label="ReVOII Alerts" value="revoii"></v-radio>
+              <v-radio label="CRP-1 Alerts" value="itrp"></v-radio>
+              <v-radio label="All Individuals" value="all"></v-radio>
             </v-radio-group>
           </section>
         </div>
@@ -34,9 +34,8 @@
             no-results-text="No results found"
             class="elevation-1 text-center"
             hide-default-footer
-            :page.sync="page"
-            :items-per-page="itemsPerPage"
-            @page-count="pageCount = $event"
+            v-model:page="page"
+            v-model:items-per-page="itemsPerPage"
         >
           <!--Customize the RTC date-->
           <template v-slot:item.dischargeRtcDate="{ item }">
@@ -82,7 +81,7 @@
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>

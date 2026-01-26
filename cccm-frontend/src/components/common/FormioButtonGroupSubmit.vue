@@ -1,5 +1,8 @@
 <template>
-    <Form :form="formJSON" 
+    <Form
+      v-if="isFormReady"
+      :key="formKey"
+      :form="formJSON"
       @evt_save="handleSave" 
       @evt_cancel="handleCancelForm" 
       :submission="dataModel" />
@@ -21,6 +24,7 @@ export default {
       CONST_KEY_SAVE_BTN: 'save_continue',
       templatePanel : templateButtons,
       formJSON : {},
+      formKey: 0,
     }
   },
   watch: {
@@ -44,11 +48,17 @@ export default {
   mounted(){
     this.buildFormData();
   },
+  computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    }
+  },
   methods: {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
       this.formJSON = JSON.parse(tmpJSONStr);
+      this.formKey++;
     },
     private_updateSaveBtnLabel() {
       let btn = this.private_getSaveBtn();

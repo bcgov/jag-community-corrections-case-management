@@ -2,12 +2,11 @@
   <v-row>
     <v-col cols="1" class="pl-3 pr-2">
       <v-select
-          solo
           :items="pageFilterList"
           v-model="pageItems"
-          dense
+          density="compact"
           item-color="primary"
-          @input="onPageItemsUpdate"
+          @update:modelValue="onPageItemsUpdate"
       ></v-select>
     </v-col>
     <v-col cols="11">
@@ -15,7 +14,7 @@
           v-model="currentPage"
           :total-visible="7"
           :length="pageCount"
-          @input="$emit('update:page', currentPage);"
+          @update:modelValue="$emit('update:page', currentPage)"
       ></v-pagination>
     </v-col>
   </v-row>
@@ -49,8 +48,16 @@ export default {
   },
   methods: {
     onPageItemsUpdate(event: string) {
-      this.pageItems = parseInt(event, 10);
-      this.$emit('update:itemsPerPage', this.pageItems);
+      this.pageItems = typeof event === 'string' ? parseInt(event, 10) : Number(event);
+      this.$emit('update:items-per-page', this.pageItems);
+    }
+  },
+  watch: {
+    page(newVal) {
+      this.currentPage = newVal;
+    },
+    itemsPerPage(newVal) {
+      this.pageItems = newVal;
     }
   }
 };

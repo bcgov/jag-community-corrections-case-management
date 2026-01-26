@@ -129,7 +129,6 @@
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
-
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
             <div id="id_navPanel" :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
@@ -308,7 +307,7 @@ export default {
     if (this.readonly) {
       this.options.readOnly = this.readonly;
     } else {
-      this.options = null;
+      this.options = {};
     }
 
     let configuredFormInfo = this.$FORM_INFO.filter( item => item.formType === this.formType );
@@ -409,7 +408,7 @@ export default {
       if (error) {
         console.error("Failed unset complete status", error);
       } else {
-        this.options = null;
+        this.options = {};
         this.getClientAndFormMeta(false);
       }
     },

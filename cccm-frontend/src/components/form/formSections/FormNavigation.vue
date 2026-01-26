@@ -7,7 +7,7 @@
             <a :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
-              @click="setCurrentSectionParentChild">
+              @click.prevent.stop="setCurrentSectionParentChild($event)">
               {{ header.label }}
             </a>
           </span>
@@ -25,7 +25,7 @@
                     :key="headerc.key" 
                     :href="`#${indexp}${indexc}`"
                     :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
-                    @click="setCurrentSectionParentChild">
+                    @click.prevent.stop="setCurrentSectionParentChild($event)">
                     {{ headerc.navText }}
                   </a>
                 </span>
@@ -167,10 +167,11 @@ export default {
     },
     // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
-      if (e.target && e.target.hash) {
+      const hash = e?.currentTarget?.hash || e?.target?.hash;
+      if (hash) {
         // a sample of hash value: #00
-        //console.log("setCurrentSectionParentChild : ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
-        this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)), false);
+        //console.log("setCurrentSectionParentChild : ", hash.substr(1, 1), hash.substr(2, 2));
+        this.showHideWrapper(parseInt(hash.substr(1, 1)), parseInt(hash.substr(2, 2)), false);
       }
     },
     showHideWrapper(posParentNav, posChildNav, autoScroll) {

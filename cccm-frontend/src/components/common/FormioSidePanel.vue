@@ -1,5 +1,7 @@
 <template>
-    <Form :key="formKey"
+    <Form
+      v-if="isFormReady"
+      :key="formKey"
       :form="formJSON" 
       :submission="dataModel" 
       :options="options"
@@ -36,11 +38,17 @@ export default {
       this.preVal = this.dataModel.data.input_key_sourceContacted;
     }
   },
+  computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    }
+  },
   methods: {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
       this.formJSON = JSON.parse(tmpJSONStr);
+      this.formKey++;
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_cancelButtonLabel") {
