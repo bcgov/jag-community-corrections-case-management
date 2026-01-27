@@ -100,7 +100,7 @@ router.beforeEach((to: any, from: any, next: any) => {
     // Keycloak init in main.ts already enforces login-required.
     if (!keycloak.authenticated) {
       next({ name: 'unauthorized' })
-    } else if (store.loginUserGroups != null) {
+    } else if (store.loginUserGroups != null && store.loginUserGroups.length > 0) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
       //console.log("Authenticated and has 'client-search' role");
@@ -139,6 +139,7 @@ router.beforeEach((to: any, from: any, next: any) => {
         })
         .catch((err: any) => {
           console.error(err)
+          next({ name: 'unauthorized' })
         })
     } else {
       // The user was authenticated, but did not have the correct role
