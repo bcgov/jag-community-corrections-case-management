@@ -36,9 +36,9 @@
         :headers="clientHeaders"
         :items="clients"
         :single-expand="singleExpand"
-        :expanded.sync="expanded"
-        @item-expanded="expandRow"
-        item-key="index"
+        v-model:expanded="expanded"
+        @update:expanded="expandRow"
+        item-value="index"
         no-results-text="No clients found"
         :search="search"
         show-expand
@@ -52,8 +52,9 @@
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
-        <template v-slot:expanded-item="{ headers, item }">
-          <td width="2%"></td>
+        <template v-slot:expanded-row="{ headers, item }">
+          <tr>
+          <td width="5%"></td>
           <td width="10%" class="innerTableData">
             <figure v-if="item.photoData">
               <img :src="item.photoData" alt="Client photo" />
@@ -90,11 +91,14 @@
             <strong>Other Addresses</strong>
             <br />
             <ul>
-              <li v-for="el in item.address" v-if="!el.primary">
-                {{ el.fullAddress }}
-              </li>
+              <template v-for="(el, index) in item.address" :key="index">
+                <li v-if="el && !el.primary">
+                  {{ el.fullAddress }}
+                </li>
+              </template>
             </ul>
           </td>
+          </tr>
         </template>
       </v-data-table>
       <br/>
@@ -120,6 +124,7 @@ import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dateToCCCMDateformat } from '../dateUtils';
+import { ref } from 'vue'
 
 export default {
   name: 'FormioClientSearch',
@@ -140,7 +145,7 @@ export default {
       loading: false,
       search: '',
       expanded: [],
-      singleExpand: false,
+      singleExpand: true,
       clientHeaders: [
         { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
         { title: 'Name', align: 'start', sortable: true, key: 'clientName', width: '10%' },
@@ -170,7 +175,7 @@ export default {
   async mounted() {
     this.buildForm();
     await this.setInitData();
-  },
+  },  
   methods: {
     updatePageCount() {
       const term = (this.search || '').toString().trim().toLowerCase();
@@ -225,13 +230,24 @@ export default {
         this.initData.data.provinceCodes = provinceCodes;
       }
     },
-    expandRow ({ item, value }) {
+    expandRow (expandedItems) {
       // When a row is expanded the first time, call getClientDetails to retrive the following info:
       // 1. photo image and photo taken date.
       // 2. alias
       // 3. other addresses 
-      if (!item.detailsFetched) {
-        this.getClientDetails(item.clientNum);
+      if (expandedItems && expandedItems.length > 0) {
+        // If more than one row is expanded, keep only the most recent one
+        //expanded.value = expandedItems.length > 0 ? [expandedItems[expandedItems.length - 1]] : []
+        const index = expandedItems[expandedItems.length - 1];
+        // fetch the row based on the index value only if index exists and details have not been fetched yet
+        if (index !== undefined) {
+          const item = this.clients.find(el => el.index === index);
+          console.log("expandRow - index, item: ", index, item);
+          if (item && !item.detailsFetched) {
+            console.log("expandRow - fetching client details for clientNum: ", item.clientNum);
+            this.getClientDetails(item.clientNum);
+          }
+        }
       }
     },
     async getClientDetails(clientNum) {
