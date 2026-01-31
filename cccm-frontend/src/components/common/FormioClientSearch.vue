@@ -197,35 +197,35 @@ export default {
       // lookup addressTypeCodes
       const [error, addressTypeCodes] = await this.mainStore.lookupAddressTypeCodes();
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         this.initData.data.addressTypeCodes = addressTypeCodes;
       }
       // lookup genderCodes
       const [error1, genderCodes] = await this.mainStore.lookupGenderCodes();
       if (error1) {
-        console.log(error1);
+        console.error(error1);
       } else {
         this.initData.data.genderCodes = genderCodes;
       }
       // lookup idTypeCodes
       const [error2, idTypeCodes] = await this.mainStore.lookupIdTypeCodes();
       if (error2) {
-        console.log(error2);
+        console.error(error2);
       } else {
         this.initData.data.idTypeCodes = idTypeCodes;
       }
       // lookup cityCodes
       const [error3, cityCodes] = await this.mainStore.lookupCityCodes();
       if (error3) {
-        console.log(error3);
+        console.error(error3);
       } else {
         this.initData.data.cityCodes = cityCodes;
       }
       // lookup provinceCodes
       const [error4, provinceCodes] = await this.mainStore.getProvinceCodes();
       if (error4) {
-        console.log(error4);
+        console.error(error4);
       } else {
         this.initData.data.provinceCodes = provinceCodes;
       }
@@ -242,9 +242,7 @@ export default {
         // fetch the row based on the index value only if index exists and details have not been fetched yet
         if (index !== undefined) {
           const item = this.clients.find(el => el.index === index);
-          console.log("expandRow - index, item: ", index, item);
           if (item && !item.detailsFetched) {
-            console.log("expandRow - fetching client details for clientNum: ", item.clientNum);
             this.getClientDetails(item.clientNum);
           }
         }
@@ -255,7 +253,6 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("getClientDetail: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
