@@ -3,8 +3,7 @@
       v-if="isFormReady"
       :key="formKey"
       :form="formJSON"
-      @evt_save="handleSave" 
-      @evt_cancel="handleCancelForm" 
+      @customEvent="handleCustomEvent"
       :submission="dataModel" />
 </template>
 
@@ -76,10 +75,17 @@ export default {
       }
       return theBtn;
     },
+    handleCustomEvent(evt) {
+      // Form.io emits customEvent for all button actions with type "event"
+      if (evt != null && evt.type === 'evt_save') {
+        this.handleSave(evt);
+      } else if (evt != null && evt.type === 'evt_cancel') {
+        this.handleCancelForm(evt);
+      }
+    },
     handleSave(evt) {
       // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (evt != null && evt.type === 'evt_save' ) {
-        if (this.saveBtnLabel == this.$BUTTON_TEXT_SUBMIT) {
+      if (this.saveBtnLabel == this.$BUTTON_TEXT_SUBMIT) {
           let btn = this.private_getSaveBtn();
           if (btn != null) {
             this.$emit('saveContinueClicked', true);
@@ -93,14 +99,10 @@ export default {
         } else {
           this.$emit('saveContinueClicked', true);
         }
-      } 
-      
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
-      if (evt != null && evt.type === 'evt_cancel' ) {
-        this.$emit('cancelFormClicked');
-      }
+      this.$emit('cancelFormClicked');
     }
   }
 }
