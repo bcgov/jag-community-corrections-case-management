@@ -6,7 +6,7 @@
       :options="options"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent"
-      @key_hidden_submit_btn="handleHiddenBtnClick"
+      @customEvent="handleCustomEvent"
     />
   </div>
 </template>
@@ -30,6 +30,7 @@ export default {
   },
   watch: {
     sendData() {
+      console.log("sendData changed, simulating hidden button click");
       this.simulateBtnClick();
     }
   },
@@ -50,8 +51,16 @@ export default {
     simulateBtnClick() {
       let elementName = "data[key_hidden_submit_btn]";
       let theBtn = document.getElementsByName(elementName);
+      console.log("Simulating click on hidden button: ", theBtn);
       if (theBtn != null && theBtn.length == 1) {
         theBtn[0].click();
+      }
+    },
+    handleCustomEvent(evt) {
+      console.log("Custom event received:", evt);
+      // Check if this is the hidden submit button event
+      if (evt.type === 'key_hidden_submit_btn') {
+        this.handleHiddenBtnClick(evt);
       }
     },
     handleHiddenBtnClick(evt) {
