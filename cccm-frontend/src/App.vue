@@ -23,18 +23,18 @@ export default defineComponent({
     HeaderComponent,
     FooterComponent
   },
-  data() {
-    return {
-      isPrint: false
+  computed: {
+    isPrint(): boolean {
+      return this.$route?.name === 'printView';
     }
   },
-  mounted(){
-    this.isPrint = this.$route.name === 'printView';
-  },
   watch: {
-    $route() {
-      updateToken();
-    },
+    '$route': {
+      handler() {
+        updateToken();
+      },
+      deep: true
+    }
   }
 });
 </script>

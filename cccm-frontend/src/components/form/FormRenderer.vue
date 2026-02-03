@@ -640,7 +640,8 @@ export default {
           }
         });
 
-      window.open(route.href, '_blank');
+      const url = window.location.origin + route.href;
+      window.open(url, '_blank');
     },
     redirectOnFormClose(){
       this.$router.push({
