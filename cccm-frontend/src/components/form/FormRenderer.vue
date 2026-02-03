@@ -125,7 +125,7 @@
         <div class="columnMain L">
           <div class="menu-Sticky">
             <div id="id_infoPanel" class="menuR1">
-              <v-alert :key="errorKey" v-if="errorOccurred" type="info" prominent dismissible>
+              <v-alert :key="errorKey" v-model="errorOccurred" type="error" prominent closable>
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
@@ -142,7 +142,7 @@
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
           <div id="div_scale" :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
-            <v-row>
+            <v-row style="margin: -0px">
               <div class="col-11">
                 <FormDataEntry 
                   :csNumber="csNumber"
@@ -861,6 +861,10 @@ export default {
 </script>
 
 <style>
+.v-alert--variant-flat.v-alert.bg-error {
+  background-color: pink !important;
+}
+
 .sectionTitleClass {
   font-size: 35px;
 }
