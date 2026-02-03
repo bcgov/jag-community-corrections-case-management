@@ -115,19 +115,19 @@ export default {
         loading: false,
         theKey: 0,
         formHeaders: [
-            { text: 'Question', value: 'question', width: '20%', sortable: false },
-            { text: 'Answer', value: 'value', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
-            { text: 'Comments', value: 'comment', width: '40%', cellClass: 'readonly-field-text' }
+            { title: 'Question', key: 'question', width: '20%', sortable: false },
+            { title: 'Answer', key: 'value', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { title: 'Comments', key: 'comment', width: '40%', cellClass: 'readonly-field-text' }
         ],
         formNoCommentsHeaders: [
-          { text: 'Question', value: 'question', width: '20%', sortable: false },
-          { text: 'Answer', value: 'value', width: '80%', sortable: false, cellClass: 'readonly-field-text' }
+          { title: 'Question', key: 'question', width: '20%', sortable: false },
+          { title: 'Answer', key: 'value', width: '80%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         interventionHeaders: [
-            { text: 'Criminogenic Needs', value: 'question', width: '10%', sortable: false },
-            { text: 'Specific Factor', value: 'comment', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
-            { text: 'Intervention Type', value: 'interventionType', width: '15%', sortable: false },
-            { text: 'Intervention Description', value: 'interventionComment', width: '35%', sortable: false, cellClass: 'readonly-field-text' }
+            { title: 'Criminogenic Needs', key: 'question', width: '10%', sortable: false },
+            { title: 'Specific Factor', key: 'comment', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { title: 'Intervention Type', key: 'interventionType', width: '15%', sortable: false },
+            { title: 'Intervention Description', key: 'interventionComment', width: '35%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         showSMOOverallBPSection: false,
       }
