@@ -84,7 +84,7 @@
 									"value": ""
 								}
 							],
-							"content": "<li><Strong>Warrant Type:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantTypes.map(warrantType => warrantType.warrantTypeCode).join(', ')}}</li> <li><Strong>Next Court Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.nextCourtDate}}</li> <li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantExpiryDate}}</li> ",
+							"content": "<li><Strong>Warrant Type:</Strong> {{data.locationInformation == null || data.locationInformation.warrantTypes == null ? '' : data.locationInformation.warrantTypes.map(function(warrantType) { return warrantType.warrantTypeCode; }).join(', ')}}</li> <li><Strong>Next Court Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.nextCourtDate}}</li> <li><Strong>Possible Parole Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.paroleDate}}</li> <li><Strong>Prob. Discharge/RTC Date:</Strong> {{data.generalInformation == null ? '' : data.generalInformation.dischargeDate}}</li> <li><Strong>Warrant Expiry Date:</Strong> {{data.locationInformation == null ? '' : data.locationInformation.warrantExpiryDate}}</li> ",
 							"refreshOnChange": true,
 							"type": "htmlelement",
 							"input": false,
@@ -204,7 +204,7 @@
 											"conditional": {
 											  "show": true,
 											  "when": "sourcesContacted.hideSCInput",
-										  "eq": false
+											  "eq": false
 											}
 										  }
 									],
@@ -230,7 +230,7 @@
 											"conditional": {
 											  "show": true,
 											  "when": "sourcesContacted.hideSCInput",
-										  "eq": false
+											  "eq": false
 											}
 										  }
 									],
