@@ -1,12 +1,10 @@
 <template>
     <Form
-      v-if="isFormReady"
       :key="formKey"
       :form="formJSON" 
       :submission="dataModel" 
       :options="options"
-      @evt_changeButtonLabel="changeButtonLabel"
-      @evt_cancelButtonLabel="changeButtonLabel"/>
+      @customEvent="changeButtonLabel" />
 </template>
 
 <script lang="ts">
@@ -26,7 +24,7 @@ export default {
       templatePanel : templatePanel,
       formJSON : {},
       formKey: 0,
-      preVal: ''
+      preVal: '',
     }
   },
   components: {
@@ -38,11 +36,6 @@ export default {
       this.preVal = this.dataModel.data.input_key_sourceContacted;
     }
   },
-  computed: {
-    isFormReady() {
-      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
-    }
-  },
   methods: {
     buildFormData() {
       // make a deep copy of the template
@@ -52,12 +45,15 @@ export default {
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_cancelButtonLabel") {
-        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
+        this.dataModel.data.sourcesContacted.hideSCInput = true;
         this.dataModel.data.input_key_sourceContacted = this.preVal;
         this.formKey++;
-      }
-      if (evt != null && evt.type === "evt_changeButtonLabel" ) {
-        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
+      } else if (evt != null && (evt.type === "evt_addSource")) {
+        this.dataModel.data.sourcesContacted.hideSCInput = false;
+        this.dataModel.data.input_key_sourceContacted = this.preVal;
+        this.formKey++;
+      } else if (evt != null && evt.type === "evt_saveSource") {
+        this.dataModel.data.sourcesContacted.hideSCInput = true;
         this.formKey++;
 
         // Time to save
