@@ -4,7 +4,7 @@
     :key="formKey"
     :form="formJSON"
     :submission="dataModel"
-    @evt_editForm="handleUnlockForm"
+    @customEvent="handleUnlockForm"
   />
 </template>
 
