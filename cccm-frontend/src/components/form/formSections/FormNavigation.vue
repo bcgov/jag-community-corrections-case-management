@@ -57,6 +57,7 @@ export default {
     return {
       //const
       CUSTOM_QUESTION_PREFIX: 'question_panel_',
+      SECTION_PANEL_CUSTOM_CLASS_PREFIX: 'section_panel_',
       ENTRY_TARGET_TIMEOUT: 100,
       observer : null,
       currentSectionChild : '1',
@@ -228,7 +229,9 @@ export default {
           let panelIDIndex = (i + 1).toString().length < 2 ? "0" + (i + 1).toString() : (i + 1).toString();
           let panelID = "S" + panelIDIndex;
           //console.log("this.currentSectionParent, panelID: ", this.currentSectionParent, this.currentSectionParent.toString().length, "S" + "0" + this.currentSectionParent.toString(), panelID);
-          let thePanel = document.getElementById(panelID);
+          let className = '[class*="' + this.SECTION_PANEL_CUSTOM_CLASS_PREFIX + panelID + '"]';
+          let thePanel = document.querySelector(className);
+          //let thePanel = document.getElementById(panelID);
           //console.log("ShowHideSections", this.currentSectionParent, this.currentSectionChild, panelIDIndex, panelID, thePanel);
 
           if (thePanel != null) {
