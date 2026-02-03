@@ -95,6 +95,7 @@ import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDate
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dashboardCentreSearch } from "@/components/form.api";
 import { dateToCCCMDateformat } from "@/components/dateUtils";
+import { InternalItem } from "vuetify";
 
 export default {
   name: "DashboardItrpView",
@@ -105,10 +106,10 @@ export default {
       key_results: 0,
       // datatable variables
       page: 1,
-      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
+      clientList: [],
       headers: [
         { title: 'Client Name', key: 'clientName' },
         { title: 'CS#', key: 'clientNum'},
@@ -126,9 +127,6 @@ export default {
       centreDisplayName: "",
       key_centreDisplayName: 0,
     }
-  },
-  created() {
-    this.clientList = [];
   },
   mounted() {
     this.centreDisplayName = this.mainStore.locationDescription;
@@ -157,16 +155,16 @@ export default {
         console.error(error);
       } else {
         this.clientList = response;
-      }
+      }      
       this.key_results++;
       this.loading = false;
     },
-    applyCentreFilter(value: string, query: string, item: any) {
+    applyCentreFilter(value: any, query: string, item: InternalItem<any>) {
       // filter table based on alerts count
       if (query == "revoii") {
-        return item.rvoCount > 0;
+        return item?.raw?.rvoCount > 0;
       } else if (query == "itrp") {
-        return item.itrpCount > 0;
+        return item?.raw?.itrpCount > 0;
       } else {
         return true;
       }
@@ -177,6 +175,12 @@ export default {
   },
   computed: {
     ...mapStores(useStore),
+    pageCount() {
+      const filteredItems = this.clientList.filter((item: any) => 
+        this.applyCentreFilter(null, this.centreFilter, { raw: item })
+      );
+      return Math.ceil(filteredItems.length / this.itemsPerPage);
+    }
   },
 }
 </script>
