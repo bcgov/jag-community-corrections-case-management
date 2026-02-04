@@ -215,8 +215,7 @@ label.col-form-label {
 }
 .formio-action-buttons-container {
     justify-content: space-between!important;
-    padding: 20px 0px 50px 0px;
-    border-top: 1px solid #BCBCBC!important;
+    padding: 50px 0px 50px 0px;
 }
 .formio-action-buttons{
  }

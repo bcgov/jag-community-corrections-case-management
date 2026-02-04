@@ -117,14 +117,12 @@
 import { Form } from '@formio/vue';
 import {clientSearchByGeneralInfo, clientSearchByAddressInfo, getClientDetail} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
-import updateToken from '@/middleware/update-token';
 import 'izitoast/dist/css/iziToast.min.css';
 import iZtoast from 'izitoast';
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dateToCCCMDateformat } from '../dateUtils';
-import { ref } from 'vue'
 
 export default {
   name: 'FormioClientSearch',
