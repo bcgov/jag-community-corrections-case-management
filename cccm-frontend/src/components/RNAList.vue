@@ -177,11 +177,10 @@
             no-results-text="No results found"
             hide-default-footer
             class="text-center"
-            :page.sync="page"
             :loading="loading"
             loading-text="Loading RNA List... Please wait"
-            :items-per-page="itemsPerPage"
-            @page-count="pageCount = $event"
+            v-model:page="page"
+            v-model:items-per-page="itemsPerPage"
         >
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
@@ -237,7 +236,7 @@
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br /><br />
@@ -699,6 +698,10 @@ export default {
     }
   },
   computed: {
+    pageCount() {
+      const filteredItems = this.rnaList;
+      return Math.ceil(filteredItems.length / this.itemsPerPage);
+    },
     getOverdueRNAFormtypes() {
       return this.overdueRNAFormtypes;
     },

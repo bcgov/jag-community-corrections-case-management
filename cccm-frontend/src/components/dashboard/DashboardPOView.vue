@@ -51,7 +51,7 @@
       <div class="dashboard-v-card">
         <v-data-table
             :loading="loading"   
-              loading-text="Searching... Please wait"
+            loading-text="Searching... Please wait"
             :headers="headers"
             :items="clientList"
             item-value="clientNum"
@@ -64,7 +64,6 @@
             hide-default-footer
             v-model:page="page"
             :items-per-page="itemsPerPage"
-            @update:page-count="pageCount = $event"
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
@@ -93,7 +92,7 @@
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>
@@ -138,6 +137,7 @@ export default {
         { title: 'Due Next', key: 'dueNext', cellClass: 'p-0 m-0' },
         { title: 'Due Date', key: 'dueDate', cellClass: 'p-0 m-0' },
       ],
+      clientList: [],
       expanded: [],
       singleExpand: false,
       keyExpandRow: 0,
@@ -173,7 +173,7 @@ export default {
       handler(newValue, oldValue) {
         console.log("Location updated from Header: ", newValue, oldValue);
       }
-    }
+    },
   },
   methods: {
     async initPage() {
@@ -243,7 +243,6 @@ export default {
           await this.$router.replace(`${this.$ROUTER_NAME_CLIENTSEARCH}`)
         } else {
           // populate the poList
-          //console.log("search from podashboard: ", defaultLocation);
           const [error2, defaultPOList] = await this.mainStore.getPOList(defaultLocation);
           if (error2) {
             console.error(error2);
@@ -349,7 +348,6 @@ export default {
         console.error(error);
       } else {
         this.clientList = response;
-        //console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
           // date conversion
@@ -384,8 +382,8 @@ export default {
             );
           }
           el.designationDisplay = designation;
-        }
-
+        }      
+        
         // populate this.initDataArray
         this.getInitData();
       }
@@ -407,7 +405,11 @@ export default {
     }
   },
   computed: {
-    ...mapStores(useStore),
+    pageCount() {
+      const filteredItems = this.clientList;
+      return Math.ceil(filteredItems.length / this.itemsPerPage);
+    },
+    ...mapStores(useStore),    
   }
 }
 </script>
