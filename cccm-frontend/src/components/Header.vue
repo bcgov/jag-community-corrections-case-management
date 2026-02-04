@@ -20,7 +20,7 @@
             sm="12"
           >
             <v-select
-                item-text="value"
+                item-title="value"
                 item-value="key"
                 v-model="selectedLocation"
                 :items="locationTypes"

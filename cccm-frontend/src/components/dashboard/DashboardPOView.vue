@@ -1,7 +1,7 @@
 <template>
 
   <div data-app class="dashboard-po p-4">
-    <div :key="key_userDisplayName" class="row mb-2">
+    <div class="row mb-2">
       <div class="col-sm-6">
         <h1 class="font-weight-bold">{{ userDisplayName }}'s clients</h1>
       </div>
@@ -10,13 +10,13 @@
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
           <v-select
-            :key="key_po"
-            item-text="poName"
+            item-title="poName"
             item-value="idirId"
             v-model="selectedPO"
             :items="poList"
             label=""
-            v-on:change="applyPOFilter"
+            @update:modelValue="applyPOFilter"
+            return-object
             outlined
           >
         </v-select>
@@ -52,20 +52,19 @@
         <v-data-table
             :loading="loading"   
               loading-text="Searching... Please wait"
-            :key="key_results"
             :headers="headers"
             :items="clientList"
-            item-key="clientNum"
+            item-value="clientNum"
             :single-expand="singleExpand"
-            :expanded.sync="expanded"
-            @item-expanded="expandRow"
+            v-model:expanded="expanded"
+            @update:expanded="expandRow"
             no-results-text="No results found"
             show-expand
             class="elevation-1 text-center"
             hide-default-footer
-            :page.sync="page"
+            v-model:page="page"
             :items-per-page="itemsPerPage"
-            @page-count="pageCount = $event"
+            @update:page-count="pageCount = $event"
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
@@ -82,11 +81,13 @@
             <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
           </template>
           <!--Customize the expanded item to show photo and more-->
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="1"></td>
-            <td :colspan="11">
-              <Form :key="keyExpandRow" :form="formJSON" :submission="initDataArray[item.clientNum]"/>
-            </td>
+          <template v-slot:expanded-row="{ headers, item }">
+            <tr>
+              <td :colspan="1"></td>
+              <td :colspan="11">
+                <Form :key="`form-${item.clientNum}`" :form="formJSON" :submission="initDataArray[item.clientNum]"/>
+              </td>
+            </tr>
           </template>
         </v-data-table>
       </div>
@@ -100,6 +101,7 @@
 </template>
 
 <script lang="ts">
+import { Form } from '@formio/vue';
 import { clientProfileSearch, dashboardPOSearch } from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
@@ -110,7 +112,7 @@ import { dateToCCCMDateformat } from '../dateUtils';
 
 export default {
   name: 'RNAList',
-  components: { DatatablePagination, DashboardDueDateLegend },
+  components: { Form, DatatablePagination, DashboardDueDateLegend },
   data() {
     return {
       //const designations
@@ -125,6 +127,7 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
+        { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
         { title: 'Client Name', key: 'clientName' },
         { title: 'Alert(s) (Y/N)', key: 'alertDisplay'},
         { title: 'Designation', key: 'designationDisplay' },
@@ -163,15 +166,15 @@ export default {
   mounted(){
     this.initPage();
   },
-  // watch: {
-  //   useStore: {
-  //     immediate: true,
-  //     deep: true,
-  //     handler(newValue, oldValue) {
-  //       console.log("Location updated from Header: ", newValue, oldValue);
-  //     }
-  //   }
-  // },
+  watch: {
+    useStore: {
+      immediate: true,
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log("Location updated from Header: ", newValue, oldValue);
+      }
+    }
+  },
   methods: {
     async initPage() {
       this.initPOList();
@@ -187,8 +190,10 @@ export default {
           this.POLocationId = POObj.locationId;
           
           // populate the poList
-          this.selectedPO.idirId = this.POIdirId;
-          this.selectedPO.poName = this.POName;
+          this.selectedPO = {
+            idirId: this.POIdirId,
+            poName: this.POName
+          };
           
           //console.log("poIdirId, poName: ", this.POIdirId, this.POName, this.selectedPO);
           this.key_po++;
@@ -205,8 +210,10 @@ export default {
         if (error1) {
           console.error(error1);
         } else {
-          this.selectedPO.idirId = this.$keycloak.tokenParsed.preferred_username;
-          this.selectedPO.poName = this.mainStore.loginUserName;
+          this.selectedPO = {
+            idirId: this.$keycloak.tokenParsed.preferred_username,
+            poName: this.mainStore.loginUserName
+          };
           this.key_po++;
 
           // populate the clients data table
@@ -242,27 +249,25 @@ export default {
             console.error(error2);
           } else {
             this.poList = defaultPOList;
-            //console.log("poList: ", this.poList);
             this.key_po++;
           }
         }
       }
     },
-    applyPOFilter(idirId) {
+    applyPOFilter(selectedPO) {
       // Clear the previous search results
-      this.clientList = [];
-      this.loading = true;
+      this.clientList = [];      
       this.numOfGen = 0;
       this.numOfIPV = 0;
       this.numOfSMO = 0;
       this.key_results++;
 
+      this.loading = true;
       // search based on the newly selected PO
-      this.dashboardPOSearch(idirId, this.mainStore.locationCD);
+      this.dashboardPOSearch(selectedPO.idirId, this.mainStore.locationCD);
       
       //update the title
-      let thePO = this.poList.find(item => item.idirId == idirId);
-      this.userDisplayName = thePO == null ? '' : thePO.poName;
+      this.userDisplayName = selectedPO.poName || '';
       this.key_userDisplayName++;
     },
     async getClientProfile(clientNum) {
