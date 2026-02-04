@@ -19,7 +19,7 @@
             cols="12"
             sm="12"
           >
-            <v-select
+            <v-autocomplete
                 item-title="value"
                 item-value="key"
                 v-model="selectedLocation"
@@ -27,7 +27,7 @@
                 label=""
                 outlined
             >
-            </v-select>
+            </v-autocomplete>
           </v-col>
         </div>
         <v-card-actions>

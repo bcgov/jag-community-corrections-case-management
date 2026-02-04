@@ -128,7 +128,7 @@
         <div class="col-sm-2">
           <div class="mt-2 ml-3">
             <strong>Filter RNA Form</strong>
-            <v-select
+            <v-autocomplete
               item-title="value"
               item-value="key"
               v-model="selectedFormTypes"
@@ -137,7 +137,7 @@
               @update:modelValue="applyFormTypeFilter"
               outlined
             >
-            </v-select>
+            </v-autocomplete>
           </div>
         </div>
         <div class="col-sm-6">

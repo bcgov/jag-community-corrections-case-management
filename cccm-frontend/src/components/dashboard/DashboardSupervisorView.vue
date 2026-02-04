@@ -9,7 +9,7 @@
       <div class="row justify-content-between">
         <div class="col-sm-5 m-3">
           <strong>Search Location</strong>
-          <v-select
+          <v-autocomplete
             :key="key_location"
             item-title="value"
             item-value="key"
@@ -17,9 +17,8 @@
             :items="locationTypes"
             label=""
             @update:modelValue="applyLocationFilter"
-            outlined
           >
-          </v-select>
+          </v-autocomplete>
         </div>
         <div class="col-sm-2 mr-3 align-self-end pb-4">
           <v-text-field

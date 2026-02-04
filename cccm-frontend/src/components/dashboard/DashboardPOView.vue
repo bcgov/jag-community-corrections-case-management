@@ -9,7 +9,7 @@
     <v-card class="p-2">
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
-          <v-select
+          <v-autocomplete
             item-title="poName"
             item-value="idirId"
             v-model="selectedPO"
@@ -19,7 +19,7 @@
             return-object
             outlined
           >
-        </v-select>
+        </v-autocomplete>
       </div>
       <div class="row pl-4">
         <div class="col-sm-6">

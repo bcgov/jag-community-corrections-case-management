@@ -1,13 +1,13 @@
 <template>
   <v-row>
     <v-col cols="1" class="pl-3 pr-2">
-      <v-select
+      <v-autocomplete
           :items="pageFilterList"
           v-model="pageItems"
           density="compact"
           item-color="primary"
           @update:modelValue="onPageItemsUpdate"
-      ></v-select>
+      ></v-autocomplete>
     </v-col>
     <v-col cols="11">
       <v-pagination
