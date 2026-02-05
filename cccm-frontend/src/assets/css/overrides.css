@@ -98,6 +98,11 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
     column-gap: 50px;
     margin-bottom: -60px!important;
 }
+
+.client-search-tabs .card-header {
+    background-color: transparent !important;
+}
+
 .formio-component-lastNameSoundex > .checkbox {
     top: -97px!important;
 }
