@@ -35,7 +35,7 @@ export const useStore = defineStore('main', {
         // form-view
         // po-manage
         getLoginUserGroups() {
-            if (this.loginUserGroups == null) {
+            if (this.loginUserGroups == null || this.loginUserGroups == undefined || this.loginUserGroups == '') {
                 this.loginUserGroups = ''
                 if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_RESEARCHER)) {
                     this.loginUserGroups += APP_GLOBALS.$USER_GROUP_RESEARCHER + ',';

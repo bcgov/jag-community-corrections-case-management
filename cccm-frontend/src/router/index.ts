@@ -94,8 +94,6 @@ router.beforeEach((to: any, from: any, next: any) => {
   store.getLoginUserGroups();
   store.getLoginUserName();
 
-  //console.log("Store: ", store.locationCD, store.locationDescription, APP_GLOBALS.$USER_GROUP_SUPERVISOR, store.loginUserGroups);
-  
   if (to.meta.isAuthenticated) {
     // Keycloak init in main.ts already enforces login-required.
     if (!keycloak.authenticated) {
@@ -103,7 +101,6 @@ router.beforeEach((to: any, from: any, next: any) => {
     } else if (store.loginUserGroups != null && store.loginUserGroups.length > 0) {
       // The user was authenticated, and has the app role
       //Refresh the access token and renew the session of the user.
-      //console.log("Authenticated and has 'client-search' role");
       keycloak.updateToken(70)
         .then(() => {
           if (to.name == APP_GLOBALS.$ROUTER_NAME_HOME) {
@@ -144,7 +141,6 @@ router.beforeEach((to: any, from: any, next: any) => {
     } else {
       // The user was authenticated, but did not have the correct role
       // Redirect to an error page
-      // TODO: build unauthorized view
       next({ name: 'unauthorized' })
     }
   } else {
