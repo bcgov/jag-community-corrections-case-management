@@ -286,7 +286,6 @@ export default {
       key_rnalistSearchResult: 0,
       // datatable variables
       page: 1,
-      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       currentPeriod: "current",
       totalClients: 0,

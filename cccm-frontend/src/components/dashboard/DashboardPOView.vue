@@ -121,7 +121,6 @@ export default {
       key_results: 0,
       // datatable variables
       page: 1,
-      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
@@ -153,15 +152,10 @@ export default {
       key_po: 0,
       selectedPO: {},
       userDisplayName: '',
-      key_userDisplayName: 0
+      key_userDisplayName: 0, 
+      poList: [],
+      initDataArray: []
     }
-  },
-  created() {
-    this.clientList = [];
-    this.initDataArray = [];
-    this.poList = [];
-    //data for the expand row
-    this.initData = {};
   },
   mounted(){
     this.initPage();
@@ -171,7 +165,7 @@ export default {
       immediate: true,
       deep: true,
       handler(newValue, oldValue) {
-        console.log("Location updated from Header: ", newValue, oldValue);
+        console.debug("Location updated from Header: ", newValue, oldValue);
       }
     },
   },
