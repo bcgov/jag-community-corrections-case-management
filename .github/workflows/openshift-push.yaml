@@ -10,23 +10,22 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
-      - name: Cluster Login Gold
+      - name: Cluster Login
         uses: redhat-developer/openshift-actions@v1.1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
           parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
           cmd: |
             'version'
-      - name: Login to Openshift Docker Registry Gold
+      - name: Login to Openshift Docker Registry
         uses: docker/login-action@v1
         with:
           registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
           username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}      
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
 
       - name: Docker Build Backend Image
         run: |            
@@ -36,7 +35,7 @@ jobs:
         run: |
           docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
 
-       - name: Docker Build Frontend Image
+      - name: Docker Build Frontend Image
         run: |            
           docker compose build frontend
           
