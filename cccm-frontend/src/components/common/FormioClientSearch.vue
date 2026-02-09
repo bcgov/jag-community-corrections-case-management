@@ -7,10 +7,8 @@
           <Form class="formio-container"
               :form="formJSON"
               :submission="initData" 
-              v-on:evt_clearAll="handleClearAll"
-              v-on:evt_clientSearchEvent_generalInfo="handleClientSearch_byGeneralInfo" 
-              v-on:evt_clientSearchEvent_addressInfo="handleClientSearch_byAddressInfo"
-              v-on:change="handleChangeEvent"
+              :onFormReady="handleFormReady"
+              :onChange="handleChangeEvent"
             />
         </div>
       </section>
@@ -38,25 +36,25 @@
         :headers="clientHeaders"
         :items="clients"
         :single-expand="singleExpand"
-        :expanded.sync="expanded"
-        @item-expanded="expandRow"
-        item-key="index"
+        v-model:expanded="expanded"
+        @update:expanded="expandRow"
+        item-value="index"
         no-results-text="No clients found"
         :search="search"
         show-expand
         class="elevation-1"
         hide-default-footer
-        :page.sync="page"
-        :items-per-page="itemsPerPage"
-        @page-count="pageCount = $event"
+        v-model:page="page"
+        v-model:items-per-page="itemsPerPage"
         >
         <!--Customize the Name field, making it clickable-->
         <template v-slot:item.clientName="{ item }">
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
         </template>
         <!--Customize the expanded item to show photo and more-->
-        <template v-slot:expanded-item="{ headers, item }">
-          <td width="2%"></td>
+        <template v-slot:expanded-row="{ headers, item }">
+          <tr>
+          <td width="5%"></td>
           <td width="10%" class="innerTableData">
             <figure v-if="item.photoData">
               <img :src="item.photoData" alt="Client photo" />
@@ -93,17 +91,20 @@
             <strong>Other Addresses</strong>
             <br />
             <ul>
-              <li v-for="el in item.address" v-if="!el.primary">
-                {{ el.fullAddress }}
-              </li>
+              <template v-for="(el, index) in item.address" :key="index">
+                <li v-if="el && !el.primary">
+                  {{ el.fullAddress }}
+                </li>
+              </template>
             </ul>
           </td>
+          </tr>
         </template>
       </v-data-table>
       <br/>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount" />
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount" />
       </div>
     </v-card>
     </section>
@@ -113,11 +114,9 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {Form} from 'vue-formio';
+import { Form } from '@formio/vue';
 import {clientSearchByGeneralInfo, clientSearchByAddressInfo, getClientDetail} from "@/components/form.api";
 import template from '@/components/common/templateClientSearch.json';
-import updateToken from '@/middleware/update-token';
 import 'izitoast/dist/css/iziToast.min.css';
 import iZtoast from 'izitoast';
 import {useStore} from "@/stores/store";
@@ -144,21 +143,24 @@ export default {
       loading: false,
       search: '',
       expanded: [],
-      singleExpand: false,
+      singleExpand: true,
       clientHeaders: [
-        { text: '', align: 'start', value: 'data-table-expand', width: '2%' },
-        { text: 'Name', align: 'start', sortable: true, value: 'clientName', width: '10%' },
-        { text: 'Current Name?', value: 'currentNameYn', width: '5%' },
-        { text: 'Age', value: 'clientAge', width: '5%' },
-        { text: 'Date of Birth', value: 'birthDate', width: '10%' },
-        { text: 'Address', value: 'fullAddress', width: '28%' },
-        { text: 'Address Type', value: 'addressType', width: '10%' },
-        { text: 'Expired?', value: 'expired', width: '10%' },
-        { text: 'CS#', value: 'clientNum', width: '10%' },
-        { text: 'Record Sealed?', value: 'sealed', width: '10%' },
+        { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
+        { title: 'Name', align: 'start', sortable: true, key: 'clientName', width: '10%' },
+        { title: 'Current Name?', key: 'currentNameYn', width: '5%' },
+        { title: 'Age', key: 'clientAge', width: '5%' },
+        { title: 'Date of Birth', key: 'birthDate', width: '10%' },
+        { title: 'Address', key: 'fullAddress', width: '28%' },
+        { title: 'Address Type', key: 'addressType', width: '10%' },
+        { title: 'Expired?', key: 'expired', width: '10%' },
+        { title: 'CS#', key: 'clientNum', width: '10%' },
+        { title: 'Record Sealed?', key: 'sealed', width: '10%' },
       ],
       baseURL: import.meta.env.BASE_URL,
       initData: {'data': {}},
+      formioInstance: null,
+      formioEventsBound: false,
+      lookupCodesLoaded: false,
     }
   },
   components: {
@@ -168,55 +170,80 @@ export default {
   created() {
     this.clients = [];
   },
-  mounted() {
+  async mounted() {
     this.buildForm();
-    this.setInitData();
-  },
+    await this.setInitData();
+  },  
   methods: {
+    updatePageCount() {
+      const term = (this.search || '').toString().trim().toLowerCase();
+      const totalItems = term
+        ? this.clients.filter(item => {
+            try {
+              return JSON.stringify(item).toLowerCase().includes(term);
+            } catch {
+              return false;
+            }
+          }).length
+        : this.clients.length;
+      this.pageCount = Math.max(1, Math.ceil(totalItems / this.itemsPerPage));
+      if (this.page > this.pageCount) {
+        this.page = this.pageCount;
+      }
+    },
     async getLookupCodes() {
       // lookup addressTypeCodes
       const [error, addressTypeCodes] = await this.mainStore.lookupAddressTypeCodes();
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
         this.initData.data.addressTypeCodes = addressTypeCodes;
       }
       // lookup genderCodes
       const [error1, genderCodes] = await this.mainStore.lookupGenderCodes();
       if (error1) {
-        console.log(error1);
+        console.error(error1);
       } else {
         this.initData.data.genderCodes = genderCodes;
       }
       // lookup idTypeCodes
       const [error2, idTypeCodes] = await this.mainStore.lookupIdTypeCodes();
       if (error2) {
-        console.log(error2);
+        console.error(error2);
       } else {
         this.initData.data.idTypeCodes = idTypeCodes;
       }
       // lookup cityCodes
       const [error3, cityCodes] = await this.mainStore.lookupCityCodes();
       if (error3) {
-        console.log(error3);
+        console.error(error3);
       } else {
         this.initData.data.cityCodes = cityCodes;
       }
       // lookup provinceCodes
       const [error4, provinceCodes] = await this.mainStore.getProvinceCodes();
       if (error4) {
-        console.log(error4);
+        console.error(error4);
       } else {
         this.initData.data.provinceCodes = provinceCodes;
       }
     },
-    expandRow ({ item, value }) {
+    expandRow (expandedItems) {
       // When a row is expanded the first time, call getClientDetails to retrive the following info:
       // 1. photo image and photo taken date.
       // 2. alias
       // 3. other addresses 
-      if (!item.detailsFetched) {
-        this.getClientDetails(item.clientNum);
+      if (expandedItems && expandedItems.length > 0) {
+        // If more than one row is expanded, keep only the most recent one
+        //expanded.value = expandedItems.length > 0 ? [expandedItems[expandedItems.length - 1]] : []
+        const index = expandedItems[expandedItems.length - 1];
+        // fetch the row based on the index value only if index exists and details have not been fetched yet
+        if (index !== undefined) {
+          const item = this.clients.find(el => el.index === index);
+          if (item && !item.detailsFetched) {
+            this.getClientDetails(item.clientNum);
+          }
+        }
       }
     },
     async getClientDetails(clientNum) {
@@ -224,7 +251,6 @@ export default {
       if (error) {
         console.error(error);
       } else {
-        console.log("getClientDetail: ", response);
         //Cache the photoData, alias, addresses into this.clients object
         if (this.clients != null) {
           for (let el of this.clients) {
@@ -268,7 +294,28 @@ export default {
     },
     async setInitData() {
       this.initData.data.rangeYears = this.CONST_DEFAULT_RANGEYEARS;
-      this.getLookupCodes();
+      await this.getLookupCodes();
+      this.lookupCodesLoaded = true;
+      this.refreshFormSubmission();
+    },
+    refreshFormSubmission() {
+      if (!this.formioInstance || !this.lookupCodesLoaded) {
+        return;
+      }
+      if (this.formioInstance.data) {
+        this.formioInstance.data = { ...this.initData.data };
+      }
+      if (this.formioInstance.setSubmission) {
+        this.formioInstance.setSubmission(
+          { data: { ...this.initData.data } },
+          { noValidate: true, sanitize: true }
+        );
+      } else {
+        this.formioInstance.submission = { data: { ...this.initData.data } };
+      }
+      if (this.formioInstance.redraw) {
+        this.formioInstance.redraw();
+      }
     },
     private_getLimitedToCurrentActiveLocation() {
       let limitedToCurrentActiveLocation = false;
@@ -323,6 +370,7 @@ export default {
         });
         this.key_clientsearchresult++;
         this.loading = false;
+        this.updatePageCount();
       }
     },
     jumpToResult() {
@@ -331,16 +379,40 @@ export default {
         jumpAnchor.click();
       }
     },
-    handleClearAll() {
+    async handleClearAll() {
       this.initData = {'data': {}};
-      this.setInitData();
+      if (this.formioInstance?.resetValue) {
+        this.formioInstance.resetValue();
+      }
+      await this.setInitData();
 
       this.clients = [];
       this.key_clientsearchresult++;
     },
+    handleFormReady(formInstance) {
+      if (this.formioInstance && this.formioInstance !== formInstance && this.formioInstance?.off) {
+        this.formioInstance.off('evt_clearAll', this.handleClearAll);
+        this.formioInstance.off('evt_clientSearchEvent_generalInfo', this.handleClientSearch_byGeneralInfo);
+        this.formioInstance.off('evt_clientSearchEvent_addressInfo', this.handleClientSearch_byAddressInfo);
+        this.formioEventsBound = false;
+      }
+
+      this.formioInstance = formInstance;
+      if (formInstance?.on && !this.formioEventsBound) {
+        formInstance.on('evt_clearAll', this.handleClearAll);
+        formInstance.on('evt_clientSearchEvent_generalInfo', this.handleClientSearch_byGeneralInfo);
+        formInstance.on('evt_clientSearchEvent_addressInfo', this.handleClientSearch_byAddressInfo);
+        this.formioEventsBound = true;
+      }
+      if (formInstance?.once) {
+        formInstance.once('render', () => this.refreshFormSubmission());
+      }
+      this.refreshFormSubmission();
+    },
     async handleClientSearch_byGeneralInfo(evt) {
-      if (evt.data != null) {
-        if (!(evt.data.idNumber) && !(evt.data.idType ) && !(evt.data.lastName)) {
+      const data = evt?.data ?? evt;
+      if (data != null) {
+        if (!(data.idNumber) && !(data.idType ) && !(data.lastName)) {
           iZtoast.warning({
             title: 'Validation',
             message: 'One of Lastname or Identifier is required to search',
@@ -354,28 +426,29 @@ export default {
         //clear the previous search results
         this.clients = [];
 
-        let rangeYears = evt.data.rangeYears;
+        let rangeYears = data.rangeYears;
         if (rangeYears === undefined || rangeYears === null || rangeYears === '') {
           rangeYears = 0;
         }
 
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
-        const [error, response] = await clientSearchByGeneralInfo(evt.data.age, evt.data.dobYear, evt.data.gender, 
-            evt.data.givenName1Or2, evt.data.idNumber, evt.data.idType, evt.data.lastName,
-            limitedToCurrentActiveLocation.toString(), rangeYears, evt.data.lastNameSoundex);
+        const [error, response] = await clientSearchByGeneralInfo(data.age, data.dobYear, data.gender, 
+            data.givenName1Or2, data.idNumber, data.idType, data.lastName,
+            limitedToCurrentActiveLocation.toString(), rangeYears, data.lastNameSoundex);
         this.private_processSearchResults(error, response);
       }
     },
     async handleClientSearch_byAddressInfo(evt) {
-      if (evt.data != null) {
+      const data = evt?.data ?? evt;
+      if (data != null) {
         this.jumpToResult();
         this.loading = true;
         //clear the previous search results
         this.clients = [];
 
         let limitedToCurrentActiveLocation = this.private_getLimitedToCurrentActiveLocation();
-        const [error, response] = await clientSearchByAddressInfo(evt.data.address, evt.data.addressType, evt.data.city, 
-            evt.data.includeExpiredAddresses, limitedToCurrentActiveLocation, evt.data.postalCode, evt.data.province);
+        const [error, response] = await clientSearchByAddressInfo(data.address, data.addressType, data.city, 
+            data.includeExpiredAddresses, limitedToCurrentActiveLocation, data.postalCode, data.province);
         this.private_processSearchResults(error, response);
       }
     },
@@ -416,6 +489,20 @@ export default {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore)
+  },
+  watch: {
+    itemsPerPage() {
+      this.updatePageCount();
+    },
+    search() {
+      this.updatePageCount();
+    },
+    clients: {
+      deep: true,
+      handler() {
+        this.updatePageCount();
+      }
+    }
   }
 }
 </script>

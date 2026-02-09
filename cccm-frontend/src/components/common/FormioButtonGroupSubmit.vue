@@ -1,13 +1,14 @@
 <template>
-    <Form :form="formJSON" 
-      @evt_save="handleSave" 
-      @evt_cancel="handleCancelForm" 
+    <Form
+      v-if="isFormReady"
+      :key="formKey"
+      :form="formJSON"
+      @customEvent="handleCustomEvent"
       :submission="dataModel" />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import templateButtons from '@/components/common/templateButtonGroupSubmit.json';
 
 export default {
@@ -22,6 +23,7 @@ export default {
       CONST_KEY_SAVE_BTN: 'save_continue',
       templatePanel : templateButtons,
       formJSON : {},
+      formKey: 0,
     }
   },
   watch: {
@@ -45,11 +47,17 @@ export default {
   mounted(){
     this.buildFormData();
   },
+  computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    }
+  },
   methods: {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
       this.formJSON = JSON.parse(tmpJSONStr);
+      this.formKey++;
     },
     private_updateSaveBtnLabel() {
       let btn = this.private_getSaveBtn();
@@ -67,10 +75,17 @@ export default {
       }
       return theBtn;
     },
+    handleCustomEvent(evt) {
+      // Form.io emits customEvent for all button actions with type "event"
+      if (evt != null && evt.type === 'evt_save') {
+        this.handleSave(evt);
+      } else if (evt != null && evt.type === 'evt_cancel') {
+        this.handleCancelForm(evt);
+      }
+    },
     handleSave(evt) {
       // emit an event, saveContinueClicked with setting true to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (evt != null && evt.type === 'evt_save' ) {
-        if (this.saveBtnLabel == this.$BUTTON_TEXT_SUBMIT) {
+      if (this.saveBtnLabel == this.$BUTTON_TEXT_SUBMIT) {
           let btn = this.private_getSaveBtn();
           if (btn != null) {
             this.$emit('saveContinueClicked', true);
@@ -84,14 +99,10 @@ export default {
         } else {
           this.$emit('saveContinueClicked', true);
         }
-      } 
-      
     },
     handleCancelForm(evt) {
       // emit an event, cancelFormClicked, to the parent, so parent knows it's time to cancel form
-      if (evt != null && evt.type === 'evt_cancel' ) {
-        this.$emit('cancelFormClicked');
-      }
+      this.$emit('cancelFormClicked');
     }
   }
 }

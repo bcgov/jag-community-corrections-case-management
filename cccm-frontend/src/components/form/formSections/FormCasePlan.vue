@@ -5,7 +5,7 @@
         <Form v-if="!loading" 
           :key="keyCaseplan" 
           :form="dataModel" 
-          :submission="initData" 
+          :submission="localInitData" 
           v-on:change="handleChangeEvent" 
           v-on:blur="handleBlurEvent" 
           :options="options"/>
@@ -13,8 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import { getCasePlanIntervention, loadFormData } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
@@ -36,6 +35,15 @@ export default {
     Form
   },
   watch: {
+    initData: {
+      immediate: true,
+      deep: true,
+      handler(val) {
+        if (val != null) {
+          this.localInitData = JSON.parse(JSON.stringify(val));
+        }
+      }
+    },
     timeForValidate() {
       // get event.data, emit dataCollectedForValidate event to parent
       let fullData = {};
@@ -49,6 +57,7 @@ export default {
       autoSaveData: {},
       autoSaveDataCandidate: {},
       saving: false,
+      localInitData: { data: {} },
     }
   },
   mounted() {
@@ -68,7 +77,7 @@ export default {
         if (error) {
           console.error(error);
         } else {
-          this.initData = clientFormData;
+          this.localInitData = clientFormData;
 
           // get the intervention data
           const [error, interventionData] = await getCasePlanIntervention(this.csNumber, this.clientFormId, true);
@@ -85,8 +94,10 @@ export default {
               });
               
               // add Intervention data to the initData; refresh the page to show it
-              this.initData.data.interventions = interventionData;
-              //console.log("interventionData; ", this.initData.data.interventions);
+              if (this.localInitData && this.localInitData.data) {
+                this.localInitData.data.interventions = interventionData;
+              }
+              //console.log("interventionData; ", this.localInitData.data.interventions);
               this.keyCaseplan++;
           }
         }

@@ -43,8 +43,8 @@
           max-width="550"
         >
         <v-card>
-          <div v-if="formToCreate == $CONST_FORMTYPE_RNA" class="col-sm-6 m-7">
-            <strong>
+          <div v-if="formToCreate == $CONST_FORMTYPE_RNA" class="col-sm-6 pt-3 pl-3">
+            <strong class="mb-2 d-block">
               Select Form Type
             </strong>
             <v-checkbox
@@ -52,11 +52,13 @@
               :readonly="readonly"
               label="CRNA-CMP"
               :value="$CONST_FORMTYPE_CRNA"
+              density="compact"
             ></v-checkbox>
             <v-checkbox
               v-model="selectedFormtypeForFormCreate"
               label="SARA"
               :value="$CONST_FORMTYPE_SARA"
+              density="compact"
             ></v-checkbox>
           </div>
           <div v-if="formToCreate == $CONST_FORMTYPE_ACUTE" class="col-sm-10 m-10">
@@ -83,7 +85,7 @@
             <v-spacer></v-spacer>
             <v-btn
               color="primary"
-              dark
+              theme="dark"
               @click="handleFormCreateBtnClick"
             >
               Yes, Continue
@@ -110,7 +112,7 @@
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_ACUTE)">Create New Acute</button>
         </div>
       </section>
-      <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2">
+      <section v-if="showFormCreateButtons" class="row justify-content-between align-items-sm-center pr-2 pl-2 rna-list">
         <div class="col-sm-6"></div>
         <div class="col-sm-2">
           <button class="btn-primary text-center" @click="formCreate($CONST_FORMTYPE_STABLE)">Create New Stable</button>
@@ -126,35 +128,33 @@
         <div class="col-sm-2">
           <div class="mt-2 ml-3">
             <strong>Filter RNA Form</strong>
-            <v-select
-              item-text="value"
+            <v-autocomplete
+              item-title="value"
               item-value="key"
               v-model="selectedFormTypes"
               :items="formTypes"
               label=""
-              v-on:change="applyFormTypeFilter"
+              @update:modelValue="applyFormTypeFilter"
               outlined
             >
-            </v-select>
+            </v-autocomplete>
           </div>
         </div>
         <div class="col-sm-6">
           <strong>Supervision Periods</strong>
           <section class="row pr-2 pl-2">
             
-            <div class="col-sm-4">
-              <v-radio-group label="" v-model="currentPeriod" row v-on:change="applyPeriodFilter">
-                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="Current"
-                  value="current"></v-radio>
-                <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All"
-                  value="all"></v-radio>
+            <div class="col-sm-4 mt-3">
+              <v-radio-group label="" v-model="currentPeriod" inline @update:modelValue="applyPeriodFilter">
+                <v-radio label="Current" value="current"></v-radio>
+                <v-radio label="All" value="all"></v-radio>
               </v-radio-group>
             </div>
             <div class="col-sm-4">
               <v-checkbox
                 v-model="mostRecent"
                 label="Most Recent"
-                v-on:change="applyPeriodFilter"
+                @update:modelValue="applyPeriodFilter"
               ></v-checkbox>
             </div>
           </section>
@@ -177,11 +177,10 @@
             no-results-text="No results found"
             hide-default-footer
             class="text-center"
-            :page.sync="page"
             :loading="loading"
             loading-text="Loading RNA List... Please wait"
-            :items-per-page="itemsPerPage"
-            @page-count="pageCount = $event"
+            v-model:page="page"
+            v-model:items-per-page="itemsPerPage"
         >
           <!-- Customize the module value -->
           <template v-slot:item.module="{ item }">
@@ -217,18 +216,18 @@
           </template>
           <!--Customize the action field -->
           <template v-slot:item.action="{ item }">
-            <a href="#" @click="formView(item.id)" title="View form">
+            <a href="#" @click.prevent="formView(item.id)" title="View form">
               <font-awesome-icon :icon="['fa', 'fa-eye']" />
             </a>
             &nbsp;&nbsp;
             <div style="display:inline-block" :title="getCloneTooltip(item)">
-              <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click="formClone(item.id, item.module)">
+              <a href="#" :class="[canClone(item) ? '' : 'disabled']" @click.prevent="formClone(item.id, item.module)">
                 <font-awesome-icon :icon="['fa', 'fa-copy']" />
               </a>
             </div>
             &nbsp;&nbsp;
             <div style="display:inline-block" :title="getPrintTooltip(item)">
-              <a href="#" :class="[canPrint(item) ? '' : 'disabled']" @click="formPrint(item.id)" title="Print form">
+              <a href="#" :class="[canPrint(item) ? '' : 'disabled']" @click.prevent="formPrint(item.id)" title="Print form">
                 <font-awesome-icon :icon="['fa', 'fa-print']" />
               </a>
           </div>
@@ -237,7 +236,7 @@
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br /><br />
@@ -245,7 +244,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import { formSearch, cloneForm, createForm } from "@/components/form.api";
 import {useStore} from "@/stores/store";
 import {mapStores} from 'pinia';
@@ -288,23 +286,22 @@ export default {
       key_rnalistSearchResult: 0,
       // datatable variables
       page: 1,
-      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       currentPeriod: "current",
       totalClients: 0,
       loading: true,
       headers: [
-        { text: 'RNA Form', align: 'start', sortable: true, value: 'module' },
-        { text: 'Assessment Status', sortable: true, value: 'assessmentStatusDisplay' },
-        { text: 'Status', sortable: true, value: 'status' },
-        { text: 'Updated Date', sortable: true, value: 'updatedDateDisplay' },
-        { text: 'Created Location', sortable: true, value: 'location' },
-        { text: 'Created By', sortable: true, value: 'createdBy' },
-        { text: 'Supervision Level', sortable: true, value: 'supervisionRating' },
-        { text: 'CRNA Rating', sortable: true, value: 'crnaRating' },
-        { text: 'SARA Rating', sortable: true, value: 'saraRating' },
-        { text: 'SMO Ratings', sortable: true, value: 'smoRating' },
-        { text: 'Actions', value: 'action' },
+        { title: 'RNA Form', align: 'start', sortable: true, key: 'module' },
+        { title: 'Assessment Status', sortable: true, key: 'assessmentStatusDisplay' },
+        { title: 'Status', sortable: true, key: 'status' },
+        { title: 'Updated Date', sortable: true, key: 'updatedDateDisplay' },
+        { title: 'Created Location', sortable: true, key: 'location' },
+        { title: 'Created By', sortable: true, key: 'createdBy' },
+        { title: 'Supervision Level', sortable: true, key: 'supervisionRating' },
+        { title: 'CRNA Rating', sortable: true, key: 'crnaRating' },
+        { title: 'SARA Rating', sortable: true, key: 'saraRating' },
+        { title: 'SMO Ratings', sortable: true, key: 'smoRating' },
+        { title: 'Actions', key: 'action' },
       ],
       rnaList: [],
       selectedFormTypes: {value: "ALL", key: this.$CONST_FORMTYPE_RNA},
@@ -328,8 +325,8 @@ export default {
     canClone(item) {
       // User can clone when:
       // User is an admin or the form is CMRP and use is in ITRP group
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) &&
           item.module === this.$CONST_FORMTYPE_CMRP )) {
         return true;
       }
@@ -344,12 +341,12 @@ export default {
       // 1. another user’s CRNA-SARA-CMP,
       // 2. an incomplete CRNA-SARA-CMP, nor
       // 3. a previous version of the CRNA-SARA-CMP.
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
 
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
+      if (item.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase() || 
           !item.complete ||
           !item.mostRecent) {
         return false;
@@ -358,14 +355,14 @@ export default {
       return true
     },
     getCloneTooltip(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) || (
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP) &&
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) || (
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ITRP) &&
           item.module === this.$CONST_FORMTYPE_CMRP )) {
         return 'Copy form';
       }
       
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_RESEARCHER) ||
-          this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+        if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_RESEARCHER) ||
+          this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return "User is not allowed to clone form";
       }
       if (!item.complete) {
@@ -379,14 +376,14 @@ export default {
       if (item.createdByIdir == null) {
         return "Login user doesn't contain idirId, cannot determine the ability to clone";
       }
-      if (item.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+      if (item.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return "User cannot clone another user's form"
       }
 
       return 'Copy form';
     },
     canPrint(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return false;
       }
       if (item.formTypeExpiryDate != null) {
@@ -395,7 +392,7 @@ export default {
       return true;
     },
     getPrintTooltip(item) {
-      if (this.mainStore.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
+      if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN_COMM)) {
         return 'User is not allowed to print form';
       }
       if (item.formTypeExpiryDate != null) {
@@ -700,6 +697,10 @@ export default {
     }
   },
   computed: {
+    pageCount() {
+      const filteredItems = this.rnaList;
+      return Math.ceil(filteredItems.length / this.itemsPerPage);
+    },
     getOverdueRNAFormtypes() {
       return this.overdueRNAFormtypes;
     },

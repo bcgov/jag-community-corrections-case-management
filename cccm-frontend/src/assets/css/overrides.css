@@ -98,8 +98,13 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
     column-gap: 50px;
     margin-bottom: -60px!important;
 }
+
+.client-search-tabs .card-header {
+    background-color: transparent !important;
+}
+
 .formio-component-lastNameSoundex > .checkbox {
-    top: -90px!important;
+    top: -97px!important;
 }
 
 .client-search .formio-action-buttons-container {
@@ -122,13 +127,29 @@ button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:acti
 
 /* END CLIENT SEARCH */
 
-.container .v-card__title {
+.container .v-card-title {
     font-weight:bold;
     font-size: 35px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .v-data-table-header {
     background-color: #38598A;
+}
+
+.v-data-table__th {
+    background-color: #38598A;
+    color:#fff!important;
+    padding: 20px!important;
+}
+
+.v-data-table__td a {
+    color: #38598A;
+    text-decoration: none;
+}
+.v-data-table__td a:hover {
+    text-decoration: underline;
 }
 
 .v-data-table__wrapper {
@@ -199,8 +220,7 @@ label.col-form-label {
 }
 .formio-action-buttons-container {
     justify-content: space-between!important;
-    padding: 20px 0px 50px 0px;
-    border-top: 1px solid #BCBCBC!important;
+    padding: 50px 0px 50px 0px;
 }
 .formio-action-buttons{
  }
@@ -215,6 +235,9 @@ label.col-form-label {
 
 
 /*CRNA FORM STYLES - TODO: Move to own file*/
+.card-body {
+    color: #212529;
+}
 
 .card-body .crna-sectionTitleClass {
     margin-left:-8px;
@@ -373,9 +396,30 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
     border-bottom: 1px solid #eee!important;
 }
 
-button.v-pagination__item {
+.v-pagination__prev button, .v-pagination__next button {
+    --v-btn-height: 20px;
+    background-color:#fff!important;
+    border: 1px solid #38598A!important;
+}
+
+.v-pagination__item button {
+    --v-btn-height: 20px;
     background-color:#38598A!important;
 }
+
+.v-pagination__list {
+    justify-content: flex-end!important;
+}
+
+.v-btn.v-btn--density-default.v-theme--light {
+    background-color: #f5f5f5;
+}
+
+.v-btn.v-btn--density-default.v-theme--dark.text-primary {
+    color: #fff !important;
+    background-color: #38598A;
+}
+
 .designation-totals {
     position: absolute;
     bottom: 20px;
@@ -508,10 +552,6 @@ legend[ref="header"]{
     font-weight: bold;
 }
 
-.card-header {
-    background-color: transparent!important;
-}
-
 .card-header li.nav-item {
 
 }
@@ -624,6 +664,10 @@ legend[ref="header"]{
     font-weight: bold;
 }
 
+.rna-list .btn-primary {
+    margin: 10px 0px 0px 0px;
+}
+
 /* READONLY fields style*/
 .readonly-field-title {
     font-size: 1rem; 
@@ -687,6 +731,7 @@ div.scales {
   width:100%;
   height:100%;
   margin-top:-45px;
+  margin-left: -20px;
   position:absolute;
   z-index: 100;
 }
@@ -701,4 +746,17 @@ div.scaleOn {
   -webkit-transform: scale(1, 1);
   /*Opera*/
   -o-transform: scale(1, 1);
+}
+
+/* Formio 5 accessibility text should be visually hidden */
+.formio-component .sr-only,
+.formio-component .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
 }

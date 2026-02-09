@@ -1,14 +1,12 @@
-import Vue from 'vue'
-import VueCompositionAPI, { createApp, h } from '@vue/composition-api'
-import { createPinia, PiniaVuePlugin } from 'pinia'
+import { createApp } from 'vue'
+import { createPinia, setActivePinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import authentication from '@/plugins/authentication';
+import authentication, { keycloak } from '@/plugins/authentication';
 import updateToken from '@/middleware/update-token';
 import setupInterceptors from '@/services/setupAxioInterceptors';
 import vuetify from '@/plugins/vuetify'
-import {useStore} from "@/stores/store";
-import {mapStores} from 'pinia';
+import { installGlobals } from '@/constants/appGlobals'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -17,103 +15,51 @@ import {faBarChart, faComments, faWarning, fas} from '@fortawesome/free-solid-sv
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
-import Vidle from 'v-idle'
-
-Vue.use(Vidle)
+import Vidle from 'v-idle-3'
+import '@formio/js/dist/formio.full.min.css'
+import '@/assets/css/fa-all.min.css'
+import '@/assets/css/bootstrap.css'
+import '@/assets/css/noto-sans.css'
+import '@/assets/css/style_header.css'
+import '@/assets/css/style_footer.css'
+import '@/assets/css/layout.css'
+import '@/assets/css/styles.css'
+import '@/assets/css/materialdesignicons.min.css'
+import '@/assets/css/overrides.css'
+import '@/assets/css/print.css'
 
 library.add(faBarChart, faComments, faWarning, fas, far, fab)
 
-Vue.use(VueCompositionAPI)
-Vue.use(authentication)
-Vue.use(PiniaVuePlugin)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-
 const pinia = createPinia()
-Vue.use(pinia)
+setActivePinia(pinia)
+setupInterceptors(pinia);
 
-setupInterceptors();
-
-Vue.prototype.$CONST_FORMTYPE_CRNA = 'CRNA'
-Vue.prototype.$CONST_FORMTYPE_SARA = 'SARA'
-Vue.prototype.$CONST_FORMTYPE_ACUTE = 'ACUTE'
-Vue.prototype.$CONST_FORMTYPE_STAT99R = 'STAT99R'
-Vue.prototype.$CONST_FORMTYPE_STABLE = 'STABLE'
-Vue.prototype.$CONST_FORMTYPE_SO_OVERALL = 'SMO_OVERALL'
-Vue.prototype.$CONST_FORMTYPE_CMRP = 'CMRP'
-Vue.prototype.$CONST_FORMTYPE_RNA = 'ALL'
-Vue.prototype.$CONST_DATATABLE_ITEMS_PER_PAGE = 15
-Vue.prototype.$CONST_DATATABLE_PAGE_FILTERLIST = [1, 2, 5, 10, 15, 20, 30, 50]
-Vue.prototype.$CONST_LABEL_SMO_OVERALL_BP_SECTION = 'Behavioral Progression and Self Management Plan'
-
-Vue.prototype.$CONST_SUBSECTIONTYPE_INTERVENTION = 'INTERVENTION'
-Vue.prototype.$CONST_SUBSECTIONTYPE_SUPERVISIONPLANCOMMENT = 'SUPERVISIONPLANCOMMENT'
-Vue.prototype.$CONST_SUBSECTIONTYPE_FORMCOMMENT = 'FORMCOMMENT'
-Vue.prototype.$CONST_SUBSECTIONTYPE_RESPONSIVITY = 'RESPONSIVITY'
-
-Vue.prototype.$USER_GROUP_PO = 'po'
-Vue.prototype.$USER_GROUP_SUPERVISOR = 'supervisor'
-Vue.prototype.$USER_GROUP_ADMIN = 'admin'
-Vue.prototype.$USER_GROUP_ITRP = 'itrp'
-Vue.prototype.$USER_GROUP_RESEARCHER = 'researcher'
-Vue.prototype.$USER_GROUP_ADMIN_COMM = 'admin-comm'
-
-Vue.prototype.$FORM_STATUS_INCOMPLETE='Incomplete'
-Vue.prototype.$FORM_STATUS_COMPLETE='Complete'
-
-Vue.prototype.$FORM_TYPE_INITIAL='Initial'
-Vue.prototype.$FORM_TYPE_REASSESSMENT='Reassessment'
-
-Vue.prototype.$ROUTER_NAME_HOME='home'
-Vue.prototype.$ROUTER_NAME_CMPFORM='cmpform'
-Vue.prototype.$ROUTER_NAME_DASHBOARDITRP='dashboarditrp'
-Vue.prototype.$ROUTER_NAME_DASHBOARDPO='dashboardpo'
-Vue.prototype.$ROUTER_NAME_DASHBOARDSUPERVISOR='dashboardsupervisor'
-Vue.prototype.$ROUTER_NAME_CLIENTRECORD='clientrecord'
-Vue.prototype.$ROUTER_NAME_CLIENTSEARCH='clientsearch'
-Vue.prototype.$ROUTER_NAME_PRINT='printView'
-
-Vue.prototype.$AUTH_ROLE_PO='auth-po'
-Vue.prototype.$AUTH_ROLE_SUPERVISOR='auth-supervisor'
-Vue.prototype.$AUTH_ROLE_ADMIN='auth-admin'
-Vue.prototype.$AUTH_ROLE_ITRP='auth-itrp'
-Vue.prototype.$AUTH_ROLE_RESEARCHER='auth-researcher'
-Vue.prototype.$AUTH_ROLE_ADMIN_COMM='auth-admin-comm'
-Vue.prototype.$AUTH_SHOW_TREND='show-trend'
-
-Vue.prototype.$ROLE_PO_MANAGE='po-manage'
-
-Vue.prototype.$KEY_SOURCES_CONTACTED='input_key_sourceContacted'
-
-Vue.prototype.$FORM_INFO = [
-  { formType: 'CRNA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'CRNA', dataRefreshSectionIndex: '', formTitle: 'Community Risk Needs Assessment Form (CRNA-CMP)', assessmentStatusRequired: true, formTypeLabel: 'CRNA-CMP Type', showSourcesContacted: true },
-  { formType: 'SARA', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: false, formTypeDesc: 'SARA', dataRefreshSectionIndex: '', formTitle: 'SARA', assessmentStatusRequired: true, formTypeLabel: 'SARA Type', showSourcesContacted: false },
-  { formType: 'ACUTE', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: false, formTypeDesc: 'Acute', dataRefreshSectionIndex: '1', formTitle: 'Acute', assessmentStatusRequired: true, formTypeLabel: 'Acute Type', showSourcesContacted: true },
-  { formType: 'STABLE', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: true, formTypeDesc: 'Stable', dataRefreshSectionIndex: '5', formTitle: 'Stable', assessmentStatusRequired: true, formTypeLabel: 'Stable Type', showSourcesContacted: true },
-  { formType: 'STAT99R', autoCalcOnFormload: false, autoCalcOnFormComplete: false, autoCalcOnFormClose: false, cmp: false, formTypeDesc: 'Static-99R', dataRefreshSectionIndex: '1', formTitle: 'Static-99R', assessmentStatusRequired: true, formTypeLabel: 'Static-99R Type', showSourcesContacted: true },
-  { formType: 'SMO_OVERALL', autoCalcOnFormload: true, autoCalcOnFormComplete: true, autoCalcOnFormClose: true, cmp: false, formTypeDesc: 'SMO-Overall-CMP', dataRefreshSectionIndex: '', formTitle: 'SMO-Overall-CMP', assessmentStatusRequired: true, formTypeLabel: 'SMO-Overall-CMP Type', showSourcesContacted: true },
-  { formType: 'CMRP', autoCalcOnFormload: true, autoCalcOnFormComplete: true, autoCalcOnFormClose: true, cmp: false, formTypeDesc: 'Custody-CMRP', dataRefreshSectionIndex: '', formTitle: 'Custody-CMRP', assessmentStatusRequired: true, formTypeLabel: 'Type', showSourcesContacted: true }
-]
-
-Vue.prototype.$BUTTON_TEXT_SUBMIT='Submit Form'
-Vue.prototype.$BUTTON_TEXT_SAVE_CONTINUE='Save and Continue'
-
-Vue.$keycloak
+keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {
+    const app = createApp(App);
+    app.use(authentication);
+    app.use(pinia);
+    app.use(router);
+    app.use(vuetify);
+    app.use(Vidle);
+    installGlobals(app);
+    app.component('font-awesome-icon', FontAwesomeIcon);
+
     if (!authenticated) {
-      window.location.reload();
+      const loginAttemptKey = 'kc-login-attempt';
+      if (!sessionStorage.getItem(loginAttemptKey)) {
+        sessionStorage.setItem(loginAttemptKey, '1');
+        keycloak.login({ redirectUri: window.location.href });
+        return;
+      }
     } else {
-      //console.log("Authenticated");
-      new Vue({
-        vuetify,
-        router,
-        pinia,
-        render: h => h(App)
-      }).$mount('#app');
-  
-      window.onfocus = () => {
-        updateToken();
-      };
+      sessionStorage.removeItem('kc-login-attempt');
     }
-    
+
+    app.mount('#app');
+
+    window.onfocus = () => {
+      updateToken();
+    };
   })

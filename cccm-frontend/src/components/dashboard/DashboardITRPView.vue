@@ -10,10 +10,10 @@
         <div class="col-sm-9 d-flex">
           <section class="d-flex flex-column justify-content-end">
             <strong>Centre Filter</strong>
-            <v-radio-group row v-model="centreFilter">
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="ReVOII Alerts" value="revoii"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="CRP-1 Alerts" value="itrp"></v-radio>
-              <v-radio off-icon="mdi-radiobox-blank" on-icon="mdi-radiobox-marked" label="All Individuals" value="all"></v-radio>
+            <v-radio-group v-model="centreFilter" inline>
+              <v-radio label="ReVOII Alerts" value="revoii"></v-radio>
+              <v-radio label="CRP-1 Alerts" value="itrp"></v-radio>
+              <v-radio label="All Individuals" value="all"></v-radio>
             </v-radio-group>
           </section>
         </div>
@@ -34,9 +34,8 @@
             no-results-text="No results found"
             class="elevation-1 text-center"
             hide-default-footer
-            :page.sync="page"
-            :items-per-page="itemsPerPage"
-            @page-count="pageCount = $event"
+            v-model:page="page"
+            v-model:items-per-page="itemsPerPage"
         >
           <!--Customize the RTC date-->
           <template v-slot:item.dischargeRtcDate="{ item }">
@@ -82,7 +81,7 @@
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
+        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>
@@ -96,6 +95,7 @@ import DashboardDueDateLegend from "@/components/dashboard/util/DashboardDueDate
 import DatatablePagination from "@/components/common/DatatablePagination.vue";
 import { dashboardCentreSearch } from "@/components/form.api";
 import { dateToCCCMDateformat } from "@/components/dateUtils";
+import { InternalItem } from "vuetify";
 
 export default {
   name: "DashboardItrpView",
@@ -106,20 +106,20 @@ export default {
       key_results: 0,
       // datatable variables
       page: 1,
-      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
+      clientList: [],
       headers: [
-        { text: 'Client Name', value: 'clientName' },
-        { text: 'CS#', value: 'clientNum'},
-        { text: 'Prob. Discharge/RTC Date', value: 'dischargeRtcDate' },
-        { text: 'Next Court Date', value: 'nextCourtDate' },
-        { text: 'Active Com. Order', value: 'orderStatus' },
-        { text: 'CRNA Rating', value: 'supervisionLevel' },
-        { text: 'CRNA Comp. Dt.', value: 'CRNACompDate' },
-        { text: 'C-CMRP Comp. Dt.', value: 'CMRPCompDate' },
-        { text: 'C-CMRP Due Dt.', value: 'CMRPDueDate', cellClass: 'p-0 m-0' },
+        { title: 'Client Name', key: 'clientName' },
+        { title: 'CS#', key: 'clientNum'},
+        { title: 'Prob. Discharge/RTC Date', key: 'dischargeRtcDate' },
+        { title: 'Next Court Date', key: 'nextCourtDate' },
+        { title: 'Active Com. Order', key: 'orderStatus' },
+        { title: 'CRNA Rating', key: 'supervisionLevel' },
+        { title: 'CRNA Comp. Dt.', key: 'CRNACompDate' },
+        { title: 'C-CMRP Comp. Dt.', key: 'CMRPCompDate' },
+        { title: 'C-CMRP Due Dt.', key: 'CMRPDueDate', cellClass: 'p-0 m-0' },
       ],
       centreFilter: "revoii",
       // calculated values
@@ -127,9 +127,6 @@ export default {
       centreDisplayName: "",
       key_centreDisplayName: 0,
     }
-  },
-  created() {
-    this.clientList = [];
   },
   mounted() {
     this.centreDisplayName = this.mainStore.locationDescription;
@@ -158,16 +155,16 @@ export default {
         console.error(error);
       } else {
         this.clientList = response;
-      }
+      }      
       this.key_results++;
       this.loading = false;
     },
-    applyCentreFilter(value: string, query: string, item: any) {
+    applyCentreFilter(value: any, query: string, item: InternalItem<any>) {
       // filter table based on alerts count
       if (query == "revoii") {
-        return item.rvoCount > 0;
+        return item?.raw?.rvoCount > 0;
       } else if (query == "itrp") {
-        return item.itrpCount > 0;
+        return item?.raw?.itrpCount > 0;
       } else {
         return true;
       }
@@ -178,6 +175,12 @@ export default {
   },
   computed: {
     ...mapStores(useStore),
+    pageCount() {
+      const filteredItems = this.clientList.filter((item: any) => 
+        this.applyCentreFilter(null, this.centreFilter, { raw: item })
+      );
+      return Math.ceil(filteredItems.length / this.itemsPerPage);
+    }
   },
 }
 </script>

@@ -1,10 +1,15 @@
 <template>
-  <Form :form="formJSON" :submission="dataModel" @evt_editForm="handleUnlockForm"/>
+  <Form
+    v-if="isFormReady"
+    :key="formKey"
+    :form="formJSON"
+    :submission="dataModel"
+    @customEvent="handleUnlockForm"
+  />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import templateFormInfo from '@/components/common/templateFormInfo.json';
 
 export default {
@@ -16,13 +21,19 @@ export default {
     return {
       formInfoTemplate : templateFormInfo,
       formJSON : {},
+      formKey: 0,
     }
   },
   components: {
     Form
   },
   mounted(){
-    this.buildFormInfoDataEntry()
+    this.buildFormInfoDataEntry();
+  },
+  computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    }
   },
   methods: {
     buildFormInfoDataEntry() {
@@ -30,6 +41,7 @@ export default {
       let tmpJSONStr = JSON.stringify(this.formInfoTemplate);
       let tmpJSON = JSON.parse(tmpJSONStr);
       this.formJSON = tmpJSON;
+      this.formKey++;
     },
     handleUnlockForm(evt) {
       if (evt != null && evt.type === 'evt_editForm' ) {
