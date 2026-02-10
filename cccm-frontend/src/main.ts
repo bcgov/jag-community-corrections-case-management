@@ -34,10 +34,11 @@ const pinia = createPinia()
 setActivePinia(pinia)
 setupInterceptors(pinia);
 
+console.log("Keycloak instance created, initializing authentication...: ", keycloak);
 keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {
-    
+    console.log("Authentication initialized. Authenticated: ", authenticated);
     const app = createApp(App);
     app.use(authentication);
     app.use(pinia);

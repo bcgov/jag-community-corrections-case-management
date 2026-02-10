@@ -7,6 +7,7 @@ const options = {
 }
 
 const keycloak = new Keycloak(options)
+console.log("Keycloak instance created with options: ", options, keycloak);
 const kcLogin = keycloak.login;
 keycloak.login = (options) => {
   Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});

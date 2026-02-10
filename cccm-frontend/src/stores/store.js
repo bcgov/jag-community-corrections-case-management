@@ -255,15 +255,15 @@ export const useStore = defineStore('main', {
             return [null, this.locations];
         },
         async getUserDefaultLocation() {
-            //console.info("Attempt to fetch async_getUserDefaultLocation.");
+            console.info("Attempt to fetch async_getUserDefaultLocation.");
             if (this.locationCD == '') {
-                //console.info("Fetching default location ...");
+                console.info("Fetching default location ...");
                 const [error, response] = await async_getUserDefaultLocation();
                 if (error) {
                     console.error(error);
                     return [error];
                 } else {
-                    //console.info("Location fetched: ", response);
+                    console.info("Location fetched: ", response);
                     if (response != null) {
                         this.locationDescription = response.value;
                         this.locationCD = response.key;
