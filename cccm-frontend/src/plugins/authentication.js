@@ -8,10 +8,11 @@ const options = {
 
 const keycloak = new Keycloak(options)
 console.log("Keycloak instance created with options: ", options, keycloak);
-const kcLogin = keycloak.login;
+const kcLogin = keycloak.login.bind(keycloak);
 keycloak.login = (options) => {
+  options = options || {};
   Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});
-  kcLogin(options);
+  return kcLogin(options);
 };
 
 const Plugin = {

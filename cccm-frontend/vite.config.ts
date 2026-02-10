@@ -18,5 +18,14 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    target: 'es2020',
+    commonjsOptions: {
+      include: [/keycloak-js/, /node_modules/]
+    }
+  },
+  optimizeDeps: {
+    include: ['keycloak-js']
   }
 })
