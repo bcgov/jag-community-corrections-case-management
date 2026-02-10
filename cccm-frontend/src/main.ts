@@ -16,17 +16,17 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
 import Vidle from 'v-idle-3'
-import '@formio/js/dist/formio.full.min.css'
-import '@/assets/css/fa-all.min.css'
-import '@/assets/css/bootstrap.css'
-import '@/assets/css/noto-sans.css'
-import '@/assets/css/style_header.css'
-import '@/assets/css/style_footer.css'
-import '@/assets/css/layout.css'
-import '@/assets/css/styles.css'
-import '@/assets/css/materialdesignicons.min.css'
-import '@/assets/css/overrides.css'
-import '@/assets/css/print.css'
+// import '@formio/js/dist/formio.full.min.css'
+// import '@/assets/css/fa-all.min.css'
+// import '@/assets/css/bootstrap.css'
+// import '@/assets/css/noto-sans.css'
+// import '@/assets/css/style_header.css'
+// import '@/assets/css/style_footer.css'
+// import '@/assets/css/layout.css'
+// import '@/assets/css/styles.css'
+// import '@/assets/css/materialdesignicons.min.css'
+// import '@/assets/css/overrides.css'
+// import '@/assets/css/print.css'
 
 library.add(faBarChart, faComments, faWarning, fas, far, fab)
 
@@ -37,6 +37,7 @@ setupInterceptors(pinia);
 keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {
+    
     const app = createApp(App);
     app.use(authentication);
     app.use(pinia);
