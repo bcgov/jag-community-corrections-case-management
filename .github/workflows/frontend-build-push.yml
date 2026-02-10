@@ -1,7 +1,7 @@
 name: Build & Push Frontend Image to Artifactory
 on:
   push:
-    branches: [main]
+    branches: [feature/vue-uplift-v2]
     paths:
       - 'cccm-frontend/**'
   workflow_dispatch:

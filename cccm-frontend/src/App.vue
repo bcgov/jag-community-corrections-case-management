@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div>TROUBLE SHOOTING in App.vue</div>
     <!--Header section-->
     <HeaderComponent v-if="!isPrint" />
 
