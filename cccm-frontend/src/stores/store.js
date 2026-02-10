@@ -260,7 +260,7 @@ export const useStore = defineStore('main', {
                 console.info("Fetching default location ...");
                 const [error, response] = await async_getUserDefaultLocation();
                 if (error) {
-                    console.error(error);
+                    console.error("Error fetching user default location: ", error);
                     return [error];
                 } else {
                     console.info("Location fetched: ", response);

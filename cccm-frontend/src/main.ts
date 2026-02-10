@@ -49,6 +49,7 @@ keycloak
     app.component('font-awesome-icon', FontAwesomeIcon);
 
     if (!authenticated) {
+      console.warn("User is not authenticated. Redirecting to login...");
       const loginAttemptKey = 'kc-login-attempt';
       if (!sessionStorage.getItem(loginAttemptKey)) {
         sessionStorage.setItem(loginAttemptKey, '1');
@@ -56,6 +57,7 @@ keycloak
         return;
       }
     } else {
+      console.log("User is authenticated. Proceeding to mount the app.");
       sessionStorage.removeItem('kc-login-attempt');
     }
 
