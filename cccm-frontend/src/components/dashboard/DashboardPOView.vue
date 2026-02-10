@@ -1,7 +1,7 @@
 <template>
 
   <div data-app class="dashboard-po p-4">
-    <div class="row mb-2">
+    <div :key="key_userDisplayName" class="row mb-2">
       <div class="col-sm-6">
         <h1 class="font-weight-bold">{{ userDisplayName }}'s clients</h1>
       </div>
@@ -9,17 +9,17 @@
     <v-card class="p-2">
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
-          <v-autocomplete
-            item-title="poName"
+          <v-select
+            :key="key_po"
+            item-text="poName"
             item-value="idirId"
             v-model="selectedPO"
             :items="poList"
             label=""
-            @update:modelValue="applyPOFilter"
-            return-object
+            v-on:change="applyPOFilter"
             outlined
           >
-        </v-autocomplete>
+        </v-select>
       </div>
       <div class="row pl-4">
         <div class="col-sm-6">
@@ -51,19 +51,21 @@
       <div class="dashboard-v-card">
         <v-data-table
             :loading="loading"   
-            loading-text="Searching... Please wait"
+              loading-text="Searching... Please wait"
+            :key="key_results"
             :headers="headers"
             :items="clientList"
-            item-value="clientNum"
+            item-key="clientNum"
             :single-expand="singleExpand"
-            v-model:expanded="expanded"
-            @update:expanded="expandRow"
+            :expanded.sync="expanded"
+            @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
             class="elevation-1 text-center"
             hide-default-footer
-            v-model:page="page"
+            :page.sync="page"
             :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
         >
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
@@ -80,19 +82,17 @@
             <div :class="`p-2 ${$refs.dashboardDueDate?.getColor(item.dueDate)}`">{{item.dueDateStr}}</div>
           </template>
           <!--Customize the expanded item to show photo and more-->
-          <template v-slot:expanded-row="{ headers, item }">
-            <tr>
-              <td :colspan="1"></td>
-              <td :colspan="11">
-                <Form :key="`form-${item.clientNum}`" :form="formJSON" :submission="initDataArray[item.clientNum]"/>
-              </td>
-            </tr>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="1"></td>
+            <td :colspan="11">
+              <Form :key="keyExpandRow" :form="formJSON" :submission="initDataArray[item.clientNum]"/>
+            </td>
           </template>
         </v-data-table>
       </div>
       <!--Customize the footer-->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount"/>
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount"/>
       </div>
     </v-card>
     <br/><br/>
@@ -100,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { Form } from '@formio/vue';
+import { Vue } from 'vue-property-decorator';
 import { clientProfileSearch, dashboardPOSearch } from "@/components/form.api";
 import templateClientProfile from '@/components/common/templateClientProfilePO.json';
 import { useStore } from "@/stores/store";
@@ -111,7 +111,7 @@ import { dateToCCCMDateformat } from '../dateUtils';
 
 export default {
   name: 'RNAList',
-  components: { Form, DatatablePagination, DashboardDueDateLegend },
+  components: { DatatablePagination, DashboardDueDateLegend },
   data() {
     return {
       //const designations
@@ -121,22 +121,21 @@ export default {
       key_results: 0,
       // datatable variables
       page: 1,
+      pageCount: 1,
       itemsPerPage: this.$CONST_DATATABLE_ITEMS_PER_PAGE,
       totalClients: 0,
       loading: true,
       headers: [
-        { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
-        { title: 'Client Name', key: 'clientName' },
-        { title: 'Alert(s) (Y/N)', key: 'alertDisplay'},
-        { title: 'Designation', key: 'designationDisplay' },
-        { title: 'In Custody (Y/N)', key: 'inCustody' },
-        { title: 'Order Expiry Date', key: 'orderExpiryDate' },
-        { title: 'Supervision Rating', key: 'supervisionRating' },
-        { title: 'RNA Completed', key: 'rnaCompletedDate' },
-        { title: 'Due Next', key: 'dueNext', cellClass: 'p-0 m-0' },
-        { title: 'Due Date', key: 'dueDate', cellClass: 'p-0 m-0' },
+        { text: 'Client Name', value: 'clientName' },
+        { text: 'Alert(s) (Y/N)', value: 'alertDisplay'},
+        { text: 'Designation', value: 'designationDisplay' },
+        { text: 'In Custody (Y/N)', value: 'inCustody' },
+        { text: 'Order Expiry Date', value: 'orderExpiryDate' },
+        { text: 'Supervision Rating', value: 'supervisionRating' },
+        { text: 'RNA Completed', value: 'rnaCompletedDate' },
+        { text: 'Due Next', value: 'dueNext', cellClass: 'p-0 m-0' },
+        { text: 'Due Date', value: 'dueDate', cellClass: 'p-0 m-0' },
       ],
-      clientList: [],
       expanded: [],
       singleExpand: false,
       keyExpandRow: 0,
@@ -152,23 +151,28 @@ export default {
       key_po: 0,
       selectedPO: {},
       userDisplayName: '',
-      key_userDisplayName: 0, 
-      poList: [],
-      initDataArray: []
+      key_userDisplayName: 0
     }
+  },
+  created() {
+    this.clientList = [];
+    this.initDataArray = [];
+    this.poList = [];
+    //data for the expand row
+    this.initData = {};
   },
   mounted(){
     this.initPage();
   },
-  watch: {
-    useStore: {
-      immediate: true,
-      deep: true,
-      handler(newValue, oldValue) {
-        console.debug("Location updated from Header: ", newValue, oldValue);
-      }
-    },
-  },
+  // watch: {
+  //   useStore: {
+  //     immediate: true,
+  //     deep: true,
+  //     handler(newValue, oldValue) {
+  //       console.log("Location updated from Header: ", newValue, oldValue);
+  //     }
+  //   }
+  // },
   methods: {
     async initPage() {
       this.initPOList();
@@ -184,10 +188,8 @@ export default {
           this.POLocationId = POObj.locationId;
           
           // populate the poList
-          this.selectedPO = {
-            idirId: this.POIdirId,
-            poName: this.POName
-          };
+          this.selectedPO.idirId = this.POIdirId;
+          this.selectedPO.poName = this.POName;
           
           //console.log("poIdirId, poName: ", this.POIdirId, this.POName, this.selectedPO);
           this.key_po++;
@@ -204,14 +206,12 @@ export default {
         if (error1) {
           console.error(error1);
         } else {
-          this.selectedPO = {
-            idirId: this.$keycloak.tokenParsed.preferred_username,
-            poName: this.mainStore.loginUserName
-          };
+          this.selectedPO.idirId = Vue.$keycloak.tokenParsed.preferred_username;
+          this.selectedPO.poName = this.mainStore.loginUserName;
           this.key_po++;
 
           // populate the clients data table
-          this.dashboardPOSearch(this.$keycloak.tokenParsed.preferred_username, defaultLocation)
+          this.dashboardPOSearch(Vue.$keycloak.tokenParsed.preferred_username, defaultLocation)
         }
       }
 
@@ -237,30 +237,33 @@ export default {
           await this.$router.replace(`${this.$ROUTER_NAME_CLIENTSEARCH}`)
         } else {
           // populate the poList
+          //console.log("search from podashboard: ", defaultLocation);
           const [error2, defaultPOList] = await this.mainStore.getPOList(defaultLocation);
           if (error2) {
             console.error(error2);
           } else {
             this.poList = defaultPOList;
+            //console.log("poList: ", this.poList);
             this.key_po++;
           }
         }
       }
     },
-    applyPOFilter(selectedPO) {
+    applyPOFilter(idirId) {
       // Clear the previous search results
-      this.clientList = [];      
+      this.clientList = [];
+      this.loading = true;
       this.numOfGen = 0;
       this.numOfIPV = 0;
       this.numOfSMO = 0;
       this.key_results++;
 
-      this.loading = true;
       // search based on the newly selected PO
-      this.dashboardPOSearch(selectedPO.idirId, this.mainStore.locationCD);
+      this.dashboardPOSearch(idirId, this.mainStore.locationCD);
       
       //update the title
-      this.userDisplayName = selectedPO.poName || '';
+      let thePO = this.poList.find(item => item.idirId == idirId);
+      this.userDisplayName = thePO == null ? '' : thePO.poName;
       this.key_userDisplayName++;
     },
     async getClientProfile(clientNum) {
@@ -342,6 +345,7 @@ export default {
         console.error(error);
       } else {
         this.clientList = response;
+        //console.log("PO search result: ", response);
         //Update the counts
         for (let el of this.clientList) {
           // date conversion
@@ -376,8 +380,8 @@ export default {
             );
           }
           el.designationDisplay = designation;
-        }      
-        
+        }
+
         // populate this.initDataArray
         this.getInitData();
       }
@@ -399,11 +403,7 @@ export default {
     }
   },
   computed: {
-    pageCount() {
-      const filteredItems = this.clientList;
-      return Math.ceil(filteredItems.length / this.itemsPerPage);
-    },
-    ...mapStores(useStore),    
+    ...mapStores(useStore),
   }
 }
 </script>

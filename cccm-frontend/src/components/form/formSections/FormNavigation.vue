@@ -7,7 +7,7 @@
             <a :key="index" 
               :href="`#${index}${indexZero}`"
               :class="[index == currentSectionParent ? 'active' : '', 'navHeaderA-L1']"
-              @click.prevent.stop="setCurrentSectionParentChild($event)">
+              @click="setCurrentSectionParentChild">
               {{ header.label }}
             </a>
           </span>
@@ -25,7 +25,7 @@
                     :key="headerc.key" 
                     :href="`#${indexp}${indexc}`"
                     :class="[indexc == currentSectionChild ? 'active' : '', 'navHeaderA-L2']"
-                    @click.prevent.stop="setCurrentSectionParentChild($event)">
+                    @click="setCurrentSectionParentChild">
                     {{ headerc.navText }}
                   </a>
                 </span>
@@ -38,6 +38,8 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { ref, reactive } from '@vue/composition-api';
 
 export default {
   name: 'FormNavigation',
@@ -57,7 +59,6 @@ export default {
     return {
       //const
       CUSTOM_QUESTION_PREFIX: 'question_panel_',
-      SECTION_PANEL_CUSTOM_CLASS_PREFIX: 'section_panel_',
       ENTRY_TARGET_TIMEOUT: 100,
       observer : null,
       currentSectionChild : '1',
@@ -168,11 +169,10 @@ export default {
     },
     // method corresponds to clicking on parent nav link, it always sets the currentSectionChild to '0'
     setCurrentSectionParentChild(e) {
-      const hash = e?.currentTarget?.hash || e?.target?.hash;
-      if (hash) {
+      if (e.target && e.target.hash) {
         // a sample of hash value: #00
-        //console.log("setCurrentSectionParentChild : ", hash.substr(1, 1), hash.substr(2, 2));
-        this.showHideWrapper(parseInt(hash.substr(1, 1)), parseInt(hash.substr(2, 2)), false);
+        //console.log("setCurrentSectionParentChild : ", e.target.hash.substr(1, 1), e.target.hash.substr(2, 2));
+        this.showHideWrapper(parseInt(e.target.hash.substr(1, 1)), parseInt(e.target.hash.substr(2, 2)), false);
       }
     },
     showHideWrapper(posParentNav, posChildNav, autoScroll) {
@@ -229,9 +229,7 @@ export default {
           let panelIDIndex = (i + 1).toString().length < 2 ? "0" + (i + 1).toString() : (i + 1).toString();
           let panelID = "S" + panelIDIndex;
           //console.log("this.currentSectionParent, panelID: ", this.currentSectionParent, this.currentSectionParent.toString().length, "S" + "0" + this.currentSectionParent.toString(), panelID);
-          let className = '[class*="' + this.SECTION_PANEL_CUSTOM_CLASS_PREFIX + panelID + '"]';
-          let thePanel = document.querySelector(className);
-          //let thePanel = document.getElementById(panelID);
+          let thePanel = document.getElementById(panelID);
           //console.log("ShowHideSections", this.currentSectionParent, this.currentSectionChild, panelIDIndex, panelID, thePanel);
 
           if (thePanel != null) {

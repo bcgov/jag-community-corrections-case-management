@@ -9,16 +9,17 @@
       <div class="row justify-content-between">
         <div class="col-sm-5 m-3">
           <strong>Search Location</strong>
-          <v-autocomplete
+          <v-select
             :key="key_location"
-            item-title="value"
+            item-text="value"
             item-value="key"
             v-model="selectedLocation"
             :items="locationTypes"
             label=""
-            @update:modelValue="applyLocationFilter"
+            v-on:change="applyLocationFilter"
+            outlined
           >
-          </v-autocomplete>
+          </v-select>
         </div>
         <div class="col-sm-2 mr-3 align-self-end pb-4">
           <v-text-field
@@ -33,24 +34,25 @@
       <div :key="keyExpandRow" class="dashboard-v-card">
         <v-data-table
             :loading="loading"   
-            loading-text="Searching... Please wait"
+              loading-text="Searching... Please wait"
             :key="key_results"
             :headers="headers"
             :search="search"
             :items="officerList"
-            item-value="officer"
+            item-key="officer"
             :single-expand="singleExpand"
-            v-model:expanded="expanded"
-            @update:expanded="expandRow"
+            :expanded.sync="expanded"
+            @item-expanded="expandRow"
             no-results-text="No results found"
             show-expand
             class="elevation-1 text-center"
             hide-default-footer
-            v-model:page="page"
+            :page.sync="page"
             :items-per-page="itemsPerPage"
+            @page-count="pageCount = $event"
         >
           <!--Added the Total row-->
-          <template v-slot:body.append>
+          <template slot="body.append">
             <tr class="pink--text table-footer">
               <th></th>
               <th class="title text-left p-0">Total</th>
@@ -69,50 +71,48 @@
           <!--Customize the officer field, making it clickable-->
           <template v-slot:item.officer="{ item }">
             <td class="text-left">
-              <a href="#" @click.prevent="onSelected(item.idirId, item.officer)">{{item.officer}}</a>
+              <a href="#" @click="onSelected(item.idirId, item.officer)">{{item.officer}}</a>
             </td>
           </template>
           <!--Customize the expanded item to show more-->
           <!-- <div :key="keyExpandRow"> -->
-          <template v-slot:expanded-row="{ headers, item }">
-            <tr>
-              <td :colspan="2"></td>
-              <td :colspan="1">
-                <strong>PCM</strong>
-                <br />
-                {{ item.pcm ? item.pcm : '&nbsp;'}}
-              </td>
-              <td :colspan="1">
-                <strong>SCM</strong>
-                <br />
-                {{ item.scm ? item.scm : '&nbsp;'}}
-              </td>
-              <td :colspan="1">
-                <strong>SMO</strong>
-                <br />
-                {{ item.smo ? item.smo : 0}}
-              </td>
-              <td :colspan="2">
-                <strong>Closed/Incomplete Report</strong>
-                <br />
-                {{ item.closedIncomplete ? item.closedIncomplete : 0 }}
-              </td>
-              <td :colspan="2">
-                <strong>Expiring 30 Days</strong>
-                <br />
-                {{ item.expiringThirty ? item.expiringThirty : 0 }}
-              </td>
-              <td :colspan="1">
-                <strong>Not Required</strong>
-                <br />
-                {{ item.notRequired ? item.notRequired : 0 }}
-              </td>
-              <td :colspan="1">
-                <strong>RNA's Due 7 days</strong>
-                <br />
-                {{ item.dueSeven ? item.dueSeven : 0}}
-              </td>
-            </tr>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="2"></td>
+            <td :colspan="1">
+              <strong>PCM</strong>
+              <br />
+              {{ item.pcm ? item.pcm : '&nbsp;'}}
+            </td>
+            <td :colspan="1">
+              <strong>SCM</strong>
+              <br />
+              {{ item.scm ? item.scm : '&nbsp;'}}
+            </td>
+            <td :colspan="1">
+              <strong>SMO</strong>
+              <br />
+              {{ item.smo ? item.smo : 0}}
+            </td>
+            <td :colspan="2">
+              <strong>Closed/Incomplete Report</strong>
+              <br />
+              {{ item.closedIncomplete ? item.closedIncomplete : 0 }}
+            </td>
+            <td :colspan="2">
+              <strong>Expiring 30 Days</strong>
+              <br />
+              {{ item.expiringThirty ? item.expiringThirty : 0 }}
+            </td>
+            <td :colspan="1">
+              <strong>Not Required</strong>
+              <br />
+              {{ item.notRequired ? item.notRequired : 0 }}
+            </td>
+            <td :colspan="1">
+              <strong>RNA's Due 7 days</strong>
+              <br />
+              {{ item.dueSeven ? item.dueSeven : 0}}
+            </td>
           </template>
         
           <!--Customize the high field -->
@@ -135,7 +135,7 @@
       </div>
       <!-- Customize the footer -->
       <div v-if="!loading" class="text-center px-3">
-        <DatatablePagination v-model:items-per-page="itemsPerPage" v-model:page="page" :page-count="pageCount" />
+        <DatatablePagination :items-per-page.sync="itemsPerPage" :page.sync="page" :page-count="pageCount" />
       </div>
     </v-card>
     <br/><br/>
@@ -143,6 +143,8 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator';
 import { dashboardSupervisorSearch, dashboardPODetailsSearch } from "@/components/form.api";
 import { useStore } from "@/stores/store";
 import { mapStores } from 'pinia';
@@ -155,9 +157,7 @@ export default {
     return {
       key_results: 0,
       key_location: 0,
-      selectedLocation: null,
-      officerList: [],
-      locationTypes: [],
+      selectedLocation: {},
       // datatable variables
       page: 1,
       pageCount: 1,
@@ -165,18 +165,17 @@ export default {
       totalClients: 0,
       loading: true,
       headers: [
-        { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
-        { title: 'PO Name', key: 'officer', sortable: true },
-        { title: 'Active/Admin', key: 'activeAdmin' },
-        { title: 'Admin Closed', key: 'adminClosed' },
-        { title: 'BAL', key: 'bal' },
-        { title: 'SEN', key: 'sen' },
-        { title: 'High', key: 'high', cellClass: 'p-0 m-0 text-center' },
-        { title: 'Medium', key: 'medium', cellClass: 'p-0 m-0 text-center' },
-        { title: 'Low', key: 'low', cellClass: 'p-0 m-0 text-center' },
-        { title: 'Unknown', key: 'unknown' },
-        { title: 'Overdue RNA\'s', key: 'overdue' },
-        { title: 'Active Reports', key: 'activeReports' },
+        { text: 'PO Name', value: 'officer', sortable: true },
+        { text: 'Active/Admin', value: 'activeAdmin' },
+        { text: 'Admin Closed', value: 'adminClosed' },
+        { text: 'BAL', value: 'bal' },
+        { text: 'SEN', value: 'sen' },
+        { text: 'High', value: 'high', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Medium', value: 'medium', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Low', value: 'low', cellClass: 'p-0 m-0 text-center' },
+        { text: 'Unknown', value: 'unknown' },
+        { text: 'Overdue RNA\'s', value: 'overdue' },
+        { text: 'Active Reports', value: 'activeReports' },
       ],
       expanded: [],
       singleExpand: false,
@@ -185,6 +184,10 @@ export default {
       keyExpandRow: 0,
       pickedLocationCD : 0
     }
+  },
+  created() {
+    this.officerList = [];
+    this.locationTypes = [];
   },
   mounted(){
     //get PO list
@@ -259,11 +262,12 @@ export default {
             console.error(error1);
           } else {
             this.pickedLocationCD = this.mainStore.locationCD;
-            this.selectedLocation = this.mainStore.locationCD;
+            this.selectedLocation.key = this.mainStore.locationCD;
+            this.selectedLocation.value = this.mainStore.locationDescription;
             this.key_results++;
             this.key_location++;
 
-            this.dashboardSupervisorSearch(this.selectedLocation);
+            this.dashboardSupervisorSearch(this.selectedLocation.key);
           }
         }
       }
@@ -309,46 +313,16 @@ export default {
 
         this.loading = false;
         this.key_results++;
-        this.updatePageCount();
       }
-    },
-    updatePageCount() {
-      const term = (this.search || '').toString().trim().toLowerCase();
-      const totalItems = term
-        ? this.officerList.filter(item => {
-            try {
-              return JSON.stringify(item).toLowerCase().includes(term);
-            } catch {
-              return false;
-            }
-          }).length
-        : this.officerList.length;
-      this.pageCount = Math.max(1, Math.ceil(totalItems / this.itemsPerPage));
-      if (this.page > this.pageCount) {
-        this.page = this.pageCount;
-      }
-    },
-  },  
+    }
+  },
+  
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
     ...mapStores(useStore),
     getUserName() {
-        return this.$keycloak.tokenParsed.given_name + " " + this.$keycloak.tokenParsed.family_name;
-    }
-  },
-  watch: {
-    itemsPerPage() {
-      this.updatePageCount();
-    },
-    search() {
-      this.updatePageCount();
-    },
-    officerList: {
-      deep: true,
-      handler() {
-        this.updatePageCount();
-      }
+        return Vue.$keycloak.tokenParsed.given_name + " " + Vue.$keycloak.tokenParsed.family_name;
     }
   }
 }

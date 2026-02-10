@@ -7,23 +7,23 @@
             <div class="p-4">
                 <v-card>
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
-                        <div class='col-sm-4'><strong>Completed Date: </strong>{{ formInfoData.completedDate }}</div>
-                        <div class="col-sm-4"><strong>Created By: </strong>{{ formInfoData.createdBy }}</div>
-                        <div class="col-sm-4"><strong>{{ getFormTypeDesc }} Type: </strong>{{ formInfoData.clientFormType }}</div>
+                        <div class='col-sm-4'><Strong>Completed Date: </Strong>{{ formInfoData.completedDate }}</div>
+                        <div class="col-sm-4"><Strong>Created By: </Strong>{{ formInfoData.createdBy }}</div>
+                        <div class="col-sm-4"><Strong>{{ getFormTypeDesc }} Type: </Strong>{{ formInfoData.clientFormType }}</div>
                     </section>
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
-                        <div class='col-sm-4'><strong>Office Location: </strong>{{formInfoData.location }}</div>
-                        <div class="col-sm-4"><strong>CRNA Rating: </strong>{{ CRNARating }}</div>
-                        <div class="col-sm-4"><strong>SARA Rating: </strong>{{ formInfoData.module == $CONST_FORMTYPE_SO_OVERALL ? SARARating: SARALinked ? SARARating : 'N/A' }}</div>
+                        <div class='col-sm-4'><Strong>Office Location: </Strong>{{formInfoData.location }}</div>
+                        <div class="col-sm-4"><Strong>CRNA Rating: </Strong>{{ CRNARating }}</div>
+                        <div class="col-sm-4"><Strong>SARA Rating: </Strong>{{ formInfoData.module == $CONST_FORMTYPE_SO_OVERALL ? SARARating: SARALinked ? SARARating : 'N/A' }}</div>
                     </section>
                 </v-card>
                 <br>
                 <div class="subSectionTitleClass">Client Details</div>
                <v-card>    
                     <section class="row justify-content-between align-items-sm-center pr-2 pl-2">
-                        <div class='col-sm-4'><strong>Name: </strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientName : '' }}</div>
-                        <div class="col-sm-4"><strong>CS#: </strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientNum : '' }}</div>
-                        <div class='col-sm-4'><strong>Order Exp. Date: </strong>{{ formInfoData.clientData != null && formInfoData.clientData.orderInformation != null ? formInfoData.clientData.orderInformation.expiryDate : '' }}</div>
+                        <div class='col-sm-4'><Strong>Name: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientName : '' }}</div>
+                        <div class="col-sm-4"><Strong>CS#: </Strong>{{ formInfoData.clientData != null ? formInfoData.clientData.clientNum : '' }}</div>
+                        <div class='col-sm-4'><Strong>Order Exp. Date: </Strong>{{ formInfoData.clientData != null && formInfoData.clientData.orderInformation != null ? formInfoData.clientData.orderInformation.expiryDate : '' }}</div>
                     </section>
                 </v-card>
             </div>
@@ -115,19 +115,19 @@ export default {
         loading: false,
         theKey: 0,
         formHeaders: [
-            { title: 'Question', key: 'question', width: '20%', sortable: false },
-            { title: 'Answer', key: 'value', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
-            { title: 'Comments', key: 'comment', width: '40%', cellClass: 'readonly-field-text' }
+            { text: 'Question', value: 'question', width: '20%', sortable: false },
+            { text: 'Answer', value: 'value', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { text: 'Comments', value: 'comment', width: '40%', cellClass: 'readonly-field-text' }
         ],
         formNoCommentsHeaders: [
-          { title: 'Question', key: 'question', width: '20%', sortable: false },
-          { title: 'Answer', key: 'value', width: '80%', sortable: false, cellClass: 'readonly-field-text' }
+          { text: 'Question', value: 'question', width: '20%', sortable: false },
+          { text: 'Answer', value: 'value', width: '80%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         interventionHeaders: [
-            { title: 'Criminogenic Needs', key: 'question', width: '10%', sortable: false },
-            { title: 'Specific Factor', key: 'comment', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
-            { title: 'Intervention Type', key: 'interventionType', width: '15%', sortable: false },
-            { title: 'Intervention Description', key: 'interventionComment', width: '35%', sortable: false, cellClass: 'readonly-field-text' }
+            { text: 'Criminogenic Needs', value: 'question', width: '10%', sortable: false },
+            { text: 'Specific Factor', value: 'comment', width: '40%', sortable: false, cellClass: 'readonly-field-text' },
+            { text: 'Intervention Type', value: 'interventionType', width: '15%', sortable: false },
+            { text: 'Intervention Description', value: 'interventionComment', width: '35%', sortable: false, cellClass: 'readonly-field-text' }
         ],
         showSMOOverallBPSection: false,
       }

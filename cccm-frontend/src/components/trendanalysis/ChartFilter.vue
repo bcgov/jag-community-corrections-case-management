@@ -34,7 +34,7 @@
     </div>
     <div class="col-md-3  col-sm-1 divider-right">
       <div class="filter-label">Factor View</div>
-      <v-autocomplete v-model="selectedFactors" item-title="label" item-value="value" :items="factorOptions" chips
+      <v-select v-model="selectedFactors" item-text="label" item-value="value" :items="factorOptions" chips
         @blur="updateFactors()" :menu-props="{ maxHeight: '400' }" multiple hint="Select one or more factors"
         persistent-hint>
         <template v-slot:selection="{ item, index }">
@@ -42,13 +42,13 @@
             <b class="ml-6" style="margin-left:8px">{{ selectedFactors.length }}</b> factor(s) selected
           </span>
         </template>
-      </v-autocomplete>
+      </v-select>
     </div>
     <div class="col-md-3  col-sm-1">
       <div class="filter-label">Display View</div>
-      <v-autocomplete v-model="selectedFilter" item-title="label" item-value="value" :items="filterOptions"
+      <v-select v-model="selectedFilter" item-text="label" item-value="value" :items="filterOptions"
         @change="updateFilter()" :menu-props="{ maxHeight: '400' }" hint="Select a display filter" persistent-hint>
-      </v-autocomplete>
+      </v-select>
     </div>
     <v-overlay :value="loading">
       <v-progress-circular
