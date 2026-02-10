@@ -1,0 +1,50 @@
+name: Push to Openshift - Backend and Frontend
+
+on:
+  push:
+    branches: [feature/vue-uplift-v2]
+  workflow_dispatch:
+env:
+  # See https://github.com/goodwithtech/dockle/issues/188
+  DOCKLE_HOST: "unix:///var/run/docker.sock"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cluster Login
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT4_SERVER_URL }}
+          parameters: '{"apitoken": "${{ secrets.OPENSHIFT4_SA_PASSWORD }}"}'
+          cmd: |
+            'version'
+      - name: Login to Openshift Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT4_REGISTRY }}
+          username: ${{ secrets.OPENSHIFT4_SA_USERNAME }}
+          password: ${{ secrets.OPENSHIFT4_SA_PASSWORD }}
+
+      - name: Docker Build Backend Image
+        run: |            
+          docker compose build backend
+          
+      - name: Docker Tag Version Gold
+        run: |
+          docker tag cccm-api ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+
+      - name: Docker Build Frontend Image
+        run: |            
+          docker compose build frontend
+          
+      - name: Docker Tag Version Gold
+        run: |  
+          docker tag cccm-web ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
+         
+      - name: Docker Push Version to Gold and GoldDR
+        run: |  
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-api:dev
+          docker push ${{ secrets.OPENSHIFT4_REGISTRY }}/${{ secrets.LICENSE_PLATE }}-tools/cccm-web:dev
+
