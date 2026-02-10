@@ -106,7 +106,7 @@
                             "label": "General Info",
                             "tableView": false,
                             "key": "generalInfo",
-                            "type": "container",                            
+                            "type": "container",
                             "input": true,
                             "components": [
                                 {
@@ -785,8 +785,7 @@
                     "key": "tabs",
                     "type": "tabs",
                     "input": false,
-                    "tableView": false,
-                    "customClass": "client-search-tabs"
+                    "tableView": false
                 }
             ]
         }

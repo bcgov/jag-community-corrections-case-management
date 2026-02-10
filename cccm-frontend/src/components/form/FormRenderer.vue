@@ -125,10 +125,11 @@
         <div class="columnMain L">
           <div class="menu-Sticky">
             <div id="id_infoPanel" class="menuR1">
-              <v-alert :key="errorKey" v-model="errorOccurred" type="error" prominent closable>
+              <v-alert :key="errorKey" v-if="errorOccurred" type="info" prominent dismissible>
                 <h5>{{ errorTitle }}</h5>
                 <span v-html="getErrorText"></span>
               </v-alert>
+
               <FormioFormInfo :key="formStaticInfoKey" :dataModel="formInfoData" @unlockForm="handleChangeFormToIncomplete" />
             </div>
             <div id="id_navPanel" :class="loading ? 'hide' :  loaded ? 'menuR2' : 'menuR2 mask'">
@@ -142,7 +143,7 @@
           <v-progress-linear v-if="loading || !loaded" indeterminate height="30" color="primary">{{loadingMsg}}</v-progress-linear>
           
           <div id="div_scale" :key="componentKey" :class="loading ? 'hide' :  loaded ? 'mainContent' : 'mainContent mask'">
-            <v-row style="margin: -0px">
+            <v-row>
               <div class="col-11">
                 <FormDataEntry 
                   :csNumber="csNumber"
@@ -213,7 +214,8 @@
 
 <script lang="ts">
 
-import { Form } from '@formio/vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { Form } from 'vue-formio';
 import { getClientFormMetaData, getFormioTemplate, loadFormData, clientProfileSearch, completeForm, deleteForm, unlockForm } from "@/components/form.api";
 import FormDataEntry from "@/components/form/formSections/FormDataEntry.vue";
 import FormNavigation from "@/components/form/formSections/FormNavigation.vue";
@@ -307,7 +309,7 @@ export default {
     if (this.readonly) {
       this.options.readOnly = this.readonly;
     } else {
-      this.options = {};
+      this.options = null;
     }
 
     let configuredFormInfo = this.$FORM_INFO.filter( item => item.formType === this.formType );
@@ -408,7 +410,7 @@ export default {
       if (error) {
         console.error("Failed unset complete status", error);
       } else {
-        this.options = {};
+        this.options = null;
         this.getClientAndFormMeta(false);
       }
     },
@@ -416,7 +418,7 @@ export default {
       // Show delete btn, whent he user is sys admin or is the owner and form is incomplete and not locked
       if (this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) ||
        (this.createdByIdir != null && 
-        this.createdByIdir.toUpperCase() == this.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
+        this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase() &&
         completeDate == null && !this.locked)) {
         return true;
       }
@@ -445,7 +447,7 @@ export default {
         // Form is unlocked but completed, show edit button when the form is completed and the user is an admin or the form owner
         if (completeDate != null && 
             (this.mainStore.loginUserGroups.includes(groupCheckedAgainst) ||
-             this.createdByIdir.toUpperCase() == this.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
+             this.createdByIdir.toUpperCase() == Vue.$keycloak.tokenParsed.preferred_username.toUpperCase())) {
           return true; 
         } 
         return false;
@@ -640,8 +642,7 @@ export default {
           }
         });
 
-      const url = window.location.origin + route.href;
-      window.open(url, '_blank');
+      window.open(route.href, '_blank');
     },
     redirectOnFormClose(){
       this.$router.push({
@@ -862,10 +863,6 @@ export default {
 </script>
 
 <style>
-.v-alert--variant-flat.v-alert.bg-error {
-  background-color: pink !important;
-}
-
 .sectionTitleClass {
   font-size: 35px;
 }

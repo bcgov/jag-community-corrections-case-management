@@ -8,7 +8,9 @@
 </template>
   
 <script lang="ts">
-import { Form } from '@formio/vue';
+import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator';
+import { Form } from 'vue-formio';
 import { loadFormData, getFormioTemplate } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';

@@ -1,16 +1,7 @@
-import { keycloak } from '@/plugins/authentication';
-import router from '@/router';
+import Vue from 'vue';
 
 export default async function (): Promise<string> {
-    try {
-        await keycloak.updateToken(70);
-        //console.log("middleware keycloak: ", keycloak);
-        return keycloak.token as string;
-    } catch (err) {
-        console.error(err);
-        if (router.currentRoute.value.name !== 'unauthorized') {
-            router.replace({ name: 'unauthorized' });
-        }
-        throw err;
-    }
+    await Vue.$keycloak.updateToken(70);
+    //console.log("middleware keycloak: ", Vue.$keycloak);
+    return Vue.$keycloak.token as string;
 }

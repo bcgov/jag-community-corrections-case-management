@@ -1,8 +1,8 @@
+import Vue from 'vue'
 import { defineStore } from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { async_getUserDefaultLocation, async_getUserLocations, getPOList, lookupGender, lookupIdTypes, lookupCityCodes, lookupProvinceCodes, lookupAddressTypes } from "@/components/form.api";
-import { keycloak } from '@/plugins/authentication';
-import { APP_GLOBALS } from '@/constants/appGlobals';
+import { isNull } from 'url/util';
 
 export const useStore = defineStore('main', { 
     // state
@@ -35,51 +35,51 @@ export const useStore = defineStore('main', {
         // form-view
         // po-manage
         getLoginUserGroups() {
-            if (this.loginUserGroups == null || this.loginUserGroups == undefined || this.loginUserGroups == '') {
+            if (this.loginUserGroups == null) {
                 this.loginUserGroups = ''
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_RESEARCHER)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_RESEARCHER + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_RESEARCHER)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_RESEARCHER + ',';
                 }
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_ADMIN_COMM)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_ADMIN_COMM + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN_COMM)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ADMIN_COMM + ',';
                 }
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_PO)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_PO + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_PO)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_PO + ',';
                 }
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_ITRP)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_ITRP + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ITRP)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ITRP + ',';
                 }
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_SUPERVISOR)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_SUPERVISOR + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_SUPERVISOR)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_SUPERVISOR + ',';
                 }
-                if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_ROLE_ADMIN)) {
-                    this.loginUserGroups += APP_GLOBALS.$USER_GROUP_ADMIN + ',';
+                if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_ROLE_ADMIN)) {
+                    this.loginUserGroups += Vue.prototype.$USER_GROUP_ADMIN + ',';
                 }
             }
         },
         getLoginUserName() {
             if (this.loginUserName == null) {
-                this.loginUserName = keycloak.tokenParsed.family_name + ', ' + keycloak.tokenParsed.given_name;
+                this.loginUserName = Vue.$keycloak.tokenParsed.family_name + ', ' + Vue.$keycloak.tokenParsed.given_name;
             }
         },
         hasSupervisorDash() {
             // User with po-manage role can access the supervisor dashboard
-            if (keycloak.hasRealmRole(APP_GLOBALS.$ROLE_PO_MANAGE)) {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$ROLE_PO_MANAGE)) {
                 return true;
             }
             return false;
         },
         hasPODash() {
-            if (this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_SUPERVISOR) ||
-                this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_ADMIN) ||
-                this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_PO) ||
-                this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_ITRP)) {
+            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_SUPERVISOR) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_PO) ||
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
               return true;
             }
             return false;
         },
         hasITRPDash() {
-            if (this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_ITRP)) {
+            if (this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ITRP)) {
                 return true;
             }
             return false;
@@ -88,7 +88,7 @@ export const useStore = defineStore('main', {
             // When admin_comm user views forms (e.g., SMO_OVERALL) that requires data refresh before form load,
             // the data refresh shouldn't be allowed
             if (this.loginUserGroups == '' ||
-                this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_ADMIN_COMM)) {
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
                 return false;
             }
             return true;
@@ -96,13 +96,13 @@ export const useStore = defineStore('main', {
         isAllowFormWrite() {
             // Admin_comm user can only view 
             if (this.loginUserGroups == '' ||
-                this.loginUserGroups.includes(APP_GLOBALS.$USER_GROUP_ADMIN_COMM)) {
+                this.loginUserGroups.includes(Vue.prototype.$USER_GROUP_ADMIN_COMM)) {
                 return false;
             }
             return true;
         },
         isShowTrendAnalysis() {
-            if (keycloak.hasRealmRole(APP_GLOBALS.$AUTH_SHOW_TREND)) {
+            if (Vue.$keycloak.hasRealmRole(Vue.prototype.$AUTH_SHOW_TREND)) {
                 return true;
             }
             return false;

@@ -12,29 +12,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import Vue from 'vue';
 import HeaderComponent from '@/components/Header.vue'
 import FooterComponent from '@/components/Footer.vue'
 import updateToken from '@/middleware/update-token';
 
-export default defineComponent({
+export default Vue.extend({
   name: 'app',
   components: {
     HeaderComponent,
     FooterComponent
   },
-  computed: {
-    isPrint(): boolean {
-      return this.$route?.name === 'printView';
+  data() {
+    return {
+      isPrint: false
     }
   },
+  mounted(){
+    this.isPrint = this.$route.name === 'printView';
+  },
   watch: {
-    '$route': {
-      handler() {
-        updateToken();
-      },
-      deep: true
-    }
+    $route() {
+      updateToken();
+    },
   }
 });
 </script>

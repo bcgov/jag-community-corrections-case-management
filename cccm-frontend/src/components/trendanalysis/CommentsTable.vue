@@ -41,10 +41,10 @@ export default {
     return {
       comments: [],
       headers: [
-        { title: 'Date', key: 'createdDate' },
-        { title: 'Factor', key: 'factor' },
-        { title: 'Rating', key: 'answerValue' },
-        { title: 'Comment', key: 'value' }
+        { text: 'Date', value: 'createdDate' },
+        { text: 'Factor', value: 'factor' },
+        { text: 'Rating', value: 'answerValue' },
+        { text: 'Comment', value: 'value' }
       ],
     }
   },

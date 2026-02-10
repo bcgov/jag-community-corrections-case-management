@@ -1,14 +1,15 @@
 <template>
-    <Form
-      :key="formKey"
+    <Form :key="formKey"
       :form="formJSON" 
       :submission="dataModel" 
       :options="options"
-      @customEvent="changeButtonLabel" />
+      @evt_changeButtonLabel="changeButtonLabel"
+      @evt_cancelButtonLabel="changeButtonLabel"/>
 </template>
 
 <script lang="ts">
-import { Form } from '@formio/vue';
+import { Component, Vue } from 'vue-property-decorator';
+import { Form } from 'vue-formio';
 import { updateSourcesContacted } from "@/components/form.api";
 import templatePanel from '@/components/common/templateSidePanel.json';
 
@@ -24,7 +25,7 @@ export default {
       templatePanel : templatePanel,
       formJSON : {},
       formKey: 0,
-      preVal: '',
+      preVal: ''
     }
   },
   components: {
@@ -41,19 +42,15 @@ export default {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
       this.formJSON = JSON.parse(tmpJSONStr);
-      this.formKey++;
     },
     async changeButtonLabel(evt) {
       if (evt != null && evt.type === "evt_cancelButtonLabel") {
-        this.dataModel.data.sourcesContacted.hideSCInput = true;
+        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
         this.dataModel.data.input_key_sourceContacted = this.preVal;
         this.formKey++;
-      } else if (evt != null && (evt.type === "evt_addSource")) {
-        this.dataModel.data.sourcesContacted.hideSCInput = false;
-        this.dataModel.data.input_key_sourceContacted = this.preVal;
-        this.formKey++;
-      } else if (evt != null && evt.type === "evt_saveSource") {
-        this.dataModel.data.sourcesContacted.hideSCInput = true;
+      }
+      if (evt != null && evt.type === "evt_changeButtonLabel" ) {
+        this.dataModel.data.sourcesContacted.hideSCInput = !evt.data.sourcesContacted.hideSCInput;
         this.formKey++;
 
         // Time to save

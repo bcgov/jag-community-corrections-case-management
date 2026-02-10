@@ -1,7 +1,7 @@
+import Vue from 'vue'
 import {defineStore} from 'pinia';
 import { useLocalStorage, useSessionStorage } from '@vueuse/core'
 import { updateForm } from "@/components/form.api";
-import { APP_GLOBALS } from '@/constants/appGlobals';
 
 export const useAutosaveStore = defineStore('autosave', { 
     // state
@@ -68,15 +68,22 @@ export const useAutosaveStore = defineStore('autosave', {
         },
         continueAutoSave() {
           // if the autoSaveDataCandidate hasn't changed, don't save
+          console.log("this.autoSaveDataCandidate: ",this.autoSaveDataCandidate);
+          console.log("this.autoSaveData: ", this.autoSaveData);
           let continueAutoSave = false;
           if (Object.keys(this.autoSaveData).length > 0) {
             for (let i = 0; i < Object.keys(this.autoSaveDataCandidate).length; i++) {
               let key = Object.keys(this.autoSaveDataCandidate)[i];
+              // console.log("key: ", key);
+              // console.log("this.autoSaveData[key]: ", this.autoSaveData[key]);
+              // console.log("this.autoSaveDataCandidate[key]: ", this.autoSaveDataCandidate[key]);
               if (((this.autoSaveData[key] == null || this.autoSaveData[key] == '') && 
                   (this.autoSaveDataCandidate[key] == null || this.autoSaveDataCandidate[key] == '')) ||
                   this.autoSaveDataCandidate[key] == this.autoSaveData[key]) {
                   continueAutoSave ||= false;
+                  console.log("key, equal: ", key);
               } else {
+                console.log("key, not equal: ", key);
                 continueAutoSave ||= true;
                 break;
               } 
@@ -91,9 +98,10 @@ export const useAutosaveStore = defineStore('autosave', {
         async autoSave() {
           //only start saving if previous saving is done
           if (!this.saving && this.continueAutoSave()) {
-            //console.log("Auto saving ....");
+            console.log("Auto saving ....");
             // deep copy of autoSaveDataCandidate, and assign it to autoSaveData 
             this.autoSaveData = JSON.parse(JSON.stringify(this.autoSaveDataCandidate));
+            //console.log("autosave: ", this.autoSaveData);
     
             //clear this.autoSaveDataCandidate, so we are not repeatedly saving it
             this.autoSaveDataCandidate = {};
@@ -136,78 +144,85 @@ export const useAutosaveStore = defineStore('autosave', {
           return this.saving;
         },
         handleChangeEvent(event, isCasePlan) {
-          if (isCasePlan) {
-              if (   event.changed 
-                  && ( event.changed.component.type === "textfield"
-                    || event.changed.component.type === "textarea")) {
-                // don't trigger the autosave on every key stroke, keep the latest values for now.
-                // Trigger the autosave when blur event occurs.
-                let containerKey = this.private_isPartOfContainer(event.changed.instance);
-                let theKey = event.changed.component.key;
-                if (containerKey != null) {
-                  theKey = containerKey;
-                } 
-                this.private_caseplan_addToAutoSaveDataCandidate(theKey, event.data, false);
-              }
-        
-              // Trigger autosave
-              if (   event.changed 
-                  && ( event.changed.component.type === "radio"
-                    || event.changed.component.type === "checkbox"
-                    || event.changed.component.type === "select")
-                  ) {
-                // if the radio button or checkbox or select is part of an datagrid, map the datagrid data to this.autoSaveDataCandidate
-                let containerKey = this.private_isPartOfContainer(event.changed.instance);
-                let theKey = event.changed.component.key;
-                if (containerKey != null) {
-                  theKey = containerKey;
-                } 
-                this.private_caseplan_addToAutoSaveDataCandidate(theKey, event.data, true);
-              }
-              return;
-          }
-
-          // Intervention related events, including:
-          // 1. 'Add Intervention' button is clicked
-          // 2. 'Delete' icon is clicked
-          // 3. 'intervention_type' DDL is changed
-          // 4. 'intervention_specify' textfield is changed when 'Other' is selected in 'intervention_type' DDL
-          // 5. 'intervention_desc' textfield is changed
-          // Save the whole datagrid data to this.autoSaveDataCandidate
-          if (event.changed?.component.type === "datagrid") {  
-            // 'Delete' icon is clicked, trigger autosave immediately  
-            if (event.changed.flags.isReordered != null) {
-              this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data, true);
-            } else {
-              this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data, false);
+            if (isCasePlan) {
+                if (   event.changed 
+                    && ( event.changed.component.type === "textfield"
+                      || event.changed.component.type === "textarea")) {
+                  //console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
+                  // don't trigger the autosave on every key stroke, keep the latest values for now.
+                  // Trigger the autosave when blur event occurs.
+                  let containerKey = this.private_isPartOfContainer(event.changed.instance);
+                  let theKey = event.changed.component.key;
+                  if (containerKey != null) {
+                    theKey = containerKey;
+                  } 
+                  this.private_caseplan_addToAutoSaveDataCandidate(theKey, event.data, false);
+                }
+          
+                // Trigger autosave
+                if (   event.changed 
+                    && ( event.changed.component.type === "radio"
+                      || event.changed.component.type === "checkbox"
+                      || event.changed.component.type === "select")
+                    ) {
+                  // if the radio button or checkbox or select is part of an datagrid, map the datagrid data to this.autoSaveDataCandidate
+                  let containerKey = this.private_isPartOfContainer(event.changed.instance);
+                  let theKey = event.changed.component.key;
+                  if (containerKey != null) {
+                    theKey = containerKey;
+                  } 
+                  this.private_caseplan_addToAutoSaveDataCandidate(theKey, event.data, true);
+                }
+                return;
             }
-          }
-          if (event.changed 
-              && ( event.changed.component.type === "textfield"
-                || event.changed.component.type === "textarea")) {
-            // don't trigger the autosave on every key stroke, save the payload to this.autoSaveDataCandidate.
-            // Trigger the autosave when blur event occurs.
-            this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, false);              
-          }
-    
-          // Trigger autosave
-          if (   event.changed 
-              && ( event.changed.component.type === "number"
-                || event.changed.component.type === "radio"
-                || event.changed.component.type === "checkbox"
-                || event.changed.component.type === "select")
-              ) {
-            this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, true);
-          }
+
+            // datagrid either 'add intervention' or 'delete' icon is clicked
+            if (   event.changed 
+                && ( event.changed.component.type === "datagrid")) {
+              // only record data to autoSaveDataCandidate if 'delete' icon is clicked
+              if (event.changed.flags.isReordered) {
+                this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data, true);
+              }
+            }
+            if (   event.changed 
+                && ( event.changed.component.type === "textfield"
+                  || event.changed.component.type === "textarea")) {
+              // console.log("textfield or textarea changed: ", event, event.data, event.changed.component.key, event.changed.value);
+              // don't trigger the autosave on every key stroke, keep the latest values for now.
+              // Trigger the autosave when blur event occurs.
+              let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+              if (dataGridKey != null) {
+                this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data, false);
+              } else {
+                this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, false);
+              }
+            }
+      
+            // Trigger autosave
+            if (   event.changed 
+                && ( event.changed.component.type === "number"
+                  || event.changed.component.type === "radio"
+                  || event.changed.component.type === "checkbox"
+                  || event.changed.component.type === "select")
+                ) {
+              // if the radio button or checkbox or select is part of an datagrid, map the datagrid data to this.autoSaveDataCandidate
+              let dataGridKey = this.private_isPartOfDatagrid(event.changed.instance);
+              if (dataGridKey != null) {
+                //console.log("it's part of a datagrid, instance: ,theKey: , newValue: ", event.data, event.changed.component.key, dataGridKey, event.changed.value);
+                this.private_addToAutoSaveDataCandidate(true, dataGridKey, event.data, true);
+              } else {
+                this.private_addToAutoSaveDataCandidate(false, event.changed.component.key, event.data, true);
+              }
+            }
         },
         handleBlurEvent(event) {
-          this.autoSave();
+            this.autoSave();
         },
         private_caseplan_addToAutoSaveDataCandidate(key, eventData, autoSaveNow) {
-          this.autoSaveDataCandidate[key] = eventData[key];
-          if (autoSaveNow) {
-            this.autoSave();
-          }
+            this.autoSaveDataCandidate[key] = eventData[key];
+            if (autoSaveNow) {
+              this.autoSave();
+            }
         },
         private_mergePayload(source) {
             for (let i = 0; i < Object.keys(source); i++) {
@@ -227,91 +242,90 @@ export const useAutosaveStore = defineStore('autosave', {
             return emptyItvArray;
         },
         private_addToAutoSaveDataCandidate(isDataGrid, key, eventData, autoSaveNow) {
-          // The key contains _intervention_checkbox means it's an intervention checkbox
-          if (key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFFIX) >= 0) {
-              let questionKey = key.substr(0, 6);
-              let interventionDatagridKey = questionKey + this.CONST_INTERVENTION_KEY_SUFFIX;
-              // If the checkbox is unchecked, remove the associated intervention from autoSaveDataCandidate.
-              // This triggers a full intervention deletion in the backend.
-              if (!eventData[key]) {
-                  // insert an empty intervention json object which will trigger the all deletion
-                  this.autoSaveDataCandidate[interventionDatagridKey] = this.private_buildBlankInterventionArray(questionKey);
-          
-                  // Get clientFormAnswerID
-                  let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
-                  let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
-                  if (clientFormAnswerID) {
-                      //console.log("found clientFormAnswerID: ", clientFormAnswerID);
-                      this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
-                      this.autoSave();
-                  } else {
-                      //console.log("not found clientFormAnswerID: ", clientFormAnswerID);
-                      // We shouldn't get here, means the question hasn't been answered and user answered interventions.
-                      // Add question and comment to the autoSaveDataCandidate, this is a heavy save
-                      this.privateAddQuestionAndComments(questionKey, eventData);
-                      this.autoSave();
-                  }
-              } 
-              return;
-          }
-  
-          // User made an update to the dataGrid (interventions)
-          if (isDataGrid) {
-              this.autoSaveDataCandidate[key] = eventData[key];
-              // Get clientFormAnswerID
-              let questionKey = key.substr(0, 6);
-              let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
-              let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
-              //console.log("key_clientFormAnswerID: , clientFormAnswerID: ", key_clientFormAnswerID, clientFormAnswerID);
-              if (clientFormAnswerID) {
+            // The key contains CONST_INTERVENTION_CHECKBOX_SUFFIX
+            if (key.indexOf(this.CONST_INTERVENTION_CHECKBOX_SUFFIX) >= 0) {
+                let questionKey = key.substr(0, 6);
+                let interventionDatagridKey = questionKey + this.CONST_INTERVENTION_KEY_SUFFIX;
+                // If the checkbox is unchecked, remove the associated intervention from autoSaveDataCandidate.
+                // This triggers a full intervention deletion in the backend.
+                if (!eventData[key]) {
+                    // insert an empty intervention json object which will trigger the all deletion
+                    this.autoSaveDataCandidate[interventionDatagridKey] = this.private_buildBlankInterventionArray(questionKey);
+            
+                    // Get clientFormAnswerID
+                    let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
+                    let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
+                    if (clientFormAnswerID) {
+                        //console.log("found clientFormAnswerID: ", clientFormAnswerID);
+                        this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
+                        this.autoSave();
+                    } else {
+                        //console.log("not found clientFormAnswerID: ", clientFormAnswerID);
+                        // We shouldn't get here, means the question hasn't been answered and user answered interventions.
+                        // Add question and comment to the autoSaveDataCandidate, this is a heavy save
+                        this.privateAddQuestionAndComments(questionKey, eventData);
+                        this.autoSave();
+                    }
+                } 
+                return;
+            }
+    
+            // User made an update to the dataGrid (interventions)
+            if (isDataGrid) {
+                this.autoSaveDataCandidate[key] = eventData[key];
+                // Get clientFormAnswerID
+                let questionKey = key.substr(0, 6);
+                let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
+                let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
+                //console.log("key_clientFormAnswerID: , clientFormAnswerID: ", key_clientFormAnswerID, clientFormAnswerID);
+                if (clientFormAnswerID) {
                 this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
                 if (autoSaveNow) {
                     this.autoSave();
                 }
-                // console.log("found clientFormAnswerID: ", clientFormAnswerID, this.autoSaveDataCandidate);
-              } else {
-                  // We shouldn't get here, means the question hasn't been answered and user answered interventions.
-                  // Add question and comment to the autoSaveDataCandidate, this is a heavy save
-                  this.privateAddQuestionAndComments(questionKey, eventData);
-                  if (autoSaveNow) {
-                      this.autoSave();
-                  }
-              }
-          } else {
-              // User made an update to the question comments
-              if (key.indexOf(this.CONST_COMMENT_SUFFIX) >= 0) {
-                  let questionKey = key.substr(0, 6);
-                  // Add question answer and comment to autoSaveDataCandidate
-                  this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
-                  this.autoSaveDataCandidate[key] = eventData[key];
-          
-                  let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
-                  let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
-          
-                  if (clientFormAnswerID) {
-                      this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
-                  }
-              } else {
-                  // User made an update to the question answer (e.g., select a different radio button)
-                  // Add question answer and comment to autoSaveDataCandidate
-                  this.privateAddQuestionAndComments(key, eventData);
-          
-                  let questionKey = key;
-                  let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
-                  let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
-          
-                  if (clientFormAnswerID) {
-                      this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
-                  }
-                  if (autoSaveNow) {
-                      this.autoSave();
-                  }
-              }
-          }
+                } else {
+                    // We shouldn't get here, means the question hasn't been answered and user answered interventions.
+                    // Add question and comment to the autoSaveDataCandidate, this is a heavy save
+                    this.privateAddQuestionAndComments(questionKey, eventData);
+                    if (autoSaveNow) {
+                        this.autoSave();
+                    }
+                }
+            } else {
+                // User made an update to the question comments
+                if (key.indexOf(this.CONST_COMMENT_SUFFIX) >= 0) {
+                    let questionKey = key.substr(0, 6);
+                    // Add question answer and comment to autoSaveDataCandidate
+                    this.autoSaveDataCandidate[questionKey] = eventData[questionKey];
+                    this.autoSaveDataCandidate[key] = eventData[key];
+            
+                    let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
+                    let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
+            
+                    if (clientFormAnswerID) {
+                        this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
+                    }
+                } else {
+                    // User made an update to the question answer (e.g., select a different radio button)
+                    // Add question answer and comment to autoSaveDataCandidate
+                    this.privateAddQuestionAndComments(key, eventData);
+            
+                    let questionKey = key;
+                    let key_clientFormAnswerID = questionKey + this.CONST_ID_SUFFIX;
+                    let clientFormAnswerID = this.privateGetClientFormAnswerID(questionKey, eventData);
+            
+                    if (clientFormAnswerID) {
+                        this.autoSaveDataCandidate[key_clientFormAnswerID] = clientFormAnswerID;
+                    }
+                    if (autoSaveNow) {
+                        this.autoSave();
+                    }
+                }
+            }
         },
         privateAddQuestionAndComments(key, eventData) {
           this.autoSaveDataCandidate[key] = eventData[key];
-          if (key != APP_GLOBALS.$KEY_SOURCES_CONTACTED) {
+          if (key != Vue.prototype.$KEY_SOURCES_CONTACTED) {
             this.autoSaveDataCandidate[key + this.CONST_COMMENT_SUFFIX] = eventData[key + this.CONST_COMMENT_SUFFIX];
           }
         },
@@ -321,6 +335,20 @@ export const useAutosaveStore = defineStore('autosave', {
                 return eventData[clientFormAnswerID];
             }
             return this.getQuestionId(questionKey);
+        },
+        private_isPartOfDatagrid(theInstance) {
+            //console.log("check partof dataGrid: ", theInstance);
+            let datagridKey = null;
+            if (theInstance != null 
+                && theInstance.parent != null 
+                && theInstance.parent.parent != null 
+                && theInstance.parent.parent.type === this.CONST_DATAGRID) {
+                datagridKey = theInstance.parent.parent.key;
+            } else if ( theInstance.parent.parent.parent != null 
+                && theInstance.parent.parent.parent.type === this.CONST_DATAGRID) {
+                datagridKey = theInstance.parent.parent.parent.key;
+            }
+            return datagridKey;
         },
         private_isPartOfContainer(theInstance) {
           //console.log("check partof dataGrid: ", theInstance);
