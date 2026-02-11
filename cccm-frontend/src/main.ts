@@ -16,17 +16,17 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
 import Vidle from 'v-idle-3'
-// import '@formio/js/dist/formio.full.min.css'
-// import '@/assets/css/fa-all.min.css'
-// import '@/assets/css/bootstrap.css'
-// import '@/assets/css/noto-sans.css'
-// import '@/assets/css/style_header.css'
-// import '@/assets/css/style_footer.css'
-// import '@/assets/css/layout.css'
-// import '@/assets/css/styles.css'
-// import '@/assets/css/materialdesignicons.min.css'
-// import '@/assets/css/overrides.css'
-// import '@/assets/css/print.css'
+import '@formio/js/dist/formio.full.min.css'
+import '@/assets/css/fa-all.min.css'
+import '@/assets/css/bootstrap.css'
+import '@/assets/css/noto-sans.css'
+import '@/assets/css/style_header.css'
+import '@/assets/css/style_footer.css'
+import '@/assets/css/layout.css'
+import '@/assets/css/styles.css'
+import '@/assets/css/materialdesignicons.min.css'
+import '@/assets/css/overrides.css'
+import '@/assets/css/print.css'
 
 library.add(faBarChart, faComments, faWarning, fas, far, fab)
 
@@ -34,11 +34,9 @@ const pinia = createPinia()
 setActivePinia(pinia)
 setupInterceptors(pinia);
 
-console.log("Keycloak instance created, initializing authentication...: ", keycloak);
 keycloak
   .init({ onLoad: 'login-required', checkLoginIframe: false })
   .then((authenticated: boolean) => {
-    console.log("Authentication initialized. Authenticated: ", authenticated);
     const app = createApp(App);
     app.use(authentication);
     app.use(pinia);
@@ -49,7 +47,6 @@ keycloak
     app.component('font-awesome-icon', FontAwesomeIcon);
 
     if (!authenticated) {
-      console.warn("User is not authenticated. Redirecting to login...");
       const loginAttemptKey = 'kc-login-attempt';
       if (!sessionStorage.getItem(loginAttemptKey)) {
         sessionStorage.setItem(loginAttemptKey, '1');
@@ -57,7 +54,6 @@ keycloak
         return;
       }
     } else {
-      console.log("User is authenticated. Proceeding to mount the app.");
       sessionStorage.removeItem('kc-login-attempt');
     }
 

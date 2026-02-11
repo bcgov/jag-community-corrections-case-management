@@ -7,7 +7,6 @@ const options = {
 }
 
 const keycloak = new Keycloak(options)
-console.log("Keycloak instance created with options: ", options, keycloak);
 const kcLogin = keycloak.login.bind(keycloak);
 keycloak.login = (options) => {
   options = options || {};
