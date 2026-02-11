@@ -59,7 +59,7 @@
             </section>
             <Form
               v-if="isFormReady"
-              :key="formKey"
+              :key="theKey"
               :form="formJSON"
               :submission="initData"
             />
@@ -105,7 +105,6 @@ export default {
         ],
       initData: {"data": {}},
       formJSON: templateClientProfile,
-      formKey: 0,
       showWarrantDetails: false,
       showAlertDetails: false,
       csNumber: null,
@@ -154,7 +153,7 @@ export default {
       } else {
         this.initData = {"data": {}};
         this.initData.data = clientProfileResponse;
-        console.log("clientProfileResponse: ", clientProfileResponse);
+        // console.log("clientProfileResponse: ", clientProfileResponse);
         if (clientProfileResponse != null) {
           //Cache the photoData into this.initData object
           if (clientProfileResponse.photo) {
