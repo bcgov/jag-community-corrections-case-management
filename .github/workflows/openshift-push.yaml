@@ -2,7 +2,7 @@ name: Push to Openshift - Backend and Frontend
 
 on:
   push:
-    branches: [feature/vue-uplift-v2]
+    branches: [main]
   workflow_dispatch:
 env:
   # See https://github.com/goodwithtech/dockle/issues/188
