@@ -14,13 +14,23 @@ RUN npm run build
 
 FROM nginx:alpine as run
 
-## Remove default nginx index page
-RUN rm -rf /opt/app-root/src/*
-RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
+## Create necessary directories for nginx
+RUN mkdir -p /opt/app-root/src /opt/app-root/etc/nginx.d /opt/app-root/etc/nginx.default.d /var/log/nginx /var/cache/nginx /run
+
+## Set permissions for OpenShift
+RUN chmod -R g+rwx /opt/app-root /var/cache/nginx /var/run /var/log/nginx /run \
+    && chgrp -R 0 /opt/app-root /var/cache/nginx /var/run /var/log/nginx /run \
+    && chmod -R g=u /opt/app-root /var/cache/nginx /var/run /var/log/nginx /run
 
 # Copy from the stage 1 build result
 COPY --from=build /app/dist /opt/app-root/src/cccm
+# COPY --from=build /app/public/config.js /opt/app-root/src/cccm/config.js
 COPY --from=build /app/nginx.conf /etc/nginx/nginx.conf
+
+# Ensure proper permissions on copied files
+RUN chmod -R g+rwx /opt/app-root/src \
+    && chgrp -R 0 /opt/app-root/src \
+    && chmod -R g=u /opt/app-root/src
 
 EXPOSE 8000
 

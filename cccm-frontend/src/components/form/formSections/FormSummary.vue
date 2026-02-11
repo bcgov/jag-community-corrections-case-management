@@ -67,7 +67,6 @@
 </template>
   
 <script lang="ts">
-import Vue from 'vue'
 import { getDataForSummaryView, loadFormData, getFormioTemplate } from "@/components/form.api";
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
@@ -90,22 +89,22 @@ export default {
             changeCount: -1,
             loading: false,
             formHeaders: [
-                { text: 'Question', value: 'question', width: '20%' },
-                { text: 'Answer', value: 'value', width: '20%' },
-                { text: 'Comments', value: 'comment', width: '50%', cellClass: 'readonly-field-text' },
-                { text: 'Action', value: 'editKey', width: '10%', align:'center' },
+                { title: 'Question', key: 'question', width: '20%' },
+                { title: 'Answer', key: 'value', width: '20%' },
+                { title: 'Comments', key: 'comment', width: '50%', cellClass: 'readonly-field-text' },
+                { title: 'Action', key: 'editKey', width: '10%', align:'center' },
             ],
             formNoCommentsHeaders: [
-                { text: 'Question', value: 'question', width: '20%' },
-                { text: 'Answer', value: 'value', width: '70%', cellClass: 'readonly-field-text' },
-                { text: 'Action', value: 'editKey', width: '10%', align:'center' },
+                { title: 'Question', key: 'question', width: '20%' },
+                { title: 'Answer', key: 'value', width: '70%', cellClass: 'readonly-field-text' },
+                { title: 'Action', key: 'editKey', width: '10%', align:'center' },
             ],
             interventionHeaders: [
-                { text: 'Criminogenic Needs', value: 'question', width: '10%' },
-                { text: 'Specific Factor', value: 'comment', width: '35%', cellClass: 'readonly-field-text' },
-                { text: 'Intervention Type', value: 'interventionType', width: '10%' },
-                { text: 'Intervention Description', value: 'interventionComment', width: '35%', cellClass: 'readonly-field-text' },
-                { text: 'Action', value: 'editKey', width: '10%', align:'center' }
+                { title: 'Criminogenic Needs', key: 'question', width: '10%' },
+                { title: 'Specific Factor', key: 'comment', width: '35%', cellClass: 'readonly-field-text' },
+                { title: 'Intervention Type', key: 'interventionType', width: '10%' },
+                { title: 'Intervention Description', key: 'interventionComment', width: '35%', cellClass: 'readonly-field-text' },
+                { title: 'Action', key: 'editKey', width: '10%', align:'center' }
             ],
         }
     },

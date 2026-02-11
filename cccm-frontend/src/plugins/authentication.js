@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Keycloak from 'keycloak-js'
 
 const options = {
@@ -7,30 +6,19 @@ const options = {
   clientId: config.VUE_APP_KEYCLOAK_CLIENT_ID
 }
 
-const _keycloak = new Keycloak(options)
-const kcLogin = _keycloak.login;
-_keycloak.login = (options) => {
+const keycloak = new Keycloak(options)
+const kcLogin = keycloak.login.bind(keycloak);
+keycloak.login = (options) => {
+  options = options || {};
   Object.assign(options, {idpHint: config.VUE_APP_KC_IDP_HINT});
-  kcLogin(options);
+  return kcLogin(options);
 };
 
 const Plugin = {
-  install(Vue) {
-    Vue.$keycloak = _keycloak
+  install(app) {
+    app.config.globalProperties.$keycloak = keycloak;
   }
-}
+};
 
-Plugin.install = Vue => {
-  Vue.$keycloak = _keycloak
-  Object.defineProperties(Vue.prototype, {
-    $keycloak: {
-      get() {
-        return _keycloak
-      }
-    }
-  })
-}
-
-Vue.use(Plugin)
-
-export default Plugin
+export { keycloak };
+export default Plugin;

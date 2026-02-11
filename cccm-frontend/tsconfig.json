@@ -18,8 +18,5 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "skipLibCheck": true
   },
-  "vueCompilerOptions": {
-    "experimentalCompatMode": 2
-  },
   "include": ["vite.config.*", "env.d.ts", "src/**/*", "src/**/*.vue"]
 }

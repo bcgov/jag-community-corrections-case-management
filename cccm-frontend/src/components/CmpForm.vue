@@ -39,9 +39,9 @@
       </v-dialog>
     </div>
     <section class="pr-4 pl-4">
-      <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in items" :key="item.id" :href="'#tab-' + item.id" @click="updateTabKey(item)" > 
-          <div v-if="item.id === CONST_CREATE_BTN_SARA" class="p-4">
+      <v-tabs v-model="current_tab" color="deep-purple accent-4" align-tabs="start">
+        <v-tab v-for="item in items" :key="item.id" :value="item.id" @click="updateTabKey(item)" > 
+          <div v-if="item.id === CONST_CREATE_BTN_SARA">
             <v-btn
               v-show=true
               @click.stop="createChildForm($CONST_FORMTYPE_SARA)"
@@ -50,24 +50,23 @@
           <span v-else>{{ item.tab }}</span>
         </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="current_tab">
-        <v-tab-item v-for="item in items" :key="item.id" :id="'tab-' + item.id">
-          <FormRenderer :key="item.key" :formType="item.id" :formId="item.formId" 
+      <v-tabs-window v-model="current_tab">
+        <v-tabs-window-item v-for="item in items" :key="item.id" :value="item.id">
+          <FormRenderer v-if="item.id !== CONST_CREATE_BTN_SARA && item.formId"
+            :key="item.key" :formType="item.id" :formId="item.formId" 
             :csNumber="clientNum" :relatedClientFormId="item.relatedClientFormId" 
             :CRNARating="CRNARating"
             :SARARating="SARARating"
             :readonly="item.readonly" :locked="item.locked" 
             :createdByIdir="item.createdByIdir"
             :canPrint="item.canPrint"></FormRenderer>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-tabs-window-item>
+      </v-tabs-window>
     </section>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator';
 import FormRenderer from "@/components/form/FormRenderer.vue";
 import { createForm, getClientFormDetails } from "@/components/form.api";
 import {useStore} from "@/stores/store";
@@ -88,7 +87,7 @@ export default {
       SARARating: '',
       relatedClientFormId: null,
       formType: '',
-      current_tab: 'tab-CRNA',
+      current_tab: this.$CONST_FORMTYPE_CRNA,
       items: [],
       dialog: false,
       formKey: 0,    
@@ -153,7 +152,7 @@ export default {
       if (response.module != this.$CONST_FORMTYPE_CMRP && !response.locked &&
            !this.mainStore.loginUserGroups.includes(this.$USER_GROUP_ADMIN) &&
            response.createdByIdir != null && 
-           response.createdByIdir.toUpperCase() != Vue.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
+           response.createdByIdir.toUpperCase() != this.$keycloak.tokenParsed.preferred_username.toUpperCase()) {
         return true;
       }
 
@@ -198,7 +197,7 @@ export default {
       if (this.formType === this.$CONST_FORMTYPE_CRNA) {
         this.items.push({ tab: 'CRNA-CMP', key: 0, id: this.$CONST_FORMTYPE_CRNA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, 
                           readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-CRNA';
+        this.current_tab = this.$CONST_FORMTYPE_CRNA;
         if (!this.relatedClientFormId) {
           // show the 'add sara' btn if the crna form hasn't linked with sara
           if (!this.isFormReadonly) {
@@ -215,36 +214,36 @@ export default {
                           readonly: false, locked: false, createdByIdir: '', canPrint: true });
         this.items.push({ tab: 'SARA', key: 0, id: this.$CONST_FORMTYPE_SARA, formId: this.formId, relatedClientFormId: this.relatedClientFormId, 
                           readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-SARA';
+        this.current_tab = this.$CONST_FORMTYPE_SARA;
       } else
       // if formType is 'ACUTE', only show ACUTE tab
       if (this.formType === this.$CONST_FORMTYPE_ACUTE) {
         this.items.push({ tab: 'Acute', key: 0, id: this.$CONST_FORMTYPE_ACUTE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-ACUTE';
+        this.current_tab = this.$CONST_FORMTYPE_ACUTE;
       } else
       // if formType is 'STAT99R', only show STAT99R tab
       if (this.formType === this.$CONST_FORMTYPE_STAT99R) {
         this.items.push({ tab: 'Static-99R', key: 0, id: this.$CONST_FORMTYPE_STAT99R, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-STAT99R';
+        this.current_tab = this.$CONST_FORMTYPE_STAT99R;
       } else
       // if formType is 'SMO-OVERALL', only show Overall tab
       if (this.formType === this.$CONST_FORMTYPE_SO_OVERALL) {
         this.items.push({ tab: 'SMO-Overall-CMP', key: 0, id: this.$CONST_FORMTYPE_SO_OVERALL, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-OVERALL';
+        this.current_tab = this.$CONST_FORMTYPE_SO_OVERALL;
       } else
       // if formType is 'STABLE', only show STABLE tab
       if (this.formType === this.$CONST_FORMTYPE_STABLE) {
         this.items.push({ tab: 'Stable', key: 0, id: this.$CONST_FORMTYPE_STABLE, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-Stable';
+        this.current_tab = this.$CONST_FORMTYPE_STABLE;
       } else
       // if formType is 'CMRP', only show CMRP tab
       if (this.formType === this.$CONST_FORMTYPE_CMRP) {
         this.items.push({ tab: 'Custody-CMRP', key: 0, id: this.$CONST_FORMTYPE_CMRP, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-CUSTODY-CMRP';
+        this.current_tab = this.$CONST_FORMTYPE_CMRP;
       } else {
         // unsupported formTypes
         this.items.push({ tab: this.formType, key: 0, id: this.formId, formId: this.formId, relatedClientFormId: null, readonly: this.isFormReadonly, locked: response.locked, createdByIdir: response.createdByIdir, canPrint: this.setPrintFlag(response.formTypeExpiryDate) });
-        this.current_tab = 'tab-' + this.formType;
+        this.current_tab = this.formType;
       }
     },
     async createChildFormAPI() {

@@ -44,10 +44,10 @@ export default {
     return {
       interventions: [],
       headers: [
-        { text: 'Entry Date', value: 'createdDate' },
-        { text: 'Factor', value: 'factor' },
-        { text: 'Intervention Type', value: 'type' },
-        { text: 'Description', value: 'comment' }
+        { title: 'Entry Date', key: 'createdDate' },
+        { title: 'Factor', key: 'factor' },
+        { title: 'Intervention Type', key: 'type' },
+        { title: 'Description', key: 'comment' }
       ],
     }
   },

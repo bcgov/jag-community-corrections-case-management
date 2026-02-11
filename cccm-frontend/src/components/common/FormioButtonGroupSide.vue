@@ -1,13 +1,14 @@
 <template>
-    <Form :form="formJSON" 
-      @evt_saveAndClose="handleSaveAndClose" 
-      @evt_print="handlePrint"
+    <Form
+      v-if="isFormReady"
+      :key="formKey"
+      :form="formJSON" 
+      @customEvent="handleCustomEvent"
       :submission="dataModel" />
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import templateButtons from '@/components/common/templateButtonGroupSide.json';
 
 export default {
@@ -19,6 +20,7 @@ export default {
     return {
       templatePanel : templateButtons,
       formJSON : {},
+      formKey: 0,
     }
   },
   components: {
@@ -27,23 +29,27 @@ export default {
   mounted(){
     this.buildFormData();
   },
+  computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    }
+  },
   methods: {
     buildFormData() {
       // make a deep copy of the template
       let tmpJSONStr = JSON.stringify(this.templatePanel);
       this.formJSON = JSON.parse(tmpJSONStr);
+      this.formKey++;
     },
-    handleSaveAndClose(evt) {
-      // emit an event, saveCloseClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
-      if (evt != null && evt.type === 'evt_saveAndClose' ) {
+    handleCustomEvent(evt) {
+      // Form.io emits customEvent for all button actions with type "event"
+      if (evt != null && evt.type === 'evt_saveAndClose') {
+        // emit an event, saveCloseClicked with setting false to flag "continue to next section", to the parent, so parent knows it's time to save data
         this.$emit('saveCloseClicked', false);
-      } 
-    },
-    handlePrint(evt) {
-      // emit an event, printFormClicked, to the parent, so parent knows it's time to cancel form
-      if (evt != null && evt.type === 'evt_print' ) {
+      } else if (evt != null && evt.type === 'evt_print') {
+        // emit an event, printFormClicked, to the parent, so parent knows it's time to cancel form
         this.$emit('printFormClicked');
-      } 
+      }
     }
   }
 }

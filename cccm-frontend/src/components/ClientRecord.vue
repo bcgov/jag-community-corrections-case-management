@@ -24,13 +24,13 @@
       </div>
     </section>
     <section :key="tabKey" class="pr-4 pl-4">
-      <v-tabs v-model="current_tab" fixed-tabs color="deep-purple accent-4">
-        <v-tab v-for="item in showTabs" :key="item.tab" :href="'#tab-' + item.id"> 
+      <v-tabs v-model="current_tab" color="deep-purple accent-4" class="client-record-tabs" align-tabs="start">
+        <v-tab v-for="item in showTabs" :key="item.tab" :value="item.id"> 
           {{ item.tab }}
         </v-tab>
       </v-tabs>
-      <v-tabs-items v-model="current_tab">
-        <v-tab-item v-for="item in showTabs" :key="item.tab" :id="'tab-' + item.id">
+      <v-tabs-window v-model="current_tab">
+        <v-tabs-window-item v-for="item in showTabs" :key="item.tab" :value="item.id">
           <div v-if="item.id === 'cp'" class="p-4">
             <section class="mb-3">
               <v-row :key="theKey" class="row">
@@ -57,21 +57,25 @@
                 </div>
               </v-row>
             </section>
-            <Form :form="formJSON" :submission="initData"/>
+            <Form
+              v-if="isFormReady"
+              :key="formKey"
+              :form="formJSON"
+              :submission="initData"
+            />
           </div>
           <RNAListView :key="theKey" v-if="item.id === 'rl'" :clientNum="$route.params.csNumber" :IPVClient="IPVClient" :SMOClient="SMOClient"></RNAListView>
           <TrendAnalysisView v-if="showTrendAnalysis && item.id === 'ta'" :clientNum="$route.params.csNumber"  :clientID="$route.params.clientID"></TrendAnalysisView>
           <span v-else> </span>
-        </v-tab-item>
-      </v-tabs-items>
+        </v-tabs-window-item>
+      </v-tabs-window>
     </section>
 
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import RNAListView from '@/components/RNAList.vue';
 import {clientProfileSearch} from "@/components/form.api";
 import TrendAnalysisView from "@/components/trendanalysis/TrendAnalysisView.vue";
@@ -101,6 +105,7 @@ export default {
         ],
       initData: {"data": {}},
       formJSON: templateClientProfile,
+      formKey: 0,
       showWarrantDetails: false,
       showAlertDetails: false,
       csNumber: null,
@@ -115,7 +120,12 @@ export default {
 },
   mounted() {
     this.csNumber = this.$route.params.csNumber;
-    this.current_tab = this.$route.params.tabIndex;
+    const routeTab = this.$route.params.tabIndex;
+    if (typeof routeTab === 'string' && routeTab.startsWith('tab-')) {
+      this.current_tab = routeTab.replace('tab-', '');
+    } else if (typeof routeTab === 'string' && routeTab.length > 0) {
+      this.current_tab = routeTab;
+    }
     this.clientProfileSearchAPI();
   },
   methods: {
@@ -210,6 +220,9 @@ export default {
     }
   },
   computed: {
+    isFormReady() {
+      return !!(this.formJSON && this.formJSON.components && this.formJSON.components.length);
+    },
     showTrendAnalysis() {
       return this.mainStore.isShowTrendAnalysis();
     },

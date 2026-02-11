@@ -6,14 +6,13 @@
       :options="options"
       v-on:change="handleChangeEvent" 
       v-on:blur="handleBlurEvent"
-      @key_hidden_submit_btn="handleHiddenBtnClick"
+      @customEvent="handleCustomEvent"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { Form } from 'vue-formio';
+import { Form } from '@formio/vue';
 import { objectToString } from '@vue/shared';
 import { useAutosaveStore } from "@/stores/autoSaveStore";
 import { mapStores } from 'pinia';
@@ -53,6 +52,12 @@ export default {
       let theBtn = document.getElementsByName(elementName);
       if (theBtn != null && theBtn.length == 1) {
         theBtn[0].click();
+      }
+    },
+    handleCustomEvent(evt) {
+      // Check if this is the hidden submit button event
+      if (evt.type === 'key_hidden_submit_btn') {
+        this.handleHiddenBtnClick(evt);
       }
     },
     handleHiddenBtnClick(evt) {

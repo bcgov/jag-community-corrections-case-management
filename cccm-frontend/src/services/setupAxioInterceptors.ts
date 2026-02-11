@@ -1,9 +1,12 @@
 import axiosInstance from "@/components/form.api";
 import updateToken from '@/middleware/update-token';
 import { v4 as uuidv4 } from 'uuid';
-import {useStore} from "@/stores/store";
+import { useStore } from "@/stores/store";
+import { setActivePinia } from 'pinia';
+import type { Pinia } from 'pinia';
 
-const setup = () => {
+const setup = (pinia: Pinia) => {
+  setActivePinia(pinia);
   axiosInstance.interceptors.request.use(
     async config => {
       const token = await updateToken();
