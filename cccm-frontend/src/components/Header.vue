@@ -102,7 +102,6 @@ export default {
     this.locationTypes = [];
   },
   mounted() {
-    console.log("Header mounted, import.meta.env.BASE_URL: ", import.meta.env.BASE_URL);
     this.getLocationInfo();
   },
   methods: {

@@ -7,8 +7,8 @@
           <Form class="formio-container"
               :form="formJSON"
               :submission="initData" 
-              :onFormReady="handleFormReady"
-              :onChange="handleChangeEvent"
+              @formReady="handleFormReady"
+              @change="handleChangeEvent"
             />
         </div>
       </section>
@@ -391,23 +391,71 @@ export default {
     },
     handleFormReady(formInstance) {
       if (this.formioInstance && this.formioInstance !== formInstance && this.formioInstance?.off) {
+        // Unbind previous event listeners
+        this.formioInstance.off('change', this.handleChangeEvent);
         this.formioInstance.off('evt_clearAll', this.handleClearAll);
         this.formioInstance.off('evt_clientSearchEvent_generalInfo', this.handleClientSearch_byGeneralInfo);
         this.formioInstance.off('evt_clientSearchEvent_addressInfo', this.handleClientSearch_byAddressInfo);
+
         this.formioEventsBound = false;
       }
 
       this.formioInstance = formInstance;
       if (formInstance?.on && !this.formioEventsBound) {
+        // Bind the change event directly on the formio instance
+        formInstance.on('change', this.handleChangeEvent);
         formInstance.on('evt_clearAll', this.handleClearAll);
         formInstance.on('evt_clientSearchEvent_generalInfo', this.handleClientSearch_byGeneralInfo);
         formInstance.on('evt_clientSearchEvent_addressInfo', this.handleClientSearch_byAddressInfo);
+
         this.formioEventsBound = true;
+        
+        // Add custom Enter key handler
+        this.$nextTick(() => {
+          const formElement = formInstance.element;
+          if (formElement) {
+            formElement.addEventListener('keydown', this.handleEnterKey);
+          }
+        });
       }
       if (formInstance?.once) {
         formInstance.once('render', () => this.refreshFormSubmission());
       }
       this.refreshFormSubmission();
+    },
+    handleEnterKey(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        const target = event.target;
+        // Only handle Enter in input fields, not in buttons or textareas
+        if (target.tagName === 'INPUT' || (target.tagName === 'TEXTAREA' && event.shiftKey)) {
+          let isInGeneralInfo = false;
+          let isInAddressInfo = false;
+          if (target.name) {
+            if (target.name.includes('generalInfo') || 
+                target.name.includes('lastName') || 
+                target.name.includes('givenName') || 
+                target.name.includes('gender') || 
+                target.name.includes('dob') || 
+                target.name.includes('age') || 
+                target.name.includes('idType') || 
+                target.name.includes('idNumber')) {
+              isInGeneralInfo = true;
+            } else if (target.name.includes('addressInfo') || 
+                       target.name.includes('address') || 
+                       target.name.includes('city') || 
+                       target.name.includes('province')) {
+              isInAddressInfo = true;
+            }
+          }       
+          if (isInGeneralInfo) {
+            event.preventDefault();
+            this.handleClientSearch_byGeneralInfo(this.formioInstance.data);
+          } else if (isInAddressInfo) {
+            event.preventDefault();
+            this.handleClientSearch_byAddressInfo(this.formioInstance.data);
+          }
+        }
+      }
     },
     async handleClientSearch_byGeneralInfo(evt) {
       const data = evt?.data ?? evt;
@@ -438,8 +486,8 @@ export default {
         this.private_processSearchResults(error, response);
       }
     },
-    async handleClientSearch_byAddressInfo(evt) {
-      const data = evt?.data ?? evt;
+    async handleClientSearch_byAddressInfo(evt) {      
+      const data = evt?.addressInfo ?? evt;
       if (data != null) {
         this.jumpToResult();
         this.loading = true;
@@ -452,22 +500,29 @@ export default {
         this.private_processSearchResults(error, response);
       }
     },
-    handleChangeEvent(event) {
+    handleChangeEvent(event) {      
+      // Defensive check for event structure
+      if (!event) {
+        console.warn("Change event is null or undefined");
+        return;
+      }
+
       if (   event.changed 
+          && event.changed.component
           && ( event.changed.component.key === "age"
-            || event.changed.component.key === "dobYear")) {
-        //console.log("textfield or textarea changed: ", event);
+            || event.changed.component.key === "dobYear")) {        
         // if dobYear is updated, re-calculate and set the age
         if (event.changed.component.key == "dobYear") {
-          //console.log("textfield or textarea changed: ", event.data.dobYear);
           let ele = document.getElementsByName("data[age]");
           if (ele != null && ele.length == 1) {
             let calcVal = null;
-            if (event.data.dobYear != null) {
+            if (event.data && event.data.dobYear != null) {
               calcVal = this.CONST_CURRENT_YEAR - event.data.dobYear;
             }
             ele[0].value = calcVal;
-            event.data.age = calcVal;
+            if (event.data) {
+              event.data.age = calcVal;
+            }
           }
         }
         // if age is updated, re-calculate and set the dobYear
@@ -475,11 +530,13 @@ export default {
           let ele = document.getElementsByName("data[dobYear]");
           if (ele != null && ele.length == 1) {
             let calcVal = null;
-            if (event.data.age != null) {
+            if (event.data && event.data.age != null) {
               calcVal = this.CONST_CURRENT_YEAR - event.data.age;
             }
             ele[0].value = calcVal;
-            event.data.dobYear = calcVal;
+            if (event.data) {
+              event.data.dobYear = calcVal;
+            }
           }
         }
       }

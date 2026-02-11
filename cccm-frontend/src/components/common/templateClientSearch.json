@@ -451,13 +451,12 @@
                                                                     "label": "Search",
                                                                     "action": "event",
                                                                     "tableView": false,
-                                                                    "key": "search",
+                                                                    "key": "searchGeneralInfo",
                                                                     "type": "button",
                                                                     "input": false,
                                                                     "disableOnInvalid": false,
                                                                     "event": "evt_clientSearchEvent_generalInfo",
-                                                                    "customClass": "formio-search-btn-container",
-                                                                    "saveOnEnter": true
+                                                                    "customClass": "formio-search-btn-container"
                                                                 }
                                                             ],
                                                             "width": 6,
@@ -741,13 +740,12 @@
                                                                             "action": "event",
                                                                             "showValidations": false,
                                                                             "tableView": false,
-                                                                            "key": "search",
+                                                                            "key": "searchAddressInfo",
                                                                             "type": "button",
                                                                             "input": false,
                                                                             "disableOnInvalid": false,
                                                                             "event": "evt_clientSearchEvent_addressInfo",
-                                                                            "customClass": "formio-search-btn-container",
-                                                                            "saveOnEnter": true
+                                                                            "customClass": "formio-search-btn-container"
                                                                         }
                                                                     ],
                                                                     "width": 6,
