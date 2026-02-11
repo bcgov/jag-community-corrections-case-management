@@ -144,6 +144,7 @@ export default {
       search: '',
       expanded: [],
       singleExpand: true,
+      clients: [],
       clientHeaders: [
         { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
         { title: 'Name', align: 'start', sortable: true, key: 'clientName', width: '10%' },
@@ -166,9 +167,6 @@ export default {
   components: {
     DatatablePagination,
     Form
-  },
-  created() {
-    this.clients = [];
   },
   async mounted() {
     this.buildForm();
