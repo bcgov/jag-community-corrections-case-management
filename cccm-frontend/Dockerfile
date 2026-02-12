@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build
+FROM node:lts-alpine AS build
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ COPY . .
 # Build the project
 RUN npm run build
 
-FROM nginx:alpine as run
+FROM nginx:alpine AS run
 
 ## Create necessary directories for nginx
 RUN mkdir -p /opt/app-root/src /opt/app-root/etc/nginx.d /opt/app-root/etc/nginx.default.d /var/log/nginx /var/cache/nginx /run
