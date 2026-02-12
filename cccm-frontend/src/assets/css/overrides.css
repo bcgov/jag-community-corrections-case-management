@@ -96,7 +96,10 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 
 .client-search-columns {
     column-gap: 50px;
-    margin-bottom: -60px!important;
+}
+
+.client-search-columns-2 {
+    margin-top: -65px;
 }
 
 .client-search-tabs .card-header {
@@ -108,7 +111,7 @@ input[name="data[limitedToCurrentActiveLocation]"] + span, input[name="data[addr
 }
 
 .client-search .formio-action-buttons-container {
-    padding-bottom: 0px !important;
+    padding: 0px;
 }
 
 .client-search .form-group {
