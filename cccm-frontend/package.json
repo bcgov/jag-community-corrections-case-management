@@ -16,7 +16,7 @@
     "@formio/js": "^5.2.6",
     "@formio/vue": "^6.0.4",
     "@vueuse/core": "^14.1.0",
-    "axios": "^1.13.2",
+    "axios": "^1.13.5",
     "chart.js": "^4.5.1",
     "date-fns": "^4.1.0",
     "izitoast": "^1.4.0",
