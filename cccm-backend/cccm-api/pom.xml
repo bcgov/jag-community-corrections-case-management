@@ -189,7 +189,7 @@
       <plugin>
         <artifactId>openapi-generator-maven-plugin</artifactId>
         <groupId>org.openapitools</groupId>
-        <version>6.4.0</version>
+        <version>7.19.0</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
