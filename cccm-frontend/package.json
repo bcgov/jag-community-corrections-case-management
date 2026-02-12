@@ -30,7 +30,7 @@
     "vuetify": "^3.11.8"
   },
   "devDependencies": {
-    "@types/node": "^25.0.10",
+    "@types/node": "^25.2.3",
     "@vitejs/plugin-vue": "^6.0.3",
     "sass": "^1.97.3",
     "sass-loader": "^16.0.6",
