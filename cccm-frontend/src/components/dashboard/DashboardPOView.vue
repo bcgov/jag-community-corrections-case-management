@@ -10,6 +10,7 @@
       <div class="col-sm-5 m-3">
         <strong>Probation Officers Search</strong>
           <v-autocomplete
+            ref="autocompleteRef"
             item-title="poName"
             item-value="idirId"
             v-model="selectedPO"
@@ -18,6 +19,7 @@
             @update:modelValue="applyPOFilter"
             return-object
             outlined
+            @focus="selectAutocompleteText"
           >
         </v-autocomplete>
       </div>
@@ -396,6 +398,17 @@ export default {
         };
         this.initDataArray[el.clientNum] = initData;
       }
+    },
+    selectAutocompleteText() {
+      this.$nextTick(() => {
+        const autocomplete = this.$refs.autocompleteRef;
+        if (autocomplete && autocomplete.$el) {
+          const input = autocomplete.$el.querySelector('input');
+          if (input) {
+            input.select();
+          }
+        }
+      });
     }
   },
   computed: {

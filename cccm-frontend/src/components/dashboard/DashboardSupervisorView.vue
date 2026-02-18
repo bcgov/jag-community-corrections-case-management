@@ -10,6 +10,7 @@
         <div class="col-sm-5 m-3">
           <strong>Search Location</strong>
           <v-autocomplete
+            ref="autocompleteRef"
             :key="key_location"
             item-title="value"
             item-value="key"
@@ -17,6 +18,7 @@
             :items="locationTypes"
             label=""
             @update:modelValue="applyLocationFilter"
+            @focus="selectAutocompleteText"
           >
           </v-autocomplete>
         </div>
@@ -328,6 +330,17 @@ export default {
         this.page = this.pageCount;
       }
     },
+    selectAutocompleteText() {
+      this.$nextTick(() => {
+        const autocomplete = this.$refs.autocompleteRef;
+        if (autocomplete && autocomplete.$el) {
+          const input = autocomplete.$el.querySelector('input');
+          if (input) {
+            input.select();
+          }
+        }
+      });
+    }
   },  
   computed: {
     // note we are not passing an array, just one store after the other

@@ -129,13 +129,15 @@
           <div class="mt-2 ml-3">
             <strong>Filter RNA Form</strong>
             <v-autocomplete
+              ref="rnalistAutocomplete"
               item-title="value"
               item-value="key"
               v-model="selectedFormTypes"
               :items="formTypes"
               label=""
-              @update:modelValue="applyFormTypeFilter"
               outlined
+              @focus="selectAutocompleteText"            
+              @update:modelValue="applyFormTypeFilter"
             >
             </v-autocomplete>
           </div>
@@ -150,7 +152,7 @@
                 <v-radio label="All" value="all"></v-radio>
               </v-radio-group>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 mt-2">
               <v-checkbox
                 v-model="mostRecent"
                 label="Most Recent"
@@ -694,6 +696,17 @@ export default {
       if (modal != null) {
         modal.click();
       }
+    },
+    selectAutocompleteText() {
+      this.$nextTick(() => {
+        const autocomplete = this.$refs.rnalistAutocomplete;
+        if (autocomplete && autocomplete.$el) {
+          const input = autocomplete.$el.querySelector('input');
+          if (input) {
+            input.select();
+          }
+        }
+      });
     }
   },
   computed: {
