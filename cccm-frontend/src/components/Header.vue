@@ -20,12 +20,14 @@
             sm="12"
           >
             <v-autocomplete
+                ref="locationAutocomplete"
                 item-title="value"
                 item-value="key"
                 v-model="selectedLocation"
                 :items="locationTypes"
                 label=""
                 outlined
+                @focus="selectAutocompleteText"
             >
             </v-autocomplete>
           </v-col>
@@ -128,6 +130,17 @@ export default {
       if (modal != null) {
         modal.click();
       }
+    },
+    selectAutocompleteText() {
+      this.$nextTick(() => {
+        const autocomplete = this.$refs.locationAutocomplete;
+        if (autocomplete && autocomplete.$el) {
+          const input = autocomplete.$el.querySelector('input');
+          if (input) {
+            input.select();
+          }
+        }
+      });
     },
     setCurrentActiveLocation() {
       // Stop the dialog
