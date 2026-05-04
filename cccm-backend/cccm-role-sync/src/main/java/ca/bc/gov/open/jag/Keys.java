@@ -31,6 +31,8 @@ public class Keys {
     public static String IDIR_SN = "sn";
     public static String IDIR_GIVEN_NAME = "givenName";
     public static String IDIR_MAIL = "mail";
+    public static String LDAP_PROTOCOL = "ssl";
+    public static String LDAP_SECURITY_AUTHENTICATION = "simple";
 
 
 }
