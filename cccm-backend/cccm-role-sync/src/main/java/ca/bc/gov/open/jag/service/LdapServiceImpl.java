@@ -1,8 +1,9 @@
 package ca.bc.gov.open.jag.service;
 
+import ca.bc.gov.open.jag.factory.CustomLdapSslSocketFactory;
 import ca.bc.gov.open.jag.model.IdirUser;
+import ca.bc.gov.open.jag.properties.LdapProperties;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,20 +17,16 @@ import java.util.Properties;
 import static ca.bc.gov.open.jag.Keys.*;
 
 @ApplicationScoped
+
 public class LdapServiceImpl implements LdapService {
 
     private static final Logger logger = LoggerFactory.getLogger(LdapServiceImpl.class);
 
-    @ConfigProperty(name = "cccm.ldap.username")
-    private String ldapUsername;
-    @ConfigProperty(name = "cccm.ldap.password")
-    private String password;
-    @ConfigProperty(name = "cccm.ldap.server")
-    private String server;
-    @ConfigProperty(name = "cccm.ldap.organization")
-    private String organization;
-    @ConfigProperty(name = "cccm.ldap.distinguishedname")
-    private String distinguishedName;
+    private final LdapProperties ldapProperties;
+
+    public LdapServiceImpl(LdapProperties ldapProperties) {
+        this.ldapProperties = ldapProperties;
+    }
 
     @Override
     public IdirUser getUserByUsername(String username) {
@@ -37,10 +34,22 @@ public class LdapServiceImpl implements LdapService {
         Properties env = new Properties();
         env.put("com.sun.jndi.ldap.read.timeout", "5000");
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.SECURITY_PRINCIPAL, MessageFormat.format("{0}@{1}", ldapUsername, organization));
-        env.put(Context.SECURITY_CREDENTIALS, password);
-        env.put(Context.PROVIDER_URL, server);
+        env.put(Context.SECURITY_AUTHENTICATION, LDAP_SECURITY_AUTHENTICATION);
+        env.put(Context.SECURITY_PRINCIPAL, MessageFormat.format("{0}@{1}", ldapProperties.username(), ldapProperties.organization()));
+        env.put(Context.SECURITY_CREDENTIALS, ldapProperties.password());
+        env.put(Context.PROVIDER_URL, ldapProperties.server());
+
+        //SSL Changes
+        if (ldapProperties.sslenable()) {
+            env.put(Context.SECURITY_PROTOCOL, LDAP_PROTOCOL);
+            env.put("java.naming.ldap.factory.socket", CustomLdapSslSocketFactory.class.getName()); //See: https://docs.oracle.com/javase/jndi/tutorial/ldap/security/ssl.html
+
+            System.setProperty("custom.ldap.truststore.type", ldapProperties.truststoretype());
+            System.setProperty("custom.ldap.truststore.loc", ldapProperties.truststoreloc());
+            System.setProperty("custom.ldap.truststore.password", ldapProperties.truststorepassword());
+            System.setProperty("custom.ldap.ssl.protocol", ldapProperties.sslprotocol());
+        }
+
         IdirUser idirUser = null;
         DirContext searchContext = null;
         try {
@@ -52,7 +61,7 @@ public class LdapServiceImpl implements LdapService {
             searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 
             NamingEnumeration<SearchResult> searchResults
-                    = searchContext.search(distinguishedName, MessageFormat.format(IDIR_FILTER, username), searchControls);
+                    = searchContext.search(ldapProperties.distinguishedname(), MessageFormat.format(IDIR_FILTER, username), searchControls);
 
             if (searchResults.hasMore()) {
 
