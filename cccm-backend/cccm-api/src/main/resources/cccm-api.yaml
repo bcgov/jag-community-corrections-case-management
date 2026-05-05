@@ -3173,6 +3173,8 @@ components:
           type: number
         itrpCount:
           type: number
+        cpoCount:
+          type: number
     WarrantType:
       type: object
       properties:
