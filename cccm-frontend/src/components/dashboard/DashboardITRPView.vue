@@ -12,7 +12,9 @@
             <strong>Centre Filter</strong>
             <v-radio-group v-model="centreFilter" inline>
               <v-radio label="ReVOII Alerts" value="revoii"></v-radio>
-              <v-radio label="CRP-1 Alerts" value="itrp"></v-radio>
+              <v-radio label="C-POII Alerts" value="cpoii"></v-radio>
+              <v-radio label="ReVOII &amp; C-POII Alerts" value="revoii-cpoii"></v-radio>
+              <v-radio label="ITRP Alerts" value="itrp"></v-radio>
               <v-radio label="All Individuals" value="all"></v-radio>
             </v-radio-group>
           </section>
@@ -163,6 +165,10 @@ export default {
       // filter table based on alerts count
       if (query == "revoii") {
         return item?.raw?.rvoCount > 0;
+      } else if (query == "cpoii") {
+        return item?.raw?.cpoCount > 0;
+      } else if (query == "revoii-cpoii") {
+        return item?.raw?.rvoCount > 0 || item?.raw?.cpoCount > 0;
       } else if (query == "itrp") {
         return item?.raw?.itrpCount > 0;
       } else {
