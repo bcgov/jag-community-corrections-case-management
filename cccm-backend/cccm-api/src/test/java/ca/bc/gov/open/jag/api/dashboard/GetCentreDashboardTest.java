@@ -31,7 +31,7 @@ public class GetCentreDashboardTest {
     private static final String SUP_LEVEL = "SUP_LEVEL";
     private static final LocalDate DISCHARGE_DATE = LocalDate.now();
     private static final LocalDate NEXT_COURT_DATE = LocalDate.now();
-    private static final BigDecimal ALERT_COUNT = BigDecimal.ONE;
+    private static final BigDecimal COUNT = BigDecimal.ONE;
 
     @Inject
     DashboardsApiImpl sut;
@@ -59,8 +59,9 @@ public class GetCentreDashboardTest {
         Assertions.assertEquals(SUP_LEVEL, result.get(0).getSupervisionLevel());
         Assertions.assertEquals(DISCHARGE_DATE, result.get(0).getDischargeRtcDate());
         Assertions.assertEquals(NEXT_COURT_DATE, result.get(0).getNextCourtDate());
-        Assertions.assertEquals(ALERT_COUNT, result.get(0).getItrpCount());
-        Assertions.assertEquals(ALERT_COUNT, result.get(0).getRvoCount());
+        Assertions.assertEquals(COUNT, result.get(0).getItrpCount());
+        Assertions.assertEquals(COUNT, result.get(0).getRvoCount());
+        Assertions.assertEquals(COUNT, result.get(0).getCpoCount());
 
     }
 
@@ -93,9 +94,9 @@ public class GetCentreDashboardTest {
         centreDashboard.setSupervisionLevel(SUP_LEVEL);
         centreDashboard.setDischargeRtcDate(DISCHARGE_DATE);
         centreDashboard.setNextCourtDate(NEXT_COURT_DATE);
-        centreDashboard.setRvoCount(ALERT_COUNT);
-        centreDashboard.setItrpCount(ALERT_COUNT);
-
+        centreDashboard.setRvoCount(COUNT);
+        centreDashboard.setItrpCount(COUNT);
+        centreDashboard.setCpoCount(COUNT);
 
         return Collections.singletonList(centreDashboard);
 

@@ -15,6 +15,7 @@ public class CentreDashboard {
     private LocalDate CMRPDueDate;
     private Integer itrp;
     private Integer rvo;
+    private Integer cpo;
 
     public String getClientName() {
         return clientName;
@@ -103,4 +104,13 @@ public class CentreDashboard {
     public void setRvo(Integer rvo) {
         this.rvo = rvo;
     }
+
+    public Integer getCpo() {
+        return cpo;
+    }
+
+    public void setCpo(Integer cpo) {
+        this.cpo = cpo;
+    }
+
 }
