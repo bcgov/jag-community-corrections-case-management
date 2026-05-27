@@ -164,6 +164,20 @@ button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:acti
     color:#fff!important;
 }
 
+/* Vuetify 3 defaults header th text-align to start; force centered headers app-wide. */
+.v-data-table .v-table__wrapper > table > thead > tr > th {
+    text-align: center !important;
+}
+
+.v-data-table .v-table__wrapper > table > thead > tr > th .v-data-table-header__content {
+    justify-content: center;
+    width: 100%;
+}
+
+.v-table > .v-table__wrapper > table > tbody > tr > td {
+    padding: 0px 0px;
+}
+
 .v-data-table__wrapper a {
     color: #38598A!important;
 }

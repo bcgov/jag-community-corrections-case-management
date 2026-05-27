@@ -51,6 +51,45 @@
         <template v-slot:item.clientName="{ item }">
           <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
         </template>
+        <template v-slot:item.currentNameYn="{ item }">
+          <div class="text-center">{{ item.currentNameYn }}</div>
+        </template>
+        <template v-slot:item.clientAge="{ item }">
+          <div class="text-center">{{ item.clientAge }}</div>
+        </template>
+        <template v-slot:item.birthDate="{ item }">
+          <div class="text-center">{{ item.birthDate }}</div>
+        </template>
+        <template v-slot:item.addressType="{ item }">
+          <div class="text-center">{{ item.addressType }}</div>
+        </template>
+        <template v-slot:item.expired="{ item }">
+          <div class="text-center">{{ item.expired }}</div>
+        </template>
+        <template v-slot:item.clientNum="{ item }">
+          <div class="text-center">{{ item.clientNum }}</div>
+        </template>
+        <template v-slot:item.sealed="{ item }">
+          <div class="text-center">{{ item.sealed }}</div>
+        </template>
+        <template v-slot:header.currentNameYn="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
+        <template v-slot:header.clientAge="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
+        <template v-slot:header.birthDate="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
+        <template v-slot:header.addressType="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
+        <template v-slot:header.expired="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
+        <template v-slot:header.clientNum="{ column }">
+          <div class="text-center w-100">{{ column.title }}</div>
+        </template>
         <!--Customize the expanded item to show photo and more-->
         <template v-slot:expanded-row="{ headers, item }">
           <tr>
@@ -148,14 +187,14 @@ export default {
       clientHeaders: [
         { title: '', align: 'start', key: 'data-table-expand', width: '2%' },
         { title: 'Name', align: 'start', sortable: true, key: 'clientName', width: '10%' },
-        { title: 'Current Name?', key: 'currentNameYn', width: '5%' },
-        { title: 'Age', key: 'clientAge', width: '5%' },
-        { title: 'Date of Birth', key: 'birthDate', width: '10%' },
+        { title: 'Current Name?', align: 'center', key: 'currentNameYn', width: '5%' },
+        { title: 'Age', align: 'center', key: 'clientAge', width: '5%' },
+        { title: 'Date of Birth', align: 'center', key: 'birthDate', width: '10%' },
         { title: 'Address', key: 'fullAddress', width: '28%' },
-        { title: 'Address Type', key: 'addressType', width: '10%' },
-        { title: 'Expired?', key: 'expired', width: '10%' },
-        { title: 'CS#', key: 'clientNum', width: '10%' },
-        { title: 'Record Sealed?', key: 'sealed', width: '10%' },
+        { title: 'Address Type', align: 'center', key: 'addressType', width: '10%' },
+        { title: 'Expired?', align: 'center', key: 'expired', width: '10%' },
+        { title: 'CS#', align: 'center', key: 'clientNum', width: '10%' },
+        { title: 'Record Sealed?', align: 'center', key: 'sealed', width: '10%' },
       ],
       baseURL: import.meta.env.BASE_URL,
       initData: {'data': {}},
