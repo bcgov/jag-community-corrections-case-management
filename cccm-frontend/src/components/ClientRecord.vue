@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="client-record-page">
     <section class="mb-3 mt-3 pr-4 pl-4">
       <div class="row justify-content-between mb-2">
         <div class="col-sm-6">
@@ -25,7 +25,7 @@
     </section>
     <section :key="tabKey" class="pr-4 pl-4">
       <v-tabs v-model="current_tab" color="deep-purple accent-4" class="client-record-tabs" align-tabs="start">
-        <v-tab v-for="item in showTabs" :key="item.tab" :value="item.id"> 
+        <v-tab v-for="item in showTabs" :key="item.tab" :value="item.id" class="client-record-tab"> 
           {{ item.tab }}
         </v-tab>
       </v-tabs>
@@ -35,14 +35,14 @@
             <section class="mb-3">
               <v-row :key="theKey" class="row">
                 <div class="sectionTitleClass mr-4 col-3 font-weight-bold">Community Profile</div>
-                <div :class="['bg-shallow-critical mr-3 mt-3 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
-                  <div class="w-100 d-flex justify-content-between align-content-center pl-1 pr-1">
-                    <span class="fas fa-exclamation-triangle mt-1"/>
+                <div :class="['bg-shallow-critical mr-3 pt-1 col-3 align-items-start', showAlertDetails ? 'h-100' : 'center']" v-if="getNumOfAlerts !== 0" @click="showHideMoreAlerts">
+                  <div class="w-100 d-flex justify-content-between align-items-center pl-1 pr-1">
+                    <span class="fas fa-exclamation-triangle"/>
                     <h5 class="font-weight-bold">Client has {{getNumOfAlerts}} Community Alerts</h5>
-                    <span class="ml-2 d-flex flex-column center align-self-start pr-2" style="margin-top: -5px">
+                    <span class="ml-2 d-flex flex-column center align-self-center pr-2">
                       <p class="m-0 p-0 small font-weight-bold text-dark">View</p>
-                      <font-awesome-icon v-if="showAlertDetails" :icon="[ 'fa', 'fa-chevron-down']" style="margin-top:-5px" />
-                      <font-awesome-icon v-else :icon="[ 'fa', 'fa-chevron-up' ]" style="margin-top:-5px" />
+                      <font-awesome-icon v-if="showAlertDetails" :icon="[ 'fa', 'fa-chevron-down']" />
+                      <font-awesome-icon v-else :icon="[ 'fa', 'fa-chevron-up' ]" />
                     </span>
                   </div>
                   <div id="id_alertDetails" :class="[showAlertDetails ? 'show' : 'hide']">
@@ -284,5 +284,15 @@ export default {
   .profilePhoto {
     text-align: center;
     max-width: 100%;
+  }
+
+  .client-record-tab {
+    min-width: 360px !important;
+    max-width: 180px;
+    width: 180px;
+  }
+
+  .client-record-page {
+    padding-bottom: 20px;
   }
 </style>

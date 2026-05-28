@@ -293,6 +293,16 @@ div > a {
 	border-bottom:0px solid #fff;
 }
 
+.divTableRowL1 .divTableCell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+
 .divTableRowL2 {
 	padding: 0px 6px 12px 6px;
 	border-left:1px solid #ddd;
@@ -331,10 +341,13 @@ a.navHeaderA-L1.active {
 }
 
 a.navHeaderA-L1 {
+  display: inline-block;
 	font-weight: 600;
 	color:#000;
-	margin:0px 20px;
-	padding:5px 25px 20px 25px;
+  margin:0px 12px;
+  padding:5px 12px 20px 12px;
+  white-space: nowrap;
+  flex: 0 0 auto;
 	background-repeat:no-repeat;
 	background-position: center bottom;
 	background-image:url(/src/assets/css/navArrowNotSelected.jpg);	
