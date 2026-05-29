@@ -132,6 +132,41 @@ export const useAutosaveStore = defineStore('autosave', {
             this.autoSaveData = {};
           }
         },
+        hasPendingChanges() {
+          return this.saving
+            || Object.keys(this.autoSaveDataCandidate).length > 0
+            || Object.keys(this.autoSaveData).length > 0;
+        },
+        async flushPendingChanges(maxCycles = 20) {
+          let cycle = 0;
+          while (cycle < maxCycles) {
+            if (this.saving) {
+              await new Promise(resolve => setTimeout(resolve, 100));
+              cycle++;
+              continue;
+            }
+
+            if (Object.keys(this.autoSaveDataCandidate).length === 0) {
+              return true;
+            }
+
+            // The queue can contain Form.io initialization echoes that do not
+            // represent actual user edits; they should not block navigation.
+            if (!this.continueAutoSave()) {
+              this.autoSaveDataCandidate = {};
+              return true;
+            }
+
+            await this.autoSave();
+
+            if (!this.saving && Object.keys(this.autoSaveDataCandidate).length === 0) {
+              return true;
+            }
+            cycle++;
+          }
+
+          return !this.saving && Object.keys(this.autoSaveDataCandidate).length === 0;
+        },
         isSavingInProgress() {
           return this.saving;
         },
@@ -210,8 +245,9 @@ export const useAutosaveStore = defineStore('autosave', {
           }
         },
         private_mergePayload(source) {
-            for (let i = 0; i < Object.keys(source); i++) {
-              let key = Object.keys(source)[i];
+            const keys = Object.keys(source);
+            for (let i = 0; i < keys.length; i++) {
+              let key = keys[i];
               if (this.autoSaveDataCandidate[key] == null) {
                 this.autoSaveDataCandidate[key] = source[key];
               }

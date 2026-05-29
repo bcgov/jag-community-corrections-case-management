@@ -70,6 +70,7 @@
 import FormRenderer from "@/components/form/FormRenderer.vue";
 import { createForm, getClientFormDetails } from "@/components/form.api";
 import {useStore} from "@/stores/store";
+import { useAutosaveStore } from "@/stores/autoSaveStore";
 import {mapStores} from 'pinia';
 
 export default {
@@ -117,7 +118,7 @@ export default {
     this.getClientFormDetailsAPI(this.clientNum, this.formId);
   },
   methods: {
-    updateTabKey(item) {
+    async updateTabKey(item) {
       let currentPath = this.$route.path;
       let pathArray = currentPath.split("/");
       let currentPathClientFormId = pathArray[pathArray.length - 1];
@@ -125,6 +126,12 @@ export default {
       // Reload the whole page if clicking on different tab, 
       // which resolves the issues with the whole DOM object not cleared when reload the same component with different param
       if (currentPathClientFormId != item.formId) {
+        const saveSuccess = await this.autosaveStore.flushPendingChanges();
+        if (!saveSuccess) {
+          window.alert('Unable to save pending changes. Please try again before switching forms.');
+          return;
+        }
+
         let r = this.$router.resolve({
           name: this.$ROUTER_NAME_CMPFORM, 
           params: {
@@ -277,7 +284,7 @@ export default {
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store', i.e., mainStore
-    ...mapStores(useStore)
+    ...mapStores(useStore, useAutosaveStore)
   }
 }
 </script>
