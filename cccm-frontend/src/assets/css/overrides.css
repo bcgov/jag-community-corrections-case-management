@@ -164,6 +164,20 @@ button[name="data[generalInfo]"]:disabled, button[name="data[generalInfo]"]:acti
     color:#fff!important;
 }
 
+/* Vuetify 3 defaults header th text-align to start; force centered headers app-wide. */
+.v-data-table .v-table__wrapper > table > thead > tr > th {
+    text-align: center !important;
+}
+
+.v-data-table .v-table__wrapper > table > thead > tr > th .v-data-table-header__content {
+    justify-content: center;
+    width: 100%;
+}
+
+.v-table > .v-table__wrapper > table > tbody > tr > td {
+    padding: 0px 0px;
+}
+
 .v-data-table__wrapper a {
     color: #38598A!important;
 }
@@ -414,10 +428,6 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
     justify-content: flex-end!important;
 }
 
-.v-btn.v-btn--density-default.v-theme--light {
-    background-color: #f5f5f5;
-}
-
 .v-btn.v-btn--density-default.v-theme--dark.text-primary {
     color: #fff !important;
     background-color: #38598A;
@@ -506,7 +516,7 @@ p[ref="html"]:not(.crna-subSectionTitleClass):not(.subSectionChildTitleClass):no
     table-layout: fixed!important;
     border-collapse: separate;
     border-spacing: 30px!important;
-
+    margin-bottom: 20px;
 }
 .profile-grid table tr td, table {
 
@@ -573,6 +583,34 @@ legend[ref="header"]{
     color: black!important;
     border: 0px;
     border-bottom: 5px solid #38598A;;
+}
+
+/* Client profile Form.io tabs: keep a flat tab look instead of card-style headers. */
+.profile-grid .card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.profile-grid .card-header .nav-tabs {
+    border-bottom: 0;
+}
+
+.profile-grid .card-header .nav-link,
+.profile-grid .card-header .nav-link:hover,
+.profile-grid .card-header .nav-link:focus {
+    background-color: transparent !important;
+    border: 0;
+    border-radius: 0;
+    color: #38598A !important;
+    font-weight: 700;
+}
+
+.profile-grid .card-header .nav-link.active,
+.profile-grid .card-header .nav-item.show .nav-link {
+    background-color: transparent !important;
+    border: 0;
+    border-bottom: 3px solid #38598A;
+    color: #000 !important;
 }
 
 /* Override read only comments style  */

@@ -7,10 +7,10 @@
     </div>
     <v-card class="p-3">
       <div class="row pl-4">
-        <div class="col-sm-9 d-flex">
+        <div class="col-sm-9 d-flex align-items-end">
           <section class="d-flex flex-column justify-content-end">
             <strong>Centre Filter</strong>
-            <v-radio-group v-model="centreFilter" inline>
+            <v-radio-group v-model="centreFilter" inline hide-details class="centre-filter-group">
               <v-radio label="ReVOII Alerts" value="revoii"></v-radio>
               <v-radio label="C-POII Alerts" value="cpoii"></v-radio>
               <v-radio label="ReVOII &amp; C-POII Alerts" value="revoii-cpoii"></v-radio>
@@ -41,11 +41,9 @@
         >
           <!--Customize the RTC date-->
           <template v-slot:item.dischargeRtcDate="{ item }">
-            <td>
-              <div>
-                {{dateFormatToCCCMDateFormat(item.dischargeRtcDate)}}
-              </div>
-            </td>
+            <div>
+              {{dateFormatToCCCMDateFormat(item.dischargeRtcDate)}}
+            </div>
           </template>
           <!--Customize the court date -->
           <template v-slot:item.nextCourtDate="{ item }">
@@ -53,27 +51,21 @@
           </template>
           <!--Customize the crna comp. date-->
           <template v-slot:item.CRNACompDate="{ item }">
-            <td>
-              <div>
-                {{dateFormatToCCCMDateFormat(item.CRNACompDate)}}
-              </div>
-            </td>
+            <div>
+              {{dateFormatToCCCMDateFormat(item.CRNACompDate)}}
+            </div>
           </template>
           <!--Customize the cmrp comp. date-->
           <template v-slot:item.CMRPCompDate="{ item }">
-            <td>
-              <div>
-                {{dateFormatToCCCMDateFormat(item.CMRPCompDate)}}
-              </div>
-            </td>
+            <div>
+              {{dateFormatToCCCMDateFormat(item.CMRPCompDate)}}
+            </div>
           </template>
           <!--Customize the Name field, making it clickable-->
           <template v-slot:item.clientName="{ item }">
-            <td class="text-left">
-              <div class="px-3">
-                <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
-              </div>
-            </td>
+            <div class="text-left px-3">
+              <a :href="`${baseURL}${$ROUTER_NAME_CLIENTRECORD}/${item.clientNum}/tab-cp`">{{item.clientName}}</a>
+            </div>
           </template>
           <!--Customize the CMRPDueDate field -->
           <template v-slot:item.CMRPDueDate="{ item }">
@@ -190,3 +182,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.centre-filter-group :deep(.v-selection-control) {
+  align-items: center;
+}
+
+.centre-filter-group :deep(.v-label) {
+  align-self: center;
+  margin-bottom: 0;
+}
+</style>
