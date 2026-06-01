@@ -18,7 +18,7 @@
     "@vueuse/core": "^14.3.0",
     "axios": "^1.16.1",
     "chart.js": "^4.5.1",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.4.0",
     "izitoast": "^1.4.0",
     "keycloak-js": "^26.2.4",
     "pinia": "^3.0.4",
