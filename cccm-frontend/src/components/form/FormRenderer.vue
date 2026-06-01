@@ -652,8 +652,23 @@ export default {
         }
       });
     },
-    handleSaveClose() {
+    async flushPendingAutosaveOrReport(actionName) {
+      const saveSuccess = await this.autosaveStore.flushPendingChanges();
+      if (!saveSuccess) {
+        this.errorOccurred = true;
+        this.errorTitle = 'Unable to save pending changes';
+        this.errorText = [{ message: 'Please retry before ' + actionName + '.' }];
+        this.errorKey++;
+      }
+      return saveSuccess;
+    },
+    async handleSaveClose() {
       //console.log("handleSaveClose");
+      const saveSuccess = await this.flushPendingAutosaveOrReport('closing the form');
+      if (!saveSuccess) {
+        return;
+      }
+
       if (this.mainStore.isEventTriggerAutoCalcAllowed() && this.theFormConfig.autoCalcOnFormComplete && !this.locked) {
         this.doEventTriggerAutoCalc();
         if (this.autosaveStore.isSavingInProgress()) { 
@@ -670,8 +685,15 @@ export default {
         this.redirectOnFormClose();
       }
     },
-    handleSaveContinue(continueToNextSection) {
+    async handleSaveContinue(continueToNextSection) {
       //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
+      if (continueToNextSection) {
+        const saveSuccess = await this.flushPendingAutosaveOrReport('continuing to the next section');
+        if (!saveSuccess) {
+          return;
+        }
+      }
+
       // if not reaching the last section, increment this.parentNavCurLocation to navigate to the next section
       if (continueToNextSection && this.parentNavCurLocation < this.totalNumParentNav - 1) {
         //show case plan
