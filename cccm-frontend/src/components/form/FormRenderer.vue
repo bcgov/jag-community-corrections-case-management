@@ -652,19 +652,19 @@ export default {
         }
       });
     },
-    async flushPendingAutosaveOrReport(actionName) {
+    async flushPendingAutosaveOrReport() {
       const saveSuccess = await this.autosaveStore.flushPendingChanges();
       if (!saveSuccess) {
         this.errorOccurred = true;
-        this.errorTitle = 'Unable to save pending changes';
-        this.errorText = [{ message: 'Please retry before ' + actionName + '.' }];
+        this.errorTitle = 'Network error, unable to save.';
+        this.errorText = [{ message: 'Please refresh browser before continuing.' }];
         this.errorKey++;
       }
       return saveSuccess;
     },
     async handleSaveClose() {
       //console.log("handleSaveClose");
-      const saveSuccess = await this.flushPendingAutosaveOrReport('closing the form');
+      const saveSuccess = await this.flushPendingAutosaveOrReport();
       if (!saveSuccess) {
         return;
       }
@@ -688,7 +688,7 @@ export default {
     async handleSaveContinue(continueToNextSection) {
       //console.log("handleSaveContinue, continueToNextSection: ", continueToNextSection);
       if (continueToNextSection) {
-        const saveSuccess = await this.flushPendingAutosaveOrReport('continuing to the next section');
+        const saveSuccess = await this.flushPendingAutosaveOrReport();
         if (!saveSuccess) {
           return;
         }

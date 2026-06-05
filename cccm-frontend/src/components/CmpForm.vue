@@ -128,7 +128,7 @@ export default {
       if (currentPathClientFormId != item.formId) {
         const saveSuccess = await this.autosaveStore.flushPendingChanges();
         if (!saveSuccess) {
-          window.alert('Unable to save pending changes. Please try again before switching forms.');
+          window.alert('Network error, unable to save. Please refresh browser before continuing.');
           return;
         }
 
