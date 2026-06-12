@@ -192,15 +192,15 @@ public class ClientDataServiceImpl implements ClientDataService {
 
             Optional<ClientFormSummary> relatedFrom = getRelatedKey(forms, form.getId());
             //Set form locked for all forms
-            logger.info("Calculate Locked");
+            logger.debug("Calculate Locked");
             form.setLocked(MappingUtils.calculateLocked(form.getCreatedDate()));
 
             if (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) || formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE)) {
                 if (relatedFrom.isPresent() && !inListByPrimaryKey(formsMerged, form.getId()) && !inListByRelatedKey(formsMerged, form.getId()) && form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE)) {
 
-                    logger.info("Merging crna and sara");
+                    logger.debug("Merging crna and sara");
 
-                    logger.info("Merging {} and {}", form.getModule(), relatedFrom.get().getModule());
+                    logger.debug("Merging {} and {}", form.getModule(), relatedFrom.get().getModule());
 
                     ClientFormSummary mergedForm = form;
                     mergedForm.setModule(MessageFormat.format("{0}-{1}", form.getModule(), relatedFrom.get().getModule()));
@@ -224,7 +224,7 @@ public class ClientDataServiceImpl implements ClientDataService {
                     formsMerged.add(mergedForm);
                 } else if (!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(SARA_FORM_TYPE) && form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
 
-                    logger.info("adding stand alone form");
+                    logger.debug("adding stand alone form");
                     if (!form.getRatings().isEmpty()) {
                         form.setSupervisionRating(form.getRatings().get(0).getText());
                     }
@@ -232,7 +232,7 @@ public class ClientDataServiceImpl implements ClientDataService {
 
                 } else if ((!relatedFrom.isPresent() && formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE)) ||
                         (formTypeCd.equalsIgnoreCase(ALL_FORM_TYPE) && (form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) || form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE)))) {
-                    logger.info("adding other forms");
+                    logger.debug("adding other forms");
                     if (hasSMOEarlyAdopter || form.getModule().equalsIgnoreCase(CRNA_FORM_TYPE) || form.getModule().equalsIgnoreCase(SARA_FORM_TYPE)) {
                         if (!form.getRatings().isEmpty()) {
                             form.setSupervisionRating(form.getRatings().get(0).getText());
@@ -249,17 +249,17 @@ public class ClientDataServiceImpl implements ClientDataService {
                     (formTypeCd.equalsIgnoreCase(ACUTE_FORM_TYPE) && form.getModule().equalsIgnoreCase(ACUTE_FORM_TYPE) && hasSMOEarlyAdopter) ||
                     (formTypeCd.equalsIgnoreCase(STATIC99R_FORM_TYPE) && form.getModule().equalsIgnoreCase(STATIC99R_FORM_TYPE) && hasSMOEarlyAdopter) ||
                     (formTypeCd.equalsIgnoreCase(STABLE_FORM_TYPE) && form.getModule().equalsIgnoreCase(STABLE_FORM_TYPE) && hasSMOEarlyAdopter)) {
-                logger.info("adding form {}", form.getModule());
+                logger.debug("adding form {}", form.getModule());
                 if (!form.getRatings().isEmpty()) {
                     form.setSupervisionRating(form.getRatings().get(0).getText());
                 }
                 formsMerged.add(form);
             } else if ((formTypeCd.equalsIgnoreCase(OVERALL_FORM_TYPE) && form.getModule().equalsIgnoreCase(OVERALL_FORM_TYPE)) && hasSMOEarlyAdopter) {
-                logger.info("adding form {}", form.getModule());
+                logger.debug("adding form {}", form.getModule());
 
                 formsMerged.add(populateRatings(form, clientNum, location));
             } else if (formTypeCd.equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE) && form.getModule().equalsIgnoreCase(CUSTODY_CMRP_FORM_TYPE)) {
-                logger.info("adding form {}", form.getModule());
+                logger.debug("adding form {}", form.getModule());
 
                 formsMerged.add(form);
             }
