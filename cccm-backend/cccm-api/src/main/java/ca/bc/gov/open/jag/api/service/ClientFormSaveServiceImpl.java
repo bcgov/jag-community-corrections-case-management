@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -350,8 +351,11 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
 
         logger.debug("Clone request {} user {}", cloneFormRequest, idirId);
 
+        //This should always be a big decimal. If it is not there is an issue. We should consider a refactor throughout the application
+        BigDecimal locationId = new BigDecimal(location);
+
         //Get Form Details
-        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId(), new BigDecimal(location));
+        ClientFormSummary clientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), cloneFormRequest.getClientFormId(), locationId);
 
         if (!clientFormSummary.getModule().equals(CUSTODY_CMRP_FORM_TYPE) && !cloneFormRequest.getHasOverride() && !JwtUtils.stripUserName(idirId).equalsIgnoreCase(clientFormSummary.getCreatedByIdir())) {
             throw new CCCMException("User who created the form can only clone", CCCMErrorCode.VALIDATIONERROR);
@@ -359,24 +363,27 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
             throw new CCCMException("Cannot clone form that is not most recent or mismatch type", CCCMErrorCode.CLONEVALIDATIONERROR);
         }
 
-        BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null, location);
+        BigDecimal clientFormId = cloneFormAndAnswers(clientFormSummary, cloneFormRequest, null, locationId);
 
         //Add related form when cloning
         if (clientFormSummary.getRelatedClientFormId() != null) {
             logger.info("Linking cloned form");
-            ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId(), new BigDecimal(location));
-            cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId, location);
+            ClientFormSummary relatedClientFormSummary = obridgeClientService.getClientFormSummary(cloneFormRequest.getClientNumber(), clientFormSummary.getRelatedClientFormId(), locationId);
+            cloneFormAndAnswers(relatedClientFormSummary, cloneFormRequest, clientFormId, locationId);
         }
 
         return clientFormId;
 
     }
 
-    private BigDecimal cloneFormAndAnswers(ClientFormSummary clientFormSummary, CloneFormRequest cloneFormRequest, BigDecimal parentId, String location) {
+    private BigDecimal cloneFormAndAnswers(ClientFormSummary clientFormSummary, CloneFormRequest cloneFormRequest, BigDecimal parentId, BigDecimal locationId) {
 
         //Create top level form
         FormInput formInput = new FormInput();
-        formInput.setLocationId(clientFormSummary.getLocationId());
+
+        //CBCCCM-1165 default location to current location not the location of the form being cloned
+        formInput.setLocationId(locationId);
+
         formInput.setFormTypeId(clientFormSummary.getFormTypeId());
         formInput.setClientNumber(cloneFormRequest.getClientNumber());
         if (parentId != null) {
@@ -385,10 +392,10 @@ public class ClientFormSaveServiceImpl implements ClientFormSaveService {
         BigDecimal clientFormId = obridgeClientService.createForm(formInput);
 
         //Get Answers
-        String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormSummary.getId(), new BigDecimal(location));
+        String answers = obridgeClientService.getClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormSummary.getId(), locationId);
         //Insert Answers Use Clone Config for ignore
         String strippedAnswers = stripAnswers(answers, cloneConfig.getForms().stream().filter(cloneForm -> cloneForm.getFormType().equalsIgnoreCase(clientFormSummary.getModule())).findFirst().get());
-        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, true, false, new BigDecimal(location));
+        obridgeClientService.saveClientFormAnswers(cloneFormRequest.getClientNumber(), clientFormId, strippedAnswers, true, false, locationId);
 
         return clientFormId;
 
