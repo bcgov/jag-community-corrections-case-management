@@ -565,52 +565,98 @@ legend[ref="header"]{
     font-weight: bold;
 }
 
-.card-header li.nav-item {
-
-}
-.card-header li.nav-item >a {
-    color:#ccc!important;
-    border-radius: 0px;
-}
-
-.card-header li.nav-item >a:hover {
-    color:#ccc!important;
-    border-radius: 0px;
-    border: 0px;
-}
-
-.card-header li.nav-item.active>a {
-    color: black!important;
-    border: 0px;
-    border-bottom: 5px solid #38598A;;
-}
-
-/* Client profile Form.io tabs: keep a flat tab look instead of card-style headers. */
-.profile-grid .card-header {
+/* Shared Form.io/Bootstrap tab style to match Client Search tabs. */
+.card-header {
     background-color: transparent !important;
     border-bottom: 1px solid #dee2e6;
 }
 
-.profile-grid .card-header .nav-tabs {
+.card-header .nav-tabs {
     border-bottom: 0;
 }
 
-.profile-grid .card-header .nav-link,
-.profile-grid .card-header .nav-link:hover,
-.profile-grid .card-header .nav-link:focus {
+.card-header .nav-link,
+.card-header .nav-link:hover,
+.card-header .nav-link:focus,
+.card-header li.nav-item > a,
+.card-header li.nav-item > a:hover {
     background-color: transparent !important;
-    border: 0;
+    border: 0 !important;
     border-radius: 0;
-    color: #38598A !important;
-    font-weight: 700;
+    color: #ccc !important;
+    font-weight: 600;
+    box-shadow: none !important;
 }
 
-.profile-grid .card-header .nav-link.active,
-.profile-grid .card-header .nav-item.show .nav-link {
+.card-header .nav-link.active,
+.card-header .nav-item.show .nav-link,
+.card-header li.nav-item.active > a {
     background-color: transparent !important;
-    border: 0;
-    border-bottom: 3px solid #38598A;
+    border: 0 !important;
+    border-bottom: 5px solid #38598A !important;
     color: #000 !important;
+    box-shadow: none !important;
+}
+
+/* Shared Vuetify tab style to match Client Search tabs. */
+.client-record-tabs .v-tab,
+.cmp-form-tabs .v-tab {
+    color: #ccc !important;
+    border-bottom: 0 !important;
+    opacity: 1 !important;
+    font-family: 'Noto Sans', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    letter-spacing: normal !important;
+    line-height: 1.5 !important;
+    text-transform: none !important;
+}
+
+.client-record-tabs .v-tab:hover,
+.client-record-tabs .v-tab:focus,
+.cmp-form-tabs .v-tab:hover,
+.cmp-form-tabs .v-tab:focus {
+    color: #ccc !important;
+    border-bottom: 0 !important;
+}
+
+.client-record-tabs .v-tab.v-tab--selected,
+.cmp-form-tabs .v-tab.v-tab--selected {
+    color: #000 !important;
+    border-bottom: 5px solid #38598A !important;
+}
+
+.client-record-tabs .v-tab:focus,
+.client-record-tabs .v-tab:focus-visible,
+.client-record-tabs .v-tab.v-tab--selected:focus,
+.client-record-tabs .v-tab.v-tab--selected:focus-visible,
+.cmp-form-tabs .v-tab:focus,
+.cmp-form-tabs .v-tab:focus-visible,
+.cmp-form-tabs .v-tab.v-tab--selected:focus,
+.cmp-form-tabs .v-tab.v-tab--selected:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.client-record-tabs .v-tab .v-btn__overlay,
+.client-record-tabs .v-tab .v-btn__underlay,
+.cmp-form-tabs .v-tab .v-btn__overlay,
+.cmp-form-tabs .v-tab .v-btn__underlay {
+    opacity: 0 !important;
+}
+
+.client-record-tabs .v-tab__slider,
+.client-record-tabs .v-tabs-slider,
+.cmp-form-tabs .v-tab__slider,
+.cmp-form-tabs .v-tabs-slider {
+    display: none !important;
+}
+
+.client-record-tabs .v-slide-group__content,
+.cmp-form-tabs .v-slide-group__content {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 /* Override read only comments style  */
