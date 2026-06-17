@@ -39,8 +39,8 @@
       </v-dialog>
     </div>
     <section class="pr-4 pl-4">
-      <v-tabs v-model="current_tab" color="deep-purple accent-4" align-tabs="start">
-        <v-tab v-for="item in items" :key="item.id" :value="item.id" @click="updateTabKey(item)" > 
+      <v-tabs v-model="current_tab" color="deep-purple accent-4" class="cmp-form-tabs" align-tabs="start">
+        <v-tab v-for="item in items" :key="item.id" :value="item.id" class="cmp-form-tab" @click="updateTabKey(item)" > 
           <div v-if="item.id === CONST_CREATE_BTN_SARA">
             <v-btn
               v-show=true
@@ -288,5 +288,4 @@ export default {
   }
 }
 </script>
-
 
