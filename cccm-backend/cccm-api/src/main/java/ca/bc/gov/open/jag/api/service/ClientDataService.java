@@ -125,7 +125,7 @@ public interface ClientDataService {
      * @param includeLinkedForm the include linked form
      * @return the client form intervetion for case plan
      */
-    String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location);
+    InterventionTypeResult getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location);
     
     /**
      * Gets the client form meta json.

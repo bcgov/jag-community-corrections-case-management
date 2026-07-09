@@ -379,11 +379,14 @@ public class ClientDataServiceImpl implements ClientDataService {
     }
 
     @Override
-    public String getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location) {
+    public InterventionTypeResult getClientFormIntervetionForCasePlan(String csNumber, BigDecimal clientFormId, boolean includeLinkedForm, String location) {
 
         logger.debug("Get client form intervention for case plan, clientFormId: {}, includeLinkedForm: {}", clientFormId, includeLinkedForm);
 
-        return obridgeClientService.getClientFormInterventionsForCasePlan(csNumber, clientFormId, includeLinkedForm, new BigDecimal(location));
+        InterventionTypeResult interventionTypeResult = new  InterventionTypeResult();
+        interventionTypeResult.setInterventions(clientMapper.toInterventionsTypes(obridgeClientService.getClientFormInterventionsForCasePlan(csNumber, clientFormId, includeLinkedForm, new BigDecimal(location))));
+
+        return interventionTypeResult;
 
     }
     

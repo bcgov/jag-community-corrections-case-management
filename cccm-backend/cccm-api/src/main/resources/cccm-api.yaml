@@ -473,9 +473,9 @@ paths:
         200:
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                type: string
+                $ref:  '#/components/schemas/InterventionTypeResult'
         401:
           description: Unauthorized
           content: {}
@@ -3180,3 +3180,28 @@ components:
       properties:
         warrantTypeCode:
           type: string
+    InterventionType:
+      type: object
+      properties:
+        interventionComment:
+          type: string
+        editKey:
+          type: string
+        question:
+          type: string
+        comment:
+          type: string
+        interventionType:
+          type: string
+        value:
+          type: string
+        interventionCokeymment:
+          type: string
+    InterventionTypeResult:
+      type: object
+      properties:
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterventionType'
+

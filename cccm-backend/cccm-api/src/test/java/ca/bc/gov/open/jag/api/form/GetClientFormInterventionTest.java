@@ -4,6 +4,7 @@ import ca.bc.gov.open.jag.api.service.ClientDataService;
 import ca.bc.gov.open.jag.api.service.ClientFormSaveService;
 import ca.bc.gov.open.jag.api.service.FormDataService;
 import ca.bc.gov.open.jag.api.service.ValidationService;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionTypeResult;
 import io.quarkus.security.ForbiddenException;
 import io.quarkus.security.UnauthorizedException;
 import io.quarkus.test.InjectMock;
@@ -46,11 +47,11 @@ public class GetClientFormInterventionTest {
     @DisplayName("200: should return answers")
     public void testGetSuccess() {
 
-        Mockito.when(clientDataService.getClientFormIntervetionForCasePlan(Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(TEST);
+        Mockito.when(clientDataService.getClientFormIntervetionForCasePlan(Mockito.any(), Mockito.any(), Mockito.anyBoolean(), Mockito.anyString())).thenReturn(new InterventionTypeResult());
 
-        String result = sut.getClientFormIntervention(TEST, BigDecimal.ONE, true, "123");
+        InterventionTypeResult result = sut.getClientFormIntervention(TEST, BigDecimal.ONE, true, "123");
 
-        Assertions.assertEquals(TEST, result);
+        Assertions.assertNotNull(result);
 
     }
 
