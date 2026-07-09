@@ -103,4 +103,9 @@ public interface ClientMapper {
 
     List<InterventionsChecked> toInterventionsChecked(List<ca.bc.gov.open.jag.api.model.data.Intervention> interventions);
 
+    InterventionType toInterventionType(ca.bc.gov.open.jag.api.model.data.Intervention intervention);
+
+    List<InterventionType> toInterventionsTypes(List<ca.bc.gov.open.jag.api.model.data.Intervention> interventions);
+
+
 }

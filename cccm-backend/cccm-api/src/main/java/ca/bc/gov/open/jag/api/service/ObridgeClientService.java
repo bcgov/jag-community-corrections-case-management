@@ -274,7 +274,7 @@ public interface ObridgeClientService {
 
     @GET
     @Path("/forms/client/intervention/json/{csNumber}/{clientFormId}")
-    String getClientFormInterventionsForCasePlan(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
+    List<Intervention> getClientFormInterventionsForCasePlan(@PathParam("csNumber") String csNumber, @PathParam("clientFormId") BigDecimal clientFormId,
             @QueryParam("includeLinkedForm") boolean includeLinkedForm,
             @QueryParam("location") BigDecimal location);
 

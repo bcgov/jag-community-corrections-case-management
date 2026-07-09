@@ -1,8 +1,8 @@
 package ca.bc.gov.open.jag.api.service.dataservice.validation;
 
+import ca.bc.gov.open.jag.api.model.data.Intervention;
 import ca.bc.gov.open.jag.api.service.ValidationService;
 import ca.bc.gov.open.jag.api.service.ValidationServiceImpl;
-import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
@@ -12,6 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @QuarkusTest
 public class ValidateOVERALLTest {
@@ -34,7 +36,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall(DATA_ONE, "", true);
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, new ArrayList<>(), true);
 
         Assertions.assertEquals(6, result.getErrors().size());
 
@@ -45,9 +47,8 @@ public class ValidateOVERALLTest {
     public void testValidationsWithCasePlan() throws IOException {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
-        InterventionsChecked interventionsChecked = new InterventionsChecked();
-        interventionsChecked.setKey("S01Q01");
-        ValidationResult result = sut.validateSOOverall(DATA_ONE, "[{}]", false);
+
+        ValidationResult result = sut.validateSOOverall(DATA_ONE, List.of(new Intervention()), false);
 
         Assertions.assertEquals(7, result.getErrors().size());
 
@@ -59,7 +60,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("{}", "", true);
+        ValidationResult result = sut.validateSOOverall("{}", new ArrayList<>(), true);
 
         Assertions.assertEquals(7, result.getErrors().size());
 
@@ -71,7 +72,7 @@ public class ValidateOVERALLTest {
 
         sut = new ValidationServiceImpl(new ObjectMapper());
 
-        ValidationResult result = sut.validateSOOverall("", "", true);
+        ValidationResult result = sut.validateSOOverall("", new ArrayList<>(), true);
 
         Assertions.assertEquals(7, result.getErrors().size());
 

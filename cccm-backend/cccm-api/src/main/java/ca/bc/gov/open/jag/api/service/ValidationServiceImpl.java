@@ -1,9 +1,11 @@
 package ca.bc.gov.open.jag.api.service;
 
 import ca.bc.gov.open.jag.api.model.data.ClientDates;
+import ca.bc.gov.open.jag.api.model.data.Intervention;
 import ca.bc.gov.open.jag.api.model.validation.Question;
 import ca.bc.gov.open.jag.api.model.validation.Validation;
 import ca.bc.gov.open.jag.api.util.FormUtils;
+import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionTypeResult;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.InterventionsChecked;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationError;
 import ca.bc.gov.open.jag.cccm.api.openapi.model.ValidationResult;
@@ -117,7 +119,7 @@ public class ValidationServiceImpl implements ValidationService {
     }
 
     @Override
-    public ValidationResult validateSOOverall(String answers, String interventions, Boolean casePlanOmissable) {
+    public ValidationResult validateSOOverall(String answers, List<Intervention> interventions, Boolean casePlanOmissable) {
 
         logger.debug("Validate Overall {}", answers);
 
@@ -127,9 +129,7 @@ public class ValidationServiceImpl implements ValidationService {
 
             validationResult.setErrors(validate(answers, casePlanValidation, null));
 
-            JSONArray interventionsArray = new JSONArray(interventions);
-
-            if (interventionsArray.isEmpty()) {
+            if (interventions.isEmpty()) {
                 ValidationError validationError = new ValidationError();
                 validationError.setMessage("At least one intervention is required");
                 validationResult.getErrors().add(validationError);

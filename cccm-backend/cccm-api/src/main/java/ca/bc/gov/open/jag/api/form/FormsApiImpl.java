@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -326,7 +328,7 @@ public class FormsApiImpl implements FormsApi {
     @Override
     @Transactional
     @RolesAllowed("form-view")
-    public String getClientFormIntervention(String csNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String xLocationId) {
+    public InterventionTypeResult getClientFormIntervention(String csNumber, BigDecimal clientFormId, Boolean includeLinkedForm, String xLocationId) {
 
         logger.info("Client Form Interventions Request");
 
@@ -469,7 +471,7 @@ public class FormsApiImpl implements FormsApi {
 
         logger.info("Validate Overall Request");
 
-        return validationService.validateSOOverall(body, "",true);
+        return validationService.validateSOOverall(body, new ArrayList<>(),true);
 
     }
 
