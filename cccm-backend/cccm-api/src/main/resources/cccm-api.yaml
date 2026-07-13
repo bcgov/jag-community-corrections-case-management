@@ -3195,7 +3195,7 @@ components:
           type: string
         value:
           type: string
-        interventionCokeymment:
+        key:
           type: string
     InterventionTypeResult:
       type: object
