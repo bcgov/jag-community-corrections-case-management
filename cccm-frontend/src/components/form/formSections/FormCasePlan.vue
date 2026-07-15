@@ -87,7 +87,7 @@ export default {
           } else {
               this.loading = false;
               // Deal with special case where intervention is attached to a section comment, rather than a section question.
-              interventionData.forEach(dataset => {
+              interventionData.interventions.forEach(dataset => {
                 if (dataset.comment == null || dataset.comment == '') {
                   dataset.comment = dataset.value;
                 }
@@ -95,7 +95,7 @@ export default {
               
               // add Intervention data to the initData; refresh the page to show it
               if (this.localInitData && this.localInitData.data) {
-                this.localInitData.data.interventions = interventionData;
+                this.localInitData.data.interventions = interventionData.interventions;
               }
               //console.log("interventionData; ", this.localInitData.data.interventions);
               this.keyCaseplan++;
