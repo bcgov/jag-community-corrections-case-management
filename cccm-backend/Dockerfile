@@ -16,7 +16,7 @@ RUN mvn -B clean install \
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 
 # ARG MVN_PROFILES
 ARG SERVICE_NAME=cccm-api
@@ -26,7 +26,7 @@ COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/servic
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 CMD ["/entrypoint.sh"]
