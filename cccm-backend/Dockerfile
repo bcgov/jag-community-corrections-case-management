@@ -3,7 +3,7 @@
 #############################################################################################
 FROM maven:3.8.3-openjdk-17 AS build
 
-ARG SERVICE_NAME
+ARG SERVICE_NAME=cccm-api
 ARG SKIP_TESTS=false
 
 COPY . .
@@ -19,12 +19,15 @@ RUN mvn -B clean install \
 FROM eclipse-temurin:17-jre-alpine
 
 # ARG MVN_PROFILES
-ARG SERVICE_NAME
+ARG SERVICE_NAME=cccm-api
 
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/lib/ /deployments/lib/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/service.jar
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/quarkus/ /deployments/quarkus/
 
-CMD ["java", "-jar", "/deployments/service.jar"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
 #############################################################################################
