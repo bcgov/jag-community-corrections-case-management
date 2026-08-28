@@ -40,7 +40,7 @@ public class LdapServiceImpl implements LdapService {
         env.put(Context.PROVIDER_URL, ldapProperties.server());
 
         //SSL Changes
-        if (ldapProperties.sslenable()) {
+        if (ldapProperties.sslenabled()) {
             env.put(Context.SECURITY_PROTOCOL, LDAP_PROTOCOL);
             env.put("java.naming.ldap.factory.socket", CustomLdapSslSocketFactory.class.getName()); //See: https://docs.oracle.com/javase/jndi/tutorial/ldap/security/ssl.html
 
