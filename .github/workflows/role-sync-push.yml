@@ -28,7 +28,7 @@ jobs:
       
       - name: Docker Tag Version Dev
         run: |  
-          docker tag role-sync artifacts.developer.gov.bc.ca/ced5-ucmp-role-sync/${{env.IMAGE_NAME}}:dev
+          docker tag cccm-role-sync artifacts.developer.gov.bc.ca/ced5-ucmp-role-sync/${{env.IMAGE_NAME}}:dev
           
       - name: Docker Push Version to Artifactory
         run: |  
