@@ -16,6 +16,6 @@ public interface LdapProperties {
     String truststorepassword();
     String sslprotocol();
 
-    boolean sslenable();
+    boolean sslenabled();
 
 }
