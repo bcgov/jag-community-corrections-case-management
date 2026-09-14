@@ -1,0 +1,49 @@
+name: Build & Push Obridge Image to Artifactory
+
+on:
+  push:
+    branches: [obridgeaction]
+  workflow_dispatch:
+env:
+  IMAGE_NAME: ucmp-obridge
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Artifactory
+        uses: docker/login-action@v1
+        with:
+          registry: artifacts.developer.gov.bc.ca
+          username: ${{ secrets.ARTIFACTORY_USERNAME }}
+          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          # JFrog platform url (for example: https://acme.jfrog.io)
+          JF_URL: artifacts.developer.gov.bc.ca
+          JF_USER: ${{ secrets.ARTIFACTORY_USERNAME }}
+          JF_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - name: Download JAR file
+        run: |
+          jf rt download "ced5-ucmp-obridge-artifact/cccm-data-obridge-3.1.3-SNAPSHOT.jar" .
+
+      - name: Build Image
+        run: |
+          docker build -t cccm-obridge -f obridge/Dockerfile .
+          docker tag cccm-obridge artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
+      
+      - name: Docker Push to Artifactory
+        run: |
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
+
+      - name: Vulnerability Scan Obridge
+        uses: Azure/container-scan@v0
+        continue-on-error: true
+        with:
+          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
