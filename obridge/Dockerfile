@@ -7,9 +7,7 @@
 
 FROM openjdk:17.0.1-jdk-slim
 
-RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y clean
+RUN apt-get update
 
 # ARG MVN_PROFILES
 
