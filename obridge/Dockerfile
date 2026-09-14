@@ -8,8 +8,8 @@
 FROM openjdk:17.0.1-jdk-slim
 
 RUN apt-get update && \
-    apt-get -y --allow-unauthenticated upgrade && \
-    apt-get -y clean all
+    apt-get -y upgrade && \
+    apt-get -y clean
 
 # ARG MVN_PROFILES
 
