@@ -20,7 +20,7 @@ ARG ORACLE_USERNAME= ${ORACLE_USERNAME}
 ARG ORACLE_PASSWORD= ${ORACLE_PASSWORD}
 
 COPY *.jar app.jar
-COPY docker-entrypoint.sh /
+COPY obridge/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 CMD ["/docker-entrypoint.sh"]
