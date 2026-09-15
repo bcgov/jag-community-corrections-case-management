@@ -1,11 +1,15 @@
 name: Build & Push Obridge Image to Artifactory
 
 on:
-  push:
-    branches: [obridgeaction]
   workflow_dispatch:
+  inputs:
+    image-name:
+      description: 'Obridge Version'
+      required: true
+      default: '1.0.0-SNAPSHOT'
 env:
-  IMAGE_NAME: ucmp-obridge
+  IMAGE_NAME: cccm-data-obridge-${{ github.event.inputs.image-name }}.jar
+  VERSION: ${{ github.event.inputs.image-name }}
 
 jobs:
   build:
@@ -31,19 +35,19 @@ jobs:
 
       - name: Download JAR file
         run: |
-          jf rt download "ced5-ucmp-obridge-artifact/cccm-data-obridge-3.1.3-SNAPSHOT.jar" .
+          jf rt download "ced5-ucmp-obridge-artifact/${{env.IMAGE_NAME}}" .
 
       - name: Build Image
         run: |
           docker build -t cccm-obridge -f obridge/Dockerfile .
-          docker tag cccm-obridge artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
+          docker tag cccm-obridge artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
       
       - name: Docker Push to Artifactory
         run: |
-          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
 
       - name: Vulnerability Scan Obridge
         uses: Azure/container-scan@v0
         continue-on-error: true
         with:
-          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:dev
+          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
