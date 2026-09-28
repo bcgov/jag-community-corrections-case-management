@@ -1,20 +1,20 @@
 name: Promote the Obridge image to test or prod
+permissions:
   contents: write 
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: Select the environment
-        required: true
-        options:
-        - test
-        - prod
-      version:
-        description: 'Obridge Version'
-        required: true
-        default: '1.0.0-SNAPSHOT'
+  inputs:
+    environment:
+      type: choice
+      description: Select the environment
+      required: true
+      options:
+      - test
+      - prod
+    version:
+      description: 'Obridge Version'
+      required: true
+      default: '1.0.0-SNAPSHOT'
 env:
   IMAGE_NAME: ucmp-obridge
   VERSION: ${{ github.event.inputs.version }}

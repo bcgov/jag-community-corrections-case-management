@@ -3,7 +3,6 @@ permissions:
   contents: write 
   
 on:
-  workflow_dispatch:
   inputs:
     image-name:
       description: 'Obridge Version'
