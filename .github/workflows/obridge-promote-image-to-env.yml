@@ -3,18 +3,20 @@ permissions:
   contents: write 
 
 on:
-  inputs:
-    environment:
-      type: choice
-      description: Select the environment
-      required: true
-      options:
-      - test
-      - prod
-    version:
-      description: 'Obridge Version'
-      required: true
-      default: '1.0.0-SNAPSHOT'
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+        - test
+        - prod
+      version:
+        description: 'Obridge Version'
+        required: true
+        default: '1.0.0-SNAPSHOT'
+        type: string
 env:
   IMAGE_NAME: ucmp-obridge
   VERSION: ${{ github.event.inputs.version }}
