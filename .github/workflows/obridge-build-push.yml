@@ -1,13 +1,15 @@
 name: Build & Push Obridge Image to Artifactory
 permissions:
   contents: write 
-  
+
 on:
-  inputs:
-    image-name:
-      description: 'Obridge Version'
-      required: true
-      default: '1.0.0-SNAPSHOT'
+  workflow_dispatch:
+    inputs:
+      image-name:
+        description: 'Obridge Version'
+        required: true
+        default: '1.0.0-SNAPSHOT'
+        type: string
 env:
   JAR_NAME: cccm-data-obridge-${{ github.event.inputs.image-name }}.jar
   IMAGE_NAME: ucmp-obridge
