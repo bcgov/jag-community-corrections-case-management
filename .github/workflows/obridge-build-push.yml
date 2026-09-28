@@ -1,5 +1,7 @@
 name: Build & Push Obridge Image to Artifactory
-
+permissions:
+  contents: write 
+  
 on:
   workflow_dispatch:
   inputs:
