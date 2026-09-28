@@ -8,7 +8,8 @@ on:
       required: true
       default: '1.0.0-SNAPSHOT'
 env:
-  IMAGE_NAME: cccm-data-obridge-${{ github.event.inputs.image-name }}.jar
+  JAR_NAME: cccm-data-obridge-${{ github.event.inputs.image-name }}.jar
+  IMAGE_NAME: ucmp-obridge
   VERSION: ${{ github.event.inputs.image-name }}
 
 jobs:
@@ -35,7 +36,7 @@ jobs:
 
       - name: Download JAR file
         run: |
-          jf rt download "ced5-ucmp-obridge-artifact/${{env.IMAGE_NAME}}" .
+          jf rt download "ced5-ucmp-obridge-artifact/${{env.JAR_NAME}}" .
 
       - name: Build Image
         run: |
@@ -51,3 +52,45 @@ jobs:
         continue-on-error: true
         with:
           image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      - name: Update Helm Values and Commit
+        id: helm
+        run: |
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b develop --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
+
+          cd tenant-gitops-ed5723/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/otag: .*/otag: dev # Image Updated on $DATETIME/" ../deploy/dev_values.yaml
+
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.image-name }} # Version Updated on $DATETIME/" ../deploy/dev_values.yaml
+          
+          git add .
+          
+          git add ../deploy/dev_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Dev Obridge image tag"
+          git push origin develop  # Update the branch name as needed

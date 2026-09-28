@@ -13,6 +13,14 @@ on:
         options:
         - test
         - prod
+      version:
+        description: 'Obridge Version'
+        required: true
+        default: '1.0.0-SNAPSHOT'
+env:
+  IMAGE_NAME: ucmp-obridge
+  VERSION: ${{ github.event.inputs.version }}
+
 jobs:
   run-test:
     runs-on: ubuntu-latest
@@ -21,32 +29,6 @@ jobs:
     if: ${{ github.event.inputs.environment == 'test' }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Login to Artifactory
-        uses: docker/login-action@v1
-        with:
-          registry: artifacts.developer.gov.bc.ca
-          username: ${{ secrets.ARTIFACTORY_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
-      
-      - name: Pull Dev Image 
-        run: |  
-          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:dev
-
-      - name: Docker Tag Version Test
-        run: |  
-          docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:dev artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
-          
-      - name: Docker Push Version Test to Artifactory
-        run: |  
-          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
-         
-       # Get SHORT_SHA for the version
-      - name: Get short SHA
-        id: short_sha
-        run: |
-          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
-          echo "Short SHA: $SHORT_SHA"
       
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -69,9 +51,9 @@ jobs:
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
 
-          sed -i "s/webtag: .*/webtag: test # Image Updated on $DATETIME/" ../deploy/test_values.yaml
+          sed -i "s/otag: .*/otag: test # Image Updated on $DATETIME/" ../deploy/test_values.yaml
 
-          sed -i "s/webversion: .*/webversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/test_values.yaml
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.version }} # Version Updated on $DATETIME/" ../deploy/test_values.yaml
           
           git add .
           
@@ -87,7 +69,7 @@ jobs:
 
           git add .
           
-          git commit -m "Update TEST web image tag"
+          git commit -m "Update TEST Obridge image tag"
           git push origin test  # Update the branch name as needed
 
   run-prod:
@@ -97,42 +79,6 @@ jobs:
     if: ${{ github.event.inputs.environment == 'prod' }}
     steps:
       - uses: actions/checkout@v2
-
-      - name: Login to Artifactory
-        uses: docker/login-action@v1
-        with:
-          registry: artifacts.developer.gov.bc.ca
-          username: ${{ secrets.ARTIFACTORY_USERNAME }}
-          password: ${{ secrets.ARTIFACTORY_PASSWORD }}
-      
-      - name: Pull Dev Image 
-        run: |  
-          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
-
-      #- name: Docker Tag Prod Backup
-      #  run: |
-      #    docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod 
-      #    docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod-backup
-      #    docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod-backup
-          
-      - name: Pull Test Image
-        run: |  
-          docker pull artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test
-      
-      - name: Docker Tag Version Prod
-        run: |  
-          docker tag artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:test artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
-          
-      - name: Docker Push Version Prod to Gold and GoldDR
-        run: |  
-          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-web/ucmp-web:prod
-
-       # Get SHORT_SHA for the version
-      - name: Get short SHA
-        id: short_sha
-        run: |
-          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
-          echo "Short SHA: $SHORT_SHA"
       
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -155,9 +101,9 @@ jobs:
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
 
-          sed -i "s/webtag: .*/webtag: prod # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
+          sed -i "s/otag: .*/otag: prod # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
 
-          sed -i "s/webversion: .*/webversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.version }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
           
           git add .
           
@@ -173,5 +119,5 @@ jobs:
 
           git add .
           
-          git commit -m "Update Prod web image tag"
+          git commit -m "Update Prod obridge image tag"
           git push origin main  # Update the branch name as needed

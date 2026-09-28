@@ -69,7 +69,7 @@ jobs:
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
 
-          sed -i "s/apitag: .*/apitag: dev # Image Updated on $DATETIME/" ../deploy/test_values.yaml
+          sed -i "s/apitag: .*/apitag: test # Image Updated on $DATETIME/" ../deploy/test_values.yaml
 
           sed -i "s/apiversion: .*/apiversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/test_values.yaml
           
@@ -155,7 +155,7 @@ jobs:
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
 
-          sed -i "s/apitag: .*/apitag: dev # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
+          sed -i "s/apitag: .*/apitag: prod # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
 
           sed -i "s/apiversion: .*/apiversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
           
