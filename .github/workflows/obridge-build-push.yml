@@ -1,14 +1,18 @@
-name: Build & Push Backend Image to Artifactory
+name: Build & Push Obridge Image to Artifactory
 permissions:
   contents: write 
+  
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'cccm-backend/**'
   workflow_dispatch:
+  inputs:
+    image-name:
+      description: 'Obridge Version'
+      required: true
+      default: '1.0.0-SNAPSHOT'
 env:
-  IMAGE_NAME: ucmp-api
+  JAR_NAME: cccm-data-obridge-${{ github.event.inputs.image-name }}.jar
+  IMAGE_NAME: ucmp-obridge
+  VERSION: ${{ github.event.inputs.image-name }}
 
 jobs:
   build:
@@ -23,28 +27,33 @@ jobs:
           registry: artifacts.developer.gov.bc.ca
           username: ${{ secrets.ARTIFACTORY_USERNAME }}
           password: ${{ secrets.ARTIFACTORY_PASSWORD }}
+      
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          # JFrog platform url (for example: https://acme.jfrog.io)
+          JF_URL: https://artifacts.developer.gov.bc.ca
+          JF_USER: ${{ secrets.ARTIFACTORY_USERNAME }}
+          JF_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - name: Download JAR file
+        run: |
+          jf rt download "ced5-ucmp-obridge-artifact/${{env.JAR_NAME}}" .
 
       - name: Build Image
         run: |
-          docker compose build backend
-          docker tag cccm-api artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
+          docker build -t cccm-obridge -f obridge/Dockerfile .
+          docker tag cccm-obridge artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
       
       - name: Docker Push to Artifactory
         run: |
-          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
+          docker push artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
 
-      - name: Vulnerability Scan Backend
+      - name: Vulnerability Scan Obridge
         uses: Azure/container-scan@v0
         continue-on-error: true
         with:
-          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-api/${{env.IMAGE_NAME}}:dev
-
-      # Get SHORT_SHA for the version
-      - name: Get short SHA
-        id: short_sha
-        run: |
-          echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
-          echo "Short SHA: $SHORT_SHA"
+          image-name: artifacts.developer.gov.bc.ca/ced5-ucmp-obridge/${{env.IMAGE_NAME}}:${{env.VERSION}}
       
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -67,9 +76,9 @@ jobs:
           # Update the Helm values file with the new image tag and version
           DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
 
-          sed -i "s/apitag: .*/apitag: dev # Image Updated on $DATETIME/" ../deploy/dev_values.yaml
+          sed -i "s/otag: .*/otag: dev # Image Updated on $DATETIME/" ../deploy/dev_values.yaml
 
-          sed -i "s/apiversion: .*/apiversion: ${{ steps.short_sha.outputs.SHORT_SHA }} # Version Updated on $DATETIME/" ../deploy/dev_values.yaml
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.image-name }} # Version Updated on $DATETIME/" ../deploy/dev_values.yaml
           
           git add .
           
@@ -85,6 +94,5 @@ jobs:
 
           git add .
           
-          git commit -m "Update Dev WEB image tag"
+          git commit -m "Update Dev Obridge image tag"
           git push origin develop  # Update the branch name as needed
-     

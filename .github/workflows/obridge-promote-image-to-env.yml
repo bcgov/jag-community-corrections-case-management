@@ -1,0 +1,121 @@
+name: Promote the Obridge image to test or prod
+  contents: write 
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        options:
+        - test
+        - prod
+      version:
+        description: 'Obridge Version'
+        required: true
+        default: '1.0.0-SNAPSHOT'
+env:
+  IMAGE_NAME: ucmp-obridge
+  VERSION: ${{ github.event.inputs.version }}
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Testing
+    if: ${{ github.event.inputs.environment == 'test' }}
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      - name: Update Helm Values and Commit
+        id: helm
+        run: |
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b test --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
+
+          cd tenant-gitops-ed5723/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/otag: .*/otag: test # Image Updated on $DATETIME/" ../deploy/test_values.yaml
+
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.version }} # Version Updated on $DATETIME/" ../deploy/test_values.yaml
+          
+          git add .
+          
+          git add ../deploy/test_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update TEST Obridge image tag"
+          git push origin test  # Update the branch name as needed
+
+  run-prod:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+    if: ${{ github.event.inputs.environment == 'prod' }}
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GIT_OPS_SSH_KEY }}
+
+      - name: Update Helm Values and Commit
+        id: helm
+        run: |
+          # Clone the GitOps deployment configuration repository
+          # Navigate to the directory containing your Helm values file for the environment develop -> DEV, test -> test and 
+          
+          # Commit and push the changes
+          git config --global user.email "actions@github.com"
+          git config --global user.name "UCMP GitHub Actions"
+          git clone -b main --single-branch git@github.com:bcgov-c/tenant-gitops-ed5723.git
+
+          cd tenant-gitops-ed5723/charts
+
+          # Update the Helm values file with the new image tag and version
+          DATETIME=$(date +'%Y-%m-%d %H:%M:%S')  # Get current date and time
+
+          sed -i "s/otag: .*/otag: prod # Image Updated on $DATETIME/" ../deploy/prod_values.yaml
+
+          sed -i "s/oversion: .*/oversion: ${{ github.event.inputs.version }} # Version Updated on $DATETIME/" ../deploy/prod_values.yaml
+          
+          git add .
+          
+          git add ../deploy/prod_values.yaml
+          
+          # Repackage Helm Chart      
+
+          cd ucmp-gitops
+
+          helm dependency build
+          
+          cd charts
+
+          git add .
+          
+          git commit -m "Update Prod obridge image tag"
+          git push origin main  # Update the branch name as needed

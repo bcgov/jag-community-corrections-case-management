@@ -1,4 +1,6 @@
 name: Build & Push Frontend Image to Artifactory
+permissions:
+  contents: write 
 on:
   push:
     branches: [main]

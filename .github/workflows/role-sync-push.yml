@@ -1,5 +1,6 @@
 name: Build & Push Role Sync Image to Gold and GoldDR cluster
-
+permissions:
+  contents: write 
 on:
   push:
     branches: [main]
