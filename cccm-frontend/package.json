@@ -8,7 +8,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@formio/js": "^5.3.4",
+    "@formio/js": "^5.5.2",
     "@formio/vue": "^6.1.4",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
