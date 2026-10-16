@@ -21,6 +21,11 @@ FROM eclipse-temurin:17-jre-jammy
 # ARG MVN_PROFILES
 ARG SERVICE_NAME=cccm-api
 
+RUN apt-get update \
+    && apt-get install -y --only-upgrade libssl3 \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/lib/ /deployments/lib/
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/*.jar /deployments/service.jar
 COPY --from=build ./${SERVICE_NAME}/target/quarkus-app/app/ /deployments/app/
