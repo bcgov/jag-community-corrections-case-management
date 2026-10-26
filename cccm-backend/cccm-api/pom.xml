@@ -8,12 +8,12 @@
   <properties>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <failsafe.useModulePath>false</failsafe.useModulePath>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>3.27.4.1</quarkus.platform.version>
+    <quarkus.platform.version>3.33.3.3</quarkus.platform.version>
     <netty.version>4.1.137.Final</netty.version>
     <jackson.version>2.21.7</jackson.version>
     <surefire-plugin.version>3.1.2</surefire-plugin.version>
@@ -75,7 +75,7 @@
     <dependency>
       <groupId>io.quarkiverse.logging.splunk</groupId>
       <artifactId>quarkus-logging-splunk</artifactId>
-      <version>4.1.2</version>
+      <version>6.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>

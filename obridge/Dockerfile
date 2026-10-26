@@ -5,7 +5,7 @@
 
 #############################################################################################
 
-FROM openjdk:17.0.1-jdk-slim
+FROM eclipse-temurin:21-jre-jammy
 
 RUN apt-get update
 
