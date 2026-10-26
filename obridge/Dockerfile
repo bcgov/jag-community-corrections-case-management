@@ -5,7 +5,7 @@
 
 #############################################################################################
 
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 
 RUN apt-get update
 

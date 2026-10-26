@@ -1,7 +1,7 @@
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-25 AS build
 
 ARG SERVICE_NAME=cccm-api
 ARG SKIP_TESTS=false
@@ -16,7 +16,7 @@ RUN mvn -B clean install \
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 
 # ARG MVN_PROFILES
 ARG SERVICE_NAME=cccm-api
