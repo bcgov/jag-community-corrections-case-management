@@ -1,7 +1,7 @@
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM maven:3.8.3-openjdk-17 AS build
+FROM maven:3.9-eclipse-temurin-25 AS build
 
 WORKDIR /cccm-role-sync
 
@@ -10,16 +10,19 @@ ARG SKIP_TESTS=false
 
 COPY . .
 
-RUN mvn clean install 
+RUN mvn -B clean install
 
 #############################################################################################
 
 #############################################################################################
 ### Stage where Docker is running a java process to run a service built in previous stage ###
 #############################################################################################
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 ARG SERVICE_NAME
+
+# Pull latest Alpine security patches at build time
+RUN apk upgrade --no-cache
 
 COPY --from=build ./cccm-role-sync/target/quarkus-app/lib/ /deployments/lib/
 COPY --from=build ./cccm-role-sync/target/quarkus-app/*.jar /deployments/service.jar

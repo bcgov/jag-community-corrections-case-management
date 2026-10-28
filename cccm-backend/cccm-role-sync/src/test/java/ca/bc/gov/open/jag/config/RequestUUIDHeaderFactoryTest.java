@@ -4,7 +4,6 @@ import io.quarkus.oidc.client.OidcClient;
 import io.quarkus.oidc.client.Tokens;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.groups.UniAwait;
-import io.vertx.core.json.JsonObject;
 import jakarta.ws.rs.core.MultivaluedMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +33,8 @@ public class RequestUUIDHeaderFactoryTest {
     public void setup() {
 
         MockitoAnnotations.openMocks(this);
-        Tokens tokens = new Tokens("test", 123L, null, "test", 123L, new JsonObject());
+        Tokens tokens = Mockito.mock(Tokens.class);
+        Mockito.when(tokens.getAccessToken()).thenReturn("test");
 
         Mockito.when(tokensUniAwaitMock.indefinitely()).thenReturn(tokens);
         Mockito.when(tokensUniMock.await()).thenReturn(tokensUniAwaitMock);
