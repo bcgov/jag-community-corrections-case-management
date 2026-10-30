@@ -16,6 +16,7 @@
     <quarkus.platform.version>3.33.3.3</quarkus.platform.version>
     <netty.version>4.1.137.Final</netty.version>
     <jackson.version>2.21.7</jackson.version>
+    <guava.version>33.7.2-jre</guava.version>
     <surefire-plugin.version>3.1.2</surefire-plugin.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <org.json.version>20231013</org.json.version>
@@ -23,6 +24,11 @@
   </properties>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
       <dependency>
         <groupId>io.netty</groupId>
         <artifactId>netty-bom</artifactId>
