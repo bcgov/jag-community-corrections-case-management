@@ -72,9 +72,14 @@ export const useAutosaveStore = defineStore('autosave', {
           if (Object.keys(this.autoSaveData).length > 0) {
             for (let i = 0; i < Object.keys(this.autoSaveDataCandidate).length; i++) {
               let key = Object.keys(this.autoSaveDataCandidate)[i];
+              let candidateValue = this.autoSaveDataCandidate[key];
+              let savedValue = this.autoSaveData[key];
+              let valuesMatch = Array.isArray(candidateValue) || Array.isArray(savedValue)
+                ? JSON.stringify(candidateValue) === JSON.stringify(savedValue)
+                : candidateValue == savedValue;
               if (((this.autoSaveData[key] == null || this.autoSaveData[key] == '') && 
-                  (this.autoSaveDataCandidate[key] == null || this.autoSaveDataCandidate[key] == '')) ||
-                  this.autoSaveDataCandidate[key] == this.autoSaveData[key]) {
+                  (candidateValue == null || candidateValue == '')) ||
+                  valuesMatch) {
                   continueAutoSave ||= false;
               } else {
                 continueAutoSave ||= true;
@@ -100,6 +105,7 @@ export const useAutosaveStore = defineStore('autosave', {
             
             // Repeat the saving till it succeeds
             let savingCnt = 0;
+            let saveSucceeded = false;
             while(savingCnt < this.CONST_MAX_RETRY) {
               try {
                 savingCnt++;
@@ -113,6 +119,7 @@ export const useAutosaveStore = defineStore('autosave', {
                   this.saving = false;
                   // Cache the response to the autosave store
                   this.addArray(response);
+                  saveSucceeded = true;
                   break;
                 }
               } catch (err) {
@@ -128,8 +135,16 @@ export const useAutosaveStore = defineStore('autosave', {
               console.error("Auto save failed after " + this.CONST_MAX_RETRY + "times");
             }
 
+            const hasQueuedChanges = saveSucceeded
+              && Object.keys(this.autoSaveDataCandidate).length > 0
+              && this.continueAutoSave();
+
             // clear this.autoSaveData
             this.autoSaveData = {};
+
+            if (hasQueuedChanges) {
+              await this.autoSave();
+            }
           }
         },
         hasPendingChanges() {
@@ -217,6 +232,21 @@ export const useAutosaveStore = defineStore('autosave', {
               this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data, false);
             }
           }
+
+          const changedKey = event.changed?.component.key;
+          if (changedKey?.includes('_intervention_')
+              && !changedKey.endsWith(this.CONST_INTERVENTION_CHECKBOX_SUFFIX)
+              && !changedKey.endsWith(this.CONST_INTERVENTION_KEY_SUFFIX)) {
+            const questionKey = changedKey.substr(0, 6);
+            const interventionDatagridKey = questionKey + this.CONST_INTERVENTION_KEY_SUFFIX;
+            if (Array.isArray(event.data[interventionDatagridKey])) {
+              const autoSaveNow = event.changed.component.type !== "textfield"
+                && event.changed.component.type !== "textarea";
+              this.private_addToAutoSaveDataCandidate(true, interventionDatagridKey, event.data, autoSaveNow);
+              return;
+            }
+          }
+
           if (event.changed 
               && ( event.changed.component.type === "textfield"
                 || event.changed.component.type === "textarea")) {
