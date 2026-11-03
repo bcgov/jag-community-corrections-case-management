@@ -232,7 +232,23 @@ export const useAutosaveStore = defineStore('autosave', {
               this.private_addToAutoSaveDataCandidate(true, event.changed.component.key, event.data, false);
             }
           }
-
+          // Fix for the race condition when adding/editing interventions:
+          
+          // It looks as if autoSave() was being skipped while a save is in flight (this.saving). 
+          // Edits made to the form during that window (e.g. picking the intervention type 
+          // right after clicking 'Add Intervention') stayed in autoSaveDataCandidate with
+          // nothing to re-trigger them, so they were saved late or lost. Intervention field
+          // changes were also not mapped to the intervention datagrid, so they produced no real payload.
+          
+          // Changes:
+          // 1. autoSave() tracks saveSucceeded and, once a save finishes, re-runs itself if
+          //    changes were queued meanwhile (saves stay serialized, never concurrent).
+          // 2. continueAutoSave() compares arrays by value (JSON.stringify), not by reference.
+          // 3. handleChangeEvent() maps any '_intervention_' field change to its whole
+          //    '_intervention_datagrid' array (selects save immediately, text fields on blur).
+         
+          // A field inside an intervention row changed (type, specify, desc): save the whole
+          // intervention datagrid instead of the nested key, which doesn't exist in event.data.
           const changedKey = event.changed?.component.key;
           if (changedKey?.includes('_intervention_')
               && !changedKey.endsWith(this.CONST_INTERVENTION_CHECKBOX_SUFFIX)
